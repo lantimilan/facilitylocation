@@ -1,5 +1,6 @@
 % start journal version
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tue Aug 28 2012, 09:55:36
 % marek Sat Jul 14 13:24:51 PDT 2012
 % marek Fri Jul 13 15:51:33 PDT 2012
 % lyan Thu Jul 12 2012, 00:06:30
@@ -582,6 +583,8 @@ NEW VERSION ......
 
 \begin{description}
 	
+      \renewcommand{\theenumii}{(\alph{enumii})}
+      \renewcommand{\labelenumii}{\theenumii}
 
 \item{(PS)} \emph{Partitioned solution}.
 Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-value
@@ -606,24 +609,24 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 
 \item{(PD)} \emph{Primary demands.}
 	Primary demands satisfy the following conditions:
-	
+
 	\begin{enumerate}
 		
-	\item\label{PD2:disjoint}  For any two different primary demands $\kappa,\kappa'\in P$ we have
+	\item\label{PD:disjoint}  For any two different primary demands $\kappa,\kappa'\in P$ we have
 				$\wbarN(\kappa)\cap \wbarN(\kappa') = \emptyset$.
 
-	\item \label{PD2:yi} For each site $i\in\sitesset$, 
+	\item \label{PD:yi} For each site $i\in\sitesset$, 
 		$ \sum_{\mu\in i}\sum_{\kappa\in P}\barx_{\mu\kappa} \leq y_i^\ast$.
 		(Recall that $\barx_{\mu\kappa}\neq 0$ iff $\mu\in \wbarN(\kappa)$.)
 		
-	\item \label{PD2:assign} Each demand $\nu\in\demandset$ is assigned
+	\item \label{PD:assign} Each demand $\nu\in\demandset$ is assigned
         to one primary demand $\kappa\in P$ such that
 
   			\begin{enumerate}
 	
-				\item $\wbarN(\nu) \cap \wbarN(\kappa) \neq \emptyset$, and
+				\item \label{PD:assign:overlap} $\wbarN(\nu) \cap \wbarN(\kappa) \neq \emptyset$, and
 				%
-				\item  $\concost_{\nu}+\alpha_{\nu}^\ast \geq
+				\item \label{PD:assign:cost} $\concost_{\nu}+\alpha_{\nu}^\ast \geq
         			\concost_{\kappa}+\alpha_{\kappa}^\ast$.
 
 			\end{enumerate}
@@ -631,21 +634,18 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 	\end{enumerate}
 	
 \item{(SI)} \emph{Siblings}. For any pair $\nu,\nu'$ of different siblings we have
-
-	\begin{enumerate}
+  \begin{enumerate}
 
 	\item \label{SI:siblings disjoint}
 		  $\wbarN(\nu)\cap \wbarN(\nu') = \emptyset$.
 		
-	\item If $\nu$ is assigned to a primary demand $\kappa$ then
- 		$\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~\ref{P2:assign},
+	\item \label{SI:primary disjoint} If $\nu$ is assigned to a primary demand $\kappa$ then
+ 		$\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~PD.\ref{PD:assign:overlap},
 		this implies that different sibling demands are assigned to different primary demands.
 
 	\end{enumerate}
 	
 \end{description}
-
-
 
 As we shall demonstrate in later sections, these properties
 allow us to extend known UFL rounding algorithms to obtain
@@ -659,11 +659,12 @@ earlier demands, of this or other clients, and their connection values.
 
 \paragraph{Implementation of Adaptive Partitioning}
 We now describe an algorithm for partitioning the instance
-and the fractional solution so that the properties (P1) and
-(P2) are satisfied.  Recall that $\facilityset$ and $\demandset$,
-respectively, denote the sets of facilities and demands that will be
-created in this stage, and $(\barbfx,\barbfy)$ is the partitioned
-solution to be computed.
+and the fractional solution so that the properties (PS),
+(CO), (PD), and (SI) are satisfied.  Recall that
+$\facilityset$ and $\demandset$, respectively, denote the
+sets of facilities and demands that will be created in this
+stage, and $(\barbfx,\barbfy)$ is the partitioned solution
+to be computed.
 
 The algorithm consists of a number of iterations, where in
 each iteration we find the best client and create a new demand
@@ -671,7 +672,10 @@ $\nu$ out of it. This demand either becomes a primary demand
 itself, or it is assigned to some existing primary
 demand. We call a client $j$ \emph{exhausted} when all its
 $r_j$ demands have been created and assigned to some primary
-demands. The process completes when all clients are exhausted.
+demands. The process completes when all clients are
+exhausted. We then do an augment step for each demand to
+ensure they each have a neighborhood with total connection
+values equal to $1$.
 
 For each site $i$ we will initially create one ``big"
 facility $\mu$ with initial value $\bary_\mu = y^\ast_i$.
@@ -704,7 +708,11 @@ properties will hold for every facility $\mu$:
 \begin{description}
 	
 	\item{(c1)} For each demand $\nu$ either $\barx_{\mu\nu}=0$ or
-			$\barx_{\mu\nu}=\bary_{\mu}$; and 
+			$\barx_{\mu\nu}=\bary_{\mu}$. This is the same
+      condition as condition (CO), yet we repeat here as
+      (c1) needs to hold after every iteration, while
+      condition (CO) only applies to the final partitioned
+      fractional solution $(\barbfx, \barbfy)$.
 
 	\item{(c2)} For each client $j$,
 			either $\tildex_{\mu j}=0$ or $\tildex_{\mu j}=\bary_{\mu}$.
@@ -761,9 +769,10 @@ adjusting the connection values so that conditions (c1) and
     \State $p \assign {\argmin}_{j\in U}\{ \tcc(j)+\alpha_j^\ast \}$
     \State create a new demand $\nu$ for client $p$
 
-    \If{$\wtildeN_1 (p)\cap \wbarN(\kappa) \neq \emptyset$ for some primary demand $\kappa\in P$}
+    \If{$\wtildeN_1 (p)\cap \wbarN(\kappa) \neq \emptyset$
+      for some primary demand $\kappa\in P$}
+    \State assign $\nu$ to $\kappa$
     \State $\barx_{\mu \nu}\assign \tildex_{\mu p}$ and $\tildex_{\mu p}\assign 0$ for each $\mu \in \wtildeN(p) \cap \wbarN(\kappa)$
-	\State assign $\nu$ to $\kappa$
     \Else 
     \State make $\nu$ primary, $P \assign P \cup \{\nu\}$, assign $\nu$ to itself
     \State set $\barx_{\mu\nu} \assign \tildex_{\mu p}$ and $\tildex_{\mu p}\assign 0$ for each $\mu\in \wtildeN_1(p)$
@@ -848,9 +857,10 @@ $\tildex_{\mu p} = \bary_{\mu}$), with all other
 $\barx_{\mu\nu}$ values set to $0$.
 
 At this point all primary demands satisfy
-Property~\ref{P1:one}, but this may not be true for
+Property~PS.\ref{PS1:one}, but this may not be true for
 non-primary demands. For those demands we still may need to
-adjust the $\barx_{\mu\nu}$ values so that $\connsum(\nu) =
+adjust the $\barx_{\mu\nu}$ values so that $\connsum(\nu)
+\stackrel{\mathrm{def}}{=}
 \sum_{\mu\in\facilityset}\barx_{\mu \nu}$ equals $1$. This
 is accomplished by Procedure $\AugmentToUnit()$ (definition
 in Pseudocode~\ref{alg:helper}, Line~10--20) that allocates
@@ -879,77 +889,91 @@ polynomial in $|\sitesset|+|\clientset|$ due to our earlier bound on $R$.
 \medskip
 
 \emparagraph{Correctness.}  We now show that all the
-required properties are satisfied by the above construction.
-Properties~\ref{P1:one}-\ref{P1:complete} are explicitly
-enforced by the algorithm whenever new facilities or demands
-are created. In particular, the call to
-Procedure~$\AugmentToUnit()$ in Line~21 ensures that
-Property~\ref{P1:one} holds. To achieve
-Property~\ref{P1:xij}, at each step the algorithm maintains
-an invariant that, for every $i\in\sitesset$ and
+required properties (PS), (CO), (PD) and (SI) are satisfied
+by the above construction.
+
+Properties~(PS) and (CO) follow directly from the
+algorithm. (CO) is implied by the completeness condition
+(c1) that the algorithm maintains after each
+iteration. PS.\ref{PS1:one} follows from the result of
+calling Procedure~$\AugmentToUnit()$ in Line~21. To see
+PS.\ref{PS1:xij}, at each step the algorithm maintains an
+invariant that, for every $i\in\sitesset$ and
 $j\in\clientset$, we have $\sum_{\mu\in i}\sum_{\nu \in j}
 \barx_{\mu \nu} + \sum_{\mu\in i} \tildex_{\mu j} =
 x_{ij}^\ast$. In the end, we will create $r_j$ demands for
-each client $j$, with each demand $\nu\in j$ satisfying Property~\ref{P1:one},
-and thus $\sum_{\nu\in j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.
-This implies that $\tildex_{\mu j}=0$
-for every facility $\mu\in\facilityset$, and
-Property~\ref{P1:xij} follows.  Property~\ref{P1:yi} is true
-because every time we split a facility $\mu$ into $\mu'$ and
-$\mu''$, the sum of $\bary_{\mu'}$ and $\bary_{\mu''}$ is
-equal to the old value $\bary_{\mu}$. 
-At the same time, the algorithm does a split whenever necessary to preserve
-properties (c1) and (c2), and after the completion (c1) will imply Property~\ref{P1:complete}.  
-Finally, to justify
-Property~\ref{P1:siblings disjoint}, note that right after a
-demand $\nu\in p$ is created, its neighborhood is disjoint
-from the neighborhood of $p$, that is $\wbarN(\nu)\cap
-\wtildeN(p) = \emptyset$, by Lines~11--12 of the
-algorithm. Thus all demands of $p$ created later will have
-neighborhoods disjoint from $\wbarN(\nu)$. Furthermore,
-Procedure~$\AugmentToUnit()$ preserves this property,
-because when it adds an existing facility to $\wbarN(\nu)$ then it removes it
-from $\wtildeN(p)$, and in case of splitting, one resulting facility
-is added to $\wbarN(\nu)$ and the other to $\wtildeN(p)$.
+each client $j$, with each demand $\nu\in j$ satisfying
+PS.\ref{PS1:one}, and thus $\sum_{\nu\in
+  j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.  This
+implies that $\tildex_{\mu j}=0$ for every facility
+$\mu\in\facilityset$, and PS.\ref{PS1:xij} follows.
+PS.\ref{PS1:yi} follows from that every time we split a
+facility $\mu$ into $\mu'$ and $\mu''$, the sum of
+$\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value
+$\bary_{\mu}$.
 
-To justify Property~\ref{P2:disjoint} notice that for each
-primary demand $\kappa\in p$ its
-neighborhood $\wbarN(\kappa)$ is fixed when $\kappa$ is
-created. At this time, $\wtildeN_1(p)$ is disjoint from the
-neighborhood of any existing primary demand and it becomes
-the neighborhood of $\kappa$.  Thus Property~\ref{P2:disjoint} follows.
-Property~\ref{P2:assign} follows from the algorithm: When
-demand $\nu$ of client $p$ is assigned to a primary demand
-$\kappa$ in Line~11--12 of Pseudocode~\ref{alg:lpr2}, we
-move all facilities in $\wtildeN(p)\cap \wbarN(\kappa)$ (the
+Now we deal with properties in group
+(PD). PD.\ref{PD:disjoint} follows directly from the
+algorithm since we only create a new primary demand if its
+neighborhood is disjoint from all existing primary demands
+and its neighborhood is fixed to $\wtildeN_1(p)$
+immediately. PD.\ref{PD:yi} follows from the fact that
+neighborhoods of primary demands are disjoint and property
+(CO). One way to see this is that the double summation is
+the same as summing over a subset of facilities split from
+site $i$. PD.\ref{PD:assign:overlap} follows from the way
+assignment is done by the algorithm.  When demand $\nu$ of
+client $p$ is assigned to a primary demand $\kappa$ in
+Line~11--12 of Pseudocode~\ref{alg:lpr2}, we move all
+facilities in $\wtildeN(p)\cap \wbarN(\kappa)$ (the
 intersection is nonempty) into $\wbarN(\nu)$, and we never
-remove a facility from $\wbarN(\nu)$.
+remove a facility from $\wbarN(\nu)$.  We postpone the proof
+of PD.\ref{PD:assign:cost} to Lemma~\ref{lem:
+  PD:assign:cost holds}.
 
-It remains to show Properties~\ref{P2:yi},~ \ref{P2:diff}
-and~\ref{P2:cost}. We show these three properties in
-Lemmas~\ref{lem: property P2:yi holds},~\ref{lem: property
-  P2:diff holds} and~\ref{lem: property P2:cost holds}
+Finally we argue properties in group (SI)
+hold. SI.\ref{SI:siblings disjoint} is easy, since each
+facility $\mu$ is added to at most one sibling's
+neighborhood by setting $\barx_{\mu\nu}$ to $\bary_\mu$
+while other siblings $\nu'$ have $\barx_{\mu\nu'}=0$. Note
+that right after a demand $\nu\in p$ is created, its
+neighborhood is disjoint from the neighborhood of $p$, that
+is $\wbarN(\nu)\cap \wtildeN(p) = \emptyset$, by
+Lines~11--12 of the algorithm. Thus all demands of $p$
+created later will have neighborhoods disjoint from
+$\wbarN(\nu)$. Furthermore, Procedure~$\AugmentToUnit()$
+preserves this property, because when it adds an existing
+facility to $\wbarN(\nu)$ then it removes it from
+$\wtildeN(p)$, and in case of splitting, one resulting
+facility is added to $\wbarN(\nu)$ and the other to
+$\wtildeN(p)$. For the proof of SI.\ref{SI:primary
+  disjoint}, we defer to Lemma~\ref{lem: property SI:primary
+  disjoint holds}.
+
+It remains to show Properties~PD.\ref{PD:assign:cost} and
+SI.\ref{SI:primary disjoint}. We show them in the lemmas
 below, thus completing the description of our adaptive
 partition process.
 
 %%%%%%%%%%%
 
-\begin{lemma}\label{lem: property P2:yi holds}
-Property~\ref{P2:yi} holds after the Adaptive Partitioning stage.
-\end{lemma}
-
-\begin{proof}
-Let $Q$ denote the set of facilities $\mu\in i$ that are in a neighborhood of some primary demand.
-Then, from the completeness of $(\barbfx,\barbfy)$ (\ref{P1:complete}),
-the disjointness of primary demands' neighborhoods (\ref{P2:disjoint}),
-and Property~\ref{P1:yi}, we have
-$\sum_{\mu\in i} \sum_{\kappa \in P} \barx_{\mu\kappa} = \sum_{\mu \in Q} \bary_{\mu}
- 	\le \sum_{\mu \in i} \bary_{\mu} = y_i^\ast$.
-\end{proof}
+%%\begin{lemma}\label{lem: property P2:yi holds}
+%%Property~\ref{P2:yi} holds after the Adaptive Partitioning stage.
+%%\end{lemma}
+%%
+%%\begin{proof}
+%%Let $Q$ denote the set of facilities $\mu\in i$ that are in a neighborhood of some primary demand.
+%%Then, from the completeness of $(\barbfx,\barbfy)$ (\ref{P1:complete}),
+%%the disjointness of primary demands' neighborhoods (\ref{P2:disjoint}),
+%%and Property~\ref{P1:yi}, we have
+%%$\sum_{\mu\in i} \sum_{\kappa \in P} \barx_{\mu\kappa} = \sum_{\mu \in Q} \bary_{\mu}
+%% 	\le \sum_{\mu \in i} \bary_{\mu} = y_i^\ast$.
+%%\end{proof}
 
 %%%%%%%
-\begin{lemma}\label{lem: property P2:diff holds}
-  Property~\ref{P2:diff} holds after the Adaptive Partitioning stage.
+\begin{lemma}\label{lem: property SI:primary disjoint holds}
+  Property~SI.\ref{SI:primary disjoint} holds after the
+  Adaptive Partitioning stage.
 \end{lemma}
 \begin{proof}
   Let $\nu_1,\ldots,\nu_{r_j}$ be the demands of a client
@@ -969,17 +993,20 @@ all facilities in $\wtildeN(j)\cap \wbarN(\kappa_q)$, which
 are then removed from $\wtildeN(j)$. This is true no matter
 $\nu_q = \kappa_q$ or not.  (The first property above was in
 fact already indirectly shown when we proved
-Property~\ref{P1:siblings disjoint}.) This implies that, for
-$s < q$, $\wbarN(\nu_q)$ is disjoint from $\wbarN(\kappa_s)$
-and $\wbarN(\kappa_q)$ is disjoint from
+Property~SI.\ref{SI:siblings disjoint}.) This implies that,
+for $s < q$, $\wbarN(\nu_q)$ is disjoint from
+$\wbarN(\kappa_s)$ and $\wbarN(\kappa_q)$ is disjoint from
 $\wbarN(\nu_s)$. By the time when we add facilities using
-\AugmentToUnit() in Line~19--21 of Pseudocode~\ref{alg:lpr2}, 
-the neighborhoods of all primary demands, including  $\wbarN(\kappa_1), \ldots,
-\wbarN(\kappa_{r_j})$, are already fixed. Further, these added facilities
-do not appear in any neighborhood $\wbarN(\kappa_1), \ldots, \wbarN(\kappa_{r_j})$ and
-each of these facilities is added to the neighborhood of exactly one sibling.
-Therefore all the disjointness conditions are preserved after the augment step,
-proving Property~\ref{P2:diff}.
+\AugmentToUnit() in Line~19--21 of
+Pseudocode~\ref{alg:lpr2}, the neighborhoods of all primary
+demands, including $\wbarN(\kappa_1), \ldots,
+\wbarN(\kappa_{r_j})$, are already fixed. Further, these
+added facilities do not appear in any neighborhood
+$\wbarN(\kappa_1), \ldots, \wbarN(\kappa_{r_j})$ and each of
+these facilities is added to the neighborhood of exactly one
+sibling.  Therefore all the disjointness conditions are
+preserved after the augment step, proving
+Property~SI.\ref{SI:primary disjoint}.
 \end{proof}
 
 %%%%%%%
@@ -1037,8 +1064,8 @@ Therefore both quantities
 
 %%%%%%%
 
-\begin{lemma}\label{lem: property P2:cost holds}
-Property~\ref{P2:cost} holds after the Adaptive Partitioning stage.
+\begin{lemma}\label{lem: PD:assign:cost holds}
+Property~PD.\ref{PD:assign:cost} holds after the Adaptive Partitioning stage.
 \end{lemma}
 
 \begin{proof}
