@@ -910,9 +910,9 @@ by the above construction.
 Properties~(PS) and (CO) follow directly from the
 algorithm. (CO) is implied by the completeness condition
 (c1) that the algorithm maintains after each
-iteration. PS.\ref{PS1:one} follows from the result of
+iteration. PS(\ref{PS1:one}) follows from the result of
 calling Procedure~$\AugmentToUnit()$ in Line~21. To see
-PS.\ref{PS1:xij}, at each step the algorithm maintains an
+PS(\ref{PS1:xij}), at each step the algorithm maintains an
 invariant that, for every $i\in\sitesset$ and
 $j\in\clientset$, we have $\sum_{\mu\in i}\sum_{\nu \in j}
 \barx_{\mu \nu} + \sum_{\mu\in i} \tildex_{\mu j} =
@@ -928,22 +928,22 @@ $\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value
 $\bary_{\mu}$.
 
 Now we deal with properties in group
-(PD). PD.\ref{PD:disjoint} follows directly from the
+(PD). PD(\ref{PD:disjoint}) follows directly from the
 algorithm since we only create a new primary demand if its
 neighborhood is disjoint from all existing primary demands
 and its neighborhood is fixed to $\wtildeN_1(p)$
-immediately. PD.\ref{PD:yi} follows from the fact that
+immediately. PD(\ref{PD:yi}) follows from the fact that
 neighborhoods of primary demands are disjoint and property
 (CO). One way to see this is that the double summation is
 the same as summing over a subset of facilities split from
-site $i$. PD.\ref{PD:assign:overlap} follows from the way
+site $i$. PD(\ref{PD:assign:overlap}) follows from the way
 assignment is done by the algorithm.  When demand $\nu$ of
 client $p$ is assigned to a primary demand $\kappa$ in
 Line~11--12 of Pseudocode~\ref{alg:lpr2}, we move all
 facilities in $\wtildeN(p)\cap \wbarN(\kappa)$ (the
 intersection is nonempty) into $\wbarN(\nu)$, and we never
 remove a facility from $\wbarN(\nu)$.  We postpone the proof
-of PD.\ref{PD:assign:cost} to Lemma~\ref{lem:
+of PD(\ref{PD:assign:cost}) to Lemma~\ref{lem:
   PD:assign:cost holds}.
 
 Finally we argue properties in group (SI)
