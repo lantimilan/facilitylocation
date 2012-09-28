@@ -482,9 +482,9 @@ the proof.
 \label{sec: adaptive partitioning}
 
 In this section we develop our second technique, which we
-call \emph{adaptive partitioning}. Given an FTFP instance and
-an optimal fractional solution $(\bfx^\ast, \bfy^\ast)$ to
-LP~(\ref{eqn:fac_primal}), we split each client $j$ into
+call \emph{adaptive partitioning}. Given an FTFP instance
+and an optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
+to LP~(\ref{eqn:fac_primal}), we split each client $j$ into
 $r_j$ individual \emph{unit demand points} (or just
 \emph{demands}), and we split each site $i$ into no more
 than $|\sitesset|+R|\clientset|$ \emph{facility points} (or
@@ -495,31 +495,45 @@ $(\bfx^\ast,\bfy^\ast)$ into a fractional solution
 $(\barbfx,\barbfy)$ for the split instance.  We will
 typically use symbols $\nu$ and $\mu$ to index demands and
 facilities respectively, that is $\barbfx =
-(\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$.  
-As before, the \emph{neighborhood of a demand} $\nu$ is
-$\wbarN(\nu)=\braced{\mu\in\facilityset \suchthat \barx_{\mu\nu}>0}$.
-We will use notation $\nu\in j$ to mean that $\nu$ is a demand of
-client $j$; similarly, $\mu\in i$ means that facility $\mu$
-is on site $i$. Different demands of the same client (that
-is, $\nu,\nu'\in j$) are called \emph{siblings}.  Further,
-we use the convention that $f_\mu = f_i$ for $\mu\in i$,
+(\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$.  As before,
+the \emph{neighborhood of a demand} $\nu$ is
+$\wbarN(\nu)=\braced{\mu\in\facilityset \suchthat
+  \barx_{\mu\nu}>0}$.  We will use notation $\nu\in j$ to
+mean that $\nu$ is a demand of client $j$; similarly,
+$\mu\in i$ means that facility $\mu$ is on site
+$i$. Different demands of the same client (that is,
+$\nu,\nu'\in j$) are called \emph{siblings}.  Further, we
+use the convention that $f_\mu = f_i$ for $\mu\in i$,
 $\alpha_\nu^\ast = \alpha_j^\ast$ for $\nu\in j$ and
 $d_{\mu\nu} = d_{\mu j} = d_{ij}$ for $\mu\in i$ and $\nu\in
-j$.  By $\concost_{\nu}$ we denote the connection
-cost of a demand $\nu\in\demandset$, that is $\concost_{\nu}
+j$.  We define $\concost_{\nu}
 =\sum_{\mu\in\wbarN(\nu)}d_{\mu\nu}\barx_{\mu\nu} =
-\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$.
-Similar to $C^\ast_j$, one can think of it as the average connection
-cost of demand $\nu$, if we chose a connection to facility $\mu$ with probability
-$\barx_{\mu\nu}$, since we will ensure that $\sum_{\mu} \barx_{\mu\nu}=1$.
+\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$.  Similar
+to $C^\ast_j$, one can think of $\concost_{\nu}$ as the
+average connection cost of demand $\nu$, if we chose a
+connection to facility $\mu$ with probability
+$\barx_{\mu\nu}$. In our partitioned fractional solution we
+guarantee for every $\nu$ that $\sum_{\mu\in\facilityset}
+\barx_{\mu\nu}=1$.
 
 Some demands in $\demandset$ will be designated as
 \emph{primary demands} and the set of primary demands will
 be denoted by $P$. In addition, we will use the overlap
 structure between demand neighborhoods to define a mapping
-that assigns each demand $\nu\in\demandset$ to some primary demand $\kappa\in P$.
-Specifically, this partitioning will be constructed to
-satisfy a number of properties that are detailed below.
+that assigns each demand $\nu\in\demandset$ to some primary
+demand $\kappa\in P$. As shown in the rounding algorithms in
+later sections, for each primary demand we guarantee exactly
+one open facility in its neighborhood, while for a
+non-primary demand, there is constant probability that none
+of its neighbors open. In this case we estimate its
+connection cost by the distance to the facility opened in
+its assigned primary demand's neighborhood. For this reason
+the connection cost of a primary demand must be ``small''
+compared to the non-primary demands assigned to it. We also
+need sibling demands assigned to different primary demands
+for fault-tolerant requirements. Specifically, this
+partitioning will be constructed to satisfy a number of
+properties that are detailed below.
 %
 
 OLD VERSION ......
