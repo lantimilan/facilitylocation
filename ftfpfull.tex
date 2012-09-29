@@ -998,48 +998,54 @@ partition process.
 
 %%%%%%%
 \begin{lemma}\label{lem: property SI:primary disjoint holds}
-  Property~SI.\ref{SI:primary disjoint} holds after the
+  Property~SI(\ref{SI:primary disjoint}) holds after the
   Adaptive Partitioning stage.
 \end{lemma}
 \begin{proof}
   Let $\nu_1,\ldots,\nu_{r_j}$ be the demands of a client
   $j\in\clientset$, listed in the order of creation, and,
-  for each $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the primary
-  demand that $\nu_q$ is assigned to.  We claim that, at the
-  time when $\nu_q$ is about to be created, we have
+  for each $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the
+  primary demand that $\nu_q$ is assigned to.  We claim
+  that, for every $q=1,\ldots,r_j$, at the time when $\nu_q$
+  is about to be created, we have
 %
 \begin{eqnarray*}
-\wtildeN(j) \cap \bigcup_{s=1}^{q-1} \wbarN(\nu_s) \;=\; \emptyset \quad\textrm{and} \quad
-\wtildeN(j) \cap \bigcup_{s=1}^{q-1} \wbarN(\kappa_s) &=& \emptyset.
+\wtildeN(j) \cap \bigcup_{s=1}^{q-1} \wbarN(\nu_s) \;=\;
+\emptyset\ (*)\quad\textrm{and} \quad
+\wtildeN(j) \cap \bigcup_{s=1}^{q-1} \wbarN(\kappa_s) &=&
+\emptyset\ (**).
 \end{eqnarray*}
 %
-Indeed, this follows by easy induction on $q$, because when
-we create $\nu_q$, the neighborhood $\wbarN(\nu_q)$ inherits
-all facilities in $\wtildeN(j)\cap \wbarN(\kappa_q)$, which
-are then removed from $\wtildeN(j)$. This is true no matter
-$\nu_q = \kappa_q$ or not.  (The first property above was in
-fact already indirectly shown when we proved
-Property~SI.\ref{SI:siblings disjoint}.) This implies that,
-for $s < q$, $\wbarN(\nu_q)$ is disjoint from
-$\wbarN(\kappa_s)$ and $\wbarN(\kappa_q)$ is disjoint from
-$\wbarN(\nu_s)$. By the time when we add facilities using
+Indeed, this follows by an easy induction on $q$, because
+when we create $\nu_q$, the neighborhood $\wbarN(\nu_q)$
+inherits all facilities in $\wtildeN(j)\cap
+\wbarN(\kappa_q)$, which are then removed from
+$\wtildeN(j)$. (Equation (*) above was in fact already
+indirectly shown when we proved Property~SI(\ref{SI:siblings
+  disjoint}).) This implies that, for $s < q$,
+$\wbarN(\nu_q)$ is disjoint from $\wbarN(\kappa_s)$ and
+$\wbarN(\kappa_q)$ is disjoint from $\wbarN(\nu_s)$. In the
+augmenting phase 2, when we add facilities using
 \AugmentToUnit() in Line~19--21 of
 Pseudocode~\ref{alg:lpr2}, the neighborhoods of all primary
 demands, including $\wbarN(\kappa_1), \ldots,
-\wbarN(\kappa_{r_j})$, are already fixed. Further, these
-added facilities do not appear in any neighborhood
-$\wbarN(\kappa_1), \ldots, \wbarN(\kappa_{r_j})$ and each of
-these facilities is added to the neighborhood of exactly one
-sibling.  Therefore all the disjointness conditions are
-preserved after the augment step, proving
-Property~SI.\ref{SI:primary disjoint}.
+\wbarN(\kappa_{r_j})$, have already been fixed. Further,
+these added facilities in phase 2 do not appear in any
+neighborhood $\wbarN(\kappa_1), \ldots,
+\wbarN(\kappa_{r_j})$ and each of these facilities is added
+to the neighborhood of exactly one sibling.  Therefore all
+the disjointness conditions are preserved after the augment
+phase, proving Property~SI(\ref{SI:primary disjoint}).
 \end{proof}
 
 %%%%%%%
 
-For a client $j$ and a demand $\nu$, we use notation $\tcc_{\nu}(j)$ for the value of
-$\tcc(j)$ at the time when $\nu$ was created. (It is not necessary that $\nu\in j$ but 
-we assume that $j$ is not exhausted at that time.)
+We need one lemma before proving our last property
+PD(\ref{PD:assign:cost}).  For a client $j$ and a demand
+$\nu$, we use notation $\tcc_{\nu}(j)$ for the value of
+$\tcc(j)$ at the time when $\nu$ was created. (It is not
+necessary that $\nu\in j$ but we assume that $j$ is not
+exhausted at that time.)
 
 
 \begin{lemma}\label{lem: tcc optimal}
@@ -1091,7 +1097,7 @@ Therefore both quantities
 %%%%%%%
 
 \begin{lemma}\label{lem: PD:assign:cost holds}
-Property~PD.\ref{PD:assign:cost} holds after the Adaptive Partitioning stage.
+Property~PD(\ref{PD:assign:cost}) holds after the Adaptive Partitioning stage.
 \end{lemma}
 
 \begin{proof}
@@ -1110,12 +1116,13 @@ algorithm, if $\kappa$ is a primary demand of client $p$,
 then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
 $\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
 the first equation is true. The first inequality follows
-from the choice of $p$ as the primary demand in Line~9.  
-The last
-inequality holds because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in j$),
-and because $\tcc_\kappa(j) \le \concost_{\nu}$, where this
-inequality is tight for $\nu = \kappa$ (and $j=p$) and it follows from
-Lemma~\ref{lem: tcc optimal} if $\nu\neq\kappa$.
+from the choice of $p$ as the primary demand in Line~9
+Pseudocode~\ref{alg:lpr2}. The last inequality holds
+because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
+j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, where
+this inequality is tight for $\nu = \kappa$ (and $j=p$) and
+it follows from Lemma~\ref{lem: tcc optimal} if
+$\nu\neq\kappa$.
 \end{proof}
 
 
