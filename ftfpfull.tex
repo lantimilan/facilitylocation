@@ -1125,6 +1125,12 @@ it follows from Lemma~\ref{lem: tcc optimal} if
 $\nu\neq\kappa$.
 \end{proof}
 
+We have now shown all properties do hold for our partitioned
+fractional solution $(\barbfx,\barbfy)$. In the following
+sections we give the generalization of three algorithms for
+UFL, achieving approximation ratio $3$, $1+2/e=1.736$ and
+$1.575$ respectively. The last ratio is also the currently
+best known ratio using only LP-rounding algorithm for UFL.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 3-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1133,151 +1139,51 @@ $\nu\neq\kappa$.
 \section{Algorithm~{\EGUP} with Ratio $3$}
 \label{sec: 3-approximation}
 
+With the partitioned FTFP instance and its associated
+fractional solution in place, we now begin to introduce our
+rounding algorithms which are extensions from those for the
+UFL problems.
+
 The algorithm we describe in this section achieves ratio
 $3$. Although this is still quite far from our best ratio $1.575$ that
 we derive later, we include this algorithm in the paper to show,
 in a relatively simple setting, how the properties of our partitioned fractional
 solution are used in rounding it to an integral solution.
 The rounding approach we use here is an extension of the corresponding
-method for UFL described by~\cite{gupta08}, that we now briefly review. 
-
-We begin with a brief overview of the algorithm
-in~\cite{gupta08}, rephrased in a way that is consistent
-with our approach.  Recall that in UFL we have $r_j=1$ for
-all $j\in\clientset$. Let $(\bfx^\ast,\bfy^\ast)$ and
-$(\bfalpha^\ast,\bfbeta^\ast)$ be some fixed optimal optimal
-solutions to LPs~(\ref{eqn:fac_primal}) and
-(\ref{eqn:fac_dual}), respectively, where
-$(\bfx^\ast,\bfy^\ast)$ is assumed to be complete. The
-algorithm then proceeds in two phases. In the first phase we
-select a set of clients that we call \emph{primary clients}
-and each client will be assigned to one primary client. To
-this end, in each iteration, among all yet non-assigned
-clients, we select a client $p$ with minimum value
-$C_p^\ast+\alpha_p^\ast$. (Recall that
-$C_j^\ast=\sum_{i\in\sitesset} d_{ij}x_{ij}^\ast$ represents
-the fractional connection cost of a client $j$ in the
-optimal solution.) Let $N(p)$ denote the neighborhood of
-client $p$, defined as the set of facilities $i$ with
-$x_{ip}^\ast>0$.  If $N(p)$ overlaps some $N(p')$, where
-$p'$ is some existing primary client, then we assign $p$ to
-$p'$. Otherwise we make $p$ a new primary client and assign
-$p$ to itself. This process is repeated until all clients
-are assigned. In the next phase we open facilities and
-establish connections. First, for each primary client $p$ we
-open exactly one facility $\phi(p)\in N(p)$, with each
-facility $i\in N(p)$ chosen as $\phi(p)$ with probability
-$y_i^\ast$. (Note that, by completeness and optimality, we
-have $\sum_{i\in N(j)} y_i^\ast = \sum_{i\in N(j)}
-x_{ij}^\ast= \sum_{i\in \sitesset} x_{ij}^\ast = 1$ for each
-client $j$, as $x_{ij}^\ast=0$ for every $i\notin N(j)$.)
-For any client $j$, if $j$ is assigned to a primary client
-$p$, we connect $j$ to $\phi(p)$.
-
-The obtained solution has expected facility cost (sum of
-$f_i$'s, for opened facilities $i$) bounded by
-$F^\ast$, due to the choice of the probability distribution
-and because the neighborhoods of primary clients are
-disjoint. To estimate the connection cost, let client $j$ be
-assigned to a primary client $p$ and let $i$ be a facility
-in $N(p)\cap N(j)$ (which is not empty, by the algorithm).
-Then the expected connection cost for $j$ is
-%
-\begin{eqnarray*}
-\Exp[d_{\phi(p)j}] \leq \Exp[d_{\phi(p)p}] + d_{ip} + d_{ij} 
-					\leq C_p^\ast + \alpha_p^\ast + \alpha_j^\ast 
-					\leq C_j^\ast + \alpha_j^\ast + \alpha_j^\ast 
-					= C_j^\ast + 2\alpha_j^\ast. 
-\end{eqnarray*}
-%
-The first inequality is due to the triangle
-inequality, the second inequality follows from the complementary
-slackness conditions (which imply that $\alpha_j^\ast = d_{ij} +
-\beta_{ij}^\ast \geq d_{ij}$ for $i\in N(j)$), and the third one follows
-from the choice of $p$ as a primary client (which implies that
-$C_p^\ast + \alpha_p^\ast \le C_j^\ast + \alpha_j^\ast)$. 
-Hence the total cost is at most 
-%
-\begin{eqnarray*}
-	F^\ast + \sum_j (C^\ast_j + 2\alpha^\ast_j)
-		= F^\ast + C^\ast+ 2\cdot\LP^\ast 
-		= 3\cdot\LP^\ast 
-		\leq 3\cdot\OPT.
-\end{eqnarray*}
-%
-In FTFP, the demand values $r_j$ could be arbitrary
-non-negative integers but, by Theorem~\ref{thm: reduction to
-  polynomial}, to obtain a $3$-approximation algorithm, we
-can assume that every $r_j$ is at most $|\sitesset|$, as
-long as our algorithm approximates the optimal fractional
-solution within a factor of $3$.  With this assumption, it
-is natural to split each client into unit demands and then
-deal with those demands separately.  The general approach is
-then to iteratively connect those individual demands, in a
-manner similar to the one described above. However,
-simple-minded partition methods, like dividing each value
-$x^\ast_{ij}$ evenly among the demands of $j$, are unlikely
-to work, because they result in unmanageable overlapping
-between neighborhoods of primary and non-primary demands.
-To extend the above method to FTFP, the partitioning must
-satisfy certain structural properties. For example, to
-guarantee that siblings (demands of the same client) are
-connected to different facilities, we need them to be
-assigned to different primary demands. This in turn implies
-that the neighborhoods of siblings should be disjoint, for
-otherwise they could both overlap the neighborhood of the
-same primary demand and then they could end up being both
-assigned to this demand. For these reasons, the existing
-techniques developed for FTFL, like the structured fractional solutions
-used by Guha~{\etal}~\cite{GuhaMM01}, are not useful for our
-purpose. Although superficially similar, the solutions in
-\cite{GuhaMM01} are constructed statically and not even used in the
-algorithm, only in the analysis. 
-
-As we have shown in Section~{\ref{sec: adaptive partitioning}},
-by a judicious choice of splitting clients into demands as
-well as splitting their associated fractional connection
-values $x_{ij}^\ast$, we can obtain a new fractional solution
-$(\barbfx,\barbfy)$ satisfying various structural properties, including
-those mentioned above. We shall
-show now how we can exploit these properties to round that split fractional
-solution, constructing an integral solution with expected
-facility cost no more than $F^\ast$ and connection cost no
-more than $C^\ast+2\cdot\LP^\ast$, which then implies
-$3$-approximation. 
-
-%%%%%%%
+method for UFL described by~\cite{gupta08}.
 
 \paragraph{Algorithm~{\EGUP.}}
-We start our algorithm with a partitioned fractional
-solution $(\barbfx,\barbfy)$, computed from an optimal
-fractional solution $(\bfx^\ast, \bfy^\ast)$ to
-LP~(\ref{eqn:fac_primal}), using the algorithm in
-Section~\ref{sec: adaptive partitioning}. Then we apply a
-rounding process, guided by the fractional values
-$(\bary_{\mu})$ and $(\barx_{\mu\nu})$, that produces an
-integral solution. This integral solution is obtained by
-choosing a subset of facilities in $\facilityset$ to open,
-and for each demand in $\demandset$, specifying an open
-facility that this demand will be connected to.  For each
-primary demand $\kappa\in P$, we want to open one facility
-$\phi(\kappa) \in \wbarN(\kappa)$. To this end, we use
-randomization: for each $\mu\in\wbarN(\kappa)$, we choose
-$\phi(\kappa) = \mu$ with probability $\barx_{\mu\kappa}$,
-ensuring that exactly one $\mu \in \wbarN(\kappa)$ is
-chosen. Note that
-$\sum_{\mu\in\wbarN(\kappa)}\barx_{\mu\kappa}=1$, so this distribution
-is well-defined.  We open
-this facility $\phi(\kappa)$ and connect to $\phi(\kappa)$
-all demands that are assigned to $\kappa$.  
+At a high level, we would open exactly one facility for each
+primary demand $\kappa$, and each non-primary demand is
+connected to the facility opened for the primary demand it
+was assigned to.
 
-In our description above, the algorithm is presented as a randomized
-algorithm. It can be de-randomized using the method of conditional
-expectations, which is commonly used in approximation algorithms
-for facility location problems and standard enough that presenting
-it here would be redundant. Readers less familiar with this field
-are recommended to consult \cite{ChudakS04}, where the method of
-conditional expectations is applied in a context very similar to ours.
+More precisely we apply a rounding process, guided by the
+fractional values $(\bary_{\mu})$ and $(\barx_{\mu\nu})$,
+that produces an integral solution. This integral solution
+is obtained by choosing a subset of facilities in
+$\facilityset$ to open, and for each demand in $\demandset$,
+specifying an open facility that this demand will be
+connected to.  For each primary demand $\kappa\in P$, we
+want to open one facility $\phi(\kappa) \in
+\wbarN(\kappa)$. To this end, we use randomization: for each
+$\mu\in\wbarN(\kappa)$, we choose $\phi(\kappa) = \mu$ with
+probability $\barx_{\mu\kappa}$, ensuring that exactly one
+$\mu \in \wbarN(\kappa)$ is chosen. Note that
+$\sum_{\mu\in\wbarN(\kappa)}\barx_{\mu\kappa}=1$, so this
+distribution is well-defined.  We open this facility
+$\phi(\kappa)$ and connect to $\phi(\kappa)$ all demands
+that are assigned to $\kappa$.
+
+In our description above, the algorithm is presented as a
+randomized algorithm. It can be de-randomized using the
+method of conditional expectations, which is commonly used
+in approximation algorithms for facility location problems
+and standard enough that presenting it here would be
+redundant. Readers less familiar with this field are
+recommended to consult \cite{ChudakS04}, where the method of
+conditional expectations is applied in a context very
+similar to ours.
 
 %%%%%%%%%
 
@@ -1293,11 +1199,12 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
 \end{lemma}
 
 \begin{proof}
-By Property~\ref{P2:disjoint}, the neighborhoods of primary demands are disjoint. Also,
-  for any primary demand $\kappa\in P$, the probability that
-  a facility $\mu\in\wbarN(\kappa)$ is chosen as the open
-  facility $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the
-  expected total facility cost is
+  By Property~PD(\ref{PD:disjoint}), the neighborhoods of
+  primary demands are disjoint. Also, for any primary demand
+  $\kappa\in P$, the probability that a facility
+  $\mu\in\wbarN(\kappa)$ is chosen as the open facility
+  $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the expected
+  total facility cost is
 %
 \begin{align*}
     \Exp[F_{\smallEGUP}]
@@ -1311,7 +1218,7 @@ By Property~\ref{P2:disjoint}, the neighborhoods of primary demands are disjoint
 	= F^\ast,
 \end{align*}
 %
-where the inequality follows from Property~\ref{P2:yi}.
+where the inequality follows from Property~PD(\ref{PD:yi}).
 \end{proof}
 
 %%%%%%%
@@ -1327,10 +1234,11 @@ is at most  $C^\ast+2\cdot\LP^\ast$.
   \cap \wbarN(\kappa)$.  Since $\mu$ is in both
   $\wbarN(\nu)$ and $\wbarN(\kappa)$, we have $d_{\mu\nu}
   \leq \alpha_{\nu}^\ast$ and $d_{\mu\kappa} \leq
-  \alpha_{\kappa}^\ast$ (this follows from the complementary
+  \alpha_{\kappa}^\ast$ (This follows from the complementary
   slackness conditions since
   $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for
-  each $\mu\in \wbarN(\nu)$). Thus, applying the triangle inequality, for any fixed choice of
+  each $\mu\in \wbarN(\nu)$.). Thus, applying the triangle
+  inequality, for any fixed choice of facility
   $\phi(\kappa)$ we have
 %
 \begin{equation*}
@@ -1347,8 +1255,8 @@ Therefore the expected distance from $\nu$ to its facility $\phi(\kappa)$ is
    = \concost_{\nu} + 2\alpha_{\nu}^\ast,
   \end{align*}
 %
-  where the second inequality follows from Property~\ref{P2:cost}.  
-From the definition of $\concost_{\nu}$ and Property~\ref{P1:xij}, for any $j\in \clientset$ 
+  where the second inequality follows from Property~PD(\ref{PD:assign:cost}).  
+From the definition of $\concost_{\nu}$ and Property~PS(\ref{PS1:xij}), for any $j\in \clientset$ 
 we have
 %
 \begin{align*}
@@ -1380,22 +1288,24 @@ Algorithm~{\EGUP} is a $3$-approximation algorithm.
 \end{theorem}
 
 \begin{proof}
-  By Property~\ref{P2:diff}, different demands from the same
-  client are assigned to different primary demands, and by
-  \ref{P2:disjoint} each primary demand opens a different
-  facility. This ensures that our solution is feasible,
-  namely each client $j$ is connected to $r_j$ different
-  facilities (some possibly located on the same site).  As
-  for the total cost, Lemma~\ref{lemma:3fac} and
-  Lemma~\ref{lemma:3dist} imply that the total cost is at
-  most $F^\ast+C^\ast+2\cdot\LP^\ast = 3\cdot\LP^\ast \leq
+  By Property~SI(\ref{SI:primary disjoint}), different
+  demands from the same client are assigned to different
+  primary demands, and by PD(\ref{PD:disjoint}) each primary
+  demand opens a different facility. This ensures that our
+  solution is feasible, namely each client $j$ is connected
+  to $r_j$ different facilities (some possibly located on
+  the same site).  As for the total cost,
+  Lemma~\ref{lemma:3fac} and Lemma~\ref{lemma:3dist} imply
+  that the total cost is at most
+  $F^\ast+C^\ast+2\cdot\LP^\ast = 3\cdot\LP^\ast \leq
   3\cdot\OPT$.
 \end{proof}
 
 %%%%%%%%%
 
 
-This completes the presentation and analysis of our $3$-approximation algorithm.
+This completes the presentation and analysis of our
+$3$-approximation algorithm \EGUP.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 1.736-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
