@@ -1158,7 +1158,7 @@ primary demand $\kappa$, and each non-primary demand is
 connected to the facility opened for the primary demand it
 was assigned to.
 
-More precisely we apply a rounding process, guided by the
+More precisely, we apply a rounding process, guided by the
 fractional values $(\bary_{\mu})$ and $(\barx_{\mu\nu})$,
 that produces an integral solution. This integral solution
 is obtained by choosing a subset of facilities in
@@ -1317,7 +1317,7 @@ In this section we improve the approximation ratio to $1+2/e
 \approx 1.736$. The new algorithm, named Algorithm~{\ECHU},
 starts with the same partitioned fracitional solution
 $(\barbfx, \barbfy)$ as Algorithm~{\EGUP}. The improvement
-on approximation ratio comes from a more slightly modified
+on approximation ratio comes from a slightly modified
 rounding process and much refined analysis.  Note that the
 facility opening cost of Algorithm~{\EGUP} does not exceed
 that of the fractional optimum solution, while the
@@ -1327,23 +1327,12 @@ non-primary demands).  The basic idea behind the
 improvement, following the approach of Chudak and
 Shmoys'~\cite{ChudakS04}, is then to open more facilities
 and use direct connections when available so as to reduce
-the number of indirect connections. A {\naive}
-generalization of the method from \cite{ChudakS04} may
-produce infeasible solutions, with different demands from
-the same client being connected to the same facility. This
-could happen, for example, when one demand of a client
-connects to a facility in its neighborhood while another
-uses the same facility via an indirect connection. We show,
-however, that the fractional solution we obtained from
-Adaptive Partitioning in the last section possesses
-additional properties that allows us to prevent such
-conflicts.
-
-The details of the modified rounding process is given in
+the number of indirect connections. The details of the
+modified rounding process is given in
 Pseudocode~\ref{alg:lpr3}.  We will use the term
 \emph{facility cluster} for the neighborhood of a primary
-client. Facilities that do not belong to these clusters will
-be called \emph{non-clustered}.
+client. Facilities that do not belong to these clusters are
+said to be \emph{non-clustered}.
 
 As before, we open exactly one facility $\phi(\kappa)$ in
 the facility cluster of a primary demand $\kappa$, with the
@@ -1381,7 +1370,7 @@ its target facility (Line 10).
     with probability $\bary_\mu$
     \State open $\phi(\kappa)$ and connect $\kappa$ to $\phi(\kappa)$
     \EndFor
-    \For{each $\mu\in\demandset - \bigcup_{\kappa\in P}\wbarN(\kappa)$} 
+    \For{each $\mu\in\facilityset - \bigcup_{\kappa\in P}\wbarN(\kappa)$} 
     \State open $\mu$ with probability $\bary_\mu$ (independently)
     \EndFor
     \For{each non-primary demand $\nu\in\demandset$}
@@ -1415,8 +1404,9 @@ different facilities.
 
 \begin{proof}
   Let $\nu_1,\nu_2$ be two sibling demands and
-  $\kappa_1,\kappa_2$ be the primary demands they are assigned to, respectively. 
-  Property~\ref{P1:siblings disjoint} and \ref{P2:diff} imply that
+  $\kappa_1,\kappa_2$ be the primary demands they are
+  assigned to, respectively.  Property~SI(\ref{SI:siblings
+    disjoint}) and SI(\ref{SI:primary disjoint}) imply that
 %
   \begin{equation*}
     (\wbarN(\kappa_1) \cup \wbarN(\nu_1)) \cap \wbarN(\nu_2) = \emptyset.
@@ -1430,7 +1420,9 @@ different facilities.
 %%%%%%%%%
 
 \medskip
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CONTINUE HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We now show the solution has a total cost bounded by
 $(1+2/e) \cdot \LP^\ast$ in expectation. By
 Property~\ref{P2:disjoint}, every facility may appear in at
@@ -2031,7 +2023,7 @@ splitting a facility, and the fact that the close
 neighborhood of primary demands are
 disjoint. Property~\ref{PP2:cost} follows from our choice of
 primary clients, and the proof is very similar to the proof
-of Lemma~\ref{lem: property P2:cost holds}. The main
+of Lemma~\ref{lem: PD:assign:cost holds}. The main
 observation is that for any client $j$, the value $\tcc(j)$
 can only get worse (larger) as the partition stage proceeds
 in iterations.
