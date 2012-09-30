@@ -1420,12 +1420,9 @@ different facilities.
 %%%%%%%%%
 
 \medskip
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% CONTINUE HERE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We now show the solution has a total cost bounded by
 $(1+2/e) \cdot \LP^\ast$ in expectation. By
-Property~\ref{P2:disjoint}, every facility may appear in at
+Property~PD(\ref{PD:disjoint}), every facility may appear in at
 most one primary demand's neighborhood, and the facilities
 open in Line~4--5 of Pseudocode~\ref{alg:lpr3} do not appear
 in any primary demand's neighborhood. Therefore, by
@@ -1433,13 +1430,17 @@ linearity of expectation, the expected facility cost of
 algorithm~{\ECHU} is $\sum_{\mu\in\facilityset}
 f_\mu \bary_{\mu} = \sum_{i\in\sitesset} f_i\sum_{\mu\in i}
 \bary_{\mu} = \sum_{i\in\sitesset} f_i y_i^\ast = F^\ast$,
-where the second equality follows from Property~\ref{P1:yi}.
+where the second equality follows from Property~PS(\ref{PS1:yi}).
 
 To bound the connection cost, we adapt an argument of Chudak
-and Shmoys'~\cite{ChudakS04}. Consider a demand $\nu$. This demand can either
-get connected directly to some facility in $\wbarN(\nu)$ or indirectly to
-facility $\phi(\kappa)\in \wbarN(\kappa)$, where $\kappa$ is the primary
-demand to which $\nu$ is assigned. 
+and Shmoys'~\cite{ChudakS04}. Consider a demand $\nu$. This
+demand can either get connected directly to some facility in
+$\wbarN(\nu)$ or indirectly to facility $\phi(\kappa)\in
+\wbarN(\kappa)$, where $\kappa$ is the primary demand to
+which $\nu$ is assigned. We introduce one more notation
+$d(\mu,\nu)$ to refer to $d_{\mu\nu}$ and shall use them
+interchangeabley to refer to the distance between facility
+$\mu$ and demand $\nu$.
 
 We first estimate the expected cost of the indirect
 connection of $\nu$, when $\nu$ is connected to its target
@@ -1457,11 +1458,12 @@ lemma.
   Let $\kappa$ be the primary demand that $\nu$ is assigned
   to and $\phi(\kappa)$ be the only facility opened by
   $\kappa$. Then $\phi(\kappa)$ is the target facility of
-  $\nu$. By the definition of $\kappa$, there exists a
-  facility $\mu\in \wbarN(\nu)\cap \wbarN(\kappa)$.  For any
-  fixed value of $\phi(\kappa)$, the cost of connecting
-  $\nu$ to $\phi(\kappa)$ is $\bard = d(\phi(\kappa),\nu)
-  \le d(\phi(\kappa),\kappa)+ d_{\mu\kappa}+d_{\mu\nu} \le
+  $\nu$. Because $\nu$ was assigned to $\kappa$, there
+  exists a facility $\mu\in \wbarN(\nu)\cap \wbarN(\kappa)$.
+  For any fixed value of $\phi(\kappa)$, the cost of
+  connecting $\nu$ to $\phi(\kappa)$ is $\bard =
+  d(\phi(\kappa),\nu) \le d(\phi(\kappa),\kappa)+
+  d_{\mu\kappa}+d_{\mu\nu} \le
   d(\phi(\kappa),\kappa)+\alpha_{\kappa}^\ast +
   \alpha_{\nu'}^\ast$, where the last inequality follows
   from the complementary slackness conditions. We can bound
@@ -1474,19 +1476,21 @@ lemma.
   \leq \tcc(\nu) + 2\alpha_{\nu}^\ast\;\leq\; \concost_{\nu} + 2\alpha_{\nu}^\ast.
 \end{equation}
 %
-The second inequality follows from Property~\ref{P2:cost}
-and the last inequality is from Lemma~\ref{lem: tcc optimal}.
-To see the first inequality, notice that the
+We defer the proof of the first inequality and argue the two
+other simpler inequalities first. The second inequality
+follows from Property~PD(\ref{PD:assign:cost}) and the last
+inequality is from Lemma~\ref{lem: tcc optimal}. Now we come
+back to show the first inequality. Notice that the
 expectation is computed for facility set
-$X(\kappa)=\wbarN(\kappa) \setminus \wbarN(\nu)$ with each facility
-$\mu$ chosen with probability proportional to
+$X(\kappa,\nu)=\wbarN(\kappa) \setminus \wbarN(\nu)$ with
+each facility $\mu$ chosen with probability proportional to
 $\bary_{\mu}$. Given a facility set $A$, let
 $d(A,\nu)=\sum_{\mu\in A} d_{\mu\nu}\bary_{\mu}/\sum_{\mu\in
   A} \bary_{\mu}$. Notice that
-$\tcc(\kappa)=d(\wbarN(\kappa),\kappa)$ by definition. We
-claim that $d(X(\kappa),\nu) \leq \tcc(\kappa) +
-\alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$. To prove this
-claim, we consider two cases. 
+$\tcc(\kappa)=d(\wbarN(\kappa),\kappa)$ by this
+definition. We claim that $d(X(\kappa,\nu),\nu) \leq
+\tcc(\kappa) + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$. To
+prove this claim, we consider two cases.
 
 \mycase{1} The first case is when there exists some $\mu'\in
 \wbarN(\kappa) \cap \wbarN(\nu)$ such that $d_{\mu' \kappa}
@@ -1498,7 +1502,7 @@ d_{\mu\nu})$, we have
   d_{\mu'\kappa} + d_{\mu'\nu} \leq d(\wbarN(\kappa),\kappa) +
   \alpha_{\nu}^\ast=\tcc(\kappa)+\alpha_{\nu}^\ast. 
 \end{equation*}
-It follows that for every $\mu\in X(\kappa)$, we have
+It follows that for every $\mu\in X(\kappa,\nu)$, we have
 \begin{equation*}
   d(\mu,\nu) \leq d_{\mu\kappa} + d(\kappa,\nu) \leq
   \alpha_{\kappa}^\ast + \tcc(\kappa) + \alpha_{\nu}^\ast.
@@ -1507,29 +1511,33 @@ It follows that for every $\mu\in X(\kappa)$, we have
 \mycase{2} In the second case, every $\mu'\in
 \wbarN(\nu)\cap \wbarN(\kappa)$ has $d_{\mu'\kappa} >
 d(\wbarN(\kappa),\kappa)$. Then we have
-$d(X(\kappa),\kappa)\leq
+$d(X(\kappa,\nu),\kappa)\leq
 d(\wbarN(\kappa),\kappa)=\tcc(\kappa)$, therefore
 \begin{equation*}
-  d(X(\kappa), \nu) \leq d(\wbarN(\kappa), \kappa) +
+  d(X(\kappa,\nu), \nu) \leq d(\wbarN(\kappa), \kappa) +
   d_{\mu\kappa} + d_{\mu\nu} \leq \tcc(\kappa) +
-  \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast.  
+  \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast,  
 \end{equation*}
+where $\mu$ is any facility in $\wbarN(\kappa)\cap \wbarN(\nu)$.
 This completes the justification of (\ref{eqn: 1.76
   connection cost}).
 \end{proof}
 
-We now estimate the expected connection cost of demand
-$\nu$. Let $\wbarN(\nu) = \braced{\mu_1,\ldots,\mu_l}$ and
-let $d_s = d_{\mu_s\nu}$ for $s = 1,\ldots,l$. By
-reordering, we can assume that $d_1 \le d_2 \le \ldots \le
-d_l$. By the algorithm the connection cost is no more than
-that obtained through the random process that opens each
-$\mu_s\in \wbarN(\nu)$ independently with probability
-$\barx_{\mu_s \nu} =\bary_{\mu_s}$ (because the solution is
-complete) and connects $\nu$ to the nearest such open
-facility, if any of them opens; otherwise $\nu$ is connected
-indirectly to $\phi(\kappa)$ at cost $\bard$. The intuition
-is that we only use a facility $\mu_s$ if none of
+For a primary demand $\kappa$, its expected connection cost
+is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)} d_{\mu\kappa}$
+as in the previous section. We now estimate the expected
+connection cost of a non-primary demand $\nu$. Let
+$\wbarN(\nu) = \braced{\mu_1,\ldots,\mu_l}$ and let $d_s =
+d_{\mu_s\nu}$ for $s = 1,\ldots,l$. By reordering, we can
+assume that $d_1 \le d_2 \le \ldots \le d_l$. By the
+algorithm the connection cost is no more than that obtained
+through the random process that opens each $\mu_s\in
+\wbarN(\nu)$ independently with probability $\barx_{\mu_s
+  \nu} =\bary_{\mu_s}$ (because the solution is complete)
+and connects $\nu$ to the nearest such open facility, if any
+of them opens; otherwise $\nu$ is connected indirectly to
+$\phi(\kappa)$ at cost $\bard$. The intuition is that we
+only use a facility $\mu_s$ if none of
 $\mu_1,\ldots,\mu_{s-1}$ is open. Suppose $\mu_s$ is a
 facility in $\wbarN(\kappa)$ for some primary demand
 $\kappa$. If none of $\mu_1,\ldots,\mu_{s-1}$ is in
