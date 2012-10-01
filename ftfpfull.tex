@@ -1554,7 +1554,8 @@ solution with facility cost bounded by $F^\ast$ and
 connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. A
 natural idea is to look for a way to reduce the connection
 cost, at the expense of increasing the facility cost by a
-small fraction.
+small fraction. Our approach is inspired by the BGS
+algorithm for UFL~\cite{ByrkaGS10}.
 
 To apply the rounding approach similar to~\cite{ByrkaGS10},
 we need to introduce the close and far neighborhood of each
@@ -1570,7 +1571,19 @@ straightforward generalization of \cite{ByrkaGS10}, as is
 the analysis of approximation ratio.
 
 We begin with a list of properties that our partitioned
-fractional solution $(\barbfx,\barbfy)$ needs to satisfy:
+fractional solution $(\barbfx,\barbfy)$ needs to
+satisfy. The neighborhood $\wbarN(\nu)$ of each demand $\nu$
+is partitioned into two parts, called the \emph{close
+  neighborhood} $\wbarclsnb(\nu)$ and the \emph{far
+  neighborhood} $\wbarfarnb(\nu)$, whose formal definitions
+are given below as Property~PS(\ref{PS1:gamma}). Their
+respective average connection costs are defined by
+$\clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
+d_{\mu\nu}\barx_{\mu\nu}$ and
+$\fardist(\nu)=\frac{\gamma}{\gamma-1}\sum_{\mu\in\wbarfarnb(\nu)}
+d_{\mu\nu}\barx_{\mu\nu}$.  We will also use notation
+$\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
+the maximum distance from $\nu$ to its close neighborhood.
 \begin{description}
 	
       \renewcommand{\theenumii}{(\alph{enumii})}
@@ -1646,362 +1659,27 @@ and
 	
 \end{description}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*** OLD VERSION
-%%% motivation of better approximation
-%%% review of Byrka's idea
-%%% refined partition
-%%% rounding
-%%% analysis of approx ratio
+To obtain a fractional solution with the above properties,
+we employ a modified adaptive partitioning algorithm with
+two phases, a partitioning phase and an augmenting phase. As
+usual we split clients into demands and create facilities on
+sites in Phase 1, with each demand possessing some
+connection values. In Phase 2 we augment each demand to
+having a total connection value equal $1$.
 
-In this section we give our main result, a $1.575$-approximation algorithm
-for $\FTFP$
-%
-\footnote{$1.575$ is $\min_{\gamma\geq 1}\max\{\gamma,
-  1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$.}. 
-%
-This ratio matches the ratio of the best known LP-rounding
-algorithm for UFL~\cite{ByrkaGS10}. Our {\EBGS} algorithm
-consists of two stages, with stage 1 being a more refined
-partitioning of a fractional optimal solution, which allows
-us to apply a similar rounding process and analysis
-as~\cite{ByrkaGS10}.
-
-Recall that in Section~\ref{sec: 1.736-approximation}, we
-have an integral solution with facility cost bounded by
-$F^\ast$ and connection cost bounded by $C^\ast +
-2/e\cdot\LP^\ast$. A natural idea is to look for a way to
-reduce the connection cost, at the expense of increasing the
-facility cost by a small fraction.
-
-To help motivate our improved algorithm, we start by giving
-an overview of the related BGS algorithm for UFL in
-\cite{ByrkaGS10}. To help introduce our notation, we present
-the BGS algorithm in a slightly different but equivalent
-way. The BGS algorithm uses some constant $\gamma\ge 1$, to
-be fixed later. As usual, it first computes a primal
-fractional optimal solution $(\bfx^\ast,\bfy^\ast)$ to
-LP~(\ref{eqn:fac_primal}). Notice that for the UFL problem
-we have all $r_j=1$. By splitting facilities and adjusting
-appropriately facility opening and connection values, we can
-assume that solution $(\bfx^\ast, \bfy^\ast)$ satisfies the
-enhanced complete property: For each client $j$ and facility
-$i$, $x_{ij}^\ast>0$ implies
-$x_{ij}^\ast=y_i^\ast$. Moreover, for each client $j$, if we
-order facilities $i$ in its neighborhood with nondecreasing
-$d_{ij}$, then there exists some $l$ such that $\sum_{i=1}^l
-x_{ij}^\ast = 1/\gamma$. As before we also have $\sum_{i\in
-  N(j)} x_{ij}^\ast = 1$ from optimality, where
-$N(j)=\{i\in\sitesset \suchthat x_{ij}^\ast > 0\}$ is client
-$j$'s neighborhood. This enhanced complete property allow us
-to introduce two more definitions.
-
-For each client $j$, its neighborhood $N(j)$ is partitioned
-into two parts, the close and the far neighborhood, that is
-$N(j) = \clsnb(j) \cup \farnb(j)$, where (i) $\clsnb(j) \cap
-\farnb(j) = \emptyset$, (ii) $\sum_{i\in\clsnb(j)}
-x_{ij}^\ast=1/\gamma$, (iii) $\sum_{i\in\farnb(j)}
-x_{ij}^\ast=1-1/\gamma$, and (iv) if $i\in \clsnb(j)$ and
-$i'\in \farnb(j)$ then $d_{ij}\le d_{i'j}$.  Intuitively,
-$\clsnb(j)$ (also called \emph{$j$'s cluster}) consists of
-the first $1/\gamma$ ``chunk" of the facilities nearest to
-$j$, while $\farnb(j)$ contains the remaining facilities.
-We define the corresponding connection costs:
-$\clsdist(j)={\gamma}\sum_{i\in\clsnb(j)}d_{ij}x_{ij}^\ast$
-and
-$\fardist(j)=\frac{\gamma}{\gamma-1}\sum_{i\in\farnb(j)}d_{ij}x_{ij}^\ast$
-as the average distance from client $j$ to facilities in
-$\clsnb(j)$ and $\farnb(j)$ respectively, and
-$\clsmax(j)=\max_{i\in\clsnb(j)}d_{ij}$ is the maximum
-distance from $j$ to any facility in $\clsnb(j)$. The
-overall average connection cost for $j$ is
-$\concost(j)=\sum_{i\in N(j)} d_{ij}x_{ij}^\ast$.
-
-The BGS algorithm then runs in iterations. In each
-iteration, it picks a client $p$ with minimum value of
-$\clsdist(p)+\clsmax(p)$. If $\clsnb(p)$ overlaps with that
-of some existing primary client $p'$, then $p$ is assigned
-to $p'$. Otherwise $p$ becomes a primary client and assigned
-to itself.  Once each client has been assigned to a primary
-client, the algorithm starts opening facilities. For each
-primary client $p$ it opens one facility $\phi(p)$ in $p$'s
-cluster $\clsnb(p)$, with each facility $i\in \clsnb(p)$
-chosen as $\phi(p)$ with probability $\gamma y_i^\ast$. In
-addition, each non-clustered facility $i$ opens with
-probability $\gamma y_i^\ast$, independently. For
-connections, each client $j$ will first try to connect to
-the nearest open facility in $N(j)$. If none in $N(j)$
-opens, then $j$ gets connected to $\phi(p)$, called its
-\emph{target} facility, where $p$ is the primary client to
-which $j$ is assigned.
-
-It was shown in~\cite{ByrkaA10} that the above rounding
-process implies that $\clsnb(j)$ has at least one open
-facility with probability no less than $1-1/e$ and that
-$N(j)$ has an open facility with probability at least
-$1-1/e^\gamma$. Hence with probability at most $1/e^\gamma$,
-a client uses an indirect connection to its target facility,
-whose cost is bounded by a technical lemma
-in~\cite{ByrkaA10}.
-
-%%%%%%%%%%%%
-
-\begin{lemma}~\cite{ByrkaA10}
-  \label{lem:redirect}
-  Define $d(j,A)=\sum_{i\in A} d_{ij}y_i^\ast/\sum_{i\in A}
-  y_i$, let $\gamma <2$ be a constant, and let $p$ be the
-  primary client that $j$ was assigned to. Then either
-  $N(p)-(\clsnb(j)\cup \farnb(j))=\emptyset$ or
-  $d(j,N(p) \setminus (\clsnb(j)\cup \farnb(j))) \leq \clsdist(j) +
-  \clsmax(j) + \fardist(j)$.
-\end{lemma}
-
-Given Lemma~\ref{lem:redirect}, the expected connection cost
-for a client $j$ is then
-\begin{align*}
-  \Exp[C_j] &\leq \clsdist(j)(1-1/e) + \fardist(j)(1/e-1/e^\gamma) + (\clsdist(j)
-  + \clsmax(j)+\fardist(j))1/e^\gamma \\
-  &\leq \clsdist(j)(1-1/e) +
-  \fardist(j)(1/e-1/e^\gamma) + (\clsdist(j) + 2\fardist(j))1/e^\gamma\\
-  &\leq
-  \concost(j)((1-\rho_j)(\frac{1/e+1/e^\gamma}{1-1/\gamma}) +
-  \rho_j(1+2/e^\gamma)),
-\end{align*}
-where we define $\rho_j = \clsdist(j)/\concost(j)$. It is
-easy to see that $\concost(j) = \sum_{i\in\sitesset}
-d_{ij}x_{ij}^\ast = \frac{1}{\gamma}\clsdist(j) +
-(1-\frac{1}{\gamma})\fardist(j)$. Then $\fardist(j)=(\gamma
-\concost(j)-\clsdist(j))/(\gamma-1)$. The approximation
-ratio is then bounded by the expression
-$\max\{\gamma,\frac{1/e+1/e^\gamma}{1-1/\gamma},1+2/e^\gamma\}$,
-which is minimized for $\gamma=1.575$.
-
-
-\smallskip
-
-We now describe our Algorithm~{\EBGS} for the FTFP
-problem. As before, our algorithm first partitions the
-instance and then applies the rounding approach similar to
-the BGS algorithm~\cite{ByrkaGS10} described above. However,
-to apply the rounding approach similar to~\cite{ByrkaGS10},
-we need to introduce the close and far neighborhood of each
-demand, and our properties of the partitioned fractional
-solution need to guarantee certain close neighborhoods
-overlap while other neighborhoods are disjoint. It turns out
-that the properties required are much more delicate but
-nonetheless, we show a modified partition algorithm actually
-delivers a partitioned fractional solution that satisfies
-all the properties. The rounding stage that construct an
-integral solution is relatively straightforward, as is the
-analysis of approximation ratio.
-
-%%%%%%%%%%%%
-
-\emparagraph{Stage~1: Adaptive Partitioning.} The
-partitioning stage of Algorithm~{\EBGS} is similar to that
-in Section~\ref{sec: 1.736-approximation}, with changes
-inspired by the BGS algorithm in~\cite{ByrkaGS10} to obtain
-an improved ratio. In Stage~1, we also begin with
-$(\bfx^\ast, \bfy^\ast)$ that is complete, that is
-$x_{ij}^\ast=y_i^\ast$ if $x_{ij}^\ast>0$. Then we run our
-partition algorithm to obtain a fractional solution
-$(\barbfx, \barbfy)$ for the modified instance where clients
-are divided into unit-value demands and sites are divided
-into facilities. We adapt all notation for the modified
-instance from Sections~\ref{sec: 3-approximation}
-and~\ref{sec: 1.736-approximation}. In particular, the
-neighborhood of a demand and its average connection cost is
-defined as before:
-$\wbarN(\nu)=\{\mu\in\facilityset\suchthat
-\barx_{\mu\nu}>0\}$ and
-$\concost(\nu)=\sum_{\mu\in\wbarN(\nu)}d_{\mu\nu}\barx_{\mu\nu}$,
-for each $\nu\in\demandset$.
-
-In our algorithm, the neighborhood $\wbarN(\nu)$ of each
-demand $\nu$ will be partitioned into two parts, called the
-\emph{close neighborhood} $\wbarclsnb(\nu)$ and the
-\emph{far neighborhood} $\wbarfarnb(\nu)$, whose formal
-definitions are given below as
-Property~\ref{PP1:gamma}. Their respective average
-connection costs are defined by
-$\clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
-d_{\mu\nu}\barx_{\mu\nu}$ and
-$\fardist(\nu)=\frac{\gamma}{\gamma-1}\sum_{\mu\in\wbarfarnb(\nu)}
-d_{\mu\nu}\barx_{\mu\nu}$.  We will also use notation
-$\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
-the maximum distance from $\nu$ to its close neighborhood.
-
-\smallskip 
-
-To better motivate our approach and for ease of
-presentation, we give only the desired properties of the
-partitioned instance and the fractional solution $(\barbfx,
-\barbfy)$ produced by our algorithm. The details on how to
-construct such a fractional solution, along with a proof of
-all the properties are deferred to the end of this section.
-
-%
-\begin{enumerate}
-      \renewcommand{\theenumi}{P\arabic{enumi}}
-      \renewcommand{\labelenumi}{(\theenumi)}
-      \renewcommand{\theenumii}{(\alph{enumii})}
-      \renewcommand{\labelenumii}{\theenumii}
-
-\item Vectors $\barbfx,\barbfy$ satisfy the following properties:
-%
-  \begin{enumerate}
-	\item \label{PP1:one} For each demand $\nu$, $\sum_{\mu\in\facilityset}
-    \barx_{\mu\nu} = 1$.
-	\item \label{PP1:xij} $\sum_{\mu\in i, \nu\in j} \barx_{\mu\nu}
-          = x_{ij}^\ast$ for each site $i\in\sitesset$ and client $j\in\clientset$.
-	\item \label{PP1:yi}
-          $\sum_{\mu\in i} \bary_{\mu} = y_i^\ast$ for each site $i\in\sitesset$.
-	\item \label{PP1:eq}
-          If $\barx_{\mu\nu}\neq 0$ then
-				$\barx_{\mu\nu} = \bary_{\mu}$, for each facility 
-						$\mu\in\facilityset$ and demand
-            $\nu\in\demandset$ (completeness).
-
-  \item \label{PP1:gamma} 
-	For each demand $\nu$, its neighborhood is divided into \emph{close} and
-	\emph{far} neighborhood, that is $\wbarN(\nu) = \wbarclsnb(\nu) \cup \wbarfarnb(\nu)$, where
-(n1) $\wbarclsnb(\nu) \cap \wbarfarnb(\nu) = \emptyset$,
-(n2) $\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} =1/\gamma$,
-(n3) $\sum_{i\in\wbarfarnb(\nu)} \barx_{\mu\nu} =1-1/\gamma$,
-and 
-(n4) if $\mu\in \wbarclsnb(\nu)$ and $\mu'\in \wbarfarnb(\nu)$ then $d_{\mu\nu}\le d_{\mu'\nu}$.   
-
-  \end{enumerate}
-
-\item Primary demands satisfy the following properties:
-%
-\begin{enumerate}
-\item \label{PP2:yi} $\sum_{\kappa\in P} \sum_{\mu\in i\cap
-    \wbarclsnb(\kappa)}\barx_{\mu\kappa} \leq y_i^\ast$, for
-  each site $i\in\sitesset$. Note that in the sum
-  we do not count contributions from
-  the far neighborhood of primary demands.
-\item \label{PP2:assign} Each demand $\nu\in\demandset$ is
-  assigned to exactly one primary demand $\kappa\in P$ with
-  an overlapping close neighborhood, that is
-  $\wbarclsnb(\nu) \cap \wbarclsnb(\kappa) \neq \emptyset$.
-\item \label{PP2:diff} Different demands from the same
-  client are assigned to different primary demands.
-
-\item \label{PP2:disjoint} For any two different sibling
-  demands $\nu$ and $\nu'$, if $\nu$ is assigned to a
-  primary demand $\kappa$ then $(\wbarN(\nu) \cup
-  \wbarclsnb(\kappa)) \cap \wbarN(\nu') = \emptyset$.  This
-  condition ensures that no conflict can arise between
-  sibling demands when they connect to facilities.
-
-\item \label{PP2:cost} If a demand $\nu\in\demandset$ is
-  assigned to a primary demand $\kappa\in P$, then
-  $\clsdist(\nu)+\clsmax(\nu) \geq
-  \clsdist(\kappa)+\clsmax(\kappa)$.
-\end{enumerate}
-
-\end{enumerate}
-
-\emparagraph{Stage~2: Computing Integral Solution.}  Given
-the partitioned fractional solution $(\barbfx, \barbfy)$
-with the desired properties, we then start opening
-facilities and making connections to obtain an integral
-solution. As before we open exactly one facility in each
-cluster (the close neighborhood of a primary demand), but
-now each facility $\mu$ is chosen with probability
-$\gamma\bary_{\mu}$. The non-clusterd facilities $\mu$,
-those that do not belong to $\wbarN_{\cls}(\kappa)$ for any
-primary demand $\kappa$, are opened independently with
-probability $\gamma\bary_{\mu}$ each. This implies that the
-expected facility cost of our algorithm is bounded by
-$\gamma F^\ast$, using essentially the same argument as in
-the previous section (with the the factor $\gamma$
-accounting for using probabilities $\gamma \bary_{\mu}$
-instead of $\bary_{\mu}$).
-
-For connections, each primary demand $\kappa$ will connect
-to the only facility $\phi(\kappa)$ open in its cluster
-$\wbarclsnb(\kappa)$.  For each non-primary demand $\nu$, if
-there is an open facility in $\wbarN(\nu)$ then we connect
-$\nu$ to the nearest such facility. Otherwise, we connect
-$\nu$ to $\phi(\kappa)$, where $\kappa$ is the primary
-demand that $\nu$ is assigned to. This facility
-$\phi(\kappa)$ will be called the \emph{target facility} of
-$\nu$.
-
-%%%%%%%%%%%
-
-\paragraph{Analysis.}
-The feasibility of our integral solution follows from
-Property~\ref{PP2:diff}, that each sibling demand is
-assigned to a different primary demand, and the disjoint-neighborhood property
-Property~\ref{PP2:disjoint}. These properties ensure that
-each facility is accessible to at most one demand among all demands of the same client.
-
-We now bound the cost. Properties~\ref{PP2:assign}
-and~\ref{PP2:cost} allow us to bound the expected distance
-from a demand $\nu$ to its target facility by
-$\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event
-that none of $\nu$'s neighbors opens, using a similar
-argument as Lemma 2.2 in~\cite{ByrkaGS10}~\footnote{The full
-  proof of the lemma appears in~\cite{ByrkaA10} as
-  Lemma~3.3.}. We are then able to show that the expected
-connection cost for demand $\nu$ using an argument similar to~\cite{ByrkaGS10}.
-%
-\begin{align*}
-  \Exp[C_{\nu}] &\leq \clsdist(\nu)(1-1/e) +
-  \fardist(\nu)(1/e-1/e^\gamma) + (\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu))1/e^\gamma \\
-  &\leq \clsdist(\nu)(1-1/e) +
-  \fardist(\nu)(1/e-1/e^\gamma) + (\clsdist(\nu)+2\fardist(\nu))1/e^\gamma\\
-  &\leq
-  \concost(\nu)((1-\rho_{\nu})(\frac{1/e+1/e^\gamma}{1-1/\gamma})
-  + \rho_{\nu}(1+2/e^\gamma)) \\
-  &\leq \concost(\nu) \cdot
-  \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
-  1+\frac{2}{e^\gamma}\},
-\end{align*}
-%
-where $\rho_{\nu}=\clsdist(\nu)/\concost(\nu)$. It is easy
-to see that $\rho_{\nu}$ is between 0 and 1 for every demand
-$\nu$.  Since $\sum_{\nu\in j} C^{\avg}(\nu) = \sum_{\nu\in
-  j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} =
-\sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast$, summing
-over all clients $j$ we have total connection cost bounded
-by $C^\ast \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
-1+\frac{2}{e^\gamma}\}$. The expected facility cost is
-bounded by $\gamma F^\ast$, as argued earlier. Hence the
-total cost is bounded by $\max\{\gamma,
-\frac{1/e+1/e^\gamma}{1-1/\gamma},
-1+\frac{2}{e^\gamma}\}\cdot \LP^\ast$. Picking
-$\gamma=1.575$ we obtain the desired ratio.
-
-%%%%%%%
-
-\emparagraph{Stage~1 Implementation.}  We now return to
-Stage~1. Our adaptive partitioning scheme in the {\EBGS}
-algorithm is very similar to that in the {\EGUP} algorithm,
-except that we now cut a chunk of $1/\gamma$ when creating a
-primary demand, instead of $1$. In the augment step we will
-add additional facilities to the neighborhood of all demands
-to make them each have a neighborhood with total connection
-value of $1$.
-
-Our scheme still runs in iterations. Consier any client $j$.
-Let $\wtildeN(j)$ be the set of facilities $\mu$ such that
+Phase 1 runs in iterations. Consier any client $j$.  Let
+$\wtildeN(j)$ be the set of facilities $\mu$ such that
 $\tildex_{\mu j}>0$. Order facilities in $\wtildeN(j)$ such
 that $d_{1 j} \leq d_{2 j} \leq \ldots \leq d_{|\wtildeN(j)|
   j}$ and $\sum_{s=1}^l \tildex_{s j} = 1/\gamma$ for some
 integer $l$ (we split the $l^{th}$ facility if necessary to
 make the sum equal to $1/\gamma$). Then the set of
 facilities $1,2,\ldots,l$ is defined as
-$\wtildeN_{\gamma}(j)$.  The value of $\tcc(j)$ is now
-redefined as the average distance from $j$ to
-$\wtildeN_{\gamma}(j)$. Also let $\dmax(j)$ be $\max_{\mu\in
-  \wtildeN_{\gamma}(j)}d_{\mu j}$. In each iteration, we
-find a client $p$ with minimum value $\tcc(p)+\dmax(p)$. We
-then create a demand $\nu$ for client $p$. Now we have two
-cases:
+$\wtildeN_{\gamma}(j)$. $\tcc(j)$ now refers to
+$d(\wtildeN(j), j)$ and $\dmax(j)$ refers to $\max_{\mu \in
+  \wtildeN_{\gamma}(j)} d_{\mu j}$. In each iteration, we
+find a client $p$ with minimum value of $\tcc(p) +
+\dmax(p)$. Now we have two cases:
 
 \smallskip
 \noindent
@@ -2039,93 +1717,40 @@ $\clsdist(\kappa)=\gamma\sum_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}\barx_{\mu\k
 \clsmax(\kappa)=\max_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}$.
 
 Once all clients are exhausted, that is, each has $r_j$
-demands created and assigned to some primary demand, we do
-an augment step. For each demand with total connection value
-less than $1$, we use our $\AugmentToUnit()$ procedure to
-add additional facilities to its neighborhood to make its
-total connection value equal $1$. We remark here that the
-augment step does not change the close neighborhood of a
-primary demand, as it already contains all the nearest
-facilities with total connection value $1/\gamma$.  For
-non-primary demands, the issue is more subtle, because
-$\wbarN(\nu)$ has taken all overlapping facilities in
-$\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be close
-to $\kappa$ but far from $j$. It seems that facilities added
-in the augment step might actually be closer to $\nu$ than
-some of the overlapping facilities already in
-$\wbarN(\nu)$. As a result facilities added in the augment
-step might appear in $\nu$'s close neighborhood
+demands created and assigned to some primary demand, Phase 1
+concludes. We then do an augmenting phase 2. For each demand
+with total connection value less than $1$, we use our
+$\AugmentToUnit()$ procedure to add additional facilities to
+its neighborhood to make its total connection value equal
+$1$. We remark here that the augment step does not change
+the close neighborhood of a primary demand, as it already
+contains all the nearest facilities with total connection
+value $1/\gamma$.  For non-primary demands, the issue is
+more subtle, because $\wbarN(\nu)$ has taken all overlapping
+facilities in $\wbarclsnb(\kappa)\cap \wtildeN(j)$, which
+might be close to $\kappa$ but far from $j$. It seems that
+facilities added in the augment step might actually be
+closer to $\nu$ than some of the overlapping facilities
+already in $\wbarN(\nu)$. As a result facilities added in
+the augment step might appear in $\nu$'s close neighborhood
 $\wbarclsnb(\nu)$, yet they are not in $\wbarclsnb(\kappa)$
 of the primary demand $\kappa$ that $\nu$ is assigned
 to. This could be detrimental to ensuring
-Property~\ref{PP2:assign}, which requires the close
-neighborhood of demand $\nu$ and that of its primary demand
-$\kappa$ need overlap. In the previous analysis of
-approximation ratio, our bound on the expected connection
-cost depends on the intersection of $\wbarclsnb(\nu)$ and
-$\wbarclsnb(\kappa)$ being nonempty. In the following,
-however, we give a proof on all properties~\ref{PP1:one} to
-\ref{PP1:gamma} and \ref{PP2:yi} to \ref{PP2:cost}.
+Property~PD(\ref{PD:assign:overlap}), which requires the
+close neighborhood of demand $\nu$ and that of its primary
+demand $\kappa$ need overlap.
 
-\emparagraph{Proof of the Properties.}  The proof of
-Property~\ref{PP1:one}, \ref{PP1:xij}, \ref{PP1:yi},
-\ref{PP1:eq}, \ref{PP1:gamma} are very similar to that in
-the {\EGUP} algorithm's partition stage. These properties
-are directly enforced by the partition algorithm, by
-splitting a facility whenever some of the properties are
-violated. Property~\ref{PP2:yi} follows from the way we
-adjust $\tildex_{\mu j}$ and $\barx_{\mu \nu}$ values when
-splitting a facility, and the fact that the close
-neighborhood of primary demands are
-disjoint. Property~\ref{PP2:cost} follows from our choice of
-primary clients, and the proof is very similar to the proof
-of Lemma~\ref{lem: PD:assign:cost holds}. The main
-observation is that for any client $j$, the value $\tcc(j)$
-can only get worse (larger) as the partition stage proceeds
-in iterations.
-
-We now show Property~\ref{PP2:diff} and~\ref{PP2:disjoint}
-hold. First we start with a simple observation, that in the
-end of our partition algorithm, neighborhoods of sibling
-demands are disjoint. This follows from the fact that when
-the algorithm adds a facility to the neighborhood of a
-demand, it never adds the same facility to that of a sibling
-demand. An immediate implication is that close neighborhoods
-of sibling demands are disjoint as well. Now consider an
-iteration when we create a demand $\nu$ for some client
-$j$. If $\nu$ is set to be a new primary demand, then
-$\wbarclsnb(\nu)$ is necessarily disjoint from the close
-neighborhood of its siblings. Therefore no sibling will get
-assigned to $\nu$, and by the algorithm $\nu$ is assigned to
-itself. Otherwise $\nu$ is assigned to some existing primary
-demand $\kappa$. According to the algorithm, all facilities
-in $\wbarclsnb(\kappa) \cap \wtildeN(j)$ are moved into
-$\wbarN(\nu)$ and excluded from $\wtildeN(j)$. It follows
-that after that iteration, we have $\wtildeN(j)$ and
-$\wbarclsnb(\kappa)$ being disjoint. Therefore later demands
-cannot possibly have a neighborhood overlapping
-$\wbarclsnb(\kappa)$. At this point, earlier sibling demands
-each has a neighborhood being a subset of
-$\wbarclsnb(\kappa')$ where $\kappa'$ is the primary demand
-it was assigned. Since we know $\wbarclsnb(\kappa)\cap
-\wbarclsnb(\kappa')=\emptyset$ from the partition algorithm,
-we have that no sibling demand has a neighborhood
-overlapping $\wbarclsnb(\kappa)$ at the end of this
-iteration. Although we add more facilities to the
-neighborhoods of sibling demands in the augment step, those
-facilities cannot appear in $\wbarclsnb(\kappa)$ either,
-because all overlapping facilities have already been moved
-from $\wtildeN(j)$ into $\wbarN(\nu)$. As a result, at most
-one sibling demand can have a neighborhood overlapping
-$\wbarclsnb(\kappa)$. Thus we have
-Property~\ref{PP2:disjoint} established. Since the algorithm
-only assign a demand to a primary demand with common
-facility, this proves Property~\ref{PP2:diff}.
-
-We now show our last property~\ref{PP2:assign}. Consider an
-iteration when we create demand $\nu$ for client $p$ and
-assign it to $\kappa$. We have that $\wtildeN_{\gamma}(p)$
-having a nonempty intersection with
+We now argue that the fractional solution
+$(\barbfx,\barbfy)$ does satisfy all the stated
+properties. The (PS) and (CO) properties are directly
+enforced by the adaptive partition algorithm, as well as
+PD(\ref{PD1:disjoint}) and SI(\ref{SI1:siblings
+  disjoint}). Proof of other properties are similar to those
+in Section~\ref{sec: adaptive partitioning} except
+PD(\ref{PD:assign:overlap}), which we now prove
+here. Consider an iteration when we create demand $\nu$ for
+client $p$ and assign it to $\kappa$. We have that
+$\wtildeN_{\gamma}(p)$ having a nonempty intersection with
 $\wbarclsnb(\kappa)$. Let $B(p)=\wtildeN_{\gamma}(p)\cap
 \wbarclsnb(\kappa)$, we claim that $B(p)$ must be a subset
 of $\wbarclsnb(\nu)$, after $\wbarN(\nu)$ is finalized with
@@ -2147,14 +1772,91 @@ when we have a tie in $d_{\mu\nu}$ but we can assume ties
 are always broken in favor of facilities in $B(p)$ when
 deciding $\wbarclsnb(\nu)$. Finally, since $B(p)$ is
 nonempty, we have that the close neighborhood of a demand
-$\nu$ and its primary demand $\kappa$ must overlap. This
-proves Property~\ref{PP2:assign}.
+$\nu$ and its primary demand $\kappa$ must overlap.
 
-The above concludes our discussion on the Stage~1
-partitioning process and we have thus established that
-our~{\EBGS} algorithm is a $1.575$-approximation algorithm.
+%%%%%%%%%%%%%%%%%
+\paragraph{Algorithm EBGS}
+Given the partitioned fractional solution $(\barbfx,
+\barbfy)$ with the desired properties, we then start opening
+facilities and making connections to obtain an integral
+solution. As before we open exactly one facility in each
+cluster (the close neighborhood of a primary demand), but
+now each facility $\mu$ is chosen with probability
+$\gamma\bary_{\mu}$. The non-clusterd facilities $\mu$,
+those that do not belong to $\wbarN_{\cls}(\kappa)$ for any
+primary demand $\kappa$, are opened independently with
+probability $\gamma\bary_{\mu}$ each. This implies that the
+expected facility cost of our algorithm is bounded by
+$\gamma F^\ast$, using essentially the same argument as in
+the previous section (with the the factor $\gamma$
+accounting for using probabilities $\gamma \bary_{\mu}$
+instead of $\bary_{\mu}$).
 
+For connections, each primary demand $\kappa$ will connect
+to the only facility $\phi(\kappa)$ open in its cluster
+$\wbarclsnb(\kappa)$.  For each non-primary demand $\nu$, if
+there is an open facility in $\wbarN(\nu)$ then we connect
+$\nu$ to the nearest such facility. Otherwise, we connect
+$\nu$ to $\phi(\kappa)$, where $\kappa$ is the primary
+demand that $\nu$ is assigned to. This facility
+$\phi(\kappa)$ will be called the \emph{target facility} of
+$\nu$.
 
+%%%%%%%%%%%
+
+\paragraph{Analysis.}
+The feasibility of our integral solution follows from
+Property~SI(\ref{SI1:siblings disjoint}),
+SI(\ref{SI1:primary disjoint}), and PD(\ref{PD1:disjoint}),
+as these properties together ensure that each facility is
+accessible to at most one demand among all demands of the
+same client, regardless whether a demand connects to its
+neighbor or its target facility.
+
+We now bound the
+cost. Properties~PD(\ref{PD1:assign:overlap}) and
+PD(\ref{PD1:assign:cost}) allow us to bound the expected
+distance from a demand $\nu$ to its target facility by
+$\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event
+that none of $\nu$'s neighbors opens, using a similar
+argument as Lemma 2.2 in~\cite{ByrkaGS10}~\footnote{The full
+  proof of the lemma appears in~\cite{ByrkaA10} as
+  Lemma~3.3.}. We are then able to show that the expected
+connection cost for demand $\nu$ using an argument similar
+to~\cite{ByrkaGS10}: For each demand $\nu$, with probability
+no less than $1-1/e$, $\nu$ has some facility open in its
+close neighborhood, and with probability no less than
+$1-1/e^\gamma$, $\nu$ has some facility open in its overall
+neighborhood, and with probability no more than
+$1/e^\gamma$, $\nu$ will connect to its target facility and
+we have bounded the distance for this case.
+%
+\begin{align*}
+  \Exp[C_{\nu}] &\leq \clsdist(\nu)(1-1/e) +
+  \fardist(\nu)(1/e-1/e^\gamma) + (\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu))1/e^\gamma \\
+  &\leq \clsdist(\nu)(1-1/e) +
+  \fardist(\nu)(1/e-1/e^\gamma) + (\clsdist(\nu)+2\fardist(\nu))1/e^\gamma\\
+  &\leq
+  \concost(\nu)((1-\rho_{\nu})(\frac{1/e+1/e^\gamma}{1-1/\gamma})
+  + \rho_{\nu}(1+2/e^\gamma)) \\
+  &\leq \concost(\nu) \cdot
+  \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
+  1+\frac{2}{e^\gamma}\},
+\end{align*}
+%
+where $\rho_{\nu}=\clsdist(\nu)/\concost(\nu)$. It is easy
+to see that $\rho_{\nu}$ is between 0 and 1 for every demand
+$\nu$.  Since $\sum_{\nu\in j} C^{\avg}(\nu) = \sum_{\nu\in
+  j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} =
+\sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast$, summing
+over all clients $j$ we have total connection cost bounded
+by $C^\ast \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
+1+\frac{2}{e^\gamma}\}$. The expected facility cost is
+bounded by $\gamma F^\ast$, as argued earlier. Hence the
+total cost is bounded by $\max\{\gamma,
+\frac{1/e+1/e^\gamma}{1-1/\gamma},
+1+\frac{2}{e^\gamma}\}\cdot \LP^\ast$. Picking
+$\gamma=1.575$ we obtain the desired ratio.
 %%%%%%%%%%%%%%%%%%%%%%
 
 \section{Discussions}
