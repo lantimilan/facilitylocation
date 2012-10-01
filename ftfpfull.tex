@@ -535,67 +535,6 @@ for fault-tolerant requirements. Specifically, this
 partitioning will be constructed to satisfy a number of
 properties that are detailed below.
 %
-
-OLD VERSION ......
-
-\begin{enumerate}
-      \renewcommand{\theenumi}{P\arabic{enumi}}
-      \renewcommand{\labelenumi}{(\theenumi)}
-      \renewcommand{\theenumii}{(\alph{enumii})}
-      \renewcommand{\labelenumii}{\theenumii}
-
-\item Vectors $\barbfx,\barbfy$ satisfy the following properties:
-%
-  \begin{enumerate}
-	\item \label{P1:one} 
-          $\sum_{\mu\in\facilityset} \barx_{\mu\nu} = 1$ for each demand $\nu\in\demandset$. 
-	\item \label{P1:xij} $\sum_{\mu\in i, \nu\in j} \barx_{\mu\nu}
-          = x^\ast_{ij}$ for each site $i\in\sitesset$ and client $j\in\clientset$.
-	\item \label{P1:yi}
-          $\sum_{\mu\in i} \bary_{\mu} = y^\ast_i$ for each site $i\in\sitesset$.
-	\item \label{P1:complete}
-          $(\barbfx,\barbfy)$ is complete, that is $\barx_{\mu\nu}\neq 0$ implies
-				$\barx_{\mu\nu} = \bary_{\mu}$, for all 
-						$\mu\in\facilityset, \nu\in\demandset$.
-	\item \label{P1:siblings disjoint}
-		 If $\nu,\nu'\in\demandset$ are different siblings
-			then $\wbarN(\nu)\cap \wbarN(\nu') = \emptyset$.
-  \end{enumerate}
-%
-  The first three conditions say that $(\barbfx,\barbfy)$ is
-  a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-value
-  demands. 
-
-\item Primary demands satisfy the following properties:
-%
-\begin{enumerate}
-%
-\item \label{P2:yi} For each site $i\in\sitesset$, $ \sum_{\mu\in i}\sum_{\kappa\in P}\barx_{\mu\kappa} \leq y_i^\ast$.
-	(Recall that $\barx_{\mu\kappa}\neq 0$ iff $\mu\in \wbarN(\kappa)$.)
-%
-	\item\label{P2:disjoint}  For any two different primary demands $\kappa,\kappa'\in P$ we have
-	$\wbarN(\kappa)\cap \wbarN(\kappa') = \emptyset$.
-%
-	\item \label{P2:assign} Each demand $\nu\in\demandset$ is assigned
-        to one primary demand $\kappa\in P$ with  $\wbarN(\nu) \cap \wbarN(\kappa) \neq \emptyset$.
-%
-      \item \label{P2:diff} 
-Let $\nu,\nu'$ be different siblings and let $\kappa$ be the primary demand that $\nu$ is assigned to.
-Then $\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~\ref{P2:assign},
-this implies that different sibling demands are assigned to different primary demands.
-%
-      \item \label{P2:cost} If a demand $\nu\in\demandset$
-        is assigned to a primary demand $\kappa\in P$, then
-        $\concost_{\nu}+\alpha_{\nu}^\ast \geq
-        \concost_{\kappa}+\alpha_{\kappa}^\ast$.
-\end{enumerate}
-
-\end{enumerate}
-
-
-
-NEW VERSION ......
-
 \begin{description}
 	
       \renewcommand{\theenumii}{(\alph{enumii})}
@@ -607,13 +546,13 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 
 	\begin{enumerate}
 		%
-	\item \label{PS1:one} 
+	\item \label{PS:one} 
           $\sum_{\mu\in\facilityset} \barx_{\mu\nu} = 1$ for each demand $\nu\in\demandset$. 
 		%
-	\item \label{PS1:xij} $\sum_{\mu\in i, \nu\in j} \barx_{\mu\nu}
+	\item \label{PS:xij} $\sum_{\mu\in i, \nu\in j} \barx_{\mu\nu}
           = x^\ast_{ij}$ for each site $i\in\sitesset$ and client $j\in\clientset$.
 		%
-	\item \label{PS1:yi}
+	\item \label{PS:yi}
           $\sum_{\mu\in i} \bary_{\mu} = y^\ast_i$ for each site $i\in\sitesset$.
 		%
 	\end{enumerate}
@@ -883,7 +822,7 @@ $\tildex_{\mu p} = \bary_{\mu}$), with all other
 $\barx_{\mu\nu}$ values set to $0$.
 
 At this point all primary demands satisfy
-Property~PS(\ref{PS1:one}), but this may not be true for
+Property~PS(\ref{PS:one}), but this may not be true for
 non-primary demands. For those demands we still may need to
 adjust the $\barx_{\mu\nu}$ values so that $\connsum(\nu)
 \stackrel{\mathrm{def}}{=}
@@ -921,19 +860,19 @@ by the above construction.
 Properties~(PS) and (CO) follow directly from the
 algorithm. (CO) is implied by the completeness condition
 (c1) that the algorithm maintains after each
-iteration. PS(\ref{PS1:one}) follows from the result of
+iteration. PS(\ref{PS:one}) follows from the result of
 calling Procedure~$\AugmentToUnit()$ in Line~21. To see
-PS(\ref{PS1:xij}), at each step the algorithm maintains an
+PS(\ref{PS:xij}), at each step the algorithm maintains an
 invariant that, for every $i\in\sitesset$ and
 $j\in\clientset$, we have $\sum_{\mu\in i}\sum_{\nu \in j}
 \barx_{\mu \nu} + \sum_{\mu\in i} \tildex_{\mu j} =
 x_{ij}^\ast$. In the end, we will create $r_j$ demands for
 each client $j$, with each demand $\nu\in j$ satisfying
-PS(\ref{PS1:one}), and thus $\sum_{\nu\in
+PS(\ref{PS:one}), and thus $\sum_{\nu\in
   j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.  This
 implies that $\tildex_{\mu j}=0$ for every facility
-$\mu\in\facilityset$, and PS(\ref{PS1:xij}) follows.
-PS(\ref{PS1:yi}) follows from that every time we split a
+$\mu\in\facilityset$, and PS(\ref{PS:xij}) follows.
+PS(\ref{PS:yi}) follows from that every time we split a
 facility $\mu$ into $\mu'$ and $\mu''$, the sum of
 $\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value
 $\bary_{\mu}$.
@@ -1256,7 +1195,7 @@ Therefore the expected distance from $\nu$ to its facility $\phi(\kappa)$ is
   \end{align*}
 %
   where the second inequality follows from Property~PD(\ref{PD:assign:cost}).  
-From the definition of $\concost_{\nu}$ and Property~PS(\ref{PS1:xij}), for any $j\in \clientset$ 
+From the definition of $\concost_{\nu}$ and Property~PS(\ref{PS:xij}), for any $j\in \clientset$ 
 we have
 %
 \begin{align*}
@@ -1430,7 +1369,7 @@ linearity of expectation, the expected facility cost of
 algorithm~{\ECHU} is $\sum_{\mu\in\facilityset}
 f_\mu \bary_{\mu} = \sum_{i\in\sitesset} f_i\sum_{\mu\in i}
 \bary_{\mu} = \sum_{i\in\sitesset} f_i y_i^\ast = F^\ast$,
-where the second equality follows from Property~PS(\ref{PS1:yi}).
+where the second equality follows from Property~PS(\ref{PS:yi}).
 
 To bound the connection cost, we adapt an argument of Chudak
 and Shmoys'~\cite{ChudakS04}. Consider a demand $\nu$. This
@@ -1599,13 +1538,122 @@ Summarizing, we obtain the result of this section.
 %%% Byrka 2010 1.575
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec: 1.575-approximation}
+%% NEW VERSION
+\section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec:
+  1.575-approximation}
+In this section we give our main result, a $1.575$-approximation algorithm
+for $\FTFP$
+%
+\footnote{$1.575$ is $\min_{\gamma\geq 1}\max\{\gamma,
+  1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$.}. 
+%
+This ratio matches the ratio of the best known LP-rounding
+algorithm for UFL~\cite{ByrkaGS10}. Recall that in
+Section~\ref{sec: 1.736-approximation}, we have an integral
+solution with facility cost bounded by $F^\ast$ and
+connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. A
+natural idea is to look for a way to reduce the connection
+cost, at the expense of increasing the facility cost by a
+small fraction.
 
+To apply the rounding approach similar to~\cite{ByrkaGS10},
+we need to introduce the close and far neighborhood of each
+demand, and our properties of the partitioned fractional
+solution $(\barbfx,\barbfy)$ need to guarantee certain close
+neighborhoods overlap while other neighborhoods are
+disjoint. It turns out that the properties required are much
+more delicate but nonetheless, we show a modified partition
+algorithm actually delivers a partitioned fractional
+solution that satisfies all the properties. The rounding
+stage that construct an integral solution is a relatively
+straightforward generalization of \cite{ByrkaGS10}, as is
+the analysis of approximation ratio.
+
+We begin with a list of properties that our partitioned
+fractional solution $(\barbfx,\barbfy)$ needs to satisfy:
+\begin{description}
+	
+      \renewcommand{\theenumii}{(\alph{enumii})}
+      \renewcommand{\labelenumii}{\theenumii}
+
+\item{(PS)} \emph{Partitioned solution}.
+Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-value
+  demands, that is:
+
+	\begin{enumerate}
+		%
+	\item \label{PS1:one} 
+          $\sum_{\mu\in\facilityset} \barx_{\mu\nu} = 1$ for each demand $\nu\in\demandset$. 
+		%
+	\item \label{PS1:xij} $\sum_{\mu\in i, \nu\in j} \barx_{\mu\nu}
+          = x^\ast_{ij}$ for each site $i\in\sitesset$ and client $j\in\clientset$.
+		%
+	\item \label{PS1:yi}
+          $\sum_{\mu\in i} \bary_{\mu} = y^\ast_i$ for each site $i\in\sitesset$.
+		%
+  \item \label{PS1:gamma}
+	For each demand $\nu$, its neighborhood is divided into \emph{close} and
+	\emph{far} neighborhood, that is $\wbarN(\nu) = \wbarclsnb(\nu) \cup \wbarfarnb(\nu)$, where
+(n1) $\wbarclsnb(\nu) \cap \wbarfarnb(\nu) = \emptyset$,
+(n2) $\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} =1/\gamma$,
+(n3) $\sum_{i\in\wbarfarnb(\nu)} \barx_{\mu\nu} =1-1/\gamma$,
+and 
+(n4) if $\mu\in \wbarclsnb(\nu)$ and $\mu'\in \wbarfarnb(\nu)$ then $d_{\mu\nu}\le d_{\mu'\nu}$.   
+
+	\end{enumerate}
+		
+\item{(CO)} \emph{Completeness.}
+	Solution   $(\barbfx,\barbfy)$ is complete, that is $\barx_{\mu\nu}\neq 0$ implies
+				$\barx_{\mu\nu} = \bary_{\mu}$, for all $\mu\in\facilityset, \nu\in\demandset$.
+
+\item{(PD)} \emph{Primary demands.}
+	Primary demands satisfy the following conditions:
+
+	\begin{enumerate}
+		
+	\item\label{PD1:disjoint}  For any two different primary demands $\kappa,\kappa'\in P$ we have
+				$\wbarclsnb(\kappa)\cap \wbarclsnb(\kappa') = \emptyset$.
+
+	\item \label{PD1:yi} For each site $i\in\sitesset$, 
+		$ \sum_{\kappa\in P}\sum_{\mu\in i\cap\wbarclsnb(\mu)}\barx_{\mu\kappa} \leq y_i^\ast$.
+		
+	\item \label{PD1:assign} Each demand $\nu\in\demandset$ is assigned
+        to one primary demand $\kappa\in P$ such that
+
+  			\begin{enumerate}
+	
+				\item \label{PD1:assign:overlap} $\wbarclsnb(\nu) \cap \wbarclsnb(\kappa) \neq \emptyset$, and
+				%
+				\item \label{PD1:assign:cost}
+          $\clsdist(\nu)+\clsmax(\nu) \geq
+          \clsdist(\kappa)+\clsmax(\kappa)$.
+          %
+			\end{enumerate}
+
+	\end{enumerate}
+	
+\item{(SI)} \emph{Siblings}. For any pair $\nu,\nu'$ of different siblings we have
+  \begin{enumerate}
+
+	\item \label{SI1:siblings disjoint}
+		  $\wbarN(\nu)\cap \wbarN(\nu') = \emptyset$.
+		
+	\item \label{SI1:primary disjoint} If $\nu$ is assigned to a primary demand $\kappa$ then
+ 		$\wbarN(\nu')\cap \wbarclsnb(\kappa) = \emptyset$. In particular, by Property~PD(\ref{PD1:assign:overlap}),
+		this implies that different sibling demands are assigned to different primary demands.
+
+	\end{enumerate}
+	
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*** OLD VERSION
 %%% motivation of better approximation
 %%% review of Byrka's idea
 %%% refined partition
 %%% rounding
 %%% analysis of approx ratio
+
 In this section we give our main result, a $1.575$-approximation algorithm
 for $\FTFP$
 %
