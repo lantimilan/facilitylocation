@@ -1,0 +1,71 @@
+\documentclass{article}
+
+\title{On primal-dual and dual-fitting of the FTFP problem}
+\author{UCR theory lab}
+\usepackage{fullpage}
+\begin{document}
+\maketitle
+
+\section{Dual-fitting Analysis on FTFP}
+This section gives a simple example that the dual-fitting analysis of
+a greedy algorithm which repeatedly picking the most cost-effective
+star (the star with minimum average cost) is unlikely to give the same
+ratio as that for the UFL problem.
+
+The example consists of $1$ facility with cost $f_1 = n$, and $n$
+clients with demands $r_1=r_2=\ldots=r_{n-1} = 1$ and $r_n = n$. All
+$d_{ij} = 0$. Now running the star-greedy algorithm, we will first
+pick a star with all $n$ clients and we open $1$ copy of facility
+$f_1$. We then have only client $n$ with residual demand $r_n' = n-1$,
+and we have no other option but to open facility $f_1$ for another
+$n-1$ copies.
+
+Now the dual-fitting based analysis will associate each demand with a
+dual variable $\alpha_j^1, \ldots, \alpha_j^{r_j}$ and the proposed
+dual solution is $\bar\alpha_j = \sum_{l=1}^{r_j} \alpha_j^{l} / r_j$
+and try to find a minimum $\gamma$ such that $\{\bar\alpha_j/\gamma\}$
+is a feasible dual, that is
+\begin{equation}
+  \sum_{j=1}^n (\bar\alpha_j/\gamma - d_{1j})_+ \leq f_1 = n
+\end{equation}
+which is
+\begin{equation}
+  \sum_{j=1}^n \bar\alpha_j/\gamma  \leq n
+\end{equation}
+since all $d_{ij}=0$ and $f_1 = n$.
+
+From the greedy algorithm, we have $\alpha_j^1 = 1$ for
+$j=1,\ldots,n$, and $\alpha_n^l = n$ for $l=2,\ldots,n$. Therefore
+$\bar\alpha_j = 1$ for $j=1,\ldots,n-1$ and $\bar\alpha_n =
+(1+(n-1)n)/n = n-1$. The shrinking factor $\gamma$ we seek thus
+satisfies
+\begin{equation}
+  \sum_{j=1}^{n-1} (\bar\alpha_j/\gamma - 0)_+ + (\bar\alpha_n/\gamma -0)_+
+  \leq f_1 = n,
+\end{equation}
+which is
+\begin{equation}
+  (n-1)(1/\gamma)  + (n/\gamma) \leq n
+\end{equation}
+Simple algebra will show that $\gamma$ can be made arbitrarily close
+to $2$ when $n$ is large. On the other hand we know that the same
+greedy algorithm with dual-fitting analysis gives a ratio of $1.81$
+for the UFL problem where all $r_j=1$.
+
+This example does not actually rule out the possibility to prove a
+constant ratio of the star-greedy algorithm on FTFP. In fact greedy
+gets exactly the same solution as the optimal integral solution for
+this example. All it says is that the dual-fitting analysis on greedy
+algorithm, when applied to the FTFP or FTFL problem, cannot possibly
+give a ratio much better than $2$. And this partly explains why
+generalizing primal-dual or dual-fitting algorithms from UFL to
+fault-tolerant problems like FTFL or FTFP is not successful when
+$r_j$'s are not equal, that is demands are not uniform. Intuitively
+there seems to be some issue fundamental to the dual-fitting approach
+as the proposed dual solution $\bar\alpha_j$'s can be very different
+between each other so shrinking all of them by a common factor
+$\gamma$ might not give a strong upper bound on the approximation
+ratio. It is also quite possible that the example may be strengthened
+to show that dual-fitting cannot achieve a worse yet ratio.
+
+\end{document}
