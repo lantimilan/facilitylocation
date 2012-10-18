@@ -7,6 +7,7 @@
 \maketitle
 
 \section{$H_n$-approximation of Star-greedy on FTFP}
+\label{sec:upp}
 In this section we show that the star-greedy algorithm which
 repeatedly picking the best star (the one with minimum
 average cost) gives an approximation ratio of $H_n = \ln(n)$
@@ -120,6 +121,7 @@ Therefore we have $\alpha_j \leq (1/(k-j+1)) (f +
 \end{equation}
 
 \section{Dual-fitting Analysis on FTFP}
+\label{sec:dual2}
 This section gives a simple example that the dual-fitting analysis of
 a greedy algorithm which repeatedly picking the most cost-effective
 star (the star with minimum average cost) is unlikely to give the same
@@ -180,5 +182,25 @@ between each other so shrinking all of them by a common factor
 $\gamma$ might not give a strong upper bound on the approximation
 ratio. It is also quite possible that the example may be strengthened
 to show that dual-fitting cannot achieve a worse yet ratio.
+
+\section{Dual-fitting Analysis can be $H_n$ on FTFP}
+This section extends the idea in Section~\ref{sec:dual2} to show that
+dual-fitting based analysis on greedy algorithm can be off by a factor
+as large as $H_n = \ln(n)$. This complements the $\ln(n)$ upper bound
+shown in Section~\ref{sec:upp}.
+
+The example has one facility with $f_1 = 1$, all $d_{ij}=0$. There are
+$n$ clients with demands $r_1, r_2, \ldots, r_n$ with $r1 \ll r_2 \ll
+\ldots \ll r_n$. Now following the idea in Section~\ref{sec:dual2}, we
+shall have the proposed dual variable with value $\alpha_1=1/n,
+\alpha_2 = 1/(n-1), \alpha_3 = 1/(n-2), \ldots, \alpha_n = 1$. We take
+the $\alpha_j$ value to be the average of the cost of individual
+demand of a client, which is $\alpha_j^l$, so that the algorithm's
+cost is equal to $\sum_{j} r_j\alpha_j$, since the algorithm's cost is
+equal to $\sum_{j=1}^n \sum_{l=1}^{r_j} \alpha_j^l$ by definition. Now
+we need a number $\gamma$ such that $\{\alpha_j/\gamma\}$ form a
+feasible dual solution, that is, we need $\sum_{l=1}^n \alpha_j \leq
+f_1 = 1$. It is easily seen that $\gamma$ needs to be at least $H_n =
+\ln(n)$
 
 \end{document}
