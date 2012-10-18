@@ -2,9 +2,122 @@
 
 \title{On primal-dual and dual-fitting of the FTFP problem}
 \author{UCR theory lab}
-\usepackage{fullpage}
+\usepackage{fullpage, amsmath}
 \begin{document}
 \maketitle
+
+\section{$H_n$-approximation of Star-greedy on FTFP}
+In this section we show that the star-greedy algorithm which
+repeatedly picking the best star (the one with minimum
+average cost) gives an approximation ratio of $H_n = \ln(n)$
+where $n=|\mathcal{C}|$ is the number of clients.
+
+When we run the star-greedy algorithm, for every client $j$,
+we associate each demand of $j$ with a number $\alpha_j^l$,
+which is the average cost of the star when $l^{th}$ demand
+of $j$ is connected. Now we let $\alpha_j = \alpha_j^{r_j}$,
+that is, take $\alpha_j$ to be the finishing $\alpha_j^l$,
+and order clients by increasing $\alpha_j$. That is,
+\begin{equation*}
+  \alpha_1 \leq \alpha_2 \leq \ldots \leq \alpha_n
+\end{equation*}
+
+Due to the algorithm, for every $j=1,\ldots,n$, we have
+\begin{equation*}
+  \sum_{l=j}^n (\alpha_j - d_{il})_+ \leq f_i
+\end{equation*}
+for every facility $i$.  The reason is that, when the last
+demand of $j$ is connected, all clients $j+1,\ldots,n$ are
+still active so their total contribution cannot exceed
+$f_i$.
+
+Now we take a closer look at the numbers $\{\alpha_j\}$. We
+know that the algorithm's total cost is exactly
+$\sum_{j=1}^n \sum_{l=1}^{r_j} \alpha_j^l$, which is no more
+than $\sum_{j=1}^n r_j \alpha_j$ since we take $\alpha_j$ to
+be $\alpha_j^{r_j}$. Now if we can show that $\sum_{j=1}^n
+r_j \alpha_j$ is no more than $\gamma \cdot \textrm{OPT}$,
+where $\textrm{OPT}$ is the cost of an integral optimal
+solution to the given FTFP instance, then we claim our
+algorithm returns an integral solution within a factor of
+$\gamma$.
+
+We show that $\sum_{j=1}^n r_j \alpha_j$ is within a factor
+of $\gamma$ from $\textrm{OPT}$ by showing that
+$\{\alpha_j/\gamma\}$ is a feasible dual solution to the
+following program, which is the dual program of the primal
+LP for FTFP.
+\begin{align*}
+  \max &\sum_j r_j\alpha_j\\
+  \textrm{subject to: }& \sum_{j=1}^n (\alpha_j - d_{ij})_+
+  \leq f_i \textrm{ for every facility i}\\
+\end{align*}
+
+To find the minimum $\gamma$ that would shrink
+$\{\alpha_j\}$ to a feasible dual solution, we need to find
+a worst case instance to maximize $\gamma$, also it is clear
+that the worst case instance must contain a star whose
+feasibility requirement would achieves the value of
+$\gamma$, and this star would be the worst star in that
+instance.
+
+As a first step we can drop the $\max\{0, \cdot\}$, because
+we can always find a new star by dropping those $j$ with
+$\alpha_j - d_{ij}$ term negative, and that new star would
+still be a worst case star. Suppose a worst case star has
+$k$ clients, and is with facility $i$, then we have
+\begin{equation*}
+  \sum_{j=1}^k \alpha_j - d_{ij} \leq f_i
+\end{equation*}
+Here we rename clients in the new star to be $1,\ldots,k$,
+although among them, they are still ordered by their
+$\alpha_j$.
+
+Now our goal is to find a supremum of the following program:
+\begin{align*}
+  \max & \frac{\sum_{j=1}^k \alpha_j}{f_i + \sum_{j=1}^k d_{ij}}\\
+  \textrm{subject to: } & \sum_{l=j}^k (\alpha_l -
+  d_{il})_+\leq f_i \textrm{ for } j=1,\ldots,n\\
+\end{align*}
+
+Since we are dealing with a particular star, we can abstract
+away $i$, to obtain the following program:
+\begin{align}
+  \label{eq:star}
+  \max & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
+    d_j}\\ \notag
+  \textrm{subject to: } & \sum_{l=j}^k (\alpha_j - d_{l})_+
+  \leq f \textrm{ for } j=1,\ldots,n\\ \notag
+\end{align}
+
+Now we claim we can drop the $\max\{0, \cdot\}$ operator
+because this would relax the constraint in (\ref{eq:star})
+and can only make objective value larger (since we are
+maximizing), so the real optimal is upper bounded by the
+relaxed optimal. This allows us to work on
+\begin{align}
+  \label{eq:frlp}
+  \max & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
+    d_j}\\ \notag
+  \textrm{subject to: } & \sum_{l=j}^k (\alpha_j - d_{l})
+  \leq f \textrm{ for } j=1,\ldots,n\\ \notag
+\end{align}
+
+For each $j=1,\ldots,n$, the constraint above simply can be
+rewritten as
+\begin{equation}
+  (k-j+1) \alpha_j \leq f + \sum_{l=j}^k d_l \leq f +
+  \sum_{l=1}^k d_l.
+\end{equation}
+The first inequality is a rewrite of the constraint in
+(\ref{eq:frlp}) and the second is straightforward.
+
+Therefore we have $\alpha_j \leq (1/(k-j+1)) (f +
+\sum_{j=1}^k d_j)$, and it easily follows that
+\begin{equation}
+  \sum_{j=1}^n \alpha_j \leq (1/k + 1/(k-1) + \ldots + 1) =
+  H_k \leq H_n = \ln(n)
+\end{equation}
 
 \section{Dual-fitting Analysis on FTFP}
 This section gives a simple example that the dual-fitting analysis of
