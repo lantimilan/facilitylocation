@@ -1353,10 +1353,13 @@ and Shmoys'~\cite{ChudakS04}. Consider a demand $\nu$. This
 demand can either get connected directly to some facility in
 $\wbarN(\nu)$ or indirectly to facility $\phi(\kappa)\in
 \wbarN(\kappa)$, where $\kappa$ is the primary demand to
-which $\nu$ is assigned. We introduce one more notation
-$d(\mu,\nu)$ to refer to $d_{\mu\nu}$ and shall use them
-interchangeabley to refer to the distance between facility
-$\mu$ and demand $\nu$.
+which $\nu$ is assigned.
+
+We introduce one more notation $d(\mu,\nu)$ to refer to
+$d_{\mu\nu}$ and shall use them interchangeabley to refer to
+the distance between facility $\mu$ and demand $\nu$. Given
+a facility set $A$, let $d(A,\nu)=\sum_{\mu\in A}
+d_{\mu\nu}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$.
 
 We first estimate the expected cost of the indirect
 connection of $\nu$, when $\nu$ is connected to its target
@@ -1400,18 +1403,16 @@ back to show the first inequality. Notice that the
 expectation is computed for facility set
 $X(\kappa,\nu)=\wbarN(\kappa) \setminus \wbarN(\nu)$ with
 each facility $\mu$ chosen with probability proportional to
-$\bary_{\mu}$. Given a facility set $A$, let
-$d(A,\nu)=\sum_{\mu\in A} d_{\mu\nu}\bary_{\mu}/\sum_{\mu\in
-  A} \bary_{\mu}$. Notice that
-$\tcc(\kappa)=d(\wbarN(\kappa),\kappa)$ by this
-definition. We claim that $d(X(\kappa,\nu),\nu) \leq
-\tcc(\kappa) + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$. To
-prove this claim, we consider two cases.
+$\bary_{\mu}$. Notice that
+$\tcc(\kappa)=d(\wbarN(\kappa),\kappa)$ by definition. We
+claim that $d(X(\kappa,\nu),\nu) \leq \tcc(\kappa) +
+\alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$. To prove this
+claim, we consider two cases.
 
 \mycase{1} The first case is when there exists some $\mu'\in
 \wbarN(\kappa) \cap \wbarN(\nu)$ such that $d_{\mu' \kappa}
 \leq d(\wbarN(\kappa), \kappa)$. In this case, denoting
-$d_{\kappa \nu}=\min_{\mu\in\facilityset} (d_{\mu\kappa} +
+$d(\kappa, \nu)=\min_{\mu\in\facilityset} (d_{\mu\kappa} +
 d_{\mu\nu})$, we have
 \begin{equation*}
   d(\kappa,\nu)\leq
@@ -1440,7 +1441,7 @@ This completes the justification of (\ref{eqn: 1.76
 \end{proof}
 
 For a primary demand $\kappa$, its expected connection cost
-is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)} d_{\mu\kappa}$
+is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)} d_{\mu\kappa}\barx_{\mu\kappa}$
 as in the previous section. We now estimate the expected
 connection cost of a non-primary demand $\nu$. Let
 $\wbarN(\nu) = \braced{\mu_1,\ldots,\mu_l}$ and let $d_s =
