@@ -9,6 +9,17 @@
 \newcommand{\myif}{{\mbox{\rm\ if \ }}}
 \newcommand{\mycase}[1]{\mbox{{\underline{Case #1}}:\/}}
 
+\newcommand{\margincomment}[1]%
+    {{%
+      \marginpar{{\tiny\begin{minipage}{0.5in}
+                       \begin{flushleft}
+                          {#1}
+                       \end{flushleft}
+                       \end{minipage}
+                }}
+    }}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % various letters
