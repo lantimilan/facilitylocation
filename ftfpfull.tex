@@ -1068,15 +1068,16 @@ fractional solution must satisfy.
 \section{Algorithm~{\EGUP} with Ratio $3$}
 \label{sec: 3-approximation}
 
-With the partitioned FTFP instance and its associated
-fractional solution in place, we now begin to introduce our rounding algorithms.
-The algorithm we describe in this section achieves ratio
-$3$. Although this is still quite far from our best ratio $1.575$ that
-we derive later, we include this algorithm in the paper to illustrate,
-in a relatively simple setting, how the properties of our partitioned fractional
-solution are used in rounding it to an integral solution.
-The rounding approach we use here is an extension of the corresponding
-method for UFL described in~\cite{gupta08}.
+With the partitioned FTFP instance and its associated fractional
+solution in place, we now begin to introduce our rounding algorithms.
+The algorithm we describe in this section achieves ratio $3$. Although
+this is still quite far from our best ratio $1.575$ that we derive
+later, we include this algorithm in the paper to illustrate, in a
+relatively simple setting, how the properties of our partitioned
+fractional solution are used in rounding it to an integral solution
+with cost not too far away from an optimal solution.  The rounding
+approach we use here is an extension of the corresponding method for
+UFL described in~\cite{gupta08}.
 
 \paragraph{Algorithm~{\EGUP.}}
 At a high level, we would open exactly one facility for each
@@ -1155,17 +1156,19 @@ is at most  $C^\ast+2\cdot\LP^\ast$.
 \end{lemma}
 
 \begin{proof}
-  Consider a demand $\nu$ assigned to a primary demand
-  $\kappa\in P$. Let $\mu$ be any facility in $\wbarN(\nu)
-  \cap \wbarN(\kappa)$.  Since $\mu$ is in both
-  $\wbarN(\nu)$ and $\wbarN(\kappa)$, we have $d_{\mu\nu}
-  \leq \alpha_{\nu}^\ast$ and $d_{\mu\kappa} \leq
-  \alpha_{\kappa}^\ast$ (This follows from the complementary
-  slackness conditions since
-  $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for
-  each $\mu\in \wbarN(\nu)$.). Thus, applying the triangle
-  inequality, for any fixed choice of facility
-  $\phi(\kappa)$ we have
+  For a primary demand $\kappa$, its expected connection cost is
+  $C_{\kappa}^{\avg}$ because we choose facility $\mu$ with
+  probability $\barx_{\mu\kappa}$.
+
+  Consider a non-primary demand $\nu$ assigned to a primary demand
+  $\kappa\in P$. Let $\mu$ be any facility in $\wbarN(\nu) \cap
+  \wbarN(\kappa)$.  Since $\mu$ is in both $\wbarN(\nu)$ and
+  $\wbarN(\kappa)$, we have $d_{\mu\nu} \leq \alpha_{\nu}^\ast$ and
+  $d_{\mu\kappa} \leq \alpha_{\kappa}^\ast$ (This follows from the
+  complementary slackness conditions since
+  $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for each
+  $\mu\in \wbarN(\nu)$.). Thus, applying the triangle inequality, for
+  any fixed choice of facility $\phi(\kappa)$ we have
 %
 \begin{equation*}
     d_{\phi(\kappa)\nu} \leq d_{\phi(\kappa)\kappa}+d_{\mu\kappa}+d_{\mu\nu}
