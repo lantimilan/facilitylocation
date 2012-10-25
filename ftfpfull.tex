@@ -1558,20 +1558,22 @@ stage that construct an integral solution is a relatively
 straightforward generalization of \cite{ByrkaGS10}, as is
 the analysis of approximation ratio.
 
-We begin with a list of properties that our partitioned
-fractional solution $(\barbfx,\barbfy)$ needs to
-satisfy. The neighborhood $\wbarN(\nu)$ of each demand $\nu$
-is partitioned into two parts, called the \emph{close
-  neighborhood} $\wbarclsnb(\nu)$ and the \emph{far
-  neighborhood} $\wbarfarnb(\nu)$, whose formal definitions
-are given below as Property~PS(\ref{PS1:gamma}). Their
-respective average connection costs are defined by
+We begin with a list of properties that our partitioned fractional
+solution $(\barbfx,\barbfy)$ needs to satisfy. The neighborhood
+$\wbarN(\nu)$ of each demand $\nu$ is partitioned into two parts,
+called the \emph{close neighborhood} $\wbarclsnb(\nu)$ and the
+\emph{far neighborhood} $\wbarfarnb(\nu)$, whose formal definitions
+are given below as Property~PS(\ref{PS1:gamma}). Their respective
+average connection costs are defined by
 $\clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
 d_{\mu\nu}\barx_{\mu\nu}$ and
 $\fardist(\nu)=\frac{\gamma}{\gamma-1}\sum_{\mu\in\wbarfarnb(\nu)}
-d_{\mu\nu}\barx_{\mu\nu}$.  We will also use notation
-$\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
-the maximum distance from $\nu$ to its close neighborhood.
+d_{\mu\nu}\barx_{\mu\nu}$. Note that by PS~(\ref{PS1:gamma}) we have
+$\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$ and
+$\sum_{\mu\in\wbarfarnb(\nu)} \barx_{\mu\nu} = 1-1/\gamma$. We will
+also use notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)}
+d_{\mu\nu}$ for the maximum distance from $\nu$ to its close
+neighborhood.
 \begin{description}
 	
       \renewcommand{\theenumii}{(\alph{enumii})}
@@ -1671,36 +1673,34 @@ find a client $p$ with minimum value of $\tcc(p) +
 
 \smallskip
 \noindent
-\mycase{1} If $\wtildeN_{\gamma}(p)$ overlaps
-$\wbarclsnb(\kappa)$ for any existing primary
-demand $\kappa$, we simply assign $\nu$ to $\kappa$. As
-before, if there are multiple such $\kappa$, we pick any of
-them. We also fix $\barx_{\mu\kappa} \assign \tildex_{\mu
-  p}, \tildex_{\mu p}\assign 0$ for each $\mu \in
-\wtildeN(p)\cap \wbarclsnb(\kappa)$. At this point
-the total connection value in $\wbarN(\nu)$ might be smaller
-than $1/\gamma$ (it cannot be bigger) and we shall augment
-$\nu$ with additional facilities later to make a
-neighborhood with total connection value of $1$ (We
-augment to make sum of $\barx_{\mu\nu}$ for all
-$\mu\in\wbarN(\nu)$ equal to $1$.).
+\mycase{1} If $\wtildeN_{\gamma}(p)$ overlaps $\wbarclsnb(\kappa)$ for
+any existing primary demand $\kappa$, we simply assign $\nu$ to
+$\kappa$. As before, if there are multiple such $\kappa$, we pick any
+of them. We also fix $\barx_{\mu\kappa} \assign \tildex_{\mu p},
+\tildex_{\mu p}\assign 0$ for each $\mu \in \wtildeN(p)\cap
+\wbarclsnb(\kappa)$. As before, although we check for overlap between
+$\wtildeN_{\gamma}(p)$ and $\wbarclsnb(\kappa)$, the facilities we
+actually move into $\wbarN(\nu)$ include all facilities in the
+intersection of $\wtildeN(p)$, a bigger set, with
+$\wbarclsnb(\kappa)$. At this point the total connection value in
+$\wbarN(\nu)$ might be smaller than $1/\gamma$ (it cannot be bigger)
+and we shall augment $\nu$ with additional facilities later to make a
+neighborhood with total connection value of $1$ (We augment to make
+sum of $\barx_{\mu\nu}$ for all $\mu\in\wbarN(\nu)$ equal to $1$.).
 
 \smallskip
 \noindent
-\mycase{2}
-The best client $p$ has $\wtildeN_{\gamma}(p)$
-disjoint from $\wbarclsnb(\kappa)$, for all primary demands $\kappa$.
-In this case we
-make $\nu$ a primary demand. We then fix
+\mycase{2} The best client $p$ has $\wtildeN_{\gamma}(p)$ disjoint
+from $\wbarclsnb(\kappa)$, for all existing primary demands $\kappa$.
+In this case we make $\nu$ a primary demand. We then fix
 $\barx_{\mu\kappa}\assign \tildex_{\mu p}$ for $\mu \in
-\wtildeN_{\gamma}(p)$ and set the corresponding
-$\tildex_{\mu p}$ to $0$.  Note that the total connection value in
-$\wbarclsnb(\kappa)$ is $1/\gamma$.  The set
-$\wtildeN_{\gamma}(p)$ turns out to coincide with
-$\wbarclsnb(\kappa)$ as we only add farther away facilities
-when augmenting a primary demand thereafter. Thus
-$\wbarclsnb(\kappa)$ is defined when it is created. We also
-define $\tcc(\kappa) = \tcc(p)$ and
+\wtildeN_{\gamma}(p)$ and set the corresponding $\tildex_{\mu p}$ to
+$0$.  Note that the total connection value in $\wbarclsnb(\kappa)$ is
+$1/\gamma$.  The set $\wtildeN_{\gamma}(p)$ turns out to coincide with
+$\wbarclsnb(\kappa)$ as we only add farther away facilities when
+augmenting a primary demand thereafter. Thus $\wbarclsnb(\kappa)$ is
+defined when it is created. We also define $\tcc(\kappa) = \tcc(p)$
+and
 $\clsdist(\kappa)=\gamma\sum_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}\barx_{\mu\kappa},
 \clsmax(\kappa)=\max_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}$.
 
@@ -1728,39 +1728,36 @@ Property~PD(\ref{PD:assign:overlap}), which requires the
 close neighborhood of demand $\nu$ and that of its primary
 demand $\kappa$ need overlap.
 
-We now argue that the fractional solution
-$(\barbfx,\barbfy)$ does satisfy all the stated
-properties. The (PS) and (CO) properties are directly
-enforced by the adaptive partition algorithm, as well as
-PD(\ref{PD1:disjoint}) and SI(\ref{SI1:siblings
-  disjoint}). Proof of other properties are similar to those
-in Section~\ref{sec: adaptive partitioning} except
-PD(\ref{PD:assign:overlap}), which we now prove
-here. Consider an iteration when we create demand $\nu$ for
-client $p$ and assign it to $\kappa$. We have that
-$\wtildeN_{\gamma}(p)$ having a nonempty intersection with
-$\wbarclsnb(\kappa)$. Let $B(p)=\wtildeN_{\gamma}(p)\cap
-\wbarclsnb(\kappa)$, we claim that $B(p)$ must be a subset
-of $\wbarclsnb(\nu)$, after $\wbarN(\nu)$ is finalized with
-a total connection value of $1$. To see this, first observe
-that $B(p)$ is a subset of $\wbarN(\nu)$, which in turn is a
-subset of $\wtildeN(p)$, after taking into account of
-facility split. Consider an arbitrary set of facilities $A$,
-and define $\dmax(\nu, A)$ as the minimum distance $\tau$
-such that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq
-  \tau}\;\bary_{\mu} \geq 1/\gamma$, then adding additional
-facilities into $A$ cannot make $\dmax(\nu, A)$ larger. It
-follows that $\dmax(\nu, \wbarclsnb(\nu)) \geq \dmax(\nu,
-\wtildeN(p))$. Since we have $d_{\mu \nu} = d_{\mu p}$ by
-definition, it is easy to see that every $\mu \in B(p)$
-satisfies $d_{\mu \nu} \leq \dmax(\nu, \wtildeN(p)) \leq
-\dmax(\nu, \wbarclsnb(\nu))$ and hence they all belong to
-$\wbarclsnb(\nu)$. We need to be a bit more careful here
-when we have a tie in $d_{\mu\nu}$ but we can assume ties
-are always broken in favor of facilities in $B(p)$ when
-deciding $\wbarclsnb(\nu)$. Finally, since $B(p)$ is
-nonempty, we have that the close neighborhood of a demand
-$\nu$ and its primary demand $\kappa$ must overlap.
+We now argue that the fractional solution $(\barbfx,\barbfy)$ does
+satisfy all the stated properties. The (PS) and (CO) properties are
+directly enforced by the adaptive partition algorithm, as well as
+PD(\ref{PD1:disjoint}) and SI(\ref{SI1:siblings disjoint}). Proof of
+other properties are similar to those in Section~\ref{sec: adaptive
+  partitioning} except PD(\ref{PD:assign:overlap}), which we now prove
+here. Consider an iteration when we create demand $\nu$ for client $p$
+and assign it to $\kappa$. We have that $\wtildeN_{\gamma}(p)$ having
+a nonempty intersection with $\wbarclsnb(\kappa)$. Let
+$B(p)=\wtildeN_{\gamma}(p)\cap \wbarclsnb(\kappa)$, we claim that
+$B(p)$ must be a subset of $\wbarclsnb(\nu)$, after $\wbarN(\nu)$ is
+finalized with a total connection value of $1$. To see this, first
+observe that $B(p)$ is a subset of $\wbarN(\nu)$, which in turn is a
+subset of $\wtildeN(p)$, after taking into account of facility
+split. Here $\wtildeN(p)$ refers to the neighborhood of client $p$
+just before $\nu$ was created. Consider an arbitrary set of facilities
+$A$, and define $\dmax(A, \nu)$ as the minimum distance $\tau$ such
+that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq \tau}\;\bary_{\mu} \geq
+1/\gamma$, then adding additional facilities into $A$ cannot make
+$\dmax(A, \nu)$ larger. It follows that $\dmax(\wbarclsnb(\nu), \nu)
+\geq \dmax(\wtildeN(p), \nu)$ because $\wbarclsnb(\nu)$ is a subset of
+$\wtildeN(p)$. Since we have $d_{\mu \nu} = d_{\mu p}$ by definition,
+it is easy to see that every $\mu \in B(p)$ satisfies $d_{\mu \nu}
+\leq \dmax(\wtildeN(p), \nu) \leq \dmax(\wbarclsnb(\nu), \nu)$ and
+hence they all belong to $\wbarclsnb(\nu)$. We need to be a bit more
+careful here when we have a tie in $d_{\mu\nu}$ but we can assume ties
+are always broken in favor of facilities in $B(p)$ when deciding
+$\wbarclsnb(\nu)$. Finally, since $B(p)$ is nonempty, we have that the
+close neighborhood of a demand $\nu$ and its primary demand $\kappa$
+must overlap.
 
 %%%%%%%%%%%%%%%%%
 \paragraph{Algorithm EBGS}
@@ -1794,12 +1791,11 @@ $\nu$.
 
 \paragraph{Analysis.}
 The feasibility of our integral solution follows from
-Property~SI(\ref{SI1:siblings disjoint}),
-SI(\ref{SI1:primary disjoint}), and PD(\ref{PD1:disjoint}),
-as these properties together ensure that each facility is
-accessible to at most one demand among all demands of the
-same client, regardless whether a demand connects to its
-neighbor or its target facility.
+Property~SI(\ref{SI1:siblings disjoint}), SI(\ref{SI1:primary
+  disjoint}), and PD(\ref{PD1:disjoint}), as these properties together
+ensure that each facility is accessible to at most one demand among
+sibling demands of the same client, regardless whether a demand
+connects to its neighbor or its target facility.
 
 We now bound the
 cost. Properties~PD(\ref{PD1:assign:overlap}) and
