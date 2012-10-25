@@ -937,18 +937,17 @@ partition process.
 \end{lemma}
 \begin{proof}
   Let $\nu_1,\ldots,\nu_{r_j}$ be the demands of a client
-  $j\in\clientset$, listed in the order of creation, and,
-  for each $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the
-  primary demand that $\nu_q$ is assigned to. After the
-  completion of phase 1 of Pseudocode~\ref{alg:lpr2} (Line
-  13), we have $\wbarN(\nu_s)\subseteq
-  \wbarN(\kappa_s)$. Since any two primary demands have
-  disjoint neighborhood, we have $\wbarN(\nu_p) \cap
-  \wbarN(\kappa_q) = \emptyset$ for any $p\neq q$. Moreover,
-  none of the facilities in $\wtildeN(j)$ appear in any of
-  $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$. Notice that
-  $\wbarN(\kappa_s), s=1,\ldots,r_j$ have already been fixed
-  after phase 1.
+  $j\in\clientset$, listed in the order of creation, and, for each
+  $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the primary demand that
+  $\nu_q$ is assigned to. After the completion of phase 1 of
+  Pseudocode~\ref{alg:lpr2} (Lines 5--18), we have
+  $\wbarN(\nu_s)\subseteq \wbarN(\kappa_s)$ for
+  $s=1,\ldots,r_j$. Since any two primary demands have disjoint
+  neighborhood, we have $\wbarN(\nu_p) \cap \wbarN(\kappa_q) =
+  \emptyset$ for any $p\neq q$. Moreover, none of the facilities in
+  $\wtildeN(j)$ appear in any of $\wbarN(\kappa_s)$ for
+  $s=1,\ldots,r_j$. Notice that $\wbarN(\kappa_s), s=1,\ldots,r_j$
+  have already been fixed after phase 1.
 
   Later, in phase 2, when we add facilities from
   $\wtildeN(j)$ to $\wbarN(\nu)$ for some $\nu\in j$ using
@@ -1049,9 +1048,18 @@ follows from Lemma~\ref{lem: tcc optimal}.
 \end{proof}
 
 We have thus proved that all properties (PS), (CO), (PD) and (SI) hold
-for our partitioned fractional solution $(\barbfx,\barbfy)$. In the following
-sections we show how to use these properties to round the fractional solution
-to an approximate integral solution.
+for our partitioned fractional solution $(\barbfx,\barbfy)$. In the
+following sections we show how to use these properties to round the
+fractional solution to an approximate integral solution. For the
+$3$-approximation algorithm (Section~\ref{sec: 3-approximation}) and
+the $1.736$-approximation algorithm (Section~\ref{sec:
+  1.736-approximation}), the first phase of the algorithm is exactly
+the same partition process as described above. However, the
+$1.575$-approximation algorithm (Section~\ref{sec:
+  1.575-approximation}) demands a more sophisticated partitioning
+process as the interplay between close and far neighborhood of sibling
+demands result in more delicate properties that our partitioned
+fractional solution must satisfy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 3-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
