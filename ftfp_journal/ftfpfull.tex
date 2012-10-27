@@ -1,0 +1,236 @@
+% start journal version
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tue Aug 28 2012, 09:55:36
+% marek Sat Jul 14 13:24:51 PDT 2012
+% marek Fri Jul 13 15:51:33 PDT 2012
+% lyan Thu Jul 12 2012, 00:06:30
+% lyan Wed Jul 04 2012, 22:29:33
+%
+% marek Fri Oct 26 01:59:39 PDT 2012
+
+
+
+\documentclass[11pt]{article}
+
+\usepackage{fullpage,amssymb,amsthm,enumerate}
+\usepackage[nosumlimits]{amsmath}
+\usepackage[nothing]{algorithm}
+\usepackage{algorithmicx}
+%\usepackage[noend]{algorithmic}
+\usepackage[noend]{algpseudocode}
+%\usepackage[firstinits=true]{biblatex}
+
+%\algsetup{indent=2em}
+\floatname{algorithm}{Pseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\input{macros.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{LP-rounding Algorithms for the Fault-Tolerant\\
+ 		Facility Placement Problem}
+
+\author{Li Yan and Marek Chrobak\\
+  Department of Computer Science\\
+ University of California at Riverside}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{empty}
+\begin{abstract} 
+  The Fault-Tolerant Facility Placement problem (FTFP) is a
+  generalization of the classic Uncapacitated Facility
+  Location Problem (UFL). In FTFP we are given a set of
+  facility sites and a set of clients. Opening a facility at
+  site $i$ costs $f_i$ and connecting client $j$ to a
+  facility at site $i$ costs $d_{ij}$. We assume that the
+  connection costs (distances) $d_{ij}$ satisfy the triangle
+  inequality. Multiple facilities can be opened at any
+  site. Each client $j$ has a demand $r_j$, which means that
+  it needs to be connected to $r_j$ different facilities
+  (some of which could be located on the same site). The
+  goal is to minimize the sum of facility opening cost and
+  connection cost.
+
+  The main result of this paper is a $1.575$-approximation
+  algorithm for FTFP, based on LP-rounding. The algorithm
+  first reduces the demands to values polynomial in the
+  number of sites. Then it uses a technique that we
+  call adaptive partitioning, which partitions the instance
+  by splitting clients into unit demands and creating a
+  number of (not yet opened) facilities at each site. It
+  also partitions the optimal fractional solution to produce
+  a fractional solution for this new instance.  The
+  partitioned instance satisfies a number of properties that
+  allow us to exploit existing LP-rounding methods for UFL to
+  round our partitioned solution to an integral
+  solution, preserving the approximation ratio.  In
+  particular, our $1.575$-approximation algorithm is based
+  on the ideas from the $1.575$-approximation algorithm for
+  UFL by Byrka~\etal, with changes necessary to satisfy
+  the fault-tolerance requirement.
+\end{abstract}
+
+\pagebreak
+\setcounter{page}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{intro.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LP ForMULATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{lpformulation.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% REDUCTION TO POLYNOMIAL DEMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{reduction.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ADAPTIVE PARTITION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{partition.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{three_approx.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1.736-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{ECHU.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Byrka 2010 1.575
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{EBGS.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussions}
+
+In this paper we show a sequence of LP-rounding approximation algorithms
+for FTFP, with the best algorithm achieving  ratio $1.575$. The two techniques we introduced,
+namely the demand reduction and adaptive partitioning, are very flexible. Should any new
+LP-rounding algorithms be discovered for UFL, we believe that with our approach they can be
+adapted to FTFP as well, preserving the approximation ratio. In fact, by randomizing the
+scaling parameter $\gamma$ from Section~\ref{sec: 1.575-approximation},
+following the approach by Li~\cite{Li11}, we
+could further improve the ratio to below $1.575$. This is not enough, however, to
+match the $1.488$ bound for UFL in~\cite{Li11}, because matching this bound
+also requires appropriately extending dual-fitting algorithms~\cite{MahdianYZ06}
+to FTFP, which we have so far been unable to do.
+
+One of the main open problems in this area is whether FTFL can be approximated with the
+same ratio as UFL, and our work was partly motivated by this question. The techniques we
+introduced are not directly applicable to FTFL, mainly because our partitioning
+approach involves facility splitting that could result in several sibling demands being served
+by facilities on the same site. Nonetheless, we hope that further refinements of 
+our construction might get around this issue and
+lead to new algorithms for FTFL with improved ratios.
+
+
+\bibliographystyle{plain}
+\bibliography{facility}
+%\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\section{An Elementary Proof of the Expected Connection Cost}
+
+
+In the $1+2/e=1.736$-approximation, we need to show the following inequality
+%
+\begin{equation}
+  \label{eq:dist}
+  d_1 y_1 + d_2 y_2 (1-y_1) + d_3 y_3 (1-y_1)(1-y_2) + \ldots + d_l y_l \Pi_{s=1}^{l-1} (1-y_s) \leq (d_1 y_1 + d_2 y_2 + \ldots + d_l y_l) (1 - \Pi_{s=1}^l (1-y_s))
+\end{equation}
+%
+for $d_1\leq d_2 \leq \ldots \leq d_l$ and $\sum_{s=1}^l y_s = 1, y_s \geq 0$.
+
+In this section we give a new proof of this inequality, much
+simpler than the existing proof in
+\cite{ChudakS04}~\footnote{It is known that Sviridenko has
+  proved a similar lemma using Chebyshev's sum inequality,
+  but the cited reference~\cite{Svi02} contains a different
+  proof from ours here.}.  We derive this inequality from
+the following generalized version of the Chebyshev Sum
+Inequality:
+%
+\begin{equation}
+  \label{eq:cheby}
+  \sum_{i} p_i \sum_j p_j a_j b_j \leq \sum_i p_i a_i \sum_j p_j b_j,
+\end{equation}
+%
+where each summation below runs from $1$ to $l$ and the sequences 
+$(a_i)$, $(b_i)$ and $(p_i)$ satisfy the following conditions:
+$p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$, $a_1\leq a_2 \leq
+\ldots \leq a_l$, and $b_1 \geq b_2 \geq \ldots \geq b_l$.
+
+Given inequality (\ref{eq:cheby}), we can obtain our inequality
+(\ref{eq:dist}) by simple substitution
+%
+\begin{equation}
+  p_i \leftarrow y_i, a_i \leftarrow d_i, b_i \leftarrow
+  \Pi_{s=1}^{i-1} (1-y_s)
+\end{equation}
+
+For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
+due to Hardy, Littlewood and Polya~\cite{HardyLP88}. The idea is to evaluate the 
+following sum:
+%
+\begin{align*}
+  S &= \sum_i p_i \sum_j p_j a_j b_j - \sum_i p_i a_i \sum_j p_j b_j
+	\\
+  & = \sum_i \sum_j p_i p_j a_j b_j - \sum_i \sum_j p_i a_i p_j b_j
+	\\
+  & = \sum_j \sum_i p_j p_i a_i b_i - \sum_j \sum _i p_j a_j p_i b_i
+	\\
+	&= \half \cdot \sum_i \sum_j (p_i p_j a_j b_j - p_i a_i p_j b_j + p_j p_i a_i
+  							b_i - p_j a_j p_i b_i)
+\\
+  &= \half \cdot \sum_i \sum_j p_i p_j (a_i - a_j)(b_i - b_j) \leq 0.
+\end{align*}
+The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq 0$, since the sequences
+$(a_i)$ and $(b_i)$ are ordered oppositely.
+
+\end{document}
+
+% marek Tue Jul  3 10:21:05 PDT 2012
+% marek Sun Jul  1 14:57:39 PDT 2012
+% lyan Sat Jun 30 2012, 22:01:27
+% marek Sat Jun 30 10:08:59 PDT 2012
+% lyan Fri Jun 29 19:54:18 PDT 2012
+% marek Thu Jun 28 09:21:14 PDT 2012
+% lyan Thu Jun 28 00:11:28 PDT 2012
+% marek Wed Jun 27 11:24:07 PDT 2012
+% lyan Wed Jun 27 2012, 10:08:21
+% marek Tue Jun 26 14:48:45 PDT 2012
+% lyan Mon Jun 25 2012, 22:23:13
+% marek Sun Jun 24 16:46:23 PDT 2012
+% marek Wed Jun 20 04:42:40 PDT 2012
+% lyan, Sun Jun 17 2012, 09:49:22
+% marek Sat Apr  7 16:42:21 PDT 2012
+% marek Thu Apr  5 11:39:58 PDT 2012
+% marek Wed Apr  4 11:28:20 PDT 2012
+% lyan, 04/01/12 10:20 PM
+% lyan, Mon Mar 26 2012, 09:10:54
+% lyan, Tue Mar 20 2012, 23:28:17
+% lyan, 03/18/12 12:28 PM
+% marek Sat Mar 17 13:42:32 PDT 2012
+% marek, Wed Mar  7 21:28:24 PST 2012
+% marek Mon Mar 12 12:08:25 PDT 2012

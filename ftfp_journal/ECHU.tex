@@ -1,0 +1,278 @@
+\section{Algorithm~{\ECHS} with Ratio $1.736$}\label{sec: 1.736-approximation}
+
+In this section we improve the approximation ratio to $1+2/e
+\approx 1.736$. The new algorithm, named Algorithm~{\ECHS},
+starts with the same partitioned fractional solution
+$(\barbfx, \barbfy)$ as Algorithm~{\EGUP}. The improvement
+in the approximation ratio comes from a slightly modified
+rounding process and much refined analysis.  Note that the
+facility opening cost of Algorithm~{\EGUP} does not exceed
+that of the fractional optimum solution, while the
+connection cost is quite far from the optimum, due to the
+cost of indirect connections (that is, connections from
+non-primary demands).  The basic idea behind the
+improvement, following the approach of Chudak and
+Shmoys~\cite{ChudakS04}, is to balance these bounds by
+opening more facilities
+and using direct connections when available, so as to reduce
+the number of indirect connections. 
+
+We now describe the algorithm (see Pseudocode~\ref{alg:lpr3}).  
+For convenience, we will use the term
+\emph{facility cluster} for the neighborhood of a primary
+demand. Facilities that do not belong to these clusters are
+said to be \emph{non-clustered}.
+As before, we open exactly one facility $\phi(\kappa)$ in
+the facility cluster of each primary demand $\kappa$, with the
+same probability distribution (Line 2).  For any
+non-primary demand $\nu$ assigned to $\kappa$, we refer to
+$\phi(\kappa)$ as the \emph{target} facility of $\nu$.  In
+Algorithm~{\EGUP}, $\nu$ was connected to $\phi(\kappa)$,
+but in Algorithm~{\ECHS} we may open a facility in $\nu$'s
+neighborhood and connect $\nu$ to this facility.
+Specifically, the two changes in the algorithm are as
+follows: 
+%
+\begin{description}
+	\item{(1)} Each non-clustered facility $\mu$ is opened,
+independently, with probability $\bary_{\mu}$ (Lines
+4--5). Notice that if $\bary_\mu>0$ then,
+due to completeness of the partitioned
+fractional solution, that is Property~(CO), we have $\bary_{\mu}=$
+for some demand $\nu$. This implies that $\bary_{\mu}\leq 1$,
+because $\bary_{\mu}\le 1$, by (PS.\ref{PS:one}).
+%
+	\item{(2)} When connecting demands to facilities, a primary demand
+$\kappa$ is connected to the only facility $\phi(\kappa)$
+opened in its neighborhood, as before (Line 3).  For a
+non-primary demand $\nu$, if its neighborhood has an open
+facility, we connect $\nu$ to the closest open facility in
+its neighborhood (Line 8). Otherwise, we connect $\nu$ to
+its target facility (Line 10).
+%
+\end{description}
+
+%%%%%%%%%%%%%
+
+\begin{algorithm}
+  \caption{Algorithm~{\ECHS}:
+    Constructing Integral Solution}
+  \label{alg:lpr3}
+  \begin{algorithmic}[1]
+    \For{each $\kappa\in P$} 
+    \State choose one $\phi(\kappa)\in \wbarN(\kappa)$,
+    with each $\mu\in\wbarN(\kappa)$ chosen as $\phi(\kappa)$
+    with probability $\bary_\mu$
+    \State open $\phi(\kappa)$ and connect $\kappa$ to $\phi(\kappa)$
+    \EndFor
+    \For{each $\mu\in\facilityset - \bigcup_{\kappa\in P}\wbarN(\kappa)$} 
+    \State open $\mu$ with probability $\bary_\mu$ (independently)
+    \EndFor
+    \For{each non-primary demand $\nu\in\demandset$}
+    \If{any facility in $\wbarN(\nu)$ is open}
+    \State{connect $\nu$ to the nearest open facility in $\wbarN(\nu)$}
+    \Else
+    \State connect $\nu$ to $\phi(\kappa)$ where $\kappa$ is $\nu$'s
+     primary demand
+    \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%
+
+\paragraph{Analysis.}
+We shall first argue that the integral solution thus
+constructed is feasible, and then we bound the total cost of
+the solution. Regarding feasibility, the only constraint that is
+not explicitly enforced by the algorithm is the fault-tolerance
+requirement; namely that each client $j$ is connected to $r_j$
+different facilities. If $\nu\in j$ is assigned to a primary
+demand $\kappa$, then $\nu$ will get connected to a facility in
+$\wbarN(\nu)\cup \wbarN(\kappa)$. But if $\nu'\in j-\braced{\nu}$ is a sibling
+of $\nu$ then the disjointness properties, that is
+(PD.\ref{PD:disjoint}) and (SI.\ref{SI:siblings disjoint}),
+imply that
+$\wbarN(\nu)\cup \wbarN(\kappa)$ and $\wbarN(\nu')\cup \wbarN(\kappa')$
+are disjoint. As a result, $\nu$ and $\nu'$ will be assigned to
+different facilities.
+
+
+%%%%%%%%%
+
+\medskip
+We now show the expected cost of the computed solution is bounded by
+$(1+2/e) \cdot \LP^\ast$. By
+Property~PD(\ref{PD:disjoint}), every facility may appear in at
+most one primary demand's neighborhood, and the facilities
+open in Line~4--5 of Pseudocode~\ref{alg:lpr3} do not appear
+in any primary demand's neighborhood. Therefore, by
+linearity of expectation, the expected facility cost of
+algorithm~{\ECHS} is $\sum_{\mu\in\facilityset}
+f_\mu \bary_{\mu} = \sum_{i\in\sitesset} f_i\sum_{\mu\in i}
+\bary_{\mu} = \sum_{i\in\sitesset} f_i y_i^\ast = F^\ast$,
+where the second equality follows from Property~PS(\ref{PS:yi}).
+
+To bound the connection cost, we adapt an argument of Chudak
+and Shmoys~\cite{ChudakS04}. Consider a demand $\nu$. This
+demand can either get connected directly to some facility in
+$\wbarN(\nu)$ or indirectly to facility $\phi(\kappa)\in
+\wbarN(\kappa)$, where $\kappa$ is the primary demand to
+which $\nu$ is assigned.
+
+We introduce one more notation $d(\mu,\nu)$ to refer to
+$d_{\mu\nu}$ and shall use them interchangeabley to refer to
+the distance between facility $\mu$ and demand $\nu$. Given
+a facility set $A$, let $d(A,\nu)=\sum_{\mu\in A}
+d_{\mu\nu}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$.
+
+We first estimate the expected cost of the indirect
+connection of $\nu$, when $\nu$ is connected to its target
+facility $\phi(\kappa)$, where $\kappa$ is the primary
+demand that $\nu$ is assigned to and $\phi(\kappa)$ is the
+only facility opened by $\kappa$. We have the following
+lemma.
+\begin{lemma}
+  \label{lem:echu indirect}
+  The expected cost of an indirect connection of a demand
+  $\nu$ to its target facility is bounded by
+  $\concost(\nu)+2\alpha_{\nu}^\ast$.
+\end{lemma}
+\begin{proof}
+  Let $\kappa$ be the primary demand that $\nu$ is assigned
+  to and $\phi(\kappa)$ be the only facility opened by
+  $\kappa$. Then $\phi(\kappa)$ is the target facility of
+  $\nu$. Because $\nu$ was assigned to $\kappa$, there
+  exists a facility $\mu\in \wbarN(\nu)\cap \wbarN(\kappa)$.
+  For any fixed value of $\phi(\kappa)$, the cost of
+  connecting $\nu$ to $\phi(\kappa)$ is $\bard =
+  d(\phi(\kappa),\nu) \le d(\phi(\kappa),\kappa)+
+  d_{\mu\kappa}+d_{\mu\nu} \le
+  d(\phi(\kappa),\kappa)+\alpha_{\kappa}^\ast +
+  \alpha_{\nu'}^\ast$, where the last inequality follows
+  from the complementary slackness conditions. We can bound
+  the expectation of $\bard$ as follows:
+%
+\begin{equation}
+	\label{eqn: 1.76 connection cost}
+  \Exp[\bard] = \Exp[d(\phi(\kappa), \kappa)]  + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
+  \leq \tcc(\kappa) + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
+  \leq \tcc(\nu) + 2\alpha_{\nu}^\ast\;\leq\; \concost_{\nu} + 2\alpha_{\nu}^\ast.
+\end{equation}
+%
+We defer the proof of the first inequality and argue the two
+other simpler inequalities first. The second inequality
+follows from Property~PD(\ref{PD:assign:cost}) and the last
+inequality is from Lemma~\ref{lem: tcc optimal}. Now we come
+back to show the first inequality. Notice that the
+expectation is computed for facility set
+$X(\kappa,\nu)=\wbarN(\kappa) \setminus \wbarN(\nu)$ with
+each facility $\mu$ chosen with probability proportional to
+$\bary_{\mu}$. Notice that
+$\tcc(\kappa)=d(\wbarN(\kappa),\kappa)$ by definition. We
+claim that $d(X(\kappa,\nu),\nu) \leq \tcc(\kappa) +
+\alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$. To prove this
+claim, we consider two cases.
+
+\mycase{1} The first case is when there exists some $\mu'\in
+\wbarN(\kappa) \cap \wbarN(\nu)$ such that $d_{\mu' \kappa}
+\leq d(\wbarN(\kappa), \kappa)$. In this case, denoting
+$d(\kappa, \nu)=\min_{\mu\in\facilityset} (d_{\mu\kappa} +
+d_{\mu\nu})$, we have
+\begin{equation*}
+  d(\kappa,\nu)\leq
+  d_{\mu'\kappa} + d_{\mu'\nu} \leq d(\wbarN(\kappa),\kappa) +
+  \alpha_{\nu}^\ast=\tcc(\kappa)+\alpha_{\nu}^\ast. 
+\end{equation*}
+It follows that for every $\mu\in X(\kappa,\nu)$, we have
+\begin{equation*}
+  d(\mu,\nu) \leq d_{\mu\kappa} + d(\kappa,\nu) \leq
+  \alpha_{\kappa}^\ast + \tcc(\kappa) + \alpha_{\nu}^\ast.
+\end{equation*}
+
+\mycase{2} In the second case, every $\mu'\in
+\wbarN(\nu)\cap \wbarN(\kappa)$ has $d_{\mu'\kappa} >
+d(\wbarN(\kappa),\kappa)$. Then we have
+$d(X(\kappa,\nu),\kappa)\leq
+d(\wbarN(\kappa),\kappa)=\tcc(\kappa)$, therefore
+\begin{equation*}
+  d(X(\kappa,\nu), \nu) \leq d(\wbarN(\kappa), \kappa) +
+  d_{\mu\kappa} + d_{\mu\nu} \leq \tcc(\kappa) +
+  \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast,  
+\end{equation*}
+where $\mu$ is any facility in $\wbarN(\kappa)\cap \wbarN(\nu)$.
+This completes the justification of (\ref{eqn: 1.76
+  connection cost}).
+\end{proof}
+
+For a primary demand $\kappa$, its expected connection cost
+is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)} d_{\mu\kappa}\barx_{\mu\kappa}$
+as in the previous section. We now estimate the expected
+connection cost of a non-primary demand $\nu$. Let
+$\wbarN(\nu) = \braced{\mu_1,\ldots,\mu_l}$ and let $d_s =
+d_{\mu_s\nu}$ for $s = 1,\ldots,l$. By reordering, we can
+assume that $d_1 \le d_2 \le \ldots \le d_l$. By the
+algorithm the connection cost is no more than that obtained
+through the random process that opens each $\mu_s\in
+\wbarN(\nu)$ independently with probability $\barx_{\mu_s
+  \nu} =\bary_{\mu_s}$ (because the solution is complete)
+and connects $\nu$ to the nearest such open facility, if any
+of them opens; otherwise $\nu$ is connected indirectly to
+$\phi(\kappa)$ at cost $\bard$. The intuition is that we
+only use a facility $\mu_s$ if none of
+$\mu_1,\ldots,\mu_{s-1}$ is open. Suppose $\mu_s$ is a
+facility in $\wbarN(\kappa)$ for some primary demand
+$\kappa$. If none of $\mu_1,\ldots,\mu_{s-1}$ is in
+$\wbarN(\kappa)$, then $\mu_s$ opens with probability
+$\bary_{\mu_s}$. If some of them do appear in
+$\wbarN(\kappa)$, the fact that they are closed can only
+increase the probability that $\mu_s$ opens, by the choice
+of $\phi(\kappa)$.  For a detailed proof,
+see~\cite{ChudakS04}.
+
+Denoting by $C_\nu$ the connection cost for $\nu$, we thus have
+%
+\begin{align*}
+  \Exp[C_\nu] &\leq d_1 \bary_{\mu_1} + d_2 \bary_{\mu_2}(1-\bary_{\mu_1}) + \ldots
+ 		+  d_l \bary_{\mu_l}\textstyle{\prod_{s=1}^{l-1}}(1-\bary_{\mu_s}) 
+		+  \Exp[\bard]\textstyle{\prod_{s=1}^{l}} (1-\bary_{\mu_s})
+		\\
+  &\leq (1-\textstyle{\prod_{i=1}^l} (1-\bary_{\mu_i}))
+  	\sum_{i=1}^l d_i\bary_{\mu_i} + {\textstyle\prod_{i=1}^l} (1-\bar  y_{\mu_i})\Exp[\bard]
+	\\
+  &\leq (1-\frac{1}{e}) {\textstyle\sum_{i=1}^l} d_i\bary_i 
+	+ \frac{1}{e} \Exp[\bard] \leq (1-\frac{1}{e}) \concost_{\nu} 
+	+	\frac{1}{e}	(\concost_{\nu} + 2\alpha_{\nu}^\ast) = \concost_{\nu} + \frac{2}{e}\alpha_{\nu}^\ast,
+\end{align*}
+%
+where the second inequality was shown in
+\cite{ChudakS04}. (In the appendix we give a simpler
+proof of this inequality using only elementary techniques.)  Notice that the
+completeness of the fractional solution allows us to write
+$\bary_{\mu}$ instead of $\barx_{\mu\nu}$.
+
+Summing over all demands of a client $j$, we obtain the
+expected connection cost of client $j$:
+%
+\begin{equation*}
+  \Exp[C_j] \leq {\textstyle\sum_{\nu\in j} (\concost_{\nu} + \frac{2}{e}\alpha_{\nu}^\ast) }
+  = \textstyle{ C_j^\ast + \frac{2}{e}r_j\alpha_j^\ast}.
+\end{equation*}
+%
+Summing over all clients $j$ gives the expected connection
+cost being bounded by $C^\ast +
+\frac{2}{e}\LP^\ast$. Therefore, we have established that
+our algorithm constructs a feasible integral solution with
+an overall expected cost bounded by
+%
+\begin{equation*}
+  \label{eq:chudakall}
+  	F^\ast + C^\ast + \frac{2}{e}\cdot \LP^\ast = (1+2/e)\cdot \LP^\ast
+  \leq (1+2/e)\cdot \OPT.
+\end{equation*}
+
+Summarizing, we obtain the result of this section.
+
+\begin{theorem}\label{thm:1736}
+  Algorithm~{\ECHS} is a $(1+2/e)$-approximation algorithm for \FTFP.
+\end{theorem}

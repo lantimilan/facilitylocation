@@ -1,0 +1,121 @@
+\section{Reduction to Polynomial Demands}
+\label{sec: polynomial demands}
+
+This section presents a \emph{demand reduction} trick that
+reduces the problem for arbitrary demands to a special case
+where demands are bounded by $|\sitesset|$, the number of
+sites.  (The formal statement is a little more technical --
+see Theorem~\ref{thm: reduction to polynomial}.)  Our
+algorithms in the sections that follow process individual
+demands of each client one by one, and thus they critically
+rely on the demands being bounded polynomially in terms of
+$|\sitesset|$ and $|\clientset|$ to keep the overall running time polynomial.
+
+The reduction is based on an optimal fractional solution
+$(\bfx^\ast,\bfy^\ast)$ of LP (\ref{eqn:fac_primal}). From the
+optimality of this solution, we can also assume that
+$\sum_{i\in\sitesset} x^\ast_{ij} = r_j$ for all
+$j\in\clientset$.  As explained in Section~\ref{sec: the lp
+  formulation}, we can assume that $(\bfx^\ast,\bfy^\ast)$
+is complete, that is $x^\ast_{ij} > 0$ implies $x^\ast_{ij}
+= y^\ast_i$ for all $i,j$.  We split this solution into two
+parts, namely $(\bfx^\ast,\bfy^\ast) = (\hatbfx,\hatbfy)+
+(\dotbfx,\dotbfy)$, where
+%
+\begin{align*}
+\haty_i &\;\assign\; \floor{y_i^\ast}, \quad
+			\hatx_{ij} \;\assign\; \floor{x_{ij}^\ast} \quad\textrm{and}
+			\\
+\doty_i &\;\assign\; y_i^\ast - \floor{y_i^\ast}, \quad
+ 	\dotx_{ij} \;\assign\; x_{ij}^\ast -  \floor{x_{ij}^\ast}
+\end{align*}
+%
+for all $i,j$. Now we construct two
+FTFP instances $\hatcalI$ and $\dotcalI$ with the same
+parameters as the original instance, except that the demand of each client $j$ is
+$\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$ in instance $\hatcalI$ and
+$\dotr_j = \sum_{i\in\sitesset} \dotx_{ij} = r_j - \hatr_j$ in instance $\dotcalI$. 
+It is obvious that if we have integral solutions to both $\hatcalI$
+and $\dotcalI$ then, when added together, they form an integral
+solution to the original instance.  Moreover, we have the
+following lemma.
+
+%%%%%%%%%%
+
+\begin{lemma}\label{lem: polynomial demands partition}
+{\rm (i)}
+  $(\hatbfx, \hatbfy)$ is a feasible integral solution to
+  instance $\hatcalI$.
+
+\noindent
+{\rm (ii)}
+  $(\dotbfx, \dotbfy)$ is a feasible fractional
+  solution to instance $\dotcalI$.
+
+\noindent
+{\rm (iii)}
+$\dotr_j\leq |\sitesset|$ for every client $j$.
+
+\end{lemma}
+
+\begin{proof}
+(i) For feasibility, we need to verify that the constraints of LP~(\ref{eqn:fac_primal})
+are satisfied. Directly from the definition, we have $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$.
+For any $i$ and $j$, by the feasibility of $(\bfx^\ast,\bfy^\ast)$ we have
+$\hatx_{ij} = \floor{x_{ij}^\ast} \le \floor{y^\ast_i} = \haty_i$.
+
+(ii) From the definition, we have  $\dotr_j = \sum_{i\in\sitesset} \dotx_{ij}$.
+It remains to show that $\doty_i \geq \dotx_{ij}$ for all $i,j$. 
+If $x_{ij}^\ast=0$, then $\dotx_{ij}=0$ and we are done. 
+Otherwise, by completeness, we have $x_{ij}^\ast=y_i^\ast$. 
+Then  $\doty_i = y_i^\ast - \floor{y_i^\ast} = x_{ij}^\ast - \floor{x_{ij}^\ast} =\dotx_{ij}$. 
+
+(iii) From the definition of $\dotx_{ij}$ we have
+  $\dotx_{ij} < 1$.  Then the bound follows from the definition of $\dotr_j$.
+\end{proof}
+
+Notice that our construction relies on the completeness assumption; in fact, it is
+easy to give an example where $(\dotbfx, \dotbfy)$ would not be feasible if we
+used a non-complete optimal solution $(\bfx^\ast,\bfy^\ast)$.
+Note also that the solutions $(\hatbfx,\hatbfy)$ and $(\dotbfx, \dotbfy)$ are in fact
+optimal for their corresponding instances, for if a better solution to $\hatcalI$ or
+$\dotcalI$ existed, it could
+give us a solution to $\calI$ with a smaller objective value.
+
+%%%%%%%%%%%%%%%
+
+\begin{theorem}\label{thm: reduction to polynomial}
+  Suppose that there is a polynomial-time algorithm $\calA$
+  that, for any instance of {\FTFP} with maximum demand
+  bounded by $|\sitesset|$, computes an integral solution
+  that approximates the fractional optimum of this instance
+  within factor $\rho\geq 1$.  Then there is a
+  $\rho$-approximation algorithm $\calA'$ for {\FTFP}.
+\end{theorem}
+
+%%%%%%%%%%%%%%%
+
+\begin{proof}
+  Given an {\FTFP} instance with arbitrary demands, Algorithm~$\calA'$ works
+as follows: it solves the LP~(\ref{eqn:fac_primal}) to obtain a
+  fractional optimal solution $(\bfx^\ast,\bfy^\ast)$, then it constructs
+  instances $\hatcalI$ and $\dotcalI$ described above,  applies
+  algorithm~$\calA$ to $\dotcalI$, and finally combines (by adding
+  the values) the integral solution $(\hatbfx, \hatbfy)$ of
+  $\hatcalI$ and the integral solution of $\dotcalI$ produced
+  by $\calA$. This clearly produces a feasible integral
+  solution for the original instance $\calI$.
+The solution produced by $\calA$ has cost at most
+$\rho\cdot\cost(\dotbfx,\dotbfy)$, because $(\dotbfx,\dotbfy)$
+is feasible for $\dotcalI$. Thus the cost of $\calA'$ is at most
+% 
+ \begin{align*}
+ \cost(\hatbfx, \hatbfy) + \rho\cdot\cost(\dotbfx,\dotbfy)
+	\le
+ \rho(\cost(\hatbfx, \hatbfy) + \cost(\dotbfx,\dotbfy))
+		= \rho\cdot\LP^\ast \le \rho\cdot\OPT,
+  \end{align*}
+%
+where the first inequality follows from $\rho\geq 1$. This completes
+the proof.
+\end{proof}
