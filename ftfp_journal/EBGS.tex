@@ -1,25 +1,26 @@
 %% NEW VERSION
-\section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec:
-  1.575-approximation}
+
+\section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec: 1.575-approximation}
+
 In this section we give our main result, a $1.575$-approximation algorithm
-for $\FTFP$
-%
-\footnote{$1.575$ is $\min_{\gamma\geq 1}\max\{\gamma,
-  1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$.}. 
-%
-This ratio matches the ratio of the best known LP-rounding
-algorithm for UFL~\cite{ByrkaGS10}. Recall that in
-Section~\ref{sec: 1.736-approximation}, we have an integral
+for $\FTFP$, where $1.575$ is a solution of the equation
+ $\min_{\gamma\geq 1}\max\{\gamma,
+  1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$}, rounded to three
+decimal digits. This matches the ratio of the best known LP-rounding
+algorithm for UFL by Byrka~{\etal}~\cite{ByrkaGS10}. Recall that in
+Section~\ref{sec: 1.736-approximation}, we showed how to compute an integral
 solution with facility cost bounded by $F^\ast$ and
 connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. A
-natural idea is to look for a way to reduce the connection
-cost, at the expense of increasing the facility cost by a
-small fraction. Our approach is inspired by the BGS
-algorithm for UFL~\cite{ByrkaGS10}.
+natural idea is to balance these two costs, by reducing the connection
+cost, at the expense of slightly increasing the facility cost. If it works,
+this should result in reducing the approximation ratio.
 
-To apply the rounding approach similar to~\cite{ByrkaGS10},
-we need to introduce the close and far neighborhood of each
-demand, and our properties of the partitioned fractional
+Our approach can be thought of as a combination of the ideas in~\cite{ByrkaGS10}
+with the techniques of demand reduction and adaptive partitioning that we
+introduced earlier. However, our adaptive partitioning technique needs to 
+be carefully modified, because now we will be using a more refined neighborhood 
+structure. The neighborhood of each demand will be divided into two parts, 
+the close and far neighborhood, and our properties of the partitioned fractional
 solution $(\barbfx,\barbfy)$ need to guarantee certain close
 neighborhoods overlap while other neighborhoods are
 disjoint. It turns out that the properties required are much
