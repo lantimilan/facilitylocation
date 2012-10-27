@@ -183,39 +183,35 @@ of FTFL, by creating a sufficient (but polynomial) number of
 facilities at each site and using the algorithm
 from~\cite{ByrkaSS10}.
 
-The reduction to polynomial demands suggests an approach
-where clients' demands are split into unit demands. These
-unit demands can be thought of as ``unit-demand clients'',
-and a natural approach would be to adapt LP-rounding methods
-from \cite{gupta08,ChudakS04,ByrkaGS10} to this new set of
-unit-demand clients.  Roughly, these algorithms iteratively
-pick a client that minimizes a certain cost function (that
-varies for different algorithms) and open one facility in
-the neighborhood of this client. The remaining clients are
-then connected to these open facilities.  In order for this
-to work, we also need to convert the optimal fractional
-solution $(\bfx^\ast,\bfy^\ast)$ of the original instance
-into a solution $(\barbfx,\barbfy)$ of the modified instance
-which then can be used in the LP-rounding process. This can
-be thought of as partitioning the fractional solution, as
-each connection value $x^\ast_{ij}$ must be somehow divided
-between the $r_j$ unit demands of client $j$. In
-Section~\ref{sec: adaptive partitioning} we formulate a set
-of properties required for this partitioning to work. For
-example, one property guarantees that we can connect demands
-to facilities so that two demands from the same client are
-connected to different facilities. Then we present our
-\emph{adaptive partitioning} technique that computes a
-partitioning with all the desired properties. Using adaptive
-partitioning we were able to extend the algorithms for UFL
-from \cite{gupta08,ChudakS04,ByrkaGS10} to FTFP. We
-illustrate the fundamental ideas of our approach in
-Section~\ref{sec: 3-approximation}, showing how they can be
-used to design an LP-rounding algorithm with ratio $3$.  In
-Section~\ref{sec: 1.736-approximation} we refine the
-algorithm to improve the approximation ratio to
-$1+2/e\approx 1.736$.  Finally, in Section~\ref{sec:
-  1.575-approximation}, we improve it even further to
+The reduction to polynomial demands suggests an approach where
+clients' demands are split into unit demands. These unit demands can
+be thought of as ``unit-demand clients'', and a natural approach would
+be to adapt LP-rounding methods from
+\cite{gupta08,ChudakS04,ByrkaGS10} to this new set of unit-demand
+clients.  Roughly, these algorithms iteratively pick a client that
+minimizes a certain cost function (that varies for different
+algorithms) and open one facility in the neighborhood of this
+client. The remaining clients are then connected to these open
+facilities.  In order for this to work, we also need to convert the
+optimal fractional solution $(\bfx^\ast,\bfy^\ast)$ of the original
+instance into a solution $(\barbfx,\barbfy)$ of the modified instance
+which then can be used in the LP-rounding process. This can be thought
+of as partitioning the fractional solution, as each connection value
+$x^\ast_{ij}$ must be somehow divided between the $r_j$ unit demands
+of client $j$. In Section~\ref{sec: adaptive partitioning} we
+formulate a set of properties required for this partitioning to
+work. For example, one property guarantees that we can connect demands
+to facilities so that two demands from the same client are connected
+to different facilities. Then we present our \emph{adaptive
+  partitioning} technique that computes a partitioning with all the
+desired properties. Using adaptive partitioning we were able to extend
+the algorithms for UFL from \cite{gupta08,ChudakS04,ByrkaGS10} to
+FTFP. We illustrate the fundamental ideas of our approach in
+Section~\ref{sec: 3-approximation}, showing how they can be used to
+design an LP-rounding algorithm with ratio $3$.  In Section~\ref{sec:
+  1.736-approximation} we refine the algorithm to improve the
+approximation ratio to $1+2/e\approx 1.736$.  Finally, in
+Section~\ref{sec: 1.575-approximation}, we improve it even further to
 $1.575$ -- the main result of this paper.
 
 Summarizing, our contributions are two-fold: One, we show
@@ -597,13 +593,17 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 	
 \end{description}
 
-As we shall demonstrate in later sections, these properties
-allow us to extend known UFL rounding algorithms to obtain
-an integral solution to our FTFP problem with a matching
-approximation ratio. Our partitioning is ``adaptive" in the
-sense that it is constructed one demand at a time, and the
-connection values for the demands of a client depend on the choice of
-earlier demands, of this or other clients, and their connection values.
+As we shall demonstrate in later sections, these properties allow us
+to extend known UFL rounding algorithms to obtain an integral solution
+to our FTFP problem with a matching approximation ratio. Our
+partitioning is ``adaptive" in the sense that it is constructed one
+demand at a time, and the connection values for the demands of a
+client depend on the choice of earlier demands, of this or other
+clients, and their connection values. We would like to point out that
+the adaptive partitioning process for the $1.575$-approximation
+algorithm is more subtle than the $3$-apprximation and the
+$1.736$-approximation algorithms, due to the introduction of close and
+far neighborhood.
 
 %%%%%%%%%%%%%%%%
 
@@ -682,7 +682,7 @@ $\demandset$ of demands is empty, the set $\facilityset$ of
 facilities consists of one facility $\mu$ on each site $i$
 with $\bary_\mu = y^\ast_i$, and the set $P$ of primary
 demands is empty (Lines 1--4).  In one iteration of the
-while loop (Line 5), in Lines~6--8, for each client $j$ we
+while loop (Lines 5--8), for each client $j$ we
 compute a quantity called $\tcc(j)$ (tentative connection
 cost), that represents the average distance from $j$ to the
 set $\wtildeN_1(j)$ of the nearest facilities $\mu$ whose
@@ -690,10 +690,10 @@ total connection value to $j$ (the sum of $\tildex_{\mu
   j}$'s) equals $1$.  This set is computed by Procedure
 $\NearestUnitChunk()$ (see Pseudocode~\ref{alg:helper},
 Lines~1--9), which adds facilities to $\wtildeN_1(j)$ in
-order of increasing distance, until the total connection
+order of nondecreasing distance, until the total connection
 value is exactly $1$. (The procedure actually uses the
 $\bary_\mu$ values, which are equal to the connection values
-by completeness.)  This may require splitting the last added
+by completeness (c2).)  This may require splitting the last added
 facility and adjusting the connection values so that
 conditions (c1) and (c2) are preserved.
 
@@ -821,7 +821,7 @@ adjust the $\barx_{\mu\nu}$ values so that $\connsum(\nu)
 \stackrel{\mathrm{def}}{=}
 \sum_{\mu\in\facilityset}\barx_{\mu \nu}$ equals $1$. This
 is accomplished by Procedure $\AugmentToUnit()$ (definition
-in Pseudocode~\ref{alg:helper}, Lines~10--20) that allocates
+in Pseudocode~\ref{alg:helper}, Lines~10--21) that allocates
 to $\nu\in j$ some of the remaining connection values
 $\tildex_{\mu j}$ of client $j$ (Lines 19--21).
 $\AugmentToUnit()$ will repeatedly pick any $\mu$ with
@@ -937,26 +937,24 @@ partition process.
 \end{lemma}
 \begin{proof}
   Let $\nu_1,\ldots,\nu_{r_j}$ be the demands of a client
-  $j\in\clientset$, listed in the order of creation, and,
-  for each $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the
-  primary demand that $\nu_q$ is assigned to. After the
-  completion of phase 1 of Pseudocode~\ref{alg:lpr2} (Line
-  13), we have $\wbarN(\nu_s)\subseteq
-  \wbarN(\kappa_s)$. Since any two primary demands have
-  disjoint neighborhood, we have $\wbarN(\nu_p) \cap
-  \wbarN(\kappa_q) = \emptyset$ for any $p\neq q$. Moreover,
-  none of the facilities in $\wtildeN(j)$ appear in any of
-  $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$. Notice that
-  $\wbarN(\kappa_s), s=1,\ldots,r_j$ have already been fixed
-  after phase 1.
+  $j\in\clientset$, listed in the order of creation, and, for each
+  $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the primary demand that
+  $\nu_q$ is assigned to. After the completion of phase 1 of
+  Pseudocode~\ref{alg:lpr2} (Lines 5--18), we have
+  $\wbarN(\nu_s)\subseteq \wbarN(\kappa_s)$ for
+  $s=1,\ldots,r_j$. Since any two primary demands have disjoint
+  neighborhood, we have $\wbarN(\nu_p) \cap \wbarN(\kappa_q) =
+  \emptyset$ for any $p\neq q$. Moreover, none of the facilities in
+  $\wtildeN(j)$ appear in any of $\wbarN(\kappa_s)$ for
+  $s=1,\ldots,r_j$. Notice that $\wbarN(\kappa_s), s=1,\ldots,r_j$
+  have already been fixed after phase 1.
 
   Later, in phase 2, when we add facilities from
   $\wtildeN(j)$ to $\wbarN(\nu)$ for some $\nu\in j$ using
   \AugmentToUnit() in Line~19--21 of
   Pseudocode~\ref{alg:lpr2}. These added facilities in phase
   2 do not appear in any neighborhood $\wbarN(\kappa_1),
-  \ldots, \wbarN(\kappa_{r_j})$ and each of these facilities
-  is added to the neighborhood of exactly one sibling.
+  \ldots, \wbarN(\kappa_{r_j})$.
   Therefore all the disjointness conditions are preserved
   after the augment phase, proving
   Property~SI(\ref{SI:primary disjoint}).
@@ -1050,9 +1048,18 @@ follows from Lemma~\ref{lem: tcc optimal}.
 \end{proof}
 
 We have thus proved that all properties (PS), (CO), (PD) and (SI) hold
-for our partitioned fractional solution $(\barbfx,\barbfy)$. In the following
-sections we show how to use these properties to round the fractional solution
-to an approximate integral solution.
+for our partitioned fractional solution $(\barbfx,\barbfy)$. In the
+following sections we show how to use these properties to round the
+fractional solution to an approximate integral solution. For the
+$3$-approximation algorithm (Section~\ref{sec: 3-approximation}) and
+the $1.736$-approximation algorithm (Section~\ref{sec:
+  1.736-approximation}), the first phase of the algorithm is exactly
+the same partition process as described above. However, the
+$1.575$-approximation algorithm (Section~\ref{sec:
+  1.575-approximation}) demands a more sophisticated partitioning
+process as the interplay between close and far neighborhood of sibling
+demands result in more delicate properties that our partitioned
+fractional solution must satisfy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 3-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1061,15 +1068,16 @@ to an approximate integral solution.
 \section{Algorithm~{\EGUP} with Ratio $3$}
 \label{sec: 3-approximation}
 
-With the partitioned FTFP instance and its associated
-fractional solution in place, we now begin to introduce our rounding algorithms.
-The algorithm we describe in this section achieves ratio
-$3$. Although this is still quite far from our best ratio $1.575$ that
-we derive later, we include this algorithm in the paper to illustrate,
-in a relatively simple setting, how the properties of our partitioned fractional
-solution are used in rounding it to an integral solution.
-The rounding approach we use here is an extension of the corresponding
-method for UFL described in~\cite{gupta08}.
+With the partitioned FTFP instance and its associated fractional
+solution in place, we now begin to introduce our rounding algorithms.
+The algorithm we describe in this section achieves ratio $3$. Although
+this is still quite far from our best ratio $1.575$ that we derive
+later, we include this algorithm in the paper to illustrate, in a
+relatively simple setting, how the properties of our partitioned
+fractional solution are used in rounding it to an integral solution
+with cost not too far away from an optimal solution.  The rounding
+approach we use here is an extension of the corresponding method for
+UFL described in~\cite{gupta08}.
 
 \paragraph{Algorithm~{\EGUP.}}
 At a high level, we would open exactly one facility for each
@@ -1148,17 +1156,19 @@ is at most  $C^\ast+2\cdot\LP^\ast$.
 \end{lemma}
 
 \begin{proof}
-  Consider a demand $\nu$ assigned to a primary demand
-  $\kappa\in P$. Let $\mu$ be any facility in $\wbarN(\nu)
-  \cap \wbarN(\kappa)$.  Since $\mu$ is in both
-  $\wbarN(\nu)$ and $\wbarN(\kappa)$, we have $d_{\mu\nu}
-  \leq \alpha_{\nu}^\ast$ and $d_{\mu\kappa} \leq
-  \alpha_{\kappa}^\ast$ (This follows from the complementary
-  slackness conditions since
-  $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for
-  each $\mu\in \wbarN(\nu)$.). Thus, applying the triangle
-  inequality, for any fixed choice of facility
-  $\phi(\kappa)$ we have
+  For a primary demand $\kappa$, its expected connection cost is
+  $C_{\kappa}^{\avg}$ because we choose facility $\mu$ with
+  probability $\barx_{\mu\kappa}$.
+
+  Consider a non-primary demand $\nu$ assigned to a primary demand
+  $\kappa\in P$. Let $\mu$ be any facility in $\wbarN(\nu) \cap
+  \wbarN(\kappa)$.  Since $\mu$ is in both $\wbarN(\nu)$ and
+  $\wbarN(\kappa)$, we have $d_{\mu\nu} \leq \alpha_{\nu}^\ast$ and
+  $d_{\mu\kappa} \leq \alpha_{\kappa}^\ast$ (This follows from the
+  complementary slackness conditions since
+  $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for each
+  $\mu\in \wbarN(\nu)$.). Thus, applying the triangle inequality, for
+  any fixed choice of facility $\phi(\kappa)$ we have
 %
 \begin{equation*}
     d_{\phi(\kappa)\nu} \leq d_{\phi(\kappa)\kappa}+d_{\mu\kappa}+d_{\mu\nu}
@@ -1548,20 +1558,22 @@ stage that construct an integral solution is a relatively
 straightforward generalization of \cite{ByrkaGS10}, as is
 the analysis of approximation ratio.
 
-We begin with a list of properties that our partitioned
-fractional solution $(\barbfx,\barbfy)$ needs to
-satisfy. The neighborhood $\wbarN(\nu)$ of each demand $\nu$
-is partitioned into two parts, called the \emph{close
-  neighborhood} $\wbarclsnb(\nu)$ and the \emph{far
-  neighborhood} $\wbarfarnb(\nu)$, whose formal definitions
-are given below as Property~PS(\ref{PS1:gamma}). Their
-respective average connection costs are defined by
+We begin with a list of properties that our partitioned fractional
+solution $(\barbfx,\barbfy)$ needs to satisfy. The neighborhood
+$\wbarN(\nu)$ of each demand $\nu$ is partitioned into two parts,
+called the \emph{close neighborhood} $\wbarclsnb(\nu)$ and the
+\emph{far neighborhood} $\wbarfarnb(\nu)$, whose formal definitions
+are given below as Property~PS(\ref{PS1:gamma}). Their respective
+average connection costs are defined by
 $\clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
 d_{\mu\nu}\barx_{\mu\nu}$ and
 $\fardist(\nu)=\frac{\gamma}{\gamma-1}\sum_{\mu\in\wbarfarnb(\nu)}
-d_{\mu\nu}\barx_{\mu\nu}$.  We will also use notation
-$\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
-the maximum distance from $\nu$ to its close neighborhood.
+d_{\mu\nu}\barx_{\mu\nu}$. Note that by PS~(\ref{PS1:gamma}) we have
+$\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$ and
+$\sum_{\mu\in\wbarfarnb(\nu)} \barx_{\mu\nu} = 1-1/\gamma$. We will
+also use notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)}
+d_{\mu\nu}$ for the maximum distance from $\nu$ to its close
+neighborhood.
 \begin{description}
 	
       \renewcommand{\theenumii}{(\alph{enumii})}
@@ -1661,36 +1673,34 @@ find a client $p$ with minimum value of $\tcc(p) +
 
 \smallskip
 \noindent
-\mycase{1} If $\wtildeN_{\gamma}(p)$ overlaps
-$\wbarclsnb(\kappa)$ for any existing primary
-demand $\kappa$, we simply assign $\nu$ to $\kappa$. As
-before, if there are multiple such $\kappa$, we pick any of
-them. We also fix $\barx_{\mu\kappa} \assign \tildex_{\mu
-  p}, \tildex_{\mu p}\assign 0$ for each $\mu \in
-\wtildeN(p)\cap \wbarclsnb(\kappa)$. At this point
-the total connection value in $\wbarN(\nu)$ might be smaller
-than $1/\gamma$ (it cannot be bigger) and we shall augment
-$\nu$ with additional facilities later to make a
-neighborhood with total connection value of $1$ (We
-augment to make sum of $\barx_{\mu\nu}$ for all
-$\mu\in\wbarN(\nu)$ equal to $1$.).
+\mycase{1} If $\wtildeN_{\gamma}(p)$ overlaps $\wbarclsnb(\kappa)$ for
+any existing primary demand $\kappa$, we simply assign $\nu$ to
+$\kappa$. As before, if there are multiple such $\kappa$, we pick any
+of them. We also fix $\barx_{\mu\kappa} \assign \tildex_{\mu p},
+\tildex_{\mu p}\assign 0$ for each $\mu \in \wtildeN(p)\cap
+\wbarclsnb(\kappa)$. As before, although we check for overlap between
+$\wtildeN_{\gamma}(p)$ and $\wbarclsnb(\kappa)$, the facilities we
+actually move into $\wbarN(\nu)$ include all facilities in the
+intersection of $\wtildeN(p)$, a bigger set, with
+$\wbarclsnb(\kappa)$. At this point the total connection value in
+$\wbarN(\nu)$ might be smaller than $1/\gamma$ (it cannot be bigger)
+and we shall augment $\nu$ with additional facilities later to make a
+neighborhood with total connection value of $1$ (We augment to make
+sum of $\barx_{\mu\nu}$ for all $\mu\in\wbarN(\nu)$ equal to $1$.).
 
 \smallskip
 \noindent
-\mycase{2}
-The best client $p$ has $\wtildeN_{\gamma}(p)$
-disjoint from $\wbarclsnb(\kappa)$, for all primary demands $\kappa$.
-In this case we
-make $\nu$ a primary demand. We then fix
+\mycase{2} The best client $p$ has $\wtildeN_{\gamma}(p)$ disjoint
+from $\wbarclsnb(\kappa)$, for all existing primary demands $\kappa$.
+In this case we make $\nu$ a primary demand. We then fix
 $\barx_{\mu\kappa}\assign \tildex_{\mu p}$ for $\mu \in
-\wtildeN_{\gamma}(p)$ and set the corresponding
-$\tildex_{\mu p}$ to $0$.  Note that the total connection value in
-$\wbarclsnb(\kappa)$ is $1/\gamma$.  The set
-$\wtildeN_{\gamma}(p)$ turns out to coincide with
-$\wbarclsnb(\kappa)$ as we only add farther away facilities
-when augmenting a primary demand thereafter. Thus
-$\wbarclsnb(\kappa)$ is defined when it is created. We also
-define $\tcc(\kappa) = \tcc(p)$ and
+\wtildeN_{\gamma}(p)$ and set the corresponding $\tildex_{\mu p}$ to
+$0$.  Note that the total connection value in $\wbarclsnb(\kappa)$ is
+$1/\gamma$.  The set $\wtildeN_{\gamma}(p)$ turns out to coincide with
+$\wbarclsnb(\kappa)$ as we only add farther away facilities when
+augmenting a primary demand thereafter. Thus $\wbarclsnb(\kappa)$ is
+defined when it is created. We also define $\tcc(\kappa) = \tcc(p)$
+and
 $\clsdist(\kappa)=\gamma\sum_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}\barx_{\mu\kappa},
 \clsmax(\kappa)=\max_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}$.
 
@@ -1718,39 +1728,36 @@ Property~PD(\ref{PD:assign:overlap}), which requires the
 close neighborhood of demand $\nu$ and that of its primary
 demand $\kappa$ need overlap.
 
-We now argue that the fractional solution
-$(\barbfx,\barbfy)$ does satisfy all the stated
-properties. The (PS) and (CO) properties are directly
-enforced by the adaptive partition algorithm, as well as
-PD(\ref{PD1:disjoint}) and SI(\ref{SI1:siblings
-  disjoint}). Proof of other properties are similar to those
-in Section~\ref{sec: adaptive partitioning} except
-PD(\ref{PD:assign:overlap}), which we now prove
-here. Consider an iteration when we create demand $\nu$ for
-client $p$ and assign it to $\kappa$. We have that
-$\wtildeN_{\gamma}(p)$ having a nonempty intersection with
-$\wbarclsnb(\kappa)$. Let $B(p)=\wtildeN_{\gamma}(p)\cap
-\wbarclsnb(\kappa)$, we claim that $B(p)$ must be a subset
-of $\wbarclsnb(\nu)$, after $\wbarN(\nu)$ is finalized with
-a total connection value of $1$. To see this, first observe
-that $B(p)$ is a subset of $\wbarN(\nu)$, which in turn is a
-subset of $\wtildeN(p)$, after taking into account of
-facility split. Consider an arbitrary set of facilities $A$,
-and define $\dmax(\nu, A)$ as the minimum distance $\tau$
-such that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq
-  \tau}\;\bary_{\mu} \geq 1/\gamma$, then adding additional
-facilities into $A$ cannot make $\dmax(\nu, A)$ larger. It
-follows that $\dmax(\nu, \wbarclsnb(\nu)) \geq \dmax(\nu,
-\wtildeN(p))$. Since we have $d_{\mu \nu} = d_{\mu p}$ by
-definition, it is easy to see that every $\mu \in B(p)$
-satisfies $d_{\mu \nu} \leq \dmax(\nu, \wtildeN(p)) \leq
-\dmax(\nu, \wbarclsnb(\nu))$ and hence they all belong to
-$\wbarclsnb(\nu)$. We need to be a bit more careful here
-when we have a tie in $d_{\mu\nu}$ but we can assume ties
-are always broken in favor of facilities in $B(p)$ when
-deciding $\wbarclsnb(\nu)$. Finally, since $B(p)$ is
-nonempty, we have that the close neighborhood of a demand
-$\nu$ and its primary demand $\kappa$ must overlap.
+We now argue that the fractional solution $(\barbfx,\barbfy)$ does
+satisfy all the stated properties. The (PS) and (CO) properties are
+directly enforced by the adaptive partition algorithm, as well as
+PD(\ref{PD1:disjoint}) and SI(\ref{SI1:siblings disjoint}). Proof of
+other properties are similar to those in Section~\ref{sec: adaptive
+  partitioning} except PD(\ref{PD:assign:overlap}), which we now prove
+here. Consider an iteration when we create demand $\nu$ for client $p$
+and assign it to $\kappa$. We have that $\wtildeN_{\gamma}(p)$ having
+a nonempty intersection with $\wbarclsnb(\kappa)$. Let
+$B(p)=\wtildeN_{\gamma}(p)\cap \wbarclsnb(\kappa)$, we claim that
+$B(p)$ must be a subset of $\wbarclsnb(\nu)$, after $\wbarN(\nu)$ is
+finalized with a total connection value of $1$. To see this, first
+observe that $B(p)$ is a subset of $\wbarN(\nu)$, which in turn is a
+subset of $\wtildeN(p)$, after taking into account of facility
+split. Here $\wtildeN(p)$ refers to the neighborhood of client $p$
+just before $\nu$ was created. Consider an arbitrary set of facilities
+$A$, and define $\dmax(A, \nu)$ as the minimum distance $\tau$ such
+that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq \tau}\;\bary_{\mu} \geq
+1/\gamma$, then adding additional facilities into $A$ cannot make
+$\dmax(A, \nu)$ larger. It follows that $\dmax(\wbarclsnb(\nu), \nu)
+\geq \dmax(\wtildeN(p), \nu)$ because $\wbarclsnb(\nu)$ is a subset of
+$\wtildeN(p)$. Since we have $d_{\mu \nu} = d_{\mu p}$ by definition,
+it is easy to see that every $\mu \in B(p)$ satisfies $d_{\mu \nu}
+\leq \dmax(\wtildeN(p), \nu) \leq \dmax(\wbarclsnb(\nu), \nu)$ and
+hence they all belong to $\wbarclsnb(\nu)$. We need to be a bit more
+careful here when we have a tie in $d_{\mu\nu}$ but we can assume ties
+are always broken in favor of facilities in $B(p)$ when deciding
+$\wbarclsnb(\nu)$. Finally, since $B(p)$ is nonempty, we have that the
+close neighborhood of a demand $\nu$ and its primary demand $\kappa$
+must overlap.
 
 %%%%%%%%%%%%%%%%%
 \paragraph{Algorithm EBGS}
@@ -1784,12 +1791,11 @@ $\nu$.
 
 \paragraph{Analysis.}
 The feasibility of our integral solution follows from
-Property~SI(\ref{SI1:siblings disjoint}),
-SI(\ref{SI1:primary disjoint}), and PD(\ref{PD1:disjoint}),
-as these properties together ensure that each facility is
-accessible to at most one demand among all demands of the
-same client, regardless whether a demand connects to its
-neighbor or its target facility.
+Property~SI(\ref{SI1:siblings disjoint}), SI(\ref{SI1:primary
+  disjoint}), and PD(\ref{PD1:disjoint}), as these properties together
+ensure that each facility is accessible to at most one demand among
+sibling demands of the same client, regardless whether a demand
+connects to its neighbor or its target facility.
 
 We now bound the
 cost. Properties~PD(\ref{PD1:assign:overlap}) and
