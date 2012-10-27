@@ -138,54 +138,41 @@ $\wbarN(\nu)$ opens. We now estimate this conditional
 expected connection cost by showing the following lemma.
 \begin{lemma}
   \label{lem:echu indirect}
-  Let $\nu$ be a non-primary demand of client $j$. Under the
-  event that no facility in $\wbarN(\nu)$ opens, the
-  expected connection cost $\nu$ to its target facility is
-  bounded by $\concost(\nu)+2\alpha_{\nu}^\ast$.
+  Let $\nu$ be a demand assigned to primary demand $\kappa$,
+  if $\wbarN(\kappa) \setminus \wbarN(\nu)$ is not empty,
+  then $d(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) \leq
+  \concost(\nu)+2\alpha_{\nu}^\ast$.
 \end{lemma}
 \begin{proof}
-  Let $\kappa$ be the primary demand that $\nu$ is assigned
-  to and $\phi(\kappa)$ be the only facility opened by
-  $\kappa$ since the algorithm in Pseudocode~\ref{alg:lpr3}
-  opens exactly one facility in $\wbarN(\kappa)$. Then
-  $\phi(\kappa)$ is the target facility of $\nu$. Because
-  $\nu$ was assigned to $\kappa$, there exists a facility
-  $\mu\in \wbarN(\nu)\cap \wbarN(\kappa)$.  For any fixed
-  choice of $\phi(\kappa)$, the cost of connecting $\nu$ to
-  $\phi(\kappa)$ is $\bard \stackrel{\mathrm{def}}{=}
-  d_{\phi(\kappa)\nu} \le d_{\phi(\kappa)\kappa}+
-  d_{\mu\kappa}+d_{\mu\nu} \le
-  d_{\phi(\kappa)\kappa}+\alpha_{\kappa}^\ast +
-  \alpha_{\nu}^\ast$, where the last inequality follows
-  from the complementary slackness conditions. Suppose
-  $\kappa$ is a demand of client $p$, we can bound the
-  expectation of $\bard$ as follows:
+  Because $\nu$ was assigned to $\kappa$, there exists a
+  facility $\mu\in \wbarN(\nu)\cap \wbarN(\kappa)$.  For any
+  facility $\mu'$ in $\wbarN(\kappa) \setminus \wbarN(\nu)
+  $, the cost of connecting $\nu$ to $\mu'$ is $ d_{\mu'
+    \nu} \le d_{\mu' \kappa}+ d_{\mu\kappa}+d_{\mu\nu} \le
+  d_{\mu' \kappa}+\alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$,
+  where the last inequality follows from the complementary
+  slackness conditions. It follows that
 %
 \begin{equation}
 	\label{eqn: 1.76 connection cost}
-  \Exp[\bard] \;\leq\; \Exp[d_{\phi(\kappa) \kappa}]  + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
+  d(\wbarN(\kappa)\setminus \wbarN(\nu), \nu) \;\leq\;
+  d(\wbarN(\kappa)\setminus \wbarN(\nu), \kappa)  + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
   \;\leq\; \concost_{\kappa} + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
   \;\leq\; \concost_{\nu} + \alpha_{\nu}^\ast + \alpha_{\nu}^\ast\;=\; \concost_{\nu} + 2\alpha_{\nu}^\ast.
 \end{equation}
 %
-The third inequality follows from (PD.\ref{PD:assign:cost})
-and the last inequality is from Lemma~\ref{lem: tcc
-  optimal}. Now we argue the second inequality. Notice that
-the expectation is computed for facility set
-$X(\kappa,\nu)=\wbarN(\kappa) \setminus \wbarN(\nu)$ with
-each facility $\mu$ chosen from $X(\kappa,\nu)$ with
-probability proportional to $\bary_{\mu}$. Moreover, we have
-that $\concost_{\kappa}=d(\wbarN(\kappa),\kappa)$ by
-definition. We claim that $\Exp[d_{\phi(\kappa) \nu}] =
-d(X(\kappa,\nu),\nu) \leq \concost_{\kappa} +
-\alpha_{\kappa}^\ast + \alpha_{\nu}^\ast$. To prove this
-claim, we consider two cases.
+The third inequality follows from
+(PD.\ref{PD:assign:cost}). Now we argue the second
+inequality. Let
+$X(\kappa,\nu)\stackrel{\mathrm{def}}{=}\wbarN(\kappa)
+\setminus \wbarN(\nu)$. we consider two cases.
 
-\mycase{1} The first case is when there exists some $\mu'\in
-\wbarN(\kappa) \cap \wbarN(\nu)$ such that $d_{\mu' \kappa}
-\leq d(\wbarN(\kappa), \kappa)$. In this case, denoting
-$d(\kappa, \nu) \stackrel{\mathrm{def}}{=}\min_{\mu\in\facilityset} (d_{\mu\kappa} +
-d_{\mu\nu})$, we have
+\mycase{1} There exists some $\mu'\in \wbarN(\kappa) \cap
+\wbarN(\nu)$ such that $d_{\mu' \kappa} \leq
+d(\wbarN(\kappa), \kappa)$. In this case, denoting
+$d(\kappa, \nu)
+\stackrel{\mathrm{def}}{=}\min_{\mu\in\facilityset}
+(d_{\mu\kappa} + d_{\mu\nu})$, we have
 \begin{equation*}
   d(\kappa,\nu)\leq
   d_{\mu'\kappa} + d_{\mu'\nu} \leq d(\wbarN(\kappa),\kappa) +
@@ -198,10 +185,9 @@ $\mu\in X(\kappa,\nu)$, we have
   \alpha_{\kappa}^\ast + \concost_{\kappa} + \alpha_{\nu}^\ast.
 \end{equation*}
 
-\mycase{2} In the second case, every $\mu'\in
-\wbarN(\nu)\cap \wbarN(\kappa)$ has $d_{\mu'\kappa} >
-d(\wbarN(\kappa),\kappa)$. Then we have
-$d(X(\kappa,\nu),\kappa)\leq
+\mycase{2} Every $\mu'\in \wbarN(\nu)\cap \wbarN(\kappa)$
+has $d_{\mu'\kappa} > d(\wbarN(\kappa),\kappa)$. Then we
+have $d(X(\kappa,\nu),\kappa)\leq
 d(\wbarN(\kappa),\kappa)=\concost_{\kappa}$, therefore
 \begin{equation*}
   d(X(\kappa,\nu), \nu) \leq d(\wbarN(\kappa), \kappa) +
@@ -215,31 +201,50 @@ This completes the justification of (\ref{eqn: 1.76
 
 For a primary demand $\kappa$, its expected connection cost
 is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)}
-d_{\mu\kappa}\barx_{\mu\kappa}$ as in the previous
-section. We now estimate the expected connection cost of a
-non-primary demand $\nu$. Let $\wbarN(\nu) =
-\braced{\mu_1,\ldots,\mu_l}$ and let $d_s = d_{\mu_s\nu}$
-for $s = 1,\ldots,l$. By reordering, we can assume that $d_1
-\le d_2 \le \ldots \le d_l$. By the algorithm
-Pseudocode~\ref{alg:lpr3}, the connection cost is no more
-than that obtained through the random process that opens
-each $\mu_s\in \wbarN(\nu)$ independently with probability
-$\barx_{\mu_s \nu} =\bary_{\mu_s}$ (because $\barx_{\mu_s
-  \nu} > 0$ and (CO)), and connects $\nu$ to the nearest
-such open facility, if any of them opens; otherwise $\nu$ is
-connected indirectly to $\phi(\kappa)$ at cost $\bard$. The
-intuition is that we only use a facility $\mu_s$ if none of
-$\mu_1,\ldots,\mu_{s-1}$ is open. Unconditionally we know
-that $\mu_s$ opens with probability $\bary_{\mu_s}$. The
-only way that some of $\mu_1,\ldots,\mu_{s-1}$ can affect
-that probability is that they belong to $\wbarN(\kappa)$ for
-some primary demand $\kappa$ and it also happens to be that
-$\mu_s \in \wbarN(\kappa)$ as well. However in this case,
-the condition that they are closed actually implies the
-conditional probability of $\mu_s$ being open is larger than
-$\bary_{\mu_s}$. For a detailed proof, see~\cite{ChudakS04}.
+d_{\mu\kappa}\barx_{\mu\kappa}$ as in the previous section.
+We now estimate the expected connection cost of a
+non-primary demand $\nu$. Denoting by $C_\nu$ the connection
+cost for $\nu$. We first dismiss the case when
+$\wbarN(\kappa)\setminus \wbarN(\nu)$ is empty, which is the
+same as $\wbarN(\kappa) \subseteq \wbarN(\nu)$. This
+actually implies that $\wbarN(\kappa) = \wbarN(\nu)$ because
+Property (CO) implies that $\barx_{\mu\nu} = \bary_{\mu} =
+\barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$ and
+therefore $\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} =
+1$. So we have $\nu$ and $\kappa$ have the same neighborhood
+with same connection value to the facilities. This further
+implies that $\Exp[C_{\nu}] = \Exp[C_{\kappa}] =
+\concost_{\kappa} = \concost_{\nu}$. Now we bound the
+expected connection cost of $\nu$ when
+$\wbarN(\kappa)\setminus \wbarN(\nu)$ is not empty.
 
-Denoting by $C_\nu$ the connection cost for $\nu$, we thus have
+Let $\wbarN(\nu) = \braced{\mu_1,\ldots,\mu_l}$ and let $d_s
+= d_{\mu_s\nu}$ for $s = 1,\ldots,l$. By reordering, we can
+assume that $d_1 \le d_2 \le \ldots \le d_l$. By the
+algorithm Pseudocode~\ref{alg:lpr3}, the connection cost is
+no more than that obtained through the random process that
+opens each $\mu_s\in \wbarN(\nu)$ independently with
+probability $\barx_{\mu_s \nu} =\bary_{\mu_s}$ (because
+$\barx_{\mu_s \nu} > 0$ and (CO)), and connects $\nu$ to the
+nearest such open facility, if any of them opens; otherwise
+$\nu$ is connected indirectly to its target facility
+$\phi(\kappa)$. The intuition is that we only use a facility
+$\mu_s$ if none of $\mu_1,\ldots,\mu_{s-1}$ is
+open. Unconditionally we know that $\mu_s$ opens with
+probability $\bary_{\mu_s}$. The only way that some of
+$\mu_1,\ldots,\mu_{s-1}$ can affect that probability is that
+they belong to $\wbarN(\kappa)$ for some primary demand
+$\kappa$ and it also happens to be that $\mu_s \in
+\wbarN(\kappa)$ as well. However in this case, the condition
+that they are closed actually implies the conditional
+probability of $\mu_s$ being open is larger than
+$\bary_{\mu_s}$. For a detailed proof,
+see~\cite{ChudakS04}. Let $\bard$ denote the conditional
+expected connection cost for $\nu$ conditioned on the event
+that none of the facilities in $\wbarN(\nu)$ opens. We have
+that $\bard = d(\wbarN(\kappa)\setminus \wbarN(\nu),
+\nu)$. Now we estimate the unconditional expected cost of
+$\nu$ as follows:
 %
 \begin{align*}
   \Exp[C_\nu] &\leq d_1 \bary_{\mu_1} + d_2 \bary_{\mu_2}(1-\bary_{\mu_1}) + \ldots
