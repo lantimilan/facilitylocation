@@ -109,7 +109,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 1.736-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{ECHU.tex}
+\input{ECHS.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,7 +118,8 @@
 \input{EBGS.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%
-\section{Discussions}
+
+\section{Final Comments}
 
 In this paper we show a sequence of LP-rounding approximation algorithms
 for FTFP, with the best algorithm achieving  ratio $1.575$. The two techniques we introduced,
@@ -153,22 +154,21 @@ lead to new algorithms for FTFL with improved ratios.
 \section{An Elementary Proof of the Expected Connection Cost}
 
 
-In the $1+2/e=1.736$-approximation, we need to show the following inequality
+In the $1+2/e=1.736$-approximation in Section~\ref{sec: 1.736-approximation}
+we need to show the following inequality
 %
 \begin{equation}
   \label{eq:dist}
-  d_1 y_1 + d_2 y_2 (1-y_1) + d_3 y_3 (1-y_1)(1-y_2) + \ldots + d_l y_l \Pi_{s=1}^{l-1} (1-y_s) \leq (d_1 y_1 + d_2 y_2 + \ldots + d_l y_l) (1 - \Pi_{s=1}^l (1-y_s))
+\sum_{r=1}^l d_ry_r\prod_{s=1}^{r-1}(1-y_s)
+  \;\leq\;  \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{r=1}^l d_r y_r
 \end{equation}
 %
 for $d_1\leq d_2 \leq \ldots \leq d_l$ and $\sum_{s=1}^l y_s = 1, y_s \geq 0$.
 
 In this section we give a new proof of this inequality, much
-simpler than the existing proof in
-\cite{ChudakS04}~\footnote{It is known that Sviridenko has
-  proved a similar lemma using Chebyshev's sum inequality,
-  but the cited reference~\cite{Svi02} contains a different
-  proof from ours here.}.  We derive this inequality from
-the following generalized version of the Chebyshev Sum
+simpler than the existing proof in \cite{ChudakS04}, and also simpler than
+the argument by Sviridenko~\cite{Svi02}.  
+We derive this inequality from the following generalized version of the Chebyshev Sum
 Inequality:
 %
 \begin{equation}
@@ -184,10 +184,10 @@ $p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$, $a_1\leq a_2 \leq
 Given inequality (\ref{eq:cheby}), we can obtain our inequality
 (\ref{eq:dist}) by simple substitution
 %
-\begin{equation}
+\begin{equation*}
   p_i \leftarrow y_i, a_i \leftarrow d_i, b_i \leftarrow
   \Pi_{s=1}^{i-1} (1-y_s)
-\end{equation}
+\end{equation*}
 
 For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
 due to Hardy, Littlewood and Polya~\cite{HardyLP88}. The idea is to evaluate the 
