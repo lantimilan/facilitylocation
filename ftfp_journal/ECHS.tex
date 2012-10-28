@@ -118,7 +118,7 @@ most one primary demand's neighborhood, and the facilities
 open in Line~4--5 of Pseudocode~\ref{alg:lpr3} do not appear
 in any primary demand's neighborhood. Therefore, by
 linearity of expectation, the expected facility cost of
-algorithm~{\ECHS} is 
+Algorithm~{\ECHS} is 
 %
 \begin{equation*}
 \Exp[F_{\smallECHS}] 
@@ -127,7 +127,7 @@ algorithm~{\ECHS} is
 	= \sum_{i\in\sitesset} f_i y_i^\ast = F^\ast,
 \end{equation*}
 %
-where the second equality follows from (PS.\ref{PS:yi}).
+where the third equality follows from (PS.\ref{PS:yi}).
 
 \smallskip
 
@@ -144,12 +144,15 @@ facilities in $\wbarN(\nu)$ is opened. Then
 %
 \begin{equation*}
 	\Exp[ d_{\phi(\kappa)\nu} | \Lambda_\nu] 
-			= D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu)
+			= D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu),
 \end{equation*}
 %
 where $D(A,\sigma) \stackrel{\mathrm{def}}{=}\sum_{\mu\in A}
 d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$, for
 any set $A$ of facilities and a demand $\sigma$.
+Note that $\concost_\nu = D(\wbarN(\nu),\nu)$,
+and that $\Lambda_\nu$ implies that $\wbarN(\kappa) \setminus \wbarN(\nu)\neq\emptyset$,
+since $\wbarN(\kappa)$ contains at least one open facility, namely $\phi(\kappa)$.
 
 %%%%%%%%%%
 
@@ -158,63 +161,72 @@ any set $A$ of facilities and a demand $\sigma$.
   Let $\nu$ be a demand assigned to a primary demand $\kappa$, and
 assume that $\wbarN(\kappa) \setminus \wbarN(\nu)\neq\emptyset$.
 Then $\Exp[ d_{\phi(\kappa)\nu} | \Lambda_\nu]  \leq
-  		\concost(\nu)+2\alpha_{\nu}^\ast$.
+  		\concost_\nu+2\alpha_{\nu}^\ast$.
 \end{lemma}
 
 \begin{proof}
-  By the discussion above, we are to show that $D(\wbarN(\kappa)
+  By the discussion above, we need to show that $D(\wbarN(\kappa)
   \setminus \wbarN(\nu), \nu) \leq \concost(\nu) +
-  2\alpha_{\nu}^\ast$. Two cases to consider.
+  2\alpha_{\nu}^\ast$. There are two cases to consider.
 
-  \mycase{1} There exists some $\mu'\in \wbarN(\kappa) \cap
-  \wbarN(\nu)$ such that $d_{\mu' \kappa} \leq D(\wbarN(\kappa),
-  \kappa)$. In this case, for every $\mu\in \wbarN(\kappa)\setminus
-  \wbarN(\nu)$, we have
-\begin{align*}
-  d_{\mu \nu} &\leq d_{\mu \kappa} + d_{\mu' \nu} +
-  d_{\mu' \kappa} \leq \alpha_{\kappa} + D(\wbarN(\kappa), \kappa) +
-  \alpha_{\nu} = \concost(\kappa) + \alpha_{\kappa} + \alpha_{\nu}\\
-  &\leq \concost(\nu) + \alpha_{\nu}^\ast + \alpha_{\nu}^\ast =
-  \concost(\nu) + 2\alpha_{\nu}^\ast.
-\end{align*}
-We use (PD.\ref{PD:assign:cost}) to obtain the last inequality.  It
-follows that $D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) \leq
-\concost(\nu) + 2\alpha_{\nu}^\ast$ by summing over the above
-inequality for facilities in $\wbarN(\kappa) \setminus \wbarN(\nu)$.
-
-\mycase{2} Every $\mu'\in \wbarN(\nu)\cap \wbarN(\kappa)$
-has $d_{\mu'\kappa} > D(\wbarN(\kappa),\kappa)$. Then we
-have $D(\wbarN(\kappa) \setminus \wbarN(\nu),\kappa)\leq
-D(\wbarN(\kappa),\kappa)=\concost_{\kappa}$, therefore
+\begin{description}
+%	
+\item{\mycase{1}}
+	 There exists some $\mu'\in \wbarN(\kappa) \cap
+  \wbarN(\nu)$ such that $d_{\mu' \kappa} \leq \concost_\kappa$.
+In this case, for every $\mu\in \wbarN(\kappa)\setminus \wbarN(\nu)$, we have
+%
 \begin{equation*}
-  D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) \leq 
-  D(\wbarN(\kappa) \setminus \wbarN(\nu), \kappa) + d_{\mu' \kappa} +
-  d_{\mu' \nu} \leq 
-  D(\wbarN(\kappa), \kappa) +
-  d_{\mu' \kappa} + d_{\mu' \nu} \leq \concost_{\kappa} +
-  \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast,  
+d_{\mu \nu} \leq d_{\mu \kappa} + d_{\mu' \kappa} + d_{\mu' \nu}  
+ 	\le  \alpha^\ast_\kappa + \concost_\kappa + \alpha^\ast_{\nu}
+  \leq \concost_\nu + 2\alpha_{\nu}^\ast,
 \end{equation*}
-where $\mu'$ is any facility in $\wbarN(\kappa)\cap \wbarN(\nu)$.
+%
+using the triangle inequality, complementary slackness, and (PD.\ref{PD:assign:cost}).
+By summing over all $\mu\in \wbarN(\kappa) \setminus \wbarN(\nu)$, it
+follows that $D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) \leq
+\concost_\nu + 2\alpha_{\nu}^\ast$.
+
+\item{\mycase{2}}
+ Every $\mu'\in \wbarN(\kappa)\cap \wbarN(\nu)$
+has $d_{\mu'\kappa} > \concost_\kappa$. Then we
+have $D(\wbarN(\kappa) \setminus \wbarN(\nu),\kappa)\leq
+D(\wbarN(\kappa),\kappa)=\concost_{\kappa}$. Therefore,
+choosing an arbitrary $\mu'\in \wbarN(\kappa)\cap \wbarN(\nu)$,
+we obtain
+%
+\begin{equation*}
+  D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) 
+	\leq  D(\wbarN(\kappa) \setminus \wbarN(\nu), \kappa) 
+			+ d_{\mu' \kappa} + d_{\mu' \nu} 
+	\leq  \concost_{\kappa} +
+  \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
+	\leq \concost_\nu + 2\alpha_{\nu}^\ast,
+\end{equation*}
+%
+where we again use the triangle inequality,
+complementary slackness, and  (PD.\ref{PD:assign:cost}).
+%
+\end{description}
+%
+Since the lemma holds in both cases, the proof is now complete.
 \end{proof}
 
-We now continue our estimation of the connection cost.
-For a primary demand $\kappa$, its expected connection cost
+We now continue our estimation of the connection cost. We note first
+that for a primary demand $\kappa$, its expected connection cost
 is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)}
 d_{\mu\kappa}\barx_{\mu\kappa}$ as in the previous section.
 
 Next, we consider a non-primary demand $\nu$.
 Denote by $C_\nu$ the random variable representing the connection
 cost for $\nu$. We first deal with the case when
-$\wbarN(\kappa)\setminus \wbarN(\nu)$ is empty, which is the
+$\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$, which is the
 same as $\wbarN(\kappa) \subseteq \wbarN(\nu)$. This
 actually implies that $\wbarN(\kappa) = \wbarN(\nu)$ because
 Property (CO) implies that $\barx_{\mu\nu} = \bary_{\mu} =
 \barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$ and
 therefore $\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} =
-1$. So we have that $\nu$ and $\kappa$ have the same neighborhood
-with the same connection values to the facilities. This further
-implies that $\Exp[C_{\nu}] = \Exp[C_{\kappa}] =
-\concost_{\kappa} = \concost_{\nu}$. 
+1$. Thus $\Exp[C_{\nu}] = \concost_{\nu}$. 
 
 Now we bound the expected connection cost of $\nu$ when
 $\wbarN(\kappa)\setminus \wbarN(\nu)$ is not empty.
