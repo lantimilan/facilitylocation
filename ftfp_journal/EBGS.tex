@@ -130,69 +130,60 @@ always split one facility to have this property. Then we define
 $\wtildeN_{\gamma}(j) = \braced{\mu_1,...,\mu_l}$. We also use notation
 %
 \begin{equation*}
-\tcc_\gamma(j) =  d(\wtildeN_\gamma(j), j) 
+\tcc_\gamma(j) =  D(\wtildeN_\gamma(j), j) = \sum_{\mu\in\wtildeN_{\gamma}(j)} d_{\mu j} \tildex_{\mu j}
 			\quad\textrm{ and }\quad
  \dmax_\gamma(j) = \max_{\mu \in \wtildeN_{\gamma}(j)} d_{\mu j}. 
 \end{equation*}
 %
-
-{\Large\bf
-LI, these were not correctly defined earlier, but I think this is what they
-should be. You should use subscript $\gamma$ to distinguish these notations
-from those used earlier.
-}
 
 In each iteration, we find a not yet exhausted client $p$ that minimizes the
 value of $\tcc_\gamma(p) + \dmax_\gamma(p)$. Now we have two cases:
 
 \begin{description}
 
-\item{\mycase{1}:} $\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa)\neq\emptyset$,
-for some existing primary demand $\kappa$.
-In this case we assign $\nu$ to
-$\kappa$. As before, if there are multiple such $\kappa$, we pick any
-of them. We also fix $\barx_{\mu\kappa} \assign \tildex_{\mu p},
-\tildex_{\mu p}\assign 0$ for each $\mu \in \wtildeN(p)\cap
-\wbarclsnb(\kappa)$. As before, although we check for overlap between
-$\wtildeN_{\gamma}(p)$ and $\wbarclsnb(\kappa)$, the facilities we
-actually move into $\wbarN(\nu)$ include all facilities in the
-intersection of $\wtildeN(p)$, a bigger set, with
-$\wbarclsnb(\kappa)$. At this point the total connection value in
-$\wbarN(\nu)$ might be smaller than $1/\gamma$ (it cannot be bigger)
-and we shall augment $\nu$ with additional facilities later to make a
-neighborhood with total connection value of $1$ (We augment to make
-sum of $\barx_{\mu\nu}$ for all $\mu\in\wbarN(\nu)$ equal to $1$.).
+\item{\mycase{1}:} $\wtildeN_{\gamma}(p) \cap
+  \wbarclsnb(\kappa)\neq\emptyset$, for some existing primary demand
+  $\kappa$.  In this case we assign $\nu$ to $\kappa$. As before, if
+  there are multiple such $\kappa$, we pick any of them. We also fix
+  $\barx_{\mu \nu} \assign \tildex_{\mu p}, \tildex_{\mu p}\assign 0$
+  for each $\mu \in \wtildeN(p)\cap \wbarclsnb(\kappa)$. As before,
+  although we check for overlap between $\wtildeN_{\gamma}(p)$ and
+  $\wbarclsnb(\kappa)$, the facilities we actually move into
+  $\wbarN(\nu)$ include all facilities in the intersection of
+  $\wtildeN(p)$, a bigger set, with $\wbarclsnb(\kappa)$. We would
+  like to point out that $\wbarN(\nu)$ is not finalized at this time
+  as we will add more facilities to it in the augment phase. As a
+  result $\wbarclsnb(\nu)$ is not fixed either, as we could
+  potentially add facilities closer to $\nu$ that facilities already
+  in $\wbarN(\nu)$. Recall that by definition $\wbarclsnb(\nu)$
+  consists of the facilities that closest to $\nu$ once $\wbarN(\nu)$
+  is fixed with total connection value of $1$.
 
-{\Large\bf
-LI: The last two sentences make no sense. Who cares if
-the neighborhood of nu is smaller than $1/\gamma$. Should it be the 
-close neighborhood? If so, why are you saying you will make it 1?
-}
-
-\item{\mycase{2}:}
-$\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa) = \emptyset$,
-for all existing primary demands $\kappa$.
-In this case we make $\nu$ a primary demand. We then fix
-$\barx_{\mu\kappa}\assign \tildex_{\mu p}$ for $\mu \in
-\wtildeN_{\gamma}(p)$ and set the corresponding $\tildex_{\mu p}$ to
-$0$.  Note that the total connection value in $\wbarclsnb(\kappa)$ is
-now exactly
-$1/\gamma$.  The set $\wtildeN_{\gamma}(p)$ turns out to coincide with
-$\wbarclsnb(\kappa)$ as we only add farther facilities when
-augmenting a primary demand thereafter. Thus $\wbarclsnb(\kappa)$ is
-defined when it is created. We also define $\tcc(\kappa) = \tcc(p)$
-and
-$\clsdist(\kappa)=\gamma\sum_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}\barx_{\mu\kappa},
-\clsmax(\kappa)=\max_{\mu\in\wbarclsnb(\kappa)}d_{\mu\kappa}$.
-
+\item{\mycase{2}:} $\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa) =
+  \emptyset$, for all existing primary demands $\kappa$.  In this case
+  we make $\nu$ a primary demand. We then fix $\barx_{\mu \nu}\assign
+  \tildex_{\mu p}$ for $\mu \in \wtildeN_{\gamma}(p)$ and set the
+  corresponding $\tildex_{\mu p}$ to $0$.  Note that the total
+  connection value in $\wbarclsnb(\nu)$ is now exactly $1/\gamma$.
+  The set $\wtildeN_{\gamma}(p)$ turns out to coincide with
+  $\wbarclsnb(\nu)$ as the facilities in $\wtildeN(p) \setminus
+  \wtildeN_{\gamma}(p)$ are all farther away than any facilitity in
+  $\wtildeN_{\gamma}(p)$. In the augment phase we have available only
+  facilities in some subset of $\wtildeN(p) \setminus
+  \wtildeN_{\gamma}(p)$. Thus $\wbarclsnb(\nu)$ is defined when it
+  is created.
 \end{description}
 
-Once all clients are exhausted, that is, each client $j$ has $r_j$ demands created, 
-Phase~1 concludes. We then do Phase~2, the augmentation phase.
-For each demand with total connection value less than $1$, we use our
-$\AugmentToUnit()$ procedure to add additional facilities to
-its neighborhood to make its total connection value equal $1$. 
-This completes the description of the partitioning algorithm.
+Once all clients are exhausted, that is, each client $j$ has $r_j$
+demands created, Phase~1 concludes. We then do Phase~2, the augmenting
+phase.  For each demand $\nu$ of client $j$ with total connection
+value less than $1$, we use our $\AugmentToUnit()$ procedure to add
+additional facilities from $\wtildeN(j)$ to its neighborhood to make
+its total connection value equal $1$, as before a facility is removed
+from $\wtildeN(j)$ once added to a demand's neighborhood. We do
+facility split if necessary to make $\wbarN(\nu)$ have total
+connection value of 1.  This completes the description of the
+partitioning algorithm.
 
 \smallskip
 
