@@ -128,9 +128,11 @@ demand at a time, and the connection values for the demands of a
 client depend on the choice of earlier demands, of this or other
 clients, and their connection values. We would like to point out that
 the adaptive partitioning process for the $1.575$-approximation
-algorithm is more subtle than the $3$-apprximation and the
-$1.736$-approximation algorithms, due to the introduction of close and
-far neighborhood.
+algorithm (Section~\ref{sec: 1.575-approximation}) is more subtle than
+the $3$-apprximation (Section~\ref{sec: 3-approximation}) and the
+$1.736$-approximation algorithms (Section~\ref{sec:
+  1.736-approximation}), due to the introduction of close and far
+neighborhood.
 
 %%%%%%%%%%%%%%%%
 
@@ -155,37 +157,32 @@ primary demands. Phase 1 completes when all clients are
 exhausted. In Phase 2 we ensure that every demand has a
 total connection values equal to $1$, that is condition (PS.\ref{PS:one}).
 
-For each site $i$ we will initially create one ``big"
-facility $\mu$ with initial value $\bary_\mu = y^\ast_i$.
-While we partition the instance, creating new demands and
-connections, this facility may end up being split into more
-facilities to preserve completeness of the fractional
-solution. Also, we will gradually decrease the fractional
-connection vector for each client $j$, to account for the
-demands already created for $j$ and their connection values.  These
-decreased connection values will be stored in an auxiliary
-vector $\tildebfx$. The intuition is that $\tildebfx$
-represents the part of $\bfx^\ast$ that still has not been
-partitioned into demands and future demands can use
-$\tildebfx$ for their connections. For technical reasons,
-$\tildebfx$ will be indexed by facilities (rather than
-sites) and clients, that is $\tildebfx = (\tildex_{\mu j})$.
-At the beginning, we set $\tildex_{\mu j}\assign
-x_{ij}^\ast$ for each $j\in\clientset$, where $\mu\in i$ is
-the single facility created initially at site $i$.  At each
-step, whenever we create a new demand $\nu$ for a client
-$j$, we will define its values $\barx_{\mu\nu}$ and
-appropriately reduce the values $\tildex_{\mu j}$, for all
-facilities $\mu$. We will deal with two types of
-neighborhoods, with respect to $\tildebfx$ and $\barbfx$,
-that is $\wtildeN(j)=\{\mu\in\facilityset
+For each site $i$ we will initially create one ``big" facility $\mu$
+with initial value $\bary_\mu = y^\ast_i$.  While we partition the
+instance, creating new demands and connections, this facility may end
+up being split into more facilities to preserve completeness of the
+fractional solution. Also, we will gradually decrease the fractional
+connection vector for each client $j$, to account for the demands
+already created for $j$ and their connection values.  These decreased
+connection values will be stored in an auxiliary vector
+$\tildebfx$. The intuition is that $\tildebfx$ represents the part of
+$\bfx^\ast$ that still has not been allocated to existing demands and
+future demands can use $\tildebfx$ for their connections. For
+technical reasons, $\tildebfx$ will be indexed by facilities (rather
+than sites) and clients, that is $\tildebfx = (\tildex_{\mu j})$.  At
+the beginning, we set $\tildex_{\mu j}\assign x_{ij}^\ast$ for each
+$j\in\clientset$, where $\mu\in i$ is the single facility created
+initially at site $i$.  At each step, whenever we create a new demand
+$\nu$ for a client $j$, we will define its values $\barx_{\mu\nu}$ and
+appropriately reduce the values $\tildex_{\mu j}$, for all facilities
+$\mu$. We will deal with two types of neighborhoods, with respect to
+$\tildebfx$ and $\barbfx$, that is $\wtildeN(j)=\{\mu\in\facilityset
 \suchthat\tildex_{\mu j} > 0\}$ for $j\in\clientset$ and
-$\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu}
->0\}$ for $\nu\in\demandset$.  During this process we
-preserve the completeness of the fractional solutions
-$\tildebfx$ and $\barbfx$. More precisely, the following
-properties will hold for every facility $\mu$ after every
-iteration:
+$\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu} >0\}$ for
+$\nu\in\demandset$.  During this process we preserve the completeness
+(CO) of the fractional solutions $\tildebfx$ and $\barbfx$. More
+precisely, the following properties will hold for every facility $\mu$
+after every iteration:
 %
 \begin{description}
 	
@@ -432,22 +429,21 @@ remove a facility from $\wbarN(\nu)$.  We postpone the proof
 for (PD.\ref{PD:assign:cost}) to Lemma~\ref{lem: PD:assign:cost holds}.
 
 Finally we argue that the properties in group (SI)
-hold. (SI.\ref{SI:siblings disjoint}) is easy, since for any client $j$, 
-each facility $\mu$ is added to the neighborhood of at most one demand $\nu\in j$,
-by setting $\barx_{\mu\nu}$ to $\bary_\mu$,
-while other siblings $\nu'$ of $\nu$ have $\barx_{\mu\nu'}=0$. Note
-that right after a demand $\nu\in p$ is created, its
-neighborhood is disjoint from the neighborhood of $p$, that
-is $\wbarN(\nu)\cap \wtildeN(p) = \emptyset$, by
-Lines~11--13 of the algorithm. Thus all demands of $p$
-created later will have neighborhoods disjoint from
-$\wbarN(\nu)$. Furthermore, Procedure~$\AugmentToUnit()$
-preserves this property, because when it adds an existing
-facility to $\wbarN(\nu)$ then it removes it from
-$\wtildeN(p)$, and in case of splitting, one resulting
-facility is added to $\wbarN(\nu)$ and the other to
-$\wtildeN(p)$. Property (SI.\ref{SI:primary disjoint}) is shown
-below in Lemma~\ref{lem: property SI:primary disjoint holds}.
+hold. (SI.\ref{SI:siblings disjoint}) is easy, since for any client
+$j$, each facility $\mu$ is added to the neighborhood of at most one
+demand $\nu\in j$, by setting $\barx_{\mu\nu}$ to $\bary_\mu$, while
+other siblings $\nu'$ of $\nu$ have $\barx_{\mu\nu'}=0$. Note that
+right after a demand $\nu\in p$ is created, its neighborhood is
+disjoint from the neighborhood of $p$, that is $\wbarN(\nu)\cap
+\wtildeN(p) = \emptyset$, by Lines~11--13 of the algorithm. Thus all
+demands of $p$ created later will have neighborhoods disjoint from the
+set $\wbarN(\nu)$ before the augmenting phase 2. Furthermore,
+Procedure~$\AugmentToUnit()$ preserves this property, because when it
+adds a facility to $\wbarN(\nu)$ then it removes it from
+$\wtildeN(p)$, and in case of splitting, one resulting facility is
+added to $\wbarN(\nu)$ and the other to $\wtildeN(p)$. Property
+(SI.\ref{SI:primary disjoint}) is shown below in Lemma~\ref{lem:
+  property SI:primary disjoint holds}.
 
 It remains to show Properties~(PD.\ref{PD:assign:cost}) and
 (SI.\ref{SI:primary disjoint}). We show them in the lemmas
@@ -473,15 +469,15 @@ Since any two primary demands have disjoint
   \emptyset$ for any $s\neq q$, that is
 	Property~(SI.\ref{SI:primary disjoint}) holds right after Phase~1.
 
- After Phase~1 all neighborhoods $\wbarN(\kappa_s), s=1,\ldots,r_j$
-  have already been fixed and they do not change in Phase~2.
-None of the facilities in
-  $\wtildeN(j)$ appear in any of $\wbarN(\kappa_s)$ for
-  $s=1,\ldots,r_j$, by the way we reassign facilities in Lines~13 and 16.
-Therefore during the augmentation process in Phase~2, when we add facilities from
-  $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
-  (Line~19--21 of Pseudocode~\ref{alg:lpr2}),
- all the required disjointness conditions will be preserved.
+        After Phase~1 all neighborhoods $\wbarN(\kappa_s),
+        s=1,\ldots,r_j$ have already been fixed and they do not change
+        in Phase~2.  None of the facilities in $\wtildeN(j)$ appear in
+        any of $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$, by the way we
+        allocate facilities in Lines~13 and 16.  Therefore during the
+        augmentation process in Phase~2, when we add facilities from
+        $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
+        (Line~19--21 of Pseudocode~\ref{alg:lpr2}), all the required
+        disjointness conditions will be preserved.
 \end{proof}
 
 %%%%%%%
