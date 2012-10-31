@@ -1,16 +1,17 @@
 \section{Algorithm~{\ECHS} with Ratio $1.736$}\label{sec: 1.736-approximation}
 
-In this section we improve the approximation ratio to $1+2/e
-\approx 1.736$. The improvement comes from a slightly modified
-rounding process and refined analysis.  Note that the
-facility opening cost of Algorithm~{\EGUP} does not exceed
-that of the fractional optimum solution, while the
-connection cost is quite far from the optimum, due to the
-cost of indirect connections (that is, connections from
-non-primary demands).  The basic idea behind the
-improvement, following the approach of Chudak and
-Shmoys~\cite{ChudakS04}, is to balance these bounds by
-opening more facilities and using direct connections when available.
+In this section we improve the approximation ratio to $1+2/e \approx
+1.736$. The improvement comes from a slightly modified rounding
+process and refined analysis.  Note that the facility opening cost of
+Algorithm~{\EGUP} does not exceed that of the fractional optimum
+solution, while the connection cost is quite far from the optimum,
+since we connect a non-primary demand to a facility in its assigned
+primary demand's neighborhood and then estimate the distance using the
+triangle inequality. To improve the estimate of the connection cost,
+the basic idea, following the approach of Chudak and
+Shmoys~\cite{ChudakS04}, is to connect a non-primary demand to its
+nearest neighbor when one is available and only use the facility that
+its primary demand opens when none of its neighbor is open.
 
 %%%%%%%%%%
 
