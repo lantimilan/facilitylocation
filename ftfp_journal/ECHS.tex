@@ -65,7 +65,8 @@ its target facility (Line 10).
     \For{each $\kappa\in P$} 
     \State choose one $\phi(\kappa)\in \wbarN(\kappa)$,
     with each $\mu\in\wbarN(\kappa)$ chosen as $\phi(\kappa)$
-    with probability $\bary_\mu$
+    with probability $\bary_\mu$ (note {$\barx_{\mu\kappa} =
+      \bary_{\kappa}$ for all $\mu \in \wbarN(\kappa)$})
     \State open $\phi(\kappa)$ and connect $\kappa$ to $\phi(\kappa)$
     \EndFor
     \For{each $\mu\in\facilityset - \bigcup_{\kappa\in P}\wbarN(\kappa)$} 
@@ -218,41 +219,39 @@ that for a primary demand $\kappa$, its expected connection cost
 is $C^\avg_{\kappa} = \sum_{\mu\in\wbarN(\kappa)}
 d_{\mu\kappa}\barx_{\mu\kappa}$ as in the previous section.
 
-Next, we consider a non-primary demand $\nu$.
-Denote by $C_\nu$ the random variable representing the connection
-cost for $\nu$. We first deal with the case when
-$\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$, which is the
-same as $\wbarN(\kappa) \subseteq \wbarN(\nu)$. This
-actually implies that $\wbarN(\kappa) = \wbarN(\nu)$ because
-Property (CO) implies that $\barx_{\mu\nu} = \bary_{\mu} =
-\barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$ and
-therefore $\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} =
-1$. Thus $\Exp[C_{\nu}] = \concost_{\nu}$. 
+Next, we consider a non-primary demand $\nu$.  Denote by $C_\nu$ the
+random variable representing the connection cost for $\nu$. We first
+deal with the case when $\wbarN(\kappa)\setminus \wbarN(\nu) =
+\emptyset$, which is the same as $\wbarN(\kappa) \subseteq
+\wbarN(\nu)$. This actually implies that $\wbarN(\kappa) =
+\wbarN(\nu)$ because Property (CO) implies that $\barx_{\mu\nu} =
+\bary_{\mu} = \barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$
+and we have $\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} = 1$ due to
+(PS.\ref{PS:one}). Thus $\barx_{\mu\nu} = \bary_{\mu} =
+\barx_{\mu\kappa}$ for $\mu \in \wbarN(\kappa)$ and $\barx_{\mu\nu} =
+0$ for $\mu\in \facilityset \setminus \wbarN(\kappa)$. As a result we
+have $\Exp[C_{\nu}] = \concost_{\nu}$.
 
 Now we bound the expected connection cost of $\nu$ when
-$\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$.
-Let $\wbarN(\nu) = \braced{\mu_1,\ldots,\mu_l}$ and let $d_s
-= d_{\mu_s\nu}$ and $y_s = \bary_{\mu_s}$
-for $s = 1,\ldots,l$. By reordering, we can
-assume that $d_1 \le d_2 \le \ldots \le d_l$. 
-By Pseudocode~\ref{alg:lpr3}, the connection cost is
-no more than that obtained through the random process that
-opens each $\mu_s$ independently with
-probability $\barx_{\mu_s \nu} = y_{s}$ (because
-$\barx_{\mu_s \nu} > 0$ and by (CO)), and connects $\nu$ to the
-nearest such open facility, if any of them opens; otherwise
-$\nu$ is connected indirectly to its target facility
-$\phi(\kappa)$. The intuition is that we only use a facility
-$\mu_s$ if none of $\mu_1,\ldots,\mu_{s-1}$ is
-open. We know that $\mu_s$ opens (unconditionally) with
-probability $y_{s}$. The only way that some of
-$\mu_1,\ldots,\mu_{s-1}$ can affect that probability is if
-they belong to $\wbarN(\kappa)$ for some primary demand
-$\kappa$ and it also happens to be that $\mu_s \in
-\wbarN(\kappa)$ as well. However in this case, the condition
-that they are closed actually implies that the conditional
-probability of $\mu_s$ being open is larger than
-$y_{s}$. (For a detailed proof, see~\cite{ChudakS04}.)
+$\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$.  Let $\wbarN(\nu)
+= \braced{\mu_1,\ldots,\mu_l}$ and let $d_s = d_{\mu_s\nu}$ and $y_s =
+\bary_{\mu_s}$ for $s = 1,\ldots,l$. By reordering, we can assume that
+$d_1 \le d_2 \le \ldots \le d_l$.  By Pseudocode~\ref{alg:lpr3}, the
+connection cost is no more than that obtained through the random
+process that opens each $\mu_s$ independently with probability $y_{s}$
+(note that $\barx_{\mu_s \nu} = y_{s}$ because $\barx_{\mu_s \nu} > 0$
+and by (CO)), and connects $\nu$ to the nearest such open facility, if
+any of them opens; otherwise $\nu$ is connected indirectly to its
+target facility $\phi(\kappa)$. The intuition is that we only use a
+facility $\mu_s$ if none of $\mu_1,\ldots,\mu_{s-1}$ is open. We know
+that $\mu_s$ opens (unconditionally) with probability $y_{s}$. The
+only way that some of $\mu_1,\ldots,\mu_{s-1}$ can affect that
+probability is if they belong to $\wbarN(\kappa)$ for some primary
+demand $\kappa$ and it also happens to be that $\mu_s \in
+\wbarN(\kappa)$ as well. However in this case, the condition that they
+are closed actually implies that the conditional probability of
+$\mu_s$ being open is larger than $y_{s}$. (For a detailed proof,
+see~\cite{ChudakS04}.)
 
 Putting it all together, we estimate the (unconditional) expected 
 connection cost of $\nu$ as follows:

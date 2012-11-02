@@ -2,51 +2,52 @@
 
 \section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec: 1.575-approximation}
 
-In this section we give our main result, a $1.575$-approximation algorithm
-for $\FTFP$, where $1.575$ is the value of
- $\min_{\gamma\geq 1}\max\{\gamma,
-  1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$, rounded to three
-decimal digits. This matches the ratio of the best known LP-rounding
-algorithm for UFL by Byrka~{\etal}~\cite{ByrkaGS10}. Recall that in
-Section~\ref{sec: 1.736-approximation} we showed how to compute an integral
-solution with facility cost bounded by $F^\ast$ and
-connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. A
-natural idea is to balance these two costs, by reducing the connection
-cost, at the expense of slightly increasing the facility cost. If it works,
-this should result in reducing the approximation ratio.
+In this section we give our main result, a $1.575$-approximation
+algorithm for $\FTFP$, where $1.575$ is the value of $\min_{\gamma\geq
+  1}\max\{\gamma, 1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$,
+rounded to three decimal digits. This matches the ratio of the best
+known LP-rounding algorithm for UFL by
+Byrka~{\etal}~\cite{ByrkaGS10}. Recall that in Section~\ref{sec:
+  1.736-approximation} we showed how to compute an integral solution
+with facility cost bounded by $F^\ast$ and connection cost bounded by
+$C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
+costs, by reducing the connection cost, at the expense of slightly
+increasing the facility cost.
 
-Our approach can be thought of as a combination of the ideas in~\cite{ByrkaGS10}
-with the techniques of demand reduction and adaptive partitioning that we
-introduced earlier. However, our adaptive partitioning technique needs to 
-be carefully modified because now we will be using a more intricate neighborhood 
-structure, with the neighborhood of each demand divided into two parts, 
-the close and far neighborhood, and with some conditions on which pairs of neighborhoods
+Our approach can be thought of as a combination of the ideas
+in~\cite{ByrkaGS10} with the techniques of demand reduction and
+adaptive partitioning that we introduced earlier. However, our
+adaptive partitioning technique needs to be carefully modified because
+now we will be using a more intricate neighborhood structure, with the
+neighborhood of each demand divided into two parts, the close and far
+neighborhood, and with some conditions on which pairs of neighborhoods
 need to overlap and which need to be disjoint. The final rounding
 stage that construct an integral solution is a relatively
-straightforward generalization of the rounding method in \cite{ByrkaGS10}.
+straightforward generalization of the rounding method in
+\cite{ByrkaGS10}.
 
 We begin by describing properties that our partitioned fractional
 solution $(\barbfx,\barbfy)$ needs to satisfy. The neighborhood
-$\wbarN(\nu)$ of each demand $\nu$ will be divided into two disjoint parts.
-The first part, called the \emph{close neighborhood} $\wbarclsnb(\nu)$,
-contains the facilities in $\wbarN(\nu)$ nearest to $\nu$ with the total
-connection value equal $1/\gamma$. The second part,
-called the \emph{far neighborhood} $\wbarfarnb(\nu)$, contains the 
-remaining facilities in $\wbarN(\nu)$. The formal definitions of
-these sets  are given below in Property~(NB). 
-The respective average connection costs from $\nu$ for these sets are defined by
+$\wbarN(\nu)$ of each demand $\nu$ will be divided into two disjoint
+parts.  The first part, called the \emph{close neighborhood}
+$\wbarclsnb(\nu)$, contains the facilities in $\wbarN(\nu)$ nearest to
+$\nu$ with the total connection value equal $1/\gamma$. The second
+part, called the \emph{far neighborhood} $\wbarfarnb(\nu)$, contains
+the remaining facilities in $\wbarN(\nu)$. The formal definitions of
+these sets are given below in Property~(NB).  The respective average
+connection costs from $\nu$ for these sets are defined by
 $\clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
 d_{\mu\nu}\barx_{\mu\nu}$ and
 $\fardist(\nu)=\frac{\gamma}{\gamma-1}\sum_{\mu\in\wbarfarnb(\nu)}
-d_{\mu\nu}\barx_{\mu\nu}$. We will
-also use notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)}
-d_{\mu\nu}$ for the maximum distance from $\nu$ to its close neighborhood.
+d_{\mu\nu}\barx_{\mu\nu}$. We will also use notation
+$\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for the maximum
+distance from $\nu$ to its close neighborhood.
 
-Our partitioned solution $(\barbfx,\barbfy)$ must satisfy the
-same partitioning and completeness properties as before, namely 
-properties (PS) and (CO) in Section~\ref{sec: adaptive partitioning}.
-In addition, it must satisfy new neighborhood property (NB) and
-modified properties (PD) and (SI), listed below.
+Our partitioned solution $(\barbfx,\barbfy)$ must satisfy the same
+partitioning and completeness properties as before, namely properties
+(PS) and (CO) in Section~\ref{sec: adaptive partitioning}.  In
+addition, it must satisfy new neighborhood property (NB) and modified
+properties (PD') and (SI'), listed below.
 
 \begin{description}
 	
@@ -154,7 +155,7 @@ value of $\tcc_\gamma(p) + \dmax_\gamma(p)$. Now we have two cases:
   like to point out that $\wbarN(\nu)$ is not finalized at this time
   as we will add more facilities to it in the augment phase. As a
   result $\wbarclsnb(\nu)$ is not fixed either, as we could
-  potentially add facilities closer to $\nu$ that facilities already
+  potentially add facilities closer to $\nu$ than facilities already
   in $\wbarN(\nu)$. Recall that by definition $\wbarclsnb(\nu)$
   consists of the facilities that closest to $\nu$ once $\wbarN(\nu)$
   is fixed with total connection value of $1$.
@@ -168,9 +169,9 @@ value of $\tcc_\gamma(p) + \dmax_\gamma(p)$. Now we have two cases:
   The set $\wtildeN_{\gamma}(p)$ turns out to coincide with
   $\wbarclsnb(\nu)$ as the facilities in $\wtildeN(p) \setminus
   \wtildeN_{\gamma}(p)$ are all farther away than any facilitity in
-  $\wtildeN_{\gamma}(p)$. In the augment phase we have available only
-  facilities in some subset of $\wtildeN(p) \setminus
-  \wtildeN_{\gamma}(p)$. Thus $\wbarclsnb(\nu)$ is defined when it
+  $\wtildeN_{\gamma}(p)$. In the augmenting phase, Phase 2, we have
+  available only facilities in some subset of $\wtildeN(p) \setminus
+  \wtildeN_{\gamma}(p)$. Thus $\wbarclsnb(\nu)$ is defined when $\nu$
   is created.
 \end{description}
 
@@ -178,40 +179,38 @@ Once all clients are exhausted, that is, each client $j$ has $r_j$
 demands created, Phase~1 concludes. We then do Phase~2, the augmenting
 phase.  For each demand $\nu$ of client $j$ with total connection
 value less than $1$, we use our $\AugmentToUnit()$ procedure to add
-additional facilities from $\wtildeN(j)$ to its neighborhood to make
-its total connection value equal $1$, as before a facility is removed
-from $\wtildeN(j)$ once added to a demand's neighborhood. We do
-facility split if necessary to make $\wbarN(\nu)$ have total
+additional facilities from $\wtildeN(j)$ to $\nu$'s neighborhood to
+make its total connection value equal $1$, as before a facility is
+removed from $\wtildeN(j)$ once added to a demand's neighborhood. We
+do facility split if necessary to make $\wbarN(\nu)$ have total
 connection value of 1.  This completes the description of the
 partitioning algorithm.
 
 \smallskip
 
-We now argue that the fractional solution $(\barbfx,\barbfy)$ 
-satisfies all the stated properties. Properties~(PS), (CO),
-(PD.\ref{PD1:disjoint}) and (SI.\ref{SI1:siblings disjoint})  are
-directly enforced by the adaptive partitioning algorithm. The
-proofs for other properties are similar to those in 
-Section~\ref{sec: adaptive partitioning}, with the
-exception of (PD.\ref{PD:assign:overlap}), which we justify below.
+We now argue that the fractional solution $(\barbfx,\barbfy)$
+satisfies all the stated properties. Properties~(PS), (CO), (NB)
+(PD'.\ref{PD1:disjoint}) and (SI'.\ref{SI1:siblings disjoint}) are
+directly enforced by the adaptive partitioning algorithm. The proofs
+for other properties (PD'.\ref{PD1:yi}), (PD'.\ref{PD1:assign:cost})
+and (SI'.\ref{SI1:primary disjoint}) are similar to those in
+Section~\ref{sec: adaptive partitioning}, with the exception of
+(PD.\ref{PD:assign:overlap}), which we justify below.
 
 The argument for (PD.\ref{PD:assign:overlap}) is a bit subtle, because
-of possible complications arising in the augmentation phase.
-This phase does not change close neighborhoods of primary demands, as each primary demand
-already contains all the nearest facilities with total connection
-value $1/\gamma$. 
-For non-primary demands, however, $\wbarN(\nu)$, for $\nu\in j$, takes all 
-facilities in $\wbarclsnb(\kappa)\cap \wtildeN(j)$, which
-might be close to $\kappa$ but far from $j$. 
-It seems that
-facilities added in the augment step might actually be
-closer to $\nu$ than some of the facilities
-already in $\wbarN(\nu)$. As a result, facilities added in
-the augment step might appear in 
-$\wbarclsnb(\nu)$, yet they are not in $\wbarclsnb(\kappa)$,
-the close neighborhood
-of the primary demand $\kappa$ that $\nu$ is assigned to.  
-Nevertheless, we show that Property~(PD.\ref{PD:assign:overlap}) holds.
+of possible complications arising in the augmenting phase, Phase 2.
+This phase does not change close neighborhoods of primary demands, as
+each primary demand already contains all the nearest facilities with
+total connection value $1/\gamma$.  For non-primary demands, however,
+$\wbarN(\nu)$, for $\nu\in j$, takes all facilities in
+$\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be close to $\kappa$
+but far from $j$.  It seems that facilities added in the augment step
+might actually be closer to $\nu$ than some of the facilities already
+in $\wbarN(\nu)$. As a result, facilities added in the augmenting
+phase, Phase 2, might appear in $\wbarclsnb(\nu)$, yet they are not in
+$\wbarclsnb(\kappa)$, the close neighborhood of the primary demand
+$\kappa$ that $\nu$ is assigned to.  Nevertheless, we show that
+Property~(PD.\ref{PD:assign:overlap}) holds.
 
 Consider an iteration when we create a demand $\nu\in p$
 and assign it to $\kappa$. Then the set
