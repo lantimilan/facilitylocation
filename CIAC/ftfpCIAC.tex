@@ -647,17 +647,16 @@ $\connsum(\nu)$ equal $1$, and we'll be done.
 %%%%%%%%%%%%%%
 
 
-Notice that we start with $|\sitesset|$ facilities and in
-each iteration of the while loop in Line~5 each client causes at most one split.
- We have a total of no more than $R|\clientset|$ iterations as in
-each iteration we create one demand. (Recall that $R =
-\max_jr_j$.) In Phase 2 we do an augment step for each
-demand $\nu$ and this creates no more than $R|\clientset|$
-new facilities.  So the total number of facilities we
-created will be at most $|\sitesset|+ R|\clientset|^2 +
+Notice that we start with $|\sitesset|$ facilities and in each
+iteration of the while loop each client causes at most one split.  We
+have a total of no more than $R|\clientset|$ iterations as in each
+iteration we create one demand. (Recall that $R = \max_jr_j$.) In
+Phase 2 we do an augment step for each demand $\nu$ and this creates
+no more than $R|\clientset|$ new facilities.  So the total number of
+facilities we created will be at most $|\sitesset|+ R|\clientset|^2 +
 R|\clientset| \leq |\sitesset| + 2R|\clientset|^2$, which is
-polynomial in $|\sitesset|+|\clientset|$ due to our earlier
-bound on $R$.
+polynomial in $|\sitesset|+|\clientset|$ due to our earlier bound on
+$R$.
 
 %%%%%%
 
@@ -667,77 +666,62 @@ bound on $R$.
 required properties (PS), (CO), (PD) and (SI) are satisfied
 by the above construction.
 
-Properties~(PS) and (CO) follow directly from the
-algorithm. (CO) is implied by the completeness condition
-(c1) that the algorithm maintains after each
-iteration. Condition~(PS.\ref{PS:one}) is a result of
-calling Procedure~$\AugmentToUnit()$ in Line~21. To see that
-(PS.\ref{PS:xij}) holds, note that
-at each step the algorithm maintains the
-invariant that, for every $i\in\sitesset$ and
-$j\in\clientset$, we have $\sum_{\mu\in i}\sum_{\nu \in j}
-\barx_{\mu \nu} + \sum_{\mu\in i} \tildex_{\mu j} =
-x_{ij}^\ast$. In the end, we will create $r_j$ demands for
-each client $j$, with each demand $\nu\in j$ satisfying
-(PS.\ref{PS:one}), and thus $\sum_{\nu\in
-  j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.  This
-implies that $\tildex_{\mu j}=0$ for every facility
-$\mu\in\facilityset$, and PS(\ref{PS:xij}) follows.
-PS(\ref{PS:yi}) holds because every time we split a
-facility $\mu$ into $\mu'$ and $\mu''$, the sum of
+Properties~(PS) and (CO) follow directly from the algorithm. (CO) is
+implied by the completeness condition (c1) that the algorithm
+maintains after each iteration. Condition~(PS.\ref{PS:one}) is a
+result of calling Procedure~$\AugmentToUnit()$ in Line~18. To see that
+(PS.\ref{PS:xij}) holds, note that at each step the algorithm
+maintains the invariant that, for every $i\in\sitesset$ and
+$j\in\clientset$, we have $\sum_{\mu\in i}\sum_{\nu \in j} \barx_{\mu
+  \nu} + \sum_{\mu\in i} \tildex_{\mu j} = x_{ij}^\ast$. In the end,
+we will create $r_j$ demands for each client $j$, with each demand
+$\nu\in j$ satisfying (PS.\ref{PS:one}), and thus $\sum_{\nu\in
+  j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.  This implies that
+$\tildex_{\mu j}=0$ for every facility $\mu\in\facilityset$, and
+PS(\ref{PS:xij}) follows.  PS(\ref{PS:yi}) holds because every time we
+split a facility $\mu$ into $\mu'$ and $\mu''$, the sum of
 $\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value of
-$\bary_{\mu}$.
-
-Now we deal with properties in group (PD).  First,
+$\bary_{\mu}$. Now we deal with properties in group (PD).  First,
 (PD.\ref{PD:disjoint}) follows directly from the algorithm,
-Pseudocode~\ref{alg:lpr2} (Lines 14--16), since every
-primary demand has its neighborhood fixed when created, and
-that neighborhood is disjoint from those of the existing primary
-demands.
-
-Property (PD.\ref{PD:yi}) follows from (PD.\ref{PD:disjoint}), (CO) and
-(PS.\ref{PS:yi}). In more detail, it can be justified as
-follows. By (PD.\ref{PD:disjoint}), for each $\mu\in i$ there
-is at most one $\kappa\in P$ with $\barx_{\mu\kappa} > 0$
-and we have $\barx_{\mu\kappa} = \bary_{\mu}$ due do (CO).
-Let $K\subseteq i$ be the set of those $\mu$'s for which
-such $\kappa\in P$ exists, and denote this $\kappa$ by
-$\kappa_\mu$. Then, using conditions (CO) and
+Pseudocode~\ref{alg:lpr2} (Line~13), since every primary demand has
+its neighborhood fixed when created, and that neighborhood is disjoint
+from those of the existing primary demands. Property (PD.\ref{PD:yi})
+follows from (PD.\ref{PD:disjoint}), (CO) and (PS.\ref{PS:yi}). In
+more detail, it can be justified as follows. By
+(PD.\ref{PD:disjoint}), for each $\mu\in i$ there is at most one
+$\kappa\in P$ with $\barx_{\mu\kappa} > 0$ and we have
+$\barx_{\mu\kappa} = \bary_{\mu}$ due do (CO).  Let $K\subseteq i$ be
+the set of those $\mu$'s for which such $\kappa\in P$ exists, and
+denote this $\kappa$ by $\kappa_\mu$. Then, using conditions (CO) and
 (PS.\ref{PS:yi}), we have $ \sum_{\mu\in i}\sum_{\kappa\in
-  P}\barx_{\mu\kappa} = \sum_{\mu\in K}\barx_{\mu\kappa_\mu}
-= \sum_{\mu\in K}\bary_{\mu} \leq \sum_{\mu\in i}
-\bary_{\mu} = y_i^\ast$.
-
-Property (PD.\ref{PD:assign:overlap}) follows from the way the algorithm
-assigns primary demands.  When demand $\nu$ of
-client $p$ is assigned to a primary demand $\kappa$ in
-Lines~11--13 of Pseudocode~\ref{alg:lpr2}, we move all
-facilities in $\wtildeN(p)\cap \wbarN(\kappa)$ (the
-intersection is nonempty) into $\wbarN(\nu)$, and we never
-remove a facility from $\wbarN(\nu)$.  We postpone the proof 
-for (PD.\ref{PD:assign:cost}) to Lemma~\ref{lem: PD:assign:cost holds}.
-
-Finally we argue that the properties in group (SI)
+  P}\barx_{\mu\kappa} = \sum_{\mu\in K}\barx_{\mu\kappa_\mu} =
+\sum_{\mu\in K}\bary_{\mu} \leq \sum_{\mu\in i} \bary_{\mu} =
+y_i^\ast$. Property (PD.\ref{PD:assign:overlap}) follows from the way
+the algorithm assigns primary demands.  When demand $\nu$ of client
+$p$ is assigned to a primary demand $\kappa$ in Line~11 of
+Pseudocode~\ref{alg:lpr2}, we move all facilities in $\wtildeN(p)\cap
+\wbarN(\kappa)$ (the intersection is nonempty) into $\wbarN(\nu)$, and
+we never remove a facility from $\wbarN(\nu)$.  We postpone the proof
+for (PD.\ref{PD:assign:cost}) to Lemma~\ref{lem: PD:assign:cost
+  holds}. Finally we argue that the properties in group (SI)
 hold. (SI.\ref{SI:siblings disjoint}) is easy, since for any client
 $j$, each facility $\mu$ is added to the neighborhood of at most one
 demand $\nu\in j$, by setting $\barx_{\mu\nu}$ to $\bary_\mu$, while
 other siblings $\nu'$ of $\nu$ have $\barx_{\mu\nu'}=0$. Note that
 right after a demand $\nu\in p$ is created, its neighborhood is
 disjoint from the neighborhood of $p$, that is $\wbarN(\nu)\cap
-\wtildeN(p) = \emptyset$, by Lines~11--13 of the algorithm. Thus all
-demands of $p$ created later will have neighborhoods disjoint from the
-set $\wbarN(\nu)$ before the augmenting phase 2. Furthermore,
-Procedure~$\AugmentToUnit()$ preserves this property, because when it
-adds a facility to $\wbarN(\nu)$ then it removes it from
-$\wtildeN(p)$, and in case of splitting, one resulting facility is
-added to $\wbarN(\nu)$ and the other to $\wtildeN(p)$. Property
-(SI.\ref{SI:primary disjoint}) is shown below in Lemma~\ref{lem:
-  property SI:primary disjoint holds}.
-
+\wtildeN(p) = \emptyset$, by Line~11 of
+Pseudocode~\ref{alg:lpr2}. Thus all demands of $p$ created later will
+have neighborhoods disjoint from the set $\wbarN(\nu)$ before the
+augmenting phase 2. Furthermore, Procedure~$\AugmentToUnit()$
+preserves this property, because when it adds a facility to
+$\wbarN(\nu)$ then it removes it from $\wtildeN(p)$, and in case of
+splitting, one resulting facility is added to $\wbarN(\nu)$ and the
+other to $\wtildeN(p)$. Property (SI.\ref{SI:primary disjoint}) is
+shown below in Lemma~\ref{lem: property SI:primary disjoint holds}.
 It remains to show Properties~(PD.\ref{PD:assign:cost}) and
-(SI.\ref{SI:primary disjoint}). We show them in the lemmas
-below, thus completing the description of our adaptive
-partition process.
+(SI.\ref{SI:primary disjoint}). We show them in the lemmas below, thus
+completing the description of our adaptive partition process.
 
 %%%%%%%
 
@@ -786,7 +770,7 @@ algorithm, if $\kappa$ is a primary demand of client $p$,
 then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
 $\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
 the first equation is true. The first inequality follows
-from the choice of $p$ in Line~9 in
+from the choice of $p$ in Line~8 in
 Pseudocode~\ref{alg:lpr2}. The last inequality holds
 because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
 j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, which
@@ -1236,12 +1220,12 @@ each primary demand already contains all the nearest facilities with
 total connection value $1/\gamma$.  For non-primary demands, however,
 $\wbarN(\nu)$, for $\nu\in j$, takes all facilities in
 $\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be close to $\kappa$
-but far from $j$.  It seems that facilities added in the augment step
-might actually be closer to $\nu$ than some of the facilities already
-in $\wbarN(\nu)$. As a result, facilities added in the augmenting
-phase, Phase 2, might appear in $\wbarclsnb(\nu)$, yet they are not in
-$\wbarclsnb(\kappa)$, the close neighborhood of the primary demand
-$\kappa$ that $\nu$ is assigned to.  Nevertheless, we show that
+but far from $j$.  It seems that facilities added in the augmenting
+phase might actually be closer to $\nu$ than some of the facilities
+already in $\wbarN(\nu)$. As a result, facilities added in the
+augmenting phase, Phase 2, might appear in $\wbarclsnb(\nu)$, yet they
+are not in $\wbarclsnb(\kappa)$, the close neighborhood of the primary
+demand $\kappa$ that $\nu$ is assigned to.  Nevertheless, we show that
 Property~(PD.\ref{PD:assign:overlap}) holds.
 
 Consider an iteration when we create a demand $\nu\in p$
@@ -1383,7 +1367,7 @@ Then  $\doty_i = y_i^\ast - \floor{y_i^\ast} = x_{ij}^\ast - \floor{x_{ij}^\ast}
   $j\in\clientset$, listed in the order of creation, and, for each
   $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the primary demand that
   $\nu_q$ is assigned to. After the completion of Phase~1 of
-  Pseudocode~\ref{alg:lpr2} (Lines 5--18), we have
+  Pseudocode~\ref{alg:lpr2} (Lines~1--15), we have
   $\wbarN(\nu_s)\subseteq \wbarN(\kappa_s)$ for  $s=1,\ldots,r_j$. 
 Since any two primary demands have disjoint
   neighborhoods, we have $\wbarN(\nu_s) \cap \wbarN(\kappa_q) =
@@ -1394,10 +1378,10 @@ Since any two primary demands have disjoint
         s=1,\ldots,r_j$ have already been fixed and they do not change
         in Phase~2.  None of the facilities in $\wtildeN(j)$ appear in
         any of $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$, by the way we
-        allocate facilities in Lines~13 and 16.  Therefore during the
+        allocate facilities in Lines~11 and 13.  Therefore during the
         augmentation process in Phase~2, when we add facilities from
         $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
-        (Line~19--21 of Pseudocode~\ref{alg:lpr2}), all the required
+        (Line~16--18 of Pseudocode~\ref{alg:lpr2}), all the required
         disjointness conditions will be preserved.
 \end{proof}
 
@@ -1406,7 +1390,7 @@ Since any two primary demands have disjoint
 \begin{proof}[Proof of Lemma~\ref{lem: tcc optimal}]
   We focus first on the time when demand $\eta$ is about to be created,
   right after the call to $\NearestUnitChunk()$ in
-  Pseudocode~\ref{alg:lpr2}, Line~7.  Let $\wtildeN(j) =
+  Pseudocode~\ref{alg:lpr2}, Line~6.  Let $\wtildeN(j) =
   \{\mu_1,...,\mu_q\}$ with all facilities $\mu_s$ ordered
   according to nondecreasing distance from $j$.  Consider
   the following linear program:
@@ -1758,23 +1742,20 @@ an overall expected cost
 
 \section{Connection Cost of Algorithm~{\EBGS}}
 \label{app:EBGS}
-We now bound the connection
-cost. Properties~(PD.\ref{PD1:assign:overlap}) and
-(PD.\ref{PD1:assign:cost}) allow us to bound the expected
-distance from a demand $\nu$ to its target facility by
-$\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event
-that none of $\nu$'s neighbors opens, using a similar
-argument as Lemma 2.2 in~\cite{ByrkaGS10}~\footnote{The full
-  proof of the lemma appears in~\cite{ByrkaA10} as
-  Lemma~3.3.}. We are then able to estimate the expected
-connection cost for demand $\nu$ using an argument similar
-to~\cite{ByrkaGS10}: with probability
-no less than $1-1/e$, $\nu$ has some facility open in its
-close neighborhood, with probability no less than
-$1-1/e^\gamma$, $\nu$ has some facility open in its overall
-neighborhood, and with probability no more than
-$1/e^\gamma$, $\nu$ will connect to its target facility.
-This gives us the bound
+In this section we bound the connection cost of
+Algorithm~{\EBGS}. Properties~(PD.\ref{PD1:assign:overlap}) and
+(PD.\ref{PD1:assign:cost}) allow us to bound the expected distance
+from a demand $\nu$ to its target facility by
+$\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event that none of
+$\nu$'s neighbors opens, using a similar argument as Lemma 2.2
+in~\cite{ByrkaGS10}~\footnote{The full proof of the lemma appears
+  in~\cite{ByrkaA10} as Lemma~3.3.}. We are then able to estimate the
+expected connection cost for demand $\nu$ using an argument similar
+to~\cite{ByrkaGS10}: with probability no less than $1-1/e$, $\nu$ has
+some facility open in its close neighborhood, with probability no less
+than $1-1/e^\gamma$, $\nu$ has some facility open in its overall
+neighborhood, and with probability no more than $1/e^\gamma$, $\nu$
+will connect to its target facility.  This gives us the bound
 %
 \begin{align*}
   \Exp[C_{\nu}] &\leq \clsdist(\nu)(1-1/e) +
