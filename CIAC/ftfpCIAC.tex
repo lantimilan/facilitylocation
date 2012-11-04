@@ -708,9 +708,6 @@ $\wbarN(\nu)$ then it removes it from $\wtildeN(p)$, and in case of
 splitting, one resulting facility is added to $\wbarN(\nu)$ and the
 other to $\wtildeN(p)$. Property (SI.\ref{SI:primary disjoint}) is
 shown below in Lemma~\ref{lem: property SI:primary disjoint holds}.
-It remains to show Properties~(PD.\ref{PD:assign:cost}) and
-(SI.\ref{SI:primary disjoint}). We show them in the lemmas below, thus
-completing the description of our adaptive partition process.
 
 %%%%%%%
 
@@ -728,13 +725,12 @@ exhausted at that time.)
 
 
 \begin{lemma}\label{lem: tcc optimal}
-  Let $\eta$ and $\nu$ be two demands, with $\eta$ created
-  not later than $\nu$, and let $j\in\clientset$ be a client
-  that is not exhausted when $\nu$ is created. Then we have
-\begin{description}
-	\item{(a)} $\tcc_\eta(j) \le \tcc_{\nu}(j)$, and 
-	\item{(b)} if $\nu\in j$ then $\tcc_\eta(j) \le \concost_{\nu}$.
-\end{description}
+  Let $\eta$ and $\nu$ be two demands, with $\eta$ created not later
+  than $\nu$, and let $j\in\clientset$ be a client that is not
+  exhausted when $\nu$ is created. Then we have (a) $\tcc_\eta(j) \le
+  \tcc_{\nu}(j)$, and (b) if $\nu\in j$ then $\tcc_\eta(j) \le
+  \concost_{\nu}$.
+
 \end{lemma}
 
 %%%%%%%
@@ -753,17 +749,17 @@ Then
 					\;\le\; \concost_{\nu} + \alpha^\ast_\nu.
 \end{eqnarray*}
 %
-We now justify this derivation. By definition we have
-$\alpha_{\kappa}^\ast = \alpha^\ast_p$.  Further, by the
-algorithm, if $\kappa$ is a primary demand of client $p$,
-then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
-$\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
-the first equation is true. The first inequality follows
-from the choice of $p$ in Line~8 in
-Pseudocode~\ref{alg:lpr2}. The last inequality holds
-because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
-j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, which
-follows from Lemma~\ref{lem: tcc optimal}.
+%%We now justify this derivation. By definition we have
+%%$\alpha_{\kappa}^\ast = \alpha^\ast_p$.  Further, by the
+%%algorithm, if $\kappa$ is a primary demand of client $p$,
+%%then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
+%%$\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
+%%the first equation is true. The first inequality follows
+%%from the choice of $p$ in Line~8 in
+%%Pseudocode~\ref{alg:lpr2}. The last inequality holds
+%%because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
+%%j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, which
+%%follows from Lemma~\ref{lem: tcc optimal}.
 \end{proof}
 
 We have thus proved that all properties (PS), (CO), (PD) and (SI) hold
