@@ -547,17 +547,17 @@ needs to hold after every iteration, while (CO) only applies to the
 final partitioned fractional solution $(\barbfx, \barbfy)$;
 
 A full description of the algorithm is given in
-Pseudocode~\ref{alg:lpr2}.  Initially, the set $U$ of non-exhausted
-clients contains all clients, the set $\demandset$ of demands is
-empty, the set $\facilityset$ of facilities consists of one facility
-$\mu$ on each site $i$ with $\bary_\mu = y^\ast_i$, and the set $P$ of
-primary demands is empty.  In one iteration of the while loop, for
-each client $j$ we compute a quantity called $\tcc(j)$ (tentative
-connection cost), that represents the average distance from $j$ to the
-set $\wtildeN_1(j)$ of the nearest facilities $\mu$ whose total
-connection value to $j$ (the sum of $\tildex_{\mu j}$'s) equals $1$.
-This set is computed by Procedure $\NearestUnitChunk()$, which adds
-facilities to $\wtildeN_1(j)$ in order of nondecreasing distance,
+Pseudocode~\ref{alg:lpr2}. In Phase 1, initially, the set $U$ of
+non-exhausted clients contains all clients, the set $\demandset$ of
+demands is empty, the set $\facilityset$ of facilities consists of one
+facility $\mu$ on each site $i$ with $\bary_\mu = y^\ast_i$, and the
+set $P$ of primary demands is empty.  In one iteration of the while
+loop, for each client $j$ we compute a quantity called $\tcc(j)$
+(tentative connection cost), that represents the average distance from
+$j$ to the set $\wtildeN_1(j)$ of the nearest facilities $\mu$ whose
+total connection value to $j$ (the sum of $\tildex_{\mu j}$'s) equals
+$1$.  This set is computed by Procedure $\NearestUnitChunk()$, which
+adds facilities to $\wtildeN_1(j)$ in order of nondecreasing distance,
 until the total connection value is exactly $1$. This may require
 splitting the last added facility and adjusting the connection values
 so that conditions (c1) and (c2) are preserved. The next step is to
@@ -571,21 +571,17 @@ although we check for overlap with $\wtildeN_1(p)$, we then move all
 facilities in the intersection with $\wtildeN(p)$, a bigger set, into
 $\wbarN(\nu)$.  The other case is when $\wtildeN_1(p)$ is disjoint
 from the neighborhoods of all existing primary demands. Then, $\nu$
-becomes itself a primary demand and we assign $\nu$ to itself. It also
-inherits the connection values to all facilities $\mu\in\wtildeN_1(p)$
-from $p$ (recall that $\tildex_{\mu p} = \bary_{\mu}$), with all other
-$\barx_{\mu\nu}$ values set to $0$. For non-primary demands we still
-need to adjust the $\barx_{\mu\nu}$ values so that $\connsum(\nu)
+becomes itself a primary demand and inherits the connection values to
+all facilities $\mu\in\wtildeN_1(p)$ from $p$ (recall that
+$\tildex_{\mu p} = \bary_{\mu}$), with all other $\barx_{\mu\nu}$
+values set to $0$. Phase 1 concludes when all clients $j$ are
+exhausted. In Phase 2, we adjust the $\barx_{\mu\nu}$ values for
+non-primary demands $\nu$ so that $\connsum(\nu)
 \stackrel{\mathrm{def}}{=} \sum_{\mu\in\facilityset}\barx_{\mu \nu}$,
-is equal to $1$. This is accomplished by Procedure $\AugmentToUnit()$
-that allocates to $\nu\in j$ some of the remaining connection values
-$\tildex_{\mu j}$ of client $j$. $\AugmentToUnit()$ will repeatedly
-pick any facility $\eta$ with $\tildex_{\eta j} >0$.  If
-$\tildex_{\eta j} \leq 1-\connsum(\nu)$, then the connection value
-$\tildex_{\eta j}$ is reassigned to $\nu$.  Otherwise, $\tildex_{\eta
-  j} > 1-\connsum(\nu)$, in which case we split $\eta$ so that
-connecting $\nu$ to one of the created copies of $\eta$ will make
-$\connsum(\nu)$ equal $1$, and we'll be done.
+is equal to $1$ by invoking Procedure $\AugmentToUnit()$, which
+repeatedly picks any facility $\eta$ with $\tildex_{\eta j} >0$ and
+reassigns $\tildex_{\eta j}$ to $\nu$, until $\connsum(\nu)$ reaches
+$1$.
 
 %%%%%%%%%%%
 
@@ -658,13 +654,10 @@ $R$.
 
 \medskip
 
-\emparagraph{Correctness.}  We now show that all the
-required properties (PS), (CO), (PD) and (SI) are satisfied
-by the above construction.
-
-Properties~(PS) and (CO) follow directly from the algorithm. (CO) is
-implied by the completeness condition (c1) that the algorithm
-maintains after each iteration. Condition~(PS.\ref{PS:one}) is a
+\emparagraph{Correctness.}  We now show that all the required
+properties (PS), (CO), (PD) and (SI) are satisfied by the above
+construction. (CO) is implied by the completeness condition (c1) that
+the algorithm maintains after each iteration. (PS.\ref{PS:one}) is a
 result of calling Procedure~$\AugmentToUnit()$ in Line~18. To see that
 (PS.\ref{PS:xij}) holds, note that at each step the algorithm
 maintains the invariant that, for every $i\in\sitesset$ and
@@ -674,8 +667,8 @@ we will create $r_j$ demands for each client $j$, with each demand
 $\nu\in j$ satisfying (PS.\ref{PS:one}), and thus $\sum_{\nu\in
   j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.  This implies that
 $\tildex_{\mu j}=0$ for every facility $\mu\in\facilityset$, and
-PS(\ref{PS:xij}) follows.  PS(\ref{PS:yi}) holds because every time we
-split a facility $\mu$ into $\mu'$ and $\mu''$, the sum of
+(PS.\ref{PS:xij}) follows.  (PS.\ref{PS:yi}) holds because every time
+we split a facility $\mu$ into $\mu'$ and $\mu''$, the sum of
 $\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value of
 $\bary_{\mu}$. Now we deal with properties in group (PD).  First,
 (PD.\ref{PD:disjoint}) follows directly from the algorithm,
