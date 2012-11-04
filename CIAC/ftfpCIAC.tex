@@ -880,40 +880,6 @@ adaptive partitioning algorithm  described in
 Section~\ref{sec: adaptive partitioning} to obtain a partitioned
 solution $(\barbfx, \barbfy)$. Then we apply the rounding
 process to compute an integral solution (see Pseudocode~\ref{alg:lpr3}).  
-For convenience, we will use
-the term \emph{facility cluster} for the neighborhood of a
-primary demand. Facilities that do not belong to these
-clusters are said to be \emph{non-clustered}.  We start, as before, by
-opening exactly one facility $\phi(\kappa)$ in the facility
-cluster of each primary demand $\kappa$ (Line 2).  For any
-non-primary demand $\nu$ assigned to $\kappa$, we refer to
-$\phi(\kappa)$ as the \emph{target} facility of $\nu$.  In
-Algorithm~{\EGUP}, $\nu$ was connected to $\phi(\kappa)$,
-but in Algorithm~{\ECHS} we may be able to find an open
-facility in $\nu$'s neighborhood and connect $\nu$ to this
-facility. 
-
-%%Specifically, the two changes in the
-%%algorithm are as follows:
-%%%
-%%\begin{description}
-%%	\item{(1)} Each non-clustered facility $\mu$ is opened,
-%%independently, with probability $\bary_{\mu}$ (Lines
-%%4--5). Notice that if $\bary_\mu>0$ then,
-%%due to completeness of the partitioned
-%%fractional solution, we have $\bary_{\mu}= \barx_{\mu\nu}$
-%%for some demand $\nu$. This implies that $\bary_{\mu}\leq 1$,
-%%because $\barx_{\mu\nu}\le 1$, by (PS.\ref{PS:one}).
-%%%
-%%	\item{(2)} When connecting demands to facilities, a primary demand
-%%$\kappa$ is connected to the only facility $\phi(\kappa)$
-%%opened in its neighborhood, as before (Line 3).  For a
-%%non-primary demand $\nu$, if its neighborhood $\wbarN(\nu)$ has an open
-%%facility, we connect $\nu$ to the closest open facility in $\wbarN(\nu)$
-%%(Line 8). Otherwise, we connect $\nu$ to
-%%its target facility (Line 10).
-%%%
-%%\end{description}
 
 %%%%%%%%%%%%%
 
@@ -945,7 +911,7 @@ facility.
 
 %%%%%%%%%%%%%%%%
 
-\paragraph{Analysis.}
+
 We shall first argue that the integral solution thus constructed is
 feasible, and then we bound the total cost of the solution. Regarding
 feasibility, the only constraint that is not explicitly enforced by
