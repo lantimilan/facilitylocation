@@ -122,16 +122,11 @@
 \section{Final Comments}
 
 In this paper we show a sequence of LP-rounding approximation algorithms
-for FTFP, with the best algorithm achieving  ratio $1.575$. The two techniques we introduced,
-namely the demand reduction and adaptive partitioning, are very flexible. Should any new
-LP-rounding algorithms be discovered for UFL, we believe that with our approach they can be
-adapted to FTFP as well, preserving the approximation ratio. In fact, by randomizing the
-scaling parameter $\gamma$ from Section~\ref{sec: 1.575-approximation},
-following the approach by Li~\cite{Li11}, we
-could further improve the ratio to below $1.575$. This is not enough, however, to
-match the $1.488$ bound for UFL in~\cite{Li11}, because matching this bound
-also requires appropriately extending dual-fitting algorithms~\cite{MahdianYZ06}
-to FTFP, which we have so far been unable to do.
+for FTFP, with the best algorithm achieving  ratio $1.575$. 
+As we mentioned earlier, we believe that 
+our techniques of demand reduction and adaptive partitioning are very flexible and
+should be useful in extending other LP-rounding methods for UFL to obtain
+matching bounds for FTFP.
 
 One of the main open problems in this area is whether FTFL can be approximated with the
 same ratio as UFL, and our work was partly motivated by this question. The techniques we
