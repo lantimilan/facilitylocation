@@ -792,14 +792,14 @@ our partitioned fractional solution are used in rounding to obtain an
 integral solution with cost close to an optimal solution. The rounding
 approach is an extension to the method for UFL in~\cite{gupta08}.
 
-\paragraph{Algorithm~{\EGUP.}}
-In Algorithm~{\EGUP}, we apply a rounding process, guided by the
-fractional values $(\bary_{\mu})$ and $(\barx_{\mu\nu})$, that
-produces an integral solution.  For each primary demand $\kappa\in P$,
-we open one facility $\phi(\kappa) \in \wbarN(\kappa)$. To this end,
-we use randomization: for each $\mu\in\wbarN(\kappa)$, we choose
-$\phi(\kappa) = \mu$ with probability $\barx_{\mu\kappa}$, ensuring
-that exactly one $\mu \in \wbarN(\kappa)$ is chosen. Note that
+\textbf{Algorithm~{\EGUP.}}  In Algorithm~{\EGUP}, we apply a rounding
+process, guided by the fractional values $(\bary_{\mu})$ and
+$(\barx_{\mu\nu})$, that produces an integral solution.  For each
+primary demand $\kappa\in P$, we open one facility $\phi(\kappa) \in
+\wbarN(\kappa)$. To this end, we use randomization: for each
+$\mu\in\wbarN(\kappa)$, we choose $\phi(\kappa) = \mu$ with
+probability $\barx_{\mu\kappa}$, ensuring that exactly one $\mu \in
+\wbarN(\kappa)$ is chosen. Note that
 $\sum_{\mu\in\wbarN(\kappa)}\barx_{\mu\kappa}=1$, so this distribution
 is well-defined.  We open this facility $\phi(\kappa)$ and connect to
 this facility $\phi(\kappa)$ and all non-primary demands that are
@@ -873,13 +873,12 @@ its primary demand opens when none of its neighbor is open.
 
 %%%%%%%%%%
 
-\paragraph{Algorithm~{\ECHS}.}
-As before,
-the algorithm starts by solving the linear program and applying the
-adaptive partitioning algorithm  described in 
-Section~\ref{sec: adaptive partitioning} to obtain a partitioned
-solution $(\barbfx, \barbfy)$. Then we apply the rounding
-process to compute an integral solution (see Pseudocode~\ref{alg:lpr3}).  
+\textbf{Algorithm~{\ECHS}.}  As before, the algorithm starts by
+solving the linear program and applying the adaptive partitioning
+algorithm described in Section~\ref{sec: adaptive partitioning} to
+obtain a partitioned solution $(\barbfx, \barbfy)$. Then we apply the
+rounding process to compute an integral solution (see
+Pseudocode~\ref{alg:lpr3}).
 
 %%%%%%%%%%%%%
 
