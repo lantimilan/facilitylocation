@@ -11,9 +11,9 @@
 
 
 
-\documentclass[11pt]{article}
+\documentclass{llncs}
 
-\usepackage{fullpage,amssymb,amsthm,enumerate}
+\usepackage{fullpage,amssymb,enumerate}
 \usepackage[nosumlimits]{amsmath}
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
@@ -31,10 +31,9 @@
 \title{LP-rounding Algorithms for the Fault-Tolerant\\
  		Facility Placement Problem}
 
-              \author{Li Yan and Marek Chrobak\\
-                Computer Science, U of California, Riverside\\
-                \{lyan,marek\}@cs.ucr.edu\\
-              }
+              \author{Li Yan and Marek Chrobak}
+              \institute{Computer Science, U of California, Riverside\\
+              \email{\{lyan,marek\}@cs.ucr.edu}}
 
 \date{}
 
@@ -315,6 +314,22 @@ $\dotr_j\leq |\sitesset|$ for every client $j$.
 
 \end{lemma}
 
+\begin{proof}
+(i) For feasibility, we need to verify that the constraints of LP~(\ref{eqn:fac_primal})
+are satisfied. Directly from the definition, we have $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$.
+For any $i$ and $j$, by the feasibility of $(\bfx^\ast,\bfy^\ast)$ we have
+$\hatx_{ij} = \floor{x_{ij}^\ast} \le \floor{y^\ast_i} = \haty_i$.
+
+(ii) From the definition, we have  $\dotr_j = \sum_{i\in\sitesset} \dotx_{ij}$.
+It remains to show that $\doty_i \geq \dotx_{ij}$ for all $i,j$. 
+If $x_{ij}^\ast=0$, then $\dotx_{ij}=0$ and we are done. 
+Otherwise, by completeness, we have $x_{ij}^\ast=y_i^\ast$. 
+Then  $\doty_i = y_i^\ast - \floor{y_i^\ast} = x_{ij}^\ast - \floor{x_{ij}^\ast} =\dotx_{ij}$. 
+
+(iii) From the definition of $\dotx_{ij}$ we have
+  $\dotx_{ij} < 1$.  Then the bound follows from the definition of $\dotr_j$.
+\end{proof}
+
 Notice that our construction relies on the completeness assumption; in
 fact, it is easy to give an example where $(\dotbfx, \dotbfy)$ would
 not be feasible if we used a non-complete optimal solution
@@ -538,13 +553,17 @@ $\tildebfx$ and $\barbfx$, that is $\wtildeN(j)=\{\mu\in\facilityset
 \suchthat\tildex_{\mu j} > 0\}$ for $j\in\clientset$ and
 $\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu} >0\}$ for
 $\nu\in\demandset$.  During this process, the following properties
-will hold for every facility $\mu$ after every iteration: (c1) For
-each demand $\nu$ either $\barx_{\mu\nu}=0$ or
-$\barx_{\mu\nu}=\bary_{\mu}$; and (c2) For each client $j$, either
-$\tildex_{\mu j}=0$ or $\tildex_{\mu j}=\bary_{\mu}$. It may appear
-that (c1) is the same condition as (CO), yet we repeat it here as (c1)
-needs to hold after every iteration, while (CO) only applies to the
-final partitioned fractional solution $(\barbfx, \barbfy)$;
+will hold for every facility $\mu$ after every iteration: 
+\begin{description}
+\item (c1) For each demand $\nu$ either $\barx_{\mu\nu}=0$ or
+  $\barx_{\mu\nu}=\bary_{\mu}$.
+\item (c2) For each client $j$, either $\tildex_{\mu j}=0$ or
+  $\tildex_{\mu j}=\bary_{\mu}$.
+\end{description}
+It may appear that (c1) is the same condition as (CO), yet we repeat
+it here as (c1) needs to hold after every iteration, while (CO) only
+applies to the final partitioned fractional solution $(\barbfx,
+\barbfy)$;
 
 A full description of the algorithm is given in
 Pseudocode~\ref{alg:lpr2}. In Phase 1, initially, the set $U$ of
@@ -560,28 +579,30 @@ $1$.  This set is computed by Procedure $\NearestUnitChunk()$, which
 adds facilities to $\wtildeN_1(j)$ in order of nondecreasing distance,
 until the total connection value is exactly $1$. This may require
 splitting the last added facility and adjusting the connection values
-so that conditions (c1) and (c2) are preserved. The next step is to
-pick a client $p$ with minimum $\tcc(p)+\alpha_p^\ast$ and create a
-demand $\nu$ for $p$. If $\wtildeN_1(p)$ overlaps the neighborhood of
-some existing primary demand $\kappa$ (if there are multiple such
-$\kappa$'s, pick any of them), we assign $\nu$ to $\kappa$, and $\nu$
-acquires all the connection values $\tildex_{\mu p}$ between client
-$p$ and facility $\mu$ in $\wtildeN(p)\cap \wbarN(\kappa)$. Note that
-although we check for overlap with $\wtildeN_1(p)$, we then move all
-facilities in the intersection with $\wtildeN(p)$, a bigger set, into
-$\wbarN(\nu)$.  The other case is when $\wtildeN_1(p)$ is disjoint
-from the neighborhoods of all existing primary demands. Then, $\nu$
-becomes itself a primary demand and inherits the connection values to
-all facilities $\mu\in\wtildeN_1(p)$ from $p$ (recall that
-$\tildex_{\mu p} = \bary_{\mu}$), with all other $\barx_{\mu\nu}$
-values set to $0$. Phase 1 concludes when all clients $j$ are
-exhausted. In Phase 2, we adjust the $\barx_{\mu\nu}$ values for
-non-primary demands $\nu$ so that $\connsum(\nu)
-\stackrel{\mathrm{def}}{=} \sum_{\mu\in\facilityset}\barx_{\mu \nu}$,
-is equal to $1$ by invoking Procedure $\AugmentToUnit()$, which
-repeatedly picks any facility $\eta$ with $\tildex_{\eta j} >0$ and
-reassigns $\tildex_{\eta j}$ to $\nu$, until $\connsum(\nu)$ reaches
-$1$.
+so that conditions (c1) and (c2) are preserved.
+
+The next step is to pick a client $p$ with minimum
+$\tcc(p)+\alpha_p^\ast$ and create a demand $\nu$ for $p$. If
+$\wtildeN_1(p)$ overlaps the neighborhood of some existing primary
+demand $\kappa$ (if there are multiple such $\kappa$'s, pick any of
+them), we assign $\nu$ to $\kappa$, and $\nu$ acquires all the
+connection values $\tildex_{\mu p}$ between client $p$ and facility
+$\mu$ in $\wtildeN(p)\cap \wbarN(\kappa)$. Note that although we check
+for overlap with $\wtildeN_1(p)$, we then move all facilities in the
+intersection with $\wtildeN(p)$, a bigger set, into $\wbarN(\nu)$.
+The other case is when $\wtildeN_1(p)$ is disjoint from the
+neighborhoods of all existing primary demands. Then, $\nu$ becomes
+itself a primary demand and inherits the connection values to all
+facilities $\mu\in\wtildeN_1(p)$ from $p$ (recall that $\tildex_{\mu
+  p} = \bary_{\mu}$), with all other $\barx_{\mu\nu}$ values set to
+$0$. Phase 1 concludes when all clients $j$ are exhausted.
+
+In Phase 2, we adjust the $\barx_{\mu\nu}$ values for non-primary
+demands $\nu$ so that $\connsum(\nu) \stackrel{\mathrm{def}}{=}
+\sum_{\mu\in\facilityset}\barx_{\mu \nu}$, is equal to $1$ by invoking
+Procedure $\AugmentToUnit()$, which repeatedly picks any facility
+$\eta$ with $\tildex_{\eta j} >0$ and reassigns $\tildex_{\eta j}$ to
+$\nu$, until $\connsum(\nu)$ reaches $1$.
 
 %%%%%%%%%%%
 
@@ -632,7 +653,49 @@ $1$.
     \textbf{then} $\AugmentToUnit(\nu, j, \facilityset, \tildebfx, \barbfx, \barbfy)$ \Comment see Pseudocode~\ref{alg:helper}
     \EndFor
     \EndFor
-    \Comment{Pseudocode~\ref{alg:helper} in appendix}
+  \end{algorithmic}
+\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% subroutine: NearestUnitChunk and AugmentToUnit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[ht]
+  \caption{Helper functions used in Pseudocode~\ref{alg:lpr2}}
+  \label{alg:helper}
+  \begin{algorithmic}[1]
+    \Function{\NearestUnitChunk}{$j, \facilityset, \tildebfx, \barbfx,\barbfy$}		
+						\Comment upon return, $\sum_{\mu\in\wtildeN_1(j)} \tildex_{\mu j} = 1$
+    \State Let $\wtildeN(j) = \{\mu_1,...,\mu_{q}\}$ where $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq d_{\mu_{q j}}$
+    \State Let $l$ be such that $\sum_{k=1}^{l} \bary_{\mu_k} \geq 1$ and $\sum_{k=1}^{l -1} \bary_{\mu_{k}} < 1$
+    \State Create a new facility $\sigma$ at the same site as $\mu_l$ and add it to $\facilityset$
+			\Comment split $\mu_l$
+    \State Set $\bary_{\sigma}\assign \sum_{k=1}^{l} \bary_{\mu_{k}}-1$
+					and $\bary_{\mu_l} \assign \bary_{\mu_l} - \bary_{\sigma}$
+    \State For each $\nu\in\demandset$ with $\barx_{\mu_{l}\nu}>0$
+ 			set $\barx_{\mu_{l}\nu} \assign \bary_{\mu_l}$ and $\barx_{\sigma \nu} \assign \bary_{\sigma}$
+    \State For each $j'\in\clientset$ with $\tildex_{\mu_{l} j'}>0$ (including $j$)
+			set $\tildex_{\mu_l j'} \assign \bary_{\mu_l}$ and $\tildex_{\sigma j'} \assign \bary_\sigma$
+	\State (All other new connection values are set to $0$)
+    \State \Return $\wtildeN_1(j) = \{\mu_{1},\ldots,\mu_{l-1}, \mu_{l}\}$    				
+    \EndFunction
+
+    \Function{\AugmentToUnit}{$\nu, j, \facilityset, \tildebfx, \barbfx, \barbfy$}
+    					\Comment $\nu$ is a demand of client $j$
+    \While{$\sum_{\mu\in \facilityset} \barx_{\mu\nu} <1$}
+    					\Comment upon return, $\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} = 1$
+    \State Let $\eta$ be any facility such that $\tildex_{\eta j} > 0$
+    \If{$1-\sum_{\mu\in \facilityset} \barx_{\mu\nu} \geq \tildex_{\eta j}$}
+    \State $\barx_{\eta\nu} \assign \tildex_{\eta j}, \tildex_{\eta j} \assign 0$
+    \Else
+    \State Create a new facility $\sigma$ at the same site as $\eta$ and add it to $\facilityset$
+    					\Comment split $\eta$
+    \State Let $\bary_\sigma \assign 1-\sum_{\mu\in \facilityset} \barx_{\mu\nu}, \bary_{\eta} \assign \bary_{\eta} - \bary_{\sigma}$
+    \State Set $\barx_{\sigma\nu}\assign \bary_{\sigma},\; \barx_{\eta \nu} \assign  0,\; \tildex_{\eta j} \assign \bary_{\eta}, \; \tildex_{\sigma j} \assign 0$
+    \State For each $\nu' \neq \nu$ with $\barx_{\eta \nu'}>0$ set $\barx_{\eta \nu'} \assign \bary_{\eta},\; \barx_{\sigma \nu'} \assign \bary_{\sigma}$
+    \State For each $j' \neq j$ with $\tildex_{\eta j'}>0$ set $\tildex_{\eta j'} \assign \bary_{\eta}, \tildex_{\sigma j'} \assign \bary_{\sigma}$
+	\State  (All other new connection values are set to $0$)
+    \EndIf
+    \EndWhile
+    \EndFunction
   \end{algorithmic}
 \end{algorithm}
 
@@ -656,9 +719,11 @@ $R$.
 
 \emparagraph{Correctness.}  We now show that all the required
 properties (PS), (CO), (PD) and (SI) are satisfied by the above
-construction. (CO) is implied by the completeness condition (c1) that
-the algorithm maintains after each iteration. (PS.\ref{PS:one}) is a
-result of calling Procedure~$\AugmentToUnit()$ in Line~18. To see that
+construction. 
+
+(CO) is implied by the completeness condition (c1) that the algorithm
+maintains after each iteration. (PS.\ref{PS:one}) is a result of
+calling Procedure~$\AugmentToUnit()$ in Line~18. To see that
 (PS.\ref{PS:xij}) holds, note that at each step the algorithm
 maintains the invariant that, for every $i\in\sitesset$ and
 $j\in\clientset$, we have $\sum_{\mu\in i}\sum_{\nu \in j} \barx_{\mu
@@ -670,7 +735,9 @@ $\tildex_{\mu j}=0$ for every facility $\mu\in\facilityset$, and
 (PS.\ref{PS:xij}) follows.  (PS.\ref{PS:yi}) holds because every time
 we split a facility $\mu$ into $\mu'$ and $\mu''$, the sum of
 $\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value of
-$\bary_{\mu}$. Now we deal with properties in group (PD).  First,
+$\bary_{\mu}$.
+
+Now we deal with properties in group (PD).  First,
 (PD.\ref{PD:disjoint}) follows directly from the algorithm,
 Pseudocode~\ref{alg:lpr2} (Line~13), since every primary demand has
 its neighborhood fixed when created, and that neighborhood is disjoint
@@ -692,7 +759,9 @@ Pseudocode~\ref{alg:lpr2}, we move all facilities in $\wtildeN(p)\cap
 \wbarN(\kappa)$ (the intersection is nonempty) into $\wbarN(\nu)$, and
 we never remove a facility from $\wbarN(\nu)$.  We postpone the proof
 for (PD.\ref{PD:assign:cost}) to Lemma~\ref{lem: PD:assign:cost
-  holds}. Finally we argue that the properties in group (SI)
+  holds}.
+
+Finally we argue that the properties in group (SI)
 hold. (SI.\ref{SI:siblings disjoint}) is easy, since for any client
 $j$, each facility $\mu$ is added to the neighborhood of at most one
 demand $\nu\in j$, by setting $\barx_{\mu\nu}$ to $\bary_\mu$, while
@@ -715,6 +784,30 @@ shown below in Lemma~\ref{lem: property SI:primary disjoint holds}.
   Property~(SI.\ref{SI:primary disjoint}) holds after the
   Adaptive Partitioning stage.
 \end{lemma}
+\begin{proof}
+  Let $\nu_1,\ldots,\nu_{r_j}$ be the demands of a client
+  $j\in\clientset$, listed in the order of creation, and, for each
+  $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the primary demand that
+  $\nu_q$ is assigned to. After the completion of Phase~1 of
+  Pseudocode~\ref{alg:lpr2} (Lines~1--15), we have
+  $\wbarN(\nu_s)\subseteq \wbarN(\kappa_s)$ for  $s=1,\ldots,r_j$. 
+Since any two primary demands have disjoint
+  neighborhoods, we have $\wbarN(\nu_s) \cap \wbarN(\kappa_q) =
+  \emptyset$ for any $s\neq q$, that is
+	Property~(SI.\ref{SI:primary disjoint}) holds right after Phase~1.
+
+        After Phase~1 all neighborhoods $\wbarN(\kappa_s),
+        s=1,\ldots,r_j$ have already been fixed and they do not change
+        in Phase~2.  None of the facilities in $\wtildeN(j)$ appear in
+        any of $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$, by the way we
+        allocate facilities in Lines~11 and 13.  Therefore during the
+        augmentation process in Phase~2, when we add facilities from
+        $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
+        (Line~16--18 of Pseudocode~\ref{alg:lpr2}), all the required
+        disjointness conditions will be preserved. This completes the proof.
+\end{proof}
+
+%%%%%%%
 
 We need one more lemma before proving our last property
 (PD.\ref{PD:assign:cost}).  For a client $j$ and a demand
@@ -733,6 +826,45 @@ exhausted at that time.)
 
 \end{lemma}
 
+\begin{proof}
+  We focus first on the time when demand $\eta$ is about to be created,
+  right after the call to $\NearestUnitChunk()$ in
+  Pseudocode~\ref{alg:lpr2}, Line~6.  Let $\wtildeN(j) =
+  \{\mu_1,...,\mu_q\}$ with all facilities $\mu_s$ ordered
+  according to nondecreasing distance from $j$.  Consider
+  the following linear program:
+%
+\begin{alignat*}{1}
+	\textrm{minimize} \quad & \sum_s d_{\mu_s j}z_s
+			\\
+	\textrm{subject to} \quad & \sum_s z_s  \ge 1
+			\\
+ 	0 &\le z_s \le \tildex_{\mu_s j} \quad \textrm{for all}\ s
+\end{alignat*}
+%
+  This is a fractional
+  minimum knapsack covering problem (with knapsack size equal $1$) and its optimal fractional
+  solution is the greedy solution, whose value is exactly
+  $\tcc_\eta(j)$.  
+
+On the other hand, we claim that
+  $\tcc_\nu(j)$ can be thought of as the value of some feasible
+  solution to this linear program, and that the same is true for $\concost_{\nu}$ if $\nu\in j$.
+  Indeed, each of these
+  quantities involves some later values $\tildex_{\mu j}$,
+  where $\mu$ could be one of the facilities $\mu_s$ or a
+  new facility obtained from splitting. For each $s$,
+  however, the sum of all values $\tildex_{\mu j}$,
+  over the facilities $\mu$ that were split from $\mu_s$, cannot exceed
+ the value $\tildex_{\mu_s j}$ at the time when
+  $\eta$ was created, because splitting facilities preserves this sum and
+ creating new demands for $j$ can only decrease it.
+Therefore both quantities
+  $\tcc_\nu(j)$ and $\concost_{\nu}$ (for $\nu\in j$) correspond to some
+  choice of the $z_s$ variables (adding up to $1$), and the
+  lemma follows.
+\end{proof}
+
 %%%%%%%
 
 \begin{lemma}\label{lem: PD:assign:cost holds}
@@ -749,17 +881,17 @@ Then
 					\;\le\; \concost_{\nu} + \alpha^\ast_\nu.
 \end{eqnarray*}
 %
-%%We now justify this derivation. By definition we have
-%%$\alpha_{\kappa}^\ast = \alpha^\ast_p$.  Further, by the
-%%algorithm, if $\kappa$ is a primary demand of client $p$,
-%%then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
-%%$\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
-%%the first equation is true. The first inequality follows
-%%from the choice of $p$ in Line~8 in
-%%Pseudocode~\ref{alg:lpr2}. The last inequality holds
-%%because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
-%%j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, which
-%%follows from Lemma~\ref{lem: tcc optimal}.
+We now justify this derivation. By definition we have
+$\alpha_{\kappa}^\ast = \alpha^\ast_p$.  Further, by the
+algorithm, if $\kappa$ is a primary demand of client $p$,
+then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
+$\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
+the first equation is true. The first inequality follows
+from the choice of $p$ in Line~8 in
+Pseudocode~\ref{alg:lpr2}. The last inequality holds
+because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
+j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, which
+follows from Lemma~\ref{lem: tcc optimal}.
 \end{proof}
 
 We have thus proved that all properties (PS), (CO), (PD) and (SI) hold
@@ -792,7 +924,7 @@ our partitioned fractional solution are used in rounding to obtain an
 integral solution with cost close to an optimal solution. The rounding
 approach is an extension to the method for UFL in~\cite{gupta08}.
 
-\textbf{Algorithm~{\EGUP.}}  In Algorithm~{\EGUP}, we apply a rounding
+\paragraph{Algorithm~{\EGUP.}}  In Algorithm~{\EGUP}, we apply a rounding
 process, guided by the fractional values $(\bary_{\mu})$ and
 $(\barx_{\mu\nu})$, that produces an integral solution.  For each
 primary demand $\kappa\in P$, we open one facility $\phi(\kappa) \in
@@ -822,14 +954,87 @@ establishing the two lemmas below and establish feasibility in the
 theorem.
 %%%%%
 \begin{lemma}\label{lemma:3fac}
-The expectation of facility cost $F_{\smallEGUP}$ of our solution is
+  The expectation of facility cost $F_{\smallEGUP}$ of our solution is
   at most $F^\ast$.
 \end{lemma}
+
+\begin{proof}
+  By Property~(PD.\ref{PD:disjoint}), the neighborhoods of primary
+  demands are disjoint. Also, for any primary demand $\kappa\in P$,
+  the probability that a facility $\mu\in\wbarN(\kappa)$ is chosen as
+  the open facility $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the
+  expected total facility cost is
+%
+\begin{equation*}
+    \Exp[F_{\smallEGUP}]
+	= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\wbarN(\kappa)}} f_{\mu} \barx_{\mu\kappa}
+	= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\facilityset}} f_{\mu} \barx_{\mu\kappa} 
+	= \textstyle{\sum_{i\in\sitesset}} f_i \textstyle{\sum_{\mu\in i}\sum_{\kappa\in P}} \barx_{\mu\kappa} 
+	\leq \textstyle{\sum_{i\in\sitesset}} f_i y_i^\ast 
+	= F^\ast,
+\end{equation*}
+%
+where the inequality follows from Property~(PD.\ref{PD:yi}).
+\end{proof}
+
 %%%%%%%
 \begin{lemma}\label{lemma:3dist}
 The expectation of connection cost $C_{\smallEGUP}$ of our solution
 is at most  $C^\ast+2\cdot\LP^\ast$.
 \end{lemma}
+%%%%%%%%%%
+\begin{proof}[Proof of Lemma~\ref{lemma:3dist}]
+  For a primary demand $\kappa$, its expected connection cost is
+  $C_{\kappa}^{\avg}$ because we choose facility $\mu$ with
+  probability $\barx_{\mu\kappa}$.
+
+  Consider a non-primary demand $\nu$ assigned to a primary demand
+  $\kappa\in P$. Let $\mu$ be any facility in $\wbarN(\nu) \cap
+  \wbarN(\kappa)$.  Since $\mu$ is in both $\wbarN(\nu)$ and
+  $\wbarN(\kappa)$, we have $d_{\mu\nu} \leq \alpha_{\nu}^\ast$ and
+  $d_{\mu\kappa} \leq \alpha_{\kappa}^\ast$ (This follows from the
+  complementary slackness conditions since
+  $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for each
+  $\mu\in \wbarN(\nu)$.). Thus, applying the triangle inequality, for
+  any fixed choice of facility $\phi(\kappa)$ we have
+%
+\begin{equation*}
+    d_{\phi(\kappa)\nu} \leq d_{\phi(\kappa)\kappa}+d_{\mu\kappa}+d_{\mu\nu}
+    \leq d_{\phi(\kappa)\kappa} + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast.
+\end{equation*}
+%
+Therefore the expected distance from $\nu$ to its facility $\phi(\kappa)$ is 
+%
+\begin{equation*}
+  \Exp[  d_{\phi(\kappa)\nu}   ] \le \concost_{\kappa} + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast 
+  \leq \concost_{\nu} + \alpha_{\nu}^\ast + \alpha_{\nu}^\ast
+   = \concost_{\nu} + 2\alpha_{\nu}^\ast,
+\end{equation*}
+%
+  where the second inequality follows from Property~(PD.\ref{PD:assign:cost}).  
+From the definition of $\concost_{\nu}$ and Property~(PS.\ref{PS:xij}), for any $j\in \clientset$ 
+we have
+%
+\begin{equation*}
+\sum_{\nu\in j} \concost_{\nu} = \sum_{\nu\in j}\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}
+ 			= \sum_{i\in\sitesset} d_{ij}\sum_{\nu\in j}\sum_{\mu\in i}\barx_{\mu\nu}
+			= \sum_{i\in\sitesset} d_{ij}x^\ast_{ij} 
+			= C^\ast_j.
+\end{equation*}
+% 
+Thus, summing over all demands, the expected total connection cost is
+%
+\begin{equation*}
+    \Exp[C_{\smallEGUP}] \le 
+			\textstyle{\sum_{j\in\clientset} \sum_{\nu\in j}} (\concost_{\nu} + 2\alpha_{\nu}^\ast) 
+    	= \textstyle{\sum_{j\in\clientset}} (C_j^\ast + 2r_j\alpha_j^\ast)
+ 		= C^\ast + 2\cdot\LP^\ast,
+\end{equation*}
+%
+completing the proof of the lemma.
+\end{proof}
+
+%%%%%%%%
 
 \begin{theorem}
 Algorithm~{\EGUP} is a $3$-approximation algorithm.
@@ -873,7 +1078,7 @@ its primary demand opens when none of its neighbor is open.
 
 %%%%%%%%%%
 
-\textbf{Algorithm~{\ECHS}.}  As before, the algorithm starts by
+\paragraph{Algorithm~{\ECHS}.}  As before, the algorithm starts by
 solving the linear program and applying the adaptive partitioning
 algorithm described in Section~\ref{sec: adaptive partitioning} to
 obtain a partitioned solution $(\barbfx, \barbfy)$. Then we apply the
@@ -910,30 +1115,32 @@ Pseudocode~\ref{alg:lpr3}).
 
 %%%%%%%%%%%%%%%%
 
-
+\paragraph{Analysis.}
 We shall first argue that the integral solution thus constructed is
-feasible, and then we bound the total cost of the solution. Regarding
-feasibility, the only constraint that is not explicitly enforced by
-the algorithm is the fault-tolerance requirement; namely that each
-client $j$ is connected to $r_j$ different facilities. Let $\nu$ and
-$\nu'$ be two different sibling demands of client $j$ and let their
-assigned primary demands be $\kappa$ and $\kappa'$ respectively. Due
-to (SI.\ref{SI:primary disjoint}) we know $\kappa \neq \kappa'$. From
-(SI.\ref{SI:siblings disjoint}) we have $\wbarN(\nu) \cap \wbarN(\nu')
-= \emptyset$. From (SI.\ref{SI:primary disjoint}), we have
-$\wbarN(\nu) \cap \wbarN(\kappa') = \emptyset$ and $\wbarN(\nu') \cap
-\wbarN(\kappa) = \emptyset$. From (PD.\ref{PD:disjoint}) we have
-$\wbarN(\kappa)\cap \wbarN(\kappa') = \emptyset$. It follows that
-$(\wbarN(\nu) \cup \wbarN(\kappa)) \cap (\wbarN(\nu') \cup
-\wbarN(\kappa')) = \emptyset$. Since the algorithm connects $\nu$ to
-some facility in $\wbarN(\nu) \cup \wbarN(\kappa)$ and $\nu'$ to some
-facility in $\wbarN(\nu') \cup \wbarN(\kappa')$, $\nu$ and $\nu'$ will
-be connected to different facilities. This integral solution can be
-shown to have expected facility cost bounded by $F^\ast$ and
-connection cost bounded by $C^\ast + (2/e)\cdot \LP^\ast$ (see
-Appendix~\ref{app: 1.736 analysis}). As a result the expected total
-cost is bounded by $(1 + 2/e)\cdot \LP^\ast$. Summarizing, we obtain
-the main result of this section.
+feasible, and then we bound the total cost of the solution.
+
+Regarding feasibility, the only constraint that is not explicitly
+enforced by the algorithm is the fault-tolerance requirement; namely
+that each client $j$ is connected to $r_j$ different facilities. Let
+$\nu$ and $\nu'$ be two different sibling demands of client $j$ and
+let their assigned primary demands be $\kappa$ and $\kappa'$
+respectively. Due to (SI.\ref{SI:primary disjoint}) we know $\kappa
+\neq \kappa'$. From (SI.\ref{SI:siblings disjoint}) we have
+$\wbarN(\nu) \cap \wbarN(\nu') = \emptyset$. From (SI.\ref{SI:primary
+  disjoint}), we have $\wbarN(\nu) \cap \wbarN(\kappa') = \emptyset$
+and $\wbarN(\nu') \cap \wbarN(\kappa) = \emptyset$. From
+(PD.\ref{PD:disjoint}) we have $\wbarN(\kappa)\cap \wbarN(\kappa') =
+\emptyset$. It follows that $(\wbarN(\nu) \cup \wbarN(\kappa)) \cap
+(\wbarN(\nu') \cup \wbarN(\kappa')) = \emptyset$. Since the algorithm
+connects $\nu$ to some facility in $\wbarN(\nu) \cup \wbarN(\kappa)$
+and $\nu'$ to some facility in $\wbarN(\nu') \cup \wbarN(\kappa')$,
+$\nu$ and $\nu'$ will be connected to different facilities. 
+
+This integral solution can be shown to have expected facility cost
+bounded by $F^\ast$ and connection cost bounded by $C^\ast +
+(2/e)\cdot \LP^\ast$ (see Appendix~\ref{app: 1.736 analysis}). As a
+result the expected total cost is bounded by $(1 + 2/e)\cdot
+\LP^\ast$. Summarizing, we obtain the main result of this section.
 \begin{theorem}\label{thm:1736}
   Algorithm~{\ECHS} is a $(1+2/e)$-approximation algorithm for \FTFP.
 \end{theorem}
@@ -1134,7 +1341,7 @@ partitioning algorithm.
 \smallskip
 
 We now argue that the fractional solution $(\barbfx,\barbfy)$
-satisfies all the stated properties. Properties~(PS), (CO), (NB)
+satisfies all the stated properties. Properties~(PS), (CO), (NB),
 (PD'.\ref{PD1:disjoint}) and (SI'.\ref{SI1:siblings disjoint}) are
 directly enforced by the adaptive partitioning algorithm. The proofs
 for other properties (PD'.\ref{PD1:yi}), (PD'.\ref{PD1:assign:cost})
@@ -1199,14 +1406,13 @@ those that do not belong to $\wbarN_{\cls}(\kappa)$ for any
 primary demand $\kappa$, are opened independently with
 probability $\gamma\bary_{\mu}$ each. 
 
-Next, we connect demands to facilities.
-Each primary demand $\kappa$ will connect
-to the only facility $\phi(\kappa)$ open in its cluster
-$\wbarclsnb(\kappa)$.  For each non-primary demand $\nu$, if
-there is an open facility in $\wbarN(\nu)$ then we connect
-$\nu$ to the nearest such facility. Otherwise, we connect
-$\nu$ to its \emph{target facility} $\phi(\kappa)$, where $\kappa$ is the primary
-demand that $\nu$ is assigned to. 
+Next, we connect demands to facilities.  Each primary demand $\kappa$
+will connect to the only facility $\phi(\kappa)$ open in its cluster
+$\wbarclsnb(\kappa)$.  For each non-primary demand $\nu$, if there is
+an open facility in $\wbarN(\nu)$ then we connect $\nu$ to the nearest
+such facility. Otherwise, we connect $\nu$ to its \emph{target
+  facility} $\phi(\kappa)$, where $\kappa$ is the primary demand that
+$\nu$ is assigned to.
 
 %%%%%%%%%%%
 
@@ -1232,9 +1438,6 @@ obtain the desired ratio.
 \begin{theorem}\label{thm:ebgs}
   Algorithm~{\EBGS} is a $1.575$-approximation algorithm for \FTFP.
 \end{theorem}
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -1266,214 +1469,13 @@ lead to new algorithms for FTFL with improved ratios.
 
 \bibliographystyle{plain}
 \bibliography{facility}
-%\printbibliography
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \appendix
-\section{Proof of Lemmas}
-\begin{proof}[Proof of Lemma~\ref{lem: polynomial demands partition}]
-(i) For feasibility, we need to verify that the constraints of LP~(\ref{eqn:fac_primal})
-are satisfied. Directly from the definition, we have $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$.
-For any $i$ and $j$, by the feasibility of $(\bfx^\ast,\bfy^\ast)$ we have
-$\hatx_{ij} = \floor{x_{ij}^\ast} \le \floor{y^\ast_i} = \haty_i$.
-
-(ii) From the definition, we have  $\dotr_j = \sum_{i\in\sitesset} \dotx_{ij}$.
-It remains to show that $\doty_i \geq \dotx_{ij}$ for all $i,j$. 
-If $x_{ij}^\ast=0$, then $\dotx_{ij}=0$ and we are done. 
-Otherwise, by completeness, we have $x_{ij}^\ast=y_i^\ast$. 
-Then  $\doty_i = y_i^\ast - \floor{y_i^\ast} = x_{ij}^\ast - \floor{x_{ij}^\ast} =\dotx_{ij}$. 
-
-(iii) From the definition of $\dotx_{ij}$ we have
-  $\dotx_{ij} < 1$.  Then the bound follows from the definition of $\dotr_j$.
-\end{proof}
-
-\begin{proof}[Proof of Lemma~\ref{lem: property SI:primary disjoint
-    holds}]
-  Let $\nu_1,\ldots,\nu_{r_j}$ be the demands of a client
-  $j\in\clientset$, listed in the order of creation, and, for each
-  $q=1,2,\ldots,r_j$, denote by $\kappa_q$ the primary demand that
-  $\nu_q$ is assigned to. After the completion of Phase~1 of
-  Pseudocode~\ref{alg:lpr2} (Lines~1--15), we have
-  $\wbarN(\nu_s)\subseteq \wbarN(\kappa_s)$ for  $s=1,\ldots,r_j$. 
-Since any two primary demands have disjoint
-  neighborhoods, we have $\wbarN(\nu_s) \cap \wbarN(\kappa_q) =
-  \emptyset$ for any $s\neq q$, that is
-	Property~(SI.\ref{SI:primary disjoint}) holds right after Phase~1.
-
-        After Phase~1 all neighborhoods $\wbarN(\kappa_s),
-        s=1,\ldots,r_j$ have already been fixed and they do not change
-        in Phase~2.  None of the facilities in $\wtildeN(j)$ appear in
-        any of $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$, by the way we
-        allocate facilities in Lines~11 and 13.  Therefore during the
-        augmentation process in Phase~2, when we add facilities from
-        $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
-        (Line~16--18 of Pseudocode~\ref{alg:lpr2}), all the required
-        disjointness conditions will be preserved.
-\end{proof}
-
-%%%%%%%
-
-\begin{proof}[Proof of Lemma~\ref{lem: tcc optimal}]
-  We focus first on the time when demand $\eta$ is about to be created,
-  right after the call to $\NearestUnitChunk()$ in
-  Pseudocode~\ref{alg:lpr2}, Line~6.  Let $\wtildeN(j) =
-  \{\mu_1,...,\mu_q\}$ with all facilities $\mu_s$ ordered
-  according to nondecreasing distance from $j$.  Consider
-  the following linear program:
-%
-\begin{alignat*}{1}
-	\textrm{minimize} \quad & \sum_s d_{\mu_s j}z_s
-			\\
-	\textrm{subject to} \quad & \sum_s z_s  \ge 1
-			\\
- 	0 &\le z_s \le \tildex_{\mu_s j} \quad \textrm{for all}\ s
-\end{alignat*}
-%
-  This is a fractional
-  minimum knapsack covering problem (with knapsack size equal $1$) and its optimal fractional
-  solution is the greedy solution, whose value is exactly
-  $\tcc_\eta(j)$.  
-
-On the other hand, we claim that
-  $\tcc_\nu(j)$ can be thought of as the value of some feasible
-  solution to this linear program, and that the same is true for $\concost_{\nu}$ if $\nu\in j$.
-  Indeed, each of these
-  quantities involves some later values $\tildex_{\mu j}$,
-  where $\mu$ could be one of the facilities $\mu_s$ or a
-  new facility obtained from splitting. For each $s$,
-  however, the sum of all values $\tildex_{\mu j}$,
-  over the facilities $\mu$ that were split from $\mu_s$, cannot exceed
- the value $\tildex_{\mu_s j}$ at the time when
-  $\eta$ was created, because splitting facilities preserves this sum and
- creating new demands for $j$ can only decrease it.
-Therefore both quantities
-  $\tcc_\nu(j)$ and $\concost_{\nu}$ (for $\nu\in j$) correspond to some
-  choice of the $z_s$ variables (adding up to $1$), and the
-  lemma follows.
-\end{proof}
-
-\begin{proof}[Proof of Lemma~\ref{lemma:3fac}]
-  By Property~(PD.\ref{PD:disjoint}), the neighborhoods of
-  primary demands are disjoint. Also, for any primary demand
-  $\kappa\in P$, the probability that a facility
-  $\mu\in\wbarN(\kappa)$ is chosen as the open facility
-  $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the expected
-  total facility cost is
-%
-\begin{equation*}
-    \Exp[F_{\smallEGUP}]
-	= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\wbarN(\kappa)}} f_{\mu} \barx_{\mu\kappa}
-	= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\facilityset}} f_{\mu} \barx_{\mu\kappa} 
-	= \textstyle{\sum_{i\in\sitesset}} f_i \textstyle{\sum_{\mu\in i}\sum_{\kappa\in P}} \barx_{\mu\kappa} 
-	\leq \textstyle{\sum_{i\in\sitesset}} f_i y_i^\ast 
-	= F^\ast,
-\end{equation*}
-%
-where the inequality follows from Property~(PD.\ref{PD:yi}).
-\end{proof}
-
-%%%%%%%%%%
-\begin{proof}[Proof of Lemma~\ref{lemma:3dist}]
-  For a primary demand $\kappa$, its expected connection cost is
-  $C_{\kappa}^{\avg}$ because we choose facility $\mu$ with
-  probability $\barx_{\mu\kappa}$.
-
-  Consider a non-primary demand $\nu$ assigned to a primary demand
-  $\kappa\in P$. Let $\mu$ be any facility in $\wbarN(\nu) \cap
-  \wbarN(\kappa)$.  Since $\mu$ is in both $\wbarN(\nu)$ and
-  $\wbarN(\kappa)$, we have $d_{\mu\nu} \leq \alpha_{\nu}^\ast$ and
-  $d_{\mu\kappa} \leq \alpha_{\kappa}^\ast$ (This follows from the
-  complementary slackness conditions since
-  $\alpha_{\nu}^\ast=\beta_{\mu\nu}^\ast + d_{\mu\nu}$ for each
-  $\mu\in \wbarN(\nu)$.). Thus, applying the triangle inequality, for
-  any fixed choice of facility $\phi(\kappa)$ we have
-%
-\begin{equation*}
-    d_{\phi(\kappa)\nu} \leq d_{\phi(\kappa)\kappa}+d_{\mu\kappa}+d_{\mu\nu}
-    \leq d_{\phi(\kappa)\kappa} + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast.
-\end{equation*}
-%
-Therefore the expected distance from $\nu$ to its facility $\phi(\kappa)$ is 
-%
-\begin{equation*}
-  \Exp[  d_{\phi(\kappa)\nu}   ] \le \concost_{\kappa} + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast 
-  \leq \concost_{\nu} + \alpha_{\nu}^\ast + \alpha_{\nu}^\ast
-   = \concost_{\nu} + 2\alpha_{\nu}^\ast,
-\end{equation*}
-%
-  where the second inequality follows from Property~(PD.\ref{PD:assign:cost}).  
-From the definition of $\concost_{\nu}$ and Property~(PS.\ref{PS:xij}), for any $j\in \clientset$ 
-we have
-%
-\begin{equation*}
-\sum_{\nu\in j} \concost_{\nu} = \sum_{\nu\in j}\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}
- 			= \sum_{i\in\sitesset} d_{ij}\sum_{\nu\in j}\sum_{\mu\in i}\barx_{\mu\nu}
-			= \sum_{i\in\sitesset} d_{ij}x^\ast_{ij} 
-			= C^\ast_j.
-\end{equation*}
-% 
-Thus, summing over all demands, the expected total connection cost is
-%
-\begin{equation*}
-    \Exp[C_{\smallEGUP}] \le 
-			\textstyle{\sum_{j\in\clientset} \sum_{\nu\in j}} (\concost_{\nu} + 2\alpha_{\nu}^\ast) 
-    	= \textstyle{\sum_{j\in\clientset}} (C_j^\ast + 2r_j\alpha_j^\ast)
- 		= C^\ast + 2\cdot\LP^\ast,
-\end{equation*}
-%
-completing the proof of the lemma.
-\end{proof}
-
-%%%%%%%%
-
-\section{Helper Function for Adaptive Partitioning}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% subroutine: NearestUnitChunk and AugmentToUnit
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{algorithm}[ht]
-  \caption{Helper functions used in Pseudocode~\ref{alg:lpr2}}
-  \label{alg:helper}
-  \begin{algorithmic}[1]
-    \Function{\NearestUnitChunk}{$j, \facilityset, \tildebfx, \barbfx,\barbfy$}		
-						\Comment upon return, $\sum_{\mu\in\wtildeN_1(j)} \tildex_{\mu j} = 1$
-    \State Let $\wtildeN(j) = \{\mu_1,...,\mu_{q}\}$ where $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq d_{\mu_{q j}}$
-    \State Let $l$ be such that $\sum_{k=1}^{l} \bary_{\mu_k} \geq 1$ and $\sum_{k=1}^{l -1} \bary_{\mu_{k}} < 1$
-    \State Create a new facility $\sigma$ at the same site as $\mu_l$ and add it to $\facilityset$
-			\Comment split $\mu_l$
-    \State Set $\bary_{\sigma}\assign \sum_{k=1}^{l} \bary_{\mu_{k}}-1$
-					and $\bary_{\mu_l} \assign \bary_{\mu_l} - \bary_{\sigma}$
-    \State For each $\nu\in\demandset$ with $\barx_{\mu_{l}\nu}>0$
- 			set $\barx_{\mu_{l}\nu} \assign \bary_{\mu_l}$ and $\barx_{\sigma \nu} \assign \bary_{\sigma}$
-    \State For each $j'\in\clientset$ with $\tildex_{\mu_{l} j'}>0$ (including $j$)
-			set $\tildex_{\mu_l j'} \assign \bary_{\mu_l}$ and $\tildex_{\sigma j'} \assign \bary_\sigma$
-	\State (All other new connection values are set to $0$)
-    \State \Return $\wtildeN_1(j) = \{\mu_{1},\ldots,\mu_{l-1}, \mu_{l}\}$    				
-    \EndFunction
-
-    \Function{\AugmentToUnit}{$\nu, j, \facilityset, \tildebfx, \barbfx, \barbfy$}
-    					\Comment $\nu$ is a demand of client $j$
-    \While{$\sum_{\mu\in \facilityset} \barx_{\mu\nu} <1$}
-    					\Comment upon return, $\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} = 1$
-    \State Let $\eta$ be any facility such that $\tildex_{\eta j} > 0$
-    \If{$1-\sum_{\mu\in \facilityset} \barx_{\mu\nu} \geq \tildex_{\eta j}$}
-    \State $\barx_{\eta\nu} \assign \tildex_{\eta j}, \tildex_{\eta j} \assign 0$
-    \Else
-    \State Create a new facility $\sigma$ at the same site as $\eta$ and add it to $\facilityset$
-    					\Comment split $\eta$
-    \State Let $\bary_\sigma \assign 1-\sum_{\mu\in \facilityset} \barx_{\mu\nu}, \bary_{\eta} \assign \bary_{\eta} - \bary_{\sigma}$
-    \State Set $\barx_{\sigma\nu}\assign \bary_{\sigma},\; \barx_{\eta \nu} \assign  0,\; \tildex_{\eta j} \assign \bary_{\eta}, \; \tildex_{\sigma j} \assign 0$
-    \State For each $\nu' \neq \nu$ with $\barx_{\eta \nu'}>0$ set $\barx_{\eta \nu'} \assign \bary_{\eta},\; \barx_{\sigma \nu'} \assign \bary_{\sigma}$
-    \State For each $j' \neq j$ with $\tildex_{\eta j'}>0$ set $\tildex_{\eta j'} \assign \bary_{\eta}, \tildex_{\sigma j'} \assign \bary_{\sigma}$
-	\State  (All other new connection values are set to $0$)
-    \EndIf
-    \EndWhile
-    \EndFunction
-  \end{algorithmic}
-\end{algorithm}
-
 %%%%%%%%%%%%%%%%%
 \section{Approximation Ratio Analysis of Algorithm ECHS}
 \label{app: 1.736 analysis}
@@ -1669,7 +1671,7 @@ an overall expected cost
 \end{equation*}
 %
 
-\section{Connection Cost of Algorithm~{\EBGS}}
+\section{Analysis of Connection Cost of Algorithm~{\EBGS}}
 \label{app:EBGS}
 In this section we bound the connection cost of
 Algorithm~{\EBGS}. Properties~(PD.\ref{PD1:assign:overlap}) and
@@ -1707,7 +1709,7 @@ clients $j$ we have total connection cost bounded by $C^\ast
 \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\}$.
 
 
-\section{An Elementary Proof of an Inequality in Section~\ref{sec:
+\section{An Elementary Proof of the Inequality in Section~\ref{sec:
     1.736-approximation}}
 In the $1+2/e=1.736$-approximation in Section~\ref{sec: 1.736-approximation}
 we need to show the following inequality
