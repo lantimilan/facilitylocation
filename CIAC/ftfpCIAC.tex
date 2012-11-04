@@ -786,38 +786,24 @@ fractional solution must satisfy.
 
 With the partitioned FTFP instance and its associated fractional
 solution in place, we now begin to introduce our rounding algorithms.
-The algorithm we describe in this section achieves ratio $3$. Although
-this is still quite far from our best ratio $1.575$ that we derive
-later, we include this algorithm in the paper to illustrate, in a
-relatively simple setting, how the properties of our partitioned
-fractional solution are used in rounding it to an integral solution
-with cost not too far away from an optimal solution.  The rounding
-approach we use here is an extension of the corresponding method for
-UFL described in~\cite{gupta08}.
+The algorithm we describe in this section achieves ratio $3$. We use
+this relatively simple algorithm to illustrate how the properties of
+our partitioned fractional solution are used in rounding to obtain an
+integral solution with cost close to an optimal solution. The rounding
+approach is an extension to the method for UFL in~\cite{gupta08}.
 
 \paragraph{Algorithm~{\EGUP.}}
-At a high level, we would open exactly one facility for each
-primary demand $\kappa$, and each non-primary demand is
-connected to the facility opened for the primary demand it
-was assigned to.
-
-More precisely, we apply a rounding process, guided by the
-fractional values $(\bary_{\mu})$ and $(\barx_{\mu\nu})$,
-that produces an integral solution. This integral solution
-is obtained by choosing a subset of facilities in
-$\facilityset$ to open, and for each demand in $\demandset$,
-specifying an open facility that this demand will be
-connected to.  For each primary demand $\kappa\in P$, we
-want to open one facility $\phi(\kappa) \in
-\wbarN(\kappa)$. To this end, we use randomization: for each
-$\mu\in\wbarN(\kappa)$, we choose $\phi(\kappa) = \mu$ with
-probability $\barx_{\mu\kappa}$, ensuring that exactly one
-$\mu \in \wbarN(\kappa)$ is chosen. Note that
-$\sum_{\mu\in\wbarN(\kappa)}\barx_{\mu\kappa}=1$, so this
-distribution is well-defined.  We open this facility
-$\phi(\kappa)$ and connect to $\phi(\kappa)$ all demands
-that are assigned to $\kappa$.
-
+In Algorithm~{\EGUP}, we apply a rounding process, guided by the
+fractional values $(\bary_{\mu})$ and $(\barx_{\mu\nu})$, that
+produces an integral solution.  For each primary demand $\kappa\in P$,
+we open one facility $\phi(\kappa) \in \wbarN(\kappa)$. To this end,
+we use randomization: for each $\mu\in\wbarN(\kappa)$, we choose
+$\phi(\kappa) = \mu$ with probability $\barx_{\mu\kappa}$, ensuring
+that exactly one $\mu \in \wbarN(\kappa)$ is chosen. Note that
+$\sum_{\mu\in\wbarN(\kappa)}\barx_{\mu\kappa}=1$, so this distribution
+is well-defined.  We open this facility $\phi(\kappa)$ and connect to
+this facility $\phi(\kappa)$ and all non-primary demands that are
+assigned to $\kappa$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%******** Do we need the derandomization for conference version? (Li)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -830,27 +816,20 @@ that are assigned to $\kappa$.
 %%recommended to consult \cite{ChudakS04}, where the method of
 %%conditional expectations is applied in a context very
 %%similar to ours.
-
 %%%%%%%%%
-
-\paragraph{Analysis.}
-We now bound the expected facility cost and connection cost
-by establishing the two lemmas below.
-
+We bound the expected facility cost and connection cost by
+establishing the two lemmas below and establish feasibility in the
+theorem.
 %%%%%
-
 \begin{lemma}\label{lemma:3fac}
 The expectation of facility cost $F_{\smallEGUP}$ of our solution is
   at most $F^\ast$.
 \end{lemma}
-
 %%%%%%%
-
 \begin{lemma}\label{lemma:3dist}
 The expectation of connection cost $C_{\smallEGUP}$ of our solution
 is at most  $C^\ast+2\cdot\LP^\ast$.
 \end{lemma}
-
 
 \begin{theorem}
 Algorithm~{\EGUP} is a $3$-approximation algorithm.
