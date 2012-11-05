@@ -1436,18 +1436,18 @@ Section~\ref{sec: adaptive partitioning}, with the exception of
 The argument for (PD.\ref{PD:assign:overlap}) is a bit subtle, because
 of complications arising in Phase 2.  This phase does not change close
 neighborhoods of primary demands, as each primary demand already
-contains all the nearest facilities with total connection $1/\gamma$.
-For non-primary demands, however, $\wbarN(\nu)$, for $\nu\in j$, takes
-all facilities in $\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be
-close to $\kappa$ but far from $j$.  As a result, facilities added in
-the augmenting phase might appear in $\wbarclsnb(\nu)$, yet they are
-not in $\wbarclsnb(\kappa)$, the close neighborhood of the primary
-demand $\kappa$ that $\nu$ is assigned to. It is conceivable that in a
-worst case, the facilities added in the augmenting phase form
-$\wbarclsnb(\nu)$ exclusively, which will then be disjoint from
-$\wbarclsnb(\kappa)$, and we may not have (PD.\ref{PD:assign:overlap})
-for demand $\nu$. Nevertheless, we show that
-Property~(PD.\ref{PD:assign:overlap}) holds.
+contains all the nearest facilities with total connection value equal
+$1/\gamma$.  For non-primary demands, however, $\wbarN(\nu)$, for
+$\nu\in j$, takes all facilities in $\wbarclsnb(\kappa)\cap
+\wtildeN(j)$, which might be close to $\kappa$ but far from $j$.  As a
+result, facilities added in the augmenting phase might appear in
+$\wbarclsnb(\nu)$, yet they are not in $\wbarclsnb(\kappa)$, the close
+neighborhood of the primary demand $\kappa$ that $\nu$ is assigned
+to. It is conceivable that in a worst case, the facilities added in
+the augmenting phase form $\wbarclsnb(\nu)$ exclusively, which will
+then be disjoint from $\wbarclsnb(\kappa)$, and we may not have
+(PD.\ref{PD:assign:overlap}) for demand $\nu$. Nevertheless, we show
+that Property~(PD.\ref{PD:assign:overlap}) holds.
 
 Consider an iteration when we create a demand $\nu\in p$
 and assign it to $\kappa$. Then the set
