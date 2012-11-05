@@ -472,7 +472,7 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 		  $\wbarN(\nu)\cap \wbarN(\nu') = \emptyset$.
 		
 	\item \label{SI:primary disjoint} If $\nu$ is assigned to a primary demand $\kappa$ then
- 		$\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~PD(\ref{PD:assign:overlap}),
+ 		$\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~(PD.\ref{PD:assign:overlap}),
 		this implies that different sibling demands are assigned to different primary demands.
 
 	\end{enumerate}
@@ -718,7 +718,7 @@ follows from (PD.\ref{PD:disjoint}), (CO) and (PS.\ref{PS:yi}). In
 more detail, it can be justified as follows. By
 (PD.\ref{PD:disjoint}), for each $\mu\in i$ there is at most one
 $\kappa\in P$ with $\barx_{\mu\kappa} > 0$ and we have
-$\barx_{\mu\kappa} = \bary_{\mu}$ due do (CO).  Let $K\subseteq i$ be
+$\barx_{\mu\kappa} = \bary_{\mu}$ due to (CO).  Let $K\subseteq i$ be
 the set of those $\mu$'s for which such $\kappa\in P$ exists, and
 denote this $\kappa$ by $\kappa_\mu$. Then, using conditions (CO) and
 (PS.\ref{PS:yi}), we have $ \sum_{\mu\in i}\sum_{\kappa\in
@@ -869,7 +869,7 @@ refined.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 3-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\input{three_approx.tex}
+
 \section{Algorithm~{\EGUP} with Ratio $3$}
 \label{sec: 3-approximation}
 
@@ -1031,7 +1031,7 @@ Pseudocode~\ref{alg:lpr3}).
     \State choose one $\phi(\kappa)\in \wbarN(\kappa)$,
     with each $\mu\in\wbarN(\kappa)$ chosen as $\phi(\kappa)$
     with probability $\bary_\mu$ (note {$\barx_{\mu\kappa} =
-      \bary_{\kappa}$ for all $\mu \in \wbarN(\kappa)$})
+      \bary_{\mu}$ for all $\mu \in \wbarN(\kappa)$})
     \State open $\phi(\kappa)$ and connect $\kappa$ to $\phi(\kappa)$
     \EndFor
     \For{each $\mu\in\facilityset - \bigcup_{\kappa\in P}\wbarN(\kappa)$} 
@@ -1205,7 +1205,7 @@ connection cost of $\nu$ as follows:
 \end{align*}
 %
 where the second inequality is shown in the appendix
-(see also \cite{ChudakS04}) and the last on follows from
+(see also \cite{ChudakS04}) and the last inequality follows from
 Lemma~\ref{lem:echu indirect}. 
 
 Summing over all demands of a client $j$, we bound
