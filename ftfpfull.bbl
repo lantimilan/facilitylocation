@@ -1,0 +1,122 @@
+\begin{thebibliography}{10}
+
+\bibitem{AryaGKMMP04}
+Vijay Arya, Naveen Garg, Rohit Khandekar, Adam Meyerson, Kamesh Munagala, and
+  Vinayaka Pandit.
+\newblock Local search heuristics for k-median and facility location problems.
+\newblock {\em SIAM J. Comput.}, 33(3):544--562, 2004.
+
+\bibitem{ByrkaA10}
+Jaroslaw Byrka and Karen Aardal.
+\newblock An optimal bifactor approximation algorithm for the metric
+  uncapacitated facility location problem.
+\newblock {\em SIAM J. Comput.}, 39(6):2212--2231, 2010.
+
+\bibitem{ByrkaGS10}
+Jaroslaw Byrka, MohammadReza Ghodsi, and Aravind Srinivasan.
+\newblock {LP}-rounding algorithms for facility-location problems.
+\newblock {\em CoRR}, abs/1007.3611, 2010.
+
+\bibitem{ByrkaSS10}
+Jaroslaw Byrka, Aravind Srinivasan, and Chaitanya Swamy.
+\newblock Fault-tolerant facility location, a randomized dependent
+  {LP}-rounding algorithm.
+\newblock In {\em Proceedings of the 14th Integer Programming and Combinatorial
+  Optimization, IPCO '10}, pages 244--257, 2010.
+
+\bibitem{ChudakS04}
+Fabi\'{a}n Chudak and David Shmoys.
+\newblock Improved approximation algorithms for the uncapacitated facility
+  location problem.
+\newblock {\em SIAM J. Comput.}, 33(1):1--25, 2004.
+
+\bibitem{GuhaK98}
+Sudipto Guha and Samir Khuller.
+\newblock Greedy strikes back: improved facility location algorithms.
+\newblock In {\em Proceedings of the 9th ACM-SIAM Symposium on Discrete
+  Algorithms, SODA '98}, pages 649--657, 1998.
+
+\bibitem{GuhaMM01}
+Sudipto Guha, Adam Meyerson, and Kamesh Munagala.
+\newblock Improved algorithms for fault tolerant facility location.
+\newblock In {\em Proceedings of the 12th ACM-SIAM Symposium on Discrete
+  Algorithms, SODA '01}, pages 636--641, 2001.
+
+\bibitem{gupta08}
+Anupam Gupta.
+\newblock Lecture notes: {{CMU}} 15-854b, spring 2008, 2008.
+
+\bibitem{HardyLP88}
+Godfrey~Harold Hardy, John~Edensor Littlewood, and George P\'{o}lya.
+\newblock {\em Inequalities}.
+\newblock Cambridge University Press, 1988.
+
+\bibitem{JainMMSV03}
+Kamal Jain, Mohammad Mahdian, Evangelos Markakis, Amin Saberi, and Vijay
+  Vazirani.
+\newblock Greedy facility location algorithms analyzed using dual fitting with
+  factor-revealing {LP}.
+\newblock {\em J. ACM}, 50(6):795--824, 2003.
+
+\bibitem{JainV01}
+Kamal Jain and Vijay Vazirani.
+\newblock Approximation algorithms for metric facility location and k-median
+  problems using the primal-dual schema and lagrangian relaxation.
+\newblock {\em J. ACM}, 48(2):274--296, 2001.
+
+\bibitem{JainV03}
+Kamal Jain and Vijay~V. Vazirani.
+\newblock An approximation algorithm for the fault tolerant metric facility
+  location problem.
+\newblock {\em Algorithmica}, 38(3):433--439, 2003.
+
+\bibitem{Li11}
+Shi Li.
+\newblock A 1.488 approximation algorithm for the uncapacitated facility
+  location problem.
+\newblock In {\em Proceedings of the 38th International Conference on Automata,
+  Languages and Programming, ICALP '11}, volume 6756, pages 77--88, 2011.
+
+\bibitem{MahdianYZ06}
+Mohammad Mahdian, Yinyu Ye, and Jiawei Zhang.
+\newblock Approximation algorithms for metric facility location problems.
+\newblock {\em SIAM J. Comput.}, 36(2):411--432, 2006.
+
+\bibitem{ShmoysTA97}
+David Shmoys, \'{E}va Tardos, and Karen Aardal.
+\newblock Approximation algorithms for facility location problems (extended
+  abstract).
+\newblock In {\em Proceedings of the Twenty-Ninth Annual ACM Symposium on
+  Theory of Computing, STOC '97}, pages 265--274, 1997.
+
+\bibitem{Svi02}
+Maxim Sviridenko.
+\newblock An improved approximation algorithm for the metric uncapacitated
+  facility location problem.
+\newblock In {\em Proceedings of the 9th International IPCO Conference on
+  Integer Programming and Combinatorial Optimization, IPCO '02}, pages
+  240--257, 2002.
+
+\bibitem{SwamyS08}
+Chaitanya Swamy and David Shmoys.
+\newblock Fault-tolerant facility location.
+\newblock {\em ACM Trans. Algorithms}, 4(4):1--27, 2008.
+
+\bibitem{vygen05}
+Jens Vygen.
+\newblock {\em Approximation Algorithms for Facility Location Problems}.
+\newblock Forschungsinst. f\"{u}r Diskrete Mathematik, 2005.
+
+\bibitem{XuS09}
+Shihong Xu and Hong Shen.
+\newblock The fault-tolerant facility allocation problem.
+\newblock In {\em Proceedings of the 20th International Symposium on Algorithms
+  and Computation, ISAAC '09}, pages 689--698, 2009.
+
+\bibitem{YanC11}
+Li~Yan and Marek Chrobak.
+\newblock Approximation algorithms for the fault-tolerant facility placement
+  problem.
+\newblock {\em Inf. Process. Lett.}, 111(11):545--549, 2011.
+
+\end{thebibliography}
