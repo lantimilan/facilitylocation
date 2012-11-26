@@ -44,7 +44,7 @@ the nearest open facility, which is what our algorithm does.
 Now alg's cost is no more than:
 \begin{align*}
   E[C_j] &= \bar d_1 z_1 + \bar d_2 z_2 (1-z_1) + \ldots + \bar z_k
-  (1-z_i)\ldots(1-z_{k-1}) + \bar d_{k+1} (1-z_1) \ldots (1-z_k)\\
+  (1-z_1)\ldots(1-z_{k-1}) + \bar d_{k+1} (1-z_1) \ldots (1-z_k)\\
   &\leq (1 - \prod_{s=1}^k (1-z_s)) \sum_{s=1}^k \bar d_s z_s +
   \prod_{s=1}^k (1-z_s) \bar d_{k+1},
 \end{align*}
