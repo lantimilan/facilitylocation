@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage{fullpage, amsmath}
+\title{Proof of Chudak98 Connection Cost Bound}
+\author{lyan}
+
+\begin{document}
+\maketitle
+\section{Chudak98 Connection Cost}
+This section provides a proof, or more of an explanation, for the
+expected connection cost bound for the LP-rounding algorithm of Chudak
+IPCO'98 paper. The following argument is from Chudak and Shmoys
+SICOMP'03.
+
+In the algorithm, each primary client connects to the only facility
+opened in its neighborhood. For non-primary clients, it connects to
+the nearest facility open in its neighborhood, if none opens, it uses
+the target facility.
+
+The claim is that the connection cost can be bounded by a random
+process that opens each $f_i$ independently with probability $y_i$ and
+connects to the nearest facility, if none, connects to the target
+facility. In this document we use $y_i$ to refer to $y_i^\ast$.
+
+Consider a non-primary client $j$, we prove this claim by upper
+bounding the expected connection cost using a rounding process with
+provably worse connection cost. Let $g_1, g_2, \ldots, g_k$ be the
+group of facilities in the neighborhood of primary clients $p_1, p_2,
+\ldots, p_k$ such that $\bar d_1 \leq \bar d_2 \leq \ldots, \leq \bar
+d_k$, where $\bar d_s = \sum_{i \in K_s} d_{ij} y_{i} / \sum_{i \in
+  K_s} y_i$ and $K_s = N(j) \cap N(p_s)$. We also use the notation
+that $z_s = \sum_{i\in K_s} y_i$. The rounding process we use is to
+connect to a facility in $g_1$ if any facility in $g_1$ opens (this
+happens with probability $z_1$), otherwise we connect to a facility in
+$g_2$ (this happens with probability $z_2(1-z_1)$), and so on. Notice
+that each group $g_s$ can have at most one facility open, and the
+opening of a facility in each group is indpendent of other groups. We
+assume there are $l$ facilities in $N(j)$, and both $\bar d_{k+1}$ and
+$d_{l+1}$ refer to the expected cost of the connection to the target
+facility, that is $\bar d_{k+1} = d_{l+1}$. Clearly this kind of
+rounding with group preference is no better than simply connecting to
+the nearest open facility, which is what our algorithm does.
+
+Now alg's cost is no more than:
+\begin{align*}
+  E[C_j] &= \bar d_1 z_1 + \bar d_2 z_2 (1-z_1) + \ldots + \bar z_k
+  (1-z_i)\ldots(1-z_{k-1}) + \bar d_{k+1} (1-z_1) \ldots (1-z_k)\\
+  &\leq (1 - \prod_{s=1}^k (1-z_s)) \sum_{s=1}^k \bar d_s z_s +
+  \prod_{s=1}^k (1-z_s) \bar d_{k+1},
+\end{align*}
+with the inequality follows from another lemma proved with Chebyshev's
+sum inequality.
+
+We know that $\sum_{s=1}^k \bar d_s z_s = \sum_{i=1}^l d_i y_i$ by
+definition of $\bar d_s$ and $z_s$. Moreover, $\prod_{s=1}^k (1-z_s)
+\leq \prod_{i=1}^l (1-y_i)$, by noticing $1-(y_1+y_2) \leq
+(1-y_1)(1-y_2)$ for any $y_1+y_1 \leq 1, 0\leq y_1, y_2 \leq 1$. In
+other words, splitting a facility makes the probability that none of
+them open higher. It follows that
+\begin{align*}
+  E[C_j] \leq (1 - \prod_{s=1}^k (1-z_s)) \sum_{s=1}^k \bar d_s z_s +
+  \prod_{s=1}^k (1-z_s) \bar d_{k+1}
+  \leq (1 - \prod_{i=1}^l (1-y_i)) \sum_{i=1}^l d_i y_i +
+  \prod_{i=1}^l (1-y_i) d_{l+1}
+\end{align*}
+since we are decreasing the probability of the first term, which has a
+smaller distance, while increasing the probability of the second term,
+the sum of the probabilities of the two terms remains equal to 1, so
+the overal distance can only increase. The right side is what we need
+since $\sum_{i=1}^l d_i y_i = C_j^\ast$.
+
+At a high level, we can think about the provably worse rounding
+process as treating the facilities in the same group as an aggregated
+facility and apply indepdent rounding on those aggregated
+facilities. The above didn't mention non-clustered facilities, that
+is, facilities that do not belong to the neighborhood of any primary
+client, for those, it is clear that each of them behave exactly like
+one aggregated facility and the same argument applies.
+\end{document}
