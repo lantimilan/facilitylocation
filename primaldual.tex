@@ -260,6 +260,25 @@ Jain and Vazirani showed that FTFL can be approximated to a ratio of
 $3H_n$ using a generalized version of the JV algorithm. The result of
 $H_n$ improves it by a factor of $3$.
 
+\section{$O((\log R/\log\log R)^2) approximation$}
+It appears that FTFP can be approximated to ratio $O((\log R / \log\log
+R)^2)$ quite easily, by taking advantage that an instance with $R =
+\max_j r_j$ can be approximates to ratio no more than $R$ easily.
+
+The idea is to pick $k$ such that $k^k = R$ where $R = \max_j
+r_j$. Now we group clients by their $r_j$ such that $[1,k), [k,k^2),
+\ldots, [k^{k-1}, k^k]$ so we have $k$ groups. Solve each group using
+any primal-dual algorithm gives a partial solution with at most $k$
+times opt of that partial instance. Now combine the partial solutions
+we obtain one integral solution. Notice that each optimal integral
+solution to the original instance can have each of its facility
+duplicated $k$ times and then decompose into feasible integral
+solutions to each of the sub-instances. This shows that the combined
+solution has cost no more than $k$ times overall opt. And in solving
+each sub-instance, we find a solution no more than $k$ times the opt
+for that sub-instances. Overall we have a solution with ratio $k*k =
+k^2$, which is better than $\log R$.
+
 \section{Future Directions}
 It seems the greedy algorithm is likely to give a constant ratio,
 although two things have to happen:

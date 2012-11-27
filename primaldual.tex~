@@ -203,4 +203,71 @@ feasible dual solution, that is, we need $\sum_{l=1}^n \alpha_j \leq
 f_1 = 1$. It is easily seen that $\gamma$ needs to be at least $H_n =
 \ln(n)$
 
+\section{Star-Greedy and Dual-fitting on FTFL}
+In this section we attempt to carry the claims and arguments developed
+in earlier sections for FTFP to apply to FTFL, a better known
+problem.
+
+Recall in FTFL, we are given a set $\mathcal F$ facilities and a set of
+$\mathcal C$ of clients, with each client $j$ having demand $r_j$,
+meaning it needs to be connected to $r_j$ different facilities. Each
+facility $i$ can be opened once with cost $f_i$. We are also given
+$d_{ij}$ satisfying the triangle inequality. The main difference
+between FTFL and FTFP is that FTFP allows an arbitrary number of
+facilities to be opened on the same site $i$, each paying $f_i$. This
+results in an extra constraint in the FTFL LP formulation.
+
+\begin{align*}
+  \text{minimize }& \sum_{i\in\mathcal{F}} f_i y_i +
+  \sum_{i\in\mathcal{F}, j\in\mathcal{C}} d_{ij} x_{ij}\\
+  \text{subject to: }& y_i \geq x_{ij}\\
+  &\sum_{i\in\mathcal{F}} x_{ij} \geq r_j\\
+  &y_i \leq 1\\
+\end{align*}
+and the dual program is
+\begin{align}
+  \label{eq:ftfl_dual}
+  \text{maximize }& \sum_{j\in\mathcal{C}} r_j \alpha_j -
+  \sum_{i\in\mathcal{F}} z_i\\ \notag
+  \text{subject to: }& \sum_{\beta_{ij}} \leq f_i + z_i\\ \notag
+  & \alpha_j - \beta_{ij} \leq d_{ij}\\ \notag
+\end{align}
+
+Now we use the same algorithm as before by greedily picking the star
+with minimum average cost until all clients have been connected to
+$r_j$ different facilities. This will again give us a sequence of
+$\alpha_j^l$ numbers associated with each connection of a client
+$j$. We could still order clients by $\alpha_j^{r_j}$, that is, their
+last $\alpha_j$ value, or the average cost of the star that a client
+makes its last connection.
+
+Now we set the dual solution as $\alpha_j = {\alpha_j^{r_j}}$ and $z_i
+= 0$. Then the objective of this dual solution is an upper bound on
+the algorithm's cost, which is $\sum_{j\in\mathcal{C}}\sum_{l=1}^{r_j}
+\alpha_j^l$. We then show that $(\alpha_j/H_n, z_i/H_n)$ is a feasible
+dual to (\ref{eq:ftfl_dual}), thereby establishing the approximation
+ratio being $H_n$. The proof is very similar to that in
+Section~\ref{sec:upp}.
+
+On the other hand, the example in Section~\ref{sec:dual2} can also be
+used for FTFL, thus showing that greedy algorithm analyzed using
+dual-fitting cannot give a ratio better than $2$. Recall that for UFL
+where all $r_j=1$, the greedy algorithm was shown to have a ratio of
+$1.81$ using dual-fitting analysis.
+
+The result compares favorably to the first result on FTFL, in which
+Jain and Vazirani showed that FTFL can be approximated to a ratio of
+$3H_n$ using a generalized version of the JV algorithm. The result of
+$H_n$ improves it by a factor of $3$.
+
+\section{Future Directions}
+It seems the greedy algorithm is likely to give a constant ratio,
+although two things have to happen:
+\begin{itemize}
+\item We need to use an analysis different from dual-fitting.
+\item We have to use the triangle inequality somewhere, without that
+  the approximation ratio cannot be better than $H_n$ and examples
+  from non-metric UFL already shows a lower bound of $H_n$ in approximation.
+\end{itemize}
+
 \end{document}
