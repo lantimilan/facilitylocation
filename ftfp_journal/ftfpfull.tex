@@ -154,8 +154,8 @@ we need to show the following inequality
 %
 \begin{equation}
   \label{eq:dist}
-\sum_{r=1}^l d_ry_r\prod_{s=1}^{r-1}(1-y_s)
-  \;\leq\;  \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{r=1}^l d_r y_r
+\sum_{u=1}^l d_uy_u\prod_{s=1}^{u-1}(1-y_s)
+  \;\leq\;  \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
 \end{equation}
 %
 for $d_1\leq d_2 \leq \ldots \leq d_l$ and $\sum_{s=1}^l y_s = 1, y_s \geq 0$.
@@ -181,7 +181,7 @@ Given inequality (\ref{eq:cheby}), we can obtain our inequality
 %
 \begin{equation*}
   p_i \leftarrow y_i, a_i \leftarrow d_i, b_i \leftarrow
-  \Pi_{s=1}^{i-1} (1-y_s)
+  \Pi_{s=1}^{i-1} (1-y_s).
 \end{equation*}
 
 For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
