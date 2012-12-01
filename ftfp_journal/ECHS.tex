@@ -264,23 +264,21 @@ the paragraph above, we have
 \end{equation*}
 \end{lemma}
 
-The formal proof of Lemma~\ref{lem: echs expected C_nu} appears in~\cite{ChudakS04}. The main
-idea of the proof the observation that the
-connection cost is no more than that obtained through the random
-process that opens each $\mu_s$ independently with probability $y_{s}$
-(note that $\barx_{\mu_s \nu} = y_{s}$, which follows from $\barx_{\mu_s \nu} > 0$
-and from (CO)), and connects $\nu$ to the nearest such open facility, if
-any of them opens; otherwise $\nu$ is connected indirectly to its
-target facility $\phi(\kappa)$. The intuition behind this observation is as follows:
-We only use a
-facility $\mu_s$ if none of $\mu_1,\ldots,\mu_{s-1}$ is open and 
-$\mu_s$ opens (unconditionally) with probability $y_{s}$. The
-only way that $\mu_1,\ldots,\mu_{s-1}$ can affect that
-probability is if some of them belong to $\wbarN(\kappa')$, for some primary
-demand $\kappa'$, and it also happens that $\mu_s \in
-\wbarN(\kappa')$ as well. However, in this case, the condition that  $\mu_1,\ldots,\mu_{s-1}$
-are closed actually implies that the conditional probability of
-$\mu_s$ being open is larger than $y_{s}$.
+The formal proof of Lemma~\ref{lem: echs expected C_nu} appears
+in~\cite{ChudakS04}. The main idea of the proof is to consider a
+provably worse random process, which considers facility in
+$\wbarN(\nu)$ by grouping them according to the neighborhood of
+primary demands. That is, two facilities $\mu_1$ and $\mu_2$ belong to
+the same group if both are in $\wbarN(\kappa)$ for some primary demand
+$\kappa$. The groups are then ordered by nondecreasing average
+distance to $\nu$, where the average is $\sum_{\mu\in G} \bary_{\mu}
+d_{\mu\nu} / \sum_{\mu\in G} \bary_{\mu}$. The process first consider
+each group in this order and select a group $G$ independently with
+probability $\sum_{\mu\in G}\bary_{\mu}$. Stop as soon as one group is
+selected, or we end up with none selected. If one group $G$ is
+selected, we open a facility in $G$ by choosing each $\mu$ in $G$ with
+probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We then connect
+demand $\nu$ to this facility $\mu$.
 
 Using Lemma~\ref{lem: echs expected C_nu}, we estimate the (unconditional) expected 
 connection cost of $\nu$ as follows:
