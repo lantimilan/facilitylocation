@@ -17,24 +17,26 @@ $C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
 costs, by reducing the connection cost at the expense of a slight
 increase in the facility cost.
 
-Consider, if we open a facility with probability $\gamma\bary_{\mu}$
-for some constant $\gamma > 1$, it can be shown that the probability
-that we have to use an indirect connection to the target facility is
-bounded by $1/e^\gamma$ instead of $1/e$. Moreover, the expected
-connection cost of a primary demand $\kappa$ is now averaged over the
-closest facilities in $\wbarN(\kappa)$ with sum of $\bary_{mu}$ equal
-to $1/\gamma$. So we will have a much improved estimate on the
-expected connection cost.
+Consider, if we open a facility $\mu$ with probability
+$\gamma\bary_{\mu}$ for some constant $\gamma > 1$, it can be shown
+that, for a non-primary demand, the probability that we have to use an
+indirect connection to its target facility is bounded by $1/e^\gamma$
+instead of $1/e$. Moreover, the expected connection cost of a primary
+demand $\kappa$ is now averaged over the closest facilities in
+$\wbarN(\kappa)$ with sum of $\bary_{mu}$ equal to $1/\gamma$, instead
+of $1$. So we will have a much improved estimate on the expected
+connection cost.
 
 Our approach can be thought of as a combination of the ideas
 in~\cite{ByrkaGS10} with the techniques of demand reduction and
 adaptive partitioning that we introduced earlier. However, our
-adaptive partitioning technique needs to be carefully modified, because
-now we will be using a more intricate neighborhood structure, with the
-neighborhood of each demand divided into two parts, and with some
-restrictions on how these parts can overlap. The final rounding
-stage that construct an integral solution is a relatively
-straightforward generalization of the rounding method in~\cite{ByrkaGS10}.
+adaptive partitioning technique needs to be carefully modified,
+because now we will be using a more intricate neighborhood structure,
+with the neighborhood of each demand divided into two disjoint parts,
+and with some restrictions on how parts from different demands can
+overlap. The final rounding stage that construct an integral solution
+is a relatively straightforward generalization of the rounding method
+in~\cite{ByrkaGS10}.
 
 We begin by describing properties that our partitioned fractional
 solution $(\barbfx,\barbfy)$ needs to satisfy. As mentioned earlier, the neighborhood
@@ -54,9 +56,10 @@ connection costs from $\nu$ for these sets are defined by
 d_{\mu\nu}\barx_{\mu\nu}. 
 \end{equation*}
 %
-We will also use notation
-$\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for the maximum
-distance from $\nu$ to its close neighborhood.
+Note that $\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$ and
+$\sum_{\mu\in\wbarfarnb(\nu)} = 1-1/\gamma$.  We will also use
+notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
+the maximum distance from $\nu$ to its close neighborhood.
 
 Our partitioned solution $(\barbfx,\barbfy)$ must satisfy the same
 partitioning and completeness properties as before, namely properties
@@ -93,7 +96,11 @@ properties (PD') and (SI'), listed below.
 				$\wbarclsnb(\kappa)\cap \wbarclsnb(\kappa') = \emptyset$.
 
 	\item \label{PD1:yi} For each site $i\in\sitesset$, 
-		$ \sum_{\kappa\in P}\sum_{\mu\in i\cap\wbarclsnb(\kappa)}\barx_{\mu\kappa} \leq y_i^\ast$.
+		$ \sum_{\kappa\in P}\sum_{\mu\in
+                  i\cap\wbarclsnb(\kappa)}\barx_{\mu\kappa} \leq
+                y_i^\ast$. Note that in the summation, we use $i$ to
+                refer to all facilities resulting from split from the
+                facility on site $i$.
 		
 	\item \label{PD1:assign} Each demand $\nu\in\demandset$ is assigned
         to one primary demand $\kappa\in P$ such that
