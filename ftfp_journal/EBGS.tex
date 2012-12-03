@@ -17,15 +17,21 @@ $C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
 costs, by reducing the connection cost at the expense of a slight
 increase in the facility cost.
 
-Consider, if we open a facility $\mu$ with probability
+Consider that we start with the same partitioned fractional solution
+$(\barbfx, \barbfy)$ produced by Pseudocode~\ref{alg:lpr2}, in the
+rounding process, if we open a facility $\mu$ with probability
 $\gamma\bary_{\mu}$ for some constant $\gamma > 1$, it can be shown
 that, for a non-primary demand, the probability that we have to use an
-indirect connection to its target facility is bounded by $1/e^\gamma$
-instead of $1/e$. Moreover, the expected connection cost of a primary
-demand $\kappa$ is now averaged over the closest facilities in
-$\wbarN(\kappa)$ with sum of $\bary_{mu}$ equal to $1/\gamma$, instead
-of $1$. So we will have a much improved estimate on the expected
-connection cost.
+indirect connection to its target facility is now bounded by
+$1/e^\gamma$ instead of $1/e$. Moreover, the expected connection cost
+of a primary demand $\kappa$ is now averaged over the closest
+facilities in $\wbarN(\kappa)$ with total connection value
+$\barx_{\mu\kappa}$ equal to $1/\gamma$, instead of $1$. So we will
+have a much improved estimate on the expected connection cost. It is
+also natural to go one step further by modifying our adaptive
+partitioning algorithm slightly to produce a fractional solution with
+a more refined overlap structure of the neighborhood of demands, and
+hoping to get an even better estimate on the expected connection cost.
 
 Our approach can be thought of as a combination of the ideas
 in~\cite{ByrkaGS10} with the techniques of demand reduction and
@@ -139,14 +145,14 @@ we employ a modified adaptive partitioning algorithm. As
 in Section~\ref{sec: adaptive partitioning}, we have two phases.
 In Phase~1 we split clients into demands and create facilities on
 sites, while in Phase~2 we augment each demand's
-connection values so that its total value is $1$.
+connection values $\barx_{\mu\nu}$ so that its total value is $1$.
 
 Similar to the algorithm in Section~\ref{sec: adaptive partitioning},
 Phase~1 runs in iterations. Fix some iteration and consider any client $j$.  As before,
 $\wtildeN(j)$ is the neighborhood of $j$ with respect to the yet
 unpartitioned solution, namely the set of facilities $\mu$ such that
 $\tildex_{\mu j}>0$. Order the facilities in this set as
-$\wtildeN(j) = \braced{\mu_1,...,\mu_q}$ in order of non-decreasing
+$\wtildeN(j) = \braced{\mu_1,...,\mu_q}$ with non-decreasing
 distance from $j$, that is
 $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq d_{\mu_q j}$, where
 $q = |\wtildeN(j)|$. Without loss of generality, there is an index
@@ -159,7 +165,6 @@ $\wtildeN_{\gamma}(j) = \braced{\mu_1,...,\mu_l}$. We also use notation
 			\quad\textrm{ and }\quad
  \dmax_\gamma(j) = \max_{\mu \in \wtildeN_{\gamma}(j)} d_{\mu j}. 
 \end{equation*}
-For any set $A$ of facilities, we define $\vol(A) \stackrel{\mathrm{def}}= \sum_{\mu\in A} \bary_{\mu}$.
 %
 
 When the iteration starts, we first find a not-yet-exhausted client
@@ -179,10 +184,11 @@ we create a new demand $\nu$ for $p$.  Now we have two cases:
   $\wbarN(\nu)$ include all facilities in the intersection of
   $\wtildeN(p)$, a bigger set, with $\wbarclsnb(\kappa)$.
 
-  At this time, we have $\vol(\wbarN(\nu)) \leq 1/\gamma$ since
-  $\vol(\wbarclsnb(\kappa)) = 1/\gamma$. Later in phase 2 we will add
-  additional facilities to $\wbarN(\nu)$ to make
-  $\vol(\wbarN(\nu))=1$. We would like to mention here that facilities
+  At this time, we have the total connection value of $\wbarN(\nu)$ no
+  more than $1/\gamma$ since the total connection value of
+  $\wbarclsnb(\kappa)$ is $1/\gamma$. Later in Phase 2 we will add
+  additional facilities to $\wbarN(\nu)$ to make its total connection
+  value equal to $1$. We would like to mention here that facilities
   added later might actually be closer to $\nu$ than some facilities
   currently in $\wbarN(\nu)$.
 
@@ -193,29 +199,30 @@ we create a new demand $\nu$ for $p$.  Now we have two cases:
   \tildex_{\mu p}$ for $\mu \in \wtildeN_{\gamma}(p)$ and set the
   corresponding $\tildex_{\mu p}$ to $0$.  
 
-  It is easy to see that $\vol(\wbarN(\nu))$ is exactly
-  $1/\gamma$. Moreover, facilities remaining in $\wtildeN(p)$ are all
-  farther away to $\nu$ than those in $\wbarN(\nu)$ already. As we add
-  only facilities from $\wtildeN(p)$ in phase 2 to make
-  $\vol(\wbarN(\nu))=1$, we have the current $\wbarN(\nu)$ being
-  exactly $\wbarclsnb(\nu)$ once phase 2 completes.
+  It is easy to see that the total connection value of $\wbarN(\nu)$
+  is exactly $1/\gamma$. Moreover, facilities remaining in
+  $\wtildeN(p)$ are all farther away to $\nu$ than those in
+  $\wbarN(\nu)$ already. As we add only facilities from $\wtildeN(p)$
+  in Phase 2 to make total connection value of $\wbarN(\nu)$ to $1$,
+  we have the current $\wbarN(\nu)$ being exactly $\wbarclsnb(\nu)$
+  once phase 2 completes.
 %
 \end{description}
 %
 Once all clients are exhausted, that is, each client $j$ has $r_j$
-demands created, Phase~1 concludes. We then run Phase~2, the augmenting
-phase.  For each demand $\nu\in j$ with total connection
+demands created, Phase~1 concludes. We then run Phase~2, the
+augmenting phase.  For each demand $\nu\in j$ with total connection
 value less than $1$, we use our $\AugmentToUnit()$ procedure to add
-additional facilities (possibly split, if necessary)
- from $\wtildeN(j)$ to $\wbarN(\nu)$ neighborhood to
-make its total connection value equal $1$. As before a facility is
-removed from $\wtildeN(j)$ once it's added to a demand's neighborhood. 
-This completes the description of the partitioning algorithm. After
-that we will have $\wbarN(\nu), \wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$
-fixed for every demand $\nu$, with $\wbarN(\nu)$ consists of all
-facilities $\mu$ such that $\barx_{\mu\nu} > 0$, and the closest few
-of them with total connection value $1/\gamma$ forming
-$\wbarclsnb(\nu)$ and the rest being $\wbarfarnb(\nu)$.
+additional facilities (possibly split, if necessary) from
+$\wtildeN(j)$ to $\wbarN(\nu)$ neighborhood to make $\wbarN(\nu)$'s
+total connection value equal $1$. As before a facility is removed from
+$\wtildeN(j)$ once it's added to $\wbarN(\nu)$.  This
+completes the description of the partitioning algorithm. After that we
+will have $\wbarN(\nu), \wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$ fixed
+for every demand $\nu$, with $\wbarN(\nu)$ consists of all facilities
+$\mu$ such that $\barx_{\mu\nu} > 0$, and the closest few of them to
+$\nu$ with total connection value $1/\gamma$ forming $\wbarclsnb(\nu)$
+and the rest being $\wbarfarnb(\nu)$.
 
 %%%%%%%
 
