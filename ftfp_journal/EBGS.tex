@@ -159,10 +159,12 @@ $\wtildeN_{\gamma}(j) = \braced{\mu_1,...,\mu_l}$. We also use notation
 			\quad\textrm{ and }\quad
  \dmax_\gamma(j) = \max_{\mu \in \wtildeN_{\gamma}(j)} d_{\mu j}. 
 \end{equation*}
+For any set $A$ of facilities, we define $\vol(A) \stackrel{\mathrm{def}}= \sum_{\mu\in A} \bary_{\mu}$.
 %
-When the iteration starts, we first find a not yet exhausted client $p$ that minimizes the
-value of $\tcc_\gamma(p) + \dmax_\gamma(p)$ and we create a new demand $\nu$ for $p$.
-Now we have two cases:
+
+When the iteration starts, we first find a not-yet-exhausted client
+$p$ that minimizes the value of $\tcc_\gamma(p) + \dmax_\gamma(p)$ and
+we create a new demand $\nu$ for $p$.  Now we have two cases:
 %
 \begin{description}
 %
@@ -175,12 +177,15 @@ Now we have two cases:
   although we check for overlap between $\wtildeN_{\gamma}(p)$ and
   $\wbarclsnb(\kappa)$, the facilities we actually move into
   $\wbarN(\nu)$ include all facilities in the intersection of
-  $\wtildeN(p)$, a bigger set, with $\wbarclsnb(\kappa)$. 
+  $\wtildeN(p)$, a bigger set, with $\wbarclsnb(\kappa)$.
 
-We point out here that $\wbarN(\nu)$ is not necessarily yet finalized at this time
-  as we will may add more facilities to it in the augment phase. As a
-  result $\wbarclsnb(\nu)$ could also change later, if these new facilities
-  are closer to $\nu$ than those already in $\wbarN(\nu)$.
+  At this time, we have $\vol(\wbarN(\nu)) \leq 1/\gamma$ since
+  $\vol(\wbarclsnb(\kappa)) = 1/\gamma$. Later in phase 2 we will add
+  additional facilities to $\wbarN(\nu)$ to make
+  $\vol(\wbarN(\nu))=1$. We would like to mention here that facilities
+  added later might actually be closer to $\nu$ than some facilities
+  currently in $\wbarN(\nu)$.
+
 %
 \item{\mycase{2}} $\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa) =
   \emptyset$, for all existing primary demands $\kappa$.  In this case
@@ -188,14 +193,12 @@ We point out here that $\wbarN(\nu)$ is not necessarily yet finalized at this ti
   \tildex_{\mu p}$ for $\mu \in \wtildeN_{\gamma}(p)$ and set the
   corresponding $\tildex_{\mu p}$ to $0$.  
 
-	Note that at this point the total
-  connection value in $\wbarN(\nu)$ is exactly $1/\gamma$, so
-  we have $\wbarN(\nu) = \wbarclsnb(\nu)$ and this set consists exactly of
-  the facilities that were in $\wtildeN_{\gamma}(p)$ when the iteration started.
-  In fact, unlike in the previous case,
-  $\wbarclsnb(\nu)$ is already fixed, because all facilities added
-  later in the augmenting phase (Phase~2 below) are in $\wtildeN(p)$ so
-  they are farther from $p$ (and thus $\nu$) than those already in $\wbarclsnb(\nu)$.
+  It is easy to see that $\vol(\wbarN(\nu))$ is exactly
+  $1/\gamma$. Moreover, facilities remaining in $\wtildeN(p)$ are all
+  farther away to $\nu$ than those in $\wbarN(\nu)$ already. As we add
+  only facilities from $\wtildeN(p)$ in phase 2 to make
+  $\vol(\wbarN(\nu))=1$, we have the current $\wbarN(\nu)$ being
+  exactly $\wbarclsnb(\nu)$ once phase 2 completes.
 %
 \end{description}
 %
@@ -207,32 +210,50 @@ additional facilities (possibly split, if necessary)
  from $\wtildeN(j)$ to $\wbarN(\nu)$ neighborhood to
 make its total connection value equal $1$. As before a facility is
 removed from $\wtildeN(j)$ once it's added to a demand's neighborhood. 
-This completes the description of the partitioning algorithm.
+This completes the description of the partitioning algorithm. After
+that we will have $\wbarN(\nu), \wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$
+fixed for every demand $\nu$, with $\wbarN(\nu)$ consists of all
+facilities $\mu$ such that $\barx_{\mu\nu} > 0$, and the closest few
+of them with total connection value $1/\gamma$ forming
+$\wbarclsnb(\nu)$ and the rest being $\wbarfarnb(\nu)$.
 
 %%%%%%%
 
 \medskip
-
+\paragraph{Proof of Properties}
 We now argue that our partitioned fractional solution $(\barbfx,\barbfy)$
-satisfies all the stated properties. Properties~(PS), (CO), (NB)
-(PD'.\ref{PD1:disjoint}) and (SI'.\ref{SI1:siblings disjoint}) are
-directly enforced by the adaptive partitioning algorithm. The proofs
-for other properties (PD'.\ref{PD1:yi}), (PD'.\ref{PD1:assign:cost})
-and (SI'.\ref{SI1:primary disjoint}) are analogous to those in
-Section~\ref{sec: adaptive partitioning}, with the exception of
-(PD'.\ref{PD:assign:overlap}), which we justify below.
+satisfies all the stated properties. Properties~(PS), (CO) are
+directly enforced by the algorithm. Property (NB) follows from the
+definition of close and far neighborhood.
 
-\margincomment{actually, all properties involving close neighborhoods must be justified
-because these neighborhoods change in phase 2}
+(PD'.\ref{PD1:disjoint}) holds because $\wbarclsnb(\kappa)$ for a
+primary demand $\kappa$ is the same set as $\wtildeN_{\gamma}(p)$ when
+$\kappa$ was created. Since the partitioning algorithm makes a demand
+primary only if $\wtildeN_{\gamma}(p)$ is disjoint from
+$\wbarclsnb(\kappa')$ all existing primary demands $\kappa'$, we have
+(PD'.\ref{PD1:disjoint}) hold.
 
-The argument for (PD'.\ref{PD:assign:overlap}) is a bit subtle, because
-of possible complications arising in the augmenting phase, Phase 2.
-This phase does not change close neighborhoods of a primary demand $\kappa\in j$, as
-each primary demand already contains facilities with
-total connection value $1/\gamma$ and these facilities are closer to $\kappa$ than
-the facilities still remaining in $\wtildeN(j)$.
-If $\nu\in j$ is a non-primary demand, however,
-$\wbarN(\nu)$ takes all facilities in
+To see (PD'.\ref{PD1:yi}), we notice that the close neighborhood of
+primary demands are disjoint due to (PD'.\ref{PD1:disjoint}). Then
+each facility $\mu \in i$ can show up in at most one
+$\wbarclsnb(\kappa)$, and we will have $\bary_{\mu} =
+\barx_{\mu\kappa}$ in that case due to (CO). As a result this
+summation is no larger than $\sum_{\mu\in i}\bary_{\mu} =
+y_i^\ast$. So we have (PD'.\ref{PD1:yi}).
+
+(PD'.\ref{PD:assign:overlap}) appears to be following from the
+algorithm as we only assign a demand $\nu$ to a primary demand
+$\kappa$ when $\wbarN(\nu)$ overlaps with
+$\wbarclsnb(\kappa)$. However, it is more subtle, as we need
+$\wbarclsnb(\nu)$ to overlap with $\wbarclsnb(\kappa)$. Recall in the
+partitioning algorithm, during Phase 1, the algorithm did ensure that
+the set $\wbarN(\nu)$ then overlaps with $\wbarclsnb(\kappa)$. However
+we have complications arising in Phase 2. This phase does not change
+close neighborhoods of a primary demand $\kappa\in j$, as each primary
+demand already contains facilities with total connection value
+$1/\gamma$ and these facilities are closer to $\kappa$ than the
+facilities still remaining in $\wtildeN(j)$. If $\nu\in j$ is a
+non-primary demand, however, $\wbarN(\nu)$ takes all facilities in
 $\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be close to $\kappa$
 but far from $j$.  It seems that facilities added in the augment step
 might actually be closer to $\nu$ than some of the facilities already
@@ -242,35 +263,45 @@ $\wbarclsnb(\kappa)$, the close neighborhood of the primary demand
 $\kappa$ that $\nu$ is assigned to.  Nevertheless, we show that
 Property~(PD.\ref{PD:assign:overlap}) holds.
 
-Consider an iteration when we create a demand $\nu\in p$
-and assign it to $\kappa$. Then the set
-$B=\wtildeN_{\gamma}(p)\cap \wbarclsnb(\kappa)$ is not empty.
-We claim that
-$B$ must be a subset of $\wbarclsnb(\nu)$ after $\wbarN(\nu)$ is
-finalized with a total connection value of $1$. To see this, first
-observe that $B$ is a subset of $\wbarN(\nu)$, which in turn is a
-subset of $\wtildeN(p)$, after taking into account the facility
-split. (Here $\wtildeN(p)$ refers to the neighborhood of client $p$
-just before $\nu$ was created and $\wbarN(\nu)$ is the final value of this set.) 
-For an arbitrary set of facilities
-$A$ define $\dmax_\gamma(A, \nu)$ as the minimum $\tau$ such
-that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq \tau}\;\bary_{\mu} \geq
-1/\gamma$.
-Adding additional facilities into $A$ cannot make
-$\dmax_\gamma(A, \nu)$ larger, so it follows that 
-$\dmax_\gamma (\wbarclsnb(\nu), \nu)
-	\geq \dmax_\gamma(\wtildeN(p), \nu)$, because $\wbarclsnb(\nu)$ is a subset of
-$\wtildeN(p)$. Since, by definition, for all $\mu$ we have $d_{\mu \nu} = d_{\mu p}$,
-it is easy to see that every $\mu \in B$ satisfies 
-$d_{\mu \nu} \leq \dmax_\gamma(\wtildeN(p), \nu) 
-			\leq \dmax_\gamma(\wbarclsnb(\nu), \nu)$ 
-and hence  $B\subseteq \wbarclsnb(\nu)$. We need to be a bit more
+\margincomment{actually, all properties involving close neighborhoods must be justified
+because these neighborhoods change in phase 2.}
+
+Consider an iteration when we create a demand $\nu\in p$ and assign it
+to $\kappa$. Then the set $B=\wtildeN_{\gamma}(p)\cap
+\wbarclsnb(\kappa)$ is not empty.  We claim that $B$ must be a subset
+of $\wbarclsnb(\nu)$ after $\wbarN(\nu)$ is finalized with a total
+connection value of $1$. To see this, first observe that $B$ is a
+subset of $\wbarN(\nu)$, which in turn is a subset of $\wtildeN(p)$,
+after taking into account the facility split. (Here $\wtildeN(p)$
+refers to the neighborhood of client $p$ just before $\nu$ was created
+and $\wbarN(\nu)$ is the final value of this set.)  For an arbitrary
+set of facilities $A$ define $\dmax_\gamma(A, \nu)$ as the minimum
+$\tau$ such that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq
+  \tau}\;\bary_{\mu} \geq 1/\gamma$.  Adding additional facilities
+into $A$ cannot make $\dmax_\gamma(A, \nu)$ larger, so it follows that
+$\dmax_\gamma (\wbarclsnb(\nu), \nu) \geq \dmax_\gamma(\wtildeN(p),
+\nu)$, because $\wbarclsnb(\nu)$ is a subset of $\wtildeN(p)$. Since,
+by definition, for all $\mu$ we have $d_{\mu \nu} = d_{\mu p}$, it is
+easy to see that every $\mu \in B$ satisfies $d_{\mu \nu} \leq
+\dmax_\gamma(\wtildeN(p), \nu) \leq \dmax_\gamma(\wbarclsnb(\nu),
+\nu)$ and hence $B\subseteq \wbarclsnb(\nu)$. We need to be a bit more
 careful here when we have a tie in $d_{\mu\nu}$ but we can assume ties
 are always broken in favor of facilities in $B$ when defining
-$\wbarclsnb(\nu)$. Finally, since $B\neq\emptyset$, we 
-have that $\wbarclsnb(\nu)\cap \wbarclsnb(\kappa)\neq\emptyset$,
-which is Property~(PD.\ref{PD:assign:overlap}).
+$\wbarclsnb(\nu)$. Finally, since $B\neq\emptyset$, we have that
+$\wbarclsnb(\nu)\cap \wbarclsnb(\kappa)\neq\emptyset$, which is
+Property~(PD.\ref{PD:assign:overlap}).
 
+The proof of (PD'.\ref{PD1:assign:cost}) is similar to that of
+Lemma~\ref{lem: PD:assign:cost holds}. The idea is that
+$\clsdist(\kappa) + \clsmax(\kappa)$ is no more than $\tcc_\gamma(j) +
+\dmax_{\gamma}(j)$ when demand $\nu \in j$ was created, which is no
+more than $\clsdist(\nu) + \clsmax(\nu)$.
+
+(SI.\ref{SI1:siblings disjoint}) follows directly from the
+algorithm. The proof of (SI.\ref{SI1:primary disjoint}) is similar to
+that of Lemma~\ref{lem: property SI:primary disjoint holds}.
+
+Now we have completed the proof of all properties.
 %%%%%%%%
 
 \paragraph{Algorithm~{\EBGS}.}
