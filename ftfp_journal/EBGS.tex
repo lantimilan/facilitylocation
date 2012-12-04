@@ -234,45 +234,64 @@ directly enforced by the algorithm. Property (NB) follows from the
 definition of close and far neighborhood.
 
 (PD'.\ref{PD1:disjoint}) holds because $\wbarclsnb(\kappa)$ for a
-primary demand $\kappa$ is the same set as $\wtildeN_{\gamma}(p)$ when
+primary demand $\kappa \in p$ is the same set as $\wtildeN_{\gamma}(p)$ when
 $\kappa$ was created. Since the partitioning algorithm makes a demand
 primary only if $\wtildeN_{\gamma}(p)$ is disjoint from
-$\wbarclsnb(\kappa')$ all existing primary demands $\kappa'$, we have
+$\wbarclsnb(\kappa')$ for all existing primary demands $\kappa'$, we have
 (PD'.\ref{PD1:disjoint}) hold.
 
 To see (PD'.\ref{PD1:yi}), we notice that the close neighborhood of
 primary demands are disjoint due to (PD'.\ref{PD1:disjoint}). Then
 each facility $\mu \in i$ can show up in at most one
-$\wbarclsnb(\kappa)$, and we will have $\bary_{\mu} =
+$\wbarclsnb(\kappa)$ for some primary demand $\kappa$, and we will have $\bary_{\mu} =
 \barx_{\mu\kappa}$ in that case due to (CO). As a result this
 summation is no larger than $\sum_{\mu\in i}\bary_{\mu} =
 y_i^\ast$. So we have (PD'.\ref{PD1:yi}).
 
-(PD'.\ref{PD:assign:overlap}) appears to be following from the
+(PD'.\ref{PD1:assign:overlap}) appears to be following from the
 algorithm as we only assign a demand $\nu$ to a primary demand
 $\kappa$ when $\wbarN(\nu)$ overlaps with
 $\wbarclsnb(\kappa)$. However, it is more subtle, as we need
-$\wbarclsnb(\nu)$ to overlap with $\wbarclsnb(\kappa)$. Recall in the
-partitioning algorithm, during Phase 1, the algorithm did ensure that
-the set $\wbarN(\nu)$ then overlaps with $\wbarclsnb(\kappa)$. However
-we have complications arising in Phase 2. This phase does not change
-close neighborhoods of a primary demand $\kappa\in j$, as each primary
-demand already contains facilities with total connection value
-$1/\gamma$ and these facilities are closer to $\kappa$ than the
-facilities still remaining in $\wtildeN(j)$. If $\nu\in j$ is a
-non-primary demand, however, $\wbarN(\nu)$ takes all facilities in
-$\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be close to $\kappa$
-but far from $j$.  It seems that facilities added in the augment step
-might actually be closer to $\nu$ than some of the facilities already
-in $\wbarN(\nu)$. As a result, facilities added in the augmenting
-phase, Phase 2, might appear in $\wbarclsnb(\nu)$, yet they are not in
-$\wbarclsnb(\kappa)$, the close neighborhood of the primary demand
-$\kappa$ that $\nu$ is assigned to.  Nevertheless, we show that
-Property~(PD.\ref{PD:assign:overlap}) holds.
+$\wbarclsnb(\nu)$ to overlap with $\wbarclsnb(\kappa)$. For primary
+demands, their close neighborhoods contain only facilities added in
+Phase 1, because those added in Phase 2 are all farther away. However,
+for a non-primary demand $\nu \in j$, $\wbarN(\nu)$ takes all
+facilities in $\wbarclsnb(\kappa)\cap \wtildeN(j)$ in Phase 1, which
+might be close to $\kappa$ but far from $j$. As a result, facilities
+added in the augmenting phase, Phase 2, might appear in
+$\wbarclsnb(\nu)$, and some, or maybe all of facilities added to
+$\wbarN(\nu)$ in Phase 1 might end up in $\wbarfarnb(\nu)$. This would
+make it difficult to satisfy (PD'.\ref{PD:assign:overlap}). We
+postpone the proof of this property to Lemma~\ref{lem: PD1: primary
+  overlap}.
+
+The proof of (PD'.\ref{PD1:assign:cost}) is similar to that of
+Lemma~\ref{lem: PD:assign:cost holds}. Suppose demand $\nu$ is
+assigned to primary demand $\kappa$, the idea is that
+$\clsdist(\kappa) + \clsmax(\kappa)$ is no more than $\tcc_\gamma(j) +
+\dmax_{\gamma}(j)$ when demand $\nu \in j$ was created, which is no
+more than $\clsdist(\nu) + \clsmax(\nu)$.
+
+(SI'.\ref{SI1:siblings disjoint}) follows directly from the
+algorithm. The proof of (SI'.\ref{SI1:primary disjoint}) is similar to
+that of Lemma~\ref{lem: property SI:primary disjoint holds}, by noting
+that for a primary demand $\kappa$, $\wbarclsnb(\kappa)$ contains the
+same set of facilities as the $\wbarN(\kappa)$ at the end of Phase
+1. Moreover, if demand $\nu\in j$ is assigned to primary demand
+$\kappa$, then all facilities in $\wtildeN(j)$ that are also in
+$\wbarclsnb(\kappa)$ are added to $\wbarN(\kappa)$ in Phase 1. As a
+result, if $\nu \in j$ is a non-primary demand and assigned to primary
+demand $\kappa$, then facilities added to $\wbarN(\nu')$ for any
+$\nu'\in j$ in Phase 2 do not appear in $\wbarclsnb(\kappa)$.
+
 
 \margincomment{actually, all properties involving close neighborhoods must be justified
 because these neighborhoods change in phase 2.}
 
+\begin{lemma} \label{lem: PD1: primary overlap}
+  Property (PD'.\ref{PD1:assign:overlap}) holds.
+\end{lemma}
+\begin{proof}
 Consider an iteration when we create a demand $\nu\in p$ and assign it
 to $\kappa$. Then the set $B=\wtildeN_{\gamma}(p)\cap
 \wbarclsnb(\kappa)$ is not empty.  We claim that $B$ must be a subset
@@ -297,16 +316,8 @@ are always broken in favor of facilities in $B$ when defining
 $\wbarclsnb(\nu)$. Finally, since $B\neq\emptyset$, we have that
 $\wbarclsnb(\nu)\cap \wbarclsnb(\kappa)\neq\emptyset$, which is
 Property~(PD.\ref{PD:assign:overlap}).
+\end{proof}
 
-The proof of (PD'.\ref{PD1:assign:cost}) is similar to that of
-Lemma~\ref{lem: PD:assign:cost holds}. The idea is that
-$\clsdist(\kappa) + \clsmax(\kappa)$ is no more than $\tcc_\gamma(j) +
-\dmax_{\gamma}(j)$ when demand $\nu \in j$ was created, which is no
-more than $\clsdist(\nu) + \clsmax(\nu)$.
-
-(SI.\ref{SI1:siblings disjoint}) follows directly from the
-algorithm. The proof of (SI.\ref{SI1:primary disjoint}) is similar to
-that of Lemma~\ref{lem: property SI:primary disjoint holds}.
 
 Now we have completed the proof of all properties.
 %%%%%%%%
@@ -338,8 +349,8 @@ demand that $\nu$ is assigned to.
 
 \paragraph{Analysis.}
 The feasibility of our integral solution follows from
-Properties~(SI.\ref{SI1:siblings disjoint}), (SI.\ref{SI1:primary
-  disjoint}), and (PD.\ref{PD1:disjoint}), as these properties together
+Properties~(SI'.\ref{SI1:siblings disjoint}), (SI'.\ref{SI1:primary
+  disjoint}), and (PD'.\ref{PD1:disjoint}), as these properties together
 ensure that each facility is accessible to at most one demand among
 all sibling demands of the same client, regardless whether a demand
 connects to its neighbor or its target facility.
