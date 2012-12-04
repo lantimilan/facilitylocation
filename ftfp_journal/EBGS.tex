@@ -355,11 +355,29 @@ ensure that each facility is accessible to at most one demand among
 all sibling demands of the same client, regardless whether a demand
 connects to its neighbor or its target facility.
 
-The expected facility cost of our algorithm is bounded by
-$\gamma F^\ast$, using essentially the same argument as in
-the previous section (with the factor $\gamma$
-accounting for using probabilities $\gamma \bary_{\mu}$
-instead of $\bary_{\mu}$).
+We now estimate the expected facility cost and connection cost of
+Algorithm {\EBGS}.
+
+The expected facility cost of our algorithm is bounded by the
+following lemma.
+
+\begin{lemma} \label{lem: EBGS facility cost}
+  The expected facility cost of the algorithm $F_{\smallEBGS}$ is no more
+  than $\gamma F^\ast$.
+\end{lemma}
+\begin{proof}
+  Consider facilities in a primary demand $\kappa$'s close
+  neighborhood $\wbarclsnb(\kappa)$. One of them will be opened, and
+  each facility $\mu$ is chosen with probability $\gamma
+  \bary_{\mu}$. For facilities outside any $\wbarclsnb(\kappa)$, each
+  is opened independently with probability $\gamma \bary_{\mu}$. By
+  linearity of expectation, we have the expected facility cost is
+  bouned by $\sum_{\mu \in \facilityset} f_\mu \gamma \bary_{\mu} =
+  \gamma \sum_{i\in \sitesset} f_i \sum_{\mu\in i} \bary_{\mu} =
+  \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast$ where we
+  used (PS.\ref{PS:yi}).
+
+\end{proof}
 
 \margincomment{this needs to be expanded, as in the previous section. add an explicit lemma, etc.}
 We now bound the connection
