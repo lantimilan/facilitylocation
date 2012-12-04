@@ -379,26 +379,87 @@ following lemma.
 
 \end{proof}
 
-\margincomment{this needs to be expanded, as in the previous section. add an explicit lemma, etc.}
+%%%%%%%%%%%
+\margincomment{this needs to be expanded, as in the previous
+  section. add an explicit lemma, etc.}  
+%%%%%%%%%%%
 We now bound the connection
 cost. Properties~(PD'.\ref{PD1:assign:overlap}) and
-(PD'.\ref{PD1:assign:cost}) allow us to bound the expected
-distance from a demand $\nu$ to its target facility by
-$\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event
-that none of $\nu$'s neighbors opens, using a similar
-argument as Lemma 2.2 in~\cite{ByrkaGS10}~\footnote{The full
-  proof of the lemma appears in~\cite{ByrkaA10} as
-  Lemma~3.3.}. We are then able to estimate the expected
-connection cost for demand $\nu$ using an argument similar
-to~\cite{ByrkaGS10}: with probability
-no less than $1-1/e$, $\nu$ has some facility open in its
-close neighborhood, with probability no less than
-$1-1/e^\gamma$, $\nu$ has some facility open in its overall
-neighborhood, and with probability no more than
-$1/e^\gamma$, $\nu$ will connect to its target facility.
+(PD'.\ref{PD1:assign:cost}) allow us to bound the expected distance
+from a demand $\nu$ to its target facility by
+$\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event that none of
+$\nu$'s neighbors opens, using a similar argument as Lemma 2.2
+in~\cite{ByrkaGS10}~\footnote{The full proof of the lemma appears
+  in~\cite{ByrkaA10} as Lemma~3.3.}. We give a brief explanation
+here. Let $K_1 = \wbarclsnb(\kappa) \setminus \wbarN(\nu), K_2 =
+\wbarclsnb(\kappa) \cap \wbarclsnb(\nu)$ and $K_3 = \wbarclsnb(\kappa)
+\cap \wbarfarnb(\nu)$, then we shall show that $D(K_1, \nu) \leq
+\clsdist(\kappa)+\clsmax(\kappa)+\fardist(\nu)$, which implies $D(K_1,
+\nu) \leq \clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$ due to
+(PD'.\ref{PD1:assign:cost}). Recall that $D(A,\nu)
+\stackrel{\mathrm{def}}{=} \sum_{\mu\in A} d_{\mu\nu}\bary_{\mu}$. 
+
+We can dismiss a few simple cases: If $D(K_1, \kappa) \leq
+\clsdist(\kappa)$, then we can use any facility $\mu \in K_2$ to show
+that $D(K_1,\nu) \leq D(K_1, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq
+\clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu)$ and we are
+done. So we can assume $D(K_1, \kappa) > \clsdist(\kappa)$. Our second
+assumption is that every $\mu \in K_2$ has $d_{\mu\kappa} >
+\clsdist(\kappa)$, for otherwise we can use $\clsmax(\kappa)$ to bound
+$D(K_1, \kappa)$ and $\fardist(\nu)$ to bound $d_{\mu\nu}$ for some
+$\mu\in K_2$ and we are done as well. Given the two assumptions we can
+now assume that $K_3$ is not empty and there exists some $\delta > 0$
+such that $D(K_3, \kappa) = \clsdist(\kappa) - \delta$. This actually
+implies $D(K_3, \nu) \geq \fardist(\nu) + \delta$, or we will be
+done. Because $K_3$ is a subset of $\wbarfarnb(\nu)$, this gives us a
+bound on $D(\wbarfarnb(\nu) \setminus K_3, \nu)$, which in turn, is an
+upper bound on $\clsmax(\nu)$. Let $\hat{y} = \sum_{\mu\in K_3}
+\bary_{\mu}$, using the fact that $\fardist(\nu) =
+D(K_3,\nu)\; \hat{y}/(\gamma-1) + D(\wbarfarnb(\nu)\setminus
+K_3)\; (\gamma-1-\hat{y})/(\gamma-1)$, we are able to show that
+\begin{equation*}
+  \clsmax(\nu) \leq D(\wbarfarnb(\nu) \setminus K_3, \nu) \leq \fardist(\nu) -
+  \hat{y}\delta/(\gamma-1-\hat{y}) \leq \fardist(\nu) -
+  \hat{y}\delta/(1-\hat{y}),
+\end{equation*}
+since $\gamma \leq 2$ (we pick $\gamma=1.575$ in the end). On the
+other hand, since $\wbarclsnb(\kappa) = K_1 \cup K_2 \cup K_3$, we
+have $\clsdist(\kappa) = (1-\hat{y})\; D(K_1\cup K_2, \kappa) + \hat{y}\;
+D(K_3, \kappa)$, which implies that
+\begin{equation*}
+  D(K_1 \cup K_2, \kappa) = \clsdist(\kappa) + \hat{y}\delta/(1-\hat{y}).
+\end{equation*}
+Now we are essentially done. If there exists some $\mu \in K_2$ such
+that $d_{\mu\kappa} \leq \clsdist(\kappa) +
+\hat{y}\delta/(1-\hat{y})$, then we have
+\begin{align*}
+  D(K_1, \nu) &\leq D(K_1, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+  &\leq \clsmax(\kappa) + \clsdist(\kappa) + \hat{y}\delta/(1-\hat{y})
+  + \clsmax(\nu)\\
+  &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu)
+\end{align*}
+Otherwise we must have $D(K_1, \kappa) \leq \clsdist(\kappa) +
+\hat{y}\delta/(1-\hat{y})$. It follows that
+\begin{align*}
+  D(K_1, \nu) &\leq D(K_1, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+  &\leq \clsdist(\kappa) + \hat{y}\delta/(1-\hat{y}) + \clsmax(\kappa)
+  + \clsmax(\nu)\\
+  &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu).
+\end{align*}
+This concludes the proof of the bound on the expected distance when
+the algorithm connnects a demand $\nu$ indirectly to its target
+facility, that is, the facility opened by the primary demand that
+$\nu$ was assigned.
+
+We are then able to estimate the expected connection cost for demand
+$\nu$ using an argument similar to~\cite{ByrkaGS10}: with probability
+no less than $1-1/e$, $\nu$ has some facility open in its close
+neighborhood, with probability no less than $1-1/e^\gamma$, $\nu$ has
+some facility open in its overall neighborhood, and with probability
+no more than $1/e^\gamma$, $\nu$ will connect to its target facility.
 This gives us the bound
 %
-\begin{align}
+\begin{align*}
   \Exp[C_{\nu}] &\leq 
 	\textstyle 
 	\clsdist(\nu)(1-\frac{1}{e}) + \fardist(\nu)(\frac{1}{e}-\frac{1}{e^\gamma}) 
@@ -418,7 +479,7 @@ This gives us the bound
 	\textstyle
 	\concost(\nu) \cdot \max\Big\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
   								1+\frac{2}{e^\gamma}\Big\},
-\end{align}
+\end{align*}
 %
 where $\rho_{\nu}=\clsdist(\nu)/\concost(\nu)$. It is easy
 to see that $\rho_{\nu}$ is between 0 and 1.
