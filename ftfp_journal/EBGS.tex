@@ -1,7 +1,7 @@
 %% NEW VERSION
 % marek Thu Nov 29 12:16:01 PST 2012
 %          still a lot of work needed. 
-
+% marek Tue Dec  4 12:54:24 PST 2012
 
 \section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec: 1.575-approximation}
 
@@ -10,49 +10,43 @@ algorithm for $\FTFP$, where $1.575$ is the value of $\min_{\gamma\geq
   1}\max\{\gamma, 1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$,
 rounded to three decimal digits. This matches the ratio of the best
 known LP-rounding algorithm for UFL by
-Byrka~{\etal}~\cite{ByrkaGS10}. Recall that in Section~\ref{sec:
-  1.736-approximation} we showed how to compute an integral solution
+Byrka~{\etal}~\cite{ByrkaGS10}. 
+
+Recall that in Section~\ref{sec: 1.736-approximation} we showed how to compute an integral solution
 with facility cost bounded by $F^\ast$ and connection cost bounded by
 $C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
 costs, by reducing the connection cost at the expense of a slight
-increase in the facility cost.
+increase in the facility cost. One way to do this would be to increase the
+probability of opening facilities, from $\bary_{\mu}$ (used in Algorithm~{\ECHS})
+to, say, $\gamma\bary_{\mu}$, for some $\gamma > 1$. This would increase the
+expected facility cost by a factor of $\gamma$ but, as it turns out,
+it reduces the probability of an indirect connection of a non-primary demand
+to $1/e^\gamma$ (from the previous value $1/e$). For any primary demand $\kappa$, as we
+must open exactly one facility $\phi(\kappa)$ in its neighborhood, we choose this
+facility from the subset of $\wbarN(\kappa)$ consisting of the facilities that
+are nearest to $\kappa$ and whose total connection value is $1/\gamma$.
+This is the essence of the approach in~\cite{ByrkaGS10}, expressed in our terminology.
 
-Consider that we start with the same partitioned fractional solution
-$(\barbfx, \barbfy)$ produced by Pseudocode~\ref{alg:lpr2}, in the
-rounding process, if we open a facility $\mu$ with probability
-$\gamma\bary_{\mu}$ for some constant $\gamma > 1$, it can be shown
-that, for a non-primary demand, the probability that we have to use an
-indirect connection to its target facility is now bounded by
-$1/e^\gamma$ instead of $1/e$. Moreover, the expected connection cost
-of a primary demand $\kappa$ is now averaged over the closest
-facilities in $\wbarN(\kappa)$ with total connection value
-$\barx_{\mu\kappa}$ equal to $1/\gamma$, instead of $1$. So we will
-have a much improved estimate on the expected connection cost. It is
-also natural to go one step further by modifying our adaptive
-partitioning algorithm slightly to produce a fractional solution with
-a more refined overlap structure of the neighborhood of demands, and
-hoping to get an even better estimate on the expected connection cost.
-
-Our approach can be thought of as a combination of the ideas
-in~\cite{ByrkaGS10} with the techniques of demand reduction and
+Our approach can be thought of as a combination of the above ideas
+with the techniques of demand reduction and
 adaptive partitioning that we introduced earlier. However, our
 adaptive partitioning technique needs to be carefully modified,
 because now we will be using a more intricate neighborhood structure,
 with the neighborhood of each demand divided into two disjoint parts,
-and with some restrictions on how parts from different demands can
-overlap. The final rounding stage that construct an integral solution
-is a relatively straightforward generalization of the rounding method
-in~\cite{ByrkaGS10}.
+and with some restrictions on how parts from different demands can overlap.
 
 We begin by describing properties that our partitioned fractional
 solution $(\barbfx,\barbfy)$ needs to satisfy. As mentioned earlier, the neighborhood
 $\wbarN(\nu)$ of each demand $\nu$ will be divided into two disjoint
 parts.  The first part, called the \emph{close neighborhood} and denoted
 $\wbarclsnb(\nu)$, contains the facilities in $\wbarN(\nu)$ nearest to
-$\nu$ with the total connection value equal $1/\gamma$. The second
+$\nu$ with the total connection value equal $1/\gamma$, that is
+$\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$.
+The second
 part, called the \emph{far neighborhood} and denoted $\wbarfarnb(\nu)$, contains
-the remaining facilities in $\wbarN(\nu)$. Formal definitions of
-these sets are given below in Property~(NB).  The respective average
+the remaining facilities in $\wbarN(\nu)$ (so $\sum_{\mu\in\wbarfarnb(\nu)} = 1-1/\gamma$).
+We restate these definitions formally
+below in Property~(NB).  The respective average
 connection costs from $\nu$ for these sets are defined by
 %
 \begin{equation*}
@@ -62,8 +56,7 @@ connection costs from $\nu$ for these sets are defined by
 d_{\mu\nu}\barx_{\mu\nu}. 
 \end{equation*}
 %
-Note that $\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$ and
-$\sum_{\mu\in\wbarfarnb(\nu)} = 1-1/\gamma$.  We will also use
+We will also use
 notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
 the maximum distance from $\nu$ to its close neighborhood.
 
@@ -104,9 +97,8 @@ properties (PD') and (SI'), listed below.
 	\item \label{PD1:yi} For each site $i\in\sitesset$, 
 		$ \sum_{\kappa\in P}\sum_{\mu\in
                   i\cap\wbarclsnb(\kappa)}\barx_{\mu\kappa} \leq
-                y_i^\ast$. Note that in the summation, we use $i$ to
-                refer to all facilities resulting from split from the
-                facility on site $i$.
+                y_i^\ast$. In the summation, as before, we overload notation $i$ to stand for the set of
+						facilities opened on site $i$.
 		
 	\item \label{PD1:assign} Each demand $\nu\in\demandset$ is assigned
         to one primary demand $\kappa\in P$ such that
@@ -184,86 +176,80 @@ we create a new demand $\nu$ for $p$.  Now we have two cases:
   $\wbarN(\nu)$ include all facilities in the intersection of
   $\wtildeN(p)$, a bigger set, with $\wbarclsnb(\kappa)$.
 
-  At this time, we have the total connection value of $\wbarN(\nu)$ no
-  more than $1/\gamma$ since the total connection value of
+  At this time, the total connection value between $\nu$ and $\wbarN(\nu)$ is
+  at most $1/\gamma$ since the total connection value of $\kappa$ to
   $\wbarclsnb(\kappa)$ is $1/\gamma$. Later in Phase 2 we will add
-  additional facilities to $\wbarN(\nu)$ to make its total connection
-  value equal to $1$. We would like to mention here that facilities
-  added later might actually be closer to $\nu$ than some facilities
-  currently in $\wbarN(\nu)$.
+  additional facilities from $\wtildeN(p)$ to $\wbarN(\nu)$ to make $\nu$'s total connection value to this set
+  equal to $1$. 
 
 %
 \item{\mycase{2}} $\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa) =
-  \emptyset$, for all existing primary demands $\kappa$.  In this case
-  we make $\nu$ a primary demand (that is, add it to $P$). We then fix $\barx_{\mu \nu}\assign
-  \tildex_{\mu p}$ for $\mu \in \wtildeN_{\gamma}(p)$ and set the
-  corresponding $\tildex_{\mu p}$ to $0$.  
+  \emptyset$, for all existing primary demands $\kappa\in P$.  In this case
+  we make $\nu$ a primary demand (that is, add it to $P$). 
+  We then move the facilities from $\wtildeN_{\gamma}(p)$ to $\wbarN(\nu)$, that is
+  for $\mu \in \wtildeN_{\gamma}(p)$
+	we set $\barx_{\mu \nu}\assign \tildex_{\mu p}$  and   $\tildex_{\mu p}\set 0$.  
 
-  It is easy to see that the total connection value of $\wbarN(\nu)$
-  is exactly $1/\gamma$. Moreover, facilities remaining in
-  $\wtildeN(p)$ are all farther away to $\nu$ than those in
-  $\wbarN(\nu)$ already. As we add only facilities from $\wtildeN(p)$
-  in Phase 2 to make total connection value of $\wbarN(\nu)$ to $1$,
-  we have the current $\wbarN(\nu)$ being exactly $\wbarclsnb(\nu)$
-  once phase 2 completes.
+  It is easy to see that the total connection value of $\nu$ to $\wbarN(\nu)$
+  is exactly $1/\gamma$, so we now have $\wbarclsnb(\nu) = \wbarN(\nu)$.
+Moreover, facilities remaining in
+  $\wtildeN(p)$ are all farther away from $\nu$ than those in
+  $\wbarN(\nu)$. As we add only facilities from $\wtildeN(p)$ to $\wbarN(\nu)$
+  in Phase~2, $\wbarclsnb(\nu)$ will remain unchanged from now on.
 %
 \end{description}
 %
 Once all clients are exhausted, that is, each client $j$ has $r_j$
 demands created, Phase~1 concludes. We then run Phase~2, the
-augmenting phase.  For each demand $\nu\in j$ with total connection
+augmenting phase, following the same steps as in Section~\ref{sec: adaptive partitioning}.
+For each client $j$ and each demand $\nu\in j$ with total connection
 value less than $1$, we use our $\AugmentToUnit()$ procedure to add
 additional facilities (possibly split, if necessary) from
-$\wtildeN(j)$ to $\wbarN(\nu)$ neighborhood to make $\wbarN(\nu)$'s
-total connection value equal $1$. As before a facility is removed from
-$\wtildeN(j)$ once it's added to $\wbarN(\nu)$.  This
-completes the description of the partitioning algorithm. After that we
-will have $\wbarN(\nu), \wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$ fixed
-for every demand $\nu$, with $\wbarN(\nu)$ consists of all facilities
-$\mu$ such that $\barx_{\mu\nu} > 0$, and the closest few of them to
-$\nu$ with total connection value $1/\gamma$ forming $\wbarclsnb(\nu)$
-and the rest being $\wbarfarnb(\nu)$.
+$\wtildeN(j)$ to $\wbarN(\nu)$ to make the total connection value of $\wbarN(\nu)$
+equal $1$. As before, a facility is removed from
+$\wtildeN(j)$ once it is added to $\wbarN(\nu)$.  
+
+This completes the description of the partitioning algorithm. Summarizing, for 
+each client $j$ we have created $r_j$ demands on the same point as $j$ and
+we created a number of facilities at each site $i$. 
+For each facility $\mu\in i$ we defined its fractional opening value $\bary_\mu$, $0\le \bary_\mu\le 1$,
+and for each demand $\nu\in j$ we defined its fractional connection value $\barx_{\mu\nu}\in \braced{0,\bary_\mu}$.
+The connections with $\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$, that we divided into two parts,
+$\wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$. It remains to show that this partitioning
+satisfies all the desired properties.
 
 %%%%%%%
 
 \medskip
-\paragraph{Proof of Properties}
+\paragraph{Correctness of partitioning.}
 We now argue that our partitioned fractional solution $(\barbfx,\barbfy)$
-satisfies all the stated properties. Properties~(PS), (CO) are
-directly enforced by the algorithm. Property (NB) follows from the
-definition of close and far neighborhood.
+satisfies all the stated properties. Properties~(PS), (CO) and (NB) are
+directly enforced by the algorithm.
 
-(PD'.\ref{PD1:disjoint}) holds because $\wbarclsnb(\kappa)$ for a
-primary demand $\kappa \in p$ is the same set as $\wtildeN_{\gamma}(p)$ when
-$\kappa$ was created. Since the partitioning algorithm makes a demand
-primary only if $\wtildeN_{\gamma}(p)$ is disjoint from
-$\wbarclsnb(\kappa')$ for all existing primary demands $\kappa'$, we have
-(PD'.\ref{PD1:disjoint}) hold.
+(PD'.\ref{PD1:disjoint}) holds because for each primary demand $\kappa\in p$, 
+$\wbarclsnb(\kappa)$ is the same set as $\wtildeN_{\gamma}(p)$ at the time when
+$\kappa$ was created, and $\wtildeN_{\gamma}(p)$ is removed from $\wtildeN(p)$
+right after this step. Further, the partitioning algorithm makes $\kappa$ a primary demand
+only if $\wtildeN_{\gamma}(p)$ is disjoint from close neighborhoods
+$\wbarclsnb(\kappa')$ of all existing primary demands $\kappa'$.
 
-To see (PD'.\ref{PD1:yi}), we notice that the close neighborhood of
-primary demands are disjoint due to (PD'.\ref{PD1:disjoint}). Then
-each facility $\mu \in i$ can show up in at most one
-$\wbarclsnb(\kappa)$ for some primary demand $\kappa$, and we will have $\bary_{\mu} =
-\barx_{\mu\kappa}$ in that case due to (CO). As a result this
-summation is no larger than $\sum_{\mu\in i}\bary_{\mu} =
-y_i^\ast$. So we have (PD'.\ref{PD1:yi}).
+The justification of (PD'.\ref{PD1:yi}) is similar to (PD.\ref{PD:yi}) from
+Section~\ref{sec: adaptive partitioning}. All close neighborhoods of
+primary demands are disjoint, due to (PD'.\ref{PD1:disjoint}), so
+each facility $\mu \in i$ can appear in at most one
+$\wbarclsnb(\kappa)$, for some $\kappa\in P$. This and condition (CO) imply together
+that $\bary_{\mu} = \barx_{\mu\kappa}$. As a result, the
+summation on the left-hand side is not larger than 
+$\sum_{\mu\in i}\bary_{\mu} = y_i^\ast$. 
 
-(PD'.\ref{PD1:assign:overlap}) appears to be following from the
-algorithm as we only assign a demand $\nu$ to a primary demand
-$\kappa$ when $\wbarN(\nu)$ overlaps with
-$\wbarclsnb(\kappa)$. However, it is more subtle, as we need
-$\wbarclsnb(\nu)$ to overlap with $\wbarclsnb(\kappa)$. For primary
-demands, their close neighborhoods contain only facilities added in
-Phase 1, because those added in Phase 2 are all farther away. However,
-for a non-primary demand $\nu \in j$, $\wbarN(\nu)$ takes all
-facilities in $\wbarclsnb(\kappa)\cap \wtildeN(j)$ in Phase 1, which
-might be close to $\kappa$ but far from $j$. As a result, facilities
-added in the augmenting phase, Phase 2, might appear in
-$\wbarclsnb(\nu)$, and some, or maybe all of facilities added to
-$\wbarN(\nu)$ in Phase 1 might end up in $\wbarfarnb(\nu)$. This would
-make it difficult to satisfy (PD'.\ref{PD:assign:overlap}). We
-postpone the proof of this property to Lemma~\ref{lem: PD1: primary
-  overlap}.
+Regarding (PD'.\ref{PD1:assign:overlap}), at first glance this property seems
+to follow from the algorithm, as we only assign a demand $\nu$ to a primary demand
+$\kappa$ when $\wbarN(\nu)$ overlaps with $\wbarclsnb(\kappa)$. 
+However, it is more subtle, as we need
+$\wbarclsnb(\nu)$ to overlap with $\wbarclsnb(\kappa)$ and
+at the end $\wbarclsnb(\kappa)$ may contain facilities added
+to $\wbarN(\nu)$ in the augmentation phase (maybe even only such facilities). We
+postpone the proof of this property to Lemma~\ref{lem: PD1: primary overlap}.
 
 The proof of (PD'.\ref{PD1:assign:cost}) is similar to that of
 Lemma~\ref{lem: PD:assign:cost holds}. Suppose demand $\nu$ is
@@ -284,9 +270,7 @@ result, if $\nu \in j$ is a non-primary demand and assigned to primary
 demand $\kappa$, then facilities added to $\wbarN(\nu')$ for any
 $\nu'\in j$ in Phase 2 do not appear in $\wbarclsnb(\kappa)$.
 
-
-\margincomment{actually, all properties involving close neighborhoods must be justified
-because these neighborhoods change in phase 2.}
+%%%%%%%%%%%%%%%
 
 \begin{lemma} \label{lem: PD1: primary overlap}
   Property (PD'.\ref{PD1:assign:overlap}) holds.
