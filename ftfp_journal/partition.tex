@@ -484,7 +484,7 @@ Since any two primary demands have disjoint
 
 We need one more lemma before proving our last property
 (PD.\ref{PD:assign:cost}).  For a client $j$ and a demand
-$\nu$, we use notation $\tcc_{\nu}(j)$ for the value of
+$\nu$, we use notation $\tcc^{\nu}(j)$ for the value of
 $\tcc(j)$ at the time when $\nu$ was created. (It is not
 necessary that $\nu\in j$ but we assume that $j$ is not
 exhausted at that time.)
@@ -495,8 +495,8 @@ exhausted at that time.)
   not later than $\nu$, and let $j\in\clientset$ be a client
   that is not exhausted when $\nu$ is created. Then we have
 \begin{description}
-	\item{(a)} $\tcc_\eta(j) \le \tcc_{\nu}(j)$, and 
-	\item{(b)} if $\nu\in j$ then $\tcc_\eta(j) \le \concost_{\nu}$.
+	\item{(a)} $\mbox{\tcc}^\eta(j) \le \mbox{\tcc}^{\nu}(j)$, and 
+	\item{(b)} if $\nu\in j$ then $\mbox{\tcc}^\eta(j) \le \concost_{\nu}$.
 \end{description}
 \end{lemma}
 
@@ -519,10 +519,10 @@ exhausted at that time.)
   This is a fractional
   minimum knapsack covering problem (with knapsack size equal $1$) and its optimal fractional
   solution is the greedy solution, whose value is exactly
-  $\tcc_\eta(j)$.  
+  $\tcc^\eta(j)$.  
 
 On the other hand, we claim that
-  $\tcc_\nu(j)$ can be thought of as the value of some feasible
+  $\tcc^{\nu}(j)$ can be thought of as the value of some feasible
   solution to this linear program, and that the same is true for $\concost_{\nu}$ if $\nu\in j$.
   Indeed, each of these
   quantities involves some later values $\tildex_{\mu j}$,
@@ -534,7 +534,7 @@ On the other hand, we claim that
   $\eta$ was created, because splitting facilities preserves this sum and
  creating new demands for $j$ can only decrease it.
 Therefore both quantities
-  $\tcc_\nu(j)$ and $\concost_{\nu}$ (for $\nu\in j$) correspond to some
+  $\tcc^{\nu}(j)$ and $\concost_{\nu}$ (for $\nu\in j$) correspond to some
   choice of the $z_s$ variables (adding up to $1$), and the
   lemma follows.
 \end{proof}
@@ -550,8 +550,8 @@ Suppose that demand $\nu\in j$ is assigned to some primary demand $\kappa\in p$.
 Then
 %
 \begin{eqnarray*}
- \concost_{\kappa} + \alpha_{\kappa}^\ast \;=\; \tcc_\kappa(p) + \alpha^\ast_p
- 					\;\le\; \tcc_\kappa(j) + \alpha^\ast_j   
+ \concost_{\kappa} + \alpha_{\kappa}^\ast \;=\; \tcc^{\kappa}(p) + \alpha^\ast_p
+ 					\;\le\; \tcc^{\kappa}(j) + \alpha^\ast_j   
 					\;\le\; \concost_{\nu} + \alpha^\ast_\nu.
 \end{eqnarray*}
 %
@@ -559,12 +559,12 @@ We now justify this derivation. By definition we have
 $\alpha_{\kappa}^\ast = \alpha^\ast_p$.  Further, by the
 algorithm, if $\kappa$ is a primary demand of client $p$,
 then $\concost_{\kappa}$ is equal to $\tcc(p)$ computed when
-$\kappa$ is created, which is exactly $\tcc_\kappa(p)$. Thus
+$\kappa$ is created, which is exactly $\tcc^{\kappa}(p)$. Thus
 the first equation is true. The first inequality follows
 from the choice of $p$ in Line~9 in
 Pseudocode~\ref{alg:lpr2}. The last inequality holds
 because $\alpha^\ast_j = \alpha^\ast_\nu$ (due to $\nu\in
-j$), and because $\tcc_\kappa(j) \le \concost_{\nu}$, which
+j$), and because $\tcc^{\kappa}(j) \le \concost_{\nu}$, which
 follows from Lemma~\ref{lem: tcc optimal}.
 \end{proof}
 
