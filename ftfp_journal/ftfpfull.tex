@@ -147,7 +147,10 @@ lead to new algorithms for FTFL with improved ratios.
 
 \appendix
 \section{Proof of the Technical Lemma for Algorithm {\EBGS}}\label{app:EBGS connection cost}
-\begin{lemma}
+In this section we give the proof for the lemma that bounds the
+expected connection cost of a non-primary demand in the event that
+none of its neighboring facility opens.
+\begin{lemma}\label{lem: EBGS target connection cost}
   In Algorithm EBGS, for a non-primary demand $\nu$, in the event that
   no facility in $\wbarN(\nu)$ opens, the expected connection cost is
   no more than $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$

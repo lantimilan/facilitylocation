@@ -309,7 +309,10 @@ Property~(PD'.\ref{PD1:assign:overlap}).
   $\clsdist(\kappa) = \tcc_\gamma^\kappa (p)$ and $\clsmax(\kappa) =
   \tcc_{\gamma}^\kappa(p)$ and the algorithm chooses client $p$ with
   minimum $\tcc_{\gamma}(p) + \tcc_{\gamma}(p)$ in the modified
-  partitioning algorithm.
+  partitioning algorithm. Here we use the notation
+  $\tcc_{\gamma}^\eta(j)$ and $\dmax_{\gamma}^\eta(j)$ to denote the
+  $\tcc_\gamma(j)$ and $\dmax_{\gamma}(j)$ value when demand $\eta$
+  was created ($\eta$ may or may not be a demand of client $j$).
 
   Using an argument similar to that in the proof of Lemma~\ref{lem:
     tcc optimal}, our modified partitioning algorithm guarantees
@@ -389,8 +392,8 @@ following lemma.
 %%%%%%%%%%%
 We now bound the connection cost by the following lemma.
 \begin{lemma}\label{lem: EBGS connection cost}
-  For a fixed constant $1 < \gamma < 2$, the expected connection cost
-  of the algorithm $C_{\smallEBGS}$ is no more than
+  For any fixed constant $1 < \gamma < 2$, the expected connection
+  cost of the algorithm $C_{\smallEBGS}$ is no more than
   $C^\ast\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
   1+\frac{2}{e^\gamma}\}$.
 \end{lemma}
@@ -402,8 +405,9 @@ We now bound the connection cost by the following lemma.
   $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event that none
   of $\nu$'s neighbors opens, using a similar argument as Lemma 2.2
   in~\cite{ByrkaGS10}~\footnote{The full proof of the lemma appears
-    in~\cite{ByrkaA10} as Lemma~3.3.}. A proof is available in
-  Appendix~\ref{app:EBGS connection cost}.
+    in~\cite{ByrkaA10} as Lemma~3.3.}. We state this bound as
+  Lemma~\ref{lem: EBGS target connection cost}. The lemma and its
+  proof are available in Appendix~\ref{app:EBGS connection cost}.
 
   We are then able to estimate the expected connection cost for demand
   $\nu$ using an argument similar to~\cite{ByrkaGS10}: with
