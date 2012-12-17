@@ -332,14 +332,14 @@ be included in $\wbarclsnb(\nu)$ at the end. Technically speaking, this will not
 true due to facility splitting, so we need to rephrase this claim and the proof
 in terms of the set of facilities obtained after the algorithm completes.
 
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=3.2in]{./FIGURES/proof_of_lemma_PD'3a.pdf}
-\caption{Illustration of the sets $\wbarN(\nu)$, $A$, $B$, $E^-$ and $E^+$ in the proof
-of Lemma~\ref{lem: PD1: primary overlap}.}
-\label{fig: sets lemma PD'3a}
-\end{center}
-\end{figure}
+%%\begin{figure}[ht]
+%%\begin{center}
+%%\includegraphics[width=3.2in]{./FIGURES/proof_of_lemma_PD'3a.pdf}
+%%\caption{Illustration of the sets $\wbarN(\nu)$, $A$, $B$, $E^-$ and $E^+$ in the proof
+%%of Lemma~\ref{lem: PD1: primary overlap}.}
+%%\label{fig: sets lemma PD'3a}
+%%\end{center}
+%%\end{figure}
 
 We define the sets $A$, $B$, $E^-$ and $E^+$ as the subsets of $\facilityset$ (the final set
 of facilities) that either belonged to or were obtained from splitting facilities in
@@ -379,26 +379,27 @@ $\tcccls(j)$ and $\dmaxcls(j)$ at the time when $\eta$
 was created. (Here $\eta$ may or may not be a demand of client $j$).
 
 Suppose $\nu \in j$ is assigned to a primary demand $\kappa \in p$.
-By the way primary demands are constructed in the algorithm, 
-$\wtildeclsnb(j)$ becomes $\wbarclsnb(\kappa)$, so we have
-$\clsdist(\kappa) = \tcccls^\kappa (p)$ and 
-$\clsmax(\kappa) = \tcccls^\kappa(p)$. Further,  
-by the choice of $p$, $p$ minimizes $\tcccls(p) + \dmaxcls(p)$.
-We thus obtain that $\clsdist(\kappa) + \clsmax(\kappa)$ was at most
-$\tcccls^\kappa(j) + \dmaxcls^\kappa(j)$ at the time when demand
-$\kappa$ was created.
+By the way primary demands are constructed in the partitioning
+algorithm, $\wtildeclsnb(p)$ becomes $\wbarclsnb(\kappa)$, so we have
+$\clsdist(\kappa) = \tcccls^\kappa (p)$ and $\clsmax(\kappa) =
+\tcccls^\kappa(p)$. Further, since we choose $p$ to minimize
+$\tcccls(p) + \dmaxcls(p)$, we thus have that $\tcccls^\kappa(p) +
+\dmaxcls^\kappa(p) \leq \tcccls^\kappa(j) + \dmaxcls^\kappa(j)$ at the
+time when demand $\kappa$ was created.
 
 Using an argument analogous to that in the proof of Lemma~\ref{lem: tcc optimal}, 
 our modified partitioning algorithm guarantees that
-  $\tcccls^{\kappa}(j) \leq \clsdist(\nu)$ and
-  $\dmaxcls^{\kappa}(j) \leq \dmax(\nu)$.
+  $\tcccls^{\kappa}(j) \leq \tcccls^{\nu}(j)$ and
+  $\dmaxcls^{\kappa}(j) \leq \dmaxcls^{\nu}(j)$ since $\nu$ was
+  created later.
   Therefore, we have
 %
   \begin{align*}
     \clsdist(\kappa) + \clsmax(\kappa) &= \tcccls^{\kappa}(p) +	\dmaxcls^{\kappa}(p) 
 					\\
 					&\leq \tcccls^{\kappa}(j) + \dmaxcls^{\kappa}(j) 
-					\leq \clsdist(\nu) + \dmax(\nu),
+					\leq \tcccls^{\nu}(j) + \dmaxcls^{\nu}(j) 
+					= \clsdist(\nu) + \clsmax(\nu),
   \end{align*}
 %
 completing the proof.
@@ -461,7 +462,7 @@ The expected facility cost $F_{\smallEBGS}$ of Algorithm~{\EBGS} is at most $\ga
 
 \begin{proof}
 By the algorithm, each facility $\mu\in \facilityset$ is opened with
-probability $\gamma \bary_{\mu}$, independently of whether it belongs to a
+probability $\gamma \bary_{\mu}$, independently of whether it belongs to the
 close neighborhood of a primary demand or not. Therefore, by
   linearity of expectation, we have that the expected facility cost is
 %
@@ -485,9 +486,10 @@ lemma in~\cite{ByrkaGS10,ByrkaA10}.
 For the sake of completeness, the complete proof is included in the appendix.
 
 \begin{lemma}\label{lem: EBGS target connection cost}
-In Algorithm~{\EBGS}, for a non-primary demand $\nu$, in the event that
-no facility in $\wbarN(\nu)$ opens, the expected connection cost is
-  no more than $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$
+  In Algorithm~{\EBGS}, let $\gamma$ be a constant such that $1 <
+  \gamma < 2$, for a non-primary demand $\nu$, in the event that no
+  facility in $\wbarN(\nu)$ opens, the expected connection cost is no
+  more than $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$.
 \end{lemma}
 
 We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
@@ -500,19 +502,21 @@ We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
 \end{lemma}
 
 \begin{proof}
-The argument is similar to that in~\cite{ByrkaGS10}. Fix some
-demand $\nu$. Then with
-  probability no less than $1-1/e$, $\nu$ has some facility open in
-  its close neighborhood, with probability no less than
-  $1-1/e^\gamma$, $\nu$ has some facility open in its overall
-  neighborhood, and with probability no more than $1/e^\gamma$, $\nu$
-  will connect to its target facility.  This gives us the bound
-%
-\begin{align*}
-  \Exp[C_{\nu}] &\leq 
-	\textstyle 
-	\clsdist(\nu)(1-\frac{1}{e}) + \fardist(\nu)(\frac{1}{e}-\frac{1}{e^\gamma}) 
-					+ (\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu))\frac{1}{e^\gamma}
+  The argument is similar to that in~\cite{ByrkaGS10}. Fix some
+  non-primary demand $\nu$. We estimate its connection cost by a
+  provably worse random process like we did in Algorithm {\ECHS}. Let
+  $\wbarclsnb(\nu) = \{\mu_1,\ldots,\mu_l\}$ and $\wbarfarnb(\nu) =
+  \{\mu_{l+1}, \ldots, \mu_{l'}\}$, where facilities are ordered by
+  non-decreasing distance to $\nu$. A similar argument will then show
+  that the expected distance $\Exp[C_\nu]$ to be no more than
+  \begin{align*}
+    \Exp[C_{\nu}] &\leq d_1\gamma\bary_1 +
+    d_2\gamma\bary_2(1-\gamma\bary_1) + \ldots +
+    d_l\gamma\bary_l\prod_{s=1}^{l-1}(1-\gamma\bary_s) \\
+    & + d_{l+1}\gamma\bary_{l+1}\prod_{s=1}^l(1-\gamma\bary_s) + \ldots +
+    d_{l'}\gamma\bary_{l'}\prod_{s=1}^{l'-1}(1-\gamma\bary_s) \\
+    & + \Exp[d_{\phi(\kappa)\nu} \mid \Lambda_\nu]\prod_{s=1}^{l'}(1-\gamma\bary_{s})\\
+    &\leq (1-1/e)\clsdist(\nu) + (1/e - 1/e^\gamma)\fardist(\nu) + 1/e^\gamma (\clsdist(\nu) + \clsmax(\nu) + \fardist(\nu))\\
 \\
   &\leq 
 	\textstyle
