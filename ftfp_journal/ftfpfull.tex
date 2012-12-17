@@ -12,7 +12,7 @@
 
 \documentclass[11pt]{article}
 
-\usepackage{fullpage,amssymb,amsthm,enumerate}
+\usepackage{fullpage,amssymb,amsthm,enumerate,graphicx}
 \usepackage[nosumlimits]{amsmath}
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
@@ -146,16 +146,8 @@ lead to new algorithms for FTFL with improved ratios.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \appendix
-\section{Proof of the Technical Lemma for Algorithm {\EBGS}}\label{app:EBGS connection cost}
-In this section we give the proof for the lemma that bounds the
-expected connection cost of a non-primary demand in the event that
-none of its neighboring facility opens.
-\begin{lemma}\label{lem: EBGS target connection cost}
-  In Algorithm EBGS, for a non-primary demand $\nu$, in the event that
-  no facility in $\wbarN(\nu)$ opens, the expected connection cost is
-  no more than $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$
-\end{lemma}
-\begin{proof}
+\section{Proof of Lemma~\ref{lem: EBGS target connection cost}}
+
   Let $K_1 = \wbarclsnb(\kappa) \setminus \wbarN(\nu), K_2 =
   \wbarclsnb(\kappa) \cap \wbarclsnb(\nu)$ and $K_3 =
   \wbarclsnb(\kappa) \cap \wbarfarnb(\nu)$, then we shall show that
@@ -222,9 +214,14 @@ none of its neighboring facility opens.
   the algorithm connnects a demand $\nu$ indirectly to its target
   facility, that is, the facility opened by the primary demand that
   $\nu$ was assigned.
-\end{proof}
 
-\section{An Elementary Proof of the Expected Connection Cost}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Simple Proof of the Expected Connection Cost of Algorithm~{\ECHS}}
+
 In the $1+2/e=1.736$-approximation in Section~\ref{sec: 1.736-approximation}
 we need to show the following inequality
 %

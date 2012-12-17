@@ -2,6 +2,8 @@
 % marek Thu Nov 29 12:16:01 PST 2012
 %          still a lot of work needed. 
 % marek Tue Dec  4 12:54:24 PST 2012
+% marek Mon Dec 10 18:48:31 PST 2012
+
 
 \section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec: 1.575-approximation}
 
@@ -18,9 +20,9 @@ $C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
 costs, by reducing the connection cost at the expense of a slight
 increase in the facility cost. One way to do this would be to increase the
 probability of opening facilities, from $\bary_{\mu}$ (used in Algorithm~{\ECHS})
-to, say, $\gamma\bary_{\mu}$, for some $\gamma > 1$. This would increase the
+to, say, $\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases the
 expected facility cost by a factor of $\gamma$ but, as it turns out,
-it reduces the probability of an indirect connection of a non-primary demand
+it also reduces the probability of an indirect connection of a non-primary demand
 to $1/e^\gamma$ (from the previous value $1/e$). For any primary demand $\kappa$, as we
 must open exactly one facility $\phi(\kappa)$ in its neighborhood, we choose this
 facility from the subset of $\wbarN(\kappa)$ consisting of the facilities that
@@ -45,9 +47,15 @@ $\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$.
 The second
 part, called the \emph{far neighborhood} and denoted $\wbarfarnb(\nu)$, contains
 the remaining facilities in $\wbarN(\nu)$ (so $\sum_{\mu\in\wbarfarnb(\nu)} = 1-1/\gamma$).
-We restate these definitions formally
-below in Property~(NB).  The respective average
-connection costs from $\nu$ for these sets are defined by
+We restate these definitions formally below in Property~(NB).  
+Recall that for any set $A$ of facilities and a demand $\sigma$, by 
+$D(A,\sigma)$ we denote the average distance between $\sigma$ and the facilities in $A$, that is
+$D(A,\sigma) =\sum_{\mu\in A} d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$.
+We will use notations
+$\clsdist(\nu)=D(\wbarclsnb(\nu),\nu)$ and
+$\fardist(\nu)=D(\wbarfarnb(\nu),\nu)$ for the
+average distances from $\nu$ to its close and far neighborhoods, respectively.
+By the definition of these sets and the completeness property (CO), these distances can be expressed as
 %
 \begin{equation*}
 \clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
@@ -73,7 +81,7 @@ properties (PD') and (SI'), listed below.
 
 \item{(NB)} \label{NB}
 	\emph{Neighborhoods.}
-	For each demand $\nu$, its neighborhood is divided into \emph{close} and
+	For each demand $\nu \in \demandset$, its neighborhood is divided into \emph{close} and
 	\emph{far} neighborhood, that is $\wbarN(\nu) = \wbarclsnb(\nu) \cup \wbarfarnb(\nu)$, where
 	%
 	\begin{itemize}
@@ -115,7 +123,7 @@ properties (PD') and (SI'), listed below.
 
 	\end{enumerate}
 	
-\item{(SI')} \emph{Siblings}. For any pair $\nu,\nu'$ of different siblings we have
+\item{(SI')} \emph{Siblings}. For any pair $\nu,\nu'\in\demandset$ of different siblings we have
   \begin{enumerate}
 
 	\item \label{SI1:siblings disjoint}
@@ -150,48 +158,50 @@ $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq d_{\mu_q j}$, where
 $q = |\wtildeN(j)|$. Without loss of generality, there is an index
 $l$ for which $\sum_{s=1}^l \tildex_{\mu_s j} = 1/\gamma$, since we can
 always split one facility to achieve this property. Then we define
-$\wtildeN_{\gamma}(j) = \braced{\mu_1,...,\mu_l}$. We also use notation
+$\wtildeclsnb(j) = \braced{\mu_1,...,\mu_l}$. In case of ties, we use
+a tie-breaking rule that is explained in the proof of Lemma~\ref{lem: PD1: primary overlap}
+(the only place where it's needed). We also use notation
 %
 \begin{equation*}
-\tcc_\gamma(j) =  D(\wtildeN_\gamma(j), j) = \gamma\sum_{\mu\in\wtildeN_{\gamma}(j)} d_{\mu j} \tildex_{\mu j}
+\tcccls(j) =  D(\wtildeclsnb(j), j) = \gamma\sum_{\mu\in\wtildeclsnb(j)} d_{\mu j} \tildex_{\mu j}
 			\quad\textrm{ and }\quad
- \dmax_\gamma(j) = \max_{\mu \in \wtildeN_{\gamma}(j)} d_{\mu j}. 
+ \dmaxcls(j) = \max_{\mu \in \wtildeclsnb(j)} d_{\mu j}. 
 \end{equation*}
 %
 
 When the iteration starts, we first find a not-yet-exhausted client
-$p$ that minimizes the value of $\tcc_\gamma(p) + \dmax_\gamma(p)$ and
+$p$ that minimizes the value of $\tcccls(p) + \dmaxcls(p)$ and
 we create a new demand $\nu$ for $p$.  Now we have two cases:
 %
 \begin{description}
 %
-\item{\mycase{1}} $\wtildeN_{\gamma}(p) \cap
-  \wbarclsnb(\kappa)\neq\emptyset$, for some existing primary demand
+\item{\mycase{1}} $\wtildeclsnb(p) \cap
+  \wbarN(\kappa)\neq\emptyset$, for some existing primary demand
   $\kappa\in P$.  In this case we assign $\nu$ to $\kappa$. As before, if
   there are multiple such $\kappa$, we pick any of them. We also fix
   $\barx_{\mu \nu} \assign \tildex_{\mu p}$ and $\tildex_{\mu p}\assign 0$
-  for each $\mu \in \wtildeN(p)\cap \wbarclsnb(\kappa)$. Note that, as before,
-  although we check for overlap between $\wtildeN_{\gamma}(p)$ and
-  $\wbarclsnb(\kappa)$, the facilities we actually move into
+  for each $\mu \in \wtildeN(p)\cap \wbarN(\kappa)$. Note that, as before,
+  although we check for overlap between $\wtildeclsnb(p)$ and
+  $\wbarN(\kappa)$, the facilities we actually move into
   $\wbarN(\nu)$ include all facilities in the intersection of
-  $\wtildeN(p)$, a bigger set, with $\wbarclsnb(\kappa)$.
+  $\wtildeN(p)$, a bigger set, with $\wbarN(\kappa)$.
 
   At this time, the total connection value between $\nu$ and $\wbarN(\nu)$ is
   at most $1/\gamma$ since the total connection value of $\kappa$ to
-  $\wbarclsnb(\kappa)$ is $1/\gamma$. Later in Phase 2 we will add
+  $\wbarN(\kappa)$ is $1/\gamma$. Later in Phase 2 we will add
   additional facilities from $\wtildeN(p)$ to $\wbarN(\nu)$ to make $\nu$'s total connection value to this set
   equal to $1$. 
 
 %
-\item{\mycase{2}} $\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa) =
+\item{\mycase{2}} $\wtildeclsnb(p) \cap \wbarN(\kappa) =
   \emptyset$, for all existing primary demands $\kappa\in P$.  In this case
-  we make $\nu$ a primary demand (that is, add it to $P$). 
-  We then move the facilities from $\wtildeN_{\gamma}(p)$ to $\wbarN(\nu)$, that is
-  for $\mu \in \wtildeN_{\gamma}(p)$
+  we make $\nu$ a primary demand (that is, add it to $P$) and assign it to itself. 
+  We then move the facilities from $\wtildeclsnb(p)$ to $\wbarN(\nu)$, that is
+  for $\mu \in \wtildeclsnb(p)$
 	we set $\barx_{\mu \nu}\assign \tildex_{\mu p}$  and   $\tildex_{\mu p}\set 0$.  
 
   It is easy to see that the total connection value of $\nu$ to $\wbarN(\nu)$
-  is exactly $1/\gamma$, so we now have $\wbarclsnb(\nu) = \wbarN(\nu)$.
+  is now exactly $1/\gamma$, so at this point we have $\wbarclsnb(\nu) = \wbarN(\nu)$.
 Moreover, facilities remaining in
   $\wtildeN(p)$ are all farther away from $\nu$ than those in
   $\wbarN(\nu)$. As we add only facilities from $\wtildeN(p)$ to $\wbarN(\nu)$
@@ -206,16 +216,17 @@ For each client $j$ and each demand $\nu\in j$ with total connection
 value less than $1$, we use our $\AugmentToUnit()$ procedure to add
 additional facilities (possibly split, if necessary) from
 $\wtildeN(j)$ to $\wbarN(\nu)$ to make the total connection value of $\wbarN(\nu)$
-equal $1$. As before, a facility is removed from
-$\wtildeN(j)$ once it is added to $\wbarN(\nu)$.  
+equal $1$.  
 
 This completes the description of the partitioning algorithm. Summarizing, for 
-each client $j$ we have created $r_j$ demands on the same point as $j$ and
-we created a number of facilities at each site $i$. 
+each client $j\in\clientset$ we have created $r_j$ demands on the same point as $j$ and
+we created a number of facilities at each site $i\in\sitesset$. Thus computed
+sets of demands and facilities are denoted $\demandset$ and $\facilityset$,
+respectively.
 For each facility $\mu\in i$ we defined its fractional opening value $\bary_\mu$, $0\le \bary_\mu\le 1$,
 and for each demand $\nu\in j$ we defined its fractional connection value $\barx_{\mu\nu}\in \braced{0,\bary_\mu}$.
-The connections with $\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$, that we divided into two parts,
-$\wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$. It remains to show that this partitioning
+The connections with $\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$. 
+It remains to show that this partitioning
 satisfies all the desired properties.
 
 %%%%%%%
@@ -227,13 +238,14 @@ satisfies all the stated properties. Properties~(PS), (CO) and (NB) are
 directly enforced by the algorithm.
 
 (PD'.\ref{PD1:disjoint}) holds because for each primary demand $\kappa\in p$, 
-$\wbarclsnb(\kappa)$ is the same set as $\wtildeN_{\gamma}(p)$ at the time when
-$\kappa$ was created, and $\wtildeN_{\gamma}(p)$ is removed from $\wtildeN(p)$
+$\wbarclsnb(\kappa)$ is the same set as $\wtildeclsnb(p)$ at the time when
+$\kappa$ was created, and $\wtildeclsnb(p)$ is removed from $\wtildeN(p)$
 right after this step. Further, the partitioning algorithm makes $\kappa$ a primary demand
-only if $\wtildeN_{\gamma}(p)$ is disjoint from close neighborhoods
-$\wbarclsnb(\kappa')$ of all existing primary demands $\kappa'$.
+only if $\wtildeclsnb(p)$ is disjoint from the current neighborhoods
+$\wbarN(\kappa')$ of all existing primary demands $\kappa'$, but these neighborhoods
+are the same as the final close neighborhoods $\wbarclsnb(\kappa')$.
 
-The justification of (PD'.\ref{PD1:yi}) is similar to (PD.\ref{PD:yi}) from
+The justification of (PD'.\ref{PD1:yi}) is similar to that for (PD.\ref{PD:yi}) from
 Section~\ref{sec: adaptive partitioning}. All close neighborhoods of
 primary demands are disjoint, due to (PD'.\ref{PD1:disjoint}), so
 each facility $\mu \in i$ can appear in at most one
@@ -243,97 +255,140 @@ summation on the left-hand side is not larger than
 $\sum_{\mu\in i}\bary_{\mu} = y_i^\ast$. 
 
 Regarding (PD'.\ref{PD1:assign:overlap}), at first glance this
-property seems to follow from the algorithm, as we only assign a
+property seems to follow directly from the algorithm, as we only assign a
 demand $\nu$ to a primary demand $\kappa$ when $\wbarN(\nu)$ overlaps
-with $\wbarclsnb(\kappa)$.  However, it is more subtle, as we need
-$\wbarclsnb(\nu)$ to overlap with $\wbarclsnb(\kappa)$ and at the end
-$\wbarclsnb(\kappa)$ may contain facilities added to $\wbarN(\nu)$ in
-the augmentation phase (maybe even only such facilities). We postpone
+with $\wbarN(\kappa)$ (which is equal to the final value of $\wbarclsnb(\kappa)$).
+ However, it is a little more subtle, as at the end
+$\wbarclsnb(\nu)$ may contain facilities added to $\wbarN(\nu)$ in
+the augmentation phase. We postpone
 the proof of this property to Lemma~\ref{lem: PD1: primary overlap}.
 The proof of (PD'.\ref{PD1:assign:cost}) is similar to that of
 Lemma~\ref{lem: PD:assign:cost holds}, and we defer it to
-Lemma~\ref{lem: PD1: primary optimal}.
+Lemma~\ref{lem: PD1: primary optimal}. 
 
 (SI'.\ref{SI1:siblings disjoint}) follows directly from the
-algorithm. The proof of (SI'.\ref{SI1:primary disjoint}) is similar to
-that of Lemma~\ref{lem: property SI:primary disjoint holds}, by noting
-that for a primary demand $\kappa$, $\wbarclsnb(\kappa)$ contains the
-same set of facilities as the $\wbarN(\kappa)$ at the end of Phase
-1. Moreover, if demand $\nu\in j$ is assigned to primary demand
-$\kappa$, then all facilities in $\wtildeN(j)$ that are also in
-$\wbarclsnb(\kappa)$ are added to $\wbarN(\kappa)$ in Phase 1. As a
-result, if $\nu \in j$ is a non-primary demand and assigned to primary
-demand $\kappa$, then facilities added to $\wbarN(\nu')$ for any
-$\nu'\in j$ in Phase 2 do not appear in $\wbarclsnb(\kappa)$.
+algorithm because for each demand $\nu\in j$ all facilities added
+to $\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$.
+
+The proof of (SI'.\ref{SI1:primary disjoint}) is similar to
+that of Lemma~\ref{lem: property SI:primary disjoint holds}. If $\kappa=\nu$
+then (SI'.\ref{SI1:primary disjoint}) follows from (SI'.\ref{SI1:siblings disjoint}),
+so we can assume that $\kappa\neq\nu$. 
+Suppose that $\nu'\in j$ is assigned to $\kappa'\in P$ and consider the situation after
+Phase~1. By the way we reassign facilities in Case~1, at this time we have
+$\wbarN(\nu)\subseteq \wbarN(\kappa) = \wbarclsnb(\kappa)$ and 
+$\wbarN(\nu')\subseteq \wbarN(\kappa') =\wbarclsnb(\kappa')$,
+so $\wbarN(\nu')\cap \wbarclsnb(\kappa) = \emptyset$, by (PD'.\ref{PD1:disjoint}).
+But also now we have $\wtildeN(j) \cap \wbarclsnb(\kappa) = \emptyset$
+because the facilities now in $\wbarclsnb(\kappa)$ were removed from
+$\wtildeN(j)$ when $\nu$ was created. In Phase~2, augmentation does not change
+$\wbarclsnb(\kappa)$ and all facilities added to $\wbarN(\nu')$ are from
+the current set $\wtildeN(j)$, so the condition (SI'.\ref{SI1:primary disjoint}) will remain true.
 
 %%%%%%%%%%%%%%%
 
 \begin{lemma} \label{lem: PD1: primary overlap}
   Property (PD'.\ref{PD1:assign:overlap}) holds.
 \end{lemma}
+
 \begin{proof}
-Consider an iteration when we create a demand $\nu\in p$ and assign it
-to $\kappa$. Then the set $B=\wtildeN_{\gamma}(p)\cap
-\wbarclsnb(\kappa)$ is not empty.  We claim that $B$ must be a subset
-of $\wbarclsnb(\nu)$ after $\wbarN(\nu)$ is finalized with a total
-connection value of $1$. To see this, first observe that $B$ is a
-subset of $\wbarN(\nu)$, which in turn is a subset of $\wtildeN(p)$,
-after taking into account the facility split. (Here $\wtildeN(p)$
-refers to the neighborhood of client $p$ just before $\nu$ was created
-and $\wbarN(\nu)$ is the final value of this set.)  For an arbitrary
-set of facilities $A$ define $\dmax_\gamma(A, \nu)$ as the minimum
-$\tau$ such that $\sum_{\mu\in A \suchthat d_{\mu\nu} \leq
-  \tau}\;\bary_{\mu} \geq 1/\gamma$.  Adding additional facilities
-into $A$ cannot make $\dmax_\gamma(A, \nu)$ larger, so it follows that
-$\dmax_\gamma (\wbarclsnb(\nu), \nu) \geq \dmax_\gamma(\wtildeN(p),
-\nu)$, because $\wbarclsnb(\nu)$ is a subset of $\wtildeN(p)$. Since,
-by definition, for all $\mu$ we have $d_{\mu \nu} = d_{\mu p}$, it is
-easy to see that every $\mu \in B$ satisfies $d_{\mu \nu} \leq
-\dmax_\gamma(\wtildeN(p), \nu) \leq \dmax_\gamma(\wbarclsnb(\nu),
-\nu)$ and hence $B\subseteq \wbarclsnb(\nu)$. We need to be a bit more
-careful here when we have a tie in $d_{\mu\nu}$ but we can assume ties
-are always broken in favor of facilities in $B$ when defining
-$\wbarclsnb(\nu)$. Finally, since $B\neq\emptyset$, we have that
-$\wbarclsnb(\nu)\cap \wbarclsnb(\kappa)\neq\emptyset$, which is
-Property~(PD'.\ref{PD1:assign:overlap}).
+Let $j$ be the client for which $\nu\in j$. We consider an iteration when we create $\nu$
+from $j$ and assign it to $\kappa$, and throughout the proof notation $\wtildeclsnb(j)$ 
+will refer to the value of this set at this particular time.
+At this time, $\wbarN(\nu)$ is initialized to $\wtildeclsnb(j)\cap \wbarN(\kappa)$.
+Recall that
+$\wbarN(\kappa)$ is now equal to $\wbarclsnb(\kappa)$ and this latter set will remain unchanged,
+so throughout the proof we will refer to the value of $\wbarclsnb(\kappa)$ at this iteration
+as $\wbarclsnb(\kappa)$.
+We would like to show that the set $\wtildeclsnb(j)\cap \wbarclsnb(\kappa)$ (which is
+not empty) will
+be included in $\wbarclsnb(\nu)$ at the end. Technically speaking, this will not be
+true due to facility splitting, so we need to rephrase this claim and the proof
+in terms of the set of facilities obtained after the algorithm completes.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=3.2in]{./FIGURES/proof_of_lemma_PD'3a.pdf}
+\caption{Illustration of the sets $\wbarN(\nu)$, $A$, $B$, $E^-$ and $E^+$ in the proof
+of Lemma~\ref{lem: PD1: primary overlap}.}
+\label{fig: sets lemma PD'3a}
+\end{center}
+\end{figure}
+
+We define the sets $A$, $B$, $E^-$ and $E^+$ as the subsets of $\facilityset$ (the final set
+of facilities) that either belonged to or were obtained from splitting facilities in
+the sets $\wtildeN(j)$, $\wtildeclsnb(j)\cap \wbarclsnb(\kappa)$, 
+$\wtildeclsnb(j) - \wbarclsnb(\kappa)$
+and $\wtildeN(j) - \wtildeclsnb(j)$, respectively.
+(See Figure~\ref{fig: sets lemma PD'3a}.)
+We claim that at the end $B\subseteq \wbarclsnb(\nu)$, with the caveat that the
+ties in the definition of $\wbarclsnb(\nu)$ are broken in favor of the facilities in $B$.
+(This is the tie-breaking rule that we mentioned in the definition of $\wbarclsnb(\nu)$.)
+This will be sufficient to prove the lemma because $B\neq\emptyset$, by the algorithm.
+
+We now prove this claim. Note first that 
+$B\subseteq \wbarN(\nu) \subseteq A$, because we never remove facilities from
+$\wbarN(\nu)$ and we only add facilities from $\wtildeN(j)$.
+Also, $B\cup E^-$ represents the facilities obtained from $\wtildeclsnb(\nu)$, so
+ $\sum_{\mu\in B\cup E^-} \bary_{\mu} = 1/\gamma$. 
+This and
+$B\subseteq \wbarN(\nu)$ implies that the total connection value of
+$B\cup (\wbarN(\nu)\cap E^-)$ to $\nu$ is at most $1/\gamma$. But
+all facilities in $B\cup (\wbarN(\nu)\cap E^-)$ are closer to $\nu$ than
+those in $E^+\cap \wbarN(\nu)$. It follows that
+$B\subseteq \wbarclsnb(\nu)$, completing the proof.
 \end{proof}
+
+%%%%%%%%%%%%%%
 
 \begin{lemma}\label{lem: PD1: primary optimal}
   Property (PD'.\ref{PD:assign:cost}) holds.
 \end{lemma}
+
 \begin{proof}
-  Suppose $\nu \in j$ is assigned to primary demand $\kappa \in p$, it
-  is then true that $\clsdist(\kappa) + \clsmax(\kappa)$ is no more
-  than $\tcc_\gamma^\kappa(j) + \dmax_{\gamma}^\kappa(j)$ when demand
-  $\kappa$ was created, because for primary demands we have
-  $\clsdist(\kappa) = \tcc_\gamma^\kappa (p)$ and $\clsmax(\kappa) =
-  \tcc_{\gamma}^\kappa(p)$ and the algorithm chooses client $p$ with
-  minimum $\tcc_{\gamma}(p) + \tcc_{\gamma}(p)$ in the modified
-  partitioning algorithm. Here we use the notation
-  $\tcc_{\gamma}^\eta(j)$ and $\dmax_{\gamma}^\eta(j)$ to denote the
-  $\tcc_\gamma(j)$ and $\dmax_{\gamma}(j)$ value when demand $\eta$
-  was created ($\eta$ may or may not be a demand of client $j$).
+This proof is similar to that for Lemma~\ref{lem: PD:assign:cost holds}.
+For a client $j$ and demand $\eta$, we will write
+$\tcccls^\eta(j)$ and $\dmaxcls^\eta(j)$ to denote the values of
+$\tcccls(j)$ and $\dmaxcls(j)$ at the time when $\eta$
+was created. (Here $\eta$ may or may not be a demand of client $j$).
 
-  Using an argument similar to that in the proof of Lemma~\ref{lem:
-    tcc optimal}, our modified partitioning algorithm guarantees
-  $\tcc_{\gamma}^{\kappa}(j) \leq \clsdist(\nu)$ and
-  $\dmax_{\gamma}^{\kappa}(j) \leq \dmax(\nu)$.
+Suppose $\nu \in j$ is assigned to a primary demand $\kappa \in p$.
+By the way primary demands are constructed in the algorithm, 
+$\wtildeclsnb(j)$ becomes $\wbarclsnb(\kappa)$, so we have
+$\clsdist(\kappa) = \tcccls^\kappa (p)$ and 
+$\clsmax(\kappa) = \tcccls^\kappa(p)$. Further,  
+by the choice of $p$, $p$ minimizes $\tcccls(p) + \dmaxcls(p)$.
+We thus obtain that $\clsdist(\kappa) + \clsmax(\kappa)$ was at most
+$\tcccls^\kappa(j) + \dmaxcls^\kappa(j)$ at the time when demand
+$\kappa$ was created.
 
+Using an argument analogous to that in the proof of Lemma~\ref{lem: tcc optimal}, 
+our modified partitioning algorithm guarantees that
+  $\tcccls^{\kappa}(j) \leq \clsdist(\nu)$ and
+  $\dmaxcls^{\kappa}(j) \leq \dmax(\nu)$.
   Therefore, we have
-  \begin{equation*}
-    \clsdist(\kappa) + \clsmax(\kappa) = \tcc_{\gamma}^{\kappa}(p) +
-    \dmax_{\gamma}^{\kappa}(p) \leq \tcc_{\gamma}^{\kappa}(j) +
-    \dmax_{\gamma}^{\kappa}(j) \leq \clsdist(\nu) + \dmax(\nu)
-  \end{equation*}
+%
+  \begin{align*}
+    \clsdist(\kappa) + \clsmax(\kappa) &= \tcccls^{\kappa}(p) +	\dmaxcls^{\kappa}(p) 
+					\\
+					&\leq \tcccls^{\kappa}(j) + \dmaxcls^{\kappa}(j) 
+					\leq \clsdist(\nu) + \dmax(\nu),
+  \end{align*}
+%
+completing the proof.
 \end{proof}
+
 %%%%%%%%
-Now we have completed the proof of all properties.
+
+Now we have completed the proof that the computed partitioning satisfies
+all the required properties. 
+
 
 \paragraph{Algorithm~{\EBGS}.}
 The complete algorithm starts with solving the linear program and
 computing the partitioning described earlier in this section.
 Given the partitioned fractional solution $(\barbfx,
-\barbfy)$ with the desired properties, we then start opening
+\barbfy)$ with the desired properties, we start the process of opening
 facilities and making connections to obtain an integral
 solution. To this end, for each primary demand $\kappa\in P$,
 we open exactly one facility $\phi(\kappa)$ in $\wbarclsnb(\kappa)$,
@@ -346,7 +401,7 @@ probability $\gamma\bary_{\mu}$.
 Next, we connect demands to facilities.
 Each primary demand $\kappa\in P$ will connect
 to the only open facility $\phi(\kappa)$ in $\wbarclsnb(\kappa)$.  
-For each non-primary demand $\nu\notin P$, if
+For each non-primary demand $\nu\in \demandset - P$, if
 there is an open facility in $\wbarN(\nu)$ then we connect
 $\nu$ to the nearest such facility. Otherwise, we connect
 $\nu$ to its \emph{target facility} $\phi(\kappa)$, where $\kappa$ is the primary
@@ -355,62 +410,72 @@ demand that $\nu$ is assigned to.
 %%%%%%%%%%%
 
 \paragraph{Analysis.}
-The feasibility of our integral solution follows from
+By the algorithm, for each client $j$, all its $r_j$ demands are connected to
+open facilities. If two different siblings $\nu,\nu'\in j$ are assigned, respectively,
+to primary demands $\kappa$, $\kappa'$ then, by
 Properties~(SI'.\ref{SI1:siblings disjoint}), (SI'.\ref{SI1:primary
-  disjoint}), and (PD'.\ref{PD1:disjoint}), as these properties together
-ensure that each facility is accessible to at most one demand among
-all sibling demands of the same client, regardless whether a demand
-connects to its neighbor or its target facility.
+  disjoint}), and (PD'.\ref{PD1:disjoint}) we have
+%
+\begin{equation*}
+( \wbarN(\nu) \cup \wbarclsnb(\kappa)) \cap (\wbarN(\nu')\cup \wbarclsnb(\kappa')) = \emptyset.
+\end{equation*}
+%
+This condition guarantees that $\nu$ and $\nu'$ are assigned to different facilities,
+regardless whether they are connected to a neighbor facility or to its target facility.
+Therefore the computed solution is feasible.
 
-We now estimate the expected facility cost and connection cost of
-Algorithm {\EBGS}.
+\smallskip
 
-The expected facility cost of our algorithm is bounded by the
-following lemma.
+We now estimate the cost of the solution computed by Algorithm {\EBGS}. The lemma
+below bounds the expected facility cost.
 
 \begin{lemma} \label{lem: EBGS facility cost}
-  The expected facility cost of the algorithm $F_{\smallEBGS}$ is no more
-  than $\gamma F^\ast$.
+The expected facility cost $F_{\smallEBGS}$ of Algorithm~{\EBGS} is at most $\gamma F^\ast$.
 \end{lemma}
-\begin{proof}
-  Consider facilities in a primary demand $\kappa$'s close
-  neighborhood $\wbarclsnb(\kappa)$. One of them will be opened, and
-  each facility $\mu$ is chosen with probability $\gamma
-  \bary_{\mu}$. For facilities outside any $\wbarclsnb(\kappa)$, each
-  is opened independently with probability $\gamma \bary_{\mu}$. By
-  linearity of expectation, we have the expected facility cost is
-  bouned by $\sum_{\mu \in \facilityset} f_\mu \gamma \bary_{\mu} =
-  \gamma \sum_{i\in \sitesset} f_i \sum_{\mu\in i} \bary_{\mu} =
-  \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast$ where we
-  used (PS.\ref{PS:yi}).
 
+\begin{proof}
+By the algorithm, each facility $\mu\in \facilityset$ is opened with
+probability $\gamma \bary_{\mu}$, independently of whether it belongs to a
+close neighborhood of a primary demand or not. Therefore, by
+  linearity of expectation, we have that the expected facility cost is
+%
+\begin{equation*}
+	F_{\smallEBGS} = \sum_{\mu \in \facilityset} f_\mu \gamma \bary_{\mu} 
+			= \gamma \sum_{i\in \sitesset} f_i \sum_{\mu\in i} \bary_{\mu} 
+			= \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast,
+\end{equation*}
+%
+where the second equality follows from (PS.\ref{PS:yi}).
 \end{proof}
 
 %%%%%%%%%%%
-\margincomment{this needs to be expanded, as in the previous
-  section. add an explicit lemma, etc.}  
-%%%%%%%%%%%
-We now bound the connection cost by the following lemma.
+
+To bound the connection cost, we start with a lemma
+that estimates the cost of indirect connections, between a non-primary demand and its
+target facility. The proof of this lemma relies on
+Properties~(PD'.\ref{PD1:assign:overlap}) and (PD'.\ref{PD1:assign:cost}) of 
+modified partitioning and follows the reasoning in the proof of a similar 
+lemma in~\cite{ByrkaGS10,ByrkaA10}.
+For the sake of completeness, the complete proof is included in the appendix.
+
+\begin{lemma}\label{lem: EBGS target connection cost}
+In Algorithm~{\EBGS}, for a non-primary demand $\nu$, in the event that
+no facility in $\wbarN(\nu)$ opens, the expected connection cost is
+  no more than $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$
+\end{lemma}
+
+We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
+
 \begin{lemma}\label{lem: EBGS connection cost}
-  For any fixed constant $1 < \gamma < 2$, the expected connection
-  cost of the algorithm $C_{\smallEBGS}$ is no more than
-  $C^\ast\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
+  Assuming that $1 < \gamma < 2$, the expected connection
+  cost $C_{\smallEBGS}$ of Algorithm~{\EBGS} is at most
+  $C^\ast\cdot\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
   1+\frac{2}{e^\gamma}\}$.
 \end{lemma}
 
 \begin{proof}
-  Properties~(PD'.\ref{PD1:assign:overlap}) and
-  (PD'.\ref{PD1:assign:cost}) allow us to bound the expected distance
-  from a demand $\nu$ to its target facility by
-  $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$, in the event that none
-  of $\nu$'s neighbors opens, using a similar argument as Lemma 2.2
-  in~\cite{ByrkaGS10}~\footnote{The full proof of the lemma appears
-    in~\cite{ByrkaA10} as Lemma~3.3.}. We state this bound as
-  Lemma~\ref{lem: EBGS target connection cost}. The lemma and its
-  proof are available in Appendix~\ref{app:EBGS connection cost}.
-
-  We are then able to estimate the expected connection cost for demand
-  $\nu$ using an argument similar to~\cite{ByrkaGS10}: with
+The argument is similar to that in~\cite{ByrkaGS10}. Fix some
+demand $\nu$. Then with
   probability no less than $1-1/e$, $\nu$ has some facility open in
   its close neighborhood, with probability no less than
   $1-1/e^\gamma$, $\nu$ has some facility open in its overall
