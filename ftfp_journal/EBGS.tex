@@ -14,20 +14,23 @@ rounded to three decimal digits. This matches the ratio of the best
 known LP-rounding algorithm for UFL by
 Byrka~{\etal}~\cite{ByrkaGS10}. 
 
-Recall that in Section~\ref{sec: 1.736-approximation} we showed how to compute an integral solution
-with facility cost bounded by $F^\ast$ and connection cost bounded by
-$C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
-costs, by reducing the connection cost at the expense of a slight
-increase in the facility cost. One way to do this would be to increase the
-probability of opening facilities, from $\bary_{\mu}$ (used in Algorithm~{\ECHS})
-to, say, $\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases the
+Recall that in Section~\ref{sec: 1.736-approximation} we showed how to
+compute an integral solution with facility cost bounded by $F^\ast$
+and connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. A natural
+idea is to balance these two costs, by reducing the connection cost at
+the expense of a slight increase in the facility cost. One way to do
+this would be to increase the probability of opening facilities, from
+$\bary_{\mu}$ (used in Algorithm~{\ECHS}) to, say,
+$\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases the
 expected facility cost by a factor of $\gamma$ but, as it turns out,
-it also reduces the probability of an indirect connection of a non-primary demand
-to $1/e^\gamma$ (from the previous value $1/e$). For any primary demand $\kappa$, as we
-must open exactly one facility $\phi(\kappa)$ in its neighborhood, we choose this
-facility from the subset of $\wbarN(\kappa)$ consisting of the facilities that
-are nearest to $\kappa$ and whose total connection value is $1/\gamma$.
-This is the essence of the approach in~\cite{ByrkaGS10}, expressed in our terminology.
+it also reduces the probability of an indirect connection of a
+non-primary demand to $1/e^\gamma$ (from the previous value
+$1/e$). Moreover, for each primary demand $\kappa$, the new algorithm
+will select a facility from the nearest facilities in $\wbarN(\kappa)$
+such that the total connection value $\barx_{\mu\nu}$ sum up to
+$1/\gamma$, instead of $1$. It is easily seen that this will improve
+the estimate on connection cost.  This is the essence of the approach
+in~\cite{ByrkaGS10}, expressed in our terminology.
 
 Our approach can be thought of as a combination of the above ideas
 with the techniques of demand reduction and
@@ -91,8 +94,9 @@ properties (PD') and (SI'), listed below.
 				then $d_{\mu\nu}\le d_{\mu'\nu}$.   
 	\end{itemize}
 	%
-	Note that the second condition, together with (PS.\ref{PS:one}), implies
-	that $\sum_{\mu\in\wbarfarnb(\nu)} \barx_{\mu\nu} =1-1/\gamma$.
+	Note that the first two conditions, together with
+        (PS.\ref{PS:one}), implies that $\sum_{\mu\in\wbarfarnb(\nu)}
+        \barx_{\mu\nu} =1-1/\gamma$.
 
 \item{(PD')} \emph{Primary demands.}
 	Primary demands satisfy the following conditions:
@@ -145,7 +149,13 @@ we employ a modified adaptive partitioning algorithm. As
 in Section~\ref{sec: adaptive partitioning}, we have two phases.
 In Phase~1 we split clients into demands and create facilities on
 sites, while in Phase~2 we augment each demand's
-connection values $\barx_{\mu\nu}$ so that its total value is $1$.
+connection values $\barx_{\mu\nu}$ so that its total value is $1$. As
+the partitioning algorithm proceeds, for any demand $\nu$,
+$\wbarN(\nu)$ denotes the set of facilities with $\barx_{\mu\nu} > 0$,
+hence $\wbarN(\nu)$ are dynamic sets which get fixed in the end of the
+partitioning stage. On the other hand, $\wbarclsnb(\nu)$ and
+$\wbarfarnb(\nu)$ refer to the close and far neighborhoods once
+$\wbarN(\nu)$ is fixed.
 
 Similar to the algorithm in Section~\ref{sec: adaptive partitioning},
 Phase~1 runs in iterations. Fix some iteration and consider any client $j$.  As before,
@@ -186,11 +196,12 @@ we create a new demand $\nu$ for $p$.  Now we have two cases:
   $\wbarN(\nu)$ include all facilities in the intersection of
   $\wtildeN(p)$, a bigger set, with $\wbarN(\kappa)$.
 
-  At this time, the total connection value between $\nu$ and $\wbarN(\nu)$ is
-  at most $1/\gamma$ since the total connection value of $\kappa$ to
-  $\wbarN(\kappa)$ is $1/\gamma$. Later in Phase 2 we will add
-  additional facilities from $\wtildeN(p)$ to $\wbarN(\nu)$ to make $\nu$'s total connection value to this set
-  equal to $1$. 
+  At this time, the total connection value $\barx_{\mu\nu}$ between
+  $\nu$ and $\mu\in \wbarN(\nu)$ is at most $1/\gamma$ since the total
+  connection value of $\kappa$ to $\wbarN(\kappa)$ is
+  $1/\gamma$. Later in Phase 2 we will add additional facilities from
+  $\wtildeN(p)$ to $\wbarN(\nu)$ to make $\nu$'s total connection
+  value to this set equal to $1$.
 
 %
 \item{\mycase{2}} $\wtildeclsnb(p) \cap \wbarN(\kappa) =
@@ -211,23 +222,30 @@ Moreover, facilities remaining in
 %
 Once all clients are exhausted, that is, each client $j$ has $r_j$
 demands created, Phase~1 concludes. We then run Phase~2, the
-augmenting phase, following the same steps as in Section~\ref{sec: adaptive partitioning}.
-For each client $j$ and each demand $\nu\in j$ with total connection
-value less than $1$, we use our $\AugmentToUnit()$ procedure to add
-additional facilities (possibly split, if necessary) from
-$\wtildeN(j)$ to $\wbarN(\nu)$ to make the total connection value of $\wbarN(\nu)$
-equal $1$.  
+augmenting phase, following the same steps as in Section~\ref{sec:
+  adaptive partitioning}.  For each client $j$ and each demand $\nu\in
+j$ with total connection value $\barx_{\mu\nu}$ for
+$\mu\in\wbarN(\nu)$ less than $1$, we use our $\AugmentToUnit()$
+procedure to add additional facilities (possibly split, if necessary)
+from $\wtildeN(j)$ to $\wbarN(\nu)$ to make the total connection value
+of $\wbarN(\nu)$ equal $1$.
 
-This completes the description of the partitioning algorithm. Summarizing, for 
-each client $j\in\clientset$ we have created $r_j$ demands on the same point as $j$ and
-we created a number of facilities at each site $i\in\sitesset$. Thus computed
-sets of demands and facilities are denoted $\demandset$ and $\facilityset$,
-respectively.
-For each facility $\mu\in i$ we defined its fractional opening value $\bary_\mu$, $0\le \bary_\mu\le 1$,
-and for each demand $\nu\in j$ we defined its fractional connection value $\barx_{\mu\nu}\in \braced{0,\bary_\mu}$.
-The connections with $\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$. 
-It remains to show that this partitioning
-satisfies all the desired properties.
+This completes the description of the partitioning
+algorithm. Summarizing, for each client $j\in\clientset$ we have
+created $r_j$ demands on the same point as $j$ and we created a number
+of facilities at each site $i\in\sitesset$. Thus computed sets of
+demands and facilities are denoted $\demandset$ and $\facilityset$,
+respectively.  For each facility $\mu\in i$ we defined its fractional
+opening value $\bary_\mu$, $0\le \bary_\mu\le 1$, and for each demand
+$\nu\in j$ we defined its fractional connection value
+$\barx_{\mu\nu}\in \braced{0,\bary_\mu}$.  The connections with
+$\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$. The subset
+of $\wbarN(\nu)$ that are closest to $\nu$ with total connection value
+$1/\gamma$ form $\wbarclsnb(\nu)$ and the rest form
+$\wbarfarnb(\nu)$. We might split one facility to make the nearest
+facilities having total connection value exactly $1/\gamma$.  It
+remains to show that this partitioning satisfies all the desired
+properties.
 
 %%%%%%%
 
@@ -237,53 +255,61 @@ We now argue that our partitioned fractional solution $(\barbfx,\barbfy)$
 satisfies all the stated properties. Properties~(PS), (CO) and (NB) are
 directly enforced by the algorithm.
 
-(PD'.\ref{PD1:disjoint}) holds because for each primary demand $\kappa\in p$, 
-$\wbarclsnb(\kappa)$ is the same set as $\wtildeclsnb(p)$ at the time when
-$\kappa$ was created, and $\wtildeclsnb(p)$ is removed from $\wtildeN(p)$
-right after this step. Further, the partitioning algorithm makes $\kappa$ a primary demand
-only if $\wtildeclsnb(p)$ is disjoint from the current neighborhoods
-$\wbarN(\kappa')$ of all existing primary demands $\kappa'$, but these neighborhoods
-are the same as the final close neighborhoods $\wbarclsnb(\kappa')$.
+(PD'.\ref{PD1:disjoint}) holds because for each primary demand
+$\kappa\in p$, $\wbarclsnb(\kappa)$ is the same set as
+$\wtildeclsnb(p)$ at the time when $\kappa$ was created, and
+$\wtildeclsnb(p)$ is removed from $\wtildeN(p)$ right after this
+step. Further, the partitioning algorithm makes $\kappa$ a primary
+demand only if $\wtildeclsnb(p)$ is disjoint from the set
+$\wbarN(\kappa')$ of all existing primary demands $\kappa'$ at that
+iteration, but these neighborhoods are the same as the final close
+neighborhoods $\wbarclsnb(\kappa')$.
 
-The justification of (PD'.\ref{PD1:yi}) is similar to that for (PD.\ref{PD:yi}) from
-Section~\ref{sec: adaptive partitioning}. All close neighborhoods of
-primary demands are disjoint, due to (PD'.\ref{PD1:disjoint}), so
-each facility $\mu \in i$ can appear in at most one
-$\wbarclsnb(\kappa)$, for some $\kappa\in P$. This and condition (CO) imply together
-that $\bary_{\mu} = \barx_{\mu\kappa}$. As a result, the
-summation on the left-hand side is not larger than 
-$\sum_{\mu\in i}\bary_{\mu} = y_i^\ast$. 
+The justification of (PD'.\ref{PD1:yi}) is similar to that for
+(PD.\ref{PD:yi}) from Section~\ref{sec: adaptive partitioning}. All
+close neighborhoods of primary demands are disjoint, due to
+(PD'.\ref{PD1:disjoint}), so each facility $\mu \in i$ can appear in
+at most one $\wbarclsnb(\kappa)$, for some $\kappa\in P$. Condition
+(CO) implies that $\bary_{\mu} = \barx_{\mu\kappa}$ as we only
+interested $\barx_{\mu\kappa} > 0$. As a result, the summation on the
+left-hand side is not larger than $\sum_{\mu\in i}\bary_{\mu} =
+y_i^\ast$.
 
 Regarding (PD'.\ref{PD1:assign:overlap}), at first glance this
-property seems to follow directly from the algorithm, as we only assign a
-demand $\nu$ to a primary demand $\kappa$ when $\wbarN(\nu)$ overlaps
-with $\wbarN(\kappa)$ (which is equal to the final value of $\wbarclsnb(\kappa)$).
- However, it is a little more subtle, as at the end
-$\wbarclsnb(\nu)$ may contain facilities added to $\wbarN(\nu)$ in
-the augmentation phase. We postpone
-the proof of this property to Lemma~\ref{lem: PD1: primary overlap}.
-The proof of (PD'.\ref{PD1:assign:cost}) is similar to that of
-Lemma~\ref{lem: PD:assign:cost holds}, and we defer it to
-Lemma~\ref{lem: PD1: primary optimal}. 
+property seems to follow directly from the algorithm, as we only
+assign a demand $\nu$ to a primary demand $\kappa$ when $\wbarN(\nu)$
+at that iteration overlaps with $\wbarN(\kappa)$ (which is equal to
+the final value of $\wbarclsnb(\kappa)$).  However, it is a little
+more subtle, as the final $\wbarclsnb(\nu)$ may contain facilities
+added to $\wbarN(\nu)$ in Phase 2. We postpone the proof of this
+property to Lemma~\ref{lem: PD1: primary overlap}.  The proof of
+(PD'.\ref{PD1:assign:cost}) is similar to that of Lemma~\ref{lem:
+  PD:assign:cost holds}, and we defer it to Lemma~\ref{lem: PD1:
+  primary optimal}.
 
 (SI'.\ref{SI1:siblings disjoint}) follows directly from the
 algorithm because for each demand $\nu\in j$ all facilities added
 to $\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$.
 
-The proof of (SI'.\ref{SI1:primary disjoint}) is similar to
-that of Lemma~\ref{lem: property SI:primary disjoint holds}. If $\kappa=\nu$
-then (SI'.\ref{SI1:primary disjoint}) follows from (SI'.\ref{SI1:siblings disjoint}),
-so we can assume that $\kappa\neq\nu$. 
-Suppose that $\nu'\in j$ is assigned to $\kappa'\in P$ and consider the situation after
-Phase~1. By the way we reassign facilities in Case~1, at this time we have
-$\wbarN(\nu)\subseteq \wbarN(\kappa) = \wbarclsnb(\kappa)$ and 
-$\wbarN(\nu')\subseteq \wbarN(\kappa') =\wbarclsnb(\kappa')$,
-so $\wbarN(\nu')\cap \wbarclsnb(\kappa) = \emptyset$, by (PD'.\ref{PD1:disjoint}).
-But also now we have $\wtildeN(j) \cap \wbarclsnb(\kappa) = \emptyset$
-because the facilities now in $\wbarclsnb(\kappa)$ were removed from
-$\wtildeN(j)$ when $\nu$ was created. In Phase~2, augmentation does not change
-$\wbarclsnb(\kappa)$ and all facilities added to $\wbarN(\nu')$ are from
-the current set $\wtildeN(j)$, so the condition (SI'.\ref{SI1:primary disjoint}) will remain true.
+The proof of (SI'.\ref{SI1:primary disjoint}) is similar to that of
+Lemma~\ref{lem: property SI:primary disjoint holds}. If $\kappa=\nu$
+then (SI'.\ref{SI1:primary disjoint}) follows from
+(SI'.\ref{SI1:siblings disjoint}), so we can assume that
+$\kappa\neq\nu$.  Suppose that $\nu'\in j$ is assigned to $\kappa'\in
+P$ and consider the situation after Phase~1. By the way we reassign
+facilities in Case~1, at this time we have $\wbarN(\nu)\subseteq
+\wbarN(\kappa) = \wbarclsnb(\kappa)$ and $\wbarN(\nu')\subseteq
+\wbarN(\kappa') =\wbarclsnb(\kappa')$, so $\wbarN(\nu')\cap
+\wbarclsnb(\kappa) = \emptyset$, by (PD'.\ref{PD1:disjoint}).
+Moreover, we have $\wtildeN(j) \cap \wbarclsnb(\kappa) = \emptyset$
+after this iteration, because any facility that were also in
+$\wbarclsnb(\kappa)$ were removed from $\wtildeN(j)$ when $\nu$ was
+created. In Phase~2, augmentation does not change $\wbarclsnb(\kappa)$
+and all facilities added to $\wbarN(\nu')$ are from the set
+$\wtildeN(j)$ at the end of Phase 1, which is a subset of the set
+$\wtildeN(j)$ after this iteration, since $\wtildeN(j)$ is
+shrinking. So the condition (SI'.\ref{SI1:primary disjoint}) will
+remain true.
 
 %%%%%%%%%%%%%%%
 
