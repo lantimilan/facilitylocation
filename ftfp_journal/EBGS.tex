@@ -23,14 +23,15 @@ this would be to increase the probability of opening facilities, from
 $\bary_{\mu}$ (used in Algorithm~{\ECHS}) to, say,
 $\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases the
 expected facility cost by a factor of $\gamma$ but, as it turns out,
-it also reduces the probability of an indirect connection of a
-non-primary demand to $1/e^\gamma$ (from the previous value
+it also reduces the probability that an indirect connection occurs for
+a non-primary demand to $1/e^\gamma$ (from the previous value
 $1/e$). Moreover, for each primary demand $\kappa$, the new algorithm
-will select a facility from the nearest facilities in $\wbarN(\kappa)$
-such that the total connection value $\barx_{\mu\nu}$ sum up to
-$1/\gamma$, instead of $1$. It is easily seen that this will improve
-the estimate on connection cost.  This is the essence of the approach
-in~\cite{ByrkaGS10}, expressed in our terminology.
+will select a facility from the nearest facilities $\mu$ in
+$\wbarN(\kappa)$ such that the total connection value $\barx_{\mu\nu}$
+sum up to $1/\gamma$, instead of $1$. It is easily seen that this will
+improve the estimate on connection cost for primary demands.  These
+two changes, along with a more refined analysis, are the essence of
+the approach in~\cite{ByrkaGS10}, expressed in our terminology.
 
 Our approach can be thought of as a combination of the above ideas
 with the techniques of demand reduction and
@@ -41,24 +42,25 @@ with the neighborhood of each demand divided into two disjoint parts,
 and with some restrictions on how parts from different demands can overlap.
 
 We begin by describing properties that our partitioned fractional
-solution $(\barbfx,\barbfy)$ needs to satisfy. As mentioned earlier, the neighborhood
-$\wbarN(\nu)$ of each demand $\nu$ will be divided into two disjoint
-parts.  The first part, called the \emph{close neighborhood} and denoted
-$\wbarclsnb(\nu)$, contains the facilities in $\wbarN(\nu)$ nearest to
-$\nu$ with the total connection value equal $1/\gamma$, that is
-$\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu} = 1/\gamma$.
-The second
-part, called the \emph{far neighborhood} and denoted $\wbarfarnb(\nu)$, contains
-the remaining facilities in $\wbarN(\nu)$ (so $\sum_{\mu\in\wbarfarnb(\nu)} = 1-1/\gamma$).
-We restate these definitions formally below in Property~(NB).  
-Recall that for any set $A$ of facilities and a demand $\sigma$, by 
-$D(A,\sigma)$ we denote the average distance between $\sigma$ and the facilities in $A$, that is
-$D(A,\sigma) =\sum_{\mu\in A} d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$.
-We will use notations
-$\clsdist(\nu)=D(\wbarclsnb(\nu),\nu)$ and
-$\fardist(\nu)=D(\wbarfarnb(\nu),\nu)$ for the
-average distances from $\nu$ to its close and far neighborhoods, respectively.
-By the definition of these sets and the completeness property (CO), these distances can be expressed as
+solution $(\barbfx,\barbfy)$ needs to satisfy. As mentioned earlier,
+the neighborhood $\wbarN(\nu)$ of each demand $\nu$ will be divided
+into two disjoint parts.  The first part, called the \emph{close
+  neighborhood} and denoted $\wbarclsnb(\nu)$, contains the facilities
+in $\wbarN(\nu)$ nearest to $\nu$ with the total connection value
+equal $1/\gamma$, that is $\sum_{\mu\in\wbarclsnb(\nu)} \barx_{\mu\nu}
+= 1/\gamma$.  The second part, called the \emph{far neighborhood} and
+denoted $\wbarfarnb(\nu)$, contains the remaining facilities in
+$\wbarN(\nu)$ (so $\sum_{\mu\in\wbarfarnb(\nu)} \barx_{\mu\nu} = 1-1/\gamma$).  We
+restate these definitions formally below in Property~(NB).  Recall
+that for any set $A$ of facilities and a demand $\nu$, by
+$D(A,\nu)$ we denote the average distance between $\nu$ and the
+facilities in $A$, that is $D(A,\nu) =\sum_{\mu\in A}
+d_{\mu\nu}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$.  We will use
+notations $\clsdist(\nu)=D(\wbarclsnb(\nu),\nu)$ and
+$\fardist(\nu)=D(\wbarfarnb(\nu),\nu)$ for the average distances from
+$\nu$ to its close and far neighborhoods, respectively.  By the
+definition of these sets and the completeness property (CO), these
+distances can be expressed as
 %
 \begin{equation*}
 \clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
@@ -135,7 +137,7 @@ properties (PD') and (SI'), listed below.
 		
 	\item \label{SI1:primary disjoint} If $\nu$ is assigned to a primary demand $\kappa$ then
  		$\wbarN(\nu')\cap \wbarclsnb(\kappa) = \emptyset$. In particular, by Property~(PD'.\ref{PD1:assign:overlap}),
-		this implies that different sibling demands are assigned to different primary demands.
+		this implies that different sibling demands are assigned to different primary demands, since $\wbarclsnb(\nu')$ is a subset of $\wbarN(\nu')$.
 
 	\end{enumerate}
 	
@@ -144,33 +146,33 @@ properties (PD') and (SI'), listed below.
 %%%%%%%%%%%%%%%%%
 
 \paragraph{Modified adaptive partitioning.}
-To obtain a fractional solution with the above properties,
-we employ a modified adaptive partitioning algorithm. As
-in Section~\ref{sec: adaptive partitioning}, we have two phases.
-In Phase~1 we split clients into demands and create facilities on
-sites, while in Phase~2 we augment each demand's
-connection values $\barx_{\mu\nu}$ so that its total value is $1$. As
-the partitioning algorithm proceeds, for any demand $\nu$,
+To obtain a fractional solution with the above properties, we employ a
+modified adaptive partitioning algorithm. As in Section~\ref{sec:
+  adaptive partitioning}, we have two phases.  In Phase~1 we split
+clients into demands and create facilities on sites, while in Phase~2
+we augment each demand's connection values $\barx_{\mu\nu}$ by setting
+$\barx_{\mu\nu}$ from $0$ to $\bary_{\mu}$, so that the total value is
+$1$. As the partitioning algorithm proceeds, for any demand $\nu$,
 $\wbarN(\nu)$ denotes the set of facilities with $\barx_{\mu\nu} > 0$,
-hence $\wbarN(\nu)$ are dynamic sets which get fixed in the end of the
-partitioning stage. On the other hand, $\wbarclsnb(\nu)$ and
-$\wbarfarnb(\nu)$ refer to the close and far neighborhoods once
-$\wbarN(\nu)$ is fixed.
+hence $\wbarN(\nu)$ are dynamic sets which get fixed once the
+partitioning algorithm concludes both Phase 1 and Phase 2. On the
+other hand, $\wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$ refer to the close
+and far neighborhoods once $\wbarN(\nu)$ is fixed.
 
 Similar to the algorithm in Section~\ref{sec: adaptive partitioning},
-Phase~1 runs in iterations. Fix some iteration and consider any client $j$.  As before,
-$\wtildeN(j)$ is the neighborhood of $j$ with respect to the yet
-unpartitioned solution, namely the set of facilities $\mu$ such that
-$\tildex_{\mu j}>0$. Order the facilities in this set as
-$\wtildeN(j) = \braced{\mu_1,...,\mu_q}$ with non-decreasing
-distance from $j$, that is
-$d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq d_{\mu_q j}$, where
-$q = |\wtildeN(j)|$. Without loss of generality, there is an index
-$l$ for which $\sum_{s=1}^l \tildex_{\mu_s j} = 1/\gamma$, since we can
-always split one facility to achieve this property. Then we define
-$\wtildeclsnb(j) = \braced{\mu_1,...,\mu_l}$. In case of ties, we use
-a tie-breaking rule that is explained in the proof of Lemma~\ref{lem: PD1: primary overlap}
-(the only place where it's needed). We also use notation
+Phase~1 runs in iterations. Fix some iteration and consider any client
+$j$.  As before, $\wtildeN(j)$ is the neighborhood of $j$ with respect
+to the yet unpartitioned solution, namely the set of facilities $\mu$
+such that $\tildex_{\mu j}>0$. Order the facilities in this set as
+$\wtildeN(j) = \braced{\mu_1,...,\mu_q}$ with non-decreasing distance
+from $j$, that is $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq
+d_{\mu_q j}$, where $q = |\wtildeN(j)|$. Without loss of generality,
+there is an index $l$ for which $\sum_{s=1}^l \tildex_{\mu_s j} =
+1/\gamma$, since we can always split one facility to achieve
+this. Then we define $\wtildeclsnb(j) = \braced{\mu_1,...,\mu_l}$. In
+case of ties, we use a tie-breaking rule that is explained in the
+proof of Lemma~\ref{lem: PD1: primary overlap} (the only place where
+the rule is needed). We also use notation
 %
 \begin{equation*}
 \tcccls(j) =  D(\wtildeclsnb(j), j) = \gamma\sum_{\mu\in\wtildeclsnb(j)} d_{\mu j} \tildex_{\mu j}
@@ -180,43 +182,46 @@ a tie-breaking rule that is explained in the proof of Lemma~\ref{lem: PD1: prima
 %
 
 When the iteration starts, we first find a not-yet-exhausted client
-$p$ that minimizes the value of $\tcccls(p) + \dmaxcls(p)$ and
-we create a new demand $\nu$ for $p$.  Now we have two cases:
+$p$ that minimizes the value of $\tcccls(p) + \dmaxcls(p)$ and create
+a new demand $\nu$ for $p$.  Now we have two cases:
 %
 \begin{description}
 %
-\item{\mycase{1}} $\wtildeclsnb(p) \cap
-  \wbarN(\kappa)\neq\emptyset$, for some existing primary demand
-  $\kappa\in P$.  In this case we assign $\nu$ to $\kappa$. As before, if
-  there are multiple such $\kappa$, we pick any of them. We also fix
-  $\barx_{\mu \nu} \assign \tildex_{\mu p}$ and $\tildex_{\mu p}\assign 0$
-  for each $\mu \in \wtildeN(p)\cap \wbarN(\kappa)$. Note that, as before,
-  although we check for overlap between $\wtildeclsnb(p)$ and
-  $\wbarN(\kappa)$, the facilities we actually move into
-  $\wbarN(\nu)$ include all facilities in the intersection of
-  $\wtildeN(p)$, a bigger set, with $\wbarN(\kappa)$.
+\item{\mycase{1}} $\wtildeclsnb(p) \cap \wbarN(\kappa)\neq\emptyset$
+  for some existing primary demand $\kappa\in P$.  In this case we
+  assign $\nu$ to $\kappa$. As before, if there are multiple such
+  $\kappa$, we pick any of them. We also fix $\barx_{\mu \nu} \assign
+  \tildex_{\mu p}$ and $\tildex_{\mu p}\assign 0$ for each $\mu \in
+  \wtildeN(p)\cap \wbarN(\kappa)$. Note that, as before, although we
+  check for overlap between $\wtildeclsnb(p)$ and $\wbarN(\kappa)$,
+  the facilities we actually move into $\wbarN(\nu)$ include all
+  facilities in the intersection of $\wtildeN(p)$, a bigger set, with
+  $\wbarN(\kappa)$.
 
   At this time, the total connection value $\barx_{\mu\nu}$ between
-  $\nu$ and $\mu\in \wbarN(\nu)$ is at most $1/\gamma$ since the total
-  connection value of $\kappa$ to $\wbarN(\kappa)$ is
-  $1/\gamma$. Later in Phase 2 we will add additional facilities from
-  $\wtildeN(p)$ to $\wbarN(\nu)$ to make $\nu$'s total connection
-  value to this set equal to $1$.
+  $\nu$ and $\mu\in \wbarN(\nu)$ is at most $1/\gamma$ since the sum
+  of $\bary_{\mu}$ for all $\mu \in \wbarN(\kappa)$ is $1/\gamma$ and
+  we have $\wbarN(\nu) \subseteq \wbarN(\kappa)$ at this point. Later
+  in Phase 2 we will add additional facilities from $\wtildeN(p)$ to
+  $\wbarN(\nu)$ to make $\nu$'s total connection value to
+  $\wbarN(\nu)$ equal to $1$.
 
 %
-\item{\mycase{2}} $\wtildeclsnb(p) \cap \wbarN(\kappa) =
-  \emptyset$, for all existing primary demands $\kappa\in P$.  In this case
-  we make $\nu$ a primary demand (that is, add it to $P$) and assign it to itself. 
-  We then move the facilities from $\wtildeclsnb(p)$ to $\wbarN(\nu)$, that is
-  for $\mu \in \wtildeclsnb(p)$
-	we set $\barx_{\mu \nu}\assign \tildex_{\mu p}$  and   $\tildex_{\mu p}\set 0$.  
+\item{\mycase{2}} $\wtildeclsnb(p) \cap \wbarN(\kappa) = \emptyset$
+  for all existing primary demands $\kappa\in P$.  In this case we
+  make $\nu$ a primary demand (that is, add it to $P$) and assign it
+  to itself.  We then move the facilities from $\wtildeclsnb(p)$ to
+  $\wbarN(\nu)$, that is for $\mu \in \wtildeclsnb(p)$ we set
+  $\barx_{\mu \nu}\assign \tildex_{\mu p}$ and $\tildex_{\mu p}\set
+  0$.
 
-  It is easy to see that the total connection value of $\nu$ to $\wbarN(\nu)$
-  is now exactly $1/\gamma$, so at this point we have $\wbarclsnb(\nu) = \wbarN(\nu)$.
-Moreover, facilities remaining in
-  $\wtildeN(p)$ are all farther away from $\nu$ than those in
-  $\wbarN(\nu)$. As we add only facilities from $\wtildeN(p)$ to $\wbarN(\nu)$
-  in Phase~2, $\wbarclsnb(\nu)$ will remain unchanged from now on.
+  It is easy to see that the total connection value of $\nu$ to
+  $\wbarN(\nu)$ is now exactly $1/\gamma$.  Moreover, facilities
+  remaining in $\wtildeN(p)$ are all farther away from $\nu$ than
+  those in $\wbarN(\nu)$. As we add only facilities from $\wtildeN(p)$
+  to $\wbarN(\nu)$ in Phase~2, the final $\wbarclsnb(\nu)$ contains
+  the same set of facilities as $\wbarN(\nu)$ at this point, taking
+  into account of possible facility split.
 %
 \end{description}
 %
