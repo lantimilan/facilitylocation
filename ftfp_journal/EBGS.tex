@@ -275,9 +275,9 @@ The justification of (PD'.\ref{PD1:yi}) is similar to that for
 close neighborhoods of primary demands are disjoint, due to
 (PD'.\ref{PD1:disjoint}), so each facility $\mu \in i$ can appear in
 at most one $\wbarclsnb(\kappa)$, for some $\kappa\in P$. Condition
-(CO) implies that $\bary_{\mu} = \barx_{\mu\kappa}$ as we only
-interested $\barx_{\mu\kappa} > 0$. As a result, the summation on the
-left-hand side is not larger than $\sum_{\mu\in i}\bary_{\mu} =
+(CO) implies that $\bary_{\mu} = \barx_{\mu\kappa}$ as we are only
+interested in $\barx_{\mu\kappa} > 0$. As a result, the summation on
+the left-hand side is not larger than $\sum_{\mu\in i}\bary_{\mu} =
 y_i^\ast$.
 
 Regarding (PD'.\ref{PD1:assign:overlap}), at first glance this
@@ -286,15 +286,21 @@ assign a demand $\nu$ to a primary demand $\kappa$ when $\wbarN(\nu)$
 at that iteration overlaps with $\wbarN(\kappa)$ (which is equal to
 the final value of $\wbarclsnb(\kappa)$).  However, it is a little
 more subtle, as the final $\wbarclsnb(\nu)$ may contain facilities
-added to $\wbarN(\nu)$ in Phase 2. We postpone the proof of this
-property to Lemma~\ref{lem: PD1: primary overlap}.  The proof of
+added to $\wbarN(\nu)$ in Phase 2. Those facilities may turn out to be
+closer to $\nu$ than some facilities in $\wbarN(\kappa) \cap
+\wtildeN(j) $ (not $\wtildeN_{\cls}(j)$) that we added to
+$\wbarN(\nu)$ in Phase 1. If the final $\wbarclsnb(\nu)$ consists only
+facilities added in Phase 2, we no longer have the desired overlap of
+$\wbarclsnb(\kappa)$ and $\wbarclsnb(\nu)$. Luckily this bad scenario
+never occurs. We postpone the proof of this property to
+Lemma~\ref{lem: PD1: primary overlap}.  The proof of
 (PD'.\ref{PD1:assign:cost}) is similar to that of Lemma~\ref{lem:
   PD:assign:cost holds}, and we defer it to Lemma~\ref{lem: PD1:
   primary optimal}.
 
-(SI'.\ref{SI1:siblings disjoint}) follows directly from the
-algorithm because for each demand $\nu\in j$ all facilities added
-to $\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$.
+(SI'.\ref{SI1:siblings disjoint}) follows directly from the algorithm
+because for each demand $\nu\in j$, all facilities added to
+$\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$.
 
 The proof of (SI'.\ref{SI1:primary disjoint}) is similar to that of
 Lemma~\ref{lem: property SI:primary disjoint holds}. If $\kappa=\nu$
