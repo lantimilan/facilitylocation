@@ -147,31 +147,40 @@ lead to new algorithms for FTFL with improved ratios.
 
 \appendix
 \section{Proof of Lemma~\ref{lem: EBGS target connection cost}}
+  Lemma~\ref{lem: EBGS target connection cost} provides a bound on the
+  expected connection cost of a demand $\nu$ when none of
+  $\wbarN(\nu)$ opens by the algorithm. The formal proof is very
+  similar to that in \cite{ByrkaA10}, and we sketch the main steps
+  here for completeness.
 
   Let $K_1 = \wbarclsnb(\kappa) \setminus \wbarN(\nu), K_2 =
   \wbarclsnb(\kappa) \cap \wbarclsnb(\nu)$ and $K_3 =
   \wbarclsnb(\kappa) \cap \wbarfarnb(\nu)$, then we shall show that
-  $D(K_1, \nu) \leq \clsdist(\kappa)+\clsmax(\kappa)+\fardist(\nu)$,
-  which implies $D(K_1, \nu) \leq
-  \clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$ due to
+  $D(K_1, \nu) \leq \clsdist(\kappa)\;+\;\clsmax(\kappa)\; + \;
+  \fardist(\nu)$, which implies $D(K_1, \nu) \leq \clsdist(\nu) +
+  \clsmax(\nu) + \fardist(\nu)$ due to
   (PD'.\ref{PD1:assign:cost}). Recall that $D(A,\nu)
-  \stackrel{\mathrm{def}}{=} \sum_{\mu\in A} d_{\mu\nu}\bary_{\mu}$.
+  \stackrel{\mathrm{def}}{=} \sum_{\mu\in A} d_{\mu\nu}\bary_{\mu}$ is
+  the average distance of facilities in set $A$ to demand $\nu$.
 
   We can dismiss a few simple cases: If $D(K_1, \kappa) \leq
   \clsdist(\kappa)$, then we can use any facility $\mu \in K_2$ to
   show that $D(K_1,\nu) \leq D(K_1, \kappa) + d_{\mu\kappa} +
   d_{\mu\nu} \leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu)$
-  and we are done. So we can assume $D(K_1, \kappa) >
-  \clsdist(\kappa)$. Our second assumption is that every $\mu \in K_2$
-  has $d_{\mu\kappa} > \clsdist(\kappa)$, for otherwise we can use
-  $\clsmax(\kappa)$ to bound $D(K_1, \kappa)$ and $\fardist(\nu)$ to
-  bound $d_{\mu\nu}$ for some $\mu\in K_2$ and we are done as well.
+  because $d_{\mu\kappa} \leq \clsmax(\kappa)$ and $d_{\mu\nu} \leq
+  \clsmax(\nu) \leq \fardist(\nu)$, and we are done. So we can assume
+  $D(K_1, \kappa) > \clsdist(\kappa)$. Our second assumption is that
+  every $\mu \in K_2$ has $d_{\mu\kappa} > \clsdist(\kappa)$, for
+  otherwise we can use $\clsmax(\kappa)$ to bound $D(K_1, \kappa)$ and
+  there exists a facility $\mu\in K_2$ such that $d_{\mu\kappa} \leq
+  \clsdist(\kappa)$. Since $\mu\in K_2$, we infer that $d_{\mu\nu}
+  \leq \clsmax(\nu) \leq \fardist(\nu)$, and we are done as well.
 
   Given the two assumptions we can now assume that $K_3$ is not empty
-  and there exists some $\delta > 0$ such that $D(K_3, \kappa) =
-  \clsdist(\kappa) - \delta$. This actually implies $D(K_3, \nu) \geq
-  \fardist(\nu) + \delta$, or we will be done. Because $K_3$ is a
-  subset of $\wbarfarnb(\nu)$, this gives us a bound on
+  and there exists some finite number $\delta > 0$ such that $D(K_3,
+  \kappa) = \clsdist(\kappa) - \delta$. This in turn implies $D(K_3,
+  \nu) \geq \fardist(\nu) + \delta$, or we will be done. Because $K_3$
+  is a subset of $\wbarfarnb(\nu)$, this gives us a bound on
   $D(\wbarfarnb(\nu) \setminus K_3, \nu)$, which in turn, is an upper
   bound on $\clsmax(\nu)$. Let $\hat{y} = \sum_{\mu\in K_3}
   \bary_{\mu}$, using the fact that $\fardist(\nu) = D(K_3,\nu)\;
@@ -210,7 +219,8 @@ lead to new algorithms for FTFL with improved ratios.
     &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu).
   \end{align*}
 
-  This concludes the proof of the bound on the expected distance when
+  This concludes the proof of Lemma~\ref{lem: EBGS target connection
+    cost}, and we have the desired bound on the expected distance when
   the algorithm connnects a demand $\nu$ indirectly to its target
   facility, that is, the facility opened by the primary demand that
   $\nu$ was assigned.

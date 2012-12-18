@@ -507,15 +507,25 @@ We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
   provably worse random process like we did in Algorithm {\ECHS}. Let
   $\wbarclsnb(\nu) = \{\mu_1,\ldots,\mu_l\}$ and $\wbarfarnb(\nu) =
   \{\mu_{l+1}, \ldots, \mu_{l'}\}$, where facilities are ordered by
-  non-decreasing distance to $\nu$. A similar argument will then show
-  that the expected distance $\Exp[C_\nu]$ to be no more than
+  non-decreasing distance to $\nu$, and
+  $d_1,\ldots,d_l,d_{l+1},\ldots,d_{l'}$ be the corresponding distance
+  to $\nu$. Let $\Lambda_{\nu}$ be the event that none of
+  $\wbarN(\nu)$ opens in algorithm {\EBGS}'s integral solution and
+  $\kappa$ be the primary demand that $\nu$ was assigned to, we then
+  have $\Exp[d_{\phi(\kappa)\nu}\mid \Lambda_{\nu}] \leq \clsdist(\nu)
+  + \clsmax(\nu) + \fardist(\nu)$ by Lemma~\ref{lem: EBGS target
+    connection cost}.
+
+  Let $C_{\nu}$ be the random variable of the distance from $\nu$ to
+  the facility that it connects to in the integral solution. A similar
+  argument as in the connection cost analysis of algorithm {\ECHS}
+  will then show that the expected distance $\Exp[C_\nu]$ is no more
+  than
   \begin{align*}
-    \Exp[C_{\nu}] &\leq d_1\gamma\bary_1 +
-    d_2\gamma\bary_2(1-\gamma\bary_1) + \ldots +
-    d_l\gamma\bary_l\prod_{s=1}^{l-1}(1-\gamma\bary_s) \\
-    & + d_{l+1}\gamma\bary_{l+1}\prod_{s=1}^l(1-\gamma\bary_s) + \ldots +
-    d_{l'}\gamma\bary_{l'}\prod_{s=1}^{l'-1}(1-\gamma\bary_s) \\
-    & + \Exp[d_{\phi(\kappa)\nu} \mid \Lambda_\nu]\prod_{s=1}^{l'}(1-\gamma\bary_{s})\\
+    \Exp[C_{\nu}] 
+    &\leq \left(1-\prod_{s=1}^l (1-\gamma\bary_s)\right) \sum_{s=1}^l d_s \gamma\bary_s\\
+    &+ \left(\prod_{s=1}^l(1-\gamma\bary_s) - \prod_{s=1}^{l'}(1-\gamma\bary_s)\right) \left(\sum_{s=l+1}^{l'} d_s\bary_s\;/ \;\sum_{s=l+1}^{l'} \bary_s \right)\\
+    &+ \left(\prod_{s=1}^{l'} (1-\gamma\bary_s)\right) \Exp[d_{\phi(\kappa)\nu} \mid \Lambda_\nu]\\
     &\leq (1-1/e)\clsdist(\nu) + (1/e - 1/e^\gamma)\fardist(\nu) + 1/e^\gamma (\clsdist(\nu) + \clsmax(\nu) + \fardist(\nu))\\
 \\
   &\leq 
@@ -534,14 +544,12 @@ We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
   								1+\frac{2}{e^\gamma}\Big\},
 \end{align*}
 %
-where $\rho_{\nu}=\clsdist(\nu)/\concost(\nu)$. It is easy
-to see that $\rho_{\nu}$ is between 0 and 1.
-Since $\sum_{\nu\in j} C^{\avg}(\nu) = \sum_{\nu\in
-  j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} =
-\sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast$, summing
-over all clients $j$ we have total connection cost bounded
-by $C^\ast \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
-1+\frac{2}{e^\gamma}\}$. 
+where $\rho_{\nu}=\clsdist(\nu)/\concost(\nu)$. It is easy to see that
+$\rho_{\nu}$ is between 0 and 1. Since $\sum_{\nu\in j} C^{\avg}(\nu)
+= \sum_{\nu\in j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} =
+\sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast$, summing over all
+clients $j$ we have total connection cost bounded by $C^\ast
+\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\}$.
 \end{proof}
 
 Recall that the expected facility cost is bounded by $\gamma F^\ast$,
