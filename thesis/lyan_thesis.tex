@@ -1,0 +1,66 @@
+\documentclass{article}
+
+\title{Approximation Algorithms for Facility Location Problems\\A
+  Dissertation for PhD program of Computer Science\\U of California
+  Riverside} \author{Li Yan}
+
+\usepackage{fullpage, amsmath}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+We start with the classic uncapacitated facility location problem
+(UFL) and review the basics of the approximation algorithm developed
+in the past two decades. Then proceed to our generalized problem, the
+fault-tolerant facility placement problem (FTFP) and the related
+results.
+
+\section{The Problem}
+An instance is a set of facilities $\mathcal F$ and clients $\mathcal
+C$, each $i\in \mathcal F$ has cost $f_i$ and each $i\in\mathcal F,
+j\in\mathcal C$ has $d_{ij}$. Each $j\in\mathcal C$ has demand
+$r_j$. The problem is to find, for each $i\in\mathcal F$, the number
+of facilities to open, and to serve each client $j$ with $r_j$
+different facilities. The total cost is $\sum_{i\in\mathcal F} f_i y_i
++ \sum_{i,j} d_{ij} x_{ij}$.
+
+\section{FTFP with LP-rounding}
+We have shown that, starting with a complete solution $(x^\ast,
+y^\ast)$, we can split into $(x_{\mu\nu}, y_\mu)$ between each
+facility $\mu$ and each demand $\nu$. We were then able to apply all
+known LP-rounding algorithms to obtain the same approximation ratio,
+while satisfying all fault-tolerance requirement, that is, sibling
+demands from same client are connected to different facilities.
+
+\section{FTFP with Primal-dual}
+The first result is to show an upper and lower bound of $H_n$ if we
+use same greedy algorithm and analyze using $\alpha_j^l$ as the
+average cost of the star and take dual solution as $\bar \alpha_j =
+\sum_{l=1}^{r_j} \alpha_j^l$, so that the shrinking factor $\gamma$ is
+$H_n$ to make $\bar \alpha_j$ dual feasible, $\sum_{j\in\mathcal C}
+(\bar \alpha_j - d_{ij})^+ \leq f_i$ for all $i \in \mathcal F$.
+
+The second result is trying to mitigate the dual-fitting analysis and
+trying to find an $O(1)$ ratio. The proposed charing scheme is to
+assign share of $f_i$ proportional to $r_j$ among all participating
+clients of the star (could use $\bar r_j$, the residual demand,
+although the analysis would be more complicated).
+
+One key technical result is the following:
+\begin{align*}
+  &1\cdot \left( \frac{1}{n} \right)\\
+  &\frac{1}{2} \cdot \left( \frac{1}{n} + \frac{1}{n-1} \right)\\
+  &\frac{1}{3} \cdot \left( \frac{1}{n} + \frac{1}{n-1} + \frac{1}{n-2} \right)\\
+  &\vdots\\
+  &\frac{1}{n-1} \cdot \left( \frac{1}{n} + \frac{1}{n-1} + \ldots + \frac{1}{2} \right)\\
+  &\frac{1}{n} \cdot \left( \frac{1}{n} + \frac{1}{n-1} + \frac{1}{n-2} + \ldots + \frac{1}{2} + 1 \right)\\
+  &= \sum_{i=1}^n 1/i^2 = \pi^2/6\\
+\end{align*}
+
+The sum might be daunting to evaluate, the true story is that I
+numerically computed up to $n=10^7$ and found it to be $1.664934$ and
+it magically coincides with $pi^2/6$. Later Neal helped show that it
+is indeed $\sum_{i=1}^n 1/i^2$.
+
+\end{document}
