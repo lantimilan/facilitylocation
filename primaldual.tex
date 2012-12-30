@@ -2,7 +2,8 @@
 
 \title{On primal-dual and dual-fitting of the FTFP problem}
 \author{UCR theory lab}
-\usepackage{fullpage, amsmath}
+%\usepackage{fullpage, amsmath}
+\usepackage{amsmath}
 \begin{document}
 \maketitle
 
@@ -288,5 +289,55 @@ although two things have to happen:
   the approximation ratio cannot be better than $H_n$ and examples
   from non-metric UFL already shows a lower bound of $H_n$ in approximation.
 \end{itemize}
+
+\section{On $O(1)$-approximation on Greedy Algorithm}
+Now we seek to show a ratio of $O(1)$ for the greedy algorithm that
+repeatedly picks the best star until all clients are fully-connected.
+
+The special instance we consider is the example that we use to show
+greedy using dual-fitting analysis can be a factor of $H_n$ away from
+being dual-feasible. In this example, there is one site with $f_i=1$
+and all clients are co-located at the same point of that site, that is
+$d_{ij}=0$ for all $i,j$. There are $n$ clients and their demands are
+$r_1 \leq r_2 \leq \ldots \leq r_n$. Then the greedy algorithm will
+first create $r_1$ facilities and each of the $n$ clients will make
+$r_1$ connections to them. The next round will create another $r_2 -
+r_1$ facilities and clients $2$ to $n$ will make that many connections
+and so on, until the $n^{th}$ round client $n$ will create $r_n -
+r_{n-1}$ new facilities and connect to them.
+
+The algorithm only concerns which star to pick and how to make
+connections, it does not specify how to share cost among participating
+clients of a star, and that is part of the analysis. We now look for a
+charging scheme that would resolve the $H_n$ shrinking factor and keep
+it to a constant. The scheme at a high level is to group clients with
+the same $r_j$ and then distribute facility cost proportional to $r_j$
+to each group. Within a group we distribute cost to clients
+evenly. For the convenience of analysis, we actually round each $r_j$
+up to the nearest power of $2$, that is $r_j'=2^k$ for some $k$ such
+that $2^{k-1} < r_j \leq 2^k$, and we will work on $r_j'$. This will
+at most double the total cost.
+
+According to our scheme, w.l.o.g. we can assume $r_j'$ are distinct
+and they are all powers of 2. Let $R_k = \sum_{j=k}^n r_j'$, then
+client $1$ has its share being $r_1'/R_1$, it has $r_1'$ demands to
+satisfy and therefore its $\alpha_1 = r_1'/R_1$. Similarly for demand
+$2$, we have $\alpha_2 = 1/r_2' (r_1'\cdot r_2'/R_1 +
+(r_2'-'r_1')\cdot r_2'/R_2) = r_1'/R_1 + (r_2'-r_1')/R_2$. If we sum
+all $\alpha_j$ for $j=1,\ldots,n$, we obtain
+\begin{equation}
+S_n = n\cdot r_1'/R_1 + (n-1) (r_2'-r_1')/R_2 + \ldots + (r_n' -
+r_{n-1}') / R_n
+\end{equation}
+
+It is easy to see that
+\begin{align*}
+S_n &= n\cdot r_1'/R_1 + (n-1) (r_2'-r_1')/R_2 + \ldots + (r_n' -
+r_{n-1}') / R_n\\
+&\leq n\cdot r_1'/R_1 + (n-1) r_2' / R_2 + \ldots + r_n' / R_n\\
+&\leq n\cdot r_1'/r_n' + (n-1) r_2' / r_n' + \ldots + r_n' / r_n'\\
+&\leq n/2^n + (n-1)/2^{n-1} + \ldots + 1\\
+&\leq 2 = O(1)\\
+\end{align*}
 
 \end{document}
