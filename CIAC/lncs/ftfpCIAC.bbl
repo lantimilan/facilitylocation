@@ -83,11 +83,6 @@ Kewen Liao and Hong Shen.
 \newblock In {\em Proceedings of the 17th Annual International Conference on
   Computing and Combinatorics}, COCOON'11, pages 555--566, 2011.
 
-\bibitem{MahdianYZ06}
-Mohammad Mahdian, Yinyu Ye, and Jiawei Zhang.
-\newblock Approximation algorithms for metric facility location problems.
-\newblock {\em SIAM J. Comput.}, 36(2):411--432, 2006.
-
 \bibitem{ShmoysTA97}
 David Shmoys, \'{E}va Tardos, and Karen Aardal.
 \newblock Approximation algorithms for facility location problems (extended
@@ -124,5 +119,11 @@ Li~Yan and Marek Chrobak.
 \newblock Approximation algorithms for the fault-tolerant facility placement
   problem.
 \newblock {\em Inf. Process. Lett.}, 111(11):545--549, 2011.
+
+\bibitem{YanC12}
+Li~Yan and Marek Chrobak.
+\newblock {LP}-rounding algorithms for the fault-tolerant facility placement
+  problem.
+\newblock {\em CoRR}, abs/1205.1281, 2012.
 
 \end{thebibliography}
