@@ -27,7 +27,7 @@ it also reduces the probability that an indirect connection occurs for
 a non-primary demand to $1/e^\gamma$ (from the previous value
 $1/e$). Moreover, for each primary demand $\kappa$, the new algorithm
 will select a facility from the nearest facilities $\mu$ in
-$\wbarN(\kappa)$ such that the total connection value $\barx_{\mu\nu}$
+$\wbarN(\kappa)$ such that the connection values $\barx_{\mu\nu}$
 sum up to $1/\gamma$, instead of $1$. It is easily seen that this will
 improve the estimate on connection cost for primary demands.  These
 two changes, along with a more refined analysis, are the essence of
@@ -112,7 +112,7 @@ properties (PD') and (SI'), listed below.
 		$ \sum_{\kappa\in P}\sum_{\mu\in
                   i\cap\wbarclsnb(\kappa)}\barx_{\mu\kappa} \leq
                 y_i^\ast$. In the summation, as before, we overload notation $i$ to stand for the set of
-						facilities opened on site $i$.
+						facilities created on site $i$.
 		
 	\item \label{PD1:assign} Each demand $\nu\in\demandset$ is assigned
         to one primary demand $\kappa\in P$ such that
@@ -203,8 +203,7 @@ a new demand $\nu$ for $p$.  Now we have two cases:
   of $\bary_{\mu}$ for all $\mu \in \wbarN(\kappa)$ is $1/\gamma$ and
   we have $\wbarN(\nu) \subseteq \wbarN(\kappa)$ at this point. Later
   in Phase 2 we will add additional facilities from $\wtildeN(p)$ to
-  $\wbarN(\nu)$ to make $\nu$'s total connection value to
-  $\wbarN(\nu)$ equal to $1$.
+  $\wbarN(\nu)$ to make $\nu$'s total connection value equal to $1$.
 
 %
 \item{\mycase{2}} $\wtildeclsnb(p) \cap \wbarN(\kappa) = \emptyset$
@@ -438,7 +437,7 @@ $\gamma\bary_{\mu}$. Due to our choice of $\gamma$ being $1 < \gamma <
 2$, we have $1-1/\gamma \leq 1/\gamma$ so property (CO) actually
 implies all $\bary_{\mu} \leq 1/\gamma$ since there exists some $\nu$
 such that $\barx_{\mu\nu} = \bary_{\mu}$ and any
-$\mu\in\wbarclsnb(\nu)$ satisfies $\barx_{\mu\nu} \leq 1/\gamma$ and
+$\mu\in\wbarclsnb(\nu)$ satisfies $\barx_{\mu\nu} \leq 1/\gamma$, and
 any $\mu\in\wbarfarnb(\nu)$ satisfies $\barx_{\mu\nu} \leq
 1-1/\gamma$. Then all $\gamma\bary_{\mu}$ are valid probablity values.
 
@@ -486,22 +485,23 @@ close neighborhood of a primary demand or not. Therefore, by
 \begin{equation*}
 	F_{\smallEBGS} = \sum_{\mu \in \facilityset} f_\mu \gamma \bary_{\mu} 
 			= \gamma \sum_{i\in \sitesset} f_i \sum_{\mu\in i} \bary_{\mu} 
-			= \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast,
+			\stackrel{\ast}{=} \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast,
 \end{equation*}
 %
-where the second equality follows from (PS.\ref{PS:yi}).
+where the $(\ast)$ equality follows from (PS.\ref{PS:yi}).
 \end{proof}
 
 %%%%%%%%%%%
 
-To bound the connection cost, we start with a lemma that estimates the
-cost of indirect connections, between a non-primary demand and its
-target facility. The proof of this lemma relies on
+To bound the connection cost, we start with a lemma that
+estimates the cost of indirect connections, between a
+non-primary demand and its target facility. The proof of
+this lemma relies on
 Properties~(PD'.\ref{PD1:assign:overlap}) and
-(PD'.\ref{PD1:assign:cost}) of modified partitioning and follows the
-reasoning in the proof of a similar lemma
-in~\cite{ByrkaGS10,ByrkaA10}.  For the sake of completeness, the
-complete proof is included in the appendix.
+(PD'.\ref{PD1:assign:cost}) of modified partitioning and
+follows the reasoning in the proof of a similar lemma
+in~\cite{ByrkaGS10,ByrkaA10}.  For the sake of completeness,
+we include a proof is in the appendix.
 
 \begin{lemma}\label{lem: EBGS target connection cost}
   In Algorithm~{\EBGS}, let $\gamma$ be a constant such that $1 <
@@ -532,11 +532,16 @@ We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
   \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu)$ by Lemma~\ref{lem:
     EBGS target connection cost}.
 
-  Let $C_{\nu}$ be the random variable of the distance from $\nu$ to
-  the facility that it connects to in the integral solution. A similar
-  argument to estimate the distance by a provably worse random
-  process, as in the analysis of algorithm {\ECHS}, will then show that
-  the expected distance $\Exp[C_\nu]$ is no more than
+  Let $C_{\nu}$ be the random variable of the distance from
+  $\nu$ to the facility that it connects to in the integral
+  solution. A similar argument to estimate the distance by a
+  provably worse random process, as in the analysis of
+  algorithm {\ECHS}, will then show that the expected
+  distance $\Exp[C_\nu]$ is no more than the estimate that
+  uses the nearest facility in $\wbarclsnb(\nu)$ if one
+  opened, then use the nearest in $\wbarfarnb(\nu)$ if there
+  is one, and only use $\phi(\kappa)$ if none in
+  $\wbarN(\nu)$ opened. A detailed derivation follows.
   \begin{align*}
     \Exp[C_{\nu}] 
     &\leq \left(1-\prod_{s=1}^l (1-\gamma\bary_s)\right) \sum_{s=1}^l d_s \gamma\bary_s\\
