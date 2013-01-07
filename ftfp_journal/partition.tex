@@ -113,7 +113,7 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 		  $\wbarN(\nu)\cap \wbarN(\nu') = \emptyset$.
 		
 	\item \label{SI:primary disjoint} If $\nu$ is assigned to a primary demand $\kappa$ then
- 		$\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~PD(\ref{PD:assign:overlap}),
+ 		$\wbarN(\nu')\cap \wbarN(\kappa) = \emptyset$. In particular, by Property~(PD.\ref{PD:assign:overlap}),
 		this implies that different sibling demands are assigned to different primary demands.
 
 	\end{enumerate}
@@ -128,7 +128,7 @@ demand at a time, and the connection values for the demands of a
 client depend on the choice of earlier demands, of this or other
 clients, and their connection values. We would like to point out that
 the adaptive partitioning process for the $1.575$-approximation
-algorithm (Section~\ref{sec: 1.575-approximation}) is more subtle than
+algorithm (Section~\ref{sec: 1.575-approximation}) is more subtle than that for 
 the $3$-apprximation (Section~\ref{sec: 3-approximation}) and the
 $1.736$-approximation algorithms (Section~\ref{sec:
   1.736-approximation}), due to the introduction of close and far
@@ -146,7 +146,7 @@ stage, and $(\barbfx,\barbfy)$ is the partitioned solution
 to be computed. 
 
 The adaptive partitioning algorithm consists of two phases:
-Phase 1 is called the partition phase and Phase 2 is called
+Phase 1 is called the partitioning phase and Phase 2 is called
 the augmenting phase. Phase 1 is done in iterations, where
 in each iteration we find the ``best'' client $j$ and create a
 new demand $\nu$ out of it. This demand either becomes a
@@ -155,7 +155,7 @@ primary demand. We call a client $j$ \emph{exhausted} when
 all its $r_j$ demands have been created and assigned to some
 primary demands. Phase 1 completes when all clients are
 exhausted. In Phase 2 we ensure that every demand has a
-total connection values equal to $1$, that is condition (PS.\ref{PS:one}).
+total connection values $\barx_{\mu\nu}$ equal to $1$, that is condition (PS.\ref{PS:one}).
 
 For each site $i$ we will initially create one ``big" facility $\mu$
 with initial value $\bary_\mu = y^\ast_i$.  While we partition the

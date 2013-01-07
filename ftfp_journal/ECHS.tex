@@ -152,10 +152,11 @@ facilities in $\wbarN(\nu)$ is opened. Then
 %
 where $D(A,\sigma) \stackrel{\mathrm{def}}{=}\sum_{\mu\in A}
 d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$, for
-any set $A$ of facilities and a demand $\sigma$.
-Note that $\concost_\nu = D(\wbarN(\nu),\nu)$,
-and that $\Lambda_\nu$ implies that $\wbarN(\kappa) \setminus \wbarN(\nu)\neq\emptyset$,
-since $\wbarN(\kappa)$ contains at least one open facility, namely $\phi(\kappa)$.
+any set $A$ of facilities and a demand $\sigma$.  Note that
+$\concost_\nu = D(\wbarN(\nu),\nu)$, and that $\Lambda_\nu$
+implies that $\wbarN(\kappa) \setminus
+\wbarN(\nu)\neq\emptyset$, since $\wbarN(\kappa)$ contains
+exactly one open facility, namely $\phi(\kappa)$.
 
 %%%%%%%%%%
 
@@ -231,18 +232,23 @@ $\nu$ is a primary demand $\kappa$. According to the algorithm
 for $\mu\in \wbarN(\kappa)$. Therefore $\Exp[C_\kappa] = \concost_{\kappa}$, so
 (\ref{eqn: echs bound for connection cost}) holds.
 
-Next, we consider a non-primary demand $\nu$. Let $\kappa$ be the primary demand that
-$\nu$ is assigned to. We first
-deal with the sub-case when $\wbarN(\kappa)\setminus \wbarN(\nu) =
-\emptyset$, which is the same as $\wbarN(\kappa) \subseteq
-\wbarN(\nu)$. Property (CO) implies that $\barx_{\mu\nu} =
-\bary_{\mu} = \barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$, so we have 
-$\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} = \sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\kappa} = 1$, 
-due to (PS.\ref{PS:one}). But also $\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} = 1$ and
+Next, we consider a non-primary demand $\nu$. Let $\kappa$
+be the primary demand that $\nu$ is assigned to. We first
+deal with the sub-case when $\wbarN(\kappa)\setminus
+\wbarN(\nu) = \emptyset$, which is the same as
+$\wbarN(\kappa) \subseteq \wbarN(\nu)$. Property (CO)
+implies that $\barx_{\mu\nu} = \bary_{\mu} =
+\barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$, so we
+have $\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} =
+\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\kappa} = 1$, due to
+(PS.\ref{PS:one}). On the other hand, we have
+$\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} = 1$, and
 $\barx_{\mu\nu} > 0$ for all $\mu\in \wbarN(\nu)$. Therefore
-$\wbarN(\kappa) = \wbarN(\nu)$ and $C_\nu$ has exactly the same distribution as $C_\kappa$.
-So this case reduces to the first case, namely
-we have $\Exp[C_{\nu}] = \concost_{\nu}$, and (\ref{eqn: echs bound for connection cost}) holds.
+$\wbarN(\kappa) = \wbarN(\nu)$ and $C_\nu$ has exactly the
+same distribution as $C_\kappa$.  So this case reduces to
+the first case, namely we have $\Exp[C_{\nu}] =
+\concost_{\nu}$, and (\ref{eqn: echs bound for connection
+  cost}) holds.
 
 The last, and only non-trivial case is when
 $\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$.  Let $\wbarN(\nu)
@@ -260,37 +266,41 @@ the paragraph above, we have
 	\textstyle
   \Exp[C_\nu] \leq 
 	\sum_{u=1}^l d_uy_u\prod_{s=1}^{u-1}(1-y_s)
-		+  \Exp[ d_{\phi(\kappa)\nu} |\Lambda_\nu]\cdot \textstyle{\prod_{s=1}^{l}} (1-y_{s}).	
+		+  \Exp[ d_{\phi(\kappa)\nu} \mid \Lambda_\nu]\cdot \textstyle{\prod_{s=1}^{l}} (1-y_{s}).	
 \end{equation*}
 \end{lemma}
 
-The formal proof of Lemma~\ref{lem: echs expected C_nu} appears
-in~\cite{ChudakS04}. The main idea of the proof is to consider a
-provably worse random process, which considers facility in
-$\wbarN(\nu)$ by grouping them according to the neighborhood of
-primary demands. That is, two facilities $\mu_1$ and $\mu_2$ belong to
-the same group if both are in $\wbarN(\kappa)$ for some primary demand
-$\kappa$. The groups are then ordered by nondecreasing average
-distance to $\nu$, where the average is $\sum_{\mu\in G} \bary_{\mu}
-d_{\mu\nu} / \sum_{\mu\in G} \bary_{\mu}$. The process first consider
-each group in this order and select a group $G$ independently with
-probability $\sum_{\mu\in G}\bary_{\mu}$. Stop as soon as one group is
-selected, or we end up with none selected. If one group $G$ is
-selected, we open a facility in $G$ by choosing each $\mu$ in $G$ with
-probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We then connect
-demand $\nu$ to this facility $\mu$.
+The formal proof of Lemma~\ref{lem: echs expected C_nu}
+appears in~\cite{ChudakS04}. The main idea of the proof is
+to consider a provably worse random process, which considers
+facilities in $\wbarN(\nu)$ by grouping them according to
+the neighborhood of primary demands. That is, two facilities
+$\mu_1$ and $\mu_2$ belong to the same group if both are in
+$\wbarN(\kappa)$ for some primary demand $\kappa$. The
+groups are then ordered by nondecreasing average distance to
+$\nu$, where the average is $\sum_{\mu\in G} d_{\mu\nu}
+\bary_{\mu} / \sum_{\mu\in G} \bary_{\mu}$. The process
+first consider each group in this order and select a group
+$G$ independently with probability $\sum_{\mu\in
+  G}\bary_{\mu}$. Stop as soon as one group is selected, or
+we end up with none selected. If one group $G$ is selected,
+we open a facility in $G$ by choosing each $\mu$ in $G$ with
+probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We
+then connect demand $\nu$ to this facility $\mu$. Otherwise
+no group is selected and we connect $\nu$ to $\phi(\kappa)$.
 
-Using Lemma~\ref{lem: echs expected C_nu}, we estimate the (unconditional) expected 
-connection cost of $\nu$ as follows:
+Using Lemma~\ref{lem: echs expected C_nu}, we estimate the
+(unconditional) expected connection cost of $\nu$ as
+follows:
 %
 \begin{align}
   \Exp[C_\nu] &\leq 
 	\textstyle \sum_{u=1}^l d_uy_u\prod_{s=1}^{u-1}(1-y_s)
-		+  \Exp[ d_{\phi(\kappa)\nu} |\Lambda_\nu]\cdot \prod_{s=1}^{l} (1-y_{s})
+		+  \Exp[ d_{\phi(\kappa)\nu}  \mid \Lambda_\nu]\cdot \prod_{s=1}^{l} (1-y_{s})
 		\notag
 		\\
   &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
-	+  \Exp[ d_{\phi(\kappa)\nu} |\Lambda_\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
+	+  \Exp[ d_{\phi(\kappa)\nu}  \mid \Lambda_\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
 	\label{eqn: Cnu estimate 1}
 	\\
   &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \concost_{\nu} 
