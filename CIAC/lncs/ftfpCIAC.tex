@@ -1,3 +1,6 @@
+% camera ready version
+% LNCS style 12 page limit
+%
 % CIAC submission
 % lyan 2012-11-03 09:09:22
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -5,7 +8,7 @@
 
 \documentclass{llncs}
 
-\usepackage{amssymb,enumerate}
+\usepackage{fullpage,amssymb,enumerate}
 \usepackage[nosumlimits]{amsmath}
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
@@ -1577,12 +1580,76 @@ by facilities on the same site. Nonetheless, we hope that further refinements of
 our construction might get around this issue and
 lead to new algorithms for FTFL with improved ratios.
 
+\vfill
+\eject
 
 \bibliographystyle{plain}
 \bibliography{facility}
+\pagebreak
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{An Elementary Proof of the Inequality in Section~\ref{sec:
+    1.736-approximation}}
+In the $1+2/e=1.736$-approximation in Section~\ref{sec: 1.736-approximation}
+we need to show the following inequality
+%
+\begin{equation}
+  \label{eq:dist}
+\sum_{r=1}^l d_ry_r\prod_{s=1}^{r-1}(1-y_s)
+  \;\leq\;  \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{r=1}^l d_r y_r
+\end{equation}
+%
+for $d_1\leq d_2 \leq \ldots \leq d_l$ and $\sum_{s=1}^l y_s = 1, y_s \geq 0$.
+
+In this section we give a new proof of this inequality, much
+simpler than the existing proof in \cite{ChudakS04}, and also simpler than
+the argument by Sviridenko~\cite{Svi02}.  
+We derive this inequality from the following generalized version of the Chebyshev Sum
+Inequality:
+%
+\begin{equation}
+  \label{eq:cheby}
+  \sum_{i} p_i \sum_j p_j a_j b_j \leq \sum_i p_i a_i \sum_j p_j b_j,
+\end{equation}
+%
+where each summation below runs from $1$ to $l$ and the sequences 
+$(a_i)$, $(b_i)$ and $(p_i)$ satisfy the following conditions:
+$p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$, $a_1\leq a_2 \leq
+\ldots \leq a_l$, and $b_1 \geq b_2 \geq \ldots \geq b_l$.
+
+Given inequality (\ref{eq:cheby}), we can obtain our inequality
+(\ref{eq:dist}) by simple substitution
+%
+\begin{equation*}
+  p_i \leftarrow y_i, a_i \leftarrow d_i, b_i \leftarrow
+  \Pi_{s=1}^{i-1} (1-y_s)
+\end{equation*}
+
+For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
+due to Hardy, Littlewood and Polya~\cite{HardyLP88}. The idea is to evaluate the 
+following sum:
+%
+\begin{align*}
+  S &= \sum_i p_i \sum_j p_j a_j b_j - \sum_i p_i a_i \sum_j p_j b_j
+	\\
+  & = \sum_i \sum_j p_i p_j a_j b_j - \sum_i \sum_j p_i a_i p_j b_j
+	\\
+  & = \sum_j \sum_i p_j p_i a_i b_i - \sum_j \sum _i p_j a_j p_i b_i
+	\\
+	&= \half \cdot \sum_i \sum_j (p_i p_j a_j b_j - p_i a_i p_j b_j + p_j p_i a_i
+  							b_i - p_j a_j p_i b_i)
+\\
+  &= \half \cdot \sum_i \sum_j p_i p_j (a_i - a_j)(b_i - b_j) \leq 0.
+\end{align*}
+The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq 0$, since the sequences
+$(a_i)$ and $(b_i)$ are ordered oppositely.
 
 \end{document}
