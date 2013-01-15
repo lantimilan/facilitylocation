@@ -128,7 +128,7 @@ only if $\max_{j\in\clientset} r_j$ is polynomial in
 $O(|\sitesset|\cdot |\clientset|)$ and their analysis of the
 approximation ratio is flawed\footnote{Confirmed through
   private communication with the authors.}.  To date, the
-best approximation ratio for FTFP is $4$ in~\cite{YanC11}, 
+best approximation ratio for FTFP is $3.16$ in~\cite{YanC11}, 
 while the only known lower bound is the $1.463$ lower bound for UFL
 from~\cite{GuhaK98}, that applies to FTFP.
 
@@ -186,7 +186,7 @@ relax the integrality constraints, we obtain the following LP:
 
 \noindent
 \hspace{-0.1in}
-\begin{minipage}{3.5in}
+\begin{minipage}{2.5in}
 \begin{alignat}{3}
   &\textrm{min} &&\;\textstyle{\cost(\bfx,\bfy)} = \textstyle{ \sum_{i\in \sitesset}f_iy_i }
  		&&	+ \textstyle{ \sum_{i\in \sitesset, j\in \clientset}d_{ij}x_{ij} }  \label{eqn:fac_primal} 	
@@ -200,7 +200,7 @@ relax the integrality constraints, we obtain the following LP:
 \end{alignat}
 \end{minipage}
 \hspace{0.01in}
-\begin{minipage}{3in}
+\begin{minipage}{2in}
 \begin{alignat}{3}
   &\textrm{max}&\quad& \textstyle{\sum_{j\in \clientset} r_j\alpha_j}\label{eqn:fac_dual}  
      						\\ \notag
@@ -241,9 +241,7 @@ $i,j$. In other words, each connection either uses a site
 fully or not at all.  As shown by Chudak and
 Shmoys~\cite{ChudakS04}, we can modify the given instance by
 adding at most $|\clientset|$ sites to obtain an equivalent
-instance that has a complete optimal solution, where
-``equivalent" means that the values of $F^\ast$, $C^\ast$ and
-$\LP^\ast$ are not affected.
+instance that has a complete optimal solution.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% REDUCTION TO POLYNOMIAL DEMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -257,7 +255,7 @@ where demands are bounded by $|\sitesset|$.
 (The formal statement is a little more technical --
 see Theorem~\ref{thm: reduction to polynomial}.) 
 
-The reduction is based on an optimal fractional solution
+The reduction is based on a complete optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ of LP (\ref{eqn:fac_primal}). From the
 optimality of this solution, we can also assume that
 $\sum_{i\in\sitesset} x^\ast_{ij} = r_j$ for all
@@ -345,34 +343,44 @@ $.
 \section{Adaptive Partitioning}
 \label{sec: adaptive partitioning}
 
-In this section we develop our second technique, which we call
-\emph{adaptive partitioning}. Given an FTFP instance and an optimal
-fractional solution $(\bfx^\ast, \bfy^\ast)$ to
-LP~(\ref{eqn:fac_primal}), we split each client $j$ into $r_j$
-individual \emph{unit demand points} (or just \emph{demands}), and we
-split each site $i$ into no more than $|\sitesset|+2R|\clientset|^2$
-\emph{facility points} (or \emph{facilities}), where
-$R=\max_{j\in\clientset}r_j$. We denote the demand set by $\demandset$
-and the facility set by $\facilityset$, respectively.  We will also
-partition $(\bfx^\ast,\bfy^\ast)$ into a fractional solution
-$(\barbfx,\barbfy)$ for the split instance.  We will typically use
-symbols $\nu$ and $\mu$ to index demands and facilities respectively,
-that is $\barbfx = (\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$.
-The \emph{neighborhood of a demand} $\nu$ is
-$\wbarN(\nu)=\braced{\mu\in\facilityset \suchthat \barx_{\mu\nu}>0}$.
-We will use notation $\nu\in j$ to mean that $\nu$ is a demand of
-client $j$; similarly, $\mu\in i$ means that facility $\mu$ is on site
-$i$. Different demands of the same client (that is, $\nu,\nu'\in j$)
-are called \emph{siblings}.  Further, we use the convention that
-$f_\mu = f_i$ for $\mu\in i$, $\alpha_\nu^\ast = \alpha_j^\ast$ for
-$\nu\in j$ and $d_{\mu\nu} = d_{\mu j} = d_{ij}$ for $\mu\in i$ and
-$\nu\in j$.  We define $\concost_{\nu}
+In this section we develop our second technique, which we
+call \emph{adaptive partitioning}. Given an FTFP instance
+and an optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
+to LP~(\ref{eqn:fac_primal}), we split each client $j$ into
+$r_j$ individual \emph{unit demand points} (or just
+\emph{demands}), and we split each site $i$ into no more
+than $|\sitesset|+2R|\clientset|^2$ \emph{facility points}
+(or \emph{facilities}), where
+$R=\max_{j\in\clientset}r_j$. We denote the demand set by
+$\demandset$ and the facility set by $\facilityset$,
+respectively.  We will also partition
+$(\bfx^\ast,\bfy^\ast)$ into a fractional solution
+$(\barbfx,\barbfy)$ for the split instance.  We will
+typically use symbols $\nu$ and $\mu$ to index demands and
+facilities respectively, that is $\barbfx =
+(\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$.  The
+\emph{neighborhood of a demand} $\nu$ is
+$\wbarN(\nu)=\braced{\mu\in\facilityset \suchthat
+  \barx_{\mu\nu}>0}$.  We will use notation $\nu\in j$ to
+mean that $\nu$ is a demand of client $j$; similarly,
+$\mu\in i$ means that facility $\mu$ is on site
+$i$. Different demands of the same client (that is,
+$\nu,\nu'\in j$) are called \emph{siblings}.  Further, we
+use the convention that $f_\mu = f_i$ for $\mu\in i$,
+$\alpha_\nu^\ast = \alpha_j^\ast$ for $\nu\in j$ and
+$d_{\mu\nu} = d_{\mu j} = d_{ij}$ for $\mu\in i$ and $\nu\in
+j$.  We define $\concost_{\nu}
 =\sum_{\mu\in\wbarN(\nu)}d_{\mu\nu}\barx_{\mu\nu} =
-\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$.  One can think of
-$\concost_{\nu}$ as the average connection cost of demand $\nu$, if we
-chose a connection to facility $\mu$ with probability
-$\barx_{\mu\nu}$. In our partitioned fractional solution we guarantee
-for every $\nu$ that $\sum_{\mu\in\facilityset} \barx_{\mu\nu}=1$.
+\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$.  One can
+think of $\concost_{\nu}$ as the average connection cost of
+demand $\nu$, if we chose a connection to facility $\mu$
+with probability $\barx_{\mu\nu}$. In our partitioned
+fractional solution we guarantee for every $\nu$ that
+$\sum_{\mu\in\facilityset} \barx_{\mu\nu}=1$. Our partition
+algorithm resembles superficially to the uncrossing
+technique in Guha \etal's~\cite{GuhaMM03}
+$O(1)$-approximation algorithm for FTFL, nonetheless our
+construction and resulted structure is more delicate.
 
 Some demands in $\demandset$ will be designated as
 \emph{primary demands} and the set of primary demands will
@@ -382,15 +390,23 @@ that assigns each demand $\nu\in\demandset$ to some primary
 demand $\kappa\in P$. As shown in the rounding algorithms in
 later sections, for each primary demand we guarantee exactly
 one open facility in its neighborhood, while for a
-non-primary demand we estimate its
-connection cost by the distance to the facility opened by
-its assigned primary demand. For this reason
-the connection cost of a primary demand must be ``small''
-compared to the non-primary demands assigned to it. We also
-need sibling demands assigned to different primary demands to satisfy
-the fault-tolerance requirement. Specifically, this
-partitioning will be constructed to satisfy a number of
-properties that are detailed below.
+non-primary demand we estimate its connection cost by the
+distance to the facility opened by its assigned primary
+demand. For this reason the connection cost of a primary
+demand must be ``small'' compared to the non-primary demands
+assigned to it. To have a bound on the facility cost, we can
+think of the fractional $x_{ij}^\ast$ as the budget of how
+much a client $j$ can use a site $i$, so (PS.\ref{PS:xij})
+means all demands of a client $j$ together can only use as
+much as $x_{ij}^\ast$. The reason we need (PS.\ref{PS:one})
+is two-fold: (i) to have a proper distribution when select
+one of facility in a primary demand's neighborhood and, (ii)
+to obtain an estimate on the probability that none of a
+demand's neighbor is open. We also need sibling demands
+assigned to different primary demands to satisfy the
+fault-tolerance requirement. Specifically, this partitioning
+will be constructed to satisfy a number of properties that
+are detailed below.
 %
 \begin{description}
 	
@@ -484,30 +500,35 @@ primary demands. Phase 1 completes when all clients are
 exhausted. In Phase 2 we ensure that every demand has a
 total connection values equal to $1$, that is condition (PS.\ref{PS:one}).
 
-For each site $i$ we will initially create one ``big" facility $\mu$
-with initial value $\bary_\mu = y^\ast_i$.  While we partition the
-instance, creating new demands and connections, this facility may end
-up being split into more facilities to preserve completeness of the
-fractional solution. Also, we will gradually decrease the fractional
-connection vector for each client $j$, to account for the demands
-already created for $j$ and their connection values.  These decreased
-connection values will be stored in an auxiliary vector
-$\tildebfx$. The intuition is that $\tildebfx$ represents the part of
-$\bfx^\ast$ that still has not been allocated to existing demands and
-future demands can use $\tildebfx$ for their connections. For
-technical reasons, $\tildebfx$ will be indexed by facilities (rather
-than sites) and clients, that is $\tildebfx = (\tildex_{\mu j})$.  At
-the beginning, we set $\tildex_{\mu j}\assign x_{ij}^\ast$ for each
-$j\in\clientset$, where $\mu\in i$ is the single facility created
-initially at site $i$.  At each step, whenever we create a new demand
-$\nu$ for a client $j$, we will define its values $\barx_{\mu\nu}$ and
-appropriately reduce the values $\tildex_{\mu j}$, for all facilities
-$\mu$. We will deal with two types of neighborhoods, with respect to
-$\tildebfx$ and $\barbfx$, that is $\wtildeN(j)=\{\mu\in\facilityset
+For each site $i$ we will initially create one ``big"
+facility $\mu$ with initial value $\bary_\mu = y^\ast_i$.
+While we are partitioning the instance, creating new demands
+and connections, this facility may end up being split into
+more facilities to preserve completeness of the fractional
+solution. Also, we will gradually decrease the fractional
+connection vector for each client $j$, to account for the
+demands already created for $j$ and their connection values.
+These decreased connection values will be stored in an
+auxiliary vector $\tildebfx$. The intuition is that
+$\tildebfx$ represents the part of $\bfx^\ast$ that still
+has not been allocated to existing demands and future
+demands can use $\tildebfx$ for their connections. For
+technical reasons, $\tildebfx$ will be indexed by facilities
+(rather than sites) and clients, that is $\tildebfx =
+(\tildex_{\mu j})$.  At the beginning, we set $\tildex_{\mu
+  j}\assign x_{ij}^\ast$ for each $j\in\clientset$, where
+$\mu\in i$ is the single facility created initially at site
+$i$.  At each step, whenever we create a new demand $\nu$
+for a client $j$, we will define its values $\barx_{\mu\nu}$
+and appropriately reduce the values $\tildex_{\mu j}$, for
+all facilities $\mu$. We will deal with two types of
+neighborhoods, with respect to $\tildebfx$ and $\barbfx$,
+that is $\wtildeN(j)=\{\mu\in\facilityset
 \suchthat\tildex_{\mu j} > 0\}$ for $j\in\clientset$ and
-$\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu} >0\}$ for
-$\nu\in\demandset$.  During this process, the following properties
-will hold for every facility $\mu$ after every iteration: 
+$\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu}
+>0\}$ for $\nu\in\demandset$.  During this process, the
+following properties will hold for every facility $\mu$
+after every iteration:
 \begin{description}
 \item (c1) For each demand $\nu$ either $\barx_{\mu\nu}=0$ or
   $\barx_{\mu\nu}=\bary_{\mu}$.
@@ -708,7 +729,7 @@ exhausted at that time.)
 
 
 \begin{lemma}\label{lem: tcc optimal}
-  Let $\eta$ and $\nu$ be two demands, with $\eta$ created not later
+  Let $\eta$ and $\nu$ be two demands, with $\eta$ created no later
   than $\nu$, and let $j\in\clientset$ be a client that is not
   exhausted when $\nu$ is created. Then we have (a) $\tcc_\eta(j) \le
   \tcc_{\nu}(j)$, and (b) if $\nu\in j$ then $\tcc_\eta(j) \le
