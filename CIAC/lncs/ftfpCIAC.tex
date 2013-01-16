@@ -25,7 +25,7 @@
 
 \title{LP-rounding Algorithms for the Fault-Tolerant\\
  		Facility Placement Problem (Extended Abstract)
-		\thanks{Full version available in~\cite{YanC12}}
+		\thanks{Research supported by NSF Grant CCF-1217314.}
 		}
 
               \author{Li Yan and Marek Chrobak}
@@ -39,25 +39,17 @@
 
 \begin{abstract} 
   The Fault-Tolerant Facility Placement problem (FTFP) is a
-  generalization of the classic Uncapacitated Facility Location
+  generalization of the Uncapacitated Facility Location
   Problem (UFL). In FTFP we are given a set of facility sites and a
   set of clients. Opening a facility at site $i$ costs $f_i$ and
-  connecting client $j$ to a facility at site $i$ costs $d_{ij}$. We
-  assume that the connection costs (distances) $d_{ij}$ satisfy the
+  connecting client $j$ to a facility at site $i$ costs $d_{ij}$, where the 
+  costs $d_{ij}$ satisfy the
   triangle inequality. Multiple facilities can be opened at any
   site. Each client $j$ has a demand $r_j$, which means that it needs
-  to be connected to $r_j$ different facilities (some of which could
-  be located on the same site). The goal is to minimize the sum of
+  to be connected to $r_j$ different facilities. The goal is to minimize the sum of
   facility opening cost and connection cost. The main result of this
   paper is a $1.575$-approximation algorithm for FTFP, based on
-  LP-rounding. The algorithm first reduces the demands to values
-  polynomial in the number of sites. Then it uses a technique that we
-  call adaptive partitioning, which splits clients into unit demands
-   and appropriately partitions the
-fractional solution. The partitioned solution satisfies properties
-  which allow us to exploit existing LP-rounding methods for UFL to
-  round our partitioned solution to an integral solution, preserving
-  the approximation ratio. 
+  LP-rounding. 
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,24 +62,22 @@ In the \emph{Fault-Tolerant Facility Placement} problem
 which facilities can be built, and a set $\clientset$ of
 \emph{clients} with some demands that need to be satisfied
 by different facilities. A client $j$ has demand
-$r_j$. Building one facility at a site $i$ incurs a cost
+$r_j$. Building one facility at a site $i$ costs
 $f_i$, and connecting one unit of demand from client $j$ to
 a facility at site $i\in\sitesset$ costs $d_{ij}$.
-We assume that the connection costs $d_{ij}$ are
+The connection costs $d_{ij}$ are
 symmetric and satisfy the triangle inequality. In a feasible solution, some
 number of facilities, possibly zero, are opened at each site
 $i$, and demands from each client are connected to those
 open facilities, with the constraint that demands from the
 same client have to be connected to different
-facilities (possibly on the same site).
+facilities.
 
 It is easy to see that if all $r_j=1$ then FTFP reduces to
 the classic Uncapacitated Facility Location problem (UFL).
 If we add a constraint that each site can have at most one
 facility, then the problem is equivalent to the Fault-Tolerant Facility
-Location problem (FTFL). Note that
-in FTFL we have $\max_{j\in\clientset}r_j \leq |\sitesset|$, 
-while in FTFP the values of $r_j$'s can be much bigger than $|\sitesset|$.
+Location problem (FTFL). 
 
 Great progress has been achieved lately in designing
 approximation algorithms for UFL.
@@ -128,11 +118,9 @@ only if $\max_{j\in\clientset} r_j$ is polynomial in
 $O(|\sitesset|\cdot |\clientset|)$ and their analysis of the
 approximation ratio is flawed\footnote{Confirmed through
   private communication with the authors.}.  To date, the
-best approximation ratio for FTFP is $3.16$ in~\cite{YanC11}, 
+best ratio for FTFP is $3.16$ in~\cite{YanC11}, 
 while the only known lower bound is the $1.463$ lower bound for UFL
 from~\cite{GuhaK98}, that applies to FTFP.
-
-\smallskip
 
 The main result of this paper is an LP-rounding algorithm for FTFP
 with approximation ratio 1.575, matching the best ratio for UFL
@@ -156,22 +144,6 @@ able to extend UFL rounding algorithms
 in~\cite{gupta08,ChudakS04,ByrkaGS10}, retaining the approximation
 ratio.
 
-Summarizing, we show that the existing LP-rounding
-algorithms for UFL can be extended to a much more general
-problem FTFP. We believe
-that, should even better LP-rounding algorithms be developed
-for UFL, using our demand reduction and
-adaptive partitioning methods, it should be possible to
-extend them to FTFP.  In fact, some improvement of the ratio
-can be achieved by randomizing the parameter
-$\gamma$ used in Section~\ref{sec: 1.575-approximation}, as Li showed in \cite{Li11}
-for UFL.  Our ratio of $1.575$ is significantly better
-than the best ratio of $1.7245$ for the closely-related FTFL
-problem. This suggests that in the fault-tolerant scenario
-the capability of creating additional copies of facilities
-makes the problem easier from the point of view of
-approximation.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LP ForMULATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -182,7 +154,7 @@ The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
 built at site $i$ and let $x_{ij}$ represent the number of
 connections from client $j$ to facilities at site $i$. If we
-relax the integrality constraints, we obtain the following LP:
+relax the integrality constraints, we obtain the following LP and its dual:
 
 \noindent
 \hspace{-0.1in}
@@ -216,30 +188,25 @@ relax the integrality constraints, we obtain the following LP:
 \end{alignat}
 \end{minipage}
 
-In each of our algorithms we will fix some optimal solutions of the
-LPs (\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual}) that we will
+In the paper we fix some optimal solutions of the
+LPs (\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual}) that we
 denote by $(\bfx^\ast, \bfy^\ast)$ and $(\bfalpha^\ast,\bfbeta^\ast)$,
-respectively. With $(\bfx^\ast, \bfy^\ast)$ fixed, we can define the
+respectively. We then define the
 optimal facility cost as $F^\ast=\sum_{i\in\sitesset} f_i y_i^\ast$
 and the optimal connection cost as $C^\ast =
 \sum_{i\in\sitesset,j\in\clientset} d_{ij}x_{ij}^\ast$.  Then
 $\LP^\ast = \cost(\bfx^\ast,\bfy^\ast) = F^\ast+C^\ast$ is the joint
 optimal value of (\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual}).  We
 can also associate with each client $j$ its fractional connection cost
-$C^\ast_j = \sum_{i\in\sitesset} d_{ij}x_{ij}^\ast$.  Clearly, $C^\ast
-= \sum_{j\in\clientset} C^\ast_j$.  Throughout the paper we will use
+$C^\ast_j = \sum_{i\in\sitesset} d_{ij}x_{ij}^\ast$.  We use
 notation $\OPT$ for the optimal integral solution of
-(\ref{eqn:fac_primal}).  $\OPT$ is the value we wish to approximate,
-but, since $\OPT\ge\LP^\ast$, we can instead use $\LP^\ast$ to
-estimate the approximation ratio of our algorithms.
+(\ref{eqn:fac_primal}). 
 
 %%%%%%%%%
 
 Define $(\bfx^\ast, \bfy^\ast)$ to be \emph{complete} if
 $x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all
-$i,j$. In other words, each connection either uses a site
-fully or not at all.  As shown by Chudak and
-Shmoys~\cite{ChudakS04}, we can modify the given instance by
+$i,j$. As shown in~\cite{ChudakS04}, we can modify the given instance by
 adding at most $|\clientset|$ sites to obtain an equivalent
 instance that has a complete optimal solution.
 
@@ -252,17 +219,8 @@ instance that has a complete optimal solution.
 This section presents a \emph{demand reduction} trick that
 reduces the problem for arbitrary demands to a special case
 where demands are bounded by $|\sitesset|$.
-(The formal statement is a little more technical --
-see Theorem~\ref{thm: reduction to polynomial}.) 
-
 The reduction is based on a complete optimal fractional solution
-$(\bfx^\ast,\bfy^\ast)$ of LP (\ref{eqn:fac_primal}). From the
-optimality of this solution, we can also assume that
-$\sum_{i\in\sitesset} x^\ast_{ij} = r_j$ for all
-$j\in\clientset$.  As explained in Section~\ref{sec: the lp
-  formulation}, we can assume that $(\bfx^\ast,\bfy^\ast)$
-is complete, that is $x^\ast_{ij} > 0$ implies $x^\ast_{ij}
-= y^\ast_i$ for all $i,j$.  We split this solution into two
+$(\bfx^\ast,\bfy^\ast)$ of LP (\ref{eqn:fac_primal}). We split this solution into two
 parts, namely $(\bfx^\ast,\bfy^\ast) = (\hatbfx,\hatbfy)+
 (\dotbfx,\dotbfy)$, where
 %
@@ -275,30 +233,20 @@ $
 for all $i,j$. Now we construct two
 FTFP instances $\hatcalI$ and $\dotcalI$ with the same
 parameters as the original instance, except that the demand of each client $j$ is
-$\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$ in instance $\hatcalI$ and
-$\dotr_j = \sum_{i\in\sitesset} \dotx_{ij} = r_j - \hatr_j$ in instance $\dotcalI$. 
+$\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$ in $\hatcalI$ and
+$\dotr_j = \sum_{i\in\sitesset} \dotx_{ij} = r_j - \hatr_j$ in $\dotcalI$. 
 It is obvious that if we have integral solutions to both $\hatcalI$
 and $\dotcalI$ then, when added together, they form an integral
-solution to the original instance.  Moreover, we have the
-following lemma.
-
-%%%%%%%%%%
-
-\begin{lemma}\label{lem: polynomial demands partition}
+solution to the original instance.  Moreover, it can be shown that
 {\rm (i)}
   $(\hatbfx, \hatbfy)$ is a feasible integral solution to
   instance $\hatcalI$.
-
-\noindent
 {\rm (ii)}
   $(\dotbfx, \dotbfy)$ is a feasible fractional
   solution to instance $\dotcalI$.
-
-\noindent
 {\rm (iii)}
 $\dotr_j\leq |\sitesset|$ for every client $j$.
-
-\end{lemma}
+From these properties, we derive the following theorem (proof omitted).
 
 
 %%%%%%%%%%%%%%%
@@ -311,30 +259,6 @@ $\dotr_j\leq |\sitesset|$ for every client $j$.
   within factor $\rho\geq 1$.  Then there is a
   $\rho$-approximation algorithm $\calA'$ for {\FTFP}.
 \end{theorem}
-
-%%%%%%%%%%%%%%%
-
-\begin{proof}
-  Algorithm~$\calA'$ solves the LP~(\ref{eqn:fac_primal}) to obtain a
-  fractional optimal solution $(\bfx^\ast,\bfy^\ast)$, it constructs
-  instances $\hatcalI$ and $\dotcalI$ described above,  applies
-  algorithm~$\calA$ to $\dotcalI$, and finally adds 
- the integral solution $(\hatbfx, \hatbfy)$ of
-  $\hatcalI$ and the integral solution of $\dotcalI$ produced
-  by $\calA$. This produces a feasible integral
-  solution for the original instance. The solution produced by 
-$\calA$ has cost at most
-$\rho\cdot\cost(\dotbfx,\dotbfy)$, because $(\dotbfx,\dotbfy)$
-is feasible for $\dotcalI$. Thus the cost of $\calA'$ is at most
-% 
-$
- \cost(\hatbfx, \hatbfy) + \rho\cdot\cost(\dotbfx,\dotbfy)
-	\le
- \rho(\cost(\hatbfx, \hatbfy) + \cost(\dotbfx,\dotbfy))
-		= \rho\cdot\LP^\ast \le \rho\cdot\OPT
-$. 
-\qed
-\end{proof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -759,8 +683,8 @@ refined.)
 \section{Algorithm~{\EGUP} with Ratio $3$}
 \label{sec: 3-approximation}
 
-We first describe a simple algorithm that achieves ratio $3$. We use
-this relatively simple algorithm to illustrate how the properties of
+We first describe a simple algorithm that achieves ratio $3$, in order to
+illustrate how the properties of
 our partitioned fractional solution are used in rounding to obtain an
 integral solution with cost close to an optimal solution. The rounding
 approach is an extension to the method for UFL in~\cite{gupta08}.
@@ -780,9 +704,7 @@ demands that are assigned to $\kappa$.
 
 In our description above, the algorithm is presented as a randomized
 algorithm. It can be de-randomized using the method of conditional
-expectations, standard enough that presenting it here would be
-redundant. Readers less familiar with this field are recommended to
-consult \cite{ChudakS04}.
+expectations.
 
 %%%%%
 
@@ -804,13 +726,8 @@ Algorithm~{\EGUP} is a $3$-approximation algorithm.
 \end{theorem}
 
 \begin{proof}
-  By~(SI.\ref{SI:primary disjoint}), different
-  demands from the same client are assigned to different
-  primary demands, and by (PD.\ref{PD:disjoint}) each primary
-  demand opens a different facility. This ensures that our
-  solution is feasible, namely each client $j$ is connected
-  to $r_j$ different facilities (some possibly located on
-  the same site).  As for the total cost,
+  The feasibility follows from~(SI.\ref{SI:primary disjoint}) and (PD.\ref{PD:disjoint}).
+As for the total cost,
   Lemma~\ref{lemma:3fac} and Lemma~\ref{lemma:3dist} imply
   that the total cost is at most
   $F^\ast+C^\ast+2\cdot\LP^\ast = 3\cdot\LP^\ast \leq
@@ -828,11 +745,7 @@ Algorithm~{\EGUP} is a $3$-approximation algorithm.
 \section{Algorithm~{\ECHS} with Ratio $1.736$}\label{sec: 1.736-approximation}
 
 We now improve the approximation ratio to $1+2/e \approx
-1.736$.  The facility opening cost of
-Algorithm~{\EGUP} does not exceed that of the fractional optimum
-solution, while the connection cost is quite far from the optimum,
-since we estimate this cost using the
-triangle inequality. The basic idea to improve this estimate,
+1.736$. The basic idea to improve the ratio,
 following the approach of Chudak and
 Shmoys~\cite{ChudakS04}, is to connect a non-primary demand to its
 nearest neighbor when one is available and only use indirect connections
@@ -918,24 +831,12 @@ algorithm for $\FTFP$, where $1.575$ is the rounded value of $\min_{\gamma\geq
   1}\max\{\gamma, 1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\}$.
  This matches the ratio of the best
 known LP-rounding algorithm for UFL by
-Byrka~{\etal}~\cite{ByrkaGS10}. Recall that in Section~\ref{sec:
-  1.736-approximation} we showed how to compute an integral solution
-with facility cost bounded by $F^\ast$ and connection cost bounded by
-$C^\ast + 2/e\cdot\LP^\ast$. A natural idea is to balance these two
-costs, by reducing the connection cost, at the expense of slightly
-increasing the facility cost.
-
+Byrka~{\etal}~\cite{ByrkaGS10}. 
 Our approach is a combination of the ideas
 in~\cite{ByrkaGS10} with the techniques of demand reduction and
 adaptive partitioning that we introduced earlier. However, our
 adaptive partitioning technique needs to be carefully modified because
-now we will be using a more intricate neighborhood structure, with the
-neighborhood of each demand divided into two parts, the close and far
-neighborhood, and with some conditions on which pairs of neighborhoods
-need to overlap and which need to be disjoint. The final rounding
-stage that construct an integral solution is a relatively
-straightforward generalization of the rounding method in
-\cite{ByrkaGS10}.
+now we will be using a more intricate neighborhood structure.
 
 We begin by describing properties that our partitioned fractional
 solution $(\barbfx,\barbfy)$ needs to satisfy. The neighborhood
@@ -944,8 +845,7 @@ parts.  The first part, called the \emph{close neighborhood}
 $\wbarclsnb(\nu)$, contains the facilities in $\wbarN(\nu)$ nearest to
 $\nu$ with the total connection value equal $1/\gamma$. The second
 part, called the \emph{far neighborhood} $\wbarfarnb(\nu)$, contains
-the remaining facilities in $\wbarN(\nu)$. The formal definitions of
-these sets are given below in Property~(NB).  The respective average
+the remaining facilities in $\wbarN(\nu)$ (see below). The respective average
 connection costs from $\nu$ for these sets are defined by
 $\clsdist(\nu)=\gamma\sum_{\mu\in\wbarclsnb(\nu)}
 d_{\mu\nu}\barx_{\mu\nu}$ and
@@ -954,8 +854,7 @@ d_{\mu\nu}\barx_{\mu\nu}$. We will also use notation
 $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for the maximum
 distance from $\nu$ to its close neighborhood.
 
-Our partitioned solution $(\barbfx,\barbfy)$ must satisfy the same
-partitioning and completeness properties as before, namely properties
+Our partitioned solution $(\barbfx,\barbfy)$ must satisfy properties
 (PS) and (CO) in Section~\ref{sec: adaptive partitioning}.  In
 addition, it must satisfy new neighborhood property (NB) and modified
 properties (PD') and (SI'), listed below.
@@ -1012,8 +911,7 @@ properties (PD') and (SI'), listed below.
 		  $\wbarN(\nu)\cap \wbarN(\nu') = \emptyset$.
 		
 	\item \label{SI1:primary disjoint} If $\nu$ is assigned to a primary demand $\kappa$ then
- 		$\wbarN(\nu')\cap \wbarclsnb(\kappa) = \emptyset$. In particular, by Property~(PD.\ref{PD1:assign:overlap}),
-		this implies that different sibling demands are assigned to different primary demands.
+ 		$\wbarN(\nu')\cap \wbarclsnb(\kappa) = \emptyset$. 
 
 	\end{enumerate}
 	
@@ -1024,10 +922,6 @@ properties (PD') and (SI'), listed below.
 \myparagraph{Modified adaptive partitioning.}
  As in Section~\ref{sec: adaptive partitioning}, our modified partitioning algorithm
 has two phases.
-In Phase~1 we split clients into demands and create facilities on
-sites, while in Phase~2 we augment each demand's
-connection values so that its total value is $1$.
-
 Phase~1 runs in iterations. Consider any client $j$.  As before,
 $\wtildeN(j)$ is the neighborhood of $j$ with respect to the yet
 unpartitioned solution, namely the set of facilities $\mu$ such that
@@ -1049,7 +943,7 @@ $.
 In each iteration, we find a not yet exhausted client $p$ that minimizes the
 value of $\tcc_\gamma(p) + \dmax_\gamma(p)$. Now we have two cases:
 
-\smallskip
+
 \noindent
 {\mycase{1}} $\wtildeN_{\gamma}(p) \cap
   \wbarclsnb(\kappa)\neq\emptyset$, for some existing primary demand
@@ -1067,7 +961,7 @@ value of $\tcc_\gamma(p) + \dmax_\gamma(p)$. Now we have two cases:
   potentially add facilities closer to $\nu$ than facilities already
   in $\wbarN(\nu)$.
 
-\smallskip
+
 \noindent
 {\mycase{2}} $\wtildeN_{\gamma}(p) \cap \wbarclsnb(\kappa) =
   \emptyset$, for all existing primary demands $\kappa$.  In this case
@@ -1083,7 +977,6 @@ value of $\tcc_\gamma(p) + \dmax_\gamma(p)$. Now we have two cases:
   \wtildeN_{\gamma}(p)$. Thus $\wbarclsnb(\nu)$ is defined when $\nu$
   is created.
 
-\smallskip
 
 Once all clients are exhausted, that is, each client $j$ has $r_j$
 demands created, Phase~1 concludes. We then do Phase~2, the augmenting
@@ -1094,8 +987,6 @@ make its total connection value equal $1$, as before a facility is
 removed from $\wtildeN(j)$ once added to a demand's neighborhood. We
 do facility split if necessary to make $\wbarN(\nu)$ have total
 connection value of 1.  
-
-\smallskip
 
 We argue that the fractional solution $(\barbfx,\barbfy)$
 satisfies all the stated properties. Properties~(PS), (CO), (NB),
@@ -1176,16 +1067,13 @@ $\nu$ is assigned to.
 
 \myparagraph{Analysis.}
 The feasibility of our integral solution follows from
-Properties~(SI.\ref{SI1:siblings disjoint}), (SI.\ref{SI1:primary
+(SI.\ref{SI1:siblings disjoint}), (SI.\ref{SI1:primary
   disjoint}), and (PD.\ref{PD1:disjoint}), as these properties together
 ensure that each facility is accessible to at most one demand among
-sibling demands of the same client, regardless whether a demand
-connects to its neighbor or its target facility.
-
+sibling demands of the same client.
 The expected facility cost of our algorithm is bounded by $\gamma
 F^\ast$, using essentially the same argument as in the previous
-section (with the the factor $\gamma$ accounting for using
-probabilities $\gamma \bary_{\mu}$ instead of $\bary_{\mu}$).  It is
+section.  It is
 also possible to show that the expected connection cost can be bounded
 by $C^\ast \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
 1+\frac{2}{e^\gamma}\}$.Hence the total cost is bounded by
@@ -1200,7 +1088,123 @@ obtain:
 
 %%%%%%%%%%%%%%%%%%%%%%
 
-\bibliographystyle{plain}
-\bibliography{facility}
+\begin{thebibliography}{10}
+
+\bibitem{AryaGKMMP04}
+V.~Arya, N.~Garg, R.~Khandekar, A.~Meyerson, K.~Munagala, and
+  V.~Pandit.
+ Local search heuristics for k-median and facility location problems.
+ {\em SIAM J. Comput.}, 33(3):544--562, 2004.
+
+\bibitem{ByrkaA10}
+J.~Byrka and K.~Aardal.
+ An optimal bifactor approximation algorithm for the metric
+  uncapacitated facility location problem.
+ {\em SIAM J. Comput.}, 39(6):2212--2231, 2010.
+
+\bibitem{ByrkaGS10}
+J.~Byrka, M.R.~Ghodsi, and A.~Srinivasan.
+ {LP}-rounding algorithms for facility-location problems.
+ {\em CoRR}, abs/1007.3611, 2010.
+
+\bibitem{ByrkaSS10}
+J.~Byrka, A.~Srinivasan, and C.~Swamy.
+ Fault-tolerant facility location, a randomized dependent
+  {LP}-rounding algorithm.
+ In {\em Proc. 14th IPCO}, 244--257, 2010.
+
+\bibitem{ChudakS04}
+F.~Chudak and D.~Shmoys.
+ Improved approximation algorithms for the uncapacitated facility
+  location problem.
+ {\em SIAM J. Comput.}, 33(1):1--25, 2004.
+
+\bibitem{GuhaK98}
+S.~Guha and S.~Khuller.
+ Greedy strikes back: improved facility location algorithms.
+ In {\em Proc. 9th SODA}, 649--657, 1998.
+
+\bibitem{GuhaMM01}
+S.~Guha, A.~Meyerson, and K.~Munagala.
+ Improved algorithms for fault tolerant facility location.
+ In {\em Proc. 12th SODA}, 636--641, 2001.
+
+\bibitem{GuhaMM03}
+S.~Guha, A.~Meyerson, and K.~Munagala.
+ A constant factor approximation algorithm for the fault-tolerant
+  facility location problem.
+ {\em J. Algorithms}, 48(2):429--440, 2003.
+
+\bibitem{gupta08}
+A.~Gupta.
+ Lecture notes: {{CMU}} 15-854b, spring 2008.
+
+\bibitem{JainMMSV03}
+K.~Jain, M.~Mahdian, E.~Markakis, A.~Saberi, and V.~Vazirani.
+ Greedy facility location algorithms analyzed using dual fitting with
+  factor-revealing {LP}.
+ {\em J. ACM}, 50(6):795--824, 2003.
+
+\bibitem{JainV01}
+K.~Jain and V.~Vazirani.
+ Approximation algorithms for metric facility location and k-median
+  problems using the primal-dual schema and lagrangian relaxation.
+ {\em J. ACM}, 48(2):274--296, 2001.
+
+\bibitem{JainV03}
+K.~Jain and V.~Vazirani.
+ An approximation algorithm for the fault tolerant metric facility
+  location problem.
+ {\em Algorithmica}, 38(3):433--439, 2003.
+
+\bibitem{Li11}
+S.~Li.
+ A 1.488 approximation algorithm for the uncapacitated facility
+  location problem.
+ In {\em Proc. 38th ICALP}, 77--88, 2011.
+
+\bibitem{LiaoShen11}
+K.~Liao and H.~Shen.
+ Unconstrained and constrained fault-tolerant resource allocation.
+ In {\em Proc. 17th COCOON}, 555--566, 2011.
+
+\bibitem{ShmoysTA97}
+D.~Shmoys, E.~Tardos, and K.~Aardal.
+ Approximation algorithms for facility location problems (extended
+  abstract).
+ In {\em Proc. 29th STOC}, 265--274, 1997.
+
+\bibitem{Svi02}
+M.~Sviridenko.
+ An improved approximation algorithm for the metric uncapacitated
+  facility location problem.
+ In {\em Proc. 9th IPCO},  240--257, 2002.
+
+\bibitem{SwamyS08}
+C.~Swamy and D.~Shmoys.
+ Fault-tolerant facility location.
+ {\em ACM Trans. Algorithms}, 4(4):1--27, 2008.
+
+\bibitem{vygen05}
+J.~Vygen.
+ {\em Approximation Algorithms for Facility Location Problems}.
+ Forschungsinst. f\"{u}r Diskrete Mathematik, 2005.
+
+\bibitem{XuS09}
+S.~Xu and H.~Shen.
+ The fault-tolerant facility allocation problem.
+ In {\em Proc. 20th ISAAC}, 689--698, 2009.
+
+\bibitem{YanC11}
+L.~Yan and M.~Chrobak.
+ Approximation algorithms for the fault-tolerant facility placement
+  problem.
+ {\em Inf. Process. Lett.}, 111(11):545--549, 2011.
+
+\end{thebibliography}
+
+
+
+
 
 \end{document}
