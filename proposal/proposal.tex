@@ -4,6 +4,9 @@
 
 \newcommand{\fac}{\mathcal{F}}
 \newcommand{\cli}{\mathcal{C}}
+\newcommand{\PP}{\textsf{P}}
+\newcommand{\NP}{\textsf{NP}}
+\newcommand{\DTIME}{\textsf{DTIME}}
 
 \title{On the Approximation Algorithms for the Fault-tolerant Facility Location Problem\\(Research Proposal towards PhD Defense)}
 \author{Li Yan\\Computer Science\\U of California Riverside}
@@ -11,6 +14,7 @@
 \begin{document}
 \maketitle
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 The Facility Location problem is a wellknown problem in theoretical
 computer science and operations research. The classic problem is the
@@ -35,9 +39,40 @@ In the following we first review the related work in UFL, then we
 discuss our result for FTFP, lastly we briefly describe some on-going
 work and a plan towards the final defense.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Review of Known Results for the Uncapacitated Facility
   Location problem}
-\section{Preliminary Results for the Fault-tolerant Facility Placement Problem}
+It is easy to see that the UFL problem contains the Set Cover problem
+as a special case. hence it is NP-hard and does not admit a polynomial
+time algorithm with approximation ratio better than $(1-\epsilon)\ln
+n$ for any constant $\epsilon >0$, unless $\NP \subseteq
+\DTIME(n^{O(\log\log n)})$. On the other hand, Hochbaum showed that
+the greedy algorithm which repeatedly picks the most cost-effective
+star, consisting of one facility and a set of clients, achieved a
+performance guarantee of $H_n = \ln + 1$. This shows that the lower
+bound and upper bound of approximation ratio match for general UFL. In
+the following we assume the connection cost, or the distances $d_{ij}$
+satisfy the triangle inequality, that is, for any two facilities $i_1,
+i_2$ and two clients $j_1, j_2$, we have $d_{i_1 j_2} \leq d_{i_1 j_1}
++ d_{i_2 j_1} + d_{i_2 j_2}$.
+
+The metric UFL problem has been shown to be APX-hard and unless $\PP
+= \NP$, there is no polynomial time algorithm giving approximation
+ratio better than $1.463$ (add the equation here).
+
+There are a number of approximation algorithms progressing towards
+this $1.463$ lower bound. The current best known approximation ratio
+is $1.488$.  The algorithms can be classified into two categories:
+LP-based and combinatorial. The LP-based algorithms require to solve
+the LP to obtain a fractional optimal solution and then round it to an
+integral solution. Combinatorial algorithms include primal-dual,
+greedy analyzed with dual-fitting, local search.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preliminary Results for the Fault-tolerant Facility Placement
+  Problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{On-going Work and Expected Results}
 
 \end{document}
