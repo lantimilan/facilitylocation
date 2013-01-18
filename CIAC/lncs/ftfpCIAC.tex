@@ -26,6 +26,7 @@
 \title{LP-rounding Algorithms for the Fault-Tolerant\\
  		Facility Placement Problem (Extended Abstract)
 		\thanks{Research supported by NSF Grant CCF-1217314.}
+    \thanks{Full version available in ~\cite{YanC12}.}
 		}
 
               \author{Li Yan and Marek Chrobak}
@@ -85,17 +86,16 @@ Shmoys~\etal~\cite{ShmoysTA97} proposed an approach based on
 LP-rounding, achieving a ratio of 3.16.  This was then
 improved by Chudak~\cite{ChudakS04} to 1.736, and later by
 Sviridenko~\cite{Svi02} to 1.582.  Byrka~\cite{ByrkaA10}
-gave an improved algorithm with ratio 1.5, by a combination of
-LP-rounding with dual-fitting techniques.  Recently, Li~\cite{Li11} refined
-the method from \cite{ByrkaA10} to obtain ratio 1.488, which is now
-the best known approximation result for UFL. Other
-techniques include the primal-dual algorithm by Jain and
-Vazirani~\cite{JainV01}, the dual fitting method by
-Jain~{\etal}~\cite{JainMMSV03}, and a local search heuristic
-by Arya~{\etal}~\cite{AryaGKMMP04}.  On the hardness side,
-it is known that it is not possible to approximate UFL in
-polynomial time with ratio less than $1.463$, provided that
-$\NP\not\subseteq\DTIME(n^{O(\log\log
+gave an improved algorithm with ratio 1.5, by a combination
+of LP-rounding with dual-fitting techniques.  Recently,
+Li~\cite{Li11} refined the method from \cite{ByrkaA10} to
+obtain ratio 1.488, which is now the best known
+approximation result for UFL. Other techniques include the
+primal-dual algorithm by Jain and Vazirani~\cite{JainV01},
+the dual fitting method by Jain~{\etal}~\cite{JainMMSV03}.
+On the hardness side, it is known that it is not possible to
+approximate UFL in polynomial time with ratio less than
+$1.463$, provided that $\NP\not\subseteq\DTIME(n^{O(\log\log
   n)})$~\cite{GuhaK98}. An observation by Sviridenko
 strengthened this assumption to $\PP\neq
 \NP$~\cite{vygen05}.
@@ -105,7 +105,7 @@ Vazirani~\cite{JainV03} who gave a primal-dual algorithm
 with ratio $3\ln(\max_{j\in\clientset}r_j)$.  All
 subsequently discovered constant-ratio approximation
 algorithms use variations of LP-rounding, including the work
-by Guha~{\etal}~\cite{GuhaMM01}, Swamy and
+by Guha~{\etal}~\cite{GuhaMM03}, Swamy and
 Shmoys~\cite{SwamyS08}, and Byrka~{\etal}~\cite{ByrkaSS10},
 who improved the ratio to 1.7245, the best known
 approximation ratio for FTFL.
@@ -298,9 +298,7 @@ j$.  We define $\concost_{\nu}
 \sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$.  One can
 think of $\concost_{\nu}$ as the average connection cost of
 demand $\nu$, if we chose a connection to facility $\mu$
-with probability $\barx_{\mu\nu}$. In our partitioned
-fractional solution we guarantee for every $\nu$ that
-$\sum_{\mu\in\facilityset} \barx_{\mu\nu}=1$. Our partition
+with probability $\barx_{\mu\nu}$. Our partition
 algorithm resembles superficially to the uncrossing
 technique in Guha \etal's~\cite{GuhaMM03}
 $O(1)$-approximation algorithm for FTFL, nonetheless our
@@ -328,9 +326,8 @@ one of facility in a primary demand's neighborhood and, (ii)
 to obtain an estimate on the probability that none of a
 demand's neighbor is open. We also need sibling demands
 assigned to different primary demands to satisfy the
-fault-tolerance requirement. Specifically, this partitioning
-will be constructed to satisfy a number of properties that
-are detailed below.
+fault-tolerance requirement. The properties are detailed
+below.
 %
 \begin{description}
 	
@@ -459,14 +456,22 @@ after every iteration:
 \item (c2) For each client $j$, either $\tildex_{\mu j}=0$ or
   $\tildex_{\mu j}=\bary_{\mu}$.
 \end{description}
-It may appear that (c1) is the same property as (CO), yet we repeat it
-here as (c1) needs to hold after every iteration, while (CO) only
-applies to the final partitioned fractional solution $(\barbfx,
-\barbfy)$. A full description of the algorithm is given in
-Pseudocode~\ref{alg:lpr2}.
+It may appear that (c1) is the same property as (CO), yet we
+repeat it here as (c1) needs to hold after every iteration,
+while (CO) only applies to the final partitioned fractional
+solution $(\barbfx, \barbfy)$. A full description of the
+algorithm is given in Pseudocode~\ref{alg:lpr2}. The two
+helper routines {\NearestUnitChunk} and {\AugmentToUnit} can
+be found in the full verion~\cite{YanC12}. At a high level,
+{\NearestUnitChunk} orders facilities in $\wtildeN(j)$ by
+nonincreasing order of distance to $j$ and returns a closest
+set of facilities such that the total connection value
+$\tildex_{\mu j}$ is equal to $1$. {\AugmentToUnit} works
+by adding facilities to $\wbarN(\nu)$ for each demand $\nu$
+until all of them have a total connection value
+$\barx_{\mu\nu}$ of $1$.
 %%%%%%%%%%%
-
-\begin{algorithm}[ht]
+\begin{algorithm}
   \caption{Algorithm: Adaptive Partitioning}
   \label{alg:lpr2}
   \begin{algorithmic}[1]
@@ -486,7 +491,7 @@ Pseudocode~\ref{alg:lpr2}.
 
     \While{$U\neq \emptyset$}
     \For{each $j\in U$}
-    \State $\wtildeN_1(j) \assign {\NearestUnitChunk}(j, \facilityset, \tildebfx, \barbfx, \barbfy)$ \Comment see Pseudocode~\ref{alg:helper}
+    \State $\wtildeN_1(j) \assign {\NearestUnitChunk}(j, \facilityset, \tildebfx, \barbfx, \barbfy)$
     \State $\tcc(j)\assign \sum_{\mu\in \wtildeN_1(j)} d_{{\mu}j}\cdot \tildex_{\mu j}$
     \EndFor
  
@@ -510,7 +515,7 @@ Pseudocode~\ref{alg:lpr2}.
     \For{each client $j\in\clientset$} \Comment{Phase 2}
     \For{each demand $\nu\in j$}    \Comment{each client $j$ has $r_j$ demands}
     \State \textbf{if} $\sum_{\mu\in \wbarN(\nu)}\barx_{\mu\nu}<1$
-    \textbf{then} $\AugmentToUnit(\nu, j, \facilityset, \tildebfx, \barbfx, \barbfy)$ \Comment see Pseudocode~\ref{alg:helper}
+    \textbf{then} $\AugmentToUnit(\nu, j, \facilityset, \tildebfx, \barbfx, \barbfy)$
     \EndFor
     \EndFor
   \end{algorithmic}
@@ -518,46 +523,6 @@ Pseudocode~\ref{alg:lpr2}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% subroutine: NearestUnitChunk and AugmentToUnit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{algorithm}[ht]
-  \caption{Helper functions used in Pseudocode~\ref{alg:lpr2}}
-  \label{alg:helper}
-  \begin{algorithmic}[1]
-    \Function{\NearestUnitChunk}{$j, \facilityset, \tildebfx, \barbfx,\barbfy$}		
-						\Comment upon return, $\sum_{\mu\in\wtildeN_1(j)} \tildex_{\mu j} = 1$
-    \State Let $\wtildeN(j) = \{\mu_1,...,\mu_{q}\}$ where $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq d_{\mu_{q j}}$
-    \State Let $l$ be such that $\sum_{k=1}^{l} \bary_{\mu_k} \geq 1$ and $\sum_{k=1}^{l -1} \bary_{\mu_{k}} < 1$
-    \State Create a new facility $\sigma$ at the same site as $\mu_l$ and add it to $\facilityset$
-			\Comment split $\mu_l$
-    \State Set $\bary_{\sigma}\assign \sum_{k=1}^{l} \bary_{\mu_{k}}-1$
-					and $\bary_{\mu_l} \assign \bary_{\mu_l} - \bary_{\sigma}$
-    \State For each $\nu\in\demandset$ with $\barx_{\mu_{l}\nu}>0$
- 			set $\barx_{\mu_{l}\nu} \assign \bary_{\mu_l}$ and $\barx_{\sigma \nu} \assign \bary_{\sigma}$
-    \State For each $j'\in\clientset$ with $\tildex_{\mu_{l} j'}>0$ (including $j$)
-			set $\tildex_{\mu_l j'} \assign \bary_{\mu_l}$ and $\tildex_{\sigma j'} \assign \bary_\sigma$
-	\State (All other new connection values are set to $0$)
-    \State \Return $\wtildeN_1(j) = \{\mu_{1},\ldots,\mu_{l-1}, \mu_{l}\}$    				
-    \EndFunction
-
-    \Function{\AugmentToUnit}{$\nu, j, \facilityset, \tildebfx, \barbfx, \barbfy$}
-    					\Comment $\nu$ is a demand of client $j$
-    \While{$\sum_{\mu\in \facilityset} \barx_{\mu\nu} <1$}
-    					\Comment upon return, $\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} = 1$
-    \State Let $\eta$ be any facility such that $\tildex_{\eta j} > 0$
-    \If{$1-\sum_{\mu\in \facilityset} \barx_{\mu\nu} \geq \tildex_{\eta j}$}
-    \State $\barx_{\eta\nu} \assign \tildex_{\eta j}, \tildex_{\eta j} \assign 0$
-    \Else
-    \State Create a new facility $\sigma$ at the same site as $\eta$ and add it to $\facilityset$
-    					\Comment split $\eta$
-    \State Let $\bary_\sigma \assign 1-\sum_{\mu\in \facilityset} \barx_{\mu\nu}, \bary_{\eta} \assign \bary_{\eta} - \bary_{\sigma}$
-    \State Set $\barx_{\sigma\nu}\assign \bary_{\sigma},\; \barx_{\eta \nu} \assign  0,\; \tildex_{\eta j} \assign \bary_{\eta}, \; \tildex_{\sigma j} \assign 0$
-    \State For each $\nu' \neq \nu$ with $\barx_{\eta \nu'}>0$ set $\barx_{\eta \nu'} \assign \bary_{\eta},\; \barx_{\sigma \nu'} \assign \bary_{\sigma}$
-    \State For each $j' \neq j$ with $\tildex_{\eta j'}>0$ set $\tildex_{\eta j'} \assign \bary_{\eta}, \tildex_{\sigma j'} \assign \bary_{\sigma}$
-	\State  (All other new connection values are set to $0$)
-    \EndIf
-    \EndWhile
-    \EndFunction
-  \end{algorithmic}
-\end{algorithm}
 
 %%%%%%%%%%%%%%
 
@@ -761,7 +726,6 @@ rounding process to compute an integral solution (see
 Pseudocode~\ref{alg:lpr3}).
 
 %%%%%%%%%%%%%
-
 \begin{algorithm}
   \caption{Algorithm~{\ECHS}:
     Constructing Integral Solution}
@@ -787,7 +751,6 @@ Pseudocode~\ref{alg:lpr3}).
     \EndFor
   \end{algorithmic}
 \end{algorithm}
-
 %%%%%%%%%%%%%%%%
 
 \myparagraph{Analysis.}
@@ -997,21 +960,22 @@ and (SI'.\ref{SI1:primary disjoint}) are similar to those in
 Section~\ref{sec: adaptive partitioning}, with the exception of
 (PD.\ref{PD:assign:overlap}), which we justify below.
 
-The argument for (PD.\ref{PD:assign:overlap}) is a bit subtle, because
-of complications arising in Phase 2.  This phase does not change close
-neighborhoods of primary demands, as each primary demand already
-contains all the nearest facilities with total connection value equal
-$1/\gamma$.  For non-primary demands, however, $\wbarN(\nu)$, for
-$\nu\in j$, takes all facilities in $\wbarclsnb(\kappa)\cap
-\wtildeN(j)$, which might be close to $\kappa$ but far from $j$.  As a
-result, facilities added in the augmenting phase might appear in
-$\wbarclsnb(\nu)$, yet they are not in $\wbarclsnb(\kappa)$, the close
-neighborhood of the primary demand $\kappa$ that $\nu$ is assigned
-to. It is conceivable that in a worst case, the facilities added in
-the augmenting phase form $\wbarclsnb(\nu)$ exclusively, which will
-then be disjoint from $\wbarclsnb(\kappa)$, and we may not have
-(PD.\ref{PD:assign:overlap}) for demand $\nu$. Nevertheless, we show
-that Property~(PD.\ref{PD:assign:overlap}) holds.
+The argument for (PD.\ref{PD:assign:overlap}) is a bit
+subtle, because of complications arising in Phase 2.  This
+phase does not change close neighborhoods of primary
+demands, as each primary demand already contains all the
+nearest facilities with total connection value equal
+$1/\gamma$.  For non-primary demands, however,
+$\wbarN(\nu)$, for $\nu\in j$, takes all facilities in
+$\wbarclsnb(\kappa)\cap \wtildeN(j)$, which might be close
+to $\kappa$ but far from $j$.  As a result, facilities added
+in the augmenting phase might appear in $\wbarclsnb(\nu)$,
+yet they are not in $\wbarclsnb(\kappa)$. It is conceivable
+that in a worst case, the facilities added in the augmenting
+phase form $\wbarclsnb(\nu)$ exclusively, which will then be
+disjoint from $\wbarclsnb(\kappa)$, and we may not have
+(PD.\ref{PD:assign:overlap}) for demand $\nu$. Nevertheless,
+we show that Property~(PD.\ref{PD:assign:overlap}) holds.
 
 Consider an iteration when we create a demand $\nu\in p$
 and assign it to $\kappa$. Then the set
@@ -1041,19 +1005,17 @@ must overlap.
 
 %%%%%%%%
 
-\myparagraph{Algorithm~{\EBGS}.}
-The complete algorithm starts with solving the linear program and
-computing the partitioning described earlier in this section.
-Given the partitioned fractional solution $(\barbfx,
-\barbfy)$ with the desired properties, we then start opening
-facilities and making connections to obtain an integral
-solution. As before, we open exactly one facility in each
+\myparagraph{Algorithm~{\EBGS}.}  The complete algorithm
+starts with solving the linear program and computing the
+partitioning described earlier in this section.  Given the
+partitioned fractional solution $(\barbfx, \barbfy)$ with
+the desired properties, we open exactly one facility in each
 cluster (the close neighborhood of a primary demand), but
 now each facility $\mu$ is chosen with probability
 $\gamma\bary_{\mu}$. The non-clusterd facilities $\mu$,
 those that do not belong to $\wbarN_{\cls}(\kappa)$ for any
 primary demand $\kappa$, are opened independently with
-probability $\gamma\bary_{\mu}$ each. 
+probability $\gamma\bary_{\mu}$ each.
 
 Next, we connect demands to facilities.  Each primary demand $\kappa$
 will connect to the only facility $\phi(\kappa)$ open in its cluster
@@ -1065,21 +1027,19 @@ $\nu$ is assigned to.
 
 %%%%%%%%%%%
 
-\myparagraph{Analysis.}
-The feasibility of our integral solution follows from
-(SI.\ref{SI1:siblings disjoint}), (SI.\ref{SI1:primary
-  disjoint}), and (PD.\ref{PD1:disjoint}), as these properties together
-ensure that each facility is accessible to at most one demand among
-sibling demands of the same client.
-The expected facility cost of our algorithm is bounded by $\gamma
-F^\ast$, using essentially the same argument as in the previous
-section.  It is
-also possible to show that the expected connection cost can be bounded
-by $C^\ast \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
-1+\frac{2}{e^\gamma}\}$.Hence the total cost is bounded by
+\myparagraph{Analysis.}  The feasibility of our integral
+solution follows from (SI.\ref{SI1:siblings disjoint}),
+(SI.\ref{SI1:primary disjoint}), and
+(PD.\ref{PD1:disjoint}), as these properties together ensure
+that each facility is accessible to at most one demand among
+sibling demands of the same client. It is possible to show
+that the expected facility cost of our algorithm is bounded
+by $\gamma F^\ast$ and the expected connection cost can be
+bounded by $C^\ast \max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
+1+\frac{2}{e^\gamma}\}$. Hence the total cost is bounded by
 $\max\{\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma},
-1+\frac{2}{e^\gamma}\}\cdot \LP^\ast$. Picking $\gamma=1.575$ we
-obtain:
+1+\frac{2}{e^\gamma}\}\cdot \LP^\ast$. Picking
+$\gamma=1.575$ we obtain:
 
 \begin{theorem}\label{thm:ebgs}
   Algorithm~{\EBGS} is a $1.575$-approximation algorithm for \FTFP.
@@ -1089,12 +1049,6 @@ obtain:
 %%%%%%%%%%%%%%%%%%%%%%
 
 \begin{thebibliography}{10}
-
-\bibitem{AryaGKMMP04}
-V.~Arya, N.~Garg, R.~Khandekar, A.~Meyerson, K.~Munagala, and
-  V.~Pandit.
- Local search heuristics for k-median and facility location problems.
- {\em SIAM J. Comput.}, 33(3):544--562, 2004.
 
 \bibitem{ByrkaA10}
 J.~Byrka and K.~Aardal.
@@ -1123,11 +1077,6 @@ F.~Chudak and D.~Shmoys.
 S.~Guha and S.~Khuller.
  Greedy strikes back: improved facility location algorithms.
  In {\em Proc. 9th SODA}, 649--657, 1998.
-
-\bibitem{GuhaMM01}
-S.~Guha, A.~Meyerson, and K.~Munagala.
- Improved algorithms for fault tolerant facility location.
- In {\em Proc. 12th SODA}, 636--641, 2001.
 
 \bibitem{GuhaMM03}
 S.~Guha, A.~Meyerson, and K.~Munagala.
@@ -1200,6 +1149,11 @@ L.~Yan and M.~Chrobak.
  Approximation algorithms for the fault-tolerant facility placement
   problem.
  {\em Inf. Process. Lett.}, 111(11):545--549, 2011.
+
+\bibitem{YanC12}
+L.~Yan and M.~Chrobak.
+{LP}-rounding Algorithms for the Fault-Tolerant Facility Placement Problem.
+{\em CoRR}, abs/1205.1281, 2012.
 
 \end{thebibliography}
 
