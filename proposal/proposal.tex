@@ -1,12 +1,15 @@
 \documentclass{article}
 
-\usepackage{fullpage, amsmath}
+\usepackage{fullpage, amsmath, amssymb}
 
 \newcommand{\fac}{\mathcal{F}}
 \newcommand{\cli}{\mathcal{C}}
 \newcommand{\PP}{\textsf{P}}
 \newcommand{\NP}{\textsf{NP}}
 \newcommand{\DTIME}{\textsf{DTIME}}
+\newcommand{\suchthat}{:}
+\newcommand{\mydef}{\text{def}}
+\newcommand{\wbar}{\overline}
 
 \title{On the Approximation Algorithms for the Fault-tolerant Facility Location Problem\\(Research Proposal towards PhD Defense)}
 \author{Li Yan\\Computer Science\\U of California Riverside}
@@ -67,6 +70,92 @@ LP-based and combinatorial. The LP-based algorithms require to solve
 the LP to obtain a fractional optimal solution and then round it to an
 integral solution. Combinatorial algorithms include primal-dual,
 greedy analyzed with dual-fitting, local search.
+
+\subsection{The LP-rounding Algorithms for UFL}
+STA97 is the first paper achieving a $O(1)$-approximation ratio for
+the UFL problem, and the clustering framework established in the same
+paper underlies all subsequent LP-rounding algorithms.
+
+Given a fractional optimal solution $(x_{ij}^\ast, y_i^\ast)$ to the
+LP, if all neighborhoods $N(j) = \{i\in\fac \suchthat x_{ij}^\ast >
+0\}$ are disjoint, then we can open exactly one facility in each
+$N(j)$, with each $i\in N(j)$ chosen with probability $y_i^\ast$. This
+will give us expected facility cost $F^\ast$ and connection cost
+$C^\ast$.  However, in general those neighborhoods will overlap and we
+cannot guarantee each client $j$ has one of its neighbor open if we
+open each $i$ independently with probability $y_i$. Now the triangle
+inequality helps. If we guarantee a subset of clients each having an
+open facility in its neighborhood, and for every client $j$ outside
+this subset, it can find a client $j'$ in the subset such that the
+distance $d_{j j'}$ is not too large, then we can estimate the
+connection cost of client $j$ by the sum of $d_{i' j'} + d_{j j'}$
+where $i'$ is a facility open in $N(j')$. Moreover, we would like to
+have all $j'$ in the subset with disjoint $N(j')$ so that we could
+have a handle on the facility cost.
+
+The Shmoys, Tardos and Aardal's algorithm now becomes natural. Given a
+fractional optimal solution $(x_{ij}^\ast, y_i^\ast)$, the algorithm
+first associate each client $j$ with a value $g(j)$, which is
+essentially an upper bound on the connection cost in the integral
+solution. Now the algorithm works in iterations. In one iteration it
+picks a non-clustered client with minimum $g(j)$, call it $p$, then
+all remaining clients $j'$ with $N(j')\cap N(p)$ non-empty will be
+added to the cluster centered at $p$. The iterations completes when
+all clients are clustered. The next step is to open the cheapest
+facility in each center's neighborhood and all clients assigned to
+that cluster will connect to that facility.
+
+To estimate the cost, it is easy to see the facility cost being
+bounded by $F^\ast$, since neighborhood of centers are disjoint and we
+effectively replacing a neighborhood with a minimum cost facility,
+whose cost must be no more than the average cost of that
+neighborhood. For connection cost, each center $p$ has connection cost
+bounded by $g(p)$, while each non-center client $j$ has connection
+cost bounded by the three edges $d_{i' p} + d_{ip} + d_{ij}$, where
+$i'$ is the facility chosen in $N(p)$ and $i$ is any facility in
+$N(p)\cap N(j)$. Because we cap the distance in each $N(j)$ by $g(j)$,
+we have that $d_{i' p} \leq g(p), d_{ip} \leq g(p)$ and $d_{ij} \leq
+g(j)$. So for a non-center client, the distance is bounded by $g(p) +
+g(p) + g(j) = 2g(p) + g(j) \leq 3g(j)$ since we choose a center to
+minimize $g(p)$. Now we need to get a handle on $g(j)$. To relate
+$g(j)$ to $C_j^\ast \stackrel{\mydef}{=} \sum_{i\in \fac}
+d_{ij}x_{ij}^\ast$, we need to cut the neighborhood by some
+fraction. Here are two ways, the STA97 way and my way.
+
+The STA97 does this by cutting at a point with total connection value
+$x_{ij}^\ast$ accumulates to a preselected constant $1/\alpha$. Let
+the resulted neighborhood be $\wbar N(j)$. Now the chosen part has
+total $x_{ij}^\ast$ at least $1/\alpha$, which implies the other part
+has total $x_{ij}^\ast$ at most $1-1/\alpha$. It follows that
+$g(j)*(1-1/\alpha) \leq \sum_{i\in N(j)} d_{ij} x_{ij}^\ast =
+C_j^\ast$. So we have a bound on $g(j)$ in terms of $C_j^\ast$
+now. The rest is essentially adding up all clients so that the
+connection cost is bounded by $\sum_{j\in\cli} 3g(j) =
+3C^\ast/(1-1/\alpha)$. To compensate for the cutting by $1/\alpha$, we
+need to scale up all $(x_{ij}^\ast, y_i^\ast)$ by $\alpha$. So our
+final ratio is $\max\{\alpha, 3/(1-1/\alpha)\}$. Pick $\alpha=4$ gives
+a $4$-approximation algorithm.
+
+A second way to cut is to use Markov bound. Instead of looking at
+cumulative connection values, that is, $x_{ij}^\ast$'s, we look
+directly at the maximum distance from a sub-neighborhood. Now we cut
+at $g(j) \leq C_j^\ast \alpha$ for every client $j$, so our connection
+cost is now at most $\sum_{j\in\cli} 3g(j) \leq 3 \alpha C^\ast$. We
+need to estimate the total connection value captured by that
+sub-neighborhood. And here is where Markov bound comes in handy.
+
+For random variable $X$ with mean $\mu$, and a number $t\geq 1$, we have
+\begin{equation*}
+  \text{Pr}(x \geq t\mu) \leq 1/t
+\end{equation*}
+Now plug in $g(j)$ for $x$, $C_j^\ast$ for $\mu$, and $\alpha$ for
+$t$, we know that the total connection value outside the
+sub-neighborhood is no more than $1/alpha$, so the total connection
+value inside the sub-neighborhood is at least $1-1/\alpha$.
+
+Again we obtain the approximation ratio being $\max\{1/(1-1/\alpha),
+3\alpha\}$, and take $\alpha = 4/3$ gives ratio $4$.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminary Results for the Fault-tolerant Facility Placement
