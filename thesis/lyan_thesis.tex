@@ -61,6 +61,7 @@ One key technical result is the following:
   &= \sum_{i=1}^n 1/i^2 = \pi^2/6\\
 \end{align*}
 
+
 The sum might be daunting to evaluate, the true story is that I
 numerically computed up to $n=10^7$ and found it to be $1.664934$ and
 it magically coincides with $pi^2/6$. Later Neal helped show that it
@@ -104,5 +105,14 @@ only remaining term is $\nth{n}\nth{n}$, so we effectively proved that
 $S_n - S_{n-1} = \nth{n^2}$, and therefore we have $S_n = \sum_{i=1}^n
 \nth{i^2}$. The sum is then upper bounded by $\pi^2/6 = 1.6449$ which
 is a constant.
+
+\section{FTFP greedy with local charging}
+Since FTFP has a nice scaling property, w.l.o.g. we can
+assume $r_1, r_2, \ldots, r_n$ grow by a factor of at least
+$2$. And the residual demand sequence will retain the
+property because every best star will exhaust only after min
+$\bar r_j$ is $0$.
+
+The claim is that no local charging can make dual-fitting be $O(1)$.
 
 \end{document}
