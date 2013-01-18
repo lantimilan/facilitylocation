@@ -1,12 +1,40 @@
 \documentclass{article}
 
 \usepackage{fullpage, amsmath}
+
+\newcommand{\fac}{\mathcal{F}}
+\newcommand{\cli}{\mathcal{C}}
+
 \title{On the Approximation Algorithms for the Fault-tolerant Facility Location Problem\\(Research Proposal towards PhD Defense)}
-\author{Li Yan}
+\author{Li Yan\\Computer Science\\U of California Riverside}
+
 \begin{document}
 \maketitle
 
 \section{Introduction}
+The Facility Location problem is a wellknown problem in theoretical
+computer science and operations research. The classic problem is the
+uncapacilitated facility location problem (UFL). In the problem, we
+are given a set of facilities $\fac$ and a set of clients $\cli$. Each
+facility in $\fac$ has an opening cost $f_i$ and the connection cost
+between a facility $i\in \fac$ and a client $j\in \cli$ is
+$d_{ij}$. An algorithm needs to find a subset of $\fac$ to open and
+connect every client to one of the open facilities.
+
+A generalization of the UFL problem, is the Fault-tolerant Facility
+Placement problem (FTFP), in which each client $j$ has demand $r_j$
+and we now have sites, the set $\fac$ on which we can build
+facilities. To open one facility at a site $i\in \fac$ incurs a cost
+of $f_i$, and to connect one unit of demand from a client $j$ to a
+facility $i$ incurs the connection cost $d_{ij}$. An algorithm needs
+to open a number of facilities, possibly zero, on each site and
+connect each of the $r_j$ demands of client $j$ to distinct
+facilities. Facilities on the same site are considered different.
+
+In the following we first review the related work in UFL, then we
+discuss our result for FTFP, lastly we briefly describe some on-going
+work and a plan towards the final defense.
+
 \section{Review of Known Results for the Uncapacitated Facility
   Location problem}
 \section{Preliminary Results for the Fault-tolerant Facility Placement Problem}
