@@ -6,6 +6,7 @@
 \newcommand{\cli}{\mathcal{C}}
 \newcommand{\PP}{\textsf{P}}
 \newcommand{\NP}{\textsf{NP}}
+\newcommand{\LP}{\text{LP}}
 \newcommand{\DTIME}{\textsf{DTIME}}
 \newcommand{\suchthat}{:}
 \newcommand{\mydef}{\text{def}}
@@ -156,6 +157,42 @@ value inside the sub-neighborhood is at least $1-1/\alpha$.
 Again we obtain the approximation ratio being $\max\{1/(1-1/\alpha),
 3\alpha\}$, and take $\alpha = 4/3$ gives ratio $4$.
 
+From there, the improvements by Chudak, Sviridenko and Byrka are
+mostly on a better estimate on the connection cost of a non-primary
+client, using randomized rounding.
+
+Chudak noticed that $\alpha_j^\ast$, the dual solution, provided an
+upper bound on $\max_{j\in N(j)} d_{ij}$. With a similar clustering,
+the rounding process will open exactly one facility in each $N(p)$ but
+randomly select a facility in $N(p)$ with probability
+$y_{i}^\ast$. The facilities not in any $N(p)$ are then opened
+independently with probability $y_i^\ast$. Now we can estimate the
+distance by a provably worse process, which was then upper bounded by
+$d_1 y_1 + d_2 y_2 (1-y_1) + \ldots + d_k y_k (1-y_1)\ldots(1-y_{k-1})
++ d_{k+1}(1-y_1)\ldots(1-y_k)$. This can be shown to imply a
+connection cost no more than $C^\ast + 2/e \LP^\ast$. Together with
+the expected facility cost being bounded by $F^\ast$, the total cost
+is no more than $(1+2/e)\LP^\ast$.
+
+Srividenko's improvement is to scale up all $y_i^\ast$ by some
+constant $\alpha \geq 1$, then group clients with overlapping
+$N_\alpha(j)$. A concave function was applied to estimate the
+connection cost for each client and the fractional solution was
+rounded by pairing up two fractional values and make at least one of
+them being integral, 0 or 1. As the sum of those functions provides an
+upper bound on the total cost and the value of that sum can only
+decrease during the rounding process, it is sufficient to prove an
+upper bound on the function value of the initial vector $(\bar y_i)$,
+which was done by choosing carefully a distribution for $\alpha$ and
+integrating the functions.
+
+Byrka further developed Sviridenko and Chudak's idea with a better
+estimate on the distance when all $N(j)$ are closed for a non-primary
+client $j$. The exact derivation is a bit complicated but this allows
+the ratio to be improved from $1.736$ to $1.575$. Following
+Sviridenko's work, it is natural to expect that randomizing the
+scaling factor $\alpha$ might lead to better approximation ratios, and
+this has been done by Li (Princeton).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminary Results for the Fault-tolerant Facility Placement
