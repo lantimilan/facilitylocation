@@ -110,11 +110,11 @@ The Shmoys, Tardos and Aardal's algorithm, referred below as STA97,
 now becomes natural. Given a fractional optimal solution
 $(x_{ij}^\ast, y_i^\ast)$, the algorithm first associate each client
 $j$ with a value $g(j)$, which is essentially throw away all $i\in
-N(j)$ with $d_{ij} > g(j)$. The modified neighborhood $\widetilde
-N(j)$ now satisfies $d_{ij} \leq g(j)$ for every $i\in \widetilde
+N(j)$ with $d_{ij} > g(j)$. The modified neighborhood $\wbar
+N(j)$ now satisfies $d_{ij} \leq g(j)$ for every $i\in \wbar
 N(j)$. Now the algorithm works in iterations. In one iteration it
 picks a non-clustered client with minimum $g(j)$, call it $p$, then
-all remaining clients $j$ with $\widetilde N(j)\cap \widetilde N(p)$
+all remaining clients $j$ with $\wbar N(j)\cap \wbar N(p)$
 non-empty will be added to the cluster centered at $p$. The iterations
 completes when all clients are clustered. The next step is to open the
 cheapest facility in each center's neighborhood and all clients
@@ -127,9 +127,9 @@ whose cost must be no more than the average cost of that
 neighborhood. For connection cost, each center $p$ has connection cost
 bounded by $g(p)$, while each non-center client $j$ has connection
 cost bounded by the three edges $d_{i' p} + d_{ip} + d_{ij}$, where
-$i'$ is the facility chosen in $\widetilde N(p)$ and $i$ is any
-facility in $\widetilde N(p)\cap \widetilde N(j)$. Because we can
-upper bound the distance from a facility in $\widetilde N(j)$ to $j$
+$i'$ is the facility chosen in $\wbar N(p)$ and $i$ is any
+facility in $\wbar N(p)\cap \wbar N(j)$. Because we can
+upper bound the distance from a facility in $\wbar N(j)$ to $j$
 by $g(j)$, we have that $d_{i' p} \leq g(p), d_{ip} \leq g(p)$ and
 $d_{ij} \leq g(j)$. So for a non-center client, the distance is
 bounded by $g(p) + g(p) + g(j) = 2g(p) + g(j) \leq 3g(j)$ since we
@@ -139,38 +139,39 @@ d_{ij}x_{ij}^\ast$, we need to cut the neighborhood $N(j)$ by throwing
 away some of the farthest facilities. Here are two ways, the STA97 way
 and my way.
 
-The STA97 does this by cutting at a point with total connection value
-$x_{ij}^\ast$ accumulates to a preselected constant $1/\alpha$. Let
-the resulted neighborhood be $\wbar N(j)$. Now the chosen part has
-total $x_{ij}^\ast$ at least $1/\alpha$, which implies the other part
-has total $x_{ij}^\ast$ at most $1-1/\alpha$. It follows that
-$g(j)*(1-1/\alpha) \leq \sum_{i\in N(j)} d_{ij} x_{ij}^\ast =
-C_j^\ast$. So we have a bound on $g(j)$ in terms of $C_j^\ast$
-now. The rest is essentially adding up all clients so that the
-connection cost is bounded by $\sum_{j\in\cli} 3g(j) =
-3C^\ast/(1-1/\alpha)$. To compensate for the cutting by $1/\alpha$, we
-need to scale up all $(x_{ij}^\ast, y_i^\ast)$ by $\alpha$. So our
-final ratio is $\max\{\alpha, 3/(1-1/\alpha)\}$. Pick $\alpha=4$ gives
-a $4$-approximation algorithm.
+The STA97 does this by cutting at a distance $g(j)$, such that the
+total connection value $x_{ij}^\ast$ for all $i\in N(j)$ with $d_{ij}
+\leq g(j)$ accumulates to $1/\alpha$ for some constant $\alpha \geq 1$
+to be fixed later. Let the modified neighborhood be $\wbar N(j)$. Now
+the chosen part has total $x_{ij}^\ast$ at least $1/\alpha$, which
+implies the other part has total $x_{ij}^\ast$ at most
+$1-1/\alpha$. It follows that $g(j)*(1-1/\alpha) \leq \sum_{i\in N(j)}
+d_{ij} x_{ij}^\ast = C_j^\ast$. So we have a bound on $g(j)$ in terms
+of $C_j^\ast$ now. The rest is essentially adding up all clients so
+that the connection cost is bounded by $\sum_{j\in\cli} 3g(j) =
+3C^\ast/(1-1/\alpha)$. To compensate for cutting the total connection
+value to $1/\alpha$, we need to scale up all $(x_{ij}^\ast, y_i^\ast)$
+by $\alpha$. So our final ratio is $\max\{\alpha,
+3/(1-1/\alpha)\}$. Pick $\alpha=4$ gives a $4$-approximation
+algorithm.
 
 A second way to cut is to use Markov bound. Instead of looking at
-cumulative connection values, that is, $x_{ij}^\ast$'s, we look
+cumulative connection values, that is $x_{ij}^\ast$'s, we look
 directly at the maximum distance from a sub-neighborhood. Now we cut
-at $g(j) \leq C_j^\ast \alpha$ for every client $j$, so our connection
-cost is now at most $\sum_{j\in\cli} 3g(j) \leq 3 \alpha C^\ast$. We
-need to estimate the total connection value captured by that
-sub-neighborhood. And here is where Markov bound comes in handy.
-
-For random variable $X$ with mean $\mu$, and a number $t\geq 1$, we have
+at $g(j) \leq \alpha\cdot C_j^\ast$ for every client $j$, so our
+connection cost is now at most $\sum_{j\in\cli} 3g(j) \leq 3
+\alpha\cdot C^\ast$. We need to estimate the total connection value
+captured by that sub-neighborhood. And here is where Markov bound
+comes in handy.  For random variable $X$ with mean $E[X]=\mu$, and a
+number $t\geq 1$, we have
 \begin{equation*}
-  \text{Pr}(x \geq t\mu) \leq 1/t
+  \text{Pr}(X \geq t\mu) \leq 1/t
 \end{equation*}
 Now plug in $g(j)$ for $x$, $C_j^\ast$ for $\mu$, and $\alpha$ for
 $t$, we know that the total connection value outside the
-sub-neighborhood is no more than $1/alpha$, so the total connection
-value inside the sub-neighborhood is at least $1-1/\alpha$.
-
-Again we obtain the approximation ratio being $\max\{1/(1-1/\alpha),
+sub-neighborhood is no more than $1/\alpha$, so the total connection
+value inside the sub-neighborhood is at least $1-1/\alpha$. Again we
+obtain the approximation ratio being $\max\{1/(1-1/\alpha),
 3\alpha\}$, and take $\alpha = 4/3$ gives ratio $4$.
 
 From there, the improvements by Chudak, Sviridenko and Byrka are
