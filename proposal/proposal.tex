@@ -12,6 +12,8 @@
 \newcommand{\mydef}{\text{def}}
 \newcommand{\wbar}{\overline}
 
+\newcommand{\defeq}{\stackrel{\textbf{def}}{=}}
+
 \title{On the Approximation Algorithms for the Fault-tolerant Facility Location Problem\\(Research Proposal towards PhD Defense)}
 \author{Li Yan\\Computer Science\\U of California Riverside}
 
@@ -20,7 +22,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-The Facility Location problem is a wellknown problem in theoretical
+The Facility Location problem is a well-known problem in theoretical
 computer science and operations research. The classic problem is the
 uncapacilitated facility location problem (UFL). In the problem, we
 are given a set of facilities $\fac$ and a set of clients $\cli$. Each
@@ -44,7 +46,7 @@ discuss our result for FTFP, lastly we briefly describe some on-going
 work and a plan towards the final defense.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Review of Known Results for the Uncapacitated Facility
+\section{Known Results for the Uncapacitated Facility
   Location problem}
 It is easy to see that the UFL problem contains the Set Cover problem
 as a special case. hence it is NP-hard and does not admit a polynomial
@@ -54,57 +56,69 @@ n$ for any constant $\epsilon >0$, unless $\NP \subseteq
 the greedy algorithm which repeatedly picks the most cost-effective
 star, consisting of one facility and a set of clients, achieved a
 performance guarantee of $H_n = \ln + 1$. This shows that the lower
-bound and upper bound of approximation ratio match for general UFL. In
-the following we assume the connection cost, or the distances $d_{ij}$
-satisfy the triangle inequality, that is, for any two facilities $i_1,
-i_2$ and two clients $j_1, j_2$, we have $d_{i_1 j_2} \leq d_{i_1 j_1}
-+ d_{i_2 j_1} + d_{i_2 j_2}$.
+bound and upper bound of approximation ratio match for general
+UFL~\footnote{Actually Neal showed an algorithm that achieves exactly
+  $\ln n$-approximation.}. In the following we assume the connection
+cost, or the distances $d_{ij}$ satisfy the triangle inequality, that
+is, for any two facilities $i_1, i_2$ and two clients $j_1, j_2$, we
+have $d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.
 
-The metric UFL problem has been shown to be APX-hard and unless $\PP
-= \NP$, there is no polynomial time algorithm giving approximation
-ratio better than $1.463$ (add the equation here).
+The metric UFL problem has been shown to be APX-hard and unless $\PP =
+\NP$, there is no polynomial time algorithm giving approximation ratio
+better than $1.463$ (\textbf{******add the equation here******}).
 
 There are a number of approximation algorithms progressing towards
 this $1.463$ lower bound. The current best known approximation ratio
-is $1.488$.  The algorithms can be classified into two categories:
-LP-based and combinatorial. The LP-based algorithms require to solve
-the LP to obtain a fractional optimal solution and then round it to an
-integral solution. Combinatorial algorithms include primal-dual,
-greedy analyzed with dual-fitting, local search.
+is $1.488$, using a combination of LP-rounding and greedy algorithms.
+The algorithms can be classified into two categories: LP-rounding and
+combinatorial. The LP-based algorithms require to solve the LP to
+obtain a fractional optimal solution and then round it to an integral
+solution. Combinatorial algorithms include primal-dual, greedy
+analyzed with dual-fitting, local search.
 
 \subsection{The LP-rounding Algorithms for UFL}
-STA97 is the first paper achieving a $O(1)$-approximation ratio for
+STA97 is the first paper achieving an $O(1)$-approximation ratio for
 the UFL problem, and the clustering framework established in the same
 paper underlies all subsequent LP-rounding algorithms.
 
 Given a fractional optimal solution $(x_{ij}^\ast, y_i^\ast)$ to the
-LP, if all neighborhoods $N(j) = \{i\in\fac \suchthat x_{ij}^\ast >
-0\}$ are disjoint, then we can open exactly one facility in each
-$N(j)$, with each $i\in N(j)$ chosen with probability $y_i^\ast$. This
-will give us expected facility cost $F^\ast$ and connection cost
-$C^\ast$.  However, in general those neighborhoods will overlap and we
-cannot guarantee each client $j$ has one of its neighbor open if we
-open each $i$ independently with probability $y_i$. Now the triangle
-inequality helps. If we guarantee a subset of clients each having an
-open facility in its neighborhood, and for every client $j$ outside
-this subset, it can find a client $j'$ in the subset such that the
-distance $d_{j j'}$ is not too large, then we can estimate the
-connection cost of client $j$ by the sum of $d_{i' j'} + d_{j j'}$
-where $i'$ is a facility open in $N(j')$. Moreover, we would like to
-have all $j'$ in the subset with disjoint $N(j')$ so that we could
-have a handle on the facility cost.
+LP, we can first modify it to be \emph{complete}, that is
+$x_{ij}^\ast>0$ implies $x_{ij}^\ast = y_i^\ast$ for all facility $i$
+and client $j$.  
 
-The Shmoys, Tardos and Aardal's algorithm now becomes natural. Given a
-fractional optimal solution $(x_{ij}^\ast, y_i^\ast)$, the algorithm
-first associate each client $j$ with a value $g(j)$, which is
-essentially an upper bound on the connection cost in the integral
-solution. Now the algorithm works in iterations. In one iteration it
+If all neighborhoods $N(j) = \{i\in\fac \suchthat x_{ij}^\ast > 0\}$
+are disjoint, then we can open exactly one facility in each $N(j)$,
+with each $i\in N(j)$ chosen with probability $y_i^\ast$. This will
+give us expected facility cost $F^\ast$ and connection cost $C^\ast$.
+However, in general those neighborhoods will overlap and we cannot
+guarantee that every client $j$ has one of its neighbors open if we
+open each facility $i$ independently with probability $y_i^\ast$. Now
+the triangle inequality comes to help. If we guarantee a subset of
+clients each having an open facility in its neighborhood, and for
+every client $j$ outside this subset, it can find a client $j'$ in the
+subset such that the distance $d_{j j'} \defeq \min_{i\in\fac} d_{ij}
++ d_{ij'}$ is not too large, then we can estimate the connection cost
+of client $j$ by the sum of $d_{i' j'} + d_{j j'}$ where $i'$ is a
+facility open in $N(j')$. In the literature, $j'$ is called a
+\emph{center} and we say client $j$ is \emph{clustered} to center
+$j'$. We also call $j'$ a \emph{primary} client and client $j$ is
+\emph{assigned} to $j'$. Moreover, we would like to have all $j'$ in
+the subset with disjoint $N(j')$ so that we could have a handle on the
+facility cost.
+
+The Shmoys, Tardos and Aardal's algorithm, referred below as STA97,
+now becomes natural. Given a fractional optimal solution
+$(x_{ij}^\ast, y_i^\ast)$, the algorithm first associate each client
+$j$ with a value $g(j)$, which is essentially throw away all $i\in
+N(j)$ with $d_{ij} > g(j)$. The modified neighborhood $\widetilde
+N(j)$ now satisfies $d_{ij} \leq g(j)$ for every $i\in \widetilde
+N(j)$. Now the algorithm works in iterations. In one iteration it
 picks a non-clustered client with minimum $g(j)$, call it $p$, then
-all remaining clients $j'$ with $N(j')\cap N(p)$ non-empty will be
-added to the cluster centered at $p$. The iterations completes when
-all clients are clustered. The next step is to open the cheapest
-facility in each center's neighborhood and all clients assigned to
-that cluster will connect to that facility.
+all remaining clients $j$ with $\widetilde N(j)\cap \widetilde N(p)$
+non-empty will be added to the cluster centered at $p$. The iterations
+completes when all clients are clustered. The next step is to open the
+cheapest facility in each center's neighborhood and all clients
+assigned to that cluster will connect to that facility.
 
 To estimate the cost, it is easy to see the facility cost being
 bounded by $F^\ast$, since neighborhood of centers are disjoint and we
@@ -113,15 +127,17 @@ whose cost must be no more than the average cost of that
 neighborhood. For connection cost, each center $p$ has connection cost
 bounded by $g(p)$, while each non-center client $j$ has connection
 cost bounded by the three edges $d_{i' p} + d_{ip} + d_{ij}$, where
-$i'$ is the facility chosen in $N(p)$ and $i$ is any facility in
-$N(p)\cap N(j)$. Because we cap the distance in each $N(j)$ by $g(j)$,
-we have that $d_{i' p} \leq g(p), d_{ip} \leq g(p)$ and $d_{ij} \leq
-g(j)$. So for a non-center client, the distance is bounded by $g(p) +
-g(p) + g(j) = 2g(p) + g(j) \leq 3g(j)$ since we choose a center to
-minimize $g(p)$. Now we need to get a handle on $g(j)$. To relate
-$g(j)$ to $C_j^\ast \stackrel{\mydef}{=} \sum_{i\in \fac}
-d_{ij}x_{ij}^\ast$, we need to cut the neighborhood by some
-fraction. Here are two ways, the STA97 way and my way.
+$i'$ is the facility chosen in $\widetilde N(p)$ and $i$ is any
+facility in $\widetilde N(p)\cap \widetilde N(j)$. Because we can
+upper bound the distance from a facility in $\widetilde N(j)$ to $j$
+by $g(j)$, we have that $d_{i' p} \leq g(p), d_{ip} \leq g(p)$ and
+$d_{ij} \leq g(j)$. So for a non-center client, the distance is
+bounded by $g(p) + g(p) + g(j) = 2g(p) + g(j) \leq 3g(j)$ since we
+choose a center to minimize $g(p)$. Now we need to get a handle on
+$g(j)$. To relate $g(j)$ to $C_j^\ast \defeq \sum_{i\in \fac}
+d_{ij}x_{ij}^\ast$, we need to cut the neighborhood $N(j)$ by throwing
+away some of the farthest facilities. Here are two ways, the STA97 way
+and my way.
 
 The STA97 does this by cutting at a point with total connection value
 $x_{ij}^\ast$ accumulates to a preselected constant $1/\alpha$. Let
