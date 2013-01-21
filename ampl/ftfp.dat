@@ -1,19 +1,23 @@
 # data for ftfp.mod
 
-param m := 2;
+param m := 4;
 param n := 4;
 
 param f :=
-    1   7
-    2   10 ;
+    1   1
+    2   1
+    3	1
+    4	1 ;
 
 param r :=
     1   1
     2   2
-    3   3
+    3   2
     4   2 ;
 
 param d:    1   2   3   4   :=
-    1       1   1   4   3
-    2       4   2   1   1 ;
+    1       1   3   1   1
+    2       1   1   3   1
+    3	    1	1   1	3
+    4	    3	1   1	1 ;
     
