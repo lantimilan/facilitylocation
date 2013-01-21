@@ -277,7 +277,31 @@ the best ratio we obtained is $1.575$~\footnote{1.575 is
   $\max\{\gamma, (1+1/e^\gamma)/(1-1/e^\gamma), 1+2/e^\gamma\}$.},
 which matches the best ratio for UFL obtained using only LP-rounding.
 
+For the greedy algorithm, we were able to show that: i) the algorithm does
+run in polynomial time, and ii) the approximation ratio is no more
+than $H_n$ where $n$ is the number of clients. Notice that this is the
+same ratio as greedy for the Set Cover problem. Moreover, we show that
+if we split cost of a star evenly between all participating clients,
+then a simple example shows that the shrinking factor $\gamma$, needs
+to be at least $H_n$. However, this does not imply the greedy
+algorithm cannot give a constant ratio, nor does it assert the
+algorithm cannot be analyzed using dual-fitting technique. For the
+dual-fitting technique to be able to give an $O(1)$ ratio, we need a
+charging scheme to distribute $f_i$, the facility opening cost of a
+star to its member clients and our recent effort suggests that a local
+charging scheme, that is, charge $f_i$ only to members of this star,
+may not give a constant $\gamma$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{On-going Work and Expected Results}
+It is in general difficult to predict progress and even the direction
+of theoretical research. Our major effort currently is to show that
+local charging cannot give a constant shrinking factor, thus providing
+some negative argument against attempts showing greedy is actually an
+$O(1)$-approximation algorithm.
+
+The long term goal is, of course, showing that UFL actually has an
+algorithm with approximation ratio $1.463$, matching the lower bound
+known since 1998.
 
 \end{document}
