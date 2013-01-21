@@ -1,7 +1,8 @@
-\documentclass{article}
+\documentclass{article}[11pt]
 
 \usepackage{fullpage, amsmath, amssymb}
 
+%% preamble
 \newcommand{\fac}{\mathcal{F}}
 \newcommand{\cli}{\mathcal{C}}
 \newcommand{\PP}{\textsf{P}}
@@ -11,8 +12,9 @@
 \newcommand{\suchthat}{:}
 \newcommand{\mydef}{\text{def}}
 \newcommand{\wbar}{\overline}
-
 \newcommand{\defeq}{\stackrel{\textbf{def}}{=}}
+\newcommand{\etal}{et al.\ }
+%% end preamble
 
 \title{On the Approximation Algorithms for the Fault-tolerant Facility Location Problem\\(Research Proposal towards PhD Defense)}
 \author{Li Yan\\Computer Science\\U of California Riverside}
@@ -65,7 +67,8 @@ have $d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.
 
 The metric UFL problem has been shown to be APX-hard and unless $\PP =
 \NP$, there is no polynomial time algorithm giving approximation ratio
-better than $1.463$ (\textbf{******add the equation here******}).
+better than $1.463$~\footnote{Here $x=0.463$ is the root to equation
+  $\ln (2/x) = 1+x$, and the implied lower bound is $1+x$.}.
 
 There are a number of approximation algorithms progressing towards
 this $1.463$ lower bound. The current best known approximation ratio
@@ -212,8 +215,55 @@ scaling factor $\alpha$ might lead to better approximation ratios, and
 this has been done by Li (Princeton).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Greedy Algorithm for UFL with Dual-fitting Analysis}
+The other related algorithm is a well-known heuristic, which greedily
+picks up the most cost-effective star until all clients are
+connected. A star $S$ consists of one facility and a set of
+clients. The most cost effective star is the one with minimum average
+cost, which is the sum of $f_i$ and $\sum_{j\in S} d_{ij}$, divided by
+$|S|$, the number of clients in the star. 
+
+Jain \etal showed the performance guarantee is no more than $1.81$,
+using the dual-fitting technique. In the analysis, each client $j$ has
+a number $\alpha_j$ associated with it. All $\alpha_j$ start with
+$0$. Now the greedy algorithm can be reinterpreted as raising all
+unconnected clients' $\alpha_j$ uniformly until some facility
+accumulated a total payment of $f_i$, where payment is $\sum_{j\in U}
+(\alpha_j - d_{ij})_+$, where $U$ is the set of unconnected
+clients. Then facility $i$ is opened and all unconnected clients with
+$\alpha_j \geq d_{ij}$ connect to $i$. Their $\alpha_j$'s are then
+frozen. It is easy to see that the total cost of the algorithm is
+equal to $\sum_{j\in\cli} \alpha_j$, however, those $\alpha_j$'s are
+not a feasible dual solution in general, since the dual constraint
+requires $\sum_{j\in \cli} (\alpha_j - d_{ij})_+ \leq f_i$. The next
+job is to find a value $\gamma$, such that $\sum_{j\in \cli} (\alpha_j
+/ \gamma - d_{ij})_+ \leq f_i$ for all facility $i$. A supremum of
+$\gamma$ among all possible UFL instances is then an upper bound on
+the approximation ratio of the greedy algorithm. Jain \etal showed
+$\gamma$ is at most $1.81$. This is done by showing that any star in
+any UFL instance is parameterized by $f_i, d_{ij}$ and $\alpha_j$ for
+facility $i$ and clients $j$ in that star, and those parameters
+satisfy certain inequalities. Those inequalities are used to upper
+bound $\gamma$. The exact derivation is quite technical and not
+elabrated here. There are two recent results on deriving the shrinking
+factor $\gamma$ in a more systematic way, in STOC'11 and APPROX'12.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminary Results for the Fault-tolerant Facility Placement
   Problem}
+In this section we review the more general problem, FTFP, that we
+studied extensively.
+
+FTFP is easily seen as a generalization of UFL. In fact, a special
+case, called uniform FTFP, where all demands $r_j$'s are equal, can be
+solved by simple scaling and reduce to UFL, while preserving all
+approximation ratios of UFL, hence is easy to approximate. In general,
+$r_j$'s may be different and the non-uniform instances do not seem to
+succumb to a simple scaling argument. Our effort is therefore along
+two lines of attack: 1) LP-based rounding algorithms, and 2) Analyze
+the greedy algorithm using dual-fitting technique or other
+combinatorial argument without knowing the fractional optimal solution
+to the LP.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{On-going Work and Expected Results}
