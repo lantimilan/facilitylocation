@@ -17,33 +17,30 @@
 \usepackage[nosumlimits]{amsmath}
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
-%\usepackage[noend]{algorithmic}
 \usepackage[noend]{algpseudocode}
-%\usepackage[firstinits=true]{biblatex}
 
-%\algsetup{indent=2em}
 \floatname{algorithm}{Pseudocode}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
+\journal{Journal of Discrete Algorithms}
 \input{macros.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{document}
+
+\begin{frontmatter}
 \title{LP-rounding Algorithms for the Fault-Tolerant\\
  		Facility Placement Problem}
 
-\author{Li Yan and Marek Chrobak\\
-  Department of Computer Science\\
+\author{Li Yan and Marek Chrobak}
+\ead{\{lyan,marek\}@cs.ucr.edu}
+\address{Department of Computer Science\\
  University of California at Riverside}
 
-\date{}
-
-\begin{document}
-\maketitle
-
-\thispagestyle{empty}
+%\thispagestyle{empty}
 \begin{abstract} 
   The Fault-Tolerant Facility Placement problem (FTFP) is a
   generalization of the classic Uncapacitated Facility
@@ -76,8 +73,14 @@
   requirement.
 \end{abstract}
 
-\pagebreak
-\setcounter{page}{1}
+\begin{keyword}
+Facility Location \sep Approximation Algorithms
+\end{keyword}
+
+\end{frontmatter}
+
+%\pagebreak
+%\setcounter{page}{1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,9 +139,9 @@ our construction might get around this issue and
 lead to new algorithms for FTFL with improved ratios.
 \pagebreak
 
-\bibliographystyle{plain}
+\bibliographystyle{elsarticle-num}
 \bibliography{facility}
-%\printbibliography
+
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
