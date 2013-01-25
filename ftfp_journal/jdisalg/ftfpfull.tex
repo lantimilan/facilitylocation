@@ -1,0 +1,313 @@
+% start journal version
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% lyan Friday, January 25, 2013 (add example)
+% Tue Aug 28 2012, 09:55:36
+% marek Sat Jul 14 13:24:51 PDT 2012
+% marek Fri Jul 13 15:51:33 PDT 2012
+% lyan Thu Jul 12 2012, 00:06:30
+% lyan Wed Jul 04 2012, 22:29:33
+%
+% marek Fri Oct 26 01:59:39 PDT 2012
+
+
+
+\documentclass[11pt]{article}
+
+\usepackage{fullpage,amssymb,amsthm,caption,subcaption,enumerate,graphicx}
+\usepackage[nosumlimits]{amsmath}
+\usepackage[nothing]{algorithm}
+\usepackage{algorithmicx}
+%\usepackage[noend]{algorithmic}
+\usepackage[noend]{algpseudocode}
+%\usepackage[firstinits=true]{biblatex}
+
+%\algsetup{indent=2em}
+\floatname{algorithm}{Pseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\input{macros.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{LP-rounding Algorithms for the Fault-Tolerant\\
+ 		Facility Placement Problem}
+
+\author{Li Yan and Marek Chrobak\\
+  Department of Computer Science\\
+ University of California at Riverside}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{empty}
+\begin{abstract} 
+  The Fault-Tolerant Facility Placement problem (FTFP) is a
+  generalization of the classic Uncapacitated Facility
+  Location Problem (UFL). In FTFP we are given a set of
+  facility sites and a set of clients. Opening a facility at
+  site $i$ costs $f_i$ and connecting client $j$ to a
+  facility at site $i$ costs $d_{ij}$. We assume that the
+  connection costs (distances) $d_{ij}$ satisfy the triangle
+  inequality. Multiple facilities can be opened at any
+  site. Each client $j$ has a demand $r_j$, which means that
+  it needs to be connected to $r_j$ different facilities
+  (some of which could be located on the same site). The
+  goal is to minimize the sum of facility opening cost and
+  connection cost.
+
+  The main result of this paper is a $1.575$-approximation algorithm
+  for FTFP, based on LP-rounding. The algorithm first reduces the
+  demands to values polynomial in the number of sites. Then it uses a
+  technique that we call adaptive partitioning, which partitions the
+  instance by splitting clients into unit demands and creating a
+  number of (not yet opened) facilities at each site. It also
+  partitions the optimal fractional solution to produce a fractional
+  solution for this new instance.  The partitioned fractional solution
+  satisfies a number of properties that allow us to exploit existing
+  LP-rounding methods for UFL to round our partitioned solution to an
+  integral solution, preserving the approximation ratio.  In
+  particular, our $1.575$-approximation algorithm is based on the
+  ideas from the $1.575$-approximation algorithm for UFL by
+  Byrka~\etal, with changes necessary to satisfy the fault-tolerance
+  requirement.
+\end{abstract}
+
+\pagebreak
+\setcounter{page}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{intro.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LP ForMULATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{lpformulation.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% REDUCTION TO POLYNOMIAL DEMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{reduction.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ADAPTIVE PARTITION  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{partition.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{three_approx.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1.736-APPROXIMATION ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{ECHS.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Byrka 2010 1.575
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{EBGS.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Final Comments}
+
+In this paper we show a sequence of LP-rounding approximation algorithms
+for FTFP, with the best algorithm achieving  ratio $1.575$. 
+As we mentioned earlier, we believe that 
+our techniques of demand reduction and adaptive partitioning are very flexible and
+should be useful in extending other LP-rounding methods for UFL to obtain
+matching bounds for FTFP.
+
+One of the main open problems in this area is whether FTFL can be approximated with the
+same ratio as UFL, and our work was partly motivated by this question. The techniques we
+introduced are not directly applicable to FTFL, mainly because our partitioning
+approach involves facility splitting that could result in several sibling demands being served
+by facilities on the same site. Nonetheless, we hope that further refinements of 
+our construction might get around this issue and
+lead to new algorithms for FTFL with improved ratios.
+\pagebreak
+
+\bibliographystyle{plain}
+\bibliography{facility}
+%\printbibliography
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\section{Proof of Lemma~\ref{lem: EBGS target connection cost}}
+  Lemma~\ref{lem: EBGS target connection cost} provides a bound on the
+  expected connection cost of a demand $\nu$ when none of
+  $\wbarN(\nu)$ opens by the algorithm. The formal proof is very
+  similar to that in \cite{ByrkaA10}, and we sketch the main steps
+  here for completeness.
+
+  Let $K_1 = \wbarclsnb(\kappa) \setminus \wbarN(\nu), K_2 =
+  \wbarclsnb(\kappa) \cap \wbarclsnb(\nu)$ and $K_3 =
+  \wbarclsnb(\kappa) \cap \wbarfarnb(\nu)$, then we shall show that
+  $D(K_1, \nu) \leq \clsdist(\kappa)\;+\;\clsmax(\kappa)\; + \;
+  \fardist(\nu)$, which implies $D(K_1, \nu) \leq \clsdist(\nu) +
+  \clsmax(\nu) + \fardist(\nu)$ due to
+  (PD'.\ref{PD1:assign:cost}). Recall that $D(A,\nu)
+  \stackrel{\mathrm{def}}{=} \sum_{\mu\in A} d_{\mu\nu}\bary_{\mu}$ is
+  the average distance of facilities in set $A$ to demand $\nu$.
+
+  We can dismiss a few simple cases: If $D(K_1, \kappa) \leq
+  \clsdist(\kappa)$, then we can use any facility $\mu \in K_2$ to
+  show that $D(K_1,\nu) \leq D(K_1, \kappa) + d_{\mu\kappa} +
+  d_{\mu\nu} \leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu)$
+  because $d_{\mu\kappa} \leq \clsmax(\kappa)$ and $d_{\mu\nu} \leq
+  \clsmax(\nu) \leq \fardist(\nu)$, and we are done. So we can assume
+  $D(K_1, \kappa) > \clsdist(\kappa)$. Our second assumption is that
+  every $\mu \in K_2$ has $d_{\mu\kappa} > \clsdist(\kappa)$, for
+  otherwise we can use $\clsmax(\kappa)$ to bound $D(K_1, \kappa)$ and
+  there exists a facility $\mu\in K_2$ such that $d_{\mu\kappa} \leq
+  \clsdist(\kappa)$. Since $\mu\in K_2$, we infer that $d_{\mu\nu}
+  \leq \clsmax(\nu) \leq \fardist(\nu)$, and we are done as well.
+
+  Given the two assumptions we can now assume that $K_3$ is not empty
+  and there exists some finite number $\delta > 0$ such that $D(K_3,
+  \kappa) = \clsdist(\kappa) - \delta$. This in turn implies $D(K_3,
+  \nu) \geq \fardist(\nu) + \delta$, or we will be done. Because $K_3$
+  is a subset of $\wbarfarnb(\nu)$, this gives us a bound on
+  $D(\wbarfarnb(\nu) \setminus K_3, \nu)$, which in turn, is an upper
+  bound on $\clsmax(\nu)$. Let $\hat{y} = \gamma \sum_{\mu\in K_3}
+  \bary_{\mu}$, using the fact that $\fardist(\nu) = D(K_3,\nu)\;
+  \hat{y}/(\gamma-1) + D(\wbarfarnb(\nu)\setminus K_3)\;
+  (\gamma-1-\hat{y})/(\gamma-1)$, we are able to show that
+  \begin{equation*}
+    \clsmax(\nu) \leq D(\wbarfarnb(\nu) \setminus K_3, \nu) \leq \fardist(\nu) -
+    \hat{y}\delta/(\gamma-1-\hat{y}) \leq \fardist(\nu) -
+    \hat{y}\delta/(1-\hat{y}),
+  \end{equation*}
+  since $\gamma \leq 2$ (we pick $\gamma=1.575$ in the end). On the
+  other hand, since $\wbarclsnb(\kappa) = K_1 \cup K_2 \cup K_3$, we
+  have $\clsdist(\kappa) = (1-\hat{y})\; D(K_1\cup K_2, \kappa) +
+  \hat{y}\; D(K_3, \kappa)$, which implies that
+  \begin{equation*}
+    D(K_1 \cup K_2, \kappa) = \clsdist(\kappa) + \hat{y}\delta/(1-\hat{y}).
+  \end{equation*}
+
+  Now we are essentially done. If there exists some $\mu \in K_2$ such
+  that $d_{\mu\kappa} \leq \clsdist(\kappa) +
+  \hat{y}\delta/(1-\hat{y})$, then we have
+  \begin{align*}
+    D(K_1, \nu) &\leq D(K_1, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) +
+    \hat{y}\delta/(1-\hat{y})
+    + \clsmax(\nu)\\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu)
+  \end{align*}
+  Otherwise we must have $D(K_1, \kappa) \leq \clsdist(\kappa) +
+  \hat{y}\delta/(1-\hat{y})$. It follows that
+  \begin{align*}
+    D(K_1, \nu) &\leq D(K_1, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+    &\leq \clsdist(\kappa) + \hat{y}\delta/(1-\hat{y}) +
+    \clsmax(\kappa)
+    + \clsmax(\nu)\\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu).
+  \end{align*}
+
+  This concludes the proof of Lemma~\ref{lem: EBGS target connection
+    cost}, and we have the desired bound on the expected distance when
+  the algorithm connnects a demand $\nu$ indirectly to its target
+  facility, that is, the facility opened by the primary demand that
+  $\nu$ was assigned.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Proof of an Inequality for Analysis of Algorithm~{\ECHS}}
+
+In the $1+2/e=1.736$-approximation in Section~\ref{sec: 1.736-approximation}
+we need to show the following inequality
+%
+\begin{equation}
+  \label{eq:dist}
+\sum_{u=1}^l d_uy_u\prod_{s=1}^{u-1}(1-y_s)
+  \;\leq\;  \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
+\end{equation}
+%
+for $d_1\leq d_2 \leq \ldots \leq d_l$ and $\sum_{s=1}^l y_s = 1, y_s \geq 0$.
+
+In this section we give a new proof of this inequality, much
+simpler than the existing proof in \cite{ChudakS04}, and also simpler than
+the argument by Sviridenko~\cite{Svi02}.  
+We derive this inequality from the following generalized version of the Chebyshev Sum
+Inequality:
+%
+\begin{equation}
+  \label{eq:cheby}
+  \sum_{i} p_i \sum_j p_j a_j b_j \leq \sum_i p_i a_i \sum_j p_j b_j,
+\end{equation}
+%
+where each summation below runs from $1$ to $l$ and the sequences 
+$(a_i)$, $(b_i)$ and $(p_i)$ satisfy the following conditions:
+$p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$, $a_1\leq a_2 \leq
+\ldots \leq a_l$, and $b_1 \geq b_2 \geq \ldots \geq b_l$.
+
+Given inequality (\ref{eq:cheby}), we can obtain our inequality
+(\ref{eq:dist}) by simple substitution
+%
+\begin{equation*}
+  p_i \leftarrow y_i, a_i \leftarrow d_i, b_i \leftarrow
+  \Pi_{s=1}^{i-1} (1-y_s).
+\end{equation*}
+
+For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
+due to Hardy, Littlewood and Polya~\cite{HardyLP88}. The idea is to evaluate the 
+following sum:
+%
+\begin{align*}
+  S &= \sum_i p_i \sum_j p_j a_j b_j - \sum_i p_i a_i \sum_j p_j b_j
+	\\
+  & = \sum_i \sum_j p_i p_j a_j b_j - \sum_i \sum_j p_i a_i p_j b_j
+	\\
+  & = \sum_j \sum_i p_j p_i a_i b_i - \sum_j \sum _i p_j a_j p_i b_i
+	\\
+	&= \half \cdot \sum_i \sum_j (p_i p_j a_j b_j - p_i a_i p_j b_j + p_j p_i a_i
+  							b_i - p_j a_j p_i b_i)
+\\
+  &= \half \cdot \sum_i \sum_j p_i p_j (a_i - a_j)(b_i - b_j) \leq 0.
+\end{align*}
+The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq 0$, since the sequences
+$(a_i)$ and $(b_i)$ are ordered oppositely.
+
+\end{document}
+
+% marek Tue Jul  3 10:21:05 PDT 2012
+% marek Sun Jul  1 14:57:39 PDT 2012
+% lyan Sat Jun 30 2012, 22:01:27
+% marek Sat Jun 30 10:08:59 PDT 2012
+% lyan Fri Jun 29 19:54:18 PDT 2012
+% marek Thu Jun 28 09:21:14 PDT 2012
+% lyan Thu Jun 28 00:11:28 PDT 2012
+% marek Wed Jun 27 11:24:07 PDT 2012
+% lyan Wed Jun 27 2012, 10:08:21
+% marek Tue Jun 26 14:48:45 PDT 2012
+% lyan Mon Jun 25 2012, 22:23:13
+% marek Sun Jun 24 16:46:23 PDT 2012
+% marek Wed Jun 20 04:42:40 PDT 2012
+% lyan, Sun Jun 17 2012, 09:49:22
+% marek Sat Apr  7 16:42:21 PDT 2012
+% marek Thu Apr  5 11:39:58 PDT 2012
+% marek Wed Apr  4 11:28:20 PDT 2012
+% lyan, 04/01/12 10:20 PM
+% lyan, Mon Mar 26 2012, 09:10:54
+% lyan, Tue Mar 20 2012, 23:28:17
+% lyan, 03/18/12 12:28 PM
+% marek Sat Mar 17 13:42:32 PDT 2012
+% marek, Wed Mar  7 21:28:24 PST 2012
+% marek Mon Mar 12 12:08:25 PDT 2012

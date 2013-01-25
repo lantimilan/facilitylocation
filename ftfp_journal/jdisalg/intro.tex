@@ -1,0 +1,156 @@
+\section{Introduction}
+
+In the \emph{Fault-Tolerant Facility Placement} problem
+(FTFP), we are given a set $\sitesset$ of \emph{sites} at
+which facilities can be built, and a set $\clientset$ of
+\emph{clients} with some demands that need to be satisfied
+by different facilities. A client $j\in\clientset$ has demand
+$r_j$. Building one facility at a site $i\in\sitesset$ incurs a cost
+$f_i$, and connecting one unit of demand from client $j$ to
+a facility at site $i$ costs $d_{ij}$. Throughout the
+paper we assume that the connection costs (distances)
+$d_{ij}$ form a metric, that is, they are
+symmetric and satisfy the triangle inequality. In a feasible solution, some
+number of facilities, possibly zero, are opened at each site
+$i$, and demands from each client are connected to those
+open facilities, with the constraint that demands from the
+same client have to be connected to different
+facilities. Note that any two facilities at the same site are considered different.
+
+It is easy to see that if all $r_j=1$ then FTFP reduces to
+the classic Uncapacitated Facility Location problem (UFL).
+If we add a constraint that each site can have at most one
+facility built on it, then the problem becomes equivalent to the
+Fault-Tolerant Facility Location problem (FTFL). One
+implication of the one-facility-per-site restriction in FTFL
+is that $\max_{j\in\clientset}r_j \leq |\sitesset|$, while
+in FTFP the values of $r_j$'s can be much bigger than
+$|\sitesset|$.
+
+The UFL problem has a long history; in particular, great
+progress has been achieved in the past two decades in
+developing techniques for designing constant-ratio
+approximation algorithms for UFL.  Shmoys, Tardos and
+Aardal~\cite{ShmoysTA97} proposed an approach based on
+LP-rounding, that they used to achieve a ratio of 3.16.
+This was then improved by Chudak~\cite{ChudakS04} to 1.736,
+and later by Sviridenko~\cite{Svi02} to 1.582.
+The best known ``pure" LP-rounding algorithm is due to
+Byrka~{\etal}~\cite{ByrkaGS10} with ratio 1.575. 
+Byrka and Aardal~\cite{ByrkaA10} gave a hybrid algorithm that combines LP-rounding
+and dual-fitting (based on \cite{JainMMSV03}), achieving a ratio of 1.5.  Recently,
+Li~\cite{Li11} showed that, with a more refined analysis and
+randomizing the scaling parameter used in \cite{ByrkaA10}, the ratio can be improved
+to 1.488. This is the best known approximation result for UFL.  
+Other techniques include the primal-dual algorithm with ratio 3 by
+Jain and Vazirani~\cite{JainV01}, the dual fitting method by
+Jain~{\etal}~\cite{JainMMSV03} that gives ratio 1.61, and a
+local search heuristic by Arya~{\etal}~\cite{AryaGKMMP04}
+with approximation ratio 3.  On the hardness side, UFL is
+easily shown to be {\NP}-hard, and it is known that it is
+not possible to approximate UFL in polynomial time with
+ratio less than $1.463$, provided that
+$\NP\not\subseteq\DTIME(n^{O(\log\log
+  n)})$~\cite{GuhaK98}. An observation by Sviridenko
+strengthened the underlying assumption to $\PP\ne \NP$ (see \cite{vygen05}).
+
+FTFL was first introduced by Jain and
+Vazirani~\cite{JainV03} and they adapted their primal-dual
+algorithm for UFL to obtain a ratio of
+$3\ln(\max_{j\in\clientset}r_j)$.  All subsequently
+discovered constant-ratio approximation algorithms use
+variations of LP-rounding.  The first such algorithm, by
+Guha~{\etal}~\cite{GuhaMM01}, adapted the approach for UFL
+from \cite{ShmoysTA97}.  Swamy and Shmoys~\cite{SwamyS08}
+improved the ratio to $2.076$ using the idea of pipage
+rounding introduced in \cite{Svi02}. Most recently,
+Byrka~{\etal}~\cite{ByrkaSS10} improved the ratio to 1.7245
+using dependent rounding and laminar clustering.
+
+FTFP is a natural generalization of UFL. It was first
+studied by Xu and Shen~\cite{XuS09}, who extended the
+dual-fitting algorithm from~\cite{JainMMSV03} to give an
+approximation algorithm with a ratio claimed to be
+$1.861$. However their algorithm runs in polynomial time
+only if $\max_{j\in\clientset} r_j$ is polynomial in
+$O(|\sitesset|\cdot |\clientset|)$ and the analysis of the
+performance guarantee in \cite{XuS09} is flawed\footnote{Confirmed through
+  private communication with the authors.}.  To date, the
+best approximation ratio for FTFP in the literature is $4$,
+established by Yan and Chrobak~\cite{YanC11}, while the only
+known lower bound is the $1.463$ lower bound for UFL
+from~\cite{GuhaK98}, as UFL is a special case of FTFP.
+If all demand values $r_j$ are equal, the problem can be solved
+by simple scaling and applying LP-rounding algorithms for UFL. This does
+not affect the approximation ratio, thus achieving ratio $1.575$ for this
+special case (see also \cite{LiaoShen11}).
+
+\smallskip
+
+The main result of this paper is an LP-rounding algorithm
+for FTFP with approximation ratio 1.575, matching the best
+ratio for UFL achieved via the LP-rounding method
+\cite{ByrkaGS10} and significantly improving our earlier
+bound in~\cite{YanC11}. In Section~\ref{sec: polynomial
+  demands} we prove that, for the purpose of LP-based
+approximations, the general FTFP problem can be reduced to
+the restricted version where all demand values are
+polynomial in the number of sites.  This \emph{demand
+  reduction} trick itself gives us a ratio of $1.7245$,
+since we can then treat an instance of FTFP as an instance
+of FTFL, by creating a sufficient (but polynomial) number of
+facilities at each site and using the algorithm
+from~\cite{ByrkaSS10}.
+
+The reduction to polynomial demands suggests an approach where
+clients' demands are split into unit demands. These unit demands can
+be thought of as ``unit-demand clients'', and a natural approach would
+be to adapt LP-rounding methods from
+\cite{gupta08,ChudakS04,ByrkaGS10} to this new set of unit-demand
+clients.  Roughly, these algorithms iteratively pick a client that
+minimizes a certain cost function (that varies for different
+algorithms) and open one facility in the neighborhood of this
+client. The remaining clients are then connected to these open
+facilities.  In order for this to work, we also need to convert the
+optimal fractional solution $(\bfx^\ast,\bfy^\ast)$ of the original
+instance into a solution $(\barbfx,\barbfy)$ of the modified instance
+which then can be used in the LP-rounding process. This can be thought
+of as partitioning the fractional solution, as each connection value
+$x^\ast_{ij}$ must be divided between the $r_j$ unit demands
+of client $j$ in some way. In Section~\ref{sec: adaptive partitioning} we
+formulate a set of properties required for this partitioning to
+work. For example, one property guarantees that we can connect demands
+to facilities so that two demands from the same client are connected
+to different facilities. Then we present our \emph{adaptive
+  partitioning} technique that computes a partitioning with all the
+desired properties. Using adaptive partitioning we were able to extend
+the algorithms for UFL from \cite{gupta08,ChudakS04,ByrkaGS10} to
+FTFP. We illustrate the fundamental ideas of our approach in
+Section~\ref{sec: 3-approximation}, showing how they can be used to
+design an LP-rounding algorithm with ratio $3$.  In Section~\ref{sec:
+  1.736-approximation} we refine the algorithm to improve the
+approximation ratio to $1+2/e\approx 1.736$.  Finally, in
+Section~\ref{sec: 1.575-approximation}, we improve it even further to
+$1.575$ -- the main result of this paper.
+
+Summarizing, our contributions are two-fold: One, we show
+that the existing LP-rounding algorithms for UFL can be
+extended to a much more general problem FTFP, retaining the
+approximation ratio. We believe that, should even better
+LP-rounding algorithms be developed for UFL in the future,
+using our demand reduction and adaptive partitioning
+methods, it should be possible to extend them to FTFP.
+In fact, some improvement of the ratio
+should be achieved by randomizing the scaling parameter
+$\gamma$ used in our algorithm, as Li showed in \cite{Li11}
+for UFL.  (Since the ratio $1.488$ for UFL in~\cite{Li11}
+uses also dual-fitting
+algorithms~\cite{MahdianYZ06}, we would not obtain the same
+ratio for FTFP yet using only LP-rounding.)
+
+Two, our ratio of $1.575$ is significantly better than the
+best currently known ratio of $1.7245$ for the
+closely-related FTFL problem. This suggests that in the
+fault-tolerant scenario the capability of creating
+additional copies of facilities on the existing sites makes
+the problem easier from the point of view of approximation.
