@@ -381,7 +381,8 @@ j=1,\ldots,4$, except that $d_{11} = d_{22} = d_{33} = d_{44}
 = 3$. The demands are $r_1=1, r_2=r_3=r_4=2$.
 
 Solving the LP(\ref{eqn:fac_primal}), we obtain the
-following fractional solution.
+following fractional solution in
+Table~\ref{tbl:example_frac}.
 \begin{table}[ht]
   \begin{subtable}{0.5\textwidth}
   \centering
@@ -406,30 +407,36 @@ following fractional solution.
   \subcaption{}
 \end{subtable}
 \caption{An optimal fractional solution to the FTFP instance.}
+\label{tbl:example_frac}
+
 \end{table}
 
-It is easily seen that the fractional solution above is optimal and
-complete ($x_{ij}^\ast > 0$ implies $x_{ij}^\ast = y_i^\ast$). The
-dual optimal solution has all $\alpha_j^\ast = 4/3$ for
-$j=1,2,3,4$. Now we perform the adaptive partition algorithm,
-consisting of two phases. Phase 1, the partition phase, has 2
-iterations. In the first iteration we might pick client $1$ and create
-a primary demand $\kappa_{11}$ for it. We also create one facility at
-each of the 4 sites, denoted as $\mu_{11}, \mu_{21}, \mu_{31},$ and
-$\mu_{41}$. The neighborhood $\wbarN(\kappa_{11}) =
-\{\mu_{21},\mu_{31},\mu_{41}\}$. All other clients have their
-$\wtildeN(j)$ overlap with $\wbarN(\kappa_{11})$, so each of client
-$2,3$ and $4$ has a demand created and assigned to $\kappa_{11}$. To
-maintain completeness, we split the facility at site 1 into $\mu_{11}$
-and $\mu_{12}$ with $\bary_{\mu_{11}}=1/3,\; \bary_{\mu_{12}} = 1$. In
-iteration 2, we could pick client $4$ and create a primary demand
-$\kappa_{42}$, each of client $2$ and $3$ has one demand created and
-assigned to $\kappa_{42}$. All of the three demands have $\mu_{12}$ as
-the sole facility in their neighborhood. Now that all clients are
-exhausted and we simply perform Phase 2, the augmenting phase to make
-all demands each having total connection value equal to 1. The final
-fractional solution is given below. It can be verified that all the
-stated properties are satisfied.
+It is easily seen that the fractional solution above is
+optimal and complete ($x_{ij}^\ast > 0$ implies $x_{ij}^\ast
+= y_i^\ast$). The dual optimal solution has all
+$\alpha_j^\ast = 4/3$ for $j=1,2,3,4$. Now we perform the
+adaptive partition algorithm, consisting of two
+phases. Phase 1, the partition phase, has 2 iterations. In
+the first iteration we might pick client $1$ and create a
+primary demand $\kappa_{11}$ for it. We also create one
+facility at each of the 4 sites, denoted as $\mu_{11},
+\mu_{21}, \mu_{31},$ and $\mu_{41}$. The neighborhood
+$\wbarN(\kappa_{11}) = \{\mu_{21},\mu_{31},\mu_{41}\}$. All
+other clients have their $\wtildeN(j)$ overlap with
+$\wbarN(\kappa_{11})$, so each of client $2,3$ and $4$ has a
+demand created and assigned to $\kappa_{11}$. To maintain
+completeness, we split the facility at site 1 into
+$\mu_{11}$ and $\mu_{12}$ with $\bary_{\mu_{11}}=1/3,\;
+\bary_{\mu_{12}} = 1$. In iteration 2, we could pick client
+$4$ and create a primary demand $\kappa_{42}$, each of
+client $2$ and $3$ has one demand created and assigned to
+$\kappa_{42}$. All of the three demands have $\mu_{12}$ as
+the sole facility in their neighborhood. Now that all
+clients are exhausted and we simply perform Phase 2, the
+augmenting phase to make all demands each having total
+connection value equal to 1. The final fractional solution
+is given in Table~\ref{tbl:example_partition}. It can be
+verified that all the stated properties are satisfied.
 \begin{table}[ht]
   \begin{subtable}{0.3\textwidth}
   \centering
@@ -477,6 +484,8 @@ stated properties are satisfied.
   first demand of each client.
   The right table (c) is the connection value for the second demand of each
   client. Notice client 1 does not have a second demand.}
+\label{tbl:example_partition}
+
 \end{table}
 
 %%%% end example %%%
