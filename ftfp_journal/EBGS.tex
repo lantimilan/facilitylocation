@@ -367,16 +367,18 @@ remain true.
   in the definition of $\wbarclsnb(\nu)$.)  This will be sufficient to
   prove the lemma because $B\neq\emptyset$, by the algorithm.
 
-  We now prove this claim. Note first that $B\subseteq \wbarN(\nu)
-  \subseteq A$, because we never remove facilities from $\wbarN(\nu)$
-  and we only add facilities from $\wtildeN(j)$.  Also, $B\cup E^-$
-  represents the facilities obtained from $\wtildeclsnb(j)$, so
-  $\sum_{\mu\in B\cup E^-} \bary_{\mu} = 1/\gamma$.  This and
-  $B\subseteq \wbarN(\nu)$ implies that the total connection value of
-  $B\cup (\wbarN(\nu)\cap E^-)$ to $\nu$ is at most $1/\gamma$. But
-  all facilities in $B\cup (\wbarN(\nu)\cap E^-)$ are closer to $\nu$
-  than those in $E^+\cap \wbarN(\nu)$. It follows that $B\subseteq
-  \wbarclsnb(\nu)$, completing the proof.
+  We now prove this claim. In the paragraph $\wbarN(\nu)$ denotes the
+  final $\wbarN(\nu)$ with total connection value of $1$, after
+  adaptive partition completes both phases. Note first that
+  $B\subseteq \wbarN(\nu) \subseteq A$, because we never remove
+  facilities from $\wbarN(\nu)$ and we only add facilities from
+  $\wtildeN(j)$.  Also, $B\cup E^-$ represents the facilities obtained
+  from $\wtildeclsnb(j)$, so $\sum_{\mu\in B\cup E^-} \bary_{\mu} =
+  1/\gamma$.  This and $B\subseteq \wbarN(\nu)$ implies that the total
+  connection value of $B\cup (\wbarN(\nu)\cap E^-)$ to $\nu$ is at
+  most $1/\gamma$. But all facilities in $B\cup (\wbarN(\nu)\cap E^-)$
+  are closer to $\nu$ than those in $E^+\cap \wbarN(\nu)$. It follows
+  that $B\subseteq \wbarclsnb(\nu)$, completing the proof.
 \end{proof}
 
 %%%%%%%%%%%%%%
@@ -441,8 +443,8 @@ $\gamma\bary_{\mu}$. Due to our choice of $\gamma$ being $1 < \gamma <
 2$, we have $1-1/\gamma \leq 1/\gamma$ so property (CO) actually
 implies all $\bary_{\mu} \leq 1/\gamma$ since there exists some $\nu$
 such that $\barx_{\mu\nu} = \bary_{\mu}$ and any
-$\mu\in\wbarclsnb(\nu)$ satisfies $\barx_{\mu\nu} \leq 1/\gamma$, and
-any $\mu\in\wbarfarnb(\nu)$ satisfies $\barx_{\mu\nu} \leq
+$\mu\in\wbarclsnb(\nu)$ satisfies $\barx_{\mu\nu} \leq 1/\gamma$. In
+addition, any $\mu\in\wbarfarnb(\nu)$ satisfies $\barx_{\mu\nu} \leq
 1-1/\gamma$. Then all $\gamma\bary_{\mu}$ are valid probablity values.
 
 Next, we connect demands to facilities.

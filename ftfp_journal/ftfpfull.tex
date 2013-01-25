@@ -59,23 +59,21 @@
   goal is to minimize the sum of facility opening cost and
   connection cost.
 
-  The main result of this paper is a $1.575$-approximation
-  algorithm for FTFP, based on LP-rounding. The algorithm
-  first reduces the demands to values polynomial in the
-  number of sites. Then it uses a technique that we
-  call adaptive partitioning, which partitions the instance
-  by splitting clients into unit demands and creating a
-  number of (not yet opened) facilities at each site. It
-  also partitions the optimal fractional solution to produce
-  a fractional solution for this new instance.  The
-  partitioned instance satisfies a number of properties that
-  allow us to exploit existing LP-rounding methods for UFL to
-  round our partitioned solution to an integral
-  solution, preserving the approximation ratio.  In
-  particular, our $1.575$-approximation algorithm is based
-  on the ideas from the $1.575$-approximation algorithm for
-  UFL by Byrka~\etal, with changes necessary to satisfy
-  the fault-tolerance requirement.
+  The main result of this paper is a $1.575$-approximation algorithm
+  for FTFP, based on LP-rounding. The algorithm first reduces the
+  demands to values polynomial in the number of sites. Then it uses a
+  technique that we call adaptive partitioning, which partitions the
+  instance by splitting clients into unit demands and creating a
+  number of (not yet opened) facilities at each site. It also
+  partitions the optimal fractional solution to produce a fractional
+  solution for this new instance.  The partitioned fractional solution
+  satisfies a number of properties that allow us to exploit existing
+  LP-rounding methods for UFL to round our partitioned solution to an
+  integral solution, preserving the approximation ratio.  In
+  particular, our $1.575$-approximation algorithm is based on the
+  ideas from the $1.575$-approximation algorithm for UFL by
+  Byrka~\etal, with changes necessary to satisfy the fault-tolerance
+  requirement.
 \end{abstract}
 
 \pagebreak
