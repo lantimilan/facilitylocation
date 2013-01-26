@@ -17,25 +17,30 @@
 \input{macros.tex}
 \begin{document}
 
+%%%
 \begin{frame}
   \titlepage
 \end{frame}
 
+%%%
 \begin{frame}
   \frametitle{The Uncapacitated Facility Location Problem (UFL)}
   All demands are 1, each facility can be opened only once.
 \end{frame}
 
+%%%
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Location Problem (FTFL)}
   Demands more than 1, each facility can be opened only once.
 \end{frame}
 
+%%%
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
   Demands more than 1, each facility can be opened multiple times.
 \end{frame}
 
+%%%
 \begin{frame}
   \frametitle{Best Known Approximation Results}
   \begin{itemize}
@@ -45,6 +50,7 @@
   \end{itemize}
 \end{frame}
 
+%%%
 \begin{frame}
   \frametitle{Lower Bound on Approximability}
   \begin{itemize}
@@ -54,6 +60,7 @@
   \end{itemize}
 \end{frame}
 
+%%%
 \begin{frame}
   \frametitle{The LP Formulation}
   \begin{itemize}
@@ -61,30 +68,28 @@
   \item $x_{ij}$ represent the number of connections from client $j$
     to facilities at site $i$.
   \end{itemize}
-%%%%%%%%%%%
-\begin{alignat}{3}
-  \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
-  									\\ \notag
-  \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
-									\\ \notag
-     \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
- 									\\ \notag
-  	  x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
-  									\\ \notag
-\end{alignat}
-
-%%%%%%%%%%%%
-
-\begin{alignat}{3}
-  \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
-     						\\ \notag
-  \textrm{subject to} \quad \textstyle{
-    \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
-							\\ \notag
-  \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
-							\\ \notag
-  \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
-\end{alignat}
-
+  %%%%%%%%%%% 
+  \begin{alignat}{3}
+    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
+    \\ \notag
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+    \\ \notag
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+  \end{alignat}
+  %%%%%%%%%%%%
+  \begin{alignat}{3}
+    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
+    \\ \notag
+    \textrm{subject to} \quad \textstyle{
+      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+    \\ \notag
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+  \end{alignat}
+  %%%%%%%%%%%
 \end{frame}
 \end{document}
