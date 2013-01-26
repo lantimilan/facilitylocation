@@ -1,0 +1,90 @@
+% ftfp_proposal.tex
+\documentclass[hyperref, xcolor=dvipsnames]{beamer}
+
+\usepackage{amsmath,graphicx,tikz}
+\title[Thesis Proposal Defense]{Approximation Algorithms for the
+  Facility Location prolems}
+\author[lyan]{Li Yan}
+\institute[UCR]{
+  Computer Science\\
+  University of California Riverside\\
+  [\medskipamount]
+  \includegraphics[width=.2\textwidth,height=.25\textheight]{figure/UCseal.eps}
+}
+\date{Jan 30th, 2013}
+\usetheme{Warsaw}
+
+\input{macros.tex}
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Uncapacitated Facility Location Problem (UFL)}
+  All demands are 1, each facility can be opened only once.
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Fault-tolerant Facility Location Problem (FTFL)}
+  Demands more than 1, each facility can be opened only once.
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
+  Demands more than 1, each facility can be opened multiple times.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Best Known Approximation Results}
+  \begin{itemize}
+  \item UFL: 1.488, a combination of LP-rounding and greedy, by Li (Princeton)
+  \item FTFL: 1.7245, dependent rounding and laminar clustering, by Byrka, Srinivasan and Swamy (U Maryland)
+  \item FTFP: 1.575, LP-rounding (UCR)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lower Bound on Approximability}
+  \begin{itemize}
+  \item No ratio better than $1.463$ unless $\PP = \NP$. Reduction
+    from Set Cover, by Sviridenko.
+  \item Integrality Gap is also $1.463$, the example uses $n$ facilities and $n \choose l$ clients. The fractional solution is each $y_i = 1/l$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The LP Formulation}
+  \begin{itemize}
+  \item $y_i$ represent the number of facilities built at site $i$.
+  \item $x_{ij}$ represent the number of connections from client $j$
+    to facilities at site $i$.
+  \end{itemize}
+%%%%%%%%%%%
+\begin{alignat}{3}
+  \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
+  									\\ \notag
+  \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+									\\ \notag
+     \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+ 									\\ \notag
+  	  x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+  									\\ \notag
+\end{alignat}
+
+%%%%%%%%%%%%
+
+\begin{alignat}{3}
+  \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
+     						\\ \notag
+  \textrm{subject to} \quad \textstyle{
+    \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+							\\ \notag
+  \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+							\\ \notag
+  \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+\end{alignat}
+
+\end{frame}
+\end{document}
