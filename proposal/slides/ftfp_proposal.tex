@@ -340,6 +340,44 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
   \end{table}
 \end{frame}
 
+\begin{frame}
+  \frametitle{$3$-approximation Algorithm}
+  \begin{itemize}
+  \item Each primary demand open $\mu\in \wbarN(\kappa)$ with probability
+    $\bary_{\mu}$.
+  \item Each primary demand connects to the only open facility
+    $\phi(\kappa)$ in $\wbarN(\kappa)$.
+  \item Each non-primary demand connects to $\phi(\kappa)$.
+  \item Expected facility cost at most $F^\ast$.
+  \item Expected connection cost at most $C^\ast + 2\;\LP^\ast$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$1.736$-approximation Algorithm}
+  \begin{itemize}
+  \item Improve connection cost estimate: For non-primary demands use
+    $\mu$ in $\wbarN(\nu)$ if one is open.
+  \item Expected facility cost at most $F^\ast$.
+  \item Expected connection cost at most $C^\ast + 2/e\;\LP^\ast$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$1.575$-approximation}
+  \begin{itemize}
+  \item Need a more refined partition to deal with close and far
+    neighborhood.
+  \item $\wbarN_{\cls}(\nu)$ has total connection value $1/\gamma$.
+  \item $\wbarN_{\far}(\nu)$ has total connection value $1-1/\gamma$.
+  \item Assignment implies overlap of $\wbarN_{\cls}$ of $\nu$ and
+    $\kappa$.
+  \item Expected facility cost at most $\gamma F^\ast$.
+  \item Expected connection cost at most
+    $\max\{\frac{1+1/e^\gamma}{1-1/e^\gamma}, 1+2/e^\gamma\}\; C^\ast$.
+  \item Picking $\gamma=1.575$ gives ratio $1.575$.
+  \end{itemize}
+\end{frame}
 
 %%%%%%%%%%
 \end{document}
