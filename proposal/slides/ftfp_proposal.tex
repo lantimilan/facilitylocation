@@ -92,4 +92,60 @@
   \end{alignat}
   %%%%%%%%%%%
 \end{frame}
+
+\begin{frame}
+  \frametitle{The Shmoys, Tardos and Ardal's Algorithm (STA97)}
+  \begin{itemize}
+  \item If all $N(j)$ disjoint, then easy.
+  \item To bound $F^A$, need neighborhood of chosen clients be disjoint.
+  \item To bound $C^A$, need non-primary clients having a fail over connection.
+  \end{itemize}
+
+  \begin{itemize}
+  \item The greedy clustering: iteratively find the best client and assign other clients to it.
+  \item Estimate $\max d_{ij}$, either cut the neighborhood $N(j)$ or use dual solution.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Chudak, Svi, Byrka and Li' improvement}
+  \begin{itemize}
+  \item Chudak: randomized rounding, estimate on the expected connection cost
+  \item Sviridenko: use a concave function to upper bound distance and guide rounding
+  \item Byrka: boost facility opening probability and use $N_{\cls}(j)$ for overlapping
+  \item Li: find the right distribution for probability boost
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Demand Reduction} Given an FTFP instance, we can reduce
+  it to an instance such that $R=\max_{j}r_j$ is bounded by
+  $2|\sitesset|$.
+
+  \begin{itemize}
+    \item $\hatx_{ij} = \floor{x_{ij}^\ast}, \haty_{i} = \floor{y_i^\ast}$
+    \item $\dotx_{ij} = x_{ij}^\ast - \hatx_{ij}, \doty_{i} = y_i^\ast
+      - \haty_{i}$
+    \item $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$
+    \item $\dotr_j = r_j - \hatr_j$
+  \end{itemize}
+  
+  \begin{claim}
+    $\hatx_{ij}, \haty_{i}$ is feasible and optimal for $\hat I$, and
+    $\dotx_{ij}, \doty_{i}$ is feasible and optimal for $\dot I$.
+  \end{claim}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    Given any $\rho\geq 1$ approximation algorithm $\calA$ for solving
+    restricted FTFP, we can obtain an algorithm with
+    $\rho$-approximation for general FTFP.
+  \end{theorem}
+  \begin{proof}
+    Solve LP and obtain $\hat I$ and $\dot I$. For $\hat I$ we have
+    ratio $1$, and use $\calA$ to solve $\dot I$ with ratio
+    $\rho$. Final ratio is $\max\{1,\rho\}$.
+  \end{proof}
+\end{frame}
 \end{document}
