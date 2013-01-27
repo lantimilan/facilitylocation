@@ -379,5 +379,79 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Primal-dual Algorithms}
+  \begin{itemize}
+  \item A Simple $O((\log R/\log\log R)^2)$ Algorithm.
+  \item Greedy Algorithm with Dual-fitting Analysis.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{A Simple $O((\log R/\log\log R)^2)$ Algorithm}
+  \begin{itemize}
+  \item Let $r_1,\ldots, r_n$ be demands of the $n$ clients.
+  \item Group clients by $[k^i, k^{i+1})$ for $k$ such that $k^k = R =
+    \max_j r_j$.
+  \item Solve each group by treating each client with
+    $r_j=k^{i+1}$.
+  \item Combine all solution to each group to obtain final integral
+    solution.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Performance Analysis}
+  \begin{theorem}
+    There is a primal-dual $O(\log R /\log\log R)^2$-approximation
+    algorithm for FTFP.
+  \end{theorem}
+  \begin{proof}
+    \begin{itemize}
+    \item When solving each group individually, we pay a factor of $k$
+      for each group.
+    \item When combining solutions, we pay a factor of $k$ since each
+      facility can be over counted at most $k$ times
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Greedy Algorithm}
+  \begin{itemize}
+  \item Repeatedly picking the star with minimum average cost.
+  \item A star is a facility $i$ and a set of clients $S$.
+  \item Average cost is $ (f_i + \sum_{j\in S} d_{ij}) / |S|$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Known Facts about Greedy}
+  \begin{itemize}
+  \item Runs in polynomial time as the best star remains best until
+    exhausted so can combine iterations into phases.
+  \item $O(H_n)$-approximation by dual-fitting analysis.
+  \item Open question: Is it $O(1)$-approximation?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary} We studied the fault-tolerante facility
+  placement problem (FTFP) on approximation algorithms.
+
+  \begin{itemize}
+  \item Known results
+    \begin{itemize}
+    \item LP-rounding algorithms achieve a best ratio of $1.575$,
+      matching the best LP-based ratio for its special case, UFL.
+    \item Primal-dual algorithms achieve $O(\log R/\log\log R)$,
+      better than the $O(\log R)$ ratio for primal-dual algorithm for
+      FTFL.
+    \item The greedy algorithm has ratio no more than $O(H_n)$.
+  \end{itemize}
+  \item Work in progress:
+    Resolve whether Greedy is $O(1)$-approximation or not.
+  \end{itemize}
+\end{frame}
 %%%%%%%%%%
 \end{document}
