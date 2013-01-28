@@ -25,7 +25,7 @@
 %%%
 \begin{frame}
   \frametitle{The Uncapacitated Facility Location Problem (UFL)}
-  All demands are 1, each facility can be opened only once.
+  All demands are 1, each site can open only one facility.
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
     \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
@@ -51,7 +51,7 @@
 %%%
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Location Problem (FTFL)}
-  Demands may be more than 1, each facility can be opened only once.
+  Demands may be more than 1, each site can open only one facility.
 
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
@@ -72,12 +72,20 @@
 %%%
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
-  Demands may be more than 1, each facility can be opened multiple times.
+  Demands may be more than 1, each site can open multiple facilities.
 
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,1.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,2.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,1.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,5.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,7.5) {};
 
     \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
     \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
@@ -245,7 +253,7 @@
 \begin{frame}
   \frametitle{UFL Background: End.}
 
-  Chudak, Svi, Byrka and Li' improvement
+  Chudak, Svi, Byrka and Li's improvement
   \begin{itemize}
   \item Chudak: randomized rounding, estimate on the expected connection cost
   \item Sviridenko: use a concave function to upper bound distance and to guide rounding
@@ -446,7 +454,7 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
     \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
 
     \foreach \from/\to in
-    {fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
+    {fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1,fac3/client2,fac4/client1,fac4/client2,fac4/client3}
     \draw (\from)--(\to);
   \end{tikzpicture}
   \end{minipage}
@@ -610,13 +618,34 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
   \frametitle{A Simple $O((\log R/\log\log R)^2)$ Algorithm}
   \begin{itemize}
   \item Let $r_1,\ldots, r_n$ be demands of the $n$ clients.
-  \item Group clients by $[k^i, k^{i+1})$ for $k$ such that $k^k = R =
+  \item Group clients by $[k^{l-1}+1,\; k^l]$ for $k$ such that $k^k = R =
     \max_j r_j$.
   \item Solve each group by treating each client with
-    $r_j=k^{i+1}$.
+    $r_j=k^l$.
   \item Combine all solution to each group to obtain final integral
     solution.
   \end{itemize}
+  \begin{tikzpicture}[scale=0.8]
+    \draw (0,0) ellipse (1.2 and 2);
+    \draw (0,1.2) node {$1$};
+    \draw (0,.3) node {$2$};
+    \draw (0,-1.5) node {$k$};
+
+    \draw (3,0) ellipse (1.2 and 2);
+    \draw (3,1.2) node {$k+1$};
+    \draw (3,.3) node {$k+2$};
+    \draw (3,-1.5) node {$k^2$};
+    
+    \draw (6,0) ellipse (1.2 and 2);
+    \draw (6,1.2) node {$k^2+1$};
+    \draw (6,.3) node {$k^2+2$};
+    \draw (6,-1.5) node {$k^3$};
+
+    \draw (11,0) ellipse (1.2 and 2);
+    \draw (11,1.2) node {$k^{k-1}+1$};
+    \draw (11,.3) node {$k^{k-1}+2$};
+    \draw (11,-1.5) node {$k^k$};
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}
@@ -627,12 +656,13 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
   \end{theorem}
   \begin{proof}
     \begin{itemize}
-    \item When solving each group individually, we pay a factor of $k$
-      for each group, since within each group the total cost is up by
-      at most $k$ times due to $r_j$ rounded up.
+    \item Solving each group individually, by treating it as uniform
+      demand instance with all $r_j = k^l$ for the $l^{th}$ group. We
+      pay a factor of $k$ for each group, since each $r_j$ is within a
+      factor of $k$ of $k^l$.
     \item When combining solutions, we pay a factor of $k$ since each
-      facility can be over counted at most $k$ times, since we have at
-      most $k$ groups because $k^k = R$.
+      facility can be over counted at most $k$ times. Notice we have
+      $k$ groups because $k^k = R$.
     \end{itemize}
   \end{proof}
 \end{frame}
@@ -644,6 +674,17 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
   \item A star is a facility $i$ and a set of clients $S$.
   \item Average cost is $ (f_i + \sum_{j\in S} d_{ij}) / |S|$.
   \end{itemize}
+  \begin{tikzpicture}[rotate=-90]
+    \node[fill=blue!50,minimum size=.5cm] (fac) at (0,2) {$i$};
+    \node[circle,fill=green!50,minimum size=.6cm] (c1) at (2,0) {};
+    \node[circle,fill=green!50,minimum size=.6cm] (c2) at (2,1) {};
+    \node[circle,fill=green!50,minimum size=.6cm] (c3) at (2,2) {};
+    \node[circle,fill=green!50,minimum size=.6cm] (c4) at (2,4) {};
+    \draw[style=dashed] (2,2) ellipse (1 and 4);
+    \foreach \to in {c1,c2,c3,c4}
+    \draw (fac)--(\to);
+    \node (s) at (2,-1) {$S$};
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}
