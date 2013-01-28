@@ -482,9 +482,11 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
   \begin{proof}
     \begin{itemize}
     \item When solving each group individually, we pay a factor of $k$
-      for each group.
+      for each group, since within each group the total cost is up by
+      at most $k$ times due to $r_j$ rounded up.
     \item When combining solutions, we pay a factor of $k$ since each
-      facility can be over counted at most $k$ times
+      facility can be over counted at most $k$ times, since we have at
+      most $k$ groups because $k^k = R$.
     \end{itemize}
   \end{proof}
 \end{frame}
