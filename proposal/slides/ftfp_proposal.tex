@@ -106,7 +106,7 @@
   \frametitle{Lower Bound on Approximability}
   \begin{itemize}
   \item No ratio better than $1.463$ unless $\PP = \NP$. Reduction
-    from Set Cover, by Sviridenko.
+    from Set Cover, by Guha, Khuller, and Sviridenko.
   \item Integrality Gap is also $1.463$, the example uses $n$ facilities and $n \choose l$ clients. The fractional solution is each $y_i = 1/l$.
   \end{itemize}
   \begin{tikzpicture}[scale=.7,rotate=-90]
@@ -173,21 +173,24 @@
 
 %%%
 \begin{frame}
-  \frametitle{The Shmoys, Tardos and Ardal's Algorithm (STA97)}
+  \frametitle{UFL Background:}
+
+  The Shmoys, Tardos and Ardal's Algorithm (STA97)
   \begin{itemize}
   \item If all $N(j)$ disjoint, then easy.
   \item To bound $F^A$, need neighborhood of chosen clients be disjoint.
-  \item To bound $C^A$, need non-primary clients having a fail over connection.
+  \item To bound $C^A$, need non-primary clients having a fail-over connection.
   \end{itemize}
 
   \begin{itemize}
-  \item The greedy clustering: iteratively find the best client and assign other clients to it.
-  \item Estimate $\max d_{ij}$, either cut the neighborhood $N(j)$ or use dual solution.
+  \item The greedy clustering: iteratively find the best client and assign some other clients to it.
+  \item Estimate $\max_{i\in N(j)} d_{ij}$, either cut the neighborhood $N(j)$ or use dual solution.
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Clustering Structure}
+  \frametitle{UFL background: Cont.}
+  The Clustering Structure
   \begin{tikzpicture}
     % fac group
     \draw[style=dashed] (0,0) ellipse (.5 and 1);
@@ -240,10 +243,12 @@
 \end{frame}
 %%%
 \begin{frame}
-  \frametitle{Chudak, Svi, Byrka and Li' improvement}
+  \frametitle{UFL Background: End.}
+
+  Chudak, Svi, Byrka and Li' improvement
   \begin{itemize}
   \item Chudak: randomized rounding, estimate on the expected connection cost
-  \item Sviridenko: use a concave function to upper bound distance and guide rounding
+  \item Sviridenko: use a concave function to upper bound distance and to guide rounding
   \item Byrka: boost facility opening probability and use $N_{\cls}(j)$ for overlapping
   \item Li: find the right distribution for probability boost
   \end{itemize}
@@ -253,7 +258,7 @@
 \begin{frame}
   \frametitle{Demand Reduction} Given an FTFP instance, we can reduce
   it to an instance such that $R=\max_{j}r_j$ is bounded by
-  $2|\sitesset|$.
+  $|\sitesset|$.
 
   \begin{itemize}
     \item $\hatx_{ij} = \floor{x_{ij}^\ast}, \haty_{i} = \floor{y_i^\ast}$
@@ -289,9 +294,10 @@
     There is a $1.7245$-approximation algorithm for the FTFP problem.
   \end{corollary}
   \begin{proof}
-    We simply reduce an FTFP problem into an FTFL problem. Solving the
-    instance $\dot \calI$ using the $1.7245$-approximation algorithm
-    for FTFL by Byrka {\etal}.
+    We simply reduce the FTFP problem into the FTFL problem. The $\hat
+    \calI$ instance already has an integral solution
+    $(\hatbfx,\hatbfy)$.  Solving the instance $\dot \calI$ using the
+    $1.7245$-approximation algorithm for FTFL by Byrka {\etal}.
   \end{proof}
 \end{frame}
 
@@ -401,49 +407,72 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
 
   Choose client 1 and create a primary demand $\kappa_{11}$. Each of
   client 2,3,4 creates a demand and assigned to $\kappa_{11}$.
+
+  %%%%%%%
+  \begin{minipage}{.45\textwidth}
   \begin{table}
-  \begin{subtable}{0.5\textwidth}
+  \begin{subtable}{1\textwidth}
     \centering
     \begin{tabular}{c | c c c c}
       $\bary$ & 1 & 2 & 3 & 4\\
       \hline
       & 1/3 & 1/3 & 1/3 & 1/3\\
     \end{tabular}
-    \subcaption{Opening fraction of the first facility in each site.}
   \end{subtable}
 %
-  \begin{subtable}{0.5\textwidth}
+  \begin{subtable}{1\textwidth}
     \centering
     \begin{tabular}{c | c c c c}
       $\barx$ & 1 & 2 & 3 & 4\\
       \hline
-      1 & 0 & 1/3 & 1/3 & 1/3\\
-      2 & 0 & 0 & 1/3 & 1/3\\
-      3 & 0 & 1/3 & 0 & 1/3\\
-      4 & 0 & 1/3 & 1/3 & 0\\
+      1 & 0 & 0 & 0 & 0\\
+      2 & 1/3 & 0 & 1/3 & 1/3\\
+      3 & 1/3 & 1/3 & 0 & 1/3\\
+      4 & 1/3 & 1/3 & 1/3 & 0\\
     \end{tabular}
-    \subcaption{Connection fraction of the first demand of each client.}
   \end{subtable}
 \end{table}
+  \end{minipage}
+  \begin{minipage}{.45\textwidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{11}$};
+    \node[fill=blue!50] (fac2) at (0,3) {$\mu_{21}$};
+    \node[fill=blue!50] (fac3) at (0,6) {$\mu_{31}$};
+    \node[fill=blue!50] (fac4) at (0,9) {$\mu_{41}$};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$\kappa_{11}$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{21}$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{31}$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
+
+    \foreach \from/\to in
+    {fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
+    \draw (\from)--(\to);
+  \end{tikzpicture}
+  \end{minipage}
+  %%%%%%%%%% 
 \end{frame}
+
 
 \begin{frame}
   \frametitle{Phase 1: Iteration 2}
 
   Choose client 4 and create a primary demand $\kappa_{42}$. Each of
   client 2,3 creates a demand and assigned to $\kappa_{42}$.
+
+  %%%%%%%
+  \begin{minipage}{.45\linewidth}
   \begin{table}
-  \begin{subtable}{0.5\textwidth}
+  \begin{subtable}{1\textwidth}
     \centering
     \begin{tabular}{c | c c c c}
       $\bary$ & 1 & 2 & 3 & 4\\
       \hline
       & 1 &  &  & \\
     \end{tabular}
-    \subcaption{Opening fraction of the second facility in each site.}
   \end{subtable}
 %
-  \begin{subtable}{0.5\textwidth}
+  \begin{subtable}{1\textwidth}
     \centering
     \begin{tabular}{c | c c c c}
       $\barx$ & 1 & 2 & 3 & 4\\
@@ -452,17 +481,33 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
       3 & 1 & 0 & 0 & 0\\
       4 & 1 & 0 & 0 & 0\\
     \end{tabular}
-    \subcaption{Connection fraction of the second demand of each
-      client. Notice client 1 does not have a second demand.}
   \end{subtable}
 \end{table}
+  \end{minipage}
+  \begin{minipage}{.45\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{12}$};
+
+    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{22}$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{32}$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$\kappa_{42}$};
+
+    \foreach \from/\to in
+    {fac1/client2,fac1/client3,fac1/client4}
+    \draw (\from)--(\to);
+  \end{tikzpicture}
+  \end{minipage}
 \end{frame}
 
 %%%
 \begin{frame}
-  \frametitle{Phase 2: Augment to Unit}
+  \frametitle{Phase 2: Augment to Unit} 
+
+  Notice all demands have connection value $1$.
+
+  \begin{minipage}{.45\linewidth}
   \begin{table}
-    \begin{subtable}{0.5\textwidth}
+    \begin{subtable}{1\textwidth}
       \centering
       \begin{tabular}{c | c c c c}
         $\barx$ & 1 & 2 & 3 & 4\\
@@ -472,11 +517,9 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
         3 & 1/3 & 1/3 & 0 & 1/3\\
         4 & 1/3 & 1/3 & 1/3 & 0\\
       \end{tabular}
-      \subcaption{Connection fraction of the first demand of each
-        client.}
     \end{subtable}
 %
-    \begin{subtable}{0.5\textwidth}
+    \begin{subtable}{1\textwidth}
       \centering
       \begin{tabular}{c | c c c}
         $\barx$ & 2 & 3 & 4\\
@@ -486,11 +529,34 @@ The dual solution has all $\alpha_j^\ast = 4/3$.
         3  & 0 & 0 & 0\\
         4  & 0 & 0 & 0\\
       \end{tabular}
-      \subcaption{Connection fraction of the secon demand of each
-        client except client 1.}
     \end{subtable}
-    \caption{Notice all demands have connection value $1$.}
   \end{table}
+\end{minipage}
+  \begin{minipage}{.45\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{11}$};
+    \node[fill=blue!50] (fac2) at (0,3) {$\mu_{21}$};
+    \node[fill=blue!50] (fac3) at (0,6) {$\mu_{31}$};
+    \node[fill=blue!50] (fac4) at (0,9) {$\mu_{41}$};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$\kappa_{11}$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{21}$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{31}$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
+
+    \foreach \from/\to in {fac1/client2,fac1/client3,fac1/client4,fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
+    \draw (\from)--(\to);
+
+    \node[fill=blue!75] (fac12) at (0,-2) {$\mu_{12}$};
+    \node[circle,fill=green!75] (client22) at (10,2) {$\nu_{22}$};
+    \node[circle,fill=green!75] (client32) at (10,5) {$\nu_{32}$};
+    \node[circle,fill=green!75] (client42) at (10,8) {$\kappa_{42}$};
+
+    \foreach \to in {client22,client32,client42}
+    \draw (fac12)--(\to);
+  \end{tikzpicture}
+  \end{minipage}
+
 \end{frame}
 
 \begin{frame}
