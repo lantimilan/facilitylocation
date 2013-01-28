@@ -104,6 +104,33 @@
     from Set Cover, by Sviridenko.
   \item Integrality Gap is also $1.463$, the example uses $n$ facilities and $n \choose l$ clients. The fractional solution is each $y_i = 1/l$.
   \end{itemize}
+  \begin{tikzpicture}[scale=.7,rotate=-90]
+    \node[fill=blue!50] at (.5,2) {$f_1$};
+    \node[fill=blue!50] at (.5,5) {$f_2$};
+    \node[fill=blue!50] at (.5,13) {$f_n$};
+    
+    \fill (.5,7.5) circle (5pt);
+    \fill (.5,9) circle (5pt);
+    \fill (.5,10.5) circle (5pt);
+
+    \node[above] (fac1) at (0,2) {$y_1=1/l$};
+    \node[above] (fac2) at (0,5) {$y_2=1/l$};
+    \node[above] (fac3) at (0,13) {$y_n=1/l$};
+
+    \draw[fill=green!50] (2.5,0) circle (.5);
+    \draw[fill=green!50] (2.5,3) circle (.5);
+    \draw[fill=green!50] (2.5,6) circle (.5);
+    \draw[fill=green!50] (2.5,15) circle (.5);
+
+    \fill (2.5,8) circle (5pt);
+    \fill (2.5,10) circle (5pt);
+    \fill (2.5,12) circle (5pt);
+
+    \node[below] (client1) at (3,0) {$1$};
+    \node[below] (client2) at (3,3) {$2$};
+    \node[below] (client3) at (3,6) {$3$};
+    \node[below] (client4) at (3,15) {$n \choose l$};
+  \end{tikzpicture}
 \end{frame}
 
 %%%
