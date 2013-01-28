@@ -1,7 +1,7 @@
 % ftfp_proposal.tex
 \documentclass[hyperref, xcolor=dvipsnames]{beamer}
 
-\usepackage{amsmath,caption, subcaption, graphicx,tikz}
+\usepackage{amsmath, caption, subcaption, graphicx, tikz}
 \title[Thesis Proposal Defense]{Approximation Algorithms for the
   Facility Location prolems}
 \author[lyan]{Li Yan}
@@ -26,18 +26,64 @@
 \begin{frame}
   \frametitle{The Uncapacitated Facility Location Problem (UFL)}
   All demands are 1, each facility can be opened only once.
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$r_1=1$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$r_2=1$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$r_3=1$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$r_4=1$};
+    
+    \foreach \from in {fac1,fac2,fac3}
+    \foreach \to in {client1,client2,client3,client4}
+        \draw (\from)--(\to);
+  \end{tikzpicture}
+
 \end{frame}
 
 %%%
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Location Problem (FTFL)}
-  Demands more than 1, each facility can be opened only once.
+  Demands may be more than 1, each facility can be opened only once.
+
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    
+    \foreach \from in {fac1,fac2,fac3}
+    \foreach \to in {client1,client2,client3,client4}
+        \draw (\from)--(\to);
+  \end{tikzpicture}
 \end{frame}
 
 %%%
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
-  Demands more than 1, each facility can be opened multiple times.
+  Demands may be more than 1, each facility can be opened multiple times.
+
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    
+    \foreach \from in {fac1,fac2,fac3}
+    \foreach \to in {client1,client2,client3,client4}
+        \draw (\from)--(\to);
+  \end{tikzpicture}
+
 \end{frame}
 
 %%%
