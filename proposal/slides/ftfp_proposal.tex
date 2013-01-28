@@ -1,5 +1,17 @@
 % ftfp_proposal.tex
+\def\handout{0}
+\def\notes{0}
+\ifnum\handout=1
+\documentclass[handout, hyperref, xcolor=dvipsnames]{beamer}
+\usepackage{pgfpages}
+\pgfpagesuselayout{4 on 1}[letterpaper,landscape,border shrink=4mm]
+\setbeamertemplate{footline}[page number]
+% use \setbeamertemplate{footline}[text line]{xxxx} if you want xxxx at bottom left of each slide
+% use \setbeamertemplate{footline}[text line]{xxxx\hfill\thepage}
+%  if you want xxxx at bottom left, page # at bottom right
+\else
 \documentclass[hyperref, xcolor=dvipsnames]{beamer}
+\fi
 
 \usepackage{amsmath, caption, subcaption, graphicx, tikz}
 \title[Thesis Proposal Defense]{Approximation Algorithms\\
