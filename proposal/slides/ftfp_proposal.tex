@@ -181,6 +181,58 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{The Clustering Structure}
+  \begin{tikzpicture}
+    % fac group
+    \draw[style=dashed] (0,0) ellipse (.5 and 1);
+    \draw[fill=blue!50] (-.15,-.7) rectangle (.1,-.45);
+    \draw[fill=blue!50] (-.15,-.2) rectangle (.1,.05);
+    \draw[fill=blue!50] (-.15,.3) rectangle (.1,.55);
+
+    \draw[style=dashed] (0,2.5) ellipse (.5 and 1);
+    \draw[fill=blue!50] (-.15,2) rectangle (.1,2.25);
+    \draw[fill=blue!50] (-.15,2.5) rectangle (.1,2.75);
+
+    \draw[style=dashed] (0,6) ellipse (.5 and 1);
+    \draw[fill=blue!50] (-.15,5.1) rectangle (.1,5.35);
+    \draw[fill=blue!50] (-.15,5.6) rectangle (.1,5.85);
+    \draw[fill=blue!50] (-.15,6.1) rectangle (.1,6.35);
+    \draw[fill=blue!50] (-.15,6.6) rectangle (.1,6.85);
+
+    % client group
+    \draw[style=dashed] (6,0) ellipse (4 and 1);
+    \draw[fill=yellow!50] (3,0) circle (.25);
+    \draw[fill=green!50] (5,0) circle (.25);
+    \draw[fill=green!50] (6,0) circle (.25);
+    \draw[fill=green!50] (7,0) circle (.25);
+    \draw[fill=green!50] (9,0) circle (.25);
+
+    \draw[style=dashed] (6,2.5) ellipse (4 and 1);
+    \draw[fill=yellow!50] (3,2.5) circle (.25);
+    \draw[fill=green!50] (5,2.5) circle (.25);
+    \draw[fill=green!50] (6,2.5) circle (.25);
+    \draw[fill=green!50] (7,2.5) circle (.25);
+    \draw[fill=green!50] (9,2.5) circle (.25);
+
+    \draw[style=dashed] (6,6) ellipse (4 and 1);
+    \draw[fill=yellow!50] (3,6) circle (.25);
+    \draw[fill=green!50] (5,6) circle (.25);
+    \draw[fill=green!50] (6,6) circle (.25);
+    \draw[fill=green!50] (7,6) circle (.25);
+    \draw[fill=green!50] (9,6) circle (.25);
+
+    % lines
+    \path[draw] (2.75,6) -- (.25,6.9);
+    \path[draw] (2.75,6) -- (.25,5.1);
+
+    \path[draw] (2.75,2.5) -- (.25,3.4);
+    \path[draw] (2.75,2.5) -- (.25,1.6);
+
+    \path[draw] (2.75,0) -- (.25,.9);
+    \path[draw] (2.75,0) -- (.25,-.9);
+  \end{tikzpicture}
+\end{frame}
 %%%
 \begin{frame}
   \frametitle{Chudak, Svi, Byrka and Li' improvement}
