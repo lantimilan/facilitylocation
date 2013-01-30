@@ -34,6 +34,33 @@
   \titlepage
 \end{frame}
 
+\begin{frame}
+  \frametitle{Outline}
+  \begin{enumerate}
+  \item Introduction
+    \begin{itemize}
+    \item The Uncapacitated Facility Location problem (UFL)
+    \item The Fault-tolerant Facility Location problem (FTFL)
+    \item The Fault-tolerant Facility Placement problem (FTFP)
+    \end{itemize}
+  \item Review of UFL and FTFL results
+  \item Contributions: Approximation Algorithms for FTFP
+      \begin{itemize}
+      \item LP-rounding Algorithms
+        \begin{itemize}
+        \item Demand Reduction
+        \item Adaptive Partition
+        \item 1.575 Approximation
+        \end{itemize}
+      \item Combinatorial Algorithms
+        \begin{itemize}
+        \item $O((\log R / \log\log R)^2)$ approximation
+        \item Analysis of Greedy
+        \end{itemize}
+      \end{itemize}
+  \item{Summary}
+  \end{enumerate}
+\end{frame}
 %%%
 \begin{frame}
   \frametitle{The Uncapacitated Facility Location Problem (UFL)}
@@ -160,11 +187,13 @@
 
 %%%
 \begin{frame}
-  \frametitle{The LP Formulation}
+  \frametitle{UFL Background: LP-rounding Algorithms}
+
+  The LP Formulation for UFL
   \begin{itemize}
-  \item $y_i$ represent the number of facilities built at site $i$.
-  \item $x_{ij}$ represent the number of connections from client $j$
-    to facilities at site $i$.
+  \item $y_i\in [0,1]$ represent the number of facilities built at site $i$.
+  \item $x_{ij}\in [0,1]$ represent the number of connections from
+    client $j$ to facilities at site $i$.
   \end{itemize}
   %%%%%%%%%%% 
   \begin{alignat}{3}
@@ -172,14 +201,14 @@
     \\ \notag
     \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
     \\ \notag
-    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq 1 & &\forall j\in \clientset
     \\ \notag
     x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
     \\ \notag
   \end{alignat}
   %%%%%%%%%%%%
   \begin{alignat}{3}
-    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
+    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} \alpha_j&\label{eqn:fac_dual}  
     \\ \notag
     \textrm{subject to} \quad \textstyle{
       \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
@@ -191,12 +220,14 @@
   %%%%%%%%%%%
 \end{frame}
 
+
 %%%
 \begin{frame}
-  \frametitle{UFL Background:}
+  \frametitle{UFL Background: Cont.}
 
   The Shmoys, Tardos and Ardal's Algorithm (STA97)
   \begin{itemize}
+  \item Start with optimal fractional solution $(\bfx^\ast,\bfy^\ast)$
   \item If all $N(j)$ disjoint, then easy.
   \item To bound $F^A$, need neighborhood of chosen clients be disjoint.
   \item To bound $C^A$, need non-primary clients having a fail-over connection.
@@ -276,6 +307,60 @@
 
 %%%
 \begin{frame}
+  \frametitle{Contribution: Approximation Algorithms for FTFP}
+
+  \begin{itemize}
+  \item LP-rounding Algorithms
+    \begin{itemize}
+    \item Demand Reduction
+    \item Adaptive Partition
+    \item 1.575 Approximation
+    \end{itemize}
+  \item Combinatorial Algorithms
+    \begin{itemize}
+    \item $O((\log R / \log\log R)^2)$ approximation
+    \item Analysis of Greedy
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%%%
+\begin{frame}
+  \frametitle{LP for the FTFP Problem}
+  \begin{itemize}
+  \item $y_i$ represent the number of facilities built at site $i$.
+  \item $x_{ij}$ represent the number of connections from client $j$
+    to facilities at site $i$.
+  \end{itemize}
+  %%%%%%%%%%% 
+  \begin{alignat}{3}
+    \notag
+    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&
+    \\ \notag
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+    \\ \notag
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+  \end{alignat}
+  %%%%%%%%%%%%
+  \begin{alignat}{3}
+    \notag
+    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&
+    \\ \notag
+    \textrm{subject to} \quad \textstyle{
+      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+    \\ \notag
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+  \end{alignat}
+  %%%%%%%%%%%
+\end{frame}
+
+%%%
+\begin{frame}
   \frametitle{Demand Reduction} Given an FTFP instance, we can reduce
   it to an instance such that $R=\max_{j}r_j$ is bounded by
   $|\sitesset|$.
@@ -284,13 +369,17 @@
     \item $\hatx_{ij} = \floor{x_{ij}^\ast}, \haty_{i} = \floor{y_i^\ast}$
     \item $\dotx_{ij} = x_{ij}^\ast - \hatx_{ij}, \doty_{i} = y_i^\ast
       - \haty_{i}$
-    \item $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$
-    \item $\dotr_j = r_j - \hatr_j$
+    \item $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$ for instance $\hat \calI$
+    \item $\dotr_j = r_j - \hatr_j$ for instance $\dot \calI$
   \end{itemize}
   
   \begin{claim}
-    $\hatx_{ij}, \haty_{i}$ is feasible and optimal for $\hat I$, and
-    $\dotx_{ij}, \doty_{i}$ is feasible and optimal for $\dot I$.
+    $\hatx_{ij}, \haty_{i}$ is feasible and optimal for $\hat \calI$, and
+    $\dotx_{ij}, \doty_{i}$ is feasible and optimal for $\dot \calI$.
+  \end{claim}
+  \begin{claim}
+    Integral solutions for $\hat I$ and $\dot \calI$ combined is an
+    integral solution to $\calI$.
   \end{claim}
 \end{frame}
 
