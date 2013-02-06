@@ -7,6 +7,114 @@
 \begin{document}
 \maketitle
 
+\section{A Possible Explanation of the Difficulty in Dual-fitting Analysis}
+For FTFP, the greedy algorithm that repeatedly picks the best star
+until all clients have all demands satisfied can be implemented in
+polynomial time and in Section~\ref{sec:upp} we show that this
+algorithm is $H_n$-approximation where $n=|\mathcal C|$ is the number
+of clients. Since the same greedy algorithm is shown to have constant
+approximation ratio for UFL, a natural question to ask is whether
+greedy can be shown to have $O(1)$ approximation ratio. Here we give
+an argument that hints a negative answer.
+
+We assume the greedy algorithm is analyzed using the dual-fitting
+technique, which associates with client $j$ with a number $\alpha_j$
+and show that by shrinking the dual solution by some factor $\gamma$,
+all dual constraints are satisfied, that is $\sum_{j\in \mathcal C}
+(\alpha_j/\gamma - d_{ij})_+ \leq f_i$ for all $i\in \mathcal F$. Then
+$\gamma$ is an upper bound on the approximation ratio.
+
+In the greedy algorithm, a star with minimum average cost is picked at
+each iteration and each member client of that star then gets one more
+connection. It is not specified by the algorithm how we distribute the
+cost of $f_i$ into member clients, which is part of the
+analysis. Nonetheless we assume that the cost of $f_i$ is distributed
+among members only, and not to clients outside this star. We call this
+\emph{local charging} assumption. Our second assumption is that the
+proposed dual variable value $\alpha_j$, is taken as the average of
+individual $\alpha_j^l$ for each of the $l^{th}$ demand of client $j$,
+with $l=1,\ldots,r_j$. Suppose the $l^{th}$ demand of $j$ is satisfied
+while $j$ is in a star with facility $i$, then $\alpha_j^l = d_{ij} +
+f_j^l$, where $f_j^l$ is the portion of $f_i$ attributed to $j$ in the
+analysis.
+
+Our example has one site and $k$ groups of clients. Opening one facility
+at that site costs $f_1$. The first group has $n_1$ clients each with
+demand $r_1$, all at distance $d_1 = 0$ from $f_1$. The other groups
+are listed below:
+\begin{align*}
+  &d_1 = 0\\
+  &d_2 = \frac{f_1}{n_1}\\
+  &d_3 = f_1/n_2 + d_2 = f_1/n_2 + f_1/n_1 = f_1 (\frac{1}{n_2} + \frac{1}{n_1})\\
+  &\ldots\\
+  &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})\\
+\end{align*}
+For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$, and $n_1 =
+u^k, n_2 = u^{k-1}, \ldots, n_k = u$ for some number $u$ (actually we
+take $u=k$ currently, this choice may not be the best possible).
+
+Now the greedy execution goes like this: First star (with $r_1$
+replica) is $(f_1, n_1)$.  Second star (with $r_2$ replica) is $(f_1,
+n_2)$. Notice that $r_2 \gg r_1$, and we also have some stars with a
+zero-cost $f_1$ which satisfies some demand of $n_2$ group. After that
+the $n_2$ group clients each has residual demand $r_2 - r_1 =
+r_2$. The process repeats until the $k^{th}$ group finishes with $r_k$
+new facilities.
+
+According to our local charging assumption, we have $\alpha_1 = f_1$
+which is the total dual value of group $n_1$, regardless how the
+analysis would distribute within that group. Similarly $\alpha_2 = f_1
++ n_2 d_2$, and so on. Substituing in the numbers, we have
+
+\begin{align*}
+  &\alpha_1 = f_1\\
+  &\alpha_2 = f_1 + n_2 d_2 = f_1 + f_1/n_1 n_2 = f_1 (1 + n_2 /
+  n_1)\\
+  &\alpha_3 = f_1 + n_3 d_3 = f_1 + f_1 (\frac{1}{n_2} +
+  \frac{1}{n_1}) n_3 = f_1 (1 + \frac{n_3}{n_2} + \frac{n_3}{n_1})\\
+  &\ldots\\
+  &\alpha_k = f_1 + n_k d_k = f_1 + f_1 n_k (\frac{1}{n_{k-1}} + \ldots
+  \frac{1}{n_1})\\
+\end{align*}
+Notice that $r_1 \ll r_2 \ll \ldots \ll r_k$ implies $\alpha_j$ is
+decided by the max among $\alpha_j^l$.
+
+Now back to the dual constraint, it requires that the shrinking factor
+$\gamma$ needs to satisfy the following inequality:
+\begin{equation}
+  \frac{\alpha_1}{\gamma} - d_1 + \frac{\alpha_2}{\gamma} - d_2 +
+  \ldots + \frac{\alpha_k}{\gamma} - d_k \leq f_1.
+\end{equation}
+Substitute in the $\alpha_j$ values derived above, we have
+\begin{align*}
+  \gamma &\geq (\sum_{j=1}^k \alpha_j) / (f_1 + \sum_{j=1}^k d_j)\\
+  &\geq \frac{f_1 + n_1 d_1 + f_1 + n_2 d_2 + f_1 + n_3 d_3 + \ldots +
+    f_1 + n_k
+    d_k}{f_1 + n_1 d_1 + n_2 d_2 + \ldots + n_k d_k}\\
+  &= 1 + (k-1)f_1 / (f_1 + n_1 d_1 + n_2 d_2 + \ldots + n_k d_k)\\
+  &= 1 + (k-1)f_1 / \left(f_1 + n_2 f_1 / n_1 + \ldots + n_k f_1
+    (\frac{1}{n_{k-1}} + \frac{1}{n_{k-2}} + \ldots +
+    \frac{1}{n_1})\right)\\
+  &= 1 + (k-1) / \left(1 + n_2 / n_1 + \ldots + n_k
+    (\frac{1}{n_{k-1}} + \frac{1}{n_{k-2}} + \ldots +
+    \frac{1}{n_1})\right)\\
+  &= 1 + (k-1) / \left(1 + 1/u + \ldots + (\frac{1}{u} + \ldots +
+    \frac{1}{u^{k-1}})\right)\\
+  &= 1 + (k-1) / \left(1 + k/u + (k-1)/u^2 + \ldots +
+    1/u^{k-1}\right)\\
+  &\geq 1 + (k-1) / \left(1 + k/u + k/u^2 + \ldots +
+    k/u^{k-1}\right)\\
+  &= 1 + (k-1) / \left(1 + 1 + 1/k + \ldots + 1/k^{k-2}\right)\\
+  &\approx k/2\\
+\end{align*}
+So for $k$ groups we can force a shrinking factor $\gamma$ as big as
+$k/2$. Recall that we have greedy being no more than
+$H_n$-approximation. Is that a contradiction? No, because we have
+$n=k^k + k^{k-1} + \ldots + k = k^k$, so $k = O(\log n / \log\log
+n)$. Therefore, the example shows that dual fitting with local
+charging cannot hope to get $O(\log n / \log\log n)$ ratio or better.
+
+
 \section{$H_n$-approximation of Star-greedy on FTFP}
 \label{sec:upp}
 In this section we show that the star-greedy algorithm which
