@@ -1,0 +1,94 @@
+% ftfp_proposal.tex
+\def\handout{0}
+\def\notes{0}
+\ifnum\handout=1
+\documentclass[handout, hyperref, xcolor=dvipsnames]{beamer}
+\usepackage{pgfpages}
+\pgfpagesuselayout{4 on 1}[letterpaper,landscape,border shrink=4mm]
+\setbeamertemplate{footline}[page number]
+% use \setbeamertemplate{footline}[text line]{xxxx} if you want xxxx at bottom left of each slide
+% use \setbeamertemplate{footline}[text line]{xxxx\hfill\thepage}
+%  if you want xxxx at bottom left, page # at bottom right
+\else
+\documentclass[hyperref, xcolor=dvipsnames]{beamer}
+\fi
+
+\usepackage{amsmath, algorithm, algpseudocode, caption, subcaption, graphicx, tikz}
+\title[Facility Location]{Approximation Algorithms\\
+  for the Facility Location Problems}
+\author[lyan]{Li Yan}
+\institute[UCR]{
+  Computer Science\\
+  University of California Riverside\\
+  [\medskipamount]
+  \includegraphics[width=.2\textwidth,height=.25\textheight]{figure/UCseal.eps}
+}
+\date{Jan 30th, 2013}
+\usetheme{Warsaw}
+
+\input{macros.tex}
+\begin{document}
+
+%%%
+%%%
+\begin{frame}
+  \frametitle{The Uncapacitated Facility Location Problem (UFL)}
+
+  The LP Formulation for UFL
+  \begin{itemize}
+  \item $y_i\in [0,1]$ represent the number of facilities built at site $i$.
+  \item $x_{ij}\in [0,1]$ represent the number of connections from
+    client $j$ to facilities at site $i$.
+  \end{itemize}
+  %%%%%%%%%%% 
+  \begin{alignat}{3}
+    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
+    \\ \notag
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq 1 & &\forall j\in \clientset
+    \\ \notag
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+  \end{alignat}
+  %%%%%%%%%%%%
+  \begin{alignat}{3}
+    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} \alpha_j&\label{eqn:fac_dual}  
+    \\ \notag
+    \textrm{subject to} \quad \textstyle{
+      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+    \\ \notag
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+  \end{alignat}
+  %%%%%%%%%%%
+\end{frame}
+
+\begin{frame}
+  \frametitle{The LP-rounding Algorithm}
+    \begin{algorithm}[H]
+      \begin{algorithmic}[1]
+        \State $U \assign \calC, K \assign \emptyset, I \assign \emptyset$
+        \Comment{Clustering Step}
+
+        \While{$U \neq \emptyset$}
+        \State $k = \argmin_{j\in U} \alpha_j^\ast$
+        \State add $k$ to $K$, $K \assign K \cup \{k\}$
+        \For{$j \in U$ such that $N(j)\cap N(k) \neq \emptyset$}
+        \State assign $j$ to the cluster with center $k$
+        \State remove $j$ from $U$, $U \assign U - \{j\}$
+        \EndFor
+        \EndWhile
+        
+
+        \For{each center $k$ in $K$} \Comment{Rounding Step}
+        \State open facility $i_k = \argmin_{i\in N(k)} f_i$, $I\assign I \cup \{i_k\}$
+        \For{each client $j$ in that cluster}
+        \State connect $j$ to $i_k$, $\phi(j) = i_k$
+        \EndFor
+        \EndFor
+      \end{algorithmic}
+    \end{algorithm}
+\end{frame}
+\end{document}
