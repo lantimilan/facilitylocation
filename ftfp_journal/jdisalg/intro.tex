@@ -76,7 +76,7 @@ only if $\max_{j\in\clientset} r_j$ is polynomial in
 $O(|\sitesset|\cdot |\clientset|)$ and the analysis of the
 performance guarantee in \cite{XuS09} is flawed\footnote{Confirmed through
   private communication with the authors.}.  To date, the
-best approximation ratio for FTFP in the literature is $4$,
+best approximation ratio for FTFP in the literature is $3.16$,
 established by Yan and Chrobak~\cite{YanC11}, while the only
 known lower bound is the $1.463$ lower bound for UFL
 from~\cite{GuhaK98}, as UFL is a special case of FTFP.
@@ -98,9 +98,9 @@ the restricted version where all demand values are
 polynomial in the number of sites.  This \emph{demand
   reduction} trick itself gives us a ratio of $1.7245$,
 since we can then treat an instance of FTFP as an instance
-of FTFL, by creating a sufficient (but polynomial) number of
-facilities at each site and using the algorithm
-from~\cite{ByrkaSS10}.
+of FTFL by creating a sufficient (but polynomial) number of
+facilities at each site, and then using the algorithm
+from~\cite{ByrkaSS10} to solve the FTFL instance.
 
 The reduction to polynomial demands suggests an approach where
 clients' demands are split into unit demands. These unit demands can

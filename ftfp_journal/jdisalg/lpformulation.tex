@@ -61,24 +61,21 @@ algorithms.
 
 \paragraph{Completeness and facility splitting.}
 Define $(\bfx^\ast, \bfy^\ast)$ to be \emph{complete} if
-$x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all
-$i,j$. In other words, each connection either uses a site
-fully or not at all.  As shown by Chudak and
-Shmoys~\cite{ChudakS04}, we can modify the given instance by
-adding at most $|\clientset|$ sites to obtain an equivalent
-instance that has a complete optimal solution, where
+$x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all $i,j$. In
+other words, each connection either uses a site fully or not at all.
+As shown by Chudak and Shmoys~\cite{ChudakS04}, we can modify the
+given instance by adding at most $|\clientset|$ sites to obtain an
+equivalent instance that has a complete optimal solution, where
 ``equivalent" means that the values of $F^\ast$, $C^\ast$ and
-$\LP^\ast$ are not affected. Roughly, the
-argument is this: We notice that, without loss of
-generality, for each client $k$ there exists at most one
-site $i$ such that $0 < x_{ik}^\ast < y_i^\ast$.  We can
-then perform the following \emph{facility splitting}
-operation on $i$: introduce a new site $i'$, let
-$y^\ast_{i'} = y^\ast_i - x^\ast_{ik}$, redefine $y^\ast_i$
-to be $x^\ast_{ik}$, and then for each client $j$
-redistribute $x^\ast_{ij}$ so that $i$ retains as much
-connection value as possible and $i'$ receives the
-rest. Specifically, we set
+$\LP^\ast$, as well as $\OPT$, are not affected. Roughly, the argument
+is this: We notice that, without loss of generality, for each client
+$k$ there exists at most one site $i$ such that $0 < x_{ik}^\ast <
+y_i^\ast$.  We can then perform the following \emph{facility
+  splitting} operation on $i$: introduce a new site $i'$, let
+$y^\ast_{i'} = y^\ast_i - x^\ast_{ik}$, redefine $y^\ast_i$ to be
+$x^\ast_{ik}$, and then for each client $j$ redistribute $x^\ast_{ij}$
+so that $i$ retains as much connection value as possible and $i'$
+receives the rest. Specifically, we set
 %
 \begin{align*}
   &y^\ast_{i'} \;\assign\; y^\ast_i - x^\ast_{ik},\;   y^\ast_{i} \;\assign\; x^\ast_{ik}, \quad \text{ and }\\

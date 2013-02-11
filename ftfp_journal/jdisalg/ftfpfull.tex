@@ -18,6 +18,7 @@
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
 \usepackage[noend]{algpseudocode}
+\usepackage{array}
 
 \floatname{algorithm}{Pseudocode}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -43,7 +44,7 @@
 Riverside, CA 92521, USA}
 
 \cortext[cor1]{Corresponding author}
-\fntext[fn1]{Marek: ** Grant information here.}
+\fntext[fn1]{Work supported by NSF grants CCF-0729071 and CCF-1217314.}
 %\thispagestyle{empty}
 \begin{abstract} 
   The Fault-Tolerant Facility Placement problem (FTFP) is a
@@ -162,7 +163,7 @@ lead to new algorithms for FTFL with improved ratios.
   Let $K_1 = \wbarclsnb(\kappa) \setminus \wbarN(\nu), K_2 =
   \wbarclsnb(\kappa) \cap \wbarclsnb(\nu)$ and $K_3 =
   \wbarclsnb(\kappa) \cap \wbarfarnb(\nu)$, then we shall show that
-  $D(K_1, \nu) \leq \clsdist(\kappa)\;+\;\clsmax(\kappa)\; + \;
+  $D(K_1, \nu) \leq \clsdist(\kappa)+\clsmax(\kappa) + 
   \fardist(\nu)$, which implies $D(K_1, \nu) \leq \clsdist(\nu) +
   \clsmax(\nu) + \fardist(\nu)$ due to
   (PD'.\ref{PD1:assign:cost}). Recall that $D(A,\nu)

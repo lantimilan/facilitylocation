@@ -38,7 +38,8 @@ guarantee for every $\nu$ that $\sum_{\mu\in\facilityset}
 
 Some demands in $\demandset$ will be designated as
 \emph{primary demands} and the set of primary demands will
-be denoted by $P$. In addition, we will use the overlap
+be denoted by $P$. By definition we have $P\subseteq \demandset$.
+ In addition, we will use the overlap
 structure between demand neighborhoods to define a mapping
 that assigns each demand $\nu\in\demandset$ to some primary
 demand $\kappa\in P$. As shown in the rounding algorithms in
@@ -306,8 +307,8 @@ conditions (c1) and (c2) are preserved.
     					\Comment split $\eta$
     \State Let $\bary_\sigma \assign 1-\sum_{\mu\in \facilityset} \barx_{\mu\nu}, \bary_{\eta} \assign \bary_{\eta} - \bary_{\sigma}$
     \State Set $\barx_{\sigma\nu}\assign \bary_{\sigma},\; \barx_{\eta \nu} \assign  0,\; \tildex_{\eta j} \assign \bary_{\eta}, \; \tildex_{\sigma j} \assign 0$
-    \State For each $\nu' \neq \nu$ with $\barx_{\eta \nu'}>0$ set $\barx_{\eta \nu'} \assign \bary_{\eta},\; \barx_{\sigma \nu'} \assign \bary_{\sigma}$
-    \State For each $j' \neq j$ with $\tildex_{\eta j'}>0$ set $\tildex_{\eta j'} \assign \bary_{\eta}, \tildex_{\sigma j'} \assign \bary_{\sigma}$
+    \State For each $\nu' \neq \nu$ with $\barx_{\eta \nu'}>0$, set $\barx_{\eta \nu'} \assign \bary_{\eta},\; \barx_{\sigma \nu'} \assign \bary_{\sigma}$
+    \State For each $j' \neq j$ with $\tildex_{\eta j'}>0$, set $\tildex_{\eta j'} \assign \bary_{\eta}, \tildex_{\sigma j'} \assign \bary_{\sigma}$
 	\State  (All other new connection values are set to $0$)
     \EndIf
     \EndWhile
@@ -360,7 +361,7 @@ make $\connsum(\nu)$ equal $1$, and we'll be done.
 \smallskip
 
 Notice that we start with $|\sitesset|$ facilities and in
-each iteration of the while loop in Line~5 each client causes at most one split.
+each iteration of the while loop in Line~5 (Pseudocode~\ref{alg:lpr2}) each client causes at most one split.
  We have a total of no more than $R|\clientset|$ iterations as in
 each iteration we create one demand. (Recall that $R =
 \max_jr_j$.) In Phase 2 we do an augment step for each
@@ -373,120 +374,90 @@ bound on $R$.
 
 %%% example for adaptive partition
 \paragraph{Example.}
-Here we give an example showing the execution of the
-partition algorithm. In the FTFP instance, there are $4$
-sites and $4$ clients. All sites have facility opening cost
-$f_i=1$ for $i=1,2,3,4$. All $d_{ij}=1$ for $i=1,\ldots,4,\;
-j=1,\ldots,4$, except that $d_{11} = d_{22} = d_{33} = d_{44}
-= 3$. The demands are $r_1=1, r_2=r_3=r_4=2$.
+We now illustrate our partitioning algorithm with an example, where the FTFP instance
+has four sites and four clients. The demands are $r_1=1$ and $r_2=r_3=r_4=2$.
+The facility costs are $f_i = 1$ for all $i$. The distances are defined as follows: 
+$d_{ii} = 3$ for $i=1,2,3,4$ and $d_{ij} = 1$ for all $i\neq j$. 
 
-Solving the LP(\ref{eqn:fac_primal}), we obtain the
-following fractional solution in
-Table~\ref{tbl:example_frac}.
+Solving the LP(\ref{eqn:fac_primal}), we obtain the fractional solution given in
+Table~\ref{tbl:example_opt}.
+%
+{
+\small
 \begin{table}[ht]
-  \begin{subtable}{0.5\textwidth}
+%
+\hfill
+\setlength{\extrarowheight}{5pt}
+\begin{subtable}{0.3\textwidth}
   \centering
-  \begin{tabular}{c | c c c c}
-    $y_i^\ast$ & 1 & 2 & 3 & 4\\
+  \begin{tabular}{c | c c c c | c }
+    $x_{ij}^\ast$ & $1$ & 2 & 3 & 4 & $y_{i}^\ast$\\
     \hline
-    & 4/3 & 1/3 & 1/3 & 1/3\\
+    $1$ & 0 & $\fourthirds$ & $\fourthirds$ & $\fourthirds$ & $\fourthirds$ \\
+    2 & $\onethird$ & 0 & $\onethird$ & $\onethird$ & $\onethird$ \\
+    3 & $\onethird$ & $\onethird$ & 0 & $\onethird$ & $\onethird$ \\
+    4 & $\onethird$ & $\onethird$ & $\onethird$ & 0 & $\onethird$ \\
   \end{tabular}
   \subcaption{}
+  \label{tbl:example_opt}
 \end{subtable}
 %
-\begin{subtable}{0.5\textwidth}
-  \centering
-  \begin{tabular}{c | c c c c}
-    $x_{ij}^\ast$ & $j=1$ & 2 & 3 & 4\\
-    \hline
-    $i=1$ & 0 & 4/3 & 4/3 & 4/3\\
-    2 & 1/3 & 0 & 1/3 & 1/3\\
-    3 & 1/3 & 1/3 & 0 & 1/3\\
-    4 & 1/3 & 1/3 & 1/3 & 0\\
-  \end{tabular}
-  \subcaption{}
-\end{subtable}
-\caption{An optimal fractional solution to the FTFP instance.}
-\label{tbl:example_frac}
-
-\end{table}
-
-It is easily seen that the fractional solution above is
-optimal and complete ($x_{ij}^\ast > 0$ implies $x_{ij}^\ast
-= y_i^\ast$). The dual optimal solution has all
-$\alpha_j^\ast = 4/3$ for $j=1,2,3,4$. Now we perform the
-adaptive partition algorithm, consisting of two
-phases. Phase 1, the partition phase, has 2 iterations. In
-the first iteration we might pick client $1$ and create a
-primary demand $\kappa_{11}$ for it. We also create one
-facility at each of the 4 sites, denoted as $\mu_{11},
-\mu_{21}, \mu_{31},$ and $\mu_{41}$. The neighborhood
-$\wbarN(\kappa_{11}) = \{\mu_{21},\mu_{31},\mu_{41}\}$. All
-other clients have their $\wtildeN(j)$ overlap with
-$\wbarN(\kappa_{11})$, so each of client $2,3$ and $4$ has a
-demand created and assigned to $\kappa_{11}$. To maintain
-completeness, we split the facility at site 1 into
-$\mu_{11}$ and $\mu_{12}$ with $\bary_{\mu_{11}}=1/3,\;
-\bary_{\mu_{12}} = 1$. In iteration 2, we could pick client
-$4$ and create a primary demand $\kappa_{42}$, each of
-client $2$ and $3$ has one demand created and assigned to
-$\kappa_{42}$. All of the three demands have $\mu_{12}$ as
-the sole facility in their neighborhood. Now that all
-clients are exhausted and we simply perform Phase 2, the
-augmenting phase to make all demands each having total
-connection value equal to 1. The final fractional solution
-is given in Table~\ref{tbl:example_partition}. It can be
-verified that all the stated properties are satisfied.
-\begin{table}[ht]
-  \begin{subtable}{0.3\textwidth}
-  \centering
-  \begin{tabular}{c | c c c c}
-    $\bary$ & 1 & 2 & 3 & 4\\
-    \hline
-    & 1/3 & 1/3 & 1/3 & 1/3\\
-    & 1 &  &  & \\
-  \end{tabular}
-  \subcaption{}
-\end{subtable}
+\hspace{0.5in}
 %
 \begin{subtable}{0.3\textwidth}
   \centering
-  \begin{tabular}{c | c c c c}
-    $\barx$ & 1 & 2 & 3 & 4\\
+  \begin{tabular}{c | l l l l | l}
+    $\barx$ & 1 & 2 & 3 & 4 & $\bary$ \\
     \hline
-    1 & 0 & 1/3 & 1/3 & 1/3\\
-    2 & 1/3 & 0 & 1/3 & 1/3\\
-    3 & 1/3 & 1/3 & 0 & 1/3\\
-    4 & 1/3 & 1/3 & 1/3 & 0\\
+    1 & 0,0 & $\onethird,1$ & $\onethird,1$ & $\onethird,1$ & $\onethird, 1$ \\
+    2 & $\onethird$ & $0$ & $\onethird$ & $\onethird$ & $\onethird$ \\
+    3 & $\onethird$ & $\onethird$ & $0$ & $\onethird$ & $\onethird$ \\
+    4 & $\onethird$ & $\onethird$ & $\onethird$ & $0$ & $\onethird$ \\
   \end{tabular}
   \subcaption{}
+  \label{tbl:example_part}
 \end{subtable}
+\hfill{\ }
 %
-\begin{subtable}{0.3\textwidth}
-  \centering
-  \begin{tabular}{c |  c c c}
-    $\barx$ & 2 & 3 & 4\\
-    \hline
-    1  & 1 & 1 & 1\\
-    2  & 0 & 0 & 0\\
-    3  & 0 & 0 & 0\\
-    4  & 0 & 0 & 0\\
-  \end{tabular}
-  \subcaption{}
-\end{subtable}
 \caption{
-  The left table (a) is the opening fractional value $\bary_{\mu}$ for
-  each facility at each site. The first row denotes the
-  fractional value of the first facility in each site and
-  the second row denotes that of the second.
-  The middle table (b) is
-  the connection value $\barx_{\mu\nu}$ for the
-  first demand of each client.
-  The right table (c) is the connection value for the second demand of each
-  client. Notice client 1 does not have a second demand.}
-\label{tbl:example_partition}
-
+  An example of an execution of the partitioning algorithm.
+  (a) An optimal fractional solution $x^\ast,y^\ast$.
+  (b) The partitioned solution. For the connection values, the entry $\barx_{ij} = a,a'$
+  represents connection value of the first and second demand of the same
+  client $j$ to the first and second facility at site $i$.}
+%
 \end{table}
+}
+
+It is easily seen that the fractional solution above is optimal and
+complete ($x_{ij}^\ast > 0$ implies $x_{ij}^\ast = y_i^\ast$). The
+dual optimal solution has all $\alpha_j^\ast = 4/3$ for
+$j=1,2,3,4$. Now we perform the adaptive partition algorithm,
+consisting of two phases. Phase 1, the partition phase, has 2
+iterations. In the first iteration we might pick client $1$ and create
+a primary demand $\kappa_{11}$ for it. We also create one facility at
+each of the 4 sites, denoted as $\mu_{1}, \mu_{2}, \mu_{3},$ and
+$\mu_{4}$. The neighborhood $\wbarN(\kappa_{11}) =
+\{\mu_{2},\mu_{3},\mu_{4}\}$. All other clients have their
+$\wtildeN(j)$ overlap with $\wbarN(\kappa_{11})$, so each of client
+$2,3$ and $4$ has a demand created and assigned to $\kappa_{11}$. To
+maintain completeness, we split the facility at site 1 into $\mu_{11}$
+and $\mu_{12}$ with $\bary_{\mu_{11}}=1/3,\; \bary_{\mu_{12}} = 1$. At
+this time, we have $\wbarN(\nu_{21}) = \{\mu_3, \mu_4\},
+\wbarN(\nu_{31}) = \{\mu_2,\mu_4\}, \wbarN(\nu_{41}) = \{\mu_2,\mu_3\}$.
+
+In iteration 2, we could pick client $4$ and create a primary demand
+$\kappa_{42}$. Each of client $2$ and $3$ has one demand created and
+assigned to $\kappa_{42}$. All of the three demands have $\mu_{12}$ as
+the sole facility in their neighborhood. Now that all clients are
+exhausted and we simply perform Phase 2, the augmenting phase to make
+all demands each having total connection value equal to 1. The final
+partitioned fractional solution is given in
+Table~\ref{tbl:example_part}. We have created a total of $5$
+facilities $\mu_{11},\mu_{12},\mu_{2},\mu_{3},\mu_{4}$ and $7$
+demands,
+$\kappa_{11},\nu_{21},\nu_{22},\nu_{31},\nu_{32},\nu_{41},\kappa_{42}$. It
+can be verified that all the stated properties are satisfied.
 
 %%%% end example %%%
 
@@ -513,8 +484,8 @@ each client $j$, with each demand $\nu\in j$ satisfying
 (PS.\ref{PS:one}), and thus $\sum_{\nu\in
   j}\sum_{\mu\in\facilityset}\barx_{\mu\nu}=r_j$.  This
 implies that $\tildex_{\mu j}=0$ for every facility
-$\mu\in\facilityset$, and PS(\ref{PS:xij}) follows.
-PS(\ref{PS:yi}) holds because every time we split a
+$\mu\in\facilityset$, and (PS.\ref{PS:xij}) follows.
+(PS.\ref{PS:yi}) holds because every time we split a
 facility $\mu$ into $\mu'$ and $\mu''$, the sum of
 $\bary_{\mu'}$ and $\bary_{\mu''}$ is equal to the old value of
 $\bary_{\mu}$.
@@ -612,7 +583,7 @@ exhausted at that time.)
 
 \begin{lemma}\label{lem: tcc optimal}
   Let $\eta$ and $\nu$ be two demands, with $\eta$ created
-  not later than $\nu$, and let $j\in\clientset$ be a client
+  no later than $\nu$, and let $j\in\clientset$ be a client
   that is not exhausted when $\nu$ is created. Then we have
 \begin{description}
 	\item{(a)} $\mbox{\tcc}^\eta(j) \le \mbox{\tcc}^{\nu}(j)$, and 

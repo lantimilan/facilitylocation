@@ -37,22 +37,20 @@ facility.  Specifically, the two changes in the
 algorithm are as follows:
 %
 \begin{description}
-	\item{(1)} Each facility $\mu$ that is not in the neighborhood of some primary
-	demand is opened,
-independently, with probability $\bary_{\mu}$ (Lines
-4--5). Notice that if $\bary_\mu>0$ then,
-due to completeness of the partitioned
-fractional solution, we have $\bary_{\mu}= \barx_{\mu\nu}$
-for some demand $\nu$. This implies that $\bary_{\mu}\leq 1$,
-because $\barx_{\mu\nu}\le 1$, by (PS.\ref{PS:one}).
+\item{(1)} Each facility $\mu$ that is not in the neighborhood of any
+  primary demand is opened, independently, with probability
+  $\bary_{\mu}$ (Lines 4--5). Notice that if $\bary_\mu>0$ then, due
+  to completeness of the partitioned fractional solution, we have
+  $\bary_{\mu}= \barx_{\mu\nu}$ for some demand $\nu$. This implies
+  that $\bary_{\mu}\leq 1$, because $\barx_{\mu\nu}\le 1$, by
+  (PS.\ref{PS:one}).
 %
-	\item{(2)} When connecting demands to facilities, a primary demand
-$\kappa$ is connected to the only facility $\phi(\kappa)$
-opened in its neighborhood, as before (Line 3).  For a
-non-primary demand $\nu$, if its neighborhood $\wbarN(\nu)$ has an open
-facility, we connect $\nu$ to the closest open facility in $\wbarN(\nu)$
-(Line 8). Otherwise, we connect $\nu$ to
-its target facility (Line 10).
+\item{(2)} When connecting demands to facilities, a primary demand
+  $\kappa$ is connected to the only facility $\phi(\kappa)$ opened in
+  its neighborhood, as before (Line 3).  For a non-primary demand
+  $\nu$, if its neighborhood $\wbarN(\nu)$ has an open facility, we
+  connect $\nu$ to the closest open facility in $\wbarN(\nu)$ (Line
+  8). Otherwise, we connect $\nu$ to its target facility (Line 10).
 %
 \end{description}
 

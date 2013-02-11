@@ -236,7 +236,7 @@ of $\wbarN(\nu)$ equal $1$.
 
 This completes the description of the partitioning
 algorithm. Summarizing, for each client $j\in\clientset$ we have
-created $r_j$ demands on the same point as $j$ and we created a number
+created $r_j$ demands on the same point as $j$, and we created a number
 of facilities at each site $i\in\sitesset$. Thus computed sets of
 demands and facilities are denoted $\demandset$ and $\facilityset$,
 respectively.  For each facility $\mu\in i$ we defined its fractional
@@ -299,7 +299,8 @@ Lemma~\ref{lem: PD1: primary overlap}.  The proof of
 
 (SI'.\ref{SI1:siblings disjoint}) follows directly from the algorithm
 because for each demand $\nu\in j$, all facilities added to
-$\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$.
+$\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$ and each
+facility is added to $\wbarN(\nu)$ of exactly one demand $\nu \in j$.
 
 The proof of (SI'.\ref{SI1:primary disjoint}) is similar to that of
 Lemma~\ref{lem: property SI:primary disjoint holds}. If $\kappa=\nu$
@@ -367,7 +368,7 @@ remain true.
   in the definition of $\wbarclsnb(\nu)$.)  This will be sufficient to
   prove the lemma because $B\neq\emptyset$, by the algorithm.
 
-  We now prove this claim. In the paragraph $\wbarN(\nu)$ denotes the
+  We now prove this claim. In this paragraph $\wbarN(\nu)$ denotes the
   final $\wbarN(\nu)$ with total connection value of $1$, after
   adaptive partition completes both phases. Note first that
   $B\subseteq \wbarN(\nu) \subseteq A$, because we never remove
@@ -398,7 +399,7 @@ Suppose $\nu \in j$ is assigned to a primary demand $\kappa \in p$.
 By the way primary demands are constructed in the partitioning
 algorithm, $\wtildeclsnb(p)$ becomes $\wbarclsnb(\kappa)$, so we have
 $\clsdist(\kappa) = \tcccls^\kappa (p)$ and $\clsmax(\kappa) =
-\tcccls^\kappa(p)$. Further, since we choose $p$ to minimize
+\dmaxcls^\kappa(p)$. Further, since we choose $p$ to minimize
 $\tcccls(p) + \dmaxcls(p)$, we thus have that $\tcccls^\kappa(p) +
 \dmaxcls^\kappa(p) \leq \tcccls^\kappa(j) + \dmaxcls^\kappa(j)$ at the
 time when demand $\kappa$ was created.
@@ -428,7 +429,7 @@ all the required properties.
 
 
 \paragraph{Algorithm~{\EBGS}.}
-The complete algorithm starts with solving the linear program and
+The complete algorithm starts with solving the LP(\ref{eqn:fac_primal}) and
 computing the partitioning described earlier in this section.  Given
 the partitioned fractional solution $(\barbfx, \barbfy)$ with the
 desired properties, we start the process of opening facilities and
@@ -445,7 +446,7 @@ implies all $\bary_{\mu} \leq 1/\gamma$ since there exists some $\nu$
 such that $\barx_{\mu\nu} = \bary_{\mu}$ and any
 $\mu\in\wbarclsnb(\nu)$ satisfies $\barx_{\mu\nu} \leq 1/\gamma$. In
 addition, any $\mu\in\wbarfarnb(\nu)$ satisfies $\barx_{\mu\nu} \leq
-1-1/\gamma$. Then all $\gamma\bary_{\mu}$ are valid probablity values.
+1-1/\gamma$. Then all $\gamma\bary_{\mu}$ are valid probability values.
 
 Next, we connect demands to facilities.
 Each primary demand $\kappa\in P$ will connect
@@ -507,7 +508,7 @@ Properties~(PD'.\ref{PD1:assign:overlap}) and
 (PD'.\ref{PD1:assign:cost}) of modified partitioning and
 follows the reasoning in the proof of a similar lemma
 in~\cite{ByrkaGS10,ByrkaA10}.  For the sake of completeness,
-we include a proof is in the appendix.
+we include a proof in the appendix.
 
 \begin{lemma}\label{lem: EBGS target connection cost}
   In Algorithm~{\EBGS}, let $\gamma$ be a constant such that $1 <
