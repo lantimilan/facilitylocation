@@ -13,7 +13,8 @@
 \documentclass[hyperref, xcolor=dvipsnames]{beamer}
 \fi
 
-\usepackage{amsmath, algorithm, algpseudocode, caption, subcaption, graphicx, tikz}
+\usepackage{amsmath, algorithm, caption, subcaption, graphicx, tikz}
+\usepackage[noend]{algpseudocode}
 \title[Facility Location]{Approximation Algorithms\\
   for the Facility Location Problems}
 \author[lyan]{Li Yan}
@@ -90,5 +91,43 @@
         \EndFor
       \end{algorithmic}
     \end{algorithm}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Jain-Vazirani Algorithm}
+  \begin{algorithm}[H]
+    \begin{algorithmic}[1]
+      \State $U \assign \calC$, $\alpha_j \assign 0$ for $j\in \calC$
+      \While{$U \neq \emptyset$}
+      \State raise $\alpha_j$ uniformly for all $j\in U$
+      \State set $\beta_{ij} = (\alpha_j - d_{ij})_+$ for all $i\in \calF, j \in \calC$
+      \If{$\sum_{j\in\calC} \beta_{ij} = f_i$}
+      \State mark $i$ as temporary open
+      \State all $j\in U$ such that $\alpha_j \geq d_{ij}$ are removed from $U$
+      \EndIf
+      \EndWhile
+      \State graph $H$: $V(H)=F$, $E(H) = \{(i_1,i_2) \suchthat \beta_{i_1 j} > 0 \text{ and } \beta_{i_2 j} > 0\}$
+      \State pick a maximal independent set $I\subseteq V(H)$
+      \For{each client $j \in \calC$}
+      \State if $j$ has some $i\in I$ such that $\alpha_j > d_{ij}$, then connect to $i$
+      \State else if {$j$ has some $i\in I$ such that $\alpha_j = d_{ij}$}, then connect to $i$
+      \State otherwise, find some $j'$ such that $\alpha_{j'} > d_{\phi(j')j'}$ and connect to $\phi(j')$
+      \EndFor
+    \end{algorithmic}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    The JV algorithm is a $3$-approximation algorithm.
+  \end{theorem}
+  \begin{itemize}
+  \item \textbf{Claim 1:}
+    $\sum_{i\in I} f_i = \sum_{i\in I} \sum_{j\in C} \beta_{ij}$.
+  \item \textbf{Claim 2:}
+    For direct connection (type 1 and 2), $d_{ij} = \alpha_j - \beta_{ij}$.
+  \item \textbf{Claim 3:}
+    For indirect connection (type 3), $d_{ij} \leq 3 \alpha_j$.
+  \end{itemize}
 \end{frame}
 \end{document}
