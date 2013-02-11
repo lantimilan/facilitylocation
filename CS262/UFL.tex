@@ -106,7 +106,7 @@
       \State all $j\in U$ such that $\alpha_j \geq d_{ij}$ are removed from $U$
       \EndIf
       \EndWhile
-      \State graph $H$: $V(H)=F$, $E(H) = \{(i_1,i_2) \suchthat \beta_{i_1 j} > 0 \text{ and } \beta_{i_2 j} > 0\}$
+      \State graph $H$: $V(H)=\calF$, $E(H) = \{(i_1,i_2) \suchthat \beta_{i_1 j} > 0 \text{ and } \beta_{i_2 j} > 0\}$
       \State pick a maximal independent set $I\subseteq V(H)$
       \For{each client $j \in \calC$}
       \State if $j$ has some $i\in I$ such that $\alpha_j > d_{ij}$, then connect to $i$
