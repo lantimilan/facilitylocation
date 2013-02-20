@@ -378,7 +378,6 @@ We now illustrate our partitioning algorithm with an example, where the FTFP ins
 has four sites and four clients. The demands are $r_1=1$ and $r_2=r_3=r_4=2$.
 The facility costs are $f_i = 1$ for all $i$. The distances are defined as follows: 
 $d_{ii} = 3$ for $i=1,2,3,4$ and $d_{ij} = 1$ for all $i\neq j$. 
-
 Solving the LP(\ref{eqn:fac_primal}), we obtain the fractional solution given in
 Table~\ref{tbl:example_opt}.
 %
@@ -387,32 +386,33 @@ Table~\ref{tbl:example_opt}.
 \begin{table}[ht]
 %
 \hfill
-\setlength{\extrarowheight}{5pt}
-\begin{subtable}{0.3\textwidth}
+\setlength{\extrarowheight}{4pt}
+\begin{subtable}{0.2\textwidth}
   \centering
   \begin{tabular}{c | c c c c | c }
-    $x_{ij}^\ast$ & $1$ & 2 & 3 & 4 & $y_{i}^\ast$\\
+    $x_{ij}^\ast$ & $1$ & $2$ & $3$ & $4$ & $y_{i}^\ast$\\
     \hline
     $1$ & 0 & $\fourthirds$ & $\fourthirds$ & $\fourthirds$ & $\fourthirds$ \\
-    2 & $\onethird$ & 0 & $\onethird$ & $\onethird$ & $\onethird$ \\
-    3 & $\onethird$ & $\onethird$ & 0 & $\onethird$ & $\onethird$ \\
-    4 & $\onethird$ & $\onethird$ & $\onethird$ & 0 & $\onethird$ \\
+    $2$ & $\onethird$ & 0 & $\onethird$ & $\onethird$ & $\onethird$ \\
+    $3$ & $\onethird$ & $\onethird$ & 0 & $\onethird$ & $\onethird$ \\
+    $4$ & $\onethird$ & $\onethird$ & $\onethird$ & 0 & $\onethird$ \\
   \end{tabular}
   \subcaption{}
   \label{tbl:example_opt}
 \end{subtable}
 %
-\hspace{0.5in}
+\hspace{0.8in}
 %
-\begin{subtable}{0.3\textwidth}
+\begin{subtable}{0.4\textwidth}
   \centering
-  \begin{tabular}{c | l l l l | l}
-    $\barx$ & 1 & 2 & 3 & 4 & $\bary$ \\
+  \begin{tabular}{c | c c c c c c c | c} % seven demands, five facilities
+    $\barx_{\mu\nu}$ & $1'$ & $2'$ & $2''$ & $3'$ & $3''$ & $4'$ & $4''$ & $\bary_{\mu}$ \\
     \hline
-    1 & 0,0 & $\onethird,1$ & $\onethird,1$ & $\onethird,1$ & $\onethird, 1$ \\
-    2 & $\onethird$ & $0$ & $\onethird$ & $\onethird$ & $\onethird$ \\
-    3 & $\onethird$ & $\onethird$ & $0$ & $\onethird$ & $\onethird$ \\
-    4 & $\onethird$ & $\onethird$ & $\onethird$ & $0$ & $\onethird$ \\
+    $\dot{1}$ & 0 & $\onethird$ & 0 & $\onethird$ & 0 & $\onethird$ & 0 & $\onethird$ \\
+    $\ddot{1}$ & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1\\
+    $\dot{2}$ & $\onethird$ & 0 & 0 & $\onethird$ & 0 & $\onethird$ & 0 & $\onethird$ \\
+    $\dot{3}$ & $\onethird$ & $\onethird$ & 0 & 0 & 0 & $\onethird$ & 0 & $\onethird$ \\
+    $\dot{4}$ & $\onethird$ & $\onethird$ & 0 & $\onethird$ & 0 & 0 & 0 & $\onethird$ \\
   \end{tabular}
   \subcaption{}
   \label{tbl:example_part}
@@ -422,42 +422,74 @@ Table~\ref{tbl:example_opt}.
 \caption{
   An example of an execution of the partitioning algorithm.
   (a) An optimal fractional solution $x^\ast,y^\ast$.
-  (b) The partitioned solution. For the connection values, the entry $\barx_{ij} = a,a'$
-  represents connection value of the first and second demand of the same
-  client $j$ to the first and second facility at site $i$.}
+  (b) The partitioned solution. $j'$ and $j''$ denote the first and second demand of a client $j$, 
+	and $\dot{\imath}$ and $\ddot{\imath}$ denote the first and second facility at site $i$.}
 %
 \end{table}
 }
 
 It is easily seen that the fractional solution above is optimal and
 complete ($x_{ij}^\ast > 0$ implies $x_{ij}^\ast = y_i^\ast$). The
-dual optimal solution has all $\alpha_j^\ast = 4/3$ for
-$j=1,2,3,4$. Now we perform the adaptive partition algorithm,
-consisting of two phases. Phase 1, the partition phase, has 2
-iterations. In the first iteration we might pick client $1$ and create
-a primary demand $\kappa_{11}$ for it. We also create one facility at
-each of the 4 sites, denoted as $\mu_{1}, \mu_{2}, \mu_{3},$ and
-$\mu_{4}$. The neighborhood $\wbarN(\kappa_{11}) =
-\{\mu_{2},\mu_{3},\mu_{4}\}$. All other clients have their
-$\wtildeN(j)$ overlap with $\wbarN(\kappa_{11})$, so each of client
-$2,3$ and $4$ has a demand created and assigned to $\kappa_{11}$. To
-maintain completeness, we split the facility at site 1 into $\mu_{11}$
-and $\mu_{12}$ with $\bary_{\mu_{11}}=1/3,\; \bary_{\mu_{12}} = 1$. At
-this time, we have $\wbarN(\nu_{21}) = \{\mu_3, \mu_4\},
-\wbarN(\nu_{31}) = \{\mu_2,\mu_4\}, \wbarN(\nu_{41}) = \{\mu_2,\mu_3\}$.
+dual optimal solution has all $\alpha_j^\ast = 4/3$ for $j=1,2,3,4$. 
 
-In iteration 2, we could pick client $4$ and create a primary demand
-$\kappa_{42}$. Each of client $2$ and $3$ has one demand created and
-assigned to $\kappa_{42}$. All of the three demands have $\mu_{12}$ as
-the sole facility in their neighborhood. Now that all clients are
-exhausted and we simply perform Phase 2, the augmenting phase to make
-all demands each having total connection value equal to 1. The final
-partitioned fractional solution is given in
-Table~\ref{tbl:example_part}. We have created a total of $5$
-facilities $\mu_{11},\mu_{12},\mu_{2},\mu_{3},\mu_{4}$ and $7$
-demands,
-$\kappa_{11},\nu_{21},\nu_{22},\nu_{31},\nu_{32},\nu_{41},\kappa_{42}$. It
-can be verified that all the stated properties are satisfied.
+Now we perform Phase 1, the adaptive partitioning, following the description in
+Pseudocode~\ref{alg:lpr2}. To streamline the presentation, we
+assume that all ties are broken in favor of lower-numbered clients, demands or facilities.
+First we create one facility at each of the four sites, denoted as $\dot{1}$,
+$\dot{2}$, $\dot{3}$ and $\dot{4}$ (Line~2--4, Pseudocode~\ref{alg:lpr2}). 
+We then execute the ``while" loop in Line 5. This loop will have seven iterations.
+Consider the first iteration. In Line 7--8 we compute $\tcc(j)$ for each
+client $j=1,2,3,4$. When computing $\wtildeN_1(2)$,
+facility $\dot{1}$ will get partitioned into $\dot{1}$ and $\ddot{1}$ with $\bary_{\dot{1}}=1/3$
+and $\bary_{\ddot{1}} = 1$. (This will happen in Line4--7 of
+Pseudocode~\ref{alg:helper}.)
+Then, in Line~9 we will pick client $p=1$  and create a demand denoted as $1'$
+(see Table~\ref{tbl:example_part}). Since there are no primary demands
+yet, we make $1'$ a primary demand with $\wbarN(1') = \wtildeN_1(1) =
+\{\dot{2}, \dot{3}, \dot{4}\}$. Notice that client $1$ is exhausted
+after this iteration. 
+
+In the second iteration we compute $\tcc(j)$ for
+$j=2,3,4$ and pick client $p=2$, from which we create a new demand
+$2'$. Since $\wtildeN_1(2)$ overlaps with $\wbarN(1')$, we assign $2'$
+to $1'$ and set $\wbarN(2') = \wbarN(1') \cap \wtildeN(2) = \{\dot{3},
+\dot{4}\}$. In the next two iterations we will pick client $p$ to be $3$ and
+then $4$ and create one demand for each. These demands, denoted $3'$ and $4'$,
+respectively, will be assigned to $1'$, and their neighborhoods will be set to
+$\wbarN(3') = \{\dot{2}, \dot{4}\}$ and
+$\wbarN(4') = \{\dot{2}, \dot{3}\}$. 
+In the fifth iteration we  pick client $4$ again.
+This time we have $\wtildeN_1(4) = \{\ddot{1}\}$, and this set is
+disjoint from $\wbarN(1')$. So we create demand $4''$ and
+make it primary, and set $\wbarN(4'') = \{\ddot{1}\}$. In the next two
+iterations we create one demand for each client $2$ then $3$, denoted $2''$ and $3''$,
+respectively. They both get assigned to $4''$, because their neighborhood
+$\wtildeN_1(j)$ overlaps with
+$\wbarN(4'')$. We also set $\wbarN(2'') = \{\ddot{1}\}$ and
+$\wbarN(3'') = \{\ddot{1}\}$. 
+
+Now that all clients are exhausted we perform Phase 2, the
+augmenting phase, to construct a fractional solution in which
+all demands have total connection value equal to $1$. 
+We iterate through each of the seven demands created, that is
+$1',2',2'',3',3'',4',4''$.
+$1'$ already has a neighborhood with total
+connection value of $1$, so nothing will change. 
+$2'$ has $\dot{3},\dot{4}$
+in its neighborhood, with total connection value of $2/3$, and
+$\wtildeN(2) = \{\dot{1}\}$ at this time, so we add $\dot{1}$ into
+$\wbarN(2')$ to make $\wbarN(2') = \{\dot{1}, \dot{3}, \dot{4}\}$ and
+now $2'$ has total connection value of $1$. Similarly, $3'$ and $4'$
+each get $\dot{1}$ added to their neighborhood and end up with total
+connection value of $1$. The other three demands, namely $2'',3''$ and $4''$,
+each have $\ddot{1}$ in its neighborhood so each of them has already its
+total connection  value equal $1$. This completes Phase 2.
+
+The final partitioned fractional solution is given in
+Table~\ref{tbl:example_part}. We have created a total of five
+facilities $\dot{1}, \ddot{1}, \dot{2}, \dot{3}, \dot{4}$, and seven
+demands, $1',2',2'',3',3'',4',4''$. It can be verified that all the
+stated properties are satisfied.
 
 %%%% end example %%%
 
