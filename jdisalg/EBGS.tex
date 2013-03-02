@@ -3,6 +3,8 @@
 %          still a lot of work needed. 
 % marek Tue Dec  4 12:54:24 PST 2012
 % marek Mon Dec 10 18:48:31 PST 2012
+% marek Tue Feb 26 17:58:29 PST 2013
+% marek Thu Feb 28 15:15:30 PST 2013
 
 
 \section{Algorithm~{\EBGS} with Ratio $1.575$}\label{sec: 1.575-approximation}
@@ -16,9 +18,11 @@ Byrka~{\etal}~\cite{ByrkaGS10}.
 
 Recall that in Section~\ref{sec: 1.736-approximation} we showed how to
 compute an integral solution with facility cost bounded by $F^\ast$
-and connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. A natural
-idea is to balance these two costs, by reducing the connection cost at
-the expense of a slight increase in the facility cost. One way to do
+and connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. Thus, while our
+facility cost does not exceed the optimal fractional facility cost, our connection
+cost is significantly larger than the connection cost in the optimal fractional solution.
+A natural idea is to balance these two ratios by reducing the connection cost at the
+expense of the facility cost. One way to do
 this would be to increase the probability of opening facilities, from
 $\bary_{\mu}$ (used in Algorithm~{\ECHS}) to, say,
 $\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases the
@@ -42,7 +46,8 @@ with the neighborhood of each demand divided into two disjoint parts,
 and with some restrictions on how parts from different demands can overlap.
 
 We begin by describing properties that our partitioned fractional
-solution $(\barbfx,\barbfy)$ needs to satisfy. As mentioned earlier,
+solution $(\barbfx,\barbfy)$ needs to satisfy. Assume that $\gamma$ is
+some constant such that $1 < \gamma < 2$. As mentioned earlier,
 the neighborhood $\wbarN(\nu)$ of each demand $\nu$ will be divided
 into two disjoint parts.  The first part, called the \emph{close
   neighborhood} and denoted $\wbarclsnb(\nu)$, contains the facilities
@@ -97,7 +102,7 @@ properties (PD') and (SI'), listed below.
 	\end{itemize}
 	%
 	Note that the first two conditions, together with
-        (PS.\ref{PS:one}), implies that $\sum_{\mu\in\wbarfarnb(\nu)}
+        (PS.\ref{PS:one}), imply that $\sum_{\mu\in\wbarfarnb(\nu)}
         \barx_{\mu\nu} =1-1/\gamma$.
 
 \item{(PD')} \emph{Primary demands.}
@@ -150,14 +155,13 @@ To obtain a fractional solution with the above properties, we employ a
 modified adaptive partitioning algorithm. As in Section~\ref{sec:
   adaptive partitioning}, we have two phases.  In Phase~1 we split
 clients into demands and create facilities on sites, while in Phase~2
-we augment each demand's connection values $\barx_{\mu\nu}$ by setting
-$\barx_{\mu\nu}$ from $0$ to $\bary_{\mu}$, so that the total value is
-$1$. As the partitioning algorithm proceeds, for any demand $\nu$,
-$\wbarN(\nu)$ denotes the set of facilities with $\barx_{\mu\nu} > 0$,
-hence $\wbarN(\nu)$ are dynamic sets which get fixed once the
-partitioning algorithm concludes both Phase 1 and Phase 2. On the
+we augment each demand's connection values $\barx_{\mu\nu}$ so that the total connection
+value of each demand $\nu$ is $1$. As the partitioning algorithm proceeds, for any demand $\nu$,
+$\wbarN(\nu)$ denotes the set of facilities with $\barx_{\mu\nu} > 0$;
+hence the notation $\wbarN(\nu)$ actually represents a dynamic set which gets fixed 
+once the partitioning algorithm concludes both Phase 2. On the
 other hand, $\wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$ refer to the close
-and far neighborhoods once $\wbarN(\nu)$ is fixed.
+and far neighborhoods at the time when $\wbarN(\nu)$ is fixed.
 
 Similar to the algorithm in Section~\ref{sec: adaptive partitioning},
 Phase~1 runs in iterations. Fix some iteration and consider any client
@@ -166,11 +170,13 @@ to the yet unpartitioned solution, namely the set of facilities $\mu$
 such that $\tildex_{\mu j}>0$. Order the facilities in this set as
 $\wtildeN(j) = \braced{\mu_1,...,\mu_q}$ with non-decreasing distance
 from $j$, that is $d_{\mu_1 j} \leq d_{\mu_2 j} \leq \ldots \leq
-d_{\mu_q j}$, where $q = |\wtildeN(j)|$. Without loss of generality,
+d_{\mu_q j}$. Without loss of generality,
 there is an index $l$ for which $\sum_{s=1}^l \tildex_{\mu_s j} =
 1/\gamma$, since we can always split one facility to achieve
-this. Then we define $\wtildeclsnb(j) = \braced{\mu_1,...,\mu_l}$. In
-case of ties, we use a tie-breaking rule that is explained in the
+this. Then we define $\wtildeclsnb(j) = \braced{\mu_1,...,\mu_l}$. 
+(Unlike close neighborhoods of demands, $\wtildeclsnb(j)$ can vary over time.)
+In case of ties, which can occur when some facilities in $\wtildeN(j)$ are at the same
+distance from $j$, we use a tie-breaking rule that is explained in the
 proof of Lemma~\ref{lem: PD1: primary overlap} (the only place where
 the rule is needed). We also use notation
 %
@@ -192,16 +198,17 @@ a new demand $\nu$ for $p$.  Now we have two cases:
   assign $\nu$ to $\kappa$. As before, if there are multiple such
   $\kappa$, we pick any of them. We also fix $\barx_{\mu \nu} \assign
   \tildex_{\mu p}$ and $\tildex_{\mu p}\assign 0$ for each $\mu \in
-  \wtildeN(p)\cap \wbarN(\kappa)$. Note that, as before, although we
+  \wtildeN(p)\cap \wbarN(\kappa)$. Note that although we
   check for overlap between $\wtildeclsnb(p)$ and $\wbarN(\kappa)$,
   the facilities we actually move into $\wbarN(\nu)$ include all
   facilities in the intersection of $\wtildeN(p)$, a bigger set, with
   $\wbarN(\kappa)$.
 
-  At this time, the total connection value $\barx_{\mu\nu}$ between
-  $\nu$ and $\mu\in \wbarN(\nu)$ is at most $1/\gamma$ since the sum
-  of $\bary_{\mu}$ for all $\mu \in \wbarN(\kappa)$ is $1/\gamma$ and
-  we have $\wbarN(\nu) \subseteq \wbarN(\kappa)$ at this point. Later
+  At this time, the total connection value 
+	between $\nu$ and $\mu\in \wbarN(\nu)$ is at most $1/\gamma$,
+	 since $\sum_{\mu \in \wbarN(\kappa)}\bary_{\mu} = 1/\gamma$ 
+	(this follows from the definition of neighborhoods for new primary demands in Case~2 below) 
+	and  we have $\wbarN(\nu) \subseteq \wbarN(\kappa)$ at this point. Later
   in Phase 2 we will add additional facilities from $\wtildeN(p)$ to
   $\wbarN(\nu)$ to make $\nu$'s total connection value equal to $1$.
 
@@ -215,12 +222,16 @@ a new demand $\nu$ for $p$.  Now we have two cases:
   0$.
 
   It is easy to see that the total connection value of $\nu$ to
-  $\wbarN(\nu)$ is now exactly $1/\gamma$.  Moreover, facilities
+  $\wbarN(\nu)$ is now exactly $1/\gamma$, that is
+	$\sum_{\mu \in \wbarN(\nu)}\bary_{\mu} = 1/\gamma$.
+Moreover, facilities
   remaining in $\wtildeN(p)$ are all farther away from $\nu$ than
   those in $\wbarN(\nu)$. As we add only facilities from $\wtildeN(p)$
   to $\wbarN(\nu)$ in Phase~2, the final $\wbarclsnb(\nu)$ contains
-  the same set of facilities as $\wbarN(\nu)$ at this point, taking
-  into account of possible facility split.
+  the same set of facilities as the current set $\wbarN(\nu)$.
+  (More precisely, $\wbarclsnb(\nu)$ consists of the facilities that
+	either are currently in $\wbarN(\nu)$ or were obtained from splitting
+	the facilities currently in $\wbarN(\nu)$.)
 %
 \end{description}
 %
@@ -228,14 +239,17 @@ Once all clients are exhausted, that is, each client $j$ has $r_j$
 demands created, Phase~1 concludes. We then run Phase~2, the
 augmenting phase, following the same steps as in Section~\ref{sec:
   adaptive partitioning}.  For each client $j$ and each demand $\nu\in
-j$ with total connection value $\barx_{\mu\nu}$ for
-$\mu\in\wbarN(\nu)$ less than $1$, we use our $\AugmentToUnit()$
+j$ with total connection value to $\wbarN(\nu)$ less than $1$
+(that is, $\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} < 1$),
+we use our $\AugmentToUnit()$
 procedure to add additional facilities (possibly split, if necessary)
 from $\wtildeN(j)$ to $\wbarN(\nu)$ to make the total connection value
-of $\wbarN(\nu)$ equal $1$.
+between $\nu$ and $\wbarN(\nu)$ equal $1$.
+
+\medskip
 
 This completes the description of the partitioning
-algorithm. Summarizing, for each client $j\in\clientset$ we have
+algorithm. Summarizing, for each client $j\in\clientset$ we 
 created $r_j$ demands on the same point as $j$, and we created a number
 of facilities at each site $i\in\sitesset$. Thus computed sets of
 demands and facilities are denoted $\demandset$ and $\facilityset$,
@@ -243,12 +257,11 @@ respectively.  For each facility $\mu\in i$ we defined its fractional
 opening value $\bary_\mu$, $0\le \bary_\mu\le 1$, and for each demand
 $\nu\in j$ we defined its fractional connection value
 $\barx_{\mu\nu}\in \braced{0,\bary_\mu}$.  The connections with
-$\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$. The subset
-of $\wbarN(\nu)$ that are closest to $\nu$ with total connection value
-$1/\gamma$ form $\wbarclsnb(\nu)$ and the rest form
-$\wbarfarnb(\nu)$. We might split one facility to make the nearest
-facilities having total connection value exactly $1/\gamma$.  It
-remains to show that this partitioning satisfies all the desired
+$\barx_{\mu\nu} > 0$ define the neighborhood $\wbarN(\nu)$. The facilities in
+$\wbarN(\nu)$ that are closest to $\nu$ and have total connection value from $\nu$ equal
+$1/\gamma$ form the close neighborhood $\wbarclsnb(\nu)$, while the remaining facilities
+in $\wbarN(\nu)$ form the far neighborhood
+$\wbarfarnb(\nu)$. It remains to show that this partitioning satisfies all the desired
 properties.
 
 %%%%%%%
@@ -274,10 +287,9 @@ The justification of (PD'.\ref{PD1:yi}) is similar to that for
 close neighborhoods of primary demands are disjoint, due to
 (PD'.\ref{PD1:disjoint}), so each facility $\mu \in i$ can appear in
 at most one $\wbarclsnb(\kappa)$, for some $\kappa\in P$. Condition
-(CO) implies that $\bary_{\mu} = \barx_{\mu\kappa}$ as we are only
-interested in $\barx_{\mu\kappa} > 0$. As a result, the summation on
-the left-hand side is not larger than $\sum_{\mu\in i}\bary_{\mu} =
-y_i^\ast$.
+(CO) implies that $\bary_{\mu} = \barx_{\mu\kappa}$ for $\mu \in \wbarclsnb(\kappa)$.
+As a result, the summation on
+the left-hand side is not larger than $\sum_{\mu\in i}\bary_{\mu} = y_i^\ast$.
 
 Regarding (PD'.\ref{PD1:assign:overlap}), at first glance this
 property seems to follow directly from the algorithm, as we only
@@ -288,7 +300,7 @@ more subtle, as the final $\wbarclsnb(\nu)$ may contain facilities
 added to $\wbarN(\nu)$ in Phase 2. Those facilities may turn out to be
 closer to $\nu$ than some facilities in $\wbarN(\kappa) \cap
 \wtildeN(j) $ (not $\wtildeN_{\cls}(j)$) that we added to
-$\wbarN(\nu)$ in Phase 1. If the final $\wbarclsnb(\nu)$ consists only
+$\wbarN(\nu)$ in Phase 1. If the final $\wbarclsnb(\nu)$ consists only of
 facilities added in Phase 2, we no longer have the desired overlap of
 $\wbarclsnb(\kappa)$ and $\wbarclsnb(\nu)$. Luckily this bad scenario
 never occurs. We postpone the proof of this property to
@@ -301,6 +313,7 @@ Lemma~\ref{lem: PD1: primary overlap}.  The proof of
 because for each demand $\nu\in j$, all facilities added to
 $\wbarN(\nu)$ are immediately removed from $\wtildeN(j)$ and each
 facility is added to $\wbarN(\nu)$ of exactly one demand $\nu \in j$.
+Splitting facilities obviously preserves (SI'.\ref{SI1:siblings disjoint}).
 
 The proof of (SI'.\ref{SI1:primary disjoint}) is similar to that of
 Lemma~\ref{lem: property SI:primary disjoint holds}. If $\kappa=\nu$
@@ -313,13 +326,13 @@ facilities in Case~1, at this time we have $\wbarN(\nu)\subseteq
 \wbarN(\kappa') =\wbarclsnb(\kappa')$, so $\wbarN(\nu')\cap
 \wbarclsnb(\kappa) = \emptyset$, by (PD'.\ref{PD1:disjoint}).
 Moreover, we have $\wtildeN(j) \cap \wbarclsnb(\kappa) = \emptyset$
-after this iteration, because any facility that were also in
+after this iteration, because any facilities that were also in
 $\wbarclsnb(\kappa)$ were removed from $\wtildeN(j)$ when $\nu$ was
 created. In Phase~2, augmentation does not change $\wbarclsnb(\kappa)$
 and all facilities added to $\wbarN(\nu')$ are from the set
 $\wtildeN(j)$ at the end of Phase 1, which is a subset of the set
-$\wtildeN(j)$ after this iteration, since $\wtildeN(j)$ is
-shrinking. So the condition (SI'.\ref{SI1:primary disjoint}) will
+$\wtildeN(j)$ after this iteration, since $\wtildeN(j)$ can only shrink. 
+So the condition (SI'.\ref{SI1:primary disjoint}) will
 remain true.
 
 %%%%%%%%%%%%%%%
@@ -331,11 +344,13 @@ remain true.
 \begin{proof}
   Let $j$ be the client for which $\nu\in j$. We consider an iteration
   when we create $\nu$ from $j$ and assign it to $\kappa$, and
-  throughout the proof, notation $\wtildeclsnb(j)$ and $\wtildeN(j)$
-  will refer to the value of the sets at this particular time.  At
-  this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
+  within this proof, notation $\wtildeclsnb(j)$ and $\wtildeN(j)$
+  will refer to the value of the sets at this particular time.  
+% if reviewers complain, we can introduce superscript v to indicate that
+% as we do elsewhere
+At this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
   \wbarN(\kappa)$.  Recall that $\wbarN(\kappa)$ is now equal to the
-  final $\wbarclsnb(\kappa)$ (taking into account facility split). We
+  final $\wbarclsnb(\kappa)$ (taking into account facility splitting). We
   would like to show that the set $\wtildeclsnb(j)\cap
   \wbarclsnb(\kappa)$ (which is not empty) will be included in
   $\wbarclsnb(\nu)$ at the end. Technically speaking, this will not be
@@ -348,10 +363,12 @@ remain true.
 \includegraphics[width=3.2in]{./FIGURES/proof_of_lemma_PD'3a.pdf}
 \caption{Illustration of the sets $\wbarN(\nu)$, $A$, $B$,
   $E^-$ and $E^+$ in the proof of Lemma~\ref{lem: PD1:
-    primary overlap}. We have $A=\wtildeN(j), B =
-  \wtildeclsnb(j) \cap \wbarclsnb(\kappa), E^- =
-  \wtildeclsnb(j) - \wbarclsnb(\kappa), E^+ = \wtildeN(j) -
-  \wtildeclsnb(j)$.}
+    primary overlap}. Let $X \Subset Y$ mean that the facility
+	sets $X$ is obtained from $Y$ by splitting facilities.
+	We then have $A \Subset \wtildeN(j)$, 
+	$B \Subset  \wtildeclsnb(j) \cap \wbarclsnb(\kappa)$, 
+	$E^- \Subset  \wtildeclsnb(j) - \wbarclsnb(\kappa)$, 
+	$E^+ \Subset \wtildeN(j) - \wtildeclsnb(j)$.}
 \label{fig: sets lemma PD'3a}
 \end{center}
 \end{figure}
@@ -369,8 +386,9 @@ remain true.
   prove the lemma because $B\neq\emptyset$, by the algorithm.
 
   We now prove this claim. In this paragraph $\wbarN(\nu)$ denotes the
-  final $\wbarN(\nu)$ with total connection value of $1$, after
-  adaptive partition completes both phases. Note first that
+  final set $\wbarN(\nu)$ after both phases are completed. Thus the total
+connection value of $\wbarN(\nu)$ to $\nu$ is $1$.
+	Note first that
   $B\subseteq \wbarN(\nu) \subseteq A$, because we never remove
   facilities from $\wbarN(\nu)$ and we only add facilities from
   $\wtildeN(j)$.  Also, $B\cup E^-$ represents the facilities obtained
@@ -378,7 +396,8 @@ remain true.
   1/\gamma$.  This and $B\subseteq \wbarN(\nu)$ implies that the total
   connection value of $B\cup (\wbarN(\nu)\cap E^-)$ to $\nu$ is at
   most $1/\gamma$. But all facilities in $B\cup (\wbarN(\nu)\cap E^-)$
-  are closer to $\nu$ than those in $E^+\cap \wbarN(\nu)$. It follows
+  are closer to $\nu$ (taking into account our tie breaking)
+ 	than those in $E^+\cap \wbarN(\nu)$. It follows
   that $B\subseteq \wbarclsnb(\nu)$, completing the proof.
 \end{proof}
 
@@ -397,26 +416,27 @@ was created. (Here $\eta$ may or may not be a demand of client $j$).
 
 Suppose $\nu \in j$ is assigned to a primary demand $\kappa \in p$.
 By the way primary demands are constructed in the partitioning
-algorithm, $\wtildeclsnb(p)$ becomes $\wbarclsnb(\kappa)$, so we have
+algorithm, $\wtildeclsnb(p)$ becomes $\wbarN(\kappa)$, which is equal
+to the final value of $\wbarclsnb(\kappa)$. So we have
 $\clsdist(\kappa) = \tcccls^\kappa (p)$ and $\clsmax(\kappa) =
 \dmaxcls^\kappa(p)$. Further, since we choose $p$ to minimize
-$\tcccls(p) + \dmaxcls(p)$, we thus have that $\tcccls^\kappa(p) +
-\dmaxcls^\kappa(p) \leq \tcccls^\kappa(j) + \dmaxcls^\kappa(j)$ at the
-time when demand $\kappa$ was created.
+$\tcccls(p) + \dmaxcls(p)$, we have that $\tcccls^\kappa(p) +
+\dmaxcls^\kappa(p) \leq \tcccls^\kappa(j) + \dmaxcls^\kappa(j)$.
 
 Using an argument analogous to that in the proof of Lemma~\ref{lem: tcc optimal}, 
 our modified partitioning algorithm guarantees that
-  $\tcccls^{\kappa}(j) \leq \tcccls^{\nu}(j)$ and
-  $\dmaxcls^{\kappa}(j) \leq \dmaxcls^{\nu}(j)$ since $\nu$ was
+  $\tcccls^{\kappa}(j) \leq \tcccls^{\nu}(j) \leq \clsdist(\nu)$ and
+  $\dmaxcls^{\kappa}(j) \leq \dmaxcls^{\nu}(j) \leq \clsmax(\nu)$ since $\nu$ was
   created later.
   Therefore, we have
 %
+%\margincomment{the last equality seems false}
   \begin{align*}
     \clsdist(\kappa) + \clsmax(\kappa) &= \tcccls^{\kappa}(p) +	\dmaxcls^{\kappa}(p) 
 					\\
 					&\leq \tcccls^{\kappa}(j) + \dmaxcls^{\kappa}(j) 
 					\leq \tcccls^{\nu}(j) + \dmaxcls^{\nu}(j) 
-					= \clsdist(\nu) + \clsmax(\nu),
+					\leq \clsdist(\nu) + \clsmax(\nu),
   \end{align*}
 %
 completing the proof.
@@ -440,13 +460,16 @@ $\mu\in\wbarclsnb(\kappa)$ is chosen as $\phi(\kappa)$ with
 probability $\gamma\bary_{\mu}$. For all facilities
 $\mu\in\facilityset - \bigcup_{\kappa\in P}\wbarclsnb(\kappa)$, we
 open them independently, each with probability
-$\gamma\bary_{\mu}$. Due to our choice of $\gamma$ being $1 < \gamma <
-2$, we have $1-1/\gamma \leq 1/\gamma$ so property (CO) actually
-implies all $\bary_{\mu} \leq 1/\gamma$ since there exists some $\nu$
-such that $\barx_{\mu\nu} = \bary_{\mu}$ and any
-$\mu\in\wbarclsnb(\nu)$ satisfies $\barx_{\mu\nu} \leq 1/\gamma$. In
-addition, any $\mu\in\wbarfarnb(\nu)$ satisfies $\barx_{\mu\nu} \leq
-1-1/\gamma$. Then all $\gamma\bary_{\mu}$ are valid probability values.
+$\gamma\bary_{\mu}$. 
+
+We claim that all probabilities are well-defined, that is
+$\gamma\bary_{\mu} \le 1$ for all $\mu$. Indeed, if $\bary_{\mu}>0$ then
+$\bary_{\mu} = \barx_{\mu\nu}$ for some $\nu$, by Property~(CO).
+If $\mu\in \wbarclsnb(\nu)$ then the definition of close
+neighborhoods implies that $\barx_{\mu\nu} \le 1/\gamma$.
+If $\mu\in \wbarfarnb(\nu)$ then
+$\barx_{\mu\nu} \le 1-1/\gamma \le 1/\gamma$, because $\gamma < 2$.
+Thus $\gamma\bary_{\mu} \le 1$, as claimed.
 
 Next, we connect demands to facilities.
 Each primary demand $\kappa\in P$ will connect
@@ -479,8 +502,10 @@ Therefore the computed solution is feasible.
 We now estimate the cost of the solution computed by Algorithm {\EBGS}. The lemma
 below bounds the expected facility cost.
 
+%%%%%%%%%%
+
 \begin{lemma} \label{lem: EBGS facility cost}
-The expected facility cost $F_{\smallEBGS}$ of Algorithm~{\EBGS} is at most $\gamma F^\ast$.
+The expectation of facility cost $F_{\smallEBGS}$ of Algorithm~{\EBGS} is at most $\gamma F^\ast$.
 \end{lemma}
 
 \begin{proof}
@@ -490,96 +515,133 @@ close neighborhood of a primary demand or not. Therefore, by
   linearity of expectation, we have that the expected facility cost is
 %
 \begin{equation*}
-	F_{\smallEBGS} = \sum_{\mu \in \facilityset} f_\mu \gamma \bary_{\mu} 
+	\Exp[F_{\smallEBGS}] = \sum_{\mu \in \facilityset} f_\mu \gamma \bary_{\mu} 
 			= \gamma \sum_{i\in \sitesset} f_i \sum_{\mu\in i} \bary_{\mu} 
-			\stackrel{\ast}{=} \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast,
+			= \gamma \sum_{i \in \sitesset} f_i y_i^\ast = \gamma F^\ast,
 \end{equation*}
 %
-where the $(\ast)$ equality follows from (PS.\ref{PS:yi}).
+where the third equality follows from (PS.\ref{PS:yi}).
 \end{proof}
 
 %%%%%%%%%%%
 
 To bound the connection cost, we start with a lemma that
-estimates the cost of indirect connections, between a
-non-primary demand and its target facility. The proof of
-this lemma relies on
+estimates the cost of indirect connections.
+More precisely, if a non-primary demand $\nu$ is assigned to a primary demand $\kappa$,
+we want to estimate
+the expectation of the distance between $\nu$ and $\phi(\kappa)$,
+conditioned on the event that no facility in $\wbarN(\nu)$ opens.
+The proof of this lemma relies on
 Properties~(PD'.\ref{PD1:assign:overlap}) and
 (PD'.\ref{PD1:assign:cost}) of modified partitioning and
 follows the reasoning in the proof of a similar lemma
 in~\cite{ByrkaGS10,ByrkaA10}.  For the sake of completeness,
-we include a proof in the appendix.
+we include a proof in~\ref{sec: proof of lemma 15}.
+
+%%%%%%%
 
 \begin{lemma}\label{lem: EBGS target connection cost}
-  In Algorithm~{\EBGS}, let $\gamma$ be a constant such that $1 <
-  \gamma < 2$, for a non-primary demand $\nu$, in the event that no
-  facility in $\wbarN(\nu)$ opens, the expected connection cost is no
-  more than $\clsdist(\nu)+\clsmax(\nu)+\fardist(\nu)$.
+Let $\nu$ be a non-primary demand assigned to $\kappa\in P$ and
+let $\Lambda^{\nu}$ be the event
+that some facility in $\wbarN(\nu)$ opens in Algorithm~{\EBGS}'s integral solution. Then
+%
+\begin{equation*}
+\Exp[d_{\phi(\kappa)\nu}\mid \neg \Lambda^{\nu}] \leq
+  \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu).
+\end{equation*}
+%
 \end{lemma}
+A sketch of the proof is in \ref{sec: proof of lemma 15}.  We are now
+ready to bound the overall connection cost of Algorithm~{\EBGS}.
 
-We are now ready to bound the overall connection cost of Algorithm~{\EBGS}.
+%%%%%%%
 
 \begin{lemma}\label{lem: EBGS connection cost}
-  Assuming that $1 < \gamma < 2$, the expected connection
-  cost $C_{\smallEBGS}$ of Algorithm~{\EBGS} is at most
-  $C^\ast\cdot\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
-  1+\frac{2}{e^\gamma}\}$.
+  The expectation of connection
+  cost $C_{\smallEBGS}$ of Algorithm~{\EBGS} is 
+%
+\begin{equation*}
+\Exp[C_{\smallEBGS}] \le
+  C^\ast\cdot\max\Big\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\Big\}.
+\end{equation*}
 \end{lemma}
 
 \begin{proof}
   The argument is similar to that in~\cite{ByrkaGS10}. Fix some
-  non-primary demand $\nu$. Let $\wbarclsnb(\nu) =
-  \{\mu_1,\ldots,\mu_l\}$ and $\wbarfarnb(\nu) = \{\mu_{l+1}, \ldots,
-  \mu_{l'}\}$, where facilities are ordered by non-decreasing distance
-  to $\nu$, and $d_1,\ldots,d_l,d_{l+1},\ldots,d_{l'}$ be the
-  corresponding distance to $\nu$. Let $\Lambda_{\nu}$ be the event
-  that none of $\wbarN(\nu)$ opens in algorithm {\EBGS}'s integral
-  solution and $\kappa$ be the primary demand that $\nu$ was assigned
-  to, we then have $\Exp[d_{\phi(\kappa)\nu}\mid \Lambda_{\nu}] \leq
-  \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu)$ by Lemma~\ref{lem:
-    EBGS target connection cost}.
+  non-primary demand $\nu$. Let $\wbarN(\nu) =
+  \{\mu_1,\ldots,\mu_h\}$, where the facilities are ordered by
+  non-decreasing distance to $\nu$.  Thus, denoting $d_s =
+  d_{\mu_s\nu}$, for all $s$, we have $d_1 \le d_2 \le ... \le
+  d_h$. Choose $l$ such that $\wbarclsnb(\nu) =
+  \{\mu_1,\ldots,\mu_l\}$ and $\wbarfarnb(\nu) = \{\mu_{l+1},
+  \ldots,\mu_{h}\}$.
 
-  Let $C_{\nu}$ be the random variable of the distance from
-  $\nu$ to the facility that it connects to in the integral
-  solution. A similar argument to estimate the distance by a
-  provably worse random process, as in the analysis of
-  algorithm {\ECHS}, will then show that the expected
-  distance $\Exp[C_\nu]$ is no more than the estimate that
-  uses the nearest facility in $\wbarclsnb(\nu)$ if one
-  opened, then use the nearest in $\wbarfarnb(\nu)$ if there
-  is one, and only use $\phi(\kappa)$ if none in
-  $\wbarN(\nu)$ opened. A detailed derivation follows.
+  Let $C_{\nu}$ be the random variable equal to the distance from
+  $\nu$ to the facility that it connects to in the integral solution.
+  As before, $\Lambda^\nu$ is the event that some facility in
+  $\wbarN(\nu)$ opens, and we also use notation $\Lambda^\nu_{\cls}$
+  for the event that some facility in $\wbarclsnb(\nu)$ opens. Using
+  an argument similar to that in the analysis of Algorithm~{\ECHS} in
+  Section~\ref{sec: 1.736-approximation}, we can show that
+  $\Exp[C_\nu]$ is upper bounded by the expected connection cost of
+  $\nu$ obtained by the alternative random process that opens each
+  facility $\mu \in \wbarN(\nu)$ independently with probability
+  $\gamma\bary_{\mu}$, and connects to the nearest facility in
+  $\wbarclsnb(\nu)$ if one opens, otherwise connect to the nearest
+  facility open in $\wbarfarnb(\nu)$, failing that, connect to its
+  target facility $\phi(\kappa)$, the facility opened in the
+  neighborhood of its assigned primary demand $\kappa$. Following this
+  reasoning, we estimate $\Exp[C_\nu]$ as follows. Below we let $p_c
+  \stackrel{\mathrm{def}}{=} 1-\prod_{s=1}^l (1-\gamma\bary_{\mu_s})$
+  and $p_d \stackrel{\mathrm{def}}{=} 1-\prod_{s=1}^h
+  (1-\gamma\bary_{\mu_s})$.
+%
   \begin{align*}
     \Exp[C_{\nu}] 
-    &\leq \left(1-\prod_{s=1}^l (1-\gamma\bary_s)\right) \sum_{s=1}^l d_s \gamma\bary_s\\
-    &+ \left(\prod_{s=1}^l(1-\gamma\bary_s) - \prod_{s=1}^{l'}(1-\gamma\bary_s)\right) \left(\sum_{s=l+1}^{l'} d_s\bary_s\;/ \;\sum_{s=l+1}^{l'} \bary_s \right)\\
-    &+ \left(\prod_{s=1}^{l'} (1-\gamma\bary_s)\right) \Exp[d_{\phi(\kappa)\nu} \mid \Lambda_\nu]\\
-    &\leq (1-1/e)\clsdist(\nu) + (1/e - 1/e^\gamma)\fardist(\nu) + 1/e^\gamma (\clsdist(\nu) + \clsmax(\nu) + \fardist(\nu))\\
-\\
-  &\leq 
-	\textstyle
-	\clsdist(\nu)(1-\frac{1}{e}) + \fardist(\nu)(\frac{1}{e}-\frac{1}{e^\gamma})
-	 			+ (\clsdist(\nu)+2\fardist(\nu))\frac{1}{e^\gamma}
-\\
-  &\leq
-	\textstyle
-  \concost(\nu)((1-\rho_{\nu})(\frac{1/e+1/e^\gamma}{1-1/\gamma})
-  + \rho_{\nu}(1+\frac{2}{e^\gamma}) 
-\\
-  &\leq 
-	\textstyle
-	\concost(\nu) \cdot \max\Big\{\frac{1/e+1/e^\gamma}{1-1/\gamma},
-  								1+\frac{2}{e^\gamma}\Big\},
+		&= \Exp[C_{\nu}\mid \Lambda^\nu_{\cls}] \cdot \Prob[\Lambda^\nu_{\cls}]	
+				+ \Exp[C_{\nu}\mid \Lambda^\nu\ \wedge\neg \Lambda^\nu_{\cls}] \cdot \Prob[\Lambda^\nu\ \wedge\neg \Lambda^\nu_{\cls}]	
+		\\
+		&\quad\quad
+				+  \Exp[C_{\nu}\mid \neg \Lambda^\nu] \cdot \Prob[\neg \Lambda^\nu]
+		\\
+		&\leq  \clsdist(\nu) \cdot p_c
+			+ \fardist(\nu)	\cdot (p_d - p_c)
+			+ \Exp[d_{\phi(\kappa)\nu}\mid \neg \Lambda^{\nu}] \cdot (1 - p_d)
+		\\
+		&\le
+			  \clsdist(\nu) \cdot p_c
+			+ \fardist(\nu)	\cdot (p_d - p_c)
+		\\
+		&\quad\quad	+ [\clsdist(\nu) + \clsmax(\nu) + \fardist(\nu)] \cdot (1 - p_d)
+                \\
+                &= (\clsdist(\nu) + \fardist(\nu))\cdot (1-p_d) - (\fardist - \clsdist) \cdot p_c + \fardist(\nu).
 \end{align*}
-%
-where $\rho_{\nu}=\clsdist(\nu)/\concost(\nu)$. It is easy to see that
-$\rho_{\nu}$ is between 0 and 1. In the second inequality we used the
-fact that $\sum_{s=1}^l \bary_{s} = 1/\gamma$ and $\sum_{s=1}^{l'}
-\bary_{s} = 1$. Since $\sum_{\nu\in j} C^{\avg}(\nu)
+The first inequality follows from a similar argument in the proof of
+Lemma~\ref{lem: echs expected C_nu}, and the second inequality is due
+to Lemma~\ref{lem: EBGS target connection cost}.
+
+By definition $p_c = 1 - \prod_{s=1}^l (1-\gamma\bary_{\mu_{s}}) \geq
+1-1/e$ since $\sum_{s=1}^l \bary_{\mu_{s}} = 1/\gamma$. Similarly $p_d
+= 1 - \prod_{s=1}^h (1 - \gamma\bary_{\mu_s}) \geq 1 - 1/e^\gamma$
+since $\sum_{s=1}^h \bary_{\mu_s} = 1$. Therefore,
+\begin{align*}
+  \Exp[C_\nu]
+             &\leq (\clsdist(\nu) + \fardist(\nu))\cdot (1-p_d) - (\fardist - \clsdist) \cdot p_c + \fardist(\nu)\\
+             &\leq (\clsdist(\nu) + \fardist(\nu)) \frac{1}{e^\gamma} - (\fardist - \clsdist) \cdot (1-\frac{1}{e}) + \fardist\\
+             &= (1 - \frac{1}{e} + \frac{1}{e^\gamma})\clsdist + (\frac{1}{e} + \frac{1}{e^\gamma}) \fardist\\
+             &= \concost(\nu) \left((1-\rho_{\nu})\frac{1/e+1/e^\gamma}{1-1/\gamma} + \rho_{\nu} (1 + \frac{2}{e^\gamma})\right)\\
+             &\leq \concost(\nu) \cdot \max\left\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1 + \frac{2}{e^\gamma}\right\},
+\end{align*}
+where $\rho_{\nu}
+\stackrel{\mathrm{def}}{=}\clsdist(\nu)/\concost(\nu)$. It is easy to
+see that $\rho_{\nu}$ is between 0 and 1.
+
+Since $\sum_{\nu\in j} C^{\avg}(\nu)
 = \sum_{\nu\in j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} =
 \sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast$, summing over all
-clients $j$ we have total connection cost bounded by \\$C^\ast
-\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\}$.
+clients $j$ we have total connection cost bounded by 
+$C^\ast\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\}$,
+completing the proof.
 \end{proof}
 
 Recall that the expected facility cost is bounded by $\gamma F^\ast$,

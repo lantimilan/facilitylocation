@@ -139,11 +139,11 @@ $\wbarN(\nu)$ or indirectly to its target facility $\phi(\kappa)\in
 which $\nu$ is assigned.
 
 We first estimate the expected cost $d_{\phi(\kappa)\nu}$ of the indirect
-connection. Let $\Lambda_\nu$ denote the event that none of the
-facilities in $\wbarN(\nu)$ is opened. Then
+connection. Let $\Lambda^\nu$ denote the event that some 
+facility in $\wbarN(\nu)$ is opened. Then
 %
 \begin{equation}
-	\Exp[ d_{\phi(\kappa)\nu} \mid \Lambda_\nu] 
+	\Exp[ d_{\phi(\kappa)\nu} \mid \neg\Lambda^\nu] 
 			= D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu),
 			\label{eqn: expected indirect connection}
 \end{equation}
@@ -151,7 +151,7 @@ facilities in $\wbarN(\nu)$ is opened. Then
 where $D(A,\sigma) \stackrel{\mathrm{def}}{=}\sum_{\mu\in A}
 d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$, for
 any set $A$ of facilities and a demand $\sigma$.  Note that
-$\concost_\nu = D(\wbarN(\nu),\nu)$, and that $\Lambda_\nu$
+$\concost_\nu = D(\wbarN(\nu),\nu)$, and that $\neg\Lambda^\nu$
 implies that $\wbarN(\kappa) \setminus
 \wbarN(\nu)\neq\emptyset$, since $\wbarN(\kappa)$ contains
 exactly one open facility, namely $\phi(\kappa)$.
@@ -162,7 +162,7 @@ exactly one open facility, namely $\phi(\kappa)$.
   \label{lem:echu indirect}
   Let $\nu$ be a demand assigned to a primary demand $\kappa$, and
 assume that $\wbarN(\kappa) \setminus \wbarN(\nu)\neq\emptyset$.
-Then $\Exp[ d_{\phi(\kappa)\nu} \mid \Lambda_\nu]  \leq
+Then $\Exp[ d_{\phi(\kappa)\nu} \mid \neg\Lambda^\nu]  \leq
   		\concost_\nu+2\alpha_{\nu}^\ast$.
 \end{lemma}
 
@@ -261,44 +261,63 @@ Assume that $\wbarN(\kappa) \setminus \wbarN(\nu) \neq \emptyset$. Then, using t
 the paragraph above, we have
 %
 \begin{equation*}
-	\textstyle
+  \textstyle
   \Exp[C_\nu] \leq 
-	\sum_{u=1}^l d_uy_u\prod_{s=1}^{u-1}(1-y_s)
-		+  \Exp[ d_{\phi(\kappa)\nu} \mid \Lambda_\nu]\cdot \textstyle{\prod_{s=1}^{l}} (1-y_{s}).	
+  \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
+  +  \Exp[ d_{\phi(\kappa)\nu}  \mid \neg\Lambda^\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
 \end{equation*}
 \end{lemma}
 
-The formal proof of Lemma~\ref{lem: echs expected C_nu}
-appears in~\cite{ChudakS04}. The main idea of the proof is
-to consider a provably worse random process, which considers
-facilities in $\wbarN(\nu)$ by grouping them according to
-the neighborhood of primary demands. That is, two facilities
-$\mu_1$ and $\mu_2$ belong to the same group if both are in
-$\wbarN(\kappa)$ for some primary demand $\kappa$. The
-groups are then ordered by nondecreasing average distance to
-$\nu$, where the average is $\sum_{\mu\in G} d_{\mu\nu}
-\bary_{\mu} / \sum_{\mu\in G} \bary_{\mu}$. The process
-first consider each group in this order and select a group
-$G$ independently with probability $\sum_{\mu\in
-  G}\bary_{\mu}$. Stop as soon as one group is selected, or
-we end up with none selected. If one group $G$ is selected,
-we open a facility in $G$ by choosing each $\mu$ in $G$ with
-probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We
-then connect demand $\nu$ to this facility $\mu$. Otherwise
-no group is selected and we connect $\nu$ to $\phi(\kappa)$.
+\begin{proof}
+The formal proof of Lemma~\ref{lem: echs expected C_nu} appears
+in~\cite{ChudakS04}. The main idea of the proof is to consider a
+provably worse random process, which considers facilities in
+$\wbarN(\nu)$ by grouping them according to the neighborhood of
+primary demands. That is, two facilities $\mu_1$ and $\mu_2$ belong to
+the same group if both are in $\wbarN(\kappa)$ for some primary demand
+$\kappa$. The groups are then ordered by nondecreasing average
+distance to $\nu$, where the average is $\sum_{\mu\in G} d_{\mu\nu}
+\bary_{\mu} / \sum_{\mu\in G} \bary_{\mu}$. The process first consider
+each group in this order and select a group $G$ independently with
+probability $\sum_{\mu\in G}\bary_{\mu}$. Stop as soon as one group is
+selected, or we end up with none selected. If one group $G$ is
+selected, we open a facility in $G$ by choosing each $\mu$ in $G$ with
+probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We then connect
+demand $\nu$ to this facility $\mu$. Otherwise no group is selected
+and we connect $\nu$ to $\phi(\kappa)$. Notice that the event occurred
+in each group are independent, which gives an easier estimate on the
+expected connection cost. More specifically, let the groups be $G_1,
+G_2, \ldots, G_k$ and $g_1 = \sum_{\mu \in G_1} \bary_{\mu}$ and
+similarly we define $g_2,\ldots,g_k$. Also let $\bard_1 = \sum_{\mu
+  \in G_1} d_{\mu\nu}\bary_{\mu} / \sum_{\mu\in G_1} \bary_{\mu}$ and
+similarly we define $\bard_2, \ldots, \bard_k$. Then our expected
+connection cost, conditioned on the event that at least one facility
+in $\wbarN(\nu)$ opens, is at most
+\begin{align*}
+  \Exp[C_\nu \mid \Lambda] &\leq \bard_1 g_1 + \bard_2 g_2 (1-g_1) +
+  \ldots + \bard_k g_k (1-g_1) (1-g_2) \ldots (1-g_k)\\
+  &\leq (\textstyle{\sum_{s=1}^k} \bard_s g_s)(\textstyle{\sum_{t=1}^k} g_t \textstyle{\prod_{z=1}^{t-1}}
+  (1-g_z))\\
+  &= (\textstyle{\sum_{i=1}^l} d_i \bary_i)(\textstyle{\sum_{t=1}^k} g_t \textstyle{\prod_{z=1}^{t-1}}
+  (1-g_z))\\
+  &\leq (\textstyle{\sum_{i=1}^l} d_i \bary_i)(1 - \textstyle{\prod_{i=1}^l} (1-\bary_i))\\
+\end{align*}
+The first inequality follows from the use of a provably worse random
+process to estimate connection cost. The second inequality is from the
+inequality (\ref{eq:dist}) in \ref{sec: ECHSinequality}. The
+third line, which is an equality, follows from the definition of
+$g_1,g_2,\ldots,g_k$ and $\bard_1,\ldots,\bard_k$. The last inequality
+follows from the fact that $(1-g_1) \leq \prod_{\mu\in
+  G_1}(1-\bary_\mu)$ since $g_1 = \sum_{\mu\in G_1} \bary_{\mu}$.
+\end{proof}
 
 Using Lemma~\ref{lem: echs expected C_nu}, we estimate the
-(unconditional) expected connection cost of $\nu$ as
-follows:
+(unconditional) expected connection cost of $\nu$ as follows:
 %
 \begin{align}
-  \Exp[C_\nu] &\leq 
-	\textstyle \sum_{u=1}^l d_uy_u\prod_{s=1}^{u-1}(1-y_s)
-		+  \Exp[ d_{\phi(\kappa)\nu}  \mid \Lambda_\nu]\cdot \prod_{s=1}^{l} (1-y_{s})
-		\notag
-		\\
+  \Exp[C_\nu] 
   &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
-	+  \Exp[ d_{\phi(\kappa)\nu}  \mid \Lambda_\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
+	+  \Exp[ d_{\phi(\kappa)\nu}  \mid \neg\Lambda^\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
 	\label{eqn: Cnu estimate 1}
 	\\
   &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \concost_{\nu} 
