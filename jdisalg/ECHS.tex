@@ -248,81 +248,107 @@ the first case, namely we have $\Exp[C_{\nu}] =
 \concost_{\nu}$, and (\ref{eqn: echs bound for connection
   cost}) holds.
 
-The last, and only non-trivial case is when
-$\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$.  Let $\wbarN(\nu)
-= \braced{\mu_1,\ldots,\mu_l}$ and let $d_s = d_{\mu_s\nu}$ and $y_s =
-\bary_{\mu_s}$ for $s = 1,\ldots,l$. By reordering, we can assume that
-$d_1 \le d_2 \le \ldots \le d_l$. 
+The last, and only non-trivial case is when $\wbarN(\kappa)\setminus
+\wbarN(\nu)\neq\emptyset$. For this case we have the following lemma,
+where $\Lambda^\nu$ denotes the event that $\nu$ has at least one
+facility in $\wbarN(\nu)$ open and $\neg \Lambda^\nu$ denotes the
+complement event. $\Prob[\cdot]$ denotes the probability that an event
+occurs. $\Exp[\cdot \mid \cdot]$ denotes the conditional
+expectation. As before $D(A, \sigma) = \sum_{\mu \in A} d_{\mu\sigma}
+\bary_{\mu} / (\sum_{\mu \in A} \bary_{\mu})$ for any set $A$ of
+facilities and any demand $\sigma$.
 
 %%%%%%
 
 \begin{lemma}\label{lem: echs expected C_nu}
-Assume that $\wbarN(\kappa) \setminus \wbarN(\nu) \neq \emptyset$. Then, using the notation from
-the paragraph above, we have
+Assume that $\wbarN(\kappa) \setminus \wbarN(\nu) \neq \emptyset$, we
+have the expected connection cost of a demand $\nu$ in the integral
+solution, conditioned on the even that at least one of its neighbor
+opens,
 %
 \begin{equation*}
-  \textstyle
-  \Exp[C_\nu] \leq 
-  \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
-  +  \Exp[ d_{\phi(\kappa)\nu}  \mid \neg\Lambda^\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
+  \Exp[C_\nu \mid \Lambda^\nu] \leq D(\wbarN(\nu), \nu).
 \end{equation*}
 \end{lemma}
 
 \begin{proof}
-The formal proof of Lemma~\ref{lem: echs expected C_nu} appears
-in~\cite{ChudakS04}. The main idea of the proof is to consider a
-provably worse random process, which considers facilities in
-$\wbarN(\nu)$ by grouping them according to the neighborhood of
-primary demands. That is, two facilities $\mu_1$ and $\mu_2$ belong to
-the same group if both are in $\wbarN(\kappa)$ for some primary demand
-$\kappa$. The groups are then ordered by nondecreasing average
-distance to $\nu$, where the average is $\sum_{\mu\in G} d_{\mu\nu}
-\bary_{\mu} / \sum_{\mu\in G} \bary_{\mu}$. The process first consider
-each group in this order and select a group $G$ independently with
-probability $\sum_{\mu\in G}\bary_{\mu}$. Stop as soon as one group is
-selected, or we end up with none selected. If one group $G$ is
-selected, we open a facility in $G$ by choosing each $\mu$ in $G$ with
-probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We then connect
-demand $\nu$ to this facility $\mu$. Otherwise no group is selected
-and we connect $\nu$ to $\phi(\kappa)$. Notice that the event occurred
-in each group are independent, which gives an easier estimate on the
-expected connection cost. More specifically, let the groups be $G_1,
-G_2, \ldots, G_k$ and $g_1 = \sum_{\mu \in G_1} \bary_{\mu}$ and
-similarly we define $g_2,\ldots,g_k$. Also let $\bard_1 = \sum_{\mu
-  \in G_1} d_{\mu\nu}\bary_{\mu} / \sum_{\mu\in G_1} \bary_{\mu}$ and
-similarly we define $\bard_2, \ldots, \bard_k$. Then our expected
-connection cost, conditioned on the event that at least one facility
-in $\wbarN(\nu)$ opens, is at most
+  A formal proof of similar statements appears in~\cite{ChudakS04,
+    ByrkaA10}. We sketch the main ideas here for completeness. The
+  idea of the proof is to consider a provably worse random process,
+  which considers facilities in $\wbarN(\nu)$ by grouping them
+  according to the neighborhood of primary demands. That is, two
+  facilities $\mu_1$ and $\mu_2$ belong to the same group if both are
+  in $\wbarN(\kappa)$ for some primary demand $\kappa$. The groups are
+  then ordered by nondecreasing average distance to $\nu$, that is
+  $D(G,\nu)$ for each group $G$. The process first consider each group
+  in this order and select a group $G$ independently with probability
+  $\sum_{\mu\in G}\bary_{\mu}$. Stop as soon as one group is selected,
+  or we end up with none selected. If one group $G$ is selected, we
+  open a facility in $G$ by choosing each $\mu$ in $G$ with
+  probability $\bary_{\mu}/\sum_{\mu\in G} \bary_{\mu}$. We then
+  connect demand $\nu$ to this facility $\mu$. Otherwise no group is
+  selected and we connect $\nu$ to $\phi(\kappa)$. First notice that
+  this alternative random process only affects how non-primary demands
+  connects to a facility, while the probability that a facility opens
+  is not affected. This implies that the probability that
+  $\Lambda^\nu$ occurs is the same in both the rounding algorithm and
+  the alternative random process. Second, notice that the event
+  occurred in each group are independent, which gives an easier
+  estimate on the expected connection cost. More specifically, let the
+  groups be $G_1, G_2, \ldots, G_k$ and $g_1 = \sum_{\mu \in G_1}
+  \bary_{\mu}$ and similarly we define $g_2,\ldots,g_k$. Also let
+  $\bard_1 = D(G_1, \nu)$ and similarly we define $\bard_2, \ldots,
+  \bard_k$. We introduce two more notation to let the facilities in
+  $\wbarN(\nu)$ be $\mu_1, \ldots, \mu_l$, ordered by nonincreasing
+  distance to $\nu$ and let the corresponding distances be $d_1,
+  \ldots, d_l$. Then our expected connection cost, conditioned on the
+  event that at least one facility in $\wbarN(\nu)$ opens, is at most
 \begin{align*}
-  \Exp[C_\nu \mid \Lambda] &\leq \bard_1 g_1 + \bard_2 g_2 (1-g_1) +
-  \ldots + \bard_k g_k (1-g_1) (1-g_2) \ldots (1-g_k)\\
-  &\leq (\textstyle{\sum_{s=1}^k} \bard_s g_s)(\textstyle{\sum_{t=1}^k} g_t \textstyle{\prod_{z=1}^{t-1}}
-  (1-g_z))\\
-  &= (\textstyle{\sum_{i=1}^l} d_i \bary_i)(\textstyle{\sum_{t=1}^k} g_t \textstyle{\prod_{z=1}^{t-1}}
-  (1-g_z))\\
-  &\leq (\textstyle{\sum_{i=1}^l} d_i \bary_i)(1 - \textstyle{\prod_{i=1}^l} (1-\bary_i))\\
+  \Exp[C_\nu \mid \Lambda^\nu] &\leq \frac{1}{\Prob[\Lambda^\nu]}
+  \left( \bard_1 g_1 + \bard_2 g_2 (1-g_1) + \ldots + \bard_k g_k
+    (1-g_1) (1-g_2) \ldots (1-g_k) \right)
+  \\
+  &\leq \frac{1}{\Prob[\Lambda^\nu]} (\textstyle{\sum_{s=1}^k} \bard_s
+  g_s)(\textstyle{\sum_{t=1}^k} g_t \textstyle{\prod_{z=1}^{t-1}}
+  (1-g_z))
+  \\
+  &= \frac{1}{\Prob[\Lambda^\nu]} (\textstyle{\sum_{s=1}^k} \bard_s g_s)(1 - \textstyle{\prod_{t=1}^k} (1-g_t))\\
+  &= \frac{1}{1 - \textstyle{\prod_{t=1}^k} (1-g_t)}
+  (\textstyle{\sum_{s=1}^k} \bard_s g_s) (1 -
+  \textstyle{\prod_{t=1}^k} (1-g_t))
+  \\
+  &=\textstyle{\sum_{s=1}^k} \bard_s g_s 
+  = \textstyle{\sum_{i=1}^l} d_i \bary_i = D(\wbarN(\nu), \nu)\\
 \end{align*}
 The first inequality follows from the use of a provably worse random
 process to estimate connection cost. The second inequality is from the
-inequality (\ref{eq:dist}) in \ref{sec: ECHSinequality}. The
-third line, which is an equality, follows from the definition of
-$g_1,g_2,\ldots,g_k$ and $\bard_1,\ldots,\bard_k$. The last inequality
-follows from the fact that $(1-g_1) \leq \prod_{\mu\in
-  G_1}(1-\bary_\mu)$ since $g_1 = \sum_{\mu\in G_1} \bary_{\mu}$.
+inequality (\ref{eq:dist}) in \ref{sec: ECHSinequality}. The third
+line, which is an equality, is by algebra. In the fourth line we
+substitute in $\Prob[\Lambda^\nu]$. The last two equalities are by
+definition of $\bard_s, g_s, d_i, \bary_i$ and $D(\wbarN(\nu), \nu)$.
 \end{proof}
 
 We estimate the (unconditional) expected connection cost of $\nu$ as
 follows:
 %
 \begin{align}
-  \Exp[C_\nu]
-  &= \Exp[C_{\nu} \mid \Lambda^\nu] \cdot \Prob[\Lambda^\nu] + \Exp[C_{\nu} \mid \neg \Lambda^\nu] \cdot \Prob[\neg \Lambda^\nu]\\
-  &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
-	+  \Exp[ d_{\phi(\kappa)\nu}  \mid \neg\Lambda^\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
+  \notag
+  \Exp[C_\nu] &= \Exp[C_{\nu} \mid \Lambda^\nu] \cdot
+  \Prob[\Lambda^\nu] + \Exp[C_{\nu} \mid \neg \Lambda^\nu] \cdot
+  \Prob[\neg \Lambda^\nu]
+  \\
+  &\leq D(\wbarN(\nu), \nu) \cdot \left(1 - \textstyle{\prod_{s=1}^k}
+  (1-g_s)\right) + \Exp[C_{\nu} \mid \neg \Lambda^\nu] \cdot \textstyle{\prod_{s=1}^k}
+  (1-g_s)
+  \label{eqn: Cnu estimate 0}
+  \\
+  &\leq D(\wbarN(\nu), \nu) \cdot \textstyle \left(1 - \prod_{s=1}^l (1-\bary_s)\right)
+  + \Exp[ d_{\phi(\kappa)\nu} \mid
+  \neg\Lambda^\nu ]\cdot \prod_{s=1}^{l} (1-\bary_{s})
 	\label{eqn: Cnu estimate 1}
 	\\
-  &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \concost_{\nu} 
-	+ ( \concost_{\nu} + 2\alpha_{\nu}^\ast)  \cdot \prod_{s=1}^{l} (1-y_{s})
+  &\leq  \concost_{\nu} \cdot \textstyle \left(1 - \prod_{s=1}^l (1-\bary_s)\right)
+	+ ( \concost_{\nu} + 2\alpha_{\nu}^\ast)  \cdot \prod_{s=1}^{l} (1-\bary_{s})
 	\label{eqn: Cnu estimate 2}
 	\\
    & \leq \textstyle (1-\frac{1}{e}) \concost_{\nu} 
@@ -333,13 +359,17 @@ follows:
 	\notag
 \end{align}
 %
-where inequality (\ref{eqn: Cnu estimate 1}) is from Lemma~\ref{lem:
-  echs expected C_nu}, (see also the proof in \cite{ChudakS04}),
-inequality (\ref{eqn: Cnu estimate 2}) follows from
-Lemma~\ref{lem:echu indirect}, and inequality (\ref{eqn: Cnu estimate
-  3}) follows from $\prod_{s=1}^{l} (1-y_{s})\le 1/e$.  This completes
-the proof of the bound (\ref{eqn: echs bound for connection cost}) on
-the connection cost of $\nu$.
+In the above derivation, inequality (\ref{eqn: Cnu estimate 0}) is
+from Lemma~\ref{lem: echs expected C_nu}; inequality (\ref{eqn: Cnu
+  estimate 1}) follows from the fact that $g_s = \sum_{\mu\in G_s}
+\bary_s$ for $s=1,\ldots,k$ and $\bigcup_{s=1}^k G_s = \{\mu_1,
+\ldots, \mu_l\}$ and $G_s$ are disjoint; inequality (\ref{eqn: Cnu
+  estimate 2}) follows from Lemma~\ref{lem:echu indirect} and by
+definition $D(\wbarN(\nu), \nu) = \concost(\nu)$; finally inequality
+(\ref{eqn: Cnu estimate 3}) follows from $\prod_{s=1}^{l}
+(1-\bary_{s})\le 1/e$.  This completes the proof of the bound
+(\ref{eqn: echs bound for connection cost}) on the connection cost of
+$\nu$.
 
 Summing over all demands of a client $j$, we bound
 the expected connection cost of client $j$:
