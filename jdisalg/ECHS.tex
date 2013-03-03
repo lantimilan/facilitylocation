@@ -311,11 +311,12 @@ follows from the fact that $(1-g_1) \leq \prod_{\mu\in
   G_1}(1-\bary_\mu)$ since $g_1 = \sum_{\mu\in G_1} \bary_{\mu}$.
 \end{proof}
 
-Using Lemma~\ref{lem: echs expected C_nu}, we estimate the
-(unconditional) expected connection cost of $\nu$ as follows:
+We estimate the (unconditional) expected connection cost of $\nu$ as
+follows:
 %
 \begin{align}
-  \Exp[C_\nu] 
+  \Exp[C_\nu]
+  &= \Exp[C_{\nu} \mid \Lambda^\nu] \cdot \Prob[\Lambda^\nu] + \Exp[C_{\nu} \mid \neg \Lambda^\nu] \cdot \Prob[\neg \Lambda^\nu]\\
   &\leq \textstyle \Big(1 - \prod_{s=1}^l (1-y_s)\Big) \cdot \sum_{u=1}^l d_u y_u
 	+  \Exp[ d_{\phi(\kappa)\nu}  \mid \neg\Lambda^\nu ]\cdot \prod_{s=1}^{l} (1-y_{s})
 	\label{eqn: Cnu estimate 1}
@@ -332,13 +333,13 @@ Using Lemma~\ref{lem: echs expected C_nu}, we estimate the
 	\notag
 \end{align}
 %
-where inequality (\ref{eqn: Cnu estimate 1}) is shown in the appendix
-(see also the proof in \cite{ChudakS04}),
-inequality (\ref{eqn: Cnu estimate 2}) follows from Lemma~\ref{lem:echu indirect},
- and inequality (\ref{eqn: Cnu estimate 3}) follows from
-$\prod_{s=1}^{l} (1-y_{s})\le 1/e$.
-This completes the proof of 
-the bound (\ref{eqn: echs bound for connection cost}) on the connection cost of $\nu$.
+where inequality (\ref{eqn: Cnu estimate 1}) is from Lemma~\ref{lem:
+  echs expected C_nu}, (see also the proof in \cite{ChudakS04}),
+inequality (\ref{eqn: Cnu estimate 2}) follows from
+Lemma~\ref{lem:echu indirect}, and inequality (\ref{eqn: Cnu estimate
+  3}) follows from $\prod_{s=1}^{l} (1-y_{s})\le 1/e$.  This completes
+the proof of the bound (\ref{eqn: echs bound for connection cost}) on
+the connection cost of $\nu$.
 
 Summing over all demands of a client $j$, we bound
 the expected connection cost of client $j$:
