@@ -1,4 +1,5 @@
 % marek Thu Nov 29 10:18:23 PST 2012, done with the journal version
+% marek Mon Mar  4 10:25:20 PST 2013, I think this time I'm really done with this section
 
 
 \section{Algorithm~{\ECHS} with Ratio $1.736$}\label{sec: 1.736-approximation}
@@ -141,9 +142,13 @@ $\wbarN(\nu)$ or indirectly to its target facility $\phi(\kappa)\in
 which $\nu$ is assigned. We will analyze these two cases separately.
 
 In our analysis, in this section and the next one, we will use notation
-$D(A,\sigma) \stackrel{\mathrm{def}}{=}\sum_{\mu\in A}
-d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}$ for the
-average distance between a demand $\sigma$ and a set $A$ of facilities.
+%
+\begin{equation*}
+D(A,\sigma) {=} \sum_{\mu\in A}
+d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}
+\end{equation*}
+%
+for the average distance between a demand $\sigma$ and a set $A$ of facilities.
 Note that, in particular, we have $\concost_\nu = D(\wbarN(\nu),\nu)$.
 
 We first estimate the expected cost $d_{\phi(\kappa)\nu}$ of the indirect
@@ -153,7 +158,7 @@ facility in $\wbarN(\nu)$ is opened. Then
 \begin{equation}
 	\Exp[C_\nu \mid\neg\Lambda^\nu] 
 	=   \Exp[ d_{\phi(\kappa)\nu} \mid \neg\Lambda^\nu] 
-	= 	D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu),
+	= 	D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu).
 			\label{eqn: expected indirect connection}
 \end{equation}
 %
@@ -167,8 +172,12 @@ exactly one open facility, namely $\phi(\kappa)$.
   \label{lem:echu indirect}
   Let $\nu$ be a demand assigned to a primary demand $\kappa$, and
 assume that $\wbarN(\kappa) \setminus \wbarN(\nu)\neq\emptyset$.
-Then $\Exp[ C_\nu \mid\neg\Lambda^\nu]  \leq
-  		\concost_\nu+2\alpha_{\nu}^\ast$.
+Then 
+%
+\begin{equation*}
+	\Exp[ C_\nu \mid\neg\Lambda^\nu]  \leq
+  		\concost_\nu+2\alpha_{\nu}^\ast.
+\end{equation*}
 \end{lemma}
 
 \begin{proof}
@@ -268,13 +277,14 @@ its neighbor opens, satisfies
 
 \begin{proof}
 The proof is similar to an analogous result in~\cite{ChudakS04,ByrkaA10}. 
-We sketch it here for the sake of completeness. 
+For the sake of completeness we sketch here a simplified argument, adapted to our
+terminology and notation.
 The idea is to consider a different random process that is
 easier to analyze and whose expected connection cost is not better than that in
 the algorithm.
 
 We partition $\wbarN(\nu)$ into groups $G_1,...,G_k$, where two
-different facilities $\mu$ and $\mu'$ are put in the same $G_s$ where
+different facilities $\mu$ and $\mu'$ are put in the same $G_s$, where
 $s\in \{1,\ldots,k\}$, if they both belong to the same set
 $\wbarN(\kappa)$ for some primary demand $\kappa$. If some $\mu$ is
 not a neighbor of any primary demand, then it constitutes a singleton
@@ -282,8 +292,9 @@ group.  For each $s$, let $\bard_s = D(G_s,\nu)$ be the average
 distance from $\nu$ to $G_s$.  Assume that $G_1,...,G_k$ are ordered
 by nondecreasing average distance to $\nu$, that is $\bard_1 \le
 \bard_2 \le ... \le \bard_k$.  For each group $G_s$, we select it,
-independently, with probability $g_s = \sum_{\mu\in G_s}\bary_{\mu}$,
-and then open exactly one facility in $G_s$, where each $\mu\in G_s$
+independently, with probability $g_s = \sum_{\mu\in G_s}\bary_{\mu}$.
+For each selected group $G_s$,  we
+open exactly one facility in $G_s$, where each $\mu\in G_s$
 is opened with probability $\bary_{\mu}/\sum_{\eta\in G_s}
 \bary_{\eta}$.
 
@@ -299,11 +310,13 @@ facility in $\wbarN(\nu)$ opens, so
     (1-g_1) (1-g_2) \ldots (1-g_k) \right)
 			\notag
   \\
-  &\leq \frac{1}{\Prob[\Lambda^\nu]}\cdot \frac{\textstyle \sum_{s=1}^k \bard_s g_s}{\textstyle \sum_{s=1}^k g_s}\cdot
-\left({\textstyle \sum_{t=1}^k} g_t \textstyle \prod_{z=1}^{t-1} (1-g_z)\right)
+  &\leq \frac{1}{\Prob[\Lambda^\nu]}
+	\cdot \sum_{s=1}^k \bard_s g_s
+	\cdot
+		\left(\sum_{t=1}^k g_t \prod_{z=1}^{t-1} (1-g_z)\right)
 			\label{eqn: echs ineq direct cost, step 1}
   \\
-  &= \textstyle \sum_{s=1}^k \bard_s g_s
+  &= \sum_{s=1}^k \bard_s g_s
 			\label{eqn: echs ineq direct cost, step 2}
 	\\
 			&= \concost_{\nu}.
@@ -311,17 +324,45 @@ facility in $\wbarN(\nu)$ opens, so
 \end{align}
 %
 The proof for inequality (\ref{eqn: echs ineq direct cost, step 1}) 
-is given in \ref{sec: ECHSinequality}, 
+is given in \ref{sec: ECHSinequality} (note that $\sum_{s=1}^k g_s = 1$),
 equality (\ref{eqn: echs ineq direct cost, step 2}) follows from
 $\Prob[\Lambda^\nu] = 1 - \prod_{t=1}^k (1-g_t)
 					= \sum_{t=1}^k g_t
-                                        \prod_{z=1}^{t-1} (1 - g_z)$ and $\sum_{s=1}^k g_s = 1$,
+                                        \prod_{z=1}^{t-1} (1 - g_z)$,
 and (\ref{eqn: echs ineq direct cost, step 3}) follows from the definition
 of the distances $\bard_s$, probabilities $g_s$, and simple algebra.
 \end{proof}
 
-We are now ready to estimate the (unconditional) expected connection cost of $\nu$ as
-follows:
+Next, we show an estimate on the probability that none of $\nu$'s
+neighbors is opened by the algorithm.
+
+\begin{lemma}\label{lem: probability of not Lambda^nu}
+The probability that none of $\nu$'s neighbors is opened satisfies
+$\Prob[\neg\Lambda^\nu] \le 1/e$.
+\end{lemma}
+
+\begin{proof}
+We use the same partition of $\wbarN(\nu)$ into groups $G_1,...,G_k$ as
+in the proof of Lemma~\ref{lem: echs expected C_nu}. Denoting by
+$g_s$ the probability that a group $G_s$ is selected (and thus that it
+has an open facility), we have
+%
+\begin{equation*}
+\Prob[\neg\Lambda^\nu] = \prod_{s=1}^k (1 - g_s)
+			\le e^{- \sum_{s=1}^k g_s}
+			= e^{-\sum_{\mu \in \wbarN(\nu)} \bary_{\mu}}
+			= \frac{1}{e}.
+\end{equation*}
+%
+In this derivation, we first use that $1-x\le e^{-x}$ holds for all $x$,
+the second equality follows from $\sum_{s=1}^k g_s = \sum_{\mu \in \wbarN(\nu)} \bary_{\mu}$
+and the last equality follows from 
+$\sum_{\mu \in \wbarN(\nu)} \bary_{\mu} = 1$.
+\end{proof}
+
+We are now ready to estimate the unconditional expected connection cost of $\nu$
+(in the case when $\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$)
+as follows:
 %
 \begin{align}
   \notag
@@ -335,31 +376,21 @@ follows:
   &= \concost_{\nu} 
 	+  2\alpha_{\nu}^\ast \cdot \Prob[\neg \Lambda^\nu]
 		\notag
-  \\
-  &= \concost_{\nu} + 2\alpha_{\nu}^\ast \cdot \textstyle \prod_{s=1}^k (1 - g_s)
-		\notag
-                \\
-	&\leq \concost_{\nu} 
-	+  2\alpha_{\nu}^\ast \cdot \textstyle e^{- \sum_{s=1}^k g_s}
-        \label{eqn: Cnu estimate 1}
-        \\
-        &= \concost_{\nu} + 2\alpha_{\nu}^\ast \cdot \textstyle e^{-
-          \sum_{\mu \in \wbarN(\nu)} \bary_{\mu}}
-        \label{eqn: Cnu estimate 2}
 	\\
-	&= \concost_{\nu} + \frac{2}{e}\cdot\alpha_{\nu}^\ast.
+	&\le \concost_{\nu} + \frac{2}{e}\cdot\alpha_{\nu}^\ast.
 	  \label{eqn: Cnu estimate last}
 \end{align}
 %
 In the above derivation, inequality (\ref{eqn: Cnu estimate 0})
-follows from Lemmas~\ref{lem:echu indirect} and \ref{lem: echs
-  expected C_nu}, inequality (\ref{eqn: Cnu estimate 1}) follows from
-$1-x \leq e^{-x}$ for any $x$, the equality (\ref{eqn: Cnu estimate
-  2}) follows from $\sum_{s=1}^k g_s = \sum_{\mu \in \wbarN(\nu)} \bary_{\mu}$, and
-equality (\ref{eqn: Cnu estimate last}) follows from $\sum_{\mu \in \wbarN(\nu)}
-\bary_{\mu} = 1$.
+follows from Lemmas~\ref{lem:echu indirect} and \ref{lem: echs expected C_nu}, 
+and inequality (\ref{eqn: Cnu estimate last}) follows from
+Lemma~\ref{lem: probability of not Lambda^nu}.
 
-Summing over all demands of a client $j$, we can now bound
+\medskip
+
+We have thus shown that the bound (\ref{eqn: echs bound for connection cost})
+holds in all three cases.
+Summing over all demands $\nu$ of a client $j$, we can now bound
 the expected connection cost of client $j$:
 %
 \begin{equation*}
@@ -375,7 +406,7 @@ the expected connection cost,
  \Exp[ C_{\smallECHS}] \le C^\ast + \frac{2}{e}\cdot\LP^\ast.
 \end{equation*}
 % 
-Therefore, we have established that
+Therefore we have established that
 our algorithm constructs a feasible integral solution with
 an overall expected cost 
 %
