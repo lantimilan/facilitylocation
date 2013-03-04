@@ -299,7 +299,7 @@ facility in $\wbarN(\nu)$ opens, so
     (1-g_1) (1-g_2) \ldots (1-g_k) \right)
 			\notag
   \\
-  &\leq \frac{1}{\Prob[\Lambda^\nu]} \left(\textstyle \sum_{s=1}^k \bard_s g_s\right)
+  &\leq \frac{1}{\Prob[\Lambda^\nu]}\cdot \frac{\textstyle \sum_{s=1}^k \bard_s g_s}{\textstyle \sum_{s=1}^k g_s}\cdot
 \left({\textstyle \sum_{t=1}^k} g_t \textstyle \prod_{z=1}^{t-1} (1-g_z)\right)
 			\label{eqn: echs ineq direct cost, step 1}
   \\
@@ -315,7 +315,7 @@ is given in \ref{sec: ECHSinequality},
 equality (\ref{eqn: echs ineq direct cost, step 2}) follows from
 $\Prob[\Lambda^\nu] = 1 - \prod_{t=1}^k (1-g_t)
 					= \sum_{t=1}^k g_t
-                                        \prod_{z=1}^{t-1} (1 - g_z)$,
+                                        \prod_{z=1}^{t-1} (1 - g_z)$ and $\sum_{s=1}^k g_s = 1$,
 and (\ref{eqn: echs ineq direct cost, step 3}) follows from the definition
 of the distances $\bard_s$, probabilities $g_s$, and simple algebra.
 \end{proof}
