@@ -530,8 +530,8 @@ random variable for the connection cost of a demand $\nu$ and let
 $\Exp[C_{\nu}]$ be the expected value of $C_{\nu}$. If $\nu$ is a
 primary demand, due to the algorithm, we have $\Exp[C_{\nu}] =
 \clsdist(\nu)$, which easily satisfies the bound we need in the final
-total connection cost estimation. For the rest of this section we
-consider $\nu$ being a non-primary demand.
+total connection cost estimation. We now estimate the expected
+connection cost $C_{\nu}$ for $\nu$ being a non-primary demand.
 
 To bound $\Exp[C_{\nu}]$, we consider the conditional expected
 distances in three cases, along with the associated probabilities,
@@ -581,7 +581,7 @@ $A$ is an arbitrary set of facilities.
   Algorithm {\EBGS}'s integral solution. Then the expected distance
   from $\nu$ to the nearest open facility in $A$, conditioned on event
   $\Lambda^\nu_A$ occurs, is at most $D(A,\nu) = \sum_{\mu \in A}
-  d_{\mu\nu} \bary_{\mu} / \sum_{\mu in A} \bary_{\mu}$.
+  d_{\mu\nu} \bary_{\mu} / \sum_{\mu \in A} \bary_{\mu}$.
 \end{lemma}
 \begin{proof}
   We only sketch the proof here as the complete proof is very similar
@@ -602,12 +602,12 @@ $A$ is an arbitrary set of facilities.
   $\gamma\bary_{\mu}$. Denote the conditional expectation as
   $\Exp[d(A,\nu) \mid \Lambda^\nu_A]$, we have
   \begin{align}
-    \Exp[d(A,\nu) \mid \Lambda^\nu_A] &\leq \frac{1}{\Prob[A]} (\bard_1 g_1 +
+    \Exp[d(A,\nu) \mid \Lambda^\nu_A] &\leq \frac{1}{\Prob[\Lambda^\nu_A]} (\bard_1 g_1 +
     \bard_2 g_2 (1 - g_1) + \ldots + \bard_k  g_k(1 -
     g_1)\ldots(1-g_{k-1}))
     \label{eqn: dist set to nu 1}
     \\
-    &\leq \frac{1}{\Prob[A]} \frac{\sum_{s=1}^k \bard_s
+    &\leq \frac{1}{\Prob[\Prob[\Lambda^\nu_A]} \frac{\sum_{s=1}^k \bard_s
       g_s}{\sum_{s=1}^k  g_s} (1 - \prod_{s=1}^k (1 -  g_s))
     \label{eqn: dist set to nu 2}
     \\
@@ -630,9 +630,9 @@ definition of $\bard_s, g_s$ and $D(A,\nu)$.
 \end{proof}
 
 We need two notations for the following corollary. Recall that
-$\Lambda^\nu$ is the event that some facility in $\wbarN(\nu)$ opens.
-We also introduce notation $\Lambda^\nu_{\cls}$ for the event that
-some facility in $\wbarclsnb(\nu)$ opens. Then
+$\Lambda^\nu$ is the event that at least one facility in $\wbarN(\nu)$
+opens.  We also introduce notation $\Lambda^\nu_{\cls}$ for the event
+that at least one facility in $\wbarclsnb(\nu)$ opens. Then
 \begin{corollary}
   \label{coro: EBGS close and far distance}
   \begin{align*}
@@ -649,12 +649,13 @@ some facility in $\wbarclsnb(\nu)$ opens. Then
   some facility in $\wbarfarnb(\nu)$ opens, the algorithm connects
   $\nu$ to the nearest open facility in $\wbarfarnb(\nu)$. The rest of
   the proof follows from Lemma~\ref{lem: expected distance in
-    EBGS}. By setting the set $A$ to $\wbarclsnb(\nu)$, we have
+    EBGS}. By setting the set $A$ in Lemma~\ref{lem: expected distance
+    in EBGS} to $\wbarclsnb(\nu)$, we have
   \begin{equation*}
     \Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq D(\wbarclsnb(\nu), \nu)
     = \clsdist(\nu),
   \end{equation*}
-  and by setting the set to $\wbarfarnb(\nu)$, we have 
+  and by setting the set $A$ to $\wbarfarnb(\nu)$, we have
   \begin{equation*}
     \Exp[C_{\nu}
     \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu] \leq
@@ -711,7 +712,7 @@ The first inequality follows from Corollary~\ref{coro: EBGS close and
   far distance} and Lemma~\ref{lem: EBGS target connection cost}. The
 second inequality follows from $\clsmax(\nu) \leq \fardist(\nu)$. We
 then bound the corresponding probabilities $\Prob[\Lambda^\nu_{\cls}]$
-and $\Prob[\Lambda^\nu]$ with the following lemma.
+and $\Prob[\Lambda^\nu]$ with the following two lemmas.
 
 \begin{lemma}
   \label{lem: close neighbor probability}
