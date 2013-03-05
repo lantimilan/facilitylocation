@@ -556,33 +556,48 @@ that some facility in $\wbarN(\nu)$ opens in Algorithm~{\EBGS}'s integral soluti
 \end{proof}
 
 Using essentially the same argument as the proof of Lemma~\ref{lem:
-  echs expected C_nu}, we have the following more general lemma. Below
-we abuse notation to use $A$ to denote both the facility set and the
-event that at least one facility in the set opens by the {\EBGS}
-algorithm.
+  echs expected C_nu}, we have the following more general lemma.
 
 \begin{lemma}
   \label{lem: expected distance in EBGS}
   Assuming facilities are opened in the way by Algorithm~{\EBGS},
-  given any set $A$ of facilities, and any demand $\nu$, under the
-  event that at least one facility in $A$ opens, then the expected
-  connection cost from $A$ to $\nu$, $\Exp[d(A,\nu) \mid A]$, defined
-  as the expected distance from the nearest open facility in $A$ to
-  $\nu$, is at most $D(A,\nu) = \sum_{\mu \in A} d_{\mu\nu}
-  \bary_{\mu} / (\sum_{\mu \in A} \bary_{\mu})$.
+  given any set $A$ of facilities, and any demand $\nu$, let $A'$ be
+  the random variable for the set of facilities opened by the
+  algorithm. Then the expected distance from $\nu$ to the nearest
+  facility in $A'$, conditioned on that $A'$ is not empty, denoted as
+  $\Exp[d(A',\nu) \mid A' \neq \emptyset]$, is at most $D(A,\nu) =
+  \sum_{\mu \in A} d_{\mu\nu} \bary_{\mu} / \sum_{\mu in A}
+  \bary_{\mu}$.
 \end{lemma}
 \begin{proof}
   We only sketch the proof here as the complete proof is very similar
   to the proof of Lemma~\ref{lem: echs expected C_nu}. To estimate
-  $\Exp[d(A, \nu) \mid A]$, we use a provably worse random process to
-  make connections. Specifically, we group facilities in $A$ by the
-  primary demand's neighborhood that they fall in. Then each group can
-  have at most one facility open and the event of facility opening
-  betwen groups are independent. We connect to the facility opened in
-  the group $G$ with minimum $D(G, \nu)$, the average distance to
-  demand $\nu$. The only difference is that we now have $g_s =
-  \sum_{\mu \in G_s} \gamma \bary_{\mu}$ because the algorithm opens a
-  facility $\mu$ with probability $\gamma\bary_{\mu}$.
+  $\Exp[d(A', \nu) \mid A']$, we use a provably worse random process
+  to make connections. Specifically, we group facilities in $A$ by the
+  primary demand's neighborhood that they fall in. Facilities not in
+  any primary demand's neighborhood forms a singleton group by
+  itself. Then each group can have at most one facility open and the
+  event of facility opening betwen groups are independent. We connect
+  to the facility opened in the group $G$ with minimum $D(G, \nu)$,
+  the average distance to demand $\nu$. As before we denote the groups
+  by $G_1, \ldots, G_k$ and $\bard_s = D(G_s, \nu) = \sum_{\mu \in
+    G_s} d_{\mu\nu} \bary_{\mu} / \sum_{\mu \in G_s} \bary_{\mu}$ with
+  $\bard_1 \leq \ldots \leq \bard_k$. The only difference is that we
+  now have $g_s = \sum_{\mu \in G_s} \gamma \bary_{\mu}$ because the
+  algorithm opens a facility $\mu$ with probability
+  $\gamma\bary_{\mu}$. Then we have the following derivation.
+  \begin{align*}
+    \Exp[d(A',\nu) \mid A'] &\leq \frac{1}{\Prob[A]} (\bard_1 g_1 +
+    \bard_2 g_2 (1 - g_1) + \ldots + \bard_k  g_k(1 - g_1)\ldots(1-g_{k-1}))\\
+    &\leq \frac{1}{\Prob[A]} \frac{\sum_{s=1}^k \bard_s
+      g_s}{\sum_{s=1}^k  g_s} (1 - \prod_{s=1}^k (1 -  g_s))\quad\quad
+    \text{use inequality (\ref{eq:cheby})}\\
+    &= \frac{\sum_{s=1}^k \bard_s g_s}{\sum_{s=1}^k  g_s}
+    = \frac{\sum_{\mu \in A} d_{\mu\nu} \gamma \bary_{\mu}}{\sum_{\mu
+      \in A} \gamma \bary_{\mu}}\\
+    &= \frac{\sum_{s=1}^k d_{\mu\nu} \bary_{\mu}}{\sum_{\mu \in A}
+      \bary_{\mu}} = D(A, \nu)\\
+  \end{align*}
 \end{proof}
 
 Consider some non-primary demand $\nu$. Let $C_{\nu}$ be the random
@@ -608,7 +623,9 @@ Lemma~\ref{lem: expected distance in EBGS}.
   $\wbarclsnb(\nu)$. When no facility in $\wbarclsnb(\nu)$ opens but
   some facility in $\wbarfarnb(\nu)$ opens, the algorithm connects
   $\nu$ to the nearest open facility in $\wbarfarnb(\nu)$. The rest of
-  the proof follows from Lemma~\ref{lem: expected distance in EBGS}.
+  the proof follows from Lemma~\ref{lem: expected distance in EBGS} by
+  considering the set $A$ as $\wbarclsnb(\nu)$ and then
+  $\wbarfarnb(\nu)$.
 \end{proof}
 
 We are now ready to bound the overall connection cost of
@@ -631,10 +648,11 @@ Algorithm~{\EBGS}.
   $\wbarclsnb(\nu)$ if one is open, else it will try to connect $\nu$
   to a far facility in $\wbarfarnb(\nu)$. Failing that, it will
   connect $\nu$ to $\phi(\kappa)$, the sole facility open in the
-  neighborhood of $\kappa$, which is the primary demand $\nu$ was
-  assigned to. Given that, we estimate $\Exp[C_\nu]$ as follows. Below
-  we let $p_c \stackrel{\mathrm{def}}{=} \Prob[\Lambda_{\cls}^\nu]$
-  and $p_d \stackrel{\mathrm{def}}{=} \Prob[\Lambda^\nu]$.
+  neighborhood of $\kappa$, the primary demand $\nu$ was assigned
+  to. Given that, we estimate $\Exp[C_\nu]$ as follows. Below we let
+  $p_c \stackrel{\mathrm{def}}{=} \Prob[\Lambda_{\cls}^\nu]$ and $p_d
+  \stackrel{\mathrm{def}}{=} \Prob[\Lambda^\nu]$. Then the expected
+  connection cost of demand $\nu$ can be bounded as follows.
 %
   \begin{align*}
     \Exp[C_{\nu}] 
@@ -658,23 +676,24 @@ Algorithm~{\EBGS}.
 \end{align*}
 The first inequality follows from Corollary~\ref{coro: EBGS close and
   far distance}, and the second inequality is due to Lemma~\ref{lem:
-  EBGS target connection cost}.
+  EBGS target connection cost}. We then bound the corresponding
+probabilities $p_c$ and $p_d$.
 
 To estimate $p_c$, we again consider the facilities in
 $\wbarclsnb(\nu)$ by grouping them according to the primary demand's
 neighborhood that they fall in. Facilities do not fall in any primary
 demand's neighborhood form a singleton group by itself. Then the event
 of facilit opening in each group is independent. Let the groups be
-$G_1, \ldots, G_k$, also let $g_s = \sum_{\mu \in G_s} \bary_{\mu},
-s=1,\ldots,k$. It is easy to see that $\sum_{s=1}^k g_s = \sum_{\mu
-  \in \wbarclsnb(\nu)} \bary_{\mu} = 1/\gamma$. For any group $G_s$,
-the probability that a facility in this group opens is $\sum_{\mu \in
-  G_s} \gamma \bary_{\mu} = \gamma g_s$ because in the algorithm at
-most one facility in a group can be chosen and each is chosen with
+$G_1, \ldots, G_k$, also let $g_s = \sum_{\mu \in G_s} \gamma
+\bary_{\mu}, s=1,\ldots,k$. It is easy to see that $\sum_{s=1}^k g_s =
+\sum_{\mu \in \wbarclsnb(\nu)} \gamma \bary_{\mu} = 1$. For any group
+$G_s$, the probability that a facility in this group opens is
+$\sum_{\mu \in G_s} \gamma \bary_{\mu} = g_s$ because in the algorithm
+at most one facility in a group can be chosen and each is chosen with
 probability $\gamma \bary_{\mu}$. Therefore the probability that at
 least one facility in all those groups opens is $1 - \prod_{s=1}^k (1
-- \gamma g_s)$, which is at least $1 - e^{\sum_{s=1}^k \gamma g_s} = 1
-- 1/e$. Therefore we have $p_c \geq 1 - 1/e$. Similarly we have $p_d
+- g_s)$, which is at least $1 - e^{\sum_{s=1}^k g_s} = 1 -
+1/e$. Therefore we have $p_c \geq 1 - 1/e$. Similarly we have $p_d
 \geq 1 - 1/e^\gamma$. We now continue our derivation.
 \begin{align*}
   \Exp[C_\nu]
