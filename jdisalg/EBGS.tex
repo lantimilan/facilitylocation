@@ -18,24 +18,25 @@ Byrka~{\etal}~\cite{ByrkaGS10}.
 
 Recall that in Section~\ref{sec: 1.736-approximation} we showed how to
 compute an integral solution with facility cost bounded by $F^\ast$
-and connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. Thus, while our
-facility cost does not exceed the optimal fractional facility cost, our connection
-cost is significantly larger than the connection cost in the optimal fractional solution.
-A natural idea is to balance these two ratios by reducing the connection cost at the
-expense of the facility cost. One way to do
-this would be to increase the probability of opening facilities, from
-$\bary_{\mu}$ (used in Algorithm~{\ECHS}) to, say,
-$\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases the
-expected facility cost by a factor of $\gamma$ but, as it turns out,
-it also reduces the probability that an indirect connection occurs for
-a non-primary demand to $1/e^\gamma$ (from the previous value
-$1/e$). Moreover, for each primary demand $\kappa$, the new algorithm
-will select a facility from the nearest facilities $\mu$ in
-$\wbarN(\kappa)$ such that the connection values $\barx_{\mu\nu}$
-sum up to $1/\gamma$, instead of $1$. It is easily seen that this will
-improve the estimate on connection cost for primary demands.  These
-two changes, along with a more refined analysis, are the essence of
-the approach in~\cite{ByrkaGS10}, expressed in our terminology.
+and connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. Thus,
+while our facility cost does not exceed the optimal fractional
+facility cost, our connection cost is significantly larger than the
+connection cost in the optimal fractional solution.  A natural idea is
+to balance these two ratios by reducing the connection cost at the
+expense of the facility cost. One way to do this would be to increase
+the probability of opening facilities, from $\bary_{\mu}$ (used in
+Algorithm~{\ECHS}) to, say, $\gamma\bary_{\mu}$, for some $\gamma >
+1$. This increases the expected facility cost by a factor of $\gamma$
+but, as it turns out, it also reduces the probability that an indirect
+connection occurs for a non-primary demand to $1/e^\gamma$ (from the
+previous value $1/e$ in {\ECHS}). As a consequence, for each primary
+demand $\kappa$, the new algorithm will select a facility to open from
+the nearest facilities $\mu$ in $\wbarN(\kappa)$ such that the
+connection values $\barx_{\mu\nu}$ sum up to $1/\gamma$, instead of
+$1$ as in Algorithm {\ECHS}. It is easily seen that this will improve
+the estimate on connection cost for primary demands.  These two
+changes, along with a more refined analysis, are the essence of the
+approach in~\cite{ByrkaGS10}, expressed in our terminology.
 
 Our approach can be thought of as a combination of the above ideas
 with the techniques of demand reduction and
@@ -43,7 +44,7 @@ adaptive partitioning that we introduced earlier. However, our
 adaptive partitioning technique needs to be carefully modified,
 because now we will be using a more intricate neighborhood structure,
 with the neighborhood of each demand divided into two disjoint parts,
-and with some restrictions on how parts from different demands can overlap.
+and with restrictions on how parts from different demands can overlap.
 
 We begin by describing properties that our partitioned fractional
 solution $(\barbfx,\barbfy)$ needs to satisfy. Assume that $\gamma$ is
@@ -74,9 +75,17 @@ distances can be expressed as
 d_{\mu\nu}\barx_{\mu\nu}. 
 \end{equation*}
 %
-We will also use
-notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)} d_{\mu\nu}$ for
-the maximum distance from $\nu$ to its close neighborhood.
+We will also use notation $\clsmax(\nu)=\max_{\mu\in\wbarclsnb(\nu)}
+d_{\mu\nu}$ for the maximum distance from $\nu$ to its close
+neighborhood. The average distance from a demand $\nu$ to its overall
+neighborhood $\wbarN(\nu)$ is denoted as $\concost(\nu) =
+D(\wbarN(\nu), \nu) = \sum_{\mu \in \wbarN(\nu)} d_{\mu\nu}
+\barx_{\mu\nu}$. It is easy to see that
+\begin{equation}
+  \concost(\nu) = \frac{1}{\gamma} \clsdist(\nu) + \frac{\gamma -
+    1}{\gamma} \fardist(\nu).
+  \label{eqn:avg dist cls dist far dist}
+\end{equation}
 
 Our partitioned solution $(\barbfx,\barbfy)$ must satisfy the same
 partitioning and completeness properties as before, namely properties
@@ -103,7 +112,12 @@ properties (PD') and (SI'), listed below.
 	%
 	Note that the first two conditions, together with
         (PS.\ref{PS:one}), imply that $\sum_{\mu\in\wbarfarnb(\nu)}
-        \barx_{\mu\nu} =1-1/\gamma$.
+        \barx_{\mu\nu} =1-1/\gamma$. When defining $\wbarclsnb(\nu)$,
+        in case of ties, which can occur when some facilities in
+        $\wbarN(\nu)$ are at the same distance from $\nu$, we use a
+        tie-breaking rule that is explained in the proof of
+        Lemma~\ref{lem: PD1: primary overlap} (the only place where
+        the rule is needed).
 
 \item{(PD')} \emph{Primary demands.}
 	Primary demands satisfy the following conditions:
@@ -175,10 +189,7 @@ there is an index $l$ for which $\sum_{s=1}^l \tildex_{\mu_s j} =
 1/\gamma$, since we can always split one facility to achieve
 this. Then we define $\wtildeclsnb(j) = \braced{\mu_1,...,\mu_l}$. 
 (Unlike close neighborhoods of demands, $\wtildeclsnb(j)$ can vary over time.)
-In case of ties, which can occur when some facilities in $\wtildeN(j)$ are at the same
-distance from $j$, we use a tie-breaking rule that is explained in the
-proof of Lemma~\ref{lem: PD1: primary overlap} (the only place where
-the rule is needed). We also use notation
+We also use notation
 %
 \begin{equation*}
 \tcccls(j) =  D(\wtildeclsnb(j), j) = \gamma\sum_{\mu\in\wtildeclsnb(j)} d_{\mu j} \tildex_{\mu j}
@@ -396,7 +407,7 @@ connection value of $\wbarN(\nu)$ to $\nu$ is $1$.
   1/\gamma$.  This and $B\subseteq \wbarN(\nu)$ implies that the total
   connection value of $B\cup (\wbarN(\nu)\cap E^-)$ to $\nu$ is at
   most $1/\gamma$. But all facilities in $B\cup (\wbarN(\nu)\cap E^-)$
-  are closer to $\nu$ (taking into account our tie breaking)
+  are closer to $\nu$ (taking into account our tie breaking in property (NB))
  	than those in $E^+\cap \wbarN(\nu)$. It follows
   that $B\subseteq \wbarclsnb(\nu)$, completing the proof.
 \end{proof}
@@ -430,7 +441,6 @@ our modified partitioning algorithm guarantees that
   created later.
   Therefore, we have
 %
-%\margincomment{the last equality seems false}
   \begin{align*}
     \clsdist(\kappa) + \clsmax(\kappa) &= \tcccls^{\kappa}(p) +	\dmaxcls^{\kappa}(p) 
 					\\
@@ -471,14 +481,15 @@ If $\mu\in \wbarfarnb(\nu)$ then
 $\barx_{\mu\nu} \le 1-1/\gamma \le 1/\gamma$, because $\gamma < 2$.
 Thus $\gamma\bary_{\mu} \le 1$, as claimed.
 
-Next, we connect demands to facilities.
-Each primary demand $\kappa\in P$ will connect
-to the only open facility $\phi(\kappa)$ in $\wbarclsnb(\kappa)$.  
-For each non-primary demand $\nu\in \demandset - P$, if
-there is an open facility in $\wbarN(\nu)$ then we connect
-$\nu$ to the nearest such facility. Otherwise, we connect
-$\nu$ to its \emph{target facility} $\phi(\kappa)$, where $\kappa$ is the primary
-demand that $\nu$ is assigned to. 
+Next, we connect demands to facilities.  Each primary demand
+$\kappa\in P$ will connect to the only open facility $\phi(\kappa)$ in
+$\wbarclsnb(\kappa)$.  For each non-primary demand $\nu\in \demandset
+- P$, if there is an open facility in $\wbarclsnb(\nu)$ then we
+connect $\nu$ to the nearest such facility. Otherwise, we connect
+$\nu$ to the nearest far facility in $\wbarfarnb(\nu)$ if one is
+open. Otherwise, we connect $\nu$ to its \emph{target facility}
+$\phi(\kappa)$, where $\kappa$ is the primary demand that $\nu$ is
+assigned to.
 
 %%%%%%%%%%%
 
@@ -497,7 +508,7 @@ This condition guarantees that $\nu$ and $\nu'$ are assigned to different facili
 regardless whether they are connected to a neighbor facility or to its target facility.
 Therefore the computed solution is feasible.
 
-\smallskip
+\medskip
 
 We now estimate the cost of the solution computed by Algorithm {\EBGS}. The lemma
 below bounds the expected facility cost.
@@ -525,28 +536,49 @@ where the third equality follows from (PS.\ref{PS:yi}).
 
 %%%%%%%%%%%
 
-We now return to the estimate of connection cost. Let $C_{\nu}$ be the
-random variable for the connection cost of a demand $\nu$ and let
-$\Exp[C_{\nu}]$ be the expected value of $C_{\nu}$. If $\nu$ is a
-primary demand, due to the algorithm, we have $\Exp[C_{\nu}] =
-\clsdist(\nu)$, which easily satisfies the bound we need in the final
-total connection cost estimation. We now estimate the expected
-connection cost $C_{\nu}$ for $\nu$ being a non-primary demand.
+\medskip
 
-To bound $\Exp[C_{\nu}]$, we consider the conditional expected
-distances in three cases, along with the associated probabilities,
-when $\nu$ is connected to its close facility in $\wbarclsnb(\nu)$, or
-its far facility in $\wbarfarnb(\nu)$, or its target facility
-$\phi(\kappa)$ where $\kappa$ is the primary demand that $\nu$ is
-assigned to and $\phi(\kappa)$ is the only facility open in
-$\wbarclsnb(\kappa)$.
+In the remainder of this section we focus on the connection cost. Let $C_{\nu}$ be the
+random variable representing the connection cost of a demand $\nu$. Our objective is
+to show that the expectation of $\nu$ satisfies
+%
+\begin{equation}
+\Exp[C_\nu]	\leq \concost(\nu) \cdot \max\left\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1 + \frac{2}{e^\gamma}\right\}.
+		\label{eqn: expectation of C_nu for EBGS}
+\end{equation}
+%
+If $\nu$ is a primary demand then, due to the algorithm, we have $\Exp[C_{\nu}] =
+\clsdist(\nu) \le \concost(\nu)$, so (\ref{eqn: expectation of C_nu for EBGS}) is
+easily satisfied.
 
-We start with a lemma for the third case when $\nu$ connects to
-$\phi(\kappa)$. The lemma provides an estimate of the cost of this
-indirect connection, conditioned on the event that no facility in
-$\wbarN(\nu)$ opens. Note that an indirection can only occur when no
-neighboring facility of $\nu$ opens.  The proof of this lemma relies
-on Properties~(PD'.\ref{PD1:assign:overlap}) and
+Thus for the rest of the argument we will focus on the case when $\nu$
+is a non-primary demand.  Recall that the
+algorithm connects $\nu$ to the nearest open facility in
+$\wbarclsnb(\nu)$ if at least one facility in $\wbarclsnb(\nu)$ is
+open. Otherwise the algorithm connects $\nu$ to the nearest open
+facility in $\wbarfarnb(\nu)$, if any. In the event that no facility in
+$\wbarN(\nu)$ opens, the algorithm will connect $\nu$ to its target
+facility $\phi(\kappa)$, where $\kappa$ is the primary demand that
+$\nu$ was assigned to, and $\phi(\kappa)$ is the only facility open in
+$\wbarclsnb(\kappa)$. Let $\Lambda^\nu$ denote the event that at least
+one facility in $\wbarN(\nu)$ is open and $\Lambda^\nu_{\cls}$ be the
+event that at least one facility in $\wbarclsnb(\nu)$ is open.
+$\neg \Lambda^\nu$ denotes the complement event of $\Lambda^\nu$, that is,
+the event that none of $\nu$'s neighbors opens. 
+We want to estimate the following three conditional expectations: 
+%
+\begin{equation*}
+  \Exp[C_{\nu} \mid
+  \Lambda^\nu_{\cls}],\quad \Exp[C_{\nu} \mid \Lambda^\nu \wedge \neg
+  \Lambda^\nu_{\cls}], \quad\text{and}\quad \Exp[C_{\nu} \mid \neg \Lambda^\nu], 
+\end{equation*}
+%
+and their associated probabilities.
+
+We start with a lemma dealing with the third expectation,
+$\Exp[C_\nu\mid\neg \Lambda^{\nu}] = \Exp[d_{\phi(\kappa)\nu} \mid
+\Lambda^{\nu}]$. The proof of this lemma relies on
+Properties~(PD'.\ref{PD1:assign:overlap}) and
 (PD'.\ref{PD1:assign:cost}) of modified partitioning and follows the
 reasoning in the proof of a similar lemma
 in~\cite{ByrkaGS10,ByrkaA10}.  For the sake of completeness, we
@@ -555,59 +587,80 @@ include a proof in~\ref{sec: proof of lemma 15}.
 %%%%%%%
 
 \begin{lemma}\label{lem: EBGS target connection cost}
-  Let $\nu$ be a non-primary demand assigned to $\kappa\in P$ and let
-  $\Lambda^{\nu}$ be the event that some facility in $\wbarN(\nu)$
-  opens in Algorithm~{\EBGS}'s integral solution, and $\neg
-  \Lambda^\nu$ be the complement event. Then
+Assuming that no facility in $\wbarN(\nu)$ opens, the expected connection
+cost of $\nu$ is
 %
-\begin{equation*}
-\Exp[C_{\nu} \mid \neg \Lambda^{\nu}] \leq
-  \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu).
-\end{equation*}
+\begin{equation}
+  \Exp[C_{\nu} \mid \neg \Lambda^{\nu}] \leq
+  \clsdist(\nu) + 2\fardist(\nu).
+  \label{eqn: expected connection cost target facility}
+\end{equation}
 %
 \end{lemma}
 \begin{proof}
-  A sketch of the proof is in \ref{sec: proof of lemma 15}.
+See \ref{sec: proof of lemma 15}.
 \end{proof}
 
-Using essentially the same argument as the proof of Lemma~\ref{lem:
-  echs expected C_nu}, we have the following more general lemma. Below
-$A$ is an arbitrary set of facilities.
+Next, we derive some estimates for the expected cost of direct
+connections.  The next technical lemma is a generalization of
+Lemma~\ref{lem: echs expected C_nu}. In Lemma~\ref{lem: echs expected
+  C_nu} we bound the expected distance to the closest open facility in
+$\wbarN(\nu)$, conditioned on at least one facility in $\wbarN(\nu)$
+being open. The lemma below provides a similar estimate for an
+arbitrary set $A$ of facilities in $\wbarN(\nu)$, conditioned on that
+at least one facility in set $A$ is open.  Recall that $D(A,\nu) =
+\sum_{\mu \in A} d_{\mu\nu} \bary_{\mu} / \sum_{\mu \in A}
+\bary_{\mu}$ is the average distance from $\nu$ to a facility in $A$. 
 
-\begin{lemma}
-  \label{lem: expected distance in EBGS}
-  Given a set $A$ of facilities, and a demand $\nu$, let
-  $\Lambda^\nu_A$ be the event that at least one facility is open in
-  Algorithm {\EBGS}'s integral solution. Then the expected distance
-  from $\nu$ to the nearest open facility in $A$, conditioned on event
-  $\Lambda^\nu_A$ occurs, is at most $D(A,\nu) = \sum_{\mu \in A}
-  d_{\mu\nu} \bary_{\mu} / \sum_{\mu \in A} \bary_{\mu}$.
+%%%%%%%
+
+\begin{lemma}\label{lem: expected distance in EBGS}
+  For any non-empty set $A\subseteq \wbarN(\nu)$, let $\Lambda^\nu_A$ be
+  the event that at least one facility in $A$ is opened by Algorithm
+  {\EBGS}, and denote by $C_\nu(A)$ the random variable representing
+  the distance from $\nu$ to the closest open facility in $A$.  Then
+  the expected distance from $\nu$ to the nearest open facility in
+  $A$, conditioned on at least one facility in $A$ being opened, is
+%
+\begin{equation*}
+	\Exp[C_\nu(A) \mid \Lambda^\nu_A ] \le D(A,\nu).
+\end{equation*}
 \end{lemma}
+
 \begin{proof}
-  We only sketch the proof here as the complete proof is very similar
-  to the proof of Lemma~\ref{lem: echs expected C_nu}. To estimate
-  this conditional expectation, we use a provably worse random process
-  to make connections. Specifically, we group facilities in $A$ by the
-  primary demand's neighborhood that they fall in. Facilities not in
-  any primary demand's neighborhood forms a singleton group by
-  itself. Then each group can have at most one facility open and the
-  event of facility opening betwen groups are independent. We connect
-  to the facility opened in the group $G$ with minimum $D(G, \nu)$,
-  the average distance to demand $\nu$. As before we denote the groups
-  by $G_1, \ldots, G_k$ and $\bard_s = D(G_s, \nu) = \sum_{\mu \in
-    G_s} d_{\mu\nu} \bary_{\mu} / \sum_{\mu \in G_s} \bary_{\mu}$ with
-  $\bard_1 \leq \ldots \leq \bard_k$. The only difference is that we
-  now have $g_s = \sum_{\mu \in G_s} \gamma \bary_{\mu}$ because the
-  algorithm opens a facility $\mu$ with probability
-  $\gamma\bary_{\mu}$. Denote the conditional expectation as
-  $\Exp[d(A,\nu) \mid \Lambda^\nu_A]$, we have
-  \begin{align}
-    \Exp[d(A,\nu) \mid \Lambda^\nu_A] &\leq \frac{1}{\Prob[\Lambda^\nu_A]} (\bard_1 g_1 +
+  The proof follows the same reasoning as the proof of Lemma~\ref{lem:
+    echs expected C_nu}, so we only sketch it here. We start with a
+  similar grouping of facilities in $A$: for each primary demand
+  $\kappa$, if $\wbarclsnb(\kappa)\cap A\neq\emptyset$ then
+  $\wbarclsnb(\kappa)\cap A$ forms a group. Facilities in $A$ that are
+  not in a neighborhood of any primary demand form singleton groups.
+  We denote these groups $G_1,...,G_k$. It is clear that the groups
+  are disjoint because of (PD'.\ref{PD1:disjoint}). Denoting by
+  $\bard_s = D(G_s, \nu)$ the average distance from $\nu$ to a group $G_s$, we
+  can assume that these groups are ordered so that $\bard_1\le ... \le
+  \bard_k$.
+
+  Each group can have at most one facility open and the events
+  representing opening of any two facilities that belong to different
+  groups are independent. To estimate the distance from $\nu$ to the
+  nearest open facility in $A$, we use an alternative
+  random process to make connections, that is easier to
+  analyze. Instead of connecting $\nu$ to the nearest open facility in
+  $A$, we will choose the smallest $s$ for which $G_s$ has an open
+  facility and connect $\nu$ to this facility. (Thus we selected an
+  open facility with respect to the minimum $\bard_s$, not the actual
+  distance from $\nu$ to this facility.)  This can only increase the
+  expected connection cost, thus denoting $g_s = \sum_{\mu\in G_s}
+  \gamma\bary_\mu$ for all $s=1,\ldots,k$, and letting $\Prob[\Lambda^\nu_A]$
+  be the probability that $A$ has at least one facility open, we have
+%
+\begin{align}
+    \Exp[C_\nu(A) \mid \Lambda^\nu_A] &\leq \frac{1}{\Prob[\Lambda^\nu_A]} (\bard_1 g_1 +
     \bard_2 g_2 (1 - g_1) + \ldots + \bard_k  g_k(1 -
     g_1)\ldots(1-g_{k-1}))
     \label{eqn: dist set to nu 1}
     \\
-    &\leq \frac{1}{\Prob[\Prob[\Lambda^\nu_A]} \frac{\sum_{s=1}^k \bard_s
+    &\leq \frac{1}{\Prob[\Lambda^\nu_A]} \frac{\sum_{s=1}^k \bard_s
       g_s}{\sum_{s=1}^k  g_s} (1 - \prod_{s=1}^k (1 -  g_s))
     \label{eqn: dist set to nu 2}
     \\
@@ -621,29 +674,32 @@ $A$ is an arbitrary set of facilities.
       \bary_{\mu}} = D(A, \nu).
     \\
     \notag
-  \end{align}
-Inequality (\ref{eqn: dist set to nu 1}) follows from the use of a
-provably worse random process to make connections. Inequality
-(\ref{eqn: dist set to nu 2}) follows by using inequality (\ref{eq:min
-  expected distance}). The last few equalities follow from the
-definition of $\bard_s, g_s$ and $D(A,\nu)$.
+\end{align}
+%
+Inequality (\ref{eqn: dist set to nu 2}) follows from inequality
+(\ref{eq:min expected distance}) in~\ref{sec: ECHSinequality}. The rest of the
+derivation follows from $\Prob[\Lambda^\nu_A] = 1 - \prod_{s=1}^k (1 -
+g_s)$, and the definition of $\bard_s$, $g_s$ and $D(A,\nu)$.
 \end{proof}
 
-We need two notations for the following corollary. Recall that
-$\Lambda^\nu$ is the event that at least one facility in $\wbarN(\nu)$
-opens.  We also introduce notation $\Lambda^\nu_{\cls}$ for the event
-that at least one facility in $\wbarclsnb(\nu)$ opens. Then
-\begin{corollary}
-  \label{coro: EBGS close and far distance}
-  \begin{align*}
-    &\Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq \clsdist(\nu),
-    \\
-    &\Exp[C_{\nu} \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu]
-    \leq \fardist(\nu).\\
-  \end{align*}
+A consequence of Lemma~\ref{lem: expected distance in EBGS} is the
+following corollary which bounds the other two expectations
+of $C_\nu$, when at least one facility is opened in $\wbarclsnb(\nu)$,
+and when no facility in $\wbarclsnb(\nu)$ opens but a facility in
+$\wbarfarnb(\nu)$ is opened.
+
+%%%%%%%%%
+
+\begin{corollary} \label{coro: EBGS close and far distance} 
+%
+{\rm (a)} $\Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq \clsdist(\nu)$,
+and
+{\rm (b)} $\Exp[C_{\nu} \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu]
+    			\leq \fardist(\nu)$.
 \end{corollary}
+
 \begin{proof}
-  When there is a facility in $\wbarclsnb(\nu)$ opens, the algorithm
+When there is an open facility in $\wbarclsnb(\nu)$, the algorithm
   connect $\nu$ to the nearest open facility in
   $\wbarclsnb(\nu)$. When no facility in $\wbarclsnb(\nu)$ opens but
   some facility in $\wbarfarnb(\nu)$ opens, the algorithm connects
@@ -651,135 +707,184 @@ that at least one facility in $\wbarclsnb(\nu)$ opens. Then
   the proof follows from Lemma~\ref{lem: expected distance in
     EBGS}. By setting the set $A$ in Lemma~\ref{lem: expected distance
     in EBGS} to $\wbarclsnb(\nu)$, we have
+%
   \begin{equation*}
-    \Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq D(\wbarclsnb(\nu), \nu)
+    \Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq D(\wbarclsnb(\nu), \nu),
     = \clsdist(\nu),
+    \label{eqn: expected connection cost close facility}
   \end{equation*}
-  and by setting the set $A$ to $\wbarfarnb(\nu)$, we have
+% 
+proving part (a), and by setting the set $A$ to $\wbarfarnb(\nu)$, we have
+%
   \begin{equation*}
     \Exp[C_{\nu}
     \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu] \leq
-    D(\wbarfarnb(\nu), \nu) = \fardist(\nu).    
+    D(\wbarfarnb(\nu), \nu) = \fardist(\nu),
+    \label{eqn: expected connection cost far facility}
   \end{equation*}
+which proves part (b).
 \end{proof}
 
-We are now ready to bound the overall connection cost of
-Algorithm~{\EBGS}.
+Given the estimate on the three expected distances when $\nu$ connects
+to its close facility in $\wbarclsnb(\nu)$ in (\ref{eqn: expected
+  connection cost close facility}), or its far facility in
+$\wbarfarnb(\nu)$ in (\ref{eqn: expected connection cost far
+  facility}), or its target facility $\phi(\kappa)$ in (\ref{eqn:
+  expected connection cost target facility}), the only missing pieces
+are estimates on the corresponding probabilities of each event, which
+we do in the next lemma. Once done, we shall put all pieces together
+and proving the desired inequality on $\Exp[C_{\nu}]$, that is
+(\ref{eqn: expectation of C_nu for EBGS}).
 
-%%%%%%%
+The next Lemma bounds the probabilities for events
+that no facilities in $\wbarclsnb(\nu)$ and $\wbarN(\nu)$ are
+opened by the algorithm.
 
-\begin{lemma}\label{lem: EBGS connection cost}
-  The expectation of connection
-  cost $C_{\smallEBGS}$ of Algorithm~{\EBGS} is 
-%
-\begin{equation*}
-\Exp[C_{\smallEBGS}] \le
-  C^\ast\cdot\max\Big\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\Big\}.
-\end{equation*}
+%%%%%%%%%%%
+
+\begin{lemma}\label{lem: close and far neighbor probability}
+{\rm (a)} $\Prob[\neg\Lambda^\nu_{\cls}] \le 1/e$, and
+{\rm (b)} $\Prob[\neg\Lambda^\nu] \le 1/e^\gamma$.
 \end{lemma}
 
 \begin{proof}
-  Recall that for demand $\nu$, the algorithm uses a close facility in
-  $\wbarclsnb(\nu)$ if one is open, else it will try to connect $\nu$
-  to a far facility in $\wbarfarnb(\nu)$. Failing that, it will
-  connect $\nu$ to $\phi(\kappa)$, the sole facility open in the
-  neighborhood of $\kappa$, the primary demand $\nu$ was assigned
-  to. Given that, we estimate $\Exp[C_\nu]$ as follows.
-%
-  \begin{align*}
-    \Exp[C_{\nu}] 
-		&= \Exp[C_{\nu}\mid \Lambda^\nu_{\cls}] \cdot \Prob[\Lambda^\nu_{\cls}]	
-				+ \Exp[C_{\nu}\mid \Lambda^\nu\ \wedge\neg \Lambda^\nu_{\cls}] \cdot \Prob[\Lambda^\nu\ \wedge\neg \Lambda^\nu_{\cls}]	
-		\\
-		&\quad\quad
-				+  \Exp[C_{\nu}\mid \neg \Lambda^\nu] \cdot \Prob[\neg \Lambda^\nu]
-		\\
-		&\leq  \clsdist(\nu) \cdot \Prob[\Lambda^\nu_{\cls}]
-			+ \fardist(\nu)	\cdot \left(\Prob[\Lambda^\nu] -
-                        \Prob[\Lambda^\nu_{\cls}]\right)\\
-                        &\quad\quad
-			+ [\clsdist(\nu) + \clsmax(\nu) + \fardist(\nu)] \cdot (1 - \Prob[\Lambda^\nu])
-		\\
-		&\leq  \clsdist(\nu) \cdot \Prob[\Lambda^\nu_{\cls}]
-			+ \fardist(\nu)	\cdot \left(\Prob[\Lambda^\nu] -
-                        \Prob[\Lambda^\nu_{\cls}]\right)\\
-                        &\quad\quad
-			+ [\clsdist(\nu) + \fardist(\nu) + \fardist(\nu)] \cdot (1 - \Prob[\Lambda^\nu])
-		\\
-                &= (\clsdist(\nu) + \fardist(\nu))\cdot (1-\Prob[\Lambda^\nu]) - (\fardist - \clsdist) \cdot \Prob[\Lambda^\nu_{\cls}] + \fardist(\nu).
-\end{align*}
-The first inequality follows from Corollary~\ref{coro: EBGS close and
-  far distance} and Lemma~\ref{lem: EBGS target connection cost}. The
-second inequality follows from $\clsmax(\nu) \leq \fardist(\nu)$. We
-then bound the corresponding probabilities $\Prob[\Lambda^\nu_{\cls}]$
-and $\Prob[\Lambda^\nu]$ with the following two lemmas.
-
-\begin{lemma}
-  \label{lem: close neighbor probability}
-  The probability that at least one facility in $\wbarclsnb(\nu)$
-  opens, that is $\Prob[\Lambda^\nu_{\cls}]$, is no less than $1-1/e$.
-\end{lemma}
-\begin{proof}
-  To estimate $\Prob[\Lambda^\nu_{\cls}]$, we again consider the
-  facilities in $\wbarclsnb(\nu)$ by grouping them according to the
-  primary demand's neighborhood that they fall in. Facilities do not
-  fall in any primary demand's neighborhood form a singleton group by
-  itself. Then the event of facilit opening in each group is
-  independent. Let the groups be $G_1, \ldots, G_k$, also let $g_s =
-  \sum_{\mu \in G_s} \gamma \bary_{\mu}, s=1,\ldots,k$. It is easy to
+  (a) To estimate $\Prob[\neg\Lambda^\nu_{\cls}]$, we again consider a
+  grouping of facilities in $\wbarclsnb(\nu)$, as in the proof of
+  Lemma~\ref{lem: expected distance in EBGS}, according to the primary
+  demand's close neighborhood that they fall in, with facilities not
+  belonging to such neighborhoods forming their own singleton groups.
+  As before, the groups are denoted $G_1, \ldots, G_k$. It is easy to
   see that $\sum_{s=1}^k g_s = \sum_{\mu \in \wbarclsnb(\nu)} \gamma
   \bary_{\mu} = 1$. For any group $G_s$, the probability that a
   facility in this group opens is $\sum_{\mu \in G_s} \gamma
   \bary_{\mu} = g_s$ because in the algorithm at most one facility in
   a group can be chosen and each is chosen with probability $\gamma
-  \bary_{\mu}$. Therefore the probability that at least one facility
-  in all those groups opens is $1 - \prod_{s=1}^k (1 - g_s)$, which is
-  at least $1 - e^{-\sum_{s=1}^k g_s} = 1 - 1/e$. Therefore we have
-  $\Prob[\Lambda^\nu_A] \geq 1 - 1/e$.
-\end{proof}
+  \bary_{\mu}$. Therefore the probability that no facility 
+  opens is $\prod_{s=1}^k (1 - g_s)$, which is
+  at most $e^{-\sum_{s=1}^k g_s} = 1/e$. Therefore we have
+  $\Prob[\neg\Lambda^\nu_A] \leq 1/e$.
 
-\begin{lemma}
-  \label{lem: far neighbor probability}
-  The probability that at least one facility in $\wbarN(\nu)$ opens,
-  that is $\Prob[\Lambda^\nu]$, is no less than $1-1/e^\gamma$.
-\end{lemma}
-\begin{proof}
-  Similar to the proof of Lemma~\ref{lem: close neighbor
-    probability}. The probability $\Prob[\Lambda^\nu]$ is no less than
-  $1 - e^{-\sum_{s=1}^k g_s} = 1 - 1/e^\gamma$ because we now have
+(b)
+  This proof is similar to the proof of (a). The probability $\Prob[\neg\Lambda^\nu]$ is at most
+  $e^{-\sum_{s=1}^k g_s} = 1/e^\gamma$, because we now have
   $\sum_{s=1}^k g_s = \gamma \sum_{\mu \in \wbarN(\nu)} \bary_{\mu} =
   \gamma \cdot 1 = \gamma$.
 \end{proof}
 
- We now continue our derivation.
-\begin{align*}
-  \Exp[C_\nu]
-             &\leq (\clsdist(\nu) + \fardist(\nu))\cdot (1-\Prob[\Lambda^\nu]) - (\fardist - \clsdist) \cdot \Prob[\Lambda^\nu_{\cls}] + \fardist(\nu)\\
-             &\leq (\clsdist(\nu) + \fardist(\nu)) \frac{1}{e^\gamma} - (\fardist - \clsdist) \cdot (1-\frac{1}{e}) + \fardist\\
-             &= (1 - \frac{1}{e} + \frac{1}{e^\gamma})\clsdist + (\frac{1}{e} + \frac{1}{e^\gamma}) \fardist\\
-             &= \concost(\nu) \left((1-\rho_{\nu})\frac{1/e+1/e^\gamma}{1-1/\gamma} + \rho_{\nu} (1 + \frac{2}{e^\gamma})\right)\\
-             &\leq \concost(\nu) \cdot \max\left\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1 + \frac{2}{e^\gamma}\right\},
-\end{align*}
-where we define $\rho_{\nu} =\clsdist(\nu)/\concost(\nu)$. It is easy
-to see that $\rho_{\nu}$ is between 0 and 1.
 
-Since $\sum_{\nu\in j} C^{\avg}(\nu)
-= \sum_{\nu\in j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} =
-\sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast$, summing over all
-clients $j$ we have total connection cost bounded by 
-$C^\ast\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\}$,
-completing the proof.
+We are now ready to bound the overall connection cost of
+Algorithm~{\EBGS}, namely inequality (\ref{eqn: expectation of C_nu for EBGS}).
+
+%%%%%%%
+
+\begin{lemma}\label{lem: EBGS nu's connection cost}
+The expected connection of $\nu$ is
+%
+\begin{equation*}
+\Exp[C_\nu] \le
+  \concost(\nu)\cdot\max\Big\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\Big\}.
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+  Recall that, to connect $\nu$, the algorithm uses the closest facility in
+  $\wbarclsnb(\nu)$ if one is opened; otherwise it will try to connect $\nu$
+  to the closest facility in $\wbarfarnb(\nu)$. Failing that, it will
+  connect $\nu$ to $\phi(\kappa)$, the sole facility open in the
+  neighborhood of $\kappa$, the primary demand $\nu$ was assigned
+  to. Given that, we estimate $\Exp[C_\nu]$ as follows:
+%
+  \begin{align}
+    \Exp[C_{\nu}] 
+		\;&= \;\Exp[C_{\nu}\mid \Lambda^\nu_{\cls}] \cdot \Prob[\Lambda^\nu_{\cls}]	
+				\;+\; \Exp[C_{\nu}\mid \Lambda^\nu\ \wedge\neg \Lambda^\nu_{\cls}] 
+				\cdot \Prob[\Lambda^\nu\, \wedge\neg \Lambda^\nu_{\cls}]	
+				\notag
+		\\
+		& \quad\quad\quad
+				+ \; \Exp[C_{\nu}\mid \neg \Lambda^\nu] \cdot \Prob[\neg \Lambda^\nu]
+				\notag
+		\\
+		&\leq \; \clsdist(\nu) \cdot \Prob[\Lambda^\nu_{\cls}]
+			\;+\; \fardist(\nu)	
+				\cdot \Prob[\Lambda^\nu\, \wedge\neg \Lambda^\nu_{\cls}]
+                      \label{eqn: apply three expected dist}
+						\\
+                        &\quad\quad\quad
+			+\; [\,\clsdist(\nu) + 2\fardist(\nu)\,] \cdot \Prob[\neg\Lambda^\nu]
+		\notag
+		\\
+                &=\; [\,\clsdist(\nu) + \fardist(\nu)\,]\cdot \Prob[\neg\Lambda^\nu] 
+						\;+\; 
+							[\,\fardist(\nu)   -\clsdist(\nu)\,]
+                                \cdot \Prob[\neg\Lambda^\nu_{\cls}]
+                              \;+\;  \clsdist(\nu)
+                                                        \notag
+		\\
+             &\leq\; [\,\clsdist(\nu) + \fardist(\nu)\,] \cdot \frac{1}{e^\gamma}
+             \;+\; [\,\fardist(\nu) - \clsdist(\nu)\,] \cdot \frac{1}{e}
+             \;+\; \clsdist(\nu)
+             \label{eqn: probability estimate}
+             \\
+             \notag
+             &=\; \Big(1 - \frac{1}{e} + \frac{1}{e^\gamma}\Big)\cdot \clsdist(\nu)
+ 				\;+\; \Big(\frac{1}{e} + \frac{1}{e^\gamma}\Big)\cdot\fardist(\nu).
+\end{align}
+%
+Inequality (\ref{eqn: apply three expected dist}) follows from
+Corollary~\ref{coro: EBGS close and far distance} and 
+Lemma~\ref{lem: EBGS target connection cost}. 
+Inequality (\ref{eqn: probability estimate}) follows from 
+Lemma~\ref{lem: close and far neighbor probability} and
+$\fardist(\nu) - \clsdist(\nu)\ge 0$.
+
+Now define $\rho =\clsdist(\nu)/\concost(\nu)$. It is easy to
+see that $\rho$ is between 0 and 1. Continuing the above
+derivation, applying (\ref{eqn:avg dist cls dist far dist}), we get
+%
+\begin{align*}
+\Exp[C_{\nu}]
+             \;&\le\; \concost(\nu) 
+			\cdot\left((1-\rho)\frac{1/e+1/e^\gamma}{1-1/\gamma} 
+				+ \rho (1 + \frac{2}{e^\gamma})\right)
+			\\
+             &\leq \concost(\nu) 
+				\cdot \max\left\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1 + \frac{2}{e^\gamma}\right\},
+\end{align*}
+%
+and the proof is now complete.
 \end{proof}
 
+With Lemma~\ref{lem: EBGS nu's connection cost} proven, we are now ready to bound our total connection cost.
+For any client $j$ we have
+%
+\begin{align*}
+\sum_{\nu\in j} C^{\avg}(\nu)
+	&= \sum_{\nu\in j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} 
+	\\
+	&= \sum_{i\in\sitesset}d_{ij}\sum_{\mu\in i}\sum_{\nu\in j} \barx_{\mu\nu}
+	= \sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast.
+\end{align*}
+% 
+Summing over all clients $j$ we obtain that the total expected connection cost is
+%
+\begin{equation*}
+	\Exp[ C_{\smallEBGS} ] \le  C^\ast\max\left\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\right\}.
+\end{equation*}
+%
 Recall that the expected facility cost is bounded by $\gamma F^\ast$,
-as argued earlier. Hence the total cost is bounded by $\max\{\gamma,
+as argued earlier. Hence the total expected cost is bounded by $\max\{\gamma,
 \frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+\frac{2}{e^\gamma}\}\cdot
 \LP^\ast$. Picking $\gamma=1.575$ we obtain the desired ratio.
 
+%%%%%%
 
 \begin{theorem}\label{thm:ebgs}
   Algorithm~{\EBGS} is a $1.575$-approximation algorithm for \FTFP.
 \end{theorem}
 
 
-
+%%%%%%%%%%%%%%% change log %%%%%%%%%%%%%%%%
+%% lyan, Tue Mar  5 10:30:25 PST 2013
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
