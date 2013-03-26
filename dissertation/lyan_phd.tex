@@ -149,6 +149,40 @@ Professor Neal Young}
 \chapter{Introduction} \label{ch: intro}
 
 \section{The Problem and the Background}
+The facility location problems (FL) is about selecting a set of
+candidate places to build facilities and connecting clients to the
+facilities to satisfy their demands. It models real world scenarios
+like setting up warehouses to deliver commodities to retailers,
+building power suppliers to serve the needs of a district of
+residents, placing content servers in a network to send files to
+clients. This simple model has been an active topic in both operations
+research and computer science since 1960s, and a number of algorithm
+design techniques have been found applicable in obtaining solutions
+with desired properties.
+
+There are over a dozen different variation in the problem formulation,
+and the uncapacitated facility location problem (UFL) concerns the
+simpliest model where each candidate facility has an opening cost and
+the connection cost between a client and a facility is the distance
+between the two. Each client needs to be connected to one open
+facility. A solution consists of a set of facilities to open and a
+specification of connections for each client to an open facility. The
+cost of the solution is simply the sum of facility opening cost and
+the connection cost to connect every client to some open facility. The
+UFL problem asks for a solution with minimum cost.
+
+The problem studied in this thesis is a generalization of the UFL
+problem, in that each client may specify a demand and the client then
+needs to be connected to several different facilities with the number
+of connections equal to its demand.  A solution consists of a
+specification of the number of facilities to open in each site, and
+the connection between clients and sites. Open multiple facilities in
+the same site incurs a cost of the opening cost for this site the same
+number of times, and the connection cost between a site and a client
+is the number of connections times the distance between the two, with
+the constaint that the number of connections cannot exceed the number
+of facilities opened in that site. The FTFP problem asks for a
+solution with minimum cost.
 
 \section{The Notation and Definition}
 
