@@ -82,6 +82,11 @@
 \textheight = 8.25in
 \topmargin = 0.750in
 
+\input{macros.tex}
+% for \cal definition
+\makeatletter
+\DeclareRobustCommand*\cal{\@fontswitch\relax\mathcal}
+\makeatother
 \begin{document}
 
 % Declarations for Front Matter
@@ -184,10 +189,35 @@ the constaint that the number of connections cannot exceed the number
 of facilities opened in that site. The FTFP problem asks for a
 solution with minimum cost.
 
-\section{The Notation and Definition}
+\section{Notation and Definition}
+We denote the set of sites as $\sitesset$ and the set of clients as
+$\clientset$. Each client $j \in \clientset$ has a demand $r_j$,
+meaning the client $j$ needs to be connected to $r_j$ different
+facilities. To open one facility at site $i$ incurs a cost of
+$f_i$. To make one connection from client $j$ to a facility at site
+$i$ incurs a cost of $d_{ij}$. The problem asks for a vector of
+$(\bfx, \bfy)$ such that $x_{ij} \in \{0, 1\}$ denotes the number of
+connections between site $i$ and client $j$, and $y_i \in \{0, 1\}$
+denotes the number of facilities opened at site $i$. We then seek a
+solution such that $y_i \geq x_{ij}$ for every $i \in \sitesset, j \in
+\clientset$ and $\sum_{i\in\sitesset} x_{ij} \geq r_j$ for all clients
+$j \in \clientset$, and we are to minimize the total cost of the
+solution, which is $\sum_{i \in \sitesset} f_i y_i + \sum_{i \in
+  \sitesset, j \in \clientset} d_{ij} x_{ij}$. We call $\sum_{i \in
+  \sitesset} f_i y_i$ the facility cost of a solution and $\sum_{i \in
+  \sitesset, j \in \clientset} d_{ij} x_{ij}$ the connection cost of a
+solution $(\bfx, \bfy)$.
 
 \section{The Notion of P vs NP, Approximation}
+Both the UFL problem and the FTFP problem are easily seen to be
+NP-hard, as they contain the Set Cover problem as a special case. The
+Set Cover problem is that, given a universe $\calU = \{e_1,
+\ldots, e_n\}$ and a collection of subsets $\calS = \{S_1,
+\ldots, S_m\}$ such that $S_l \leq U$ for $l=1,\ldots,m$, find a
+minimum number of sets in $\calS$ to cover all elements in
+$\calU$. It is well-known that the Set-Cover problem is NP-hard.
 
+Question: Why is metric UFL NP-hard, or even more so, APX-hard?
 
 \textbf{****THIS MARKS THE TEXT OF THE TEMPLATE****}
 
