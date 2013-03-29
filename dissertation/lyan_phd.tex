@@ -65,6 +65,7 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{fact}[theorem]{Fact}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{notation}[theorem]{Notation}
 \newtheorem{problem}[theorem]{Problem}
@@ -217,6 +218,76 @@ Set Cover problem is that, given a universe $\calU = \{e_1,
 minimum number of sets in $\calS$ to cover all elements in
 $\calU$. It is well-known that the Set-Cover problem is NP-hard.
 
+\begin{proposition}
+  The general UFL problem is NP-hard.
+\end{proposition}
+\begin{proof}
+  Reduction from the Set Cover problem. In the Set Cover problem, we
+  have a universe of elements, that is $\calU = \{e_1, \ldots, e_n\}$,
+  and a collection of sets $\calS = \{S_1, \ldots, S_m\}$ such that
+  $S_i \subseteq \calU$ for $i=1,\ldots,m$. We construct a general UFL
+  instance like this: for each $e_j, j=1,\ldots,n$ we have a client
+  $j$, and for each set $S_i, i=1,\ldots,m$ we have a facility
+  $i$. The facility cost $f_i=1$ for every facility
+  $i=1,\ldots,m$~\footnote{Actually any value of $f_i$ will work, for
+    example, we can set $f_i=0$ for every facility $i$.} and the
+  distance $d_{ij} = 1$ if $e_j \in S_i$ and $d_{ij} = \infty$ if $e_j
+  \notin S_i$. Clearly an optimal solution for the UFL instance can
+  only use edges with $d_{ij} = 1$. It is easy to see that given any
+  optimal solution of the Set Cover instance, we can construct an
+  optimal solution for the UFL instance, by simply taking the
+  facilities whose corresponding sets are chosen in the Set Cover. On
+  the other hand, given an optimal solution to the UFL instance, we
+  can only have $d_{ij}=1$ connections, that implies for every client $j$,
+  the corresponding element $e_j$ is covered by some set $S_i$, whose
+  corresponding facility $i$ is chosen in the UFL solution. Let $I$ be
+  the set of facilities chosen in the UFL solution, it is easily seen
+  that the corresponding set of sets in the Set Cover instance form a
+  set cover.
+\end{proof}
+
+\begin{proposition}
+  The metric UFL problem is NP-hard.
+\end{proposition}
+\begin{proof}
+  The reduction is also from the Set Cover problem. Unlike the general
+  UFL problem, we can no longer have edges with length $1$ and
+  $\infty$ now, as the distances are constrained by the triangle
+  inequality. We still have sets $S_i$ in the Set Cover instance
+  correspond to the facilities $i$ in the metric UFL instance, and
+  elements $e_j$ in the Set Cover instance correspond to the clients
+  $j$ in the metric UFL instance. Our facility cost $f_i = \epsilon$
+  for some small number $\epsilon > 0$, and every facility $i$ has the
+  same facility cost. Our distance $d_{ij}$ is now $1$ if $e_j \in
+  S_i$ and $3$ if $e_j \notin S_i$ in the Set Cover instance.
+
+  Given the construction, it is clear that any optimal solution for
+  the metric UFL instance cannot use an edge of distance $3$, as there
+  exists a solution that beats such a solution with lower cost, namely
+  a solution that opens all facilities with total cost $m\epsilon +
+  n\cdot 1 = m\epsilon + n$, as we can choose $\epsilon = 1/m^2$. It
+  follows that any optimal solution for the metric UFL instance must
+  have all clients connected at distance of $1$. Such a solution would
+  have a facility set corresponds to a set cover for the corresponding
+  Set Cover instance, as for every client $j$, the corresponding
+  element $e_j$ is covered by some set $S_i$ corresponding to some
+  facility $i$.
+\end{proof}
+
+Now we show the MaxSNP-hardness of the metric UFL problem. This
+implies the metric UFL problem has no polynomial approximation scheme
+(PTAS).
+\begin{proposition}
+  The metric UFL problem is MaxSNP-hard.
+\end{proposition}
+\begin{proof}
+  The proof is by a reduction from the B-Vertex Cover problem. In the
+  B-Vertex Cover problem, we are given a graph $G=(V,E)$, and a
+  constant $B$, such that every vertex $u\in V$ has degree no more
+  than $B$. And the problem asks for a vertex cover with minimum
+  size. That is, we are to find a set $V' \subseteq V$ such that every
+  edge $e \in E$ has at least one endpoint in $V'$.
+\end{proof}
 Question: Why is metric UFL NP-hard, or even more so, APX-hard?
 
 \textbf{****THIS MARKS THE TEXT OF THE TEMPLATE****}
