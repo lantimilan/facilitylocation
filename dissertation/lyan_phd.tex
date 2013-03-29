@@ -285,11 +285,122 @@ implies the metric UFL problem has no polynomial approximation scheme
   B-Vertex Cover problem, we are given a graph $G=(V,E)$, and a
   constant $B$, such that every vertex $u\in V$ has degree no more
   than $B$. And the problem asks for a vertex cover with minimum
-  size. That is, we are to find a set $V' \subseteq V$ such that every
-  edge $e \in E$ has at least one endpoint in $V'$.
-\end{proof}
-Question: Why is metric UFL NP-hard, or even more so, APX-hard?
+  size. That is, we are to find a minimum set $V' \subseteq V$ such
+  that every edge $e \in E$ has at least one endpoint in $V'$.
 
+  The idea is to show that, for any given constant $\epsilon < 1$,
+  given an algorithm for the metric UFL problem with approximation
+  ratio $1+\epsilon$ for any constant $\epsilon < 1$, we are able to
+  find an algorithm for the B-Vertex Cover problem with approximation
+  ratio $1+\epsilon'$ such that $\epsilon'$ approaches $0$ as
+  $\epsilon$ approaches $0$.
+
+  Given an instance of B-Vertex Cover, we construct an instance of
+  metric UFL. For every vertex $u \in V$ we have a facility $i$ and
+  for every edge $e \in E$ we have a city $j$. $c_{ij} = 1$ if the
+  corresponding edge $e$ of client $j$ is incident on vertex $u$,
+  which corresponds to the facility $i$, $d_{ij} = 3$ otherwise. We
+  postpone defining the facility cost $f_i$ but remark that all
+  facilities $i$ have the same facility opening cost, that is $f_i$
+  equal for all facility $i$.
+
+  Given an instance of B-Vertex Cover, let $k$ be the size of an
+  optimal vertex cover. We are to show that we can use an
+  $(1+\epsilon)$-approximation algorithm $\calA_{\smallUFL}$ for metric UFL
+  to construct an $(1+\epsilon')$-approximation algorithm
+  $\calA_{\smallBVC}$ for B-Vertex Cover. First we run algorithm
+  $\calA_{\smallUFL}$ on the UFL instance, and let there be $\beta k$
+  facilities open and $\gamma n$ cities connect with $d_{ij}=1$ and
+  the rest with $d_{ij} = 3$. Then the cost of $\calA_{\smallUFL}$ is
+  \begin{equation*}
+    \ALG_{\smallUFL} = \beta k f + \gamma n + 3 (1 - \gamma) n
+  \end{equation*}
+
+  Since $\calA_{\smallUFL}$ is a $(1+\epsilon)$-approximation algorithm, we
+  have that $\ALG_{\smallUFL} \leq \OPT_{\smallUFL}$. To get a handle on
+  $\OPT_{\smallUFL}$, we use a feasible solution to this $\UFL$
+  instance. One possible choice is to use the solution with
+  $k$-facilities and all clients are connected at distance $1$. Notice
+  that we only need to know such a solution exists. This solution has
+  cost $kf + n$. Therefore, we have
+  \begin{equation*}
+    \beta k f + \gamma n + 3 (1 - \gamma) n \leq (1 + \epsilon) (kf + n)
+  \end{equation*}
+  Cancelling $n$ from both sides, we get
+  \begin{equation}
+    \label{eq:APX:UFL}
+    \beta k f + 2(1-\gamma) n \leq (1+\epsilon)kf + \epsilon n
+  \end{equation}
+
+  Now we look for a solution to the B-Vertex Cover instance. The
+  solution to {\UFL} shows that we can use $\beta k$ facilities to
+  connect to $\gamma n$ clients with distance $1$, for the others at
+  distance $3$, we need at most one facility each to connect them at
+  distance $1$, that is, we need at most $(1-\gamma)n$ vertices to
+  cover the remaining edges. So we have a vertex cover with size
+  $\beta k + (1 - \gamma) n$, we hope to show that
+  \begin{equation}
+    \label{eq:APX:BVC}
+    \beta k + (1 - \gamma) n \leq (1 + \epsilon') k,
+  \end{equation}
+  where $\epsilon'$ is a constant depend on $\epsilon$ and possibly
+  $B$, with the property that $\epsilon'$ approaches $0$ as $\epsilon$
+  approaches $0$.
+
+  Compare Eqn.~(\ref{eq:APX:UFL}) and Eqn.~(\ref{eq:APX:BVC}), we need
+  to have some way to clean up the variables to get simpler
+  inequalities so that we can use (\ref{eq:APX:UFL}) to deduce
+  (\ref{eq:APX:BVC}). Since we have the flexibility to choose $f_i$, we
+  use that to simplify (\ref{eq:APX:UFL}) by setting $f_i$ to be such
+  that $n/(kf) = B$, then (\ref{eq:APX:UFL}) becomes
+  \begin{equation}
+    \label{eq:APX:UFL2}
+    \beta + 2(1-\gamma)B \leq (1+\epsilon) + \epsilon B.
+  \end{equation}
+  This looks very similar to the left hand side of (\ref{eq:APX:BVC})
+  now, if we can get rid of $n$ in that left hand side. We now use the
+  fact that every vertex in the B-Vertex Cover instance has degree at
+  most $B$, so the $k$ vertices in an optimal solution to this
+  B-Vertex Cover instance have at most $kB$ endpoints, which is no
+  less than $n$, the number of edges covered. So we have $kB \geq n$,
+  thus, to obtain (\ref{eq:APX:BVC}), it suffices to show
+  \begin{equation}
+    \label{eq:APX:BVC2}
+    \beta k + (1 - \gamma) kB \leq (1 + \epsilon') k.
+  \end{equation}
+  Dividing $k$ from both sides, our goal now is to show
+  \begin{equation}
+    \label{eq:APX:BVC3}
+    \beta + (1 - \gamma) B \leq (1 + \epsilon').
+  \end{equation}
+  Recall that in (\ref{eq:APX:UFL2}) we have $\beta + 2(1-\gamma)B
+  \leq (1+\epsilon) + \epsilon B$, if we set $\epsilon' = \epsilon (1
+  + B)$, we shall have the following
+  \begin{equation*}
+    \beta + (1-\gamma)B \leq \beta + 2(1-\gamma)B \leq (1+\epsilon) +
+    \epsilon B = 1 + \epsilon (1 + B) = 1 + \epsilon',
+  \end{equation*}
+  where the first inequality is obvious, the second is from
+  (\ref{eq:APX:UFL2}).  It is easy to see that $\epsilon'$ approaches
+  $0$ as $\epsilon$ approaches $0$ and we have the desired inequality
+  (\ref{eq:APX:BVC3}). We have thus found a $(1+\epsilon')$
+  approximation algorithm for the B-Vertex Cover problem, given a
+  $(1+\epsilon)$-approximation algorithm for the metric {\UFL}
+  problem, with the property that as $\epsilon$ approaches $0$,
+  $\epsilon'$ approaches $0$ as well.
+
+  Since B-Vertex Cover has no PTAS, we conclude metric UFL has no PTAS
+  as well.
+\end{proof}
+
+After we have shown the metric UFL problem is MaxSNP-hard, we focus on
+the metric version from now on. In the follow, we mention UFL and FTFP
+without explicitly specifying that their distances form a metric, that
+is, $d_{ij}$'s are symmetric and satisfy the triangle inequality.
+
+We briefly mention the last piece of hardness result, which is the
+Guha-Khuller theorem that {\UFL} cannot be approximated to less than
+$1.463$ unless $\NP \subseteq \DTIME(n^{\log\log n})$.
 \textbf{****THIS MARKS THE TEXT OF THE TEMPLATE****}
 
 Every dissertation should have an introduction.  You might not realize
