@@ -32,6 +32,7 @@
   \titlepage
 \end{frame}
 
+%%% outline
 \begin{frame}
   \frametitle{Outline}
   \begin{enumerate}
@@ -42,9 +43,8 @@
     \end{itemize}
   \item Related Work
     \begin{itemize}
-    \item The Uncapacitated Facility Location problem (UFL), all $r_j=1$
-    \item The Fault-tolerant Facility Location problem (FTFL), all
-      $y_i \leq 1$
+    \item The Uncapacitated Facility Location problem (UFL)
+    \item The Fault-tolerant Facility Location problem (FTFL)
     \item The Fault-tolerant Facility Placement problem (FTFP)
     \end{itemize}
   \item Techniques
@@ -62,6 +62,7 @@
   \end{enumerate}
 \end{frame}
 
+%%% problem definition
 \begin{frame}
   \frametitle{The Fault-Tolerant Facility Placement Problem (FTFP)}
   Given
@@ -84,9 +85,25 @@
   $f_i y_i$ and connecting clients, sum of $d_{ij} x_{ij}$.
 \end{frame}
 
+%%% main result
 \begin{frame}
   \frametitle{Main Result} An LP-rounding algorithm with approximation
   ratio $1.575$.
+\end{frame}
+
+%%% related problem
+\begin{frame}
+  \frametitle{Related Problems}
+  \begin{itemize}
+    \item The Uncapacitated Facility Location problem (UFL), all
+      $r_j=1$, best approximation ratio $1.488$ (Li'12).
+    \item The Fault-tolerant Facility Location problem (FTFL), all
+      $y_i \leq 1$, best approximation ratio $1.7245$ (Byrka \etal
+      '10).
+    \item The Fault-tolerant Facility Placement problem (FTFP), best
+      approxiamtion ratio $1.575$ (this paper), matching the best
+      known LP-based approximation ratio for UFL.
+  \end{itemize}
 \end{frame}
 
 %%%
@@ -109,9 +126,6 @@
     \node[right] (demand3) at (7,6) {$r_3=1$};
     \node[right] (demand4) at (7,9) {$r_4=1$};
     
-    \foreach \from in {fac1,fac2,fac3}
-    \foreach \to in {client1,client2,client3,client4}
-        \draw (\from)--(\to);
   \end{tikzpicture}
     
   \end{minipage}
@@ -148,10 +162,12 @@
     \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
     \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
     \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+
+    \node[right] (demand1) at (7,0) {$r_1=2$};
+    \node[right] (demand2) at (7,3) {$r_2=1$};
+    \node[right] (demand3) at (7,6) {$r_3=1$};
+    \node[right] (demand4) at (7,9) {$r_4=2$};
     
-    \foreach \from in {fac1,fac2,fac3}
-    \foreach \to in {client1,client2,client3,client4}
-        \draw (\from)--(\to);
   \end{tikzpicture}
   \end{minipage}
   \begin{minipage}{.45\linewidth}
@@ -187,10 +203,12 @@
     \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
     \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
     \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
-    
-    \foreach \from in {fac1,fac2,fac3}
-    \foreach \to in {client1,client2,client3,client4}
-        \draw (\from)--(\to);
+
+    \node[right] (demand1) at (7,0) {$r_1=2$};
+    \node[right] (demand2) at (7,3) {$r_2=1$};
+    \node[right] (demand3) at (7,6) {$r_3=1$};
+    \node[right] (demand4) at (7,9) {$r_4=4$};
+  
   \end{tikzpicture}
   \end{minipage}
   \begin{minipage}{.45\linewidth}
@@ -212,7 +230,7 @@
     \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
     \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
     
-    \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac21/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
+    \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
         \draw (\from)--(\to);
       \end{tikzpicture}
     \end{minipage}
@@ -220,59 +238,10 @@
 
 %%%
 \begin{frame}
-  \frametitle{Best Known Approximation Results}
+  \frametitle{The LP Formulation for FTFP}
   \begin{itemize}
-  \item UFL: 1.488, a combination of LP-rounding and greedy, by Li (Princeton)
-  \item FTFL: 1.7245, dependent rounding and laminar clustering, by Byrka, Srinivasan and Swamy (U Maryland)
-  \item FTFP: 1.575, LP-rounding (UCR)
-  \end{itemize}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{Lower Bound on Approximability}
-  \begin{itemize}
-  \item No ratio better than $1.463$ unless $\PP = \NP$. Reduction
-    from Set Cover, by Guha, Khuller, and Sviridenko.
-  \item Integrality Gap is also $1.463$, the example uses $n$ facilities and $n \choose l$ clients. The fractional solution is each $y_i = 1/l$.
-  \end{itemize}
-  \begin{tikzpicture}[scale=.7,rotate=-90]
-    \node[fill=blue!50] at (.5,2) {$f_1$};
-    \node[fill=blue!50] at (.5,5) {$f_2$};
-    \node[fill=blue!50] at (.5,13) {$f_n$};
-    
-    \fill (.5,7.5) circle (5pt);
-    \fill (.5,9) circle (5pt);
-    \fill (.5,10.5) circle (5pt);
-
-    \node[above] (fac1) at (0,2) {$y_1=1/l$};
-    \node[above] (fac2) at (0,5) {$y_2=1/l$};
-    \node[above] (fac3) at (0,13) {$y_n=1/l$};
-
-    \draw[fill=green!50] (2.5,0) circle (.5);
-    \draw[fill=green!50] (2.5,3) circle (.5);
-    \draw[fill=green!50] (2.5,6) circle (.5);
-    \draw[fill=green!50] (2.5,15) circle (.5);
-
-    \fill (2.5,8) circle (5pt);
-    \fill (2.5,10) circle (5pt);
-    \fill (2.5,12) circle (5pt);
-
-    \node[below] (client1) at (3,0) {$1$};
-    \node[below] (client2) at (3,3) {$2$};
-    \node[below] (client3) at (3,6) {$3$};
-    \node[below] (client4) at (3,15) {$n \choose l$};
-  \end{tikzpicture}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{UFL Background: LP-rounding Algorithms}
-
-  The LP Formulation for UFL
-  \begin{itemize}
-  \item $y_i\in [0,1]$ represent the number of facilities built at site $i$.
-  \item $x_{ij}\in [0,1]$ represent the number of connections from
+  \item $y_i$ represent the number of facilities built at site $i$.
+  \item $x_{ij}$ represent the number of connections from
     client $j$ to facilities at site $i$.
   \end{itemize}
   %%%%%%%%%%% 
@@ -281,14 +250,14 @@
     \\ \notag
     \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
     \\ \notag
-    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq 1 & &\forall j\in \clientset
+    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
     \\ \notag
     x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
     \\ \notag
   \end{alignat}
   %%%%%%%%%%%%
   \begin{alignat}{3}
-    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} \alpha_j&\label{eqn:fac_dual}  
+    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\, \alpha_j&\label{eqn:fac_dual}  
     \\ \notag
     \textrm{subject to} \quad \textstyle{
       \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
@@ -299,6 +268,55 @@
   \end{alignat}
   %%%%%%%%%%%
 \end{frame}
+
+%%%
+\begin{frame}
+  \frametitle{Techniques}
+  \begin{itemize}
+  \item Demand Reduction.
+  \item Adaptive Partition.
+  \end{itemize}
+\end{frame}
+
+%%%
+\begin{frame}
+  \frametitle{Demand Reduction}
+  \begin{itemize}
+  \item Reduce a general FTFP instance to a restricted FTFP instance
+    with $r_j \leq |\sitesset|$ for all clients $j$.
+  \item Solving LP to obtain $(\bfx^\ast, \bfy^\ast)$.
+  \item Round down $(\bfx^\ast, \bfy^\ast)$ to obtain integral part
+    $(\hatbfx, \hatbfy)$. Define $\hat r_j = \sum_{i}\hat x_{ij}$.
+  \item The rest form fractional part $(\dotbfx,\dotbfy)$. Define
+    $\dot r_j = r_j - \hat r_j$.
+  \item Both parts are feasible and optimal for their respective FTFP
+    instances $\hat \calI$ and $\dot \calI$.
+  \end{itemize}
+  \begin{claim}
+    $\dot r_j \leq |\sitesset|$ for all clients $j$ in $\dot \calI$.
+  \end{claim}
+\end{frame}
+
+%%%
+\begin{frame}
+  \frametitle{Theorem}
+  \begin{theorem}
+    Given any $\rho$-approximation algorithm $\calA$ for the
+    restricted FTFP problem with $r_j \leq |\sitesset|$, if $\rho$ is
+    an upper bound on comparing algorithm's cost and the optimal
+    fractional solution's cost, then we have a $\rho$-approximation
+    algorithm for the general FTFP problem.
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Adaptive Partition}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% legacy slides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%
