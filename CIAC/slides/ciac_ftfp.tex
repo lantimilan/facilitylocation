@@ -14,7 +14,7 @@
 \fi
 
 \usepackage{amsmath, caption, subcaption, graphicx, tikz}
-\title{Approximation Algorithms
+\title[FTFP]{Approximation Algorithms
   for the Fault-Tolerant Facility Placement Problem}
 \author[lyan,marek]{Li Yan and Marek Chrobak}
 \institute[UCR]{
@@ -33,6 +33,36 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Outline}
+  \begin{enumerate}
+  \item Introduction
+    \begin{itemize}
+    \item The problem definition
+    \item Main result
+    \end{itemize}
+  \item Related Work
+    \begin{itemize}
+    \item The Uncapacitated Facility Location problem (UFL), all $r_j=1$
+    \item The Fault-tolerant Facility Location problem (FTFL), all
+      $y_i \leq 1$
+    \item The Fault-tolerant Facility Placement problem (FTFP)
+    \end{itemize}
+  \item Techniques
+    \begin{itemize}
+    \item Demand Reduction
+    \item Adaptive Partition
+    \end{itemize}
+  \item Approximation Algorithms
+      \begin{itemize}
+        \item $3$-approximation
+        \item $1.736$-approximation
+        \item $1.575$-approximation
+        \end{itemize}
+  \item{Summary}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
   \frametitle{The Fault-Tolerant Facility Placement Problem (FTFP)}
   Given
   \begin{itemize}
@@ -40,50 +70,25 @@
   \item $\clientset$, a set of clients with demands,
   \item $r_j$, demand for client $j$,
   \item $f_i$, cost to build one facility at site $i$,
-  \item $d_{ij}$, cost to connect one demand from client $j$ to facility at at site $i$,
+  \item $d_{ij}$, cost to connect one demand from client $j$ to
+    facility at at site $i$. Distances form a metric.
   \end{itemize}
-  find 
+  Find 
   \begin{itemize}
-  \item number of facilities to build at each site
-  \item number of connections between site $i$ and client $j$
+  \item $y_i$, number of facilities to build at each site,
+  \item $x_{ij}$, number of connections between site $i$ and client
+    $j$.
   \end{itemize}
-  such that each client $j$ has $r_j$ connections and each site with
-  $y_i$ facilities offers no more than $y_i$ connections.
 
-  Distances form a metric.
-
-  Goal:
-  Minimize the total cost of opening facilities and connecting clients.
+  \textbf{Goal:} Minimize the total cost of opening facilities, sum of
+  $f_i y_i$ and connecting clients, sum of $d_{ij} x_{ij}$.
 \end{frame}
-
 
 \begin{frame}
-  \frametitle{Outline}
-  \begin{enumerate}
-  \item Introduction
-    \begin{itemize}
-    \item The Uncapacitated Facility Location problem (UFL)
-    \item The Fault-tolerant Facility Location problem (FTFL)
-    \item The Fault-tolerant Facility Placement problem (FTFP)
-    \end{itemize}
-  \item Review of UFL and FTFL results
-  \item Contributions: Approximation Algorithms for FTFP
-      \begin{itemize}
-      \item LP-rounding Algorithms
-        \begin{itemize}
-        \item Demand Reduction
-        \item Adaptive Partition
-        \item 1.575 Approximation
-        \end{itemize}
-      \item Combinatorial Algorithms
-        \begin{itemize}
-        \item $O((\log R / \log\log R)^2)$ approximation
-        \item Analysis of Greedy
-        \end{itemize}
-      \end{itemize}
-  \item{Summary}
-  \end{enumerate}
+  \frametitle{Main Result} An LP-rounding algorithm with approximation
+  ratio $1.575$.
 \end{frame}
+
 %%%
 \begin{frame}
   \frametitle{The Uncapacitated Facility Location Problem (UFL)}
