@@ -127,7 +127,7 @@
     \node[right] (demand4) at (7,9) {$r_4=1$};
     
   \end{tikzpicture}
-    
+  Instance
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -143,6 +143,8 @@
     \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
         \draw (\from)--(\to);
   \end{tikzpicture}
+
+  Solution
   \end{minipage}
 
 \end{frame}
@@ -169,6 +171,7 @@
     \node[right] (demand4) at (7,9) {$r_4=2$};
     
   \end{tikzpicture}
+  Instance
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -184,6 +187,8 @@
     \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
         \draw (\from)--(\to);
   \end{tikzpicture}
+
+  Solution
   \end{minipage}
 
 \end{frame}
@@ -210,6 +215,8 @@
     \node[right] (demand4) at (7,9) {$r_4=4$};
   
   \end{tikzpicture}
+  
+  Instance
   \end{minipage}
   \begin{minipage}{.45\linewidth}
     \begin{tikzpicture}[scale=0.5]
@@ -233,6 +240,8 @@
     \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
         \draw (\from)--(\to);
       \end{tikzpicture}
+      
+      Solution
     \end{minipage}
 \end{frame}
 
@@ -311,8 +320,94 @@
 
 \begin{frame}
   \frametitle{Adaptive Partition}
+  \begin{itemize}
+  \item Begin with a fractional complete solution $(\bfx,\bfy)$.
+  \item In the partitioned solution,
+    \begin{itemize}
+    \item Each site $i$ has facilities $\mu$.
+    \item Each client $j$ has $r_j$ demand points $\nu$.
+    \item Each facility $\mu$ has fractional opening $\bary_{\mu}$.
+    \item Each demand point connects to each facility with value
+      $\barx_{\mu\nu}$.
+    \end{itemize}
+    \item The partitioned solution $(\barbfx,\barbfy)$ satisfies a
+      number of properties.
+      \begin{itemize}
+      \item $y_i^\ast$ distributed among facilities at site $i$,
+      \item $x_{ij}^\ast$ distributed among sibling demands of client
+        $j$,
+      \item $\barx_{\mu\nu} = \bary_{\mu}$ or $0$ (completeness),
+      \item Each demand $\nu$ is assigned to a primary demand $\kappa$
+        with a low cost.
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
+%%% partition example
+\begin{frame}
+  \frametitle{An Example of Partition}
+
+  \begin{minipage}{.45\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,1) {};
+    \node[left] (faclabel22) at (0,1) {$2/3$};
+
+    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,6.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,7.5) {};
+
+    % label
+    \node[left] (faclabel21) at (0,6.5) {$1/3$};
+    \node[left] (faclabel22) at (0,7.5) {$2/3$};
+
+    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,11) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac32) at (.5,12) {};
+
+    % label
+    \node[left] (faclabel31) at (0,11) {$4/3$};
+    \node[left] (faclabel32) at (0,12) {$2/3$};
+
+    \node[circle,fill=green!50] (client1) at (6,2) {$r_1$};
+    \node[circle,fill=green!50] (client2) at (6,7) {$r_2$};
+    \node[circle,fill=green!50] (client3) at (6,12) {$r_3$};
+
+    \node[right] (demand1) at (7,2) {$r_1=1$};
+    \node[right] (demand2) at (7,7) {$r_2=2$};
+    \node[right] (demand3) at (7,12) {$r_3=2$};
+  
+    \foreach \from/\to in {fac11/client1,fac21/client1,fac22/client2,fac31/client2,fac31/client3,fac32/client3}
+    \draw (\from)--(\to);
+
+  \end{tikzpicture}
+  
+  Before Partition
+  \end{minipage}
+  \begin{minipage}{.45\linewidth}
+    \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,1.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,2.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,2.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,5.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,7.5) {};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    
+    \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
+        \draw (\from)--(\to);
+      \end{tikzpicture}
+      
+      After Partition
+    \end{minipage}
+
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% legacy slides
@@ -320,622 +415,622 @@
 
 
 %%%
-\begin{frame}
-  \frametitle{UFL Background: Cont.}
-
-  The Shmoys, Tardos and Ardal's Algorithm (STA97)
-  \begin{itemize}
-  \item Start with optimal fractional solution $(\bfx^\ast,\bfy^\ast)$
-  \item If all $N(j)$ disjoint, then easy.
-  \item To bound $F^A$, need neighborhood of chosen clients be disjoint.
-  \item To bound $C^A$, need non-primary clients having a fail-over connection.
-  \end{itemize}
-
-  \begin{itemize}
-  \item The greedy clustering: iteratively find the best client and assign some other clients to it.
-  \item Estimate $\max_{i\in N(j)} d_{ij}$, either cut the neighborhood $N(j)$ or use dual solution.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{UFL background: Cont.}
-  The Clustering Structure
-  \begin{tikzpicture}
-    % fac group
-    \draw[style=dashed] (0,0) ellipse (.5 and 1);
-    \draw[fill=blue!50] (-.15,-.7) rectangle (.1,-.45);
-    \draw[fill=blue!50] (-.15,-.2) rectangle (.1,.05);
-    \draw[fill=blue!50] (-.15,.3) rectangle (.1,.55);
-
-    \draw[style=dashed] (0,2.5) ellipse (.5 and 1);
-    \draw[fill=blue!50] (-.15,2) rectangle (.1,2.25);
-    \draw[fill=blue!50] (-.15,2.5) rectangle (.1,2.75);
-
-    \draw[style=dashed] (0,6) ellipse (.5 and 1);
-    \draw[fill=blue!50] (-.15,5.1) rectangle (.1,5.35);
-    \draw[fill=blue!50] (-.15,5.6) rectangle (.1,5.85);
-    \draw[fill=blue!50] (-.15,6.1) rectangle (.1,6.35);
-    \draw[fill=blue!50] (-.15,6.6) rectangle (.1,6.85);
-
-    % client group
-    \draw[style=dashed] (6,0) ellipse (4 and 1);
-    \draw[fill=yellow!50] (3,0) circle (.25);
-    \draw[fill=green!50] (5,0) circle (.25);
-    \draw[fill=green!50] (6,0) circle (.25);
-    \draw[fill=green!50] (7,0) circle (.25);
-    \draw[fill=green!50] (9,0) circle (.25);
-
-    \draw[style=dashed] (6,2.5) ellipse (4 and 1);
-    \draw[fill=yellow!50] (3,2.5) circle (.25);
-    \draw[fill=green!50] (5,2.5) circle (.25);
-    \draw[fill=green!50] (6,2.5) circle (.25);
-    \draw[fill=green!50] (7,2.5) circle (.25);
-    \draw[fill=green!50] (9,2.5) circle (.25);
-
-    \draw[style=dashed] (6,6) ellipse (4 and 1);
-    \draw[fill=yellow!50] (3,6) circle (.25);
-    \draw[fill=green!50] (5,6) circle (.25);
-    \draw[fill=green!50] (6,6) circle (.25);
-    \draw[fill=green!50] (7,6) circle (.25);
-    \draw[fill=green!50] (9,6) circle (.25);
-
-    % lines
-    \path[draw] (2.75,6) -- (.25,6.9);
-    \path[draw] (2.75,6) -- (.25,5.1);
-
-    \path[draw] (2.75,2.5) -- (.25,3.4);
-    \path[draw] (2.75,2.5) -- (.25,1.6);
-
-    \path[draw] (2.75,0) -- (.25,.9);
-    \path[draw] (2.75,0) -- (.25,-.9);
-  \end{tikzpicture}
-\end{frame}
+%%\begin{frame}
+%%  \frametitle{UFL Background: Cont.}
+%%
+%%  The Shmoys, Tardos and Ardal's Algorithm (STA97)
+%%  \begin{itemize}
+%%  \item Start with optimal fractional solution $(\bfx^\ast,\bfy^\ast)$
+%%  \item If all $N(j)$ disjoint, then easy.
+%%  \item To bound $F^A$, need neighborhood of chosen clients be disjoint.
+%%  \item To bound $C^A$, need non-primary clients having a fail-over connection.
+%%  \end{itemize}
+%%
+%%  \begin{itemize}
+%%  \item The greedy clustering: iteratively find the best client and assign some other clients to it.
+%%  \item Estimate $\max_{i\in N(j)} d_{ij}$, either cut the neighborhood $N(j)$ or use dual solution.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{UFL background: Cont.}
+%%  The Clustering Structure
+%%  \begin{tikzpicture}
+%%    % fac group
+%%    \draw[style=dashed] (0,0) ellipse (.5 and 1);
+%%    \draw[fill=blue!50] (-.15,-.7) rectangle (.1,-.45);
+%%    \draw[fill=blue!50] (-.15,-.2) rectangle (.1,.05);
+%%    \draw[fill=blue!50] (-.15,.3) rectangle (.1,.55);
+%%
+%%    \draw[style=dashed] (0,2.5) ellipse (.5 and 1);
+%%    \draw[fill=blue!50] (-.15,2) rectangle (.1,2.25);
+%%    \draw[fill=blue!50] (-.15,2.5) rectangle (.1,2.75);
+%%
+%%    \draw[style=dashed] (0,6) ellipse (.5 and 1);
+%%    \draw[fill=blue!50] (-.15,5.1) rectangle (.1,5.35);
+%%    \draw[fill=blue!50] (-.15,5.6) rectangle (.1,5.85);
+%%    \draw[fill=blue!50] (-.15,6.1) rectangle (.1,6.35);
+%%    \draw[fill=blue!50] (-.15,6.6) rectangle (.1,6.85);
+%%
+%%    % client group
+%%    \draw[style=dashed] (6,0) ellipse (4 and 1);
+%%    \draw[fill=yellow!50] (3,0) circle (.25);
+%%    \draw[fill=green!50] (5,0) circle (.25);
+%%    \draw[fill=green!50] (6,0) circle (.25);
+%%    \draw[fill=green!50] (7,0) circle (.25);
+%%    \draw[fill=green!50] (9,0) circle (.25);
+%%
+%%    \draw[style=dashed] (6,2.5) ellipse (4 and 1);
+%%    \draw[fill=yellow!50] (3,2.5) circle (.25);
+%%    \draw[fill=green!50] (5,2.5) circle (.25);
+%%    \draw[fill=green!50] (6,2.5) circle (.25);
+%%    \draw[fill=green!50] (7,2.5) circle (.25);
+%%    \draw[fill=green!50] (9,2.5) circle (.25);
+%%
+%%    \draw[style=dashed] (6,6) ellipse (4 and 1);
+%%    \draw[fill=yellow!50] (3,6) circle (.25);
+%%    \draw[fill=green!50] (5,6) circle (.25);
+%%    \draw[fill=green!50] (6,6) circle (.25);
+%%    \draw[fill=green!50] (7,6) circle (.25);
+%%    \draw[fill=green!50] (9,6) circle (.25);
+%%
+%%    % lines
+%%    \path[draw] (2.75,6) -- (.25,6.9);
+%%    \path[draw] (2.75,6) -- (.25,5.1);
+%%
+%%    \path[draw] (2.75,2.5) -- (.25,3.4);
+%%    \path[draw] (2.75,2.5) -- (.25,1.6);
+%%
+%%    \path[draw] (2.75,0) -- (.25,.9);
+%%    \path[draw] (2.75,0) -- (.25,-.9);
+%%  \end{tikzpicture}
+%%\end{frame}
+%%%%%
+%%\begin{frame}
+%%  \frametitle{UFL Background: End.}
+%%
+%%  Chudak, Svi, Byrka and Li's improvement
+%%  \begin{itemize}
+%%  \item Chudak: randomized rounding, estimate on the expected connection cost
+%%  \item Sviridenko: use a concave function to upper bound distance and to guide rounding
+%%  \item Byrka: boost facility opening probability and use $N_{\cls}(j)$ for overlapping
+%%  \item Li: find the right distribution for probability boost
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{Contribution: Approximation Algorithms for FTFP}
+%%
+%%  \begin{itemize}
+%%  \item LP-rounding Algorithms
+%%    \begin{itemize}
+%%    \item Demand Reduction
+%%    \item Adaptive Partition
+%%    \item 1.575 Approximation
+%%    \end{itemize}
+%%  \item Combinatorial Algorithms
+%%    \begin{itemize}
+%%    \item $O((\log R / \log\log R)^2)$ approximation
+%%    \item Analysis of Greedy
+%%    \end{itemize}
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{LP for the FTFP Problem}
+%%  \begin{itemize}
+%%  \item $y_i$ represent the number of facilities built at site $i$.
+%%  \item $x_{ij}$ represent the number of connections from client $j$
+%%    to facilities at site $i$.
+%%  \end{itemize}
+%%  %%%%%%%%%%% 
+%%  \begin{alignat}{3}
+%%    \notag
+%%    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&
+%%    \\ \notag
+%%    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+%%    \\ \notag
+%%    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+%%    \\ \notag
+%%    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+%%    \\ \notag
+%%  \end{alignat}
+%%  %%%%%%%%%%%%
+%%  \begin{alignat}{3}
+%%    \notag
+%%    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&
+%%    \\ \notag
+%%    \textrm{subject to} \quad \textstyle{
+%%      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+%%    \\ \notag
+%%    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+%%    \\ \notag
+%%    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+%%  \end{alignat}
+%%  %%%%%%%%%%%
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{Demand Reduction} Given an FTFP instance $\calI$, we can
+%%  reduce it to an instance such that $R=\max_{j}r_j$ is bounded by
+%%  $|\sitesset|$.
+%%
+%%  \begin{itemize}
+%%    \item $\hatx_{ij} = \floor{x_{ij}^\ast}, \haty_{i} = \floor{y_i^\ast}$
+%%    \item $\dotx_{ij} = x_{ij}^\ast - \hatx_{ij}, \doty_{i} = y_i^\ast
+%%      - \haty_{i}$
+%%    \item $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$ for instance $\hat \calI$
+%%    \item $\dotr_j = r_j - \hatr_j$ for instance $\dot \calI$
+%%  \end{itemize}
+%%  
+%%  \begin{claim}
+%%    $\hatx_{ij}, \haty_{i}$ is feasible and optimal for $\hat \calI$, and
+%%    $\dotx_{ij}, \doty_{i}$ is feasible and optimal for $\dot \calI$.
+%%  \end{claim}
+%%  \begin{claim}
+%%    Integral solutions for $\hat \calI$ and $\dot \calI$ combined is an
+%%    integral solution to $\calI$.
+%%  \end{claim}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \begin{theorem}
+%%    Given any $\rho\geq 1$ approximation algorithm $\calA$ for solving
+%%    restricted FTFP, we can obtain an algorithm with
+%%    $\rho$-approximation for general FTFP.
+%%  \end{theorem}
+%%  \begin{proof}
+%%    Solve LP and obtain $\hat \calI$ and $\dot \calI$. For $\hat
+%%    \calI$ we have ratio $1$, and use $\calA$ to solve $\dot \calI$
+%%    with ratio $\rho$. Final ratio is $\max\{1,\rho\}$.
+%%  \end{proof}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \begin{corollary}
+%%    There is a $1.7245$-approximation algorithm for the FTFP problem.
+%%  \end{corollary}
+%%  \begin{proof}
+%%    We simply reduce the FTFP problem to the FTFL problem. The $\hat
+%%    \calI$ instance already has an integral solution
+%%    $(\hatbfx,\hatbfy)$.  Solving the instance $\dot \calI$ using the
+%%    $1.7245$-approximation algorithm for FTFL by Byrka {\etal}.
+%%  \end{proof}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{Improve from $1.7245$ to $1.575$-approximation}
+%%  \begin{itemize}
+%%  \item We have shown that FTFP can be reduced to FTFL while
+%%    preserving the approximation ratio.
+%%  \item Next step is to show FTFP can be approximated with a better
+%%    ratio than FTFL.
+%%  \item Simple case is when all $r_j$'s are equal, then we can apply
+%%    any UFL approximation results to FTFP as the uniform FTFP is
+%%    simply a scaled version of UFL.
+%%  \item For general FTFP, we need \emph{Adaptive Partition}.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{Adaptive Partition} 
+%%
+%%  Given an instance of FTFP, with its fractional optimal solution
+%%  $(\bfx^\ast, \bfy^\ast)$, w.l.o.g. we assume \emph{completeness},
+%%  i.e. $x_{ij}^\ast > 0$ implies $x_{ij} ^\ast = y_i^\ast$.  Then we
+%%  can partition the instance into unit demands and facilities, with
+%%  fractional solution $(\barbfx, \barbfy)$ such that
+%%  \begin{itemize}
+%%  \item $x_{ij}^\ast$ is spread among its demands.
+%%  \item $y_i^\ast$ is spread among its facilities.
+%%  \item Each demand $\nu$ has a neighborhood $\wbarN(\nu)$ with total
+%%    connection value of $1$.
+%%  \item Primary demands have a smaller cost than non-primary demands
+%%    assigned to them.
+%%  \item Neighborhood $\wbarN(\nu)$ overlaps with $\wbarN(\kappa)$ and
+%%    disjoint from $\wbarN(\nu')$ and $\wbarN(\kappa')$ (for
+%%    fault-tolerant requirement).
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{An Example of Adaptive Partition}
+%%  The instance has 4 sites and 4 clients.\\
+%%  Only $d_{ij}=1$ edges are shown.
+%%  \hspace{10cm}
+%%  \usetikzlibrary{backgrounds}
+%%  \begin{tikzpicture}[scale=0.5, show background rectangle]
+%%    \node[fill=blue!50] (fac1) at (0,0) {$f_1$};
+%%    \node[fill=blue!50] (fac2) at (0,3) {$f_2$};
+%%    \node[fill=blue!50] (fac3) at (0,6) {$f_3$};
+%%    \node[fill=blue!50] (fac4) at (0,9) {$f_4$};
+%%
+%%    \node[left] (cost1) at (-1,0) {$f_1=1$};
+%%    \node[left] (cost2) at (-1,3) {$f_2=1$};
+%%    \node[left] (cost3) at (-1,6) {$f_3=1$};
+%%    \node[left] (cost4) at (-1,9) {$f_4=1$};
+%%
+%%
+%%    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
+%%    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
+%%    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
+%%    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+%%
+%%    \node[right] (demand1) at (7,0) {$r_1=1$};
+%%    \node[right] (demand2) at (7,3) {$r_2=2$};
+%%    \node[right] (demand3) at (7,6) {$r_3=2$};
+%%    \node[right] (demand4) at (7,9) {$r_4=2$};
+%%
+%%    \foreach \from/\to in {fac1/client2,fac1/client3,fac1/client4,fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
+%%    \draw (\from)--(\to);
+%%  \end{tikzpicture}
+%%
+%%\end{frame}
+%%%%%
+%%\begin{frame}
+%%  \frametitle{The Fractional Optimal Solution}
+%%  \begin{table}
+%%    \begin{subtable}{0.5\textwidth}
+%%      \centering
+%%      \begin{tabular}{c | c c c c}
+%%        $y_i^\ast$ & 1 & 2 & 3 & 4\\
+%%        \hline
+%%        & 4/3 & 1/3 & 1/3 & 1/3\\
+%%      \end{tabular}
+%%      \subcaption{}
+%%    \end{subtable}
 %%%
-\begin{frame}
-  \frametitle{UFL Background: End.}
-
-  Chudak, Svi, Byrka and Li's improvement
-  \begin{itemize}
-  \item Chudak: randomized rounding, estimate on the expected connection cost
-  \item Sviridenko: use a concave function to upper bound distance and to guide rounding
-  \item Byrka: boost facility opening probability and use $N_{\cls}(j)$ for overlapping
-  \item Li: find the right distribution for probability boost
-  \end{itemize}
-\end{frame}
-
+%%    \begin{subtable}{0.5\textwidth}
+%%      \centering
+%%      \begin{tabular}{c | c c c c}
+%%        $x_{ij}^\ast$ & $i=1$ & 2 & 3 & 4\\
+%%        \hline
+%%        $j=1$ & 0 & 1/3 & 1/3 & 1/3\\
+%%        2 & 4/3 & 0 & 1/3 & 1/3\\
+%%        3 & 4/3 & 1/3 & 0 & 1/3\\
+%%        4 & 4/3 & 1/3 & 1/3 & 0\\
+%%      \end{tabular}
+%%      \subcaption{}
+%%    \end{subtable}
+%%    \caption{An optimal fractional solution to the FTFP instance.}
+%%\end{table}
+%%
+%%The dual solution has all $\alpha_j^\ast = 4/3$.
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{Phase 1: Iteration 1} 
+%%
+%%  Choose client 1 and create a primary demand $\kappa_{11}$. Each of
+%%  client 2,3,4 creates a demand and assigned to $\kappa_{11}$.
+%%
+%%  %%%%%%%
+%%  \begin{minipage}{.45\textwidth}
+%%  \begin{table}
+%%  \begin{subtable}{1\textwidth}
+%%    \centering
+%%    \begin{tabular}{c | c c c c}
+%%      $\bary$ & 1 & 2 & 3 & 4\\
+%%      \hline
+%%      & 1/3 & 1/3 & 1/3 & 1/3\\
+%%    \end{tabular}
+%%  \end{subtable}
 %%%
-\begin{frame}
-  \frametitle{Contribution: Approximation Algorithms for FTFP}
-
-  \begin{itemize}
-  \item LP-rounding Algorithms
-    \begin{itemize}
-    \item Demand Reduction
-    \item Adaptive Partition
-    \item 1.575 Approximation
-    \end{itemize}
-  \item Combinatorial Algorithms
-    \begin{itemize}
-    \item $O((\log R / \log\log R)^2)$ approximation
-    \item Analysis of Greedy
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
+%%  \begin{subtable}{1\textwidth}
+%%    \centering
+%%    \begin{tabular}{c | c c c c}
+%%      $\barx$ & 1 & 2 & 3 & 4\\
+%%      \hline
+%%      1 & 0 & 1/3 & 1/3 & 1/3\\
+%%      2 & 0 & 0 & 1/3 & 1/3\\
+%%      3 & 0 & 1/3 & 0 & 1/3\\
+%%      4 & 0 & 1/3 & 1/3 & 0\\
+%%    \end{tabular}
+%%  \end{subtable}
+%%\end{table}
+%%  \end{minipage}
+%%  \begin{minipage}{.45\textwidth}
+%%  \begin{tikzpicture}[scale=0.5]
+%%    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{11}$};
+%%    \node[fill=blue!50] (fac2) at (0,3) {$\mu_{21}$};
+%%    \node[fill=blue!50] (fac3) at (0,6) {$\mu_{31}$};
+%%    \node[fill=blue!50] (fac4) at (0,9) {$\mu_{41}$};
+%%
+%%    \node[circle,fill=green!50] (client1) at (6,0) {$\kappa_{11}$};
+%%    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{21}$};
+%%    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{31}$};
+%%    \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
+%%
+%%    \foreach \from/\to in
+%%    {fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1,fac3/client2,fac4/client1,fac4/client2,fac4/client3}
+%%    \draw (\from)--(\to);
+%%  \end{tikzpicture}
+%%  \end{minipage}
+%%  %%%%%%%%%% 
+%%\end{frame}
+%%
+%%
+%%\begin{frame}
+%%  \frametitle{Phase 1: Iteration 2}
+%%
+%%  Choose client 4 and create a primary demand $\kappa_{42}$. Each of
+%%  client 2,3 creates a demand and assigned to $\kappa_{42}$.
+%%
+%%  %%%%%%%
+%%  \begin{minipage}{.45\linewidth}
+%%  \begin{table}
+%%  \begin{subtable}{1\textwidth}
+%%    \centering
+%%    \begin{tabular}{c | c c c c}
+%%      $\bary$ & 1 & 2 & 3 & 4\\
+%%      \hline
+%%      & 1 &  &  & \\
+%%    \end{tabular}
+%%  \end{subtable}
 %%%
-\begin{frame}
-  \frametitle{LP for the FTFP Problem}
-  \begin{itemize}
-  \item $y_i$ represent the number of facilities built at site $i$.
-  \item $x_{ij}$ represent the number of connections from client $j$
-    to facilities at site $i$.
-  \end{itemize}
-  %%%%%%%%%%% 
-  \begin{alignat}{3}
-    \notag
-    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&
-    \\ \notag
-    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
-    \\ \notag
-    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
-    \\ \notag
-    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
-    \\ \notag
-  \end{alignat}
-  %%%%%%%%%%%%
-  \begin{alignat}{3}
-    \notag
-    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&
-    \\ \notag
-    \textrm{subject to} \quad \textstyle{
-      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
-    \\ \notag
-    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
-    \\ \notag
-    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
-  \end{alignat}
-  %%%%%%%%%%%
-\end{frame}
-
+%%  \begin{subtable}{1\textwidth}
+%%    \centering
+%%    \begin{tabular}{c | c c c c}
+%%      $\barx$ & 1 & 2 & 3 & 4\\
+%%      \hline
+%%      2 & 1 & 0 & 0 & 0\\
+%%      3 & 1 & 0 & 0 & 0\\
+%%      4 & 1 & 0 & 0 & 0\\
+%%    \end{tabular}
+%%  \end{subtable}
+%%\end{table}
+%%  \end{minipage}
+%%  \begin{minipage}{.45\linewidth}
+%%  \begin{tikzpicture}[scale=0.5]
+%%    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{12}$};
+%%
+%%    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{22}$};
+%%    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{32}$};
+%%    \node[circle,fill=green!50] (client4) at (6,9) {$\kappa_{42}$};
+%%
+%%    \foreach \from/\to in
+%%    {fac1/client2,fac1/client3,fac1/client4}
+%%    \draw (\from)--(\to);
+%%  \end{tikzpicture}
+%%  \end{minipage}
+%%\end{frame}
+%%
+%%%%%
+%%\begin{frame}
+%%  \frametitle{Phase 2: Augment to Unit} 
+%%
+%%  Notice all demands have connection value $1$.
+%%
+%%  \begin{minipage}{.45\linewidth}
+%%  \begin{table}
+%%    \begin{subtable}{1\textwidth}
+%%      \centering
+%%      \begin{tabular}{c | c c c c}
+%%        $\barx$ & 1 & 2 & 3 & 4\\
+%%        \hline
+%%        1 & 0 & 1/3 & 1/3 & 1/3\\
+%%        2 & 1/3 & 0 & 1/3 & 1/3\\
+%%        3 & 1/3 & 1/3 & 0 & 1/3\\
+%%        4 & 1/3 & 1/3 & 1/3 & 0\\
+%%      \end{tabular}
+%%    \end{subtable}
 %%%
-\begin{frame}
-  \frametitle{Demand Reduction} Given an FTFP instance $\calI$, we can
-  reduce it to an instance such that $R=\max_{j}r_j$ is bounded by
-  $|\sitesset|$.
-
-  \begin{itemize}
-    \item $\hatx_{ij} = \floor{x_{ij}^\ast}, \haty_{i} = \floor{y_i^\ast}$
-    \item $\dotx_{ij} = x_{ij}^\ast - \hatx_{ij}, \doty_{i} = y_i^\ast
-      - \haty_{i}$
-    \item $\hatr_j = \sum_{i\in\sitesset} \hatx_{ij}$ for instance $\hat \calI$
-    \item $\dotr_j = r_j - \hatr_j$ for instance $\dot \calI$
-  \end{itemize}
-  
-  \begin{claim}
-    $\hatx_{ij}, \haty_{i}$ is feasible and optimal for $\hat \calI$, and
-    $\dotx_{ij}, \doty_{i}$ is feasible and optimal for $\dot \calI$.
-  \end{claim}
-  \begin{claim}
-    Integral solutions for $\hat \calI$ and $\dot \calI$ combined is an
-    integral solution to $\calI$.
-  \end{claim}
-\end{frame}
-
-%%%
-\begin{frame}
-  \begin{theorem}
-    Given any $\rho\geq 1$ approximation algorithm $\calA$ for solving
-    restricted FTFP, we can obtain an algorithm with
-    $\rho$-approximation for general FTFP.
-  \end{theorem}
-  \begin{proof}
-    Solve LP and obtain $\hat \calI$ and $\dot \calI$. For $\hat
-    \calI$ we have ratio $1$, and use $\calA$ to solve $\dot \calI$
-    with ratio $\rho$. Final ratio is $\max\{1,\rho\}$.
-  \end{proof}
-\end{frame}
-
-%%%
-\begin{frame}
-  \begin{corollary}
-    There is a $1.7245$-approximation algorithm for the FTFP problem.
-  \end{corollary}
-  \begin{proof}
-    We simply reduce the FTFP problem to the FTFL problem. The $\hat
-    \calI$ instance already has an integral solution
-    $(\hatbfx,\hatbfy)$.  Solving the instance $\dot \calI$ using the
-    $1.7245$-approximation algorithm for FTFL by Byrka {\etal}.
-  \end{proof}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{Improve from $1.7245$ to $1.575$-approximation}
-  \begin{itemize}
-  \item We have shown that FTFP can be reduced to FTFL while
-    preserving the approximation ratio.
-  \item Next step is to show FTFP can be approximated with a better
-    ratio than FTFL.
-  \item Simple case is when all $r_j$'s are equal, then we can apply
-    any UFL approximation results to FTFP as the uniform FTFP is
-    simply a scaled version of UFL.
-  \item For general FTFP, we need \emph{Adaptive Partition}.
-  \end{itemize}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{Adaptive Partition} 
-
-  Given an instance of FTFP, with its fractional optimal solution
-  $(\bfx^\ast, \bfy^\ast)$, w.l.o.g. we assume \emph{completeness},
-  i.e. $x_{ij}^\ast > 0$ implies $x_{ij} ^\ast = y_i^\ast$.  Then we
-  can partition the instance into unit demands and facilities, with
-  fractional solution $(\barbfx, \barbfy)$ such that
-  \begin{itemize}
-  \item $x_{ij}^\ast$ is spread among its demands.
-  \item $y_i^\ast$ is spread among its facilities.
-  \item Each demand $\nu$ has a neighborhood $\wbarN(\nu)$ with total
-    connection value of $1$.
-  \item Primary demands have a smaller cost than non-primary demands
-    assigned to them.
-  \item Neighborhood $\wbarN(\nu)$ overlaps with $\wbarN(\kappa)$ and
-    disjoint from $\wbarN(\nu')$ and $\wbarN(\kappa')$ (for
-    fault-tolerant requirement).
-  \end{itemize}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{An Example of Adaptive Partition}
-  The instance has 4 sites and 4 clients.\\
-  Only $d_{ij}=1$ edges are shown.
-  \hspace{10cm}
-  \usetikzlibrary{backgrounds}
-  \begin{tikzpicture}[scale=0.5, show background rectangle]
-    \node[fill=blue!50] (fac1) at (0,0) {$f_1$};
-    \node[fill=blue!50] (fac2) at (0,3) {$f_2$};
-    \node[fill=blue!50] (fac3) at (0,6) {$f_3$};
-    \node[fill=blue!50] (fac4) at (0,9) {$f_4$};
-
-    \node[left] (cost1) at (-1,0) {$f_1=1$};
-    \node[left] (cost2) at (-1,3) {$f_2=1$};
-    \node[left] (cost3) at (-1,6) {$f_3=1$};
-    \node[left] (cost4) at (-1,9) {$f_4=1$};
-
-
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
-
-    \node[right] (demand1) at (7,0) {$r_1=1$};
-    \node[right] (demand2) at (7,3) {$r_2=2$};
-    \node[right] (demand3) at (7,6) {$r_3=2$};
-    \node[right] (demand4) at (7,9) {$r_4=2$};
-
-    \foreach \from/\to in {fac1/client2,fac1/client3,fac1/client4,fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
-    \draw (\from)--(\to);
-  \end{tikzpicture}
-
-\end{frame}
-%%%
-\begin{frame}
-  \frametitle{The Fractional Optimal Solution}
-  \begin{table}
-    \begin{subtable}{0.5\textwidth}
-      \centering
-      \begin{tabular}{c | c c c c}
-        $y_i^\ast$ & 1 & 2 & 3 & 4\\
-        \hline
-        & 4/3 & 1/3 & 1/3 & 1/3\\
-      \end{tabular}
-      \subcaption{}
-    \end{subtable}
-%
-    \begin{subtable}{0.5\textwidth}
-      \centering
-      \begin{tabular}{c | c c c c}
-        $x_{ij}^\ast$ & $i=1$ & 2 & 3 & 4\\
-        \hline
-        $j=1$ & 0 & 1/3 & 1/3 & 1/3\\
-        2 & 4/3 & 0 & 1/3 & 1/3\\
-        3 & 4/3 & 1/3 & 0 & 1/3\\
-        4 & 4/3 & 1/3 & 1/3 & 0\\
-      \end{tabular}
-      \subcaption{}
-    \end{subtable}
-    \caption{An optimal fractional solution to the FTFP instance.}
-\end{table}
-
-The dual solution has all $\alpha_j^\ast = 4/3$.
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{Phase 1: Iteration 1} 
-
-  Choose client 1 and create a primary demand $\kappa_{11}$. Each of
-  client 2,3,4 creates a demand and assigned to $\kappa_{11}$.
-
-  %%%%%%%
-  \begin{minipage}{.45\textwidth}
-  \begin{table}
-  \begin{subtable}{1\textwidth}
-    \centering
-    \begin{tabular}{c | c c c c}
-      $\bary$ & 1 & 2 & 3 & 4\\
-      \hline
-      & 1/3 & 1/3 & 1/3 & 1/3\\
-    \end{tabular}
-  \end{subtable}
-%
-  \begin{subtable}{1\textwidth}
-    \centering
-    \begin{tabular}{c | c c c c}
-      $\barx$ & 1 & 2 & 3 & 4\\
-      \hline
-      1 & 0 & 1/3 & 1/3 & 1/3\\
-      2 & 0 & 0 & 1/3 & 1/3\\
-      3 & 0 & 1/3 & 0 & 1/3\\
-      4 & 0 & 1/3 & 1/3 & 0\\
-    \end{tabular}
-  \end{subtable}
-\end{table}
-  \end{minipage}
-  \begin{minipage}{.45\textwidth}
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{11}$};
-    \node[fill=blue!50] (fac2) at (0,3) {$\mu_{21}$};
-    \node[fill=blue!50] (fac3) at (0,6) {$\mu_{31}$};
-    \node[fill=blue!50] (fac4) at (0,9) {$\mu_{41}$};
-
-    \node[circle,fill=green!50] (client1) at (6,0) {$\kappa_{11}$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{21}$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{31}$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
-
-    \foreach \from/\to in
-    {fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1,fac3/client2,fac4/client1,fac4/client2,fac4/client3}
-    \draw (\from)--(\to);
-  \end{tikzpicture}
-  \end{minipage}
-  %%%%%%%%%% 
-\end{frame}
-
-
-\begin{frame}
-  \frametitle{Phase 1: Iteration 2}
-
-  Choose client 4 and create a primary demand $\kappa_{42}$. Each of
-  client 2,3 creates a demand and assigned to $\kappa_{42}$.
-
-  %%%%%%%
-  \begin{minipage}{.45\linewidth}
-  \begin{table}
-  \begin{subtable}{1\textwidth}
-    \centering
-    \begin{tabular}{c | c c c c}
-      $\bary$ & 1 & 2 & 3 & 4\\
-      \hline
-      & 1 &  &  & \\
-    \end{tabular}
-  \end{subtable}
-%
-  \begin{subtable}{1\textwidth}
-    \centering
-    \begin{tabular}{c | c c c c}
-      $\barx$ & 1 & 2 & 3 & 4\\
-      \hline
-      2 & 1 & 0 & 0 & 0\\
-      3 & 1 & 0 & 0 & 0\\
-      4 & 1 & 0 & 0 & 0\\
-    \end{tabular}
-  \end{subtable}
-\end{table}
-  \end{minipage}
-  \begin{minipage}{.45\linewidth}
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{12}$};
-
-    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{22}$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{32}$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$\kappa_{42}$};
-
-    \foreach \from/\to in
-    {fac1/client2,fac1/client3,fac1/client4}
-    \draw (\from)--(\to);
-  \end{tikzpicture}
-  \end{minipage}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{Phase 2: Augment to Unit} 
-
-  Notice all demands have connection value $1$.
-
-  \begin{minipage}{.45\linewidth}
-  \begin{table}
-    \begin{subtable}{1\textwidth}
-      \centering
-      \begin{tabular}{c | c c c c}
-        $\barx$ & 1 & 2 & 3 & 4\\
-        \hline
-        1 & 0 & 1/3 & 1/3 & 1/3\\
-        2 & 1/3 & 0 & 1/3 & 1/3\\
-        3 & 1/3 & 1/3 & 0 & 1/3\\
-        4 & 1/3 & 1/3 & 1/3 & 0\\
-      \end{tabular}
-    \end{subtable}
-%
-    \begin{subtable}{1\textwidth}
-      \centering
-      \begin{tabular}{c | c c c c}
-        $\barx$ & 1 & 2 & 3 & 4\\
-        \hline
-        2 & 1 & 0 & 0 & 0\\
-        3 & 1 & 0 & 0 & 0\\
-        4 & 1 & 0 & 0 & 0\\
-      \end{tabular}
-    \end{subtable}
-  \end{table}
-\end{minipage}
-  \begin{minipage}{.45\linewidth}
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{11}$};
-    \node[fill=blue!50] (fac2) at (0,3) {$\mu_{21}$};
-    \node[fill=blue!50] (fac3) at (0,6) {$\mu_{31}$};
-    \node[fill=blue!50] (fac4) at (0,9) {$\mu_{41}$};
-
-    \node[circle,fill=green!50] (client1) at (6,0) {$\kappa_{11}$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{21}$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{31}$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
-
-    \foreach \from/\to in {fac1/client2,fac1/client3,fac1/client4,fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
-    \draw (\from)--(\to);
-
-    \node[fill=blue!75] (fac12) at (0,-2) {$\mu_{12}$};
-    \node[circle,fill=green!75] (client22) at (10,2) {$\nu_{22}$};
-    \node[circle,fill=green!75] (client32) at (10,5) {$\nu_{32}$};
-    \node[circle,fill=green!75] (client42) at (10,8) {$\kappa_{42}$};
-
-    \foreach \to in {client22,client32,client42}
-    \draw (fac12)--(\to);
-  \end{tikzpicture}
-  \end{minipage}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{$3$-approximation Algorithm}
-  \begin{itemize}
-  \item Each primary demand open $\mu\in \wbarN(\kappa)$ with probability
-    $\bary_{\mu}$.
-  \item Each primary demand connects to the only open facility
-    $\phi(\kappa)$ in $\wbarN(\kappa)$.
-  \item Each non-primary demand connects to $\phi(\kappa)$.
-  \item Expected facility cost at most $F^\ast$.
-  \item Expected connection cost at most $C^\ast + 2\;\LP^\ast$.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{$1.736$-approximation Algorithm}
-  \begin{itemize}
-  \item Improve connection cost estimate: For non-primary demands use
-    $\mu$ in $\wbarN(\nu)$ if one is open.
-  \item Expected facility cost at most $F^\ast$.
-  \item Expected connection cost at most $C^\ast + 2/e\;\LP^\ast$.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{$1.575$-approximation}
-  \begin{itemize}
-  \item Need a more refined partition to deal with close and far
-    neighborhood.
-  \item $\wbarN_{\cls}(\nu)$ has total connection value $1/\gamma$.
-  \item $\wbarN_{\far}(\nu)$ has total connection value $1-1/\gamma$.
-  \item Assignment implies overlap of $\wbarN_{\cls}$ of $\nu$ and
-    $\kappa$.
-  \item Expected facility cost at most $\gamma F^\ast$.
-  \item Expected connection cost at most
-    $\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+2/e^\gamma\}\; C^\ast$.
-  \item Ratio is $\max\{\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma},
-    1+2/e^\gamma\}$, for $\gamma=1.575$ the ratio is $1.575$.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Primal-dual Algorithms}
-  \begin{itemize}
-  \item A Simple $O((\log R/\log\log R)^2)$ Algorithm.
-  \item Greedy Algorithm with Dual-fitting Analysis.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{A Simple $O((\log R/\log\log R)^2)$ Algorithm}
-  \begin{itemize}
-  \item Let $r_1,\ldots, r_n$ be demands of the $n$ clients.
-  \item Group clients by $[k^{l-1}+1,\; k^l]$ for $k$ such that $k^k = R =
-    \max_j r_j$.
-  \item Solve each group by treating each client with
-    $r_j=k^l$.
-  \item Combine all solution to each group to obtain final integral
-    solution.
-  \end{itemize}
-  \begin{tikzpicture}[scale=0.8]
-    \draw (0,0) ellipse (1.2 and 2);
-    \draw (0,1.2) node {$1$};
-    \draw (0,.3) node {$2$};
-    \draw (0,-1.5) node {$k$};
-
-    \draw (3,0) ellipse (1.2 and 2);
-    \draw (3,1.2) node {$k+1$};
-    \draw (3,.3) node {$k+2$};
-    \draw (3,-1.5) node {$k^2$};
-    
-    \draw (6,0) ellipse (1.2 and 2);
-    \draw (6,1.2) node {$k^2+1$};
-    \draw (6,.3) node {$k^2+2$};
-    \draw (6,-1.5) node {$k^3$};
-
-    \draw (11,0) ellipse (1.2 and 2);
-    \draw (11,1.2) node {$k^{k-1}+1$};
-    \draw (11,.3) node {$k^{k-1}+2$};
-    \draw (11,-1.5) node {$k^k$};
-  \end{tikzpicture}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Performance Analysis}
-  \begin{theorem}
-    There is a primal-dual $O((\log R /\log\log R)^2)$-approximation
-    algorithm for FTFP.
-  \end{theorem}
-  \begin{proof}
-    \begin{itemize}
-    \item Solving each group individually, by treating it as uniform
-      demand instance with all $r_j = k^l$ for the $l^{th}$ group. We
-      pay a factor of $k$ for each group, since each $r_j$ is within a
-      factor of $k$ of $k^l$.
-    \item When combining solutions, we pay a factor of $k$ since each
-      facility can be over counted at most $k$ times. Notice we have
-      $k$ groups because $k^k = R$.
-    \end{itemize}
-  \end{proof}
-\end{frame}
-
-\begin{frame}
-  \frametitle{The Greedy Algorithm}
-  \begin{itemize}
-  \item Repeatedly picking the star with minimum average cost.
-  \item A star is a facility $i$ and a set of clients $S$.
-  \item Average cost is $ (f_i + \sum_{j\in S} d_{ij}) / |S|$.
-  \end{itemize}
-  \begin{tikzpicture}[rotate=-90]
-    \node[fill=blue!50,minimum size=.5cm] (fac) at (0,2) {$i$};
-    \node[circle,fill=green!50,minimum size=.6cm] (c1) at (2,0) {};
-    \node[circle,fill=green!50,minimum size=.6cm] (c2) at (2,1) {};
-    \node[circle,fill=green!50,minimum size=.6cm] (c3) at (2,2) {};
-    \node[circle,fill=green!50,minimum size=.6cm] (c4) at (2,4) {};
-    \draw[style=dashed] (2,2) ellipse (1 and 4);
-    \foreach \to in {c1,c2,c3,c4}
-    \draw (fac)--(\to);
-    \node (s) at (2,-1) {$S$};
-  \end{tikzpicture}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Performance Analysis of Greedy}
-  \begin{itemize}
-  \item Runs in polynomial time as the best star remains best until
-    exhausted so can combine iterations into phases.
-  \item $O(H_n)$-approximation by dual-fitting analysis.
-  \item Open question: Is it $O(1)$-approximation?
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Summary} We studied the fault-tolerant facility
-  placement problem (FTFP) on approximation algorithms.
-
-  \begin{itemize}
-  \item Known results (or work done)
-    \begin{itemize}
-    \item LP-rounding algorithms achieve a best ratio of $1.575$,
-      matching the best LP-based ratio for its special case, UFL.
-    \item Primal-dual algorithms achieve $O(\log R/\log\log R)$,
-      better than the $O(\log R)$ ratio for primal-dual algorithm for
-      FTFL.
-    \item The greedy algorithm has ratio no more than $O(H_n)$.
-  \end{itemize}
-  \item Work in progress:
-    Resolve whether Greedy is $O(1)$-approximation or not.
-  \end{itemize}
-\end{frame}
-%%%%%%%%%%
-
-\begin{frame}
-  \frametitle{Publications}
-  \begin{itemize}
-  \item Li Yan, Marek Chrobak: LP-rounding Algorithms for the
-    Fault-Tolerant Facility Placement Problem, in CIAC 2013.
-  \item Li Yan, Marek Chrobak: Approximation algorithms
-    for the Fault-Tolerant Facility Placement
-    problem. Inf. Process. Lett. 111(11): 545-549 (2011).
-  \item Francis Chin, Marek Chrobak and Li Yan, Algorithms for Placing
-    Monitors in a Flow Network, Algorithmica.
-  \item Francis Y. L. Chin, Marek Chrobak, Li Yan: Algorithms for Placing Monitors in a Flow Network. in AAIM 2009: 114-128.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{END}
-\end{frame}
+%%    \begin{subtable}{1\textwidth}
+%%      \centering
+%%      \begin{tabular}{c | c c c c}
+%%        $\barx$ & 1 & 2 & 3 & 4\\
+%%        \hline
+%%        2 & 1 & 0 & 0 & 0\\
+%%        3 & 1 & 0 & 0 & 0\\
+%%        4 & 1 & 0 & 0 & 0\\
+%%      \end{tabular}
+%%    \end{subtable}
+%%  \end{table}
+%%\end{minipage}
+%%  \begin{minipage}{.45\linewidth}
+%%  \begin{tikzpicture}[scale=0.5]
+%%    \node[fill=blue!50] (fac1) at (0,0) {$\mu_{11}$};
+%%    \node[fill=blue!50] (fac2) at (0,3) {$\mu_{21}$};
+%%    \node[fill=blue!50] (fac3) at (0,6) {$\mu_{31}$};
+%%    \node[fill=blue!50] (fac4) at (0,9) {$\mu_{41}$};
+%%
+%%    \node[circle,fill=green!50] (client1) at (6,0) {$\kappa_{11}$};
+%%    \node[circle,fill=green!50] (client2) at (6,3) {$\nu_{21}$};
+%%    \node[circle,fill=green!50] (client3) at (6,6) {$\nu_{31}$};
+%%    \node[circle,fill=green!50] (client4) at (6,9) {$\nu_{41}$};
+%%
+%%    \foreach \from/\to in {fac1/client2,fac1/client3,fac1/client4,fac2/client3,fac2/client4,fac2/client1,fac3/client4,fac3/client1/fac3/client2,fac4/client1,fac4/client2/fac4/client3}
+%%    \draw (\from)--(\to);
+%%
+%%    \node[fill=blue!75] (fac12) at (0,-2) {$\mu_{12}$};
+%%    \node[circle,fill=green!75] (client22) at (10,2) {$\nu_{22}$};
+%%    \node[circle,fill=green!75] (client32) at (10,5) {$\nu_{32}$};
+%%    \node[circle,fill=green!75] (client42) at (10,8) {$\kappa_{42}$};
+%%
+%%    \foreach \to in {client22,client32,client42}
+%%    \draw (fac12)--(\to);
+%%  \end{tikzpicture}
+%%  \end{minipage}
+%%
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{$3$-approximation Algorithm}
+%%  \begin{itemize}
+%%  \item Each primary demand open $\mu\in \wbarN(\kappa)$ with probability
+%%    $\bary_{\mu}$.
+%%  \item Each primary demand connects to the only open facility
+%%    $\phi(\kappa)$ in $\wbarN(\kappa)$.
+%%  \item Each non-primary demand connects to $\phi(\kappa)$.
+%%  \item Expected facility cost at most $F^\ast$.
+%%  \item Expected connection cost at most $C^\ast + 2\;\LP^\ast$.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{$1.736$-approximation Algorithm}
+%%  \begin{itemize}
+%%  \item Improve connection cost estimate: For non-primary demands use
+%%    $\mu$ in $\wbarN(\nu)$ if one is open.
+%%  \item Expected facility cost at most $F^\ast$.
+%%  \item Expected connection cost at most $C^\ast + 2/e\;\LP^\ast$.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{$1.575$-approximation}
+%%  \begin{itemize}
+%%  \item Need a more refined partition to deal with close and far
+%%    neighborhood.
+%%  \item $\wbarN_{\cls}(\nu)$ has total connection value $1/\gamma$.
+%%  \item $\wbarN_{\far}(\nu)$ has total connection value $1-1/\gamma$.
+%%  \item Assignment implies overlap of $\wbarN_{\cls}$ of $\nu$ and
+%%    $\kappa$.
+%%  \item Expected facility cost at most $\gamma F^\ast$.
+%%  \item Expected connection cost at most
+%%    $\max\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1+2/e^\gamma\}\; C^\ast$.
+%%  \item Ratio is $\max\{\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma},
+%%    1+2/e^\gamma\}$, for $\gamma=1.575$ the ratio is $1.575$.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Primal-dual Algorithms}
+%%  \begin{itemize}
+%%  \item A Simple $O((\log R/\log\log R)^2)$ Algorithm.
+%%  \item Greedy Algorithm with Dual-fitting Analysis.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{A Simple $O((\log R/\log\log R)^2)$ Algorithm}
+%%  \begin{itemize}
+%%  \item Let $r_1,\ldots, r_n$ be demands of the $n$ clients.
+%%  \item Group clients by $[k^{l-1}+1,\; k^l]$ for $k$ such that $k^k = R =
+%%    \max_j r_j$.
+%%  \item Solve each group by treating each client with
+%%    $r_j=k^l$.
+%%  \item Combine all solution to each group to obtain final integral
+%%    solution.
+%%  \end{itemize}
+%%  \begin{tikzpicture}[scale=0.8]
+%%    \draw (0,0) ellipse (1.2 and 2);
+%%    \draw (0,1.2) node {$1$};
+%%    \draw (0,.3) node {$2$};
+%%    \draw (0,-1.5) node {$k$};
+%%
+%%    \draw (3,0) ellipse (1.2 and 2);
+%%    \draw (3,1.2) node {$k+1$};
+%%    \draw (3,.3) node {$k+2$};
+%%    \draw (3,-1.5) node {$k^2$};
+%%    
+%%    \draw (6,0) ellipse (1.2 and 2);
+%%    \draw (6,1.2) node {$k^2+1$};
+%%    \draw (6,.3) node {$k^2+2$};
+%%    \draw (6,-1.5) node {$k^3$};
+%%
+%%    \draw (11,0) ellipse (1.2 and 2);
+%%    \draw (11,1.2) node {$k^{k-1}+1$};
+%%    \draw (11,.3) node {$k^{k-1}+2$};
+%%    \draw (11,-1.5) node {$k^k$};
+%%  \end{tikzpicture}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Performance Analysis}
+%%  \begin{theorem}
+%%    There is a primal-dual $O((\log R /\log\log R)^2)$-approximation
+%%    algorithm for FTFP.
+%%  \end{theorem}
+%%  \begin{proof}
+%%    \begin{itemize}
+%%    \item Solving each group individually, by treating it as uniform
+%%      demand instance with all $r_j = k^l$ for the $l^{th}$ group. We
+%%      pay a factor of $k$ for each group, since each $r_j$ is within a
+%%      factor of $k$ of $k^l$.
+%%    \item When combining solutions, we pay a factor of $k$ since each
+%%      facility can be over counted at most $k$ times. Notice we have
+%%      $k$ groups because $k^k = R$.
+%%    \end{itemize}
+%%  \end{proof}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{The Greedy Algorithm}
+%%  \begin{itemize}
+%%  \item Repeatedly picking the star with minimum average cost.
+%%  \item A star is a facility $i$ and a set of clients $S$.
+%%  \item Average cost is $ (f_i + \sum_{j\in S} d_{ij}) / |S|$.
+%%  \end{itemize}
+%%  \begin{tikzpicture}[rotate=-90]
+%%    \node[fill=blue!50,minimum size=.5cm] (fac) at (0,2) {$i$};
+%%    \node[circle,fill=green!50,minimum size=.6cm] (c1) at (2,0) {};
+%%    \node[circle,fill=green!50,minimum size=.6cm] (c2) at (2,1) {};
+%%    \node[circle,fill=green!50,minimum size=.6cm] (c3) at (2,2) {};
+%%    \node[circle,fill=green!50,minimum size=.6cm] (c4) at (2,4) {};
+%%    \draw[style=dashed] (2,2) ellipse (1 and 4);
+%%    \foreach \to in {c1,c2,c3,c4}
+%%    \draw (fac)--(\to);
+%%    \node (s) at (2,-1) {$S$};
+%%  \end{tikzpicture}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Performance Analysis of Greedy}
+%%  \begin{itemize}
+%%  \item Runs in polynomial time as the best star remains best until
+%%    exhausted so can combine iterations into phases.
+%%  \item $O(H_n)$-approximation by dual-fitting analysis.
+%%  \item Open question: Is it $O(1)$-approximation?
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Summary} We studied the fault-tolerant facility
+%%  placement problem (FTFP) on approximation algorithms.
+%%
+%%  \begin{itemize}
+%%  \item Known results (or work done)
+%%    \begin{itemize}
+%%    \item LP-rounding algorithms achieve a best ratio of $1.575$,
+%%      matching the best LP-based ratio for its special case, UFL.
+%%    \item Primal-dual algorithms achieve $O(\log R/\log\log R)$,
+%%      better than the $O(\log R)$ ratio for primal-dual algorithm for
+%%      FTFL.
+%%    \item The greedy algorithm has ratio no more than $O(H_n)$.
+%%  \end{itemize}
+%%  \item Work in progress:
+%%    Resolve whether Greedy is $O(1)$-approximation or not.
+%%  \end{itemize}
+%%\end{frame}
+%%%%%%%%%%%%
+%%
+%%\begin{frame}
+%%  \frametitle{Publications}
+%%  \begin{itemize}
+%%  \item Li Yan, Marek Chrobak: LP-rounding Algorithms for the
+%%    Fault-Tolerant Facility Placement Problem, in CIAC 2013.
+%%  \item Li Yan, Marek Chrobak: Approximation algorithms
+%%    for the Fault-Tolerant Facility Placement
+%%    problem. Inf. Process. Lett. 111(11): 545-549 (2011).
+%%  \item Francis Chin, Marek Chrobak and Li Yan, Algorithms for Placing
+%%    Monitors in a Flow Network, Algorithmica.
+%%  \item Francis Y. L. Chin, Marek Chrobak, Li Yan: Algorithms for Placing Monitors in a Flow Network. in AAIM 2009: 114-128.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{END}
+%%\end{frame}
 \end{document}
 
 %  LocalWords:  Uncapacitated UFL FTFL FTFP Combinatorial fac Byrka
