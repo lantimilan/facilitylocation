@@ -316,6 +316,11 @@
     fractional solution's cost, then we have a $\rho$-approximation
     algorithm for the general FTFP problem.
   \end{theorem}
+
+  \begin{corollary}
+    Using $1.7245$-approximation algorithm for FTFL, can have a
+    $1.7245$-approximation algorithm for FTFP.
+  \end{corollary}
 \end{frame}
 
 \begin{frame}
@@ -341,6 +346,10 @@
         with a low cost.
       \end{itemize}
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Animation of Partition}
 \end{frame}
 
 %%% partition example
@@ -421,8 +430,108 @@
       
   After Partition
 \end{minipage}
-
 \end{frame}
+
+%%%
+\begin{frame}
+  \frametitle{Properties of Partition}
+  Properties
+  \begin{itemize}
+  \item Each demand $\nu$ assigned to a primary demand $\kappa$ with
+    overlapping $\wbarN(\nu)$ and $\wbarN(\kappa)$.
+  \item For sibling demands $\nu_1$ and $\nu_2$, $\wbarN(\nu_1) \cup
+    \wbarN(\kappa_1)$ is disjoint from $\wbarN(\nu_2) \cup
+    \wbarN(\kappa_2)$.
+  \item For a certain cost specified by the approximation algorithm,
+    $\kappa$ always have a lower cost compared to the assigned $\nu$.
+  \end{itemize}
+
+  Implication
+  \begin{itemize}
+  \item The fractional solution can be rounded to a fault-tolerant
+    integral solution.
+  \item The cost of the integral solution can be approximated.
+  \end{itemize}
+\end{frame}
+
+%%% 3-approx
+\begin{frame}
+  \frametitle{A $3$-approximation Algorithm}
+  Given $(\barbfx,\barbfy)$, rounded by
+  \begin{itemize}
+  \item For each primary $\kappa$, choose facility $\mu$ in
+    neighborhood with probability $\bary_{\mu}$.
+  \item For each non-primary $\nu$, connects to $\phi(\kappa)$, the
+    facility chosen in the primary's neighborhood.
+  \end{itemize}
+
+  The rounded solution satisfies fault-tolerant requirement.
+
+  The rounded solution has cost at most $3\LP^\ast$.
+  \begin{itemize}
+  \item Facility cost is at most $F^\ast$.
+  \item For each demand $\nu$, connection cost is at most $\sum_{\mu
+      \in \wbarN(\nu)} d_{\mu\nu} \barx_{\mu\nu} + 2\alpha_{\nu}^\ast$.
+  \end{itemize}
+\end{frame}
+
+%%% 1+2/e approx
+\begin{frame}
+  \frametitle{A $1.736$-approximation Algorithm} 
+
+  \begin{itemize}
+  \item Change in rounding: 
+    \begin{itemize}
+    \item For facilities $\mu$ not in any $\wbarN(\kappa)$, round
+      indedendently.
+    \item each non-primary $\nu$ uses nearest neighboring facility if
+      one is open, else use $\phi(\kappa)$.
+    \end{itemize}
+  \item
+  The expected connection cost for $\nu$ now reduced to $\sum_{\mu
+      \in \wbarN(\nu)} d_{\mu\nu} \barx_{\mu\nu} + 2/e\cdot
+    \alpha_{\nu}^\ast$.
+  \end{itemize}
+\end{frame}
+
+%%% 1.575-approx
+\begin{frame}
+  \frametitle{Refined Partition for $1.575$-approximation}
+  Properties
+  \begin{itemize}
+  \item $\wbarN(\nu)$ consists of $\wbarclsnb(\nu)$ and
+    $\wbarfarnb(\nu)$ and they are disjoint.
+  \item $\wbarclsnb(\nu)$ overlaps with $\wbarclsnb(\kappa)$.
+  \item For siblings $\nu_1, \nu_2$, $\wbarclsnb(\kappa_1) \cup
+    \wbarN(\nu_1)$ disjoint from $\wbarclsnb(\kappa_2) \cup
+    \wbarN(\nu_2)$.
+  \item cost of $\kappa$ is smaller than cost of $\nu$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Construction of Partition}
+  \begin{itemize}
+  \item Allocation.
+  \item Augmentation.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{$1.575$-approximation}
+
+  \begin{itemize}
+  \item Use Byrka's rounding.
+  \item $\nu$ uses only facilities in $\wbarN(\nu) \cup
+    \wbarclsnb(\kappa)$. Thus no two sibling conflict.
+  \item Cost analysis is similar to Byrka's for UFL.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \Huge{The End.}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% legacy slides
