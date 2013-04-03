@@ -1,4 +1,4 @@
-% ftfp_proposal.tex
+% ciac_ftfp.tex
 \def\handout{0}
 \def\notes{0}
 \ifnum\handout=1
@@ -416,23 +416,26 @@
 \begin{frame}
   \frametitle{Phase 1, Step 3}
   \begin{tikzpicture}
-  \draw (1,1) ellipse (1.5cm and 2.5cm);
+  \draw[fill=green!50] (1,1) ellipse (1.5cm and 2.5cm);
   \node (client) at (-1,0) {$\wtildeN(p)$};
 
+  \draw[fill=yellow!50] (1.2,1.5) ellipse (.7cm and 1.4cm);
+  \node (prefix) at (1.3,.7) {$\wbarN_1(p)$};
+
   \draw (1,3) ellipse (1cm and 2cm);
-  \node (primary) at (-1,3) {$\wbarN(\kappa)$};
-  
+  \node (primary) at (-.5,4) {$\wbarN(\kappa)$};
+
   \draw (7,1) ellipse (2cm and 1cm);
   \node (demand) at (7,-.5) {$\wbarN(\nu)$};
 
   %% fac
   \draw[fill=blue!50] (1.2,2) rectangle (1.7,2.5);
-  \draw[fill=blue!50] (.5,2.5) rectangle (1,3);
-  \draw[fill=blue!50] (.4,1.5) rectangle (.9,2);
+  \draw[fill=blue!50] (.4,2.8) rectangle (.9,3.3);
+  \draw[fill=blue!50] (.6,1.5) rectangle (1.1,2);
 
-  \draw (1.7,2) -- (7,1);
-  \draw (1,3) -- (7,1);
-  \draw (.9,1.5) -- (7,1);
+  \draw [->,>=latex] (1.7,2) -- (7,1);
+  \draw [->,>=latex] (1,3) -- (7,1.5);
+  \draw [->,>=latex] (.9,1.5) -- (7,.5);
   \end{tikzpicture}
 
 \end{frame}
