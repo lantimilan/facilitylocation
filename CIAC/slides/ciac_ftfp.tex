@@ -62,6 +62,62 @@
   \end{enumerate}
 \end{frame}
 
+%%% problem example
+\begin{frame}
+  \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
+
+  \begin{minipage}{.45\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+
+    \node[right] (demand1) at (6,-1) {$r_1=2$};
+    \node[right] (demand2) at (6,2) {$r_2=1$};
+    \node[right] (demand3) at (6,5) {$r_3=1$};
+    \node[right] (demand4) at (6,8) {$r_4=4$};
+    
+    \node (label1) at (3,-3) {Instance};
+  \end{tikzpicture}
+  
+  \end{minipage}
+  \begin{minipage}{.45\linewidth}
+    \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,2) {$f_1$};
+    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,1.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,2.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,2.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,5.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,7.5) {};
+
+    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    
+    \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
+        \draw (\from)--(\to);
+
+    \node (label2) at (2,-3) {Solution};
+  \end{tikzpicture}
+
+\end{minipage}
+\vspace{.5cm}
+
+    Cost is $3f_1 + 2f_2 + f_3 + 2d_{21} + d_{32} + d_{33} + 3d_{14} +
+    d_{24}$.
+\end{frame}
+
 %%% problem definition
 \begin{frame}
   \frametitle{The Fault-Tolerant Facility Placement Problem (FTFP)}
@@ -121,13 +177,13 @@
     \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
     \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
 
-    \node[right] (demand1) at (7,0) {$r_1=1$};
-    \node[right] (demand2) at (7,3) {$r_2=1$};
-    \node[right] (demand3) at (7,6) {$r_3=1$};
-    \node[right] (demand4) at (7,9) {$r_4=1$};
+    \node[right] (demand1) at (6,-1) {$r_1=1$};
+    \node[right] (demand2) at (6,2) {$r_2=1$};
+    \node[right] (demand3) at (6,5) {$r_3=1$};
+    \node[right] (demand4) at (6,8) {$r_4=1$};
     
+    \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
-  Instance
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -142,9 +198,9 @@
 
     \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
         \draw (\from)--(\to);
-  \end{tikzpicture}
 
-  Solution
+    \node (label2) at (3,-3) {Solution};
+  \end{tikzpicture}
   \end{minipage}
 
 \end{frame}
@@ -165,13 +221,13 @@
     \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
     \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
 
-    \node[right] (demand1) at (7,0) {$r_1=2$};
-    \node[right] (demand2) at (7,3) {$r_2=1$};
-    \node[right] (demand3) at (7,6) {$r_3=1$};
-    \node[right] (demand4) at (7,9) {$r_4=2$};
-    
+    \node[right] (demand1) at (6,-1) {$r_1=2$};
+    \node[right] (demand2) at (6,2) {$r_2=1$};
+    \node[right] (demand3) at (6,5) {$r_3=1$};
+    \node[right] (demand4) at (6,8) {$r_4=2$};
+
+    \node (label1) at (3,-3) {Instance};    
   \end{tikzpicture}
-  Instance
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -186,9 +242,9 @@
     
     \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
         \draw (\from)--(\to);
-  \end{tikzpicture}
 
-  Solution
+        \node (label2) at (3,-3) {Solution};
+  \end{tikzpicture}
   \end{minipage}
 
 \end{frame}
@@ -209,14 +265,14 @@
     \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
     \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
 
-    \node[right] (demand1) at (7,0) {$r_1=2$};
-    \node[right] (demand2) at (7,3) {$r_2=1$};
-    \node[right] (demand3) at (7,6) {$r_3=1$};
-    \node[right] (demand4) at (7,9) {$r_4=4$};
-  
+    \node[right] (demand1) at (6,-1) {$r_1=2$};
+    \node[right] (demand2) at (6,2) {$r_2=1$};
+    \node[right] (demand3) at (6,5) {$r_3=1$};
+    \node[right] (demand4) at (6,8) {$r_4=4$};
+    
+    \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
   
-  Instance
   \end{minipage}
   \begin{minipage}{.45\linewidth}
     \begin{tikzpicture}[scale=0.5]
@@ -239,10 +295,10 @@
     
     \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
         \draw (\from)--(\to);
-      \end{tikzpicture}
-      
-      Solution
-    \end{minipage}
+
+    \node (label2) at (2,-3) {Solution};
+  \end{tikzpicture}
+\end{minipage}
 \end{frame}
 
 %%%
