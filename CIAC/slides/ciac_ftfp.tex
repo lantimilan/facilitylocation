@@ -466,23 +466,71 @@
 
   \begin{itemize}
   \item Case 1: $\wtildeN_1(p)$ is disjoint from every exisiting
-    $\wbarN(\kappa)$, then
-    \begin{equation*}
-      \wbarN(\nu) \assign \wtildeN_1(p) \text{ and }
-      \wtildeN(p) \assign \wtildeN(p) \setminus \wtildeN_1(p).
-    \end{equation*}
+    $\wbarN(\kappa)$.
+    \begin{tikzpicture}
+    \draw (0,0) ellipse (2cm and 1cm);
+    \draw (5,0) ellipse (2cm and 1cm);
+    \node (text1) at (0,-1.5) {$\wtildeN_1(p)$};
+    \node (text2) at (5,-1.5) {$\wbarN(\kappa)$};
+    \end{tikzpicture}
+
   \item Case 2: $\wtildeN_1(p)$ overlaps with some $\wbarN(\kappa)$.
   \end{itemize}
 
-  \vspace{1cm}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}
+    \draw (3,0) ellipse (2cm and 1cm);
+    \draw (5.5,0) ellipse (2cm and 1cm);
+    \node (text1) at (3,-1.5) {$\wtildeN_1(p)$};
+    \node (text2) at (5.5,-1.5) {$\wbarN(\kappa)$};
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+%%% make a new primary
+\begin{frame}
+  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
+
   \begin{tikzpicture}
-    \draw (0,0) ellipse (2cm and 1cm);
-    \draw (2.5,0) ellipse (2cm and 1cm);
-    \node (text1) at (0,-1.5) {$\wtildeN_1(p)$};
-    \node (text2) at (3,-1.5) {$\wbarN(\kappa)$};
+    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
+    \node[right] at (0,-3) {$\wtildeN(p)$};
+    
+    \draw[fill=yellow!50] (-1,0) ellipse (1cm and 2cm);
+    \node[above] at (-1,-1) {$\wtildeN_1(p)$};
+    
+    \draw[fill=blue!50] (-1,1.2) rectangle (-.5,1.7);
+    \draw[fill=blue!50] (-1.5,.4) rectangle (-1,.9);
+    \draw[fill=blue!50] (-1,-.2) rectangle (-.5,.3);
+
+    \draw (5,0) ellipse (1cm and 2cm);
+    \node[right] at (6,0) {$\wbarN(\nu)$};
   \end{tikzpicture}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
+
+  All facilities in $\wtildeN_1(p)$ moved to $\wbarN(\nu)$.
+  
+  \vspace{1cm}
+  \begin{tikzpicture}
+    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
+    \node[right] at (0,-3) {$\wtildeN(p)$};
+    
+    \draw[fill=white] (-1,0) ellipse (1cm and 2cm);
+    
+    \draw[fill=yellow!50] (5,0) ellipse (1cm and 2cm);
+    \node[right] at (6,0) {$\wbarN(\nu)$};
+
+    \draw[fill=blue!50] (5,1.2) rectangle (5.5,1.7);
+    \draw[fill=blue!50] (4.5,.4) rectangle (5,.9);
+    \draw[fill=blue!50] (5,-.2) rectangle (5.5,.3);
+
+  \end{tikzpicture}
+\end{frame}
+
+%%% intersect with a primary
 \begin{frame}
   \frametitle{Phase 1, Step 2 (Cont. Case 2)}
 
