@@ -382,7 +382,7 @@
   \end{itemize}
 \end{frame}
 
-%%%
+%%% demand reduction
 \begin{frame}
   \frametitle{Demand Reduction}
   \begin{itemize}
@@ -399,6 +399,38 @@
   \begin{claim}
     $\dot r_j \leq |\sitesset|$ for all clients $j$ in $\dot \calI$.
   \end{claim}
+\end{frame}
+
+%%% figure for demand reduction
+\begin{frame}
+  \frametitle{Diagram for Demand Reduction}
+  \begin{tikzpicture}
+    \draw (0,0) ellipse (1cm and 2cm);
+    \node (lpsoln) at (0,0) {$(x_{ij}^\ast, y_{i}^\ast)$};
+    \draw (3,2) ellipse (1cm and 1.6cm);
+    \node (intsoln) at (3,2) {$(\hatx_{ij}, \haty_{i})$};
+    \draw (3,-2) ellipse (1cm and 1.6cm);
+    \node (fracsoln) at (3,-2) {$\dotx_{ij}, \doty_{i}$};
+    \draw (8,2) ellipse (1.6cm and 1cm);
+    \node (intinst) at (8,2) {$\sitesset, \clientset, f_i, d_{ij}$};
+    \node (intinst1) at (8,1.5) {$\hatr_j = \sum_{i} \hatx_{ij}$};
+    \draw (8,-2) ellipse (1.6cm and 1cm);
+    \node (intinst) at (8,-2) {$\sitesset, \clientset, f_i, d_{ij}$};
+    \node (intinst1) at (8,-2.5) {$\dotr_j = r_j - \hatr_j$};
+
+    \draw[->,>=latex] (.9,1) -- (2,2);
+    \draw[->,>=latex] (.9,-1) -- (2,-2);
+    \draw[->,>=latex] (4,2) -- (6.4,2);
+    \draw[->,>=latex] (4,-2) -- (6.4,-2);
+    
+    \node[above] (prop11) at (5.2,2) {feasible};
+    \node[below] (prop12) at (5.2,2) {optimal};
+    \node[above] (prop21) at (5.2,-2) {feasible};
+    \node[below] (prop22) at (5.2,-2) {optimal};
+
+    \node[below] (inst1) at (8,.9) {instance $\hat \calI$};
+    \node[below] (inst2) at (8,-3) {instance $\dot \calI$};
+  \end{tikzpicture}
 \end{frame}
 
 %%%
