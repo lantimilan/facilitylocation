@@ -37,27 +37,31 @@
   \frametitle{Outline}
   \begin{enumerate}
   \item Introduction
-    \begin{itemize}
-    \item The problem definition
-    \item Main result
-    \end{itemize}
+
+  \item Problem Definition
+
   \item Related Work
     \begin{itemize}
     \item The Uncapacitated Facility Location problem (UFL)
     \item The Fault-tolerant Facility Location problem (FTFL)
     \item The Fault-tolerant Facility Placement problem (FTFP)
     \end{itemize}
+
+  \item General Approach
+
   \item Techniques
     \begin{itemize}
     \item Demand Reduction
     \item Adaptive Partition
     \end{itemize}
+
   \item Approximation Algorithms
       \begin{itemize}
         \item $3$-approximation
         \item $1.736$-approximation
         \item $1.575$-approximation
         \end{itemize}
+
   \item{Summary}
   \end{enumerate}
 \end{frame}
@@ -141,28 +145,18 @@
   $f_i y_i$ and connecting clients, sum of $d_{ij} x_{ij}$.
 \end{frame}
 
-%%% main result
-\begin{frame}
-  \frametitle{Main Result} An LP-rounding algorithm with approximation
-  ratio $1.575$.
-\end{frame}
-
 %%% related problem
 \begin{frame}
   \frametitle{Related Problems}
   \begin{itemize}
     \item The Uncapacitated Facility Location problem (UFL), all
-      $r_j=1$, best approximation ratio $1.488$ (Li'12).
-    \item The Fault-tolerant Facility Location problem (FTFL), all
-      $y_i \leq 1$, best approximation ratio $1.7245$ (Byrka \etal
-      '10).
-    \item The Fault-tolerant Facility Placement problem (FTFP), best
-      approxiamtion ratio $1.575$ (this paper), matching the best
-      known LP-based approximation ratio for UFL.
+      $r_j=1$.
+    \item The Fault-tolerant Facility Location problem (FTFL), each
+      site can have at most one facility.
   \end{itemize}
 \end{frame}
 
-%%%
+%%% UFL example
 \begin{frame}
   \frametitle{The Uncapacitated Facility Location Problem (UFL)}
   All demands are 1, each site can open only one facility.
@@ -205,7 +199,7 @@
 
 \end{frame}
 
-%%%
+%%% FTFL example
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Location Problem (FTFL)}
   Demands may be more than 1, each site can open only one facility.
@@ -249,7 +243,7 @@
 
 \end{frame}
 
-%%%
+%%% FTFP example
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
   Demands may be more than 1, each site can open multiple facilities.
@@ -301,7 +295,52 @@
 \end{minipage}
 \end{frame}
 
-%%%
+%%% related work
+\begin{frame}
+  \frametitle{Related Work}
+  \begin{itemize}
+  \item For the UFL problem,
+    \begin{itemize}
+    \item First $O(1)$-approximation result due to Shmoys, Tardos and
+      Aardal.
+    \item Best known approximation ratio $1.488$ due to Li, combining
+      Byrka's LP-rounding algorithm and Jain, Mahdian and Saberi's
+      greedy algorithm.
+    \end{itemize}
+  \item For the FTFL problem,
+    best known approximation ratio $1.7245$ due to Byrka, Srinivasan
+    and Swamy, using LP-rounding.
+  \end{itemize}
+\end{frame}
+%%% our results
+\begin{frame}
+  \frametitle{Our Result} 
+
+  For the FTFP problem, we show
+  \begin{itemize}
+  \item An LP-rounding algorithm with approximation ratio $1.575$.
+  \item A reduction from FTFP to FTFL.
+  \item Our approximation ratio for FTFP matches the best known
+    LP-based approximation ratio for UFL.
+  \end{itemize}
+\end{frame}
+
+%%% general approach
+\begin{frame}
+  \frametitle{General Approach}
+  \begin{itemize}
+  \item Generalize the LP-rounding algorithms to the FTFP problem with
+    fault-tolerant requirement.
+  \item Main techniques:
+    \begin{itemize}
+    \item Demand Reduction.
+    \item Adaptive Partition.
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+%%% LP-formulation
 \begin{frame}
   \frametitle{The LP Formulation for FTFP}
   \begin{itemize}
@@ -334,7 +373,7 @@
   %%%%%%%%%%%
 \end{frame}
 
-%%%
+%%% techniques
 \begin{frame}
   \frametitle{Techniques}
   \begin{itemize}
