@@ -150,8 +150,6 @@ Professor Neal Young}
 
 \end{frontmatter}
 
-%\part{First Part}
-
 %% ch1 intro
 \chapter{Introduction} \label{ch: intro}
 
@@ -402,35 +400,133 @@ is, $d_{ij}$'s are symmetric and satisfy the triangle inequality.
 We briefly mention the last piece of hardness result, which is the
 Guha-Khuller theorem that {\UFL} cannot be approximated to less than
 $1.463$ unless $\NP \subseteq \DTIME(n^{\log\log n})$.
-\textbf{****THIS MARKS THE TEXT OF THE TEMPLATE****}
 
-Every dissertation should have an introduction.  You might not realize
-it, but the introduction should introduce the concepts, backgrouand,
-and goals of the dissertation.
+The proof is by contradiction. In other words, we show that
+if metric UFL can be solved by a polynomial time algorithm
+with approximation ratio less than $1.463$, then we have a
+polynomial time algorithm with approximation ratio $\rho \ln
+n$ for Set Cover, where $n$ is the number of elements in the
+universe in the Set Cover instance.
 
-\begin{table}
-\begin{tabular}{|l|r|}
-  \hline 
-Title & Author \\
-\hline
-War And Peace & Leo Tolstoy \\
-The Great Gatsby & F. Scott Fitzgerald \\ \hline
-\end{tabular}
-\caption{A normalsize table.  There has been a complaint that table
-captions are not single-spaced.  This is odd because the code
-indicates that they should be.}
-\end{table}
+Given a Set Cover instance with a universe $\calU = \{e_j
+\suchthat j=1,\ldots, n\}$ of elements and a family of sets
+$\calS = \{S_i, i=1,\ldots,m\}$ with every set $S_i \ in
+\calS$ being a subset of $\calU$. Then the proof proceeds in
+iterations. In each iteration we construct a metric UFL
+instance with the set of facilities $\sitesset$
+corresponding to the set $\calS$, and we have one client $j$
+for each uncovered element $e_j$ in $\calU$. The distances
+are defined as $1$ if $e_j \in S_i$, and $3$ otherwise. We
+then run the supposed $\rho$-approximation algorithm for the
+constructed UFL instance. Our construction ensures that, if
+the UFL solution does not cover a large portion of the
+clients, then the ratio between the UFL solution and an
+optimal integral solution for the UFL instance must be at
+least $1.463$. The other case is that in all iterations we
+have an UFL solution that covers a large portion of clients,
+and this implies we have a solution for the given Set Cover
+instance with no more than $\rho \ln n$ times of an optimal
+solution for some $\rho < 1$, which then implies $\NP
+\subseteq \DTIME(n^{O(\log\log n)})$.
 
-\begin{table}
-\caption{A small table.}
-\begin{scriptsizetabular}{|l|r|}
-  \hline 
-Title & Author \\
-\hline
-War And Peace & Leo Tolstoy \\
-The Great Gatsby & F. Scott Fitzgerald \\ \hline
-\end{scriptsizetabular}
-\end{table}
+Let $k$ be the number of sets in an optimal solution for the
+Set Cover instance. Note that we can run the following for
+every $k=1,\ldots,n$ so we can assume we know $k$.  We now
+give the construction of the UFL instance. In iteration $t$,
+suppose we begin with $n_t$ elements uncovered. Then we have
+a UFL instance with $|\sitesset| = m, |\clientset| = n_t$,
+$d_{ij} = 1 \text{ or } 3$ and $f_i$ to be specified but all
+$i\in\sitesset$ have equal $f_i$. Now suppose the UFL
+algorithm chooses $\beta_t k$ facilities and covers
+$\gamma_t n_t$ clients, the rest $(1-\gamma_t) n_t$ clients
+are then servied at a distance of $3$. The cost of this UFL
+solution is
+\begin{equation*}
+  \ALG_{\smallUFL} = \beta_t k f_i + \gamma_t n_t \cdot 1 + (1 -
+  \gamma_t) n_t \cdot 3.
+\end{equation*}
+We set $f_i = c n_t / k$ for some constant $c$. Notice
+that the same constant $c$ is used for all iterations and we
+shall use $c$ to optimize our analysis on the lower bound of
+approximation ratio of any UFL algorithms. The cost of the
+UFL solution now becomes
+\begin{equation*}
+  \beta_t c n_t + \gamma_t n_t + 3 (1-\gamma_t) n_t = n_t
+  (\beta_t + 3 - 2\gamma_t).
+\end{equation*}
+
+On the other hand, we know that there exists a solution with
+$k$ facilities that covers all clients at distance $1$,
+which corresponds to an optimal Set Cover solution. So an
+optimal UFL solution has cost no more than
+\begin{equation*}
+  \OPT_{\smallUFL} \leq k f_i + n_t = c n_t + n_t = (1+c)n_t.
+\end{equation*}
+
+Since we are running an $\alpha$-approximation algorithm for
+the UFL instance, we have
+\begin{equation*}
+  \alpha =\frac{\ALG_{\smallUFL}}{\OPT_{\smallUFL}} \geq \frac{n_t
+  (\beta_t + 3 - 2\gamma_t)}{(1+c)n_t} = \frac{\beta_t + 3 -
+2\gamma_t}{1+c}.
+\end{equation*}
+
+Let $\rho < 1$ be some fixed constant. Now we have two
+cases: Case 1, there exists some iteration $t$ such that
+$\gamma_t < 1 - e^{-\rho\beta_t}$. This implies that
+$\gamma_t < 1 - e^{-\beta_t}$. Then we have
+\begin{equation*}
+  \alpha > \frac{\beta_t + 3 - 2 (1 - e^{-\beta_t})}{1+c} =
+  \frac{\beta_t + 1 + 2 e^{-\beta_t}}{1+c}.
+\end{equation*}
+Fix $c$ and choose $\beta_t$ to minimize the right hand
+side, by setting the derivative with respect to $\beta_t$ to
+zero, we have $\beta_t = \ln (2/c)$. Therefore
+\begin{equation*}
+  \alpha > \frac{c \ln (2/c) + 1 + 2 c/2}{1 +
+  c} = 1 + \frac{\ln (2/c)}{1+c}.
+\end{equation*}
+Since we have the choice of $c$, we choose $c$ to maximize
+the right hand side of the above, by taking the derivative
+of the right hand side with respect to $c$ and set it to
+zero. We thus have $c$ being the solution of the equation
+$\ln (2/c) = 1+c$ and solve for $c=0.463$. Substitute the
+value $c$ back, we have $\alpha > 1.463$ in this case.
+
+The other case is that we have $\gamma_t \geq 1-e^{-\beta_t}$
+for every iteration $t$. Suppose we have $l$ iterations, we
+then have
+\begin{equation*}
+  n (1-\gamma_1) (1-\gamma_2) \ldots (1-\gamma_l) = 1.
+\end{equation*}
+Applying the inequality $\gamma_t \geq 1 - e^{-\beta_t}$, we
+have
+\begin{equation*}
+  n \prod_{t=1}^l e^{-\beta_t} \geq 1,
+\end{equation*}
+which is
+\begin{equation*}
+  e^{-\sum_{t=1}^l \beta_t} \geq 1/n,
+\end{equation*}
+which is
+\begin{equation*}
+  \sum_{t=1}^l \beta_t \leq \ln n.
+\end{equation*}
+Notice that we have a Set Cover solution with $(\sum_{t=1}^l
+\beta_t)k$ sets, so this Set Cover solution has cost no more
+than $\sum_{t=1}^l \beta_t$ times $k$, where $k$ is the
+number of sets in an optimal Set Cover solution. So we have
+a Set Cover algorithm with approximation ratio no more than
+$\sum_{t=1}^l \beta_t = \rho \ln n$ for some $\rho <
+1$. Using Feige's result we have that metric UFL cannot have
+approximation algorithm with ratio less than $1.463$ unless
+$\NP \subseteq \DTIME(n^{O(\log\log n)})$.
+
+Using an observation by Sviridenko, the underlying
+assumption can be strengthened to $\PP \neq \NP$. That is,
+metric UFL cannot have a polynomial time algorithm with
+ratio less than $1.463$ unless $\PP = \NP$.
+%% end of ch1
 
 %% ch2 related work and results summary
 \chapter{Related Work and Known Results} \label{ch: related_work}
