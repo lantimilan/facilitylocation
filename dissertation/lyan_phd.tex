@@ -228,8 +228,8 @@ $\calU$. It is well-known that the Set-Cover problem is NP-hard.
   instance like this: for each $e_j, j=1,\ldots,n$ we have a client
   $j$, and for each set $S_i, i=1,\ldots,m$ we have a facility
   $i$. The facility cost $f_i=1$ for every facility
-  $i=1,\ldots,m$~\footnote{Actually any value of $f_i$ will work, for
-    example, we can set $f_i=0$ for every facility $i$.} and the
+  $i=1,\ldots,m$~\footnote{Actually any value of $f_i > 0$ will work, for
+    example, we can set $f_i=100$ for every facility $i$.} and the
   distance $d_{ij} = 1$ if $e_j \in S_i$ and $d_{ij} = \infty$ if $e_j
   \notin S_i$. Clearly an optimal solution for the UFL instance can
   only use edges with $d_{ij} = 1$. It is easy to see that given any
@@ -273,11 +273,11 @@ $\calU$. It is well-known that the Set-Cover problem is NP-hard.
   facility $i$.
 \end{proof}
 
-Now we show the MaxSNP-hardness of the metric UFL problem. This
+Now we show the {\MaxSNP}-hardness of the metric UFL problem. This
 implies the metric UFL problem has no polynomial approximation scheme
 (PTAS).
 \begin{proposition}
-  The metric UFL problem is MaxSNP-hard.
+  The metric UFL problem is {\MaxSNP}-hard.
 \end{proposition}
 \begin{proof}
   The proof is by a reduction from the B-Vertex Cover problem. In the
@@ -316,7 +316,7 @@ implies the metric UFL problem has no polynomial approximation scheme
   \end{equation*}
 
   Since $\calA_{\smallUFL}$ is a $(1+\epsilon)$-approximation algorithm, we
-  have that $\ALG_{\smallUFL} \leq \OPT_{\smallUFL}$. To get a handle on
+  have that $\ALG_{\smallUFL} \leq (1+\epsilon) \OPT_{\smallUFL}$. To get a handle on
   $\OPT_{\smallUFL}$, we use a feasible solution to this $\UFL$
   instance. One possible choice is to use the solution with
   $k$-facilities and all clients are connected at distance $1$. Notice
@@ -360,9 +360,10 @@ implies the metric UFL problem has no polynomial approximation scheme
   now, if we can get rid of $n$ in that left hand side. We now use the
   fact that every vertex in the B-Vertex Cover instance has degree at
   most $B$, so the $k$ vertices in an optimal solution to this
-  B-Vertex Cover instance have at most $kB$ endpoints, which is no
-  less than $n$, the number of edges covered. So we have $kB \geq n$,
-  thus, to obtain (\ref{eq:APX:BVC}), it suffices to show
+  B-Vertex Cover instance have sum of degree at most $kB$, which is no
+  less than $n$, the number of edges covered, since the $k$ vertices
+  form a vertex cover. So we have $kB \geq n$, thus, to obtain
+  (\ref{eq:APX:BVC}), it suffices to show
   \begin{equation}
     \label{eq:APX:BVC2}
     \beta k + (1 - \gamma) kB \leq (1 + \epsilon') k.
@@ -380,6 +381,7 @@ implies the metric UFL problem has no polynomial approximation scheme
     \epsilon B = 1 + \epsilon (1 + B) = 1 + \epsilon',
   \end{equation*}
   where the first inequality is obvious, the second is from
+
   (\ref{eq:APX:UFL2}).  It is easy to see that $\epsilon'$ approaches
   $0$ as $\epsilon$ approaches $0$ and we have the desired inequality
   (\ref{eq:APX:BVC3}). We have thus found a $(1+\epsilon')$
@@ -410,7 +412,7 @@ universe in the Set Cover instance.
 
 Given a Set Cover instance with a universe $\calU = \{e_j
 \suchthat j=1,\ldots, n\}$ of elements and a family of sets
-$\calS = \{S_i, i=1,\ldots,m\}$ with every set $S_i \ in
+$\calS = \{S_i, i=1,\ldots,m\}$ with every set $S_i \in
 \calS$ being a subset of $\calU$. Then the proof proceeds in
 iterations. In each iteration we construct a metric UFL
 instance with the set of facilities $\sitesset$
@@ -424,7 +426,7 @@ clients, then the ratio between the UFL solution and an
 optimal integral solution for the UFL instance must be at
 least $1.463$. The other case is that in all iterations we
 have an UFL solution that covers a large portion of clients,
-and this implies we have a solution for the given Set Cover
+and this gives us a solution for the given Set Cover
 instance with no more than $\rho \ln n$ times of an optimal
 solution for some $\rho < 1$, which then implies $\NP
 \subseteq \DTIME(n^{O(\log\log n)})$.
@@ -445,7 +447,7 @@ solution is
   \ALG_{\smallUFL} = \beta_t k f_i + \gamma_t n_t \cdot 1 + (1 -
   \gamma_t) n_t \cdot 3.
 \end{equation*}
-We set $f_i = c n_t / k$ for some constant $c$. Notice
+We set $f_i = c\,n_t / k$ for some constant $c$. Notice
 that the same constant $c$ is used for all iterations and we
 shall use $c$ to optimize our analysis on the lower bound of
 approximation ratio of any UFL algorithms. The cost of the
@@ -493,31 +495,31 @@ zero. We thus have $c$ being the solution of the equation
 $\ln (2/c) = 1+c$ and solve for $c=0.463$. Substitute the
 value $c$ back, we have $\alpha > 1.463$ in this case.
 
-The other case is that we have $\gamma_t \geq 1-e^{-\beta_t}$
+The other case is that we have $\gamma_t \geq 1-e^{-\rho\beta_t}$
 for every iteration $t$. Suppose we have $l$ iterations, we
 then have
 \begin{equation*}
   n (1-\gamma_1) (1-\gamma_2) \ldots (1-\gamma_l) = 1.
 \end{equation*}
-Applying the inequality $\gamma_t \geq 1 - e^{-\beta_t}$, we
+Applying the inequality $\gamma_t \geq 1 - e^{-\rho\beta_t}$, we
 have
 \begin{equation*}
-  n \prod_{t=1}^l e^{-\beta_t} \geq 1,
+  n \prod_{t=1}^l e^{-\rho\beta_t} \geq 1,
 \end{equation*}
 which is
 \begin{equation*}
-  e^{-\sum_{t=1}^l \beta_t} \geq 1/n,
+  e^{-\sum_{t=1}^l \rho\beta_t} \geq 1/n,
 \end{equation*}
 which is
 \begin{equation*}
-  \sum_{t=1}^l \beta_t \leq \ln n.
+  \sum_{t=1}^l \rho\beta_t \leq \ln n.
 \end{equation*}
 Notice that we have a Set Cover solution with $(\sum_{t=1}^l
 \beta_t)k$ sets, so this Set Cover solution has cost no more
-than $\sum_{t=1}^l \beta_t$ times $k$, where $k$ is the
+than $\sum_{t=1}^l \rho\beta_t$ times $k$, where $k$ is the
 number of sets in an optimal Set Cover solution. So we have
 a Set Cover algorithm with approximation ratio no more than
-$\sum_{t=1}^l \beta_t = \rho \ln n$ for some $\rho <
+$\sum_{t=1}^l \rho\beta_t = \rho \ln n$ for some $\rho <
 1$. Using Feige's result we have that metric UFL cannot have
 approximation algorithm with ratio less than $1.463$ unless
 $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
