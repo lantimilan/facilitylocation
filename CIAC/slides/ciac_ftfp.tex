@@ -13,7 +13,7 @@
 \documentclass[hyperref, xcolor=dvipsnames]{beamer}
 \fi
 
-\usepackage{amsmath, caption, subcaption, graphicx, tikz}
+\usepackage{amsmath, graphicx, tikz}
 \title[FTFP]{Approximation Algorithms
   for the Fault-Tolerant Facility Placement Problem}
 \author[lyan,marek]{Li Yan and Marek Chrobak}
@@ -69,7 +69,6 @@
 \begin{frame}
   \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
 
-  \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50] (fac1) at (0,2) {$3$};
     \node[fill=blue!50] (fac2) at (0,5) {$2$};
@@ -103,8 +102,12 @@
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
   
-  \end{minipage}
-  \begin{minipage}{.45\linewidth}
+\end{frame}
+
+%%% A feasible solution
+\begin{frame}
+  \frametitle{A Feasible Integral Solution}
+
     \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac33) at (.5,1.5) {};
@@ -126,15 +129,38 @@
     \foreach \from/\to in {fac31/client1,fac32/client1,fac33/client1,fac11/client1,fac11/client2,fac11/client4,fac21/client3,fac12/client4}
         \draw (\from)--(\to);
 
-    \node (label2) at (2,-3) {Solution};
   \end{tikzpicture}
 
-\end{minipage}
-\vspace{.5cm}
-
-    Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} + 3d_{31} = 38$.\\(An integral solution that may not be optimal.)
+    Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} + 3d_{31} = 38$.
 \end{frame}
 
+\begin{frame}
+  \frametitle{An Optimal Integral Solution}
+    \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
+
+    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
+
+    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,8) {$1$};
+    \node[fill=blue!75,minimum size=.2cm] (fac14) at (-.5,7.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,8.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,7.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,8.5) {};
+
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,11) {$1$};
+    
+    \foreach \from/\to in {fac11/client1,fac12/client1,fac13/client1,fac14/client1,fac11/client2,fac11/client4,fac12/client4,fac21/client3}
+        \draw (\from)--(\to);
+
+  \end{tikzpicture}
+
+  Cost is $4f_1 + 1f_2 + 0f_3 + 4d_{11} + d_{12} + 2d_{14} +
+  d_{23} = 29$.
+\end{frame}
 %%% problem definition
 \begin{frame}
   \frametitle{The Fault-Tolerant Facility Placement Problem (FTFP)}
