@@ -337,20 +337,55 @@
 %%% related work
 \begin{frame}
   \frametitle{Related Work}
-  \begin{itemize}
-  \item For the UFL problem,
-    \begin{itemize}
-    \item First $O(1)$-approximation result due to Shmoys, Tardos and
-      Aardal.
-    \item Best known approximation ratio $1.488$ due to Li, combining
-      Byrka's LP-rounding algorithm and Jain, Mahdian and Saberi's
-      greedy algorithm.
-    \end{itemize}
-  \item For the FTFL problem,
-    best known approximation ratio $1.7245$ due to Byrka, Srinivasan
-    and Swamy, using LP-rounding.
-  \end{itemize}
+
+  \begin{table}
+    \centering
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+    Shmoys, Tardos and Aardal & 1997 & 3.16 & LP-rounding\\
+    Chudak & 1998 & 1.736 & LP-rounding\\
+    Sviridenko & 2002 & 1.58 & LP-rounding\\
+    \hline
+    Jain and Vazirani & 2001 & 3 & primal-dual\\
+    Jain {\etal} & 2003 & 1.61 & greedy\\
+    Mahdian {\etal} & 2006 & 1.52 & greedy\\
+    \hline
+    Byrka & 2007 & 1.5 & \\
+    Li & 2012 & 1.488 & (best result)\\
+    \hline
+  \end{tabular}
+
+    \caption{Approximation algorithms for the UFL problem}
+    
+  \end{table}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Related Work Cont.}
+  \begin{table}
+    \centering
+    \begin{tabular}{| c | c | c | c |}
+      \hline
+      Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
+      \hline
+      Guha {\etal} & 2001 & 4 & LP-rounding\\
+      Byrka {\etal} & 2010 & 1.725 & LP-rounding\\
+      \hline
+    \end{tabular}
+    \caption{Approximation algorithms for the FTFL problem}
+  \end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Related Work Cont.}
+  Lower bound on approximation ratio.
+  \begin{itemize}
+  \item Lower bound of 1.463 for the UFL problem (Guha and Khuller, 1998).
+  \item Implies FTFL and FTFP cannot be approximated better than 1.463.
+  \end{itemize}
+
+\end{frame}
+
 %%% our results
 \begin{frame}
   \frametitle{Our Result} 
