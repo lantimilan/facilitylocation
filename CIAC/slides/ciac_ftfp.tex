@@ -21,7 +21,7 @@
   Computer Science\\
   University of California Riverside\\
 }
-\date{May 22nd, 2013}
+\date{}
 \usetheme{Warsaw}
 
 \input{macros.tex}
@@ -36,7 +36,6 @@
 \begin{frame}
   \frametitle{Outline}
   \begin{enumerate}
-  \item Introduction
 
   \item Problem Definition
 
@@ -72,44 +71,59 @@
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!50] (fac1) at (0,2) {$3$};
+    \node[fill=blue!50] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50] (fac3) at (0,8) {$1$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[below] (faclabel1) at (-.5,1.5) {$f_3=4$};
+    \node[below] (faclabel2) at (-.5,4.5) {$f_2=6$};
+    \node[below] (faclabel3) at (-.5,7.5) {$f_1=3$};
 
-    \node[right] (demand1) at (6,-1) {$r_1=2$};
-    \node[right] (demand2) at (6,2) {$r_2=1$};
-    \node[right] (demand3) at (6,5) {$r_3=1$};
-    \node[right] (demand4) at (6,8) {$r_4=4$};
+    \node[circle,fill=green!50] (client1) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client2) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client3) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client4) at (6,9) {$1$};
+
+    \node[right] (demand1) at (6,-1) {$r_4=2$};
+    \node[right] (demand2) at (6,2) {$r_3=1$};
+    \node[right] (demand3) at (6,5) {$r_2=1$};
+    \node[right] (demand4) at (6,8) {$r_1=4$};
     
+    \foreach \from/\to in {fac1/client1,fac1/client4,fac2/client2,fac3/client1,fac3/client3,fac3/client4}
+    \draw (\from)--(\to);
+
+    % edge weight
+    \node[above] (ew11) at (2,8.3) {$1$};
+    \node[above] (ew12) at (2.4,7) {$2$};
+    \node[above] (ew14) at (1.9,5.5) {$1$};
+    \node[above] (ew23) at (1.5,4.4) {$3$};
+    \node[above] (ew33) at (1.5,2.5) {$2$};
+    \node[above] (ew34) at (1.9,1) {$4$};
+
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
   
   \end{minipage}
   \begin{minipage}{.45\linewidth}
     \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,1.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,2.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,2.5) {};
+    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac33) at (.5,1.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac32) at (.5,2.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac31) at (-.5,2.5) {};
 
-    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$2$};
     \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,5.5) {};
 
-    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,8) {$f_3$};
-    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,7.5) {};
+    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,8) {$1$};
+    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,7.5) {};
+   \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,8.5) {};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
     
-    \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
+    \foreach \from/\to in {fac31/client1,fac32/client1,fac33/client1,fac11/client1,fac11/client2,fac11/client4,fac21/client3,fac12/client4}
         \draw (\from)--(\to);
 
     \node (label2) at (2,-3) {Solution};
@@ -118,8 +132,7 @@
 \end{minipage}
 \vspace{.5cm}
 
-    Cost is $3f_1 + 2f_2 + f_3 + 2d_{21} + d_{32} + d_{33} + 3d_{14} +
-    d_{24}$.
+    Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} + 3d_{31} = 38$.\\(An integral solution that may not be optimal.)
 \end{frame}
 
 %%% problem definition
