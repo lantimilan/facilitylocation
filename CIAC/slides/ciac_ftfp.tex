@@ -175,13 +175,13 @@
   \end{itemize}
   Find 
   \begin{itemize}
-  \item $y_i$, number of facilities to build at each site,
-  \item $x_{ij}$, number of connections between site $i$ and client
+  \item the number of facilities to build at each site,
+  \item the number of connections between site $i$ and client
     $j$.
   \end{itemize}
 
-  \textbf{Goal:} Minimize the total cost of opening facilities, sum of
-  $f_i y_i$ and connecting clients, sum of $d_{ij} x_{ij}$.
+  \textbf{Goal:} Minimize the total cost of opening
+  facilities and connecting clients.
 \end{frame}
 
 %%% related problem
@@ -201,33 +201,33 @@
   All demands are 1, each site can open only one facility.
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
 
-    \node[right] (demand1) at (6,-1) {$r_1=1$};
-    \node[right] (demand2) at (6,2) {$r_2=1$};
-    \node[right] (demand3) at (6,5) {$r_3=1$};
-    \node[right] (demand4) at (6,8) {$r_4=1$};
+    \node[right] (demand1) at (6,-1) {$r_4=1$};
+    \node[right] (demand2) at (6,2) {$r_3=1$};
+    \node[right] (demand3) at (6,5) {$r_2=1$};
+    \node[right] (demand4) at (6,8) {$r_1=1$};
     
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!25] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!75] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!75] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!25,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
 
     \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
         \draw (\from)--(\to);
@@ -245,33 +245,33 @@
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,9) {$1$};
 
-    \node[right] (demand1) at (6,-1) {$r_1=2$};
-    \node[right] (demand2) at (6,2) {$r_2=1$};
-    \node[right] (demand3) at (6,5) {$r_3=1$};
-    \node[right] (demand4) at (6,8) {$r_4=2$};
+    \node[right] (demand1) at (6,-1) {$r_4=2$};
+    \node[right] (demand2) at (6,2) {$r_3=1$};
+    \node[right] (demand3) at (6,5) {$r_2=1$};
+    \node[right] (demand4) at (6,8) {$r_1=2$};
 
     \node (label1) at (3,-3) {Instance};    
   \end{tikzpicture}
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!75] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!75] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!75] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
     
     \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
         \draw (\from)--(\to);
@@ -289,19 +289,19 @@
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!50] (fac2) at (0,5) {$f_2$};
-    \node[fill=blue!50] (fac3) at (0,8) {$f_3$};
+    \node[fill=blue!50] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
 
-    \node[right] (demand1) at (6,-1) {$r_1=2$};
-    \node[right] (demand2) at (6,2) {$r_2=1$};
-    \node[right] (demand3) at (6,5) {$r_3=1$};
-    \node[right] (demand4) at (6,8) {$r_4=4$};
+    \node[right] (demand4) at (6,-1) {$r_4=2$};
+    \node[right] (demand3) at (6,2) {$r_3=1$};
+    \node[right] (demand2) at (6,5) {$r_2=1$};
+    \node[right] (demand1) at (6,8) {$r_1=4$};
     
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
@@ -309,24 +309,24 @@
   \end{minipage}
   \begin{minipage}{.45\linewidth}
     \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,2) {$f_1$};
-    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,1.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,2.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,2.5) {};
+    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,1.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac32) at (.5,2.5) {};
+    \node[fill=blue!75,minimum size=.2cm] (fac33) at (-.5,2.5) {};
 
-    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$f_2$};
+    \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$2$};
     \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
     \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,5.5) {};
 
-    \node[fill=blue!50,minimum size=1cm] (fac3) at (0,8) {$f_3$};
-    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,7.5) {};
+    \node[fill=blue!50,minimum size=1cm] (fac1) at (0,8) {$1$};
+    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,7.5) {};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$r_1$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$r_2$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$r_3$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$r_4$};
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
     
-    \foreach \from/\to in {fac11/client4,fac12/client4,fac13/client4,fac22/client4,fac21/client1,fac22/client1,fac31/client2,fac31/client3}
+    \foreach \from/\to in {fac31/client1,fac32/client1,fac33/client1,fac22/client1,fac21/client4,fac22/client4,fac11/client3,fac11/client2}
         \draw (\from)--(\to);
 
     \node (label2) at (2,-3) {Solution};
