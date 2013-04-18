@@ -235,7 +235,7 @@ $\calU$. It is well-known that the Set-Cover problem is NP-hard.
   only use edges with $d_{ij} = 1$. It is easy to see that given any
   optimal solution of the Set Cover instance, we can construct an
   optimal solution for the UFL instance, by simply taking the
-  facilities whose corresponding sets are chosen in the Set Cover. On
+  facilities whose corresponding sets are chosen in the set cover. On
   the other hand, given an optimal solution to the UFL instance, we
   can only have $d_{ij}=1$ connections, that implies for every client $j$,
   the corresponding element $e_j$ is covered by some set $S_i$, whose
@@ -273,6 +273,9 @@ $\calU$. It is well-known that the Set-Cover problem is NP-hard.
   facility $i$.
 \end{proof}
 
+%%% MaxSNP, a technically difficult class of problems
+%%% includes: Max2SAT, B-Max3SAT, B-VertexCover, B-IndependentSet, MaxCut
+%%% Assume P != NP, MaxSNP hard problems cannot have PTAS.
 Now we show the {\MaxSNP}-hardness of the metric UFL problem. This
 implies the metric UFL problem has no polynomial approximation scheme
 (PTAS).
