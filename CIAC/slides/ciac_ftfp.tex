@@ -17,6 +17,8 @@
 \fi
 
 \usepackage{amsmath, graphicx, tikz}
+\usetikzlibrary{decorations.pathmorphing}
+
 \title[FTFP]{Approximation Algorithms
   for the Fault-Tolerant Facility Placement Problem}
 \author[lyan,marek]{Li Yan and Marek Chrobak}
@@ -44,9 +46,9 @@
 
   \item Related Work
     \begin{itemize}
-    \item The Uncapacitated Facility Location problem (UFL)
-    \item The Fault-tolerant Facility Location problem (FTFL)
-    \item The Fault-tolerant Facility Placement problem (FTFP)
+    \item Uncapacitated Facility Location problem (UFL)
+    \item Fault-tolerant Facility Location problem (FTFL)
+    \item Fault-tolerant Facility Placement problem (FTFP)
     \end{itemize}
 
   \item General Approach
@@ -70,28 +72,28 @@
 
 %%% problem example
 \begin{frame}
-  \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
+  \frametitle{Fault-tolerant Facility Placement Problem (FTFP)}
 
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50] (fac1) at (0,2) {$3$};
+    \node[fill=blue!50] (fac3) at (0,2) {$3$};
     \node[fill=blue!50] (fac2) at (0,5) {$2$};
-    \node[fill=blue!50] (fac3) at (0,8) {$1$};
+    \node[fill=blue!50] (fac1) at (0,8) {$1$};
 
-    \node[below] (faclabel1) at (-.5,1.5) {$f_3=4$};
+    \node[below] (faclabel3) at (-.5,1.5) {$f_3=4$};
     \node[below] (faclabel2) at (-.5,4.5) {$f_2=6$};
-    \node[below] (faclabel3) at (-.5,7.5) {$f_1=3$};
+    \node[below] (faclabel1) at (-.5,7.5) {$f_1=3$};
 
-    \node[circle,fill=green!50] (client1) at (6,0) {$4$};
-    \node[circle,fill=green!50] (client2) at (6,3) {$3$};
-    \node[circle,fill=green!50] (client3) at (6,6) {$2$};
-    \node[circle,fill=green!50] (client4) at (6,9) {$1$};
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
 
-    \node[right] (demand1) at (6,-1) {$r_4=2$};
-    \node[right] (demand2) at (6,2) {$r_3=1$};
-    \node[right] (demand3) at (6,5) {$r_2=1$};
-    \node[right] (demand4) at (6,8) {$r_1=4$};
+    \node[right] (demand4) at (6,-1) {$r_4=2$};
+    \node[right] (demand3) at (6,2) {$r_3=1$};
+    \node[right] (demand2) at (6,5) {$r_2=1$};
+    \node[right] (demand1) at (6,8) {$r_1=4$};
     
-    \foreach \from/\to in {fac1/client1,fac1/client4,fac2/client2,fac3/client1,fac3/client3,fac3/client4}
+    \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
     \draw (\from)--(\to);
 
     % edge weight
@@ -100,17 +102,101 @@
     \node[above] (ew14) at (1.9,5.5) {$1$};
     \node[above] (ew23) at (1.5,4.4) {$3$};
     \node[above] (ew33) at (1.5,2.5) {$2$};
-    \node[above] (ew34) at (1.9,1) {$4$};
+    \node[above] (ew34) at (1.9,1.3) {$4$};
 
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
   
 \end{frame}
 
+%%% instance with annotation
+\begin{frame}
+  \begin{tikzpicture}[scale=0.5,decoration=snake]
+    \node[fill=blue!50] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50] (fac1) at (0,8) {$1$};
+
+    \node[below,fill=cyan!25] (faclabel3) at (-.5,1.5) {$f_3=4$};
+    \node[below,fill=cyan!25] (faclabel2) at (-.5,4.5) {$f_2=6$};
+    \node[below,fill=cyan!25] (faclabel1) at (-.5,7.5) {$f_1=3$};
+
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
+
+    \node[right,fill=cyan!25] (demand4) at (6,-1) {$r_4=2$};
+    \node[right,fill=cyan!25] (demand3) at (6,2) {$r_3=1$};
+    \node[right,fill=cyan!25] (demand2) at (6,5) {$r_2=1$};
+    \node[right,fill=cyan!25] (demand1) at (6,8) {$r_1=4$};
+    
+    \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
+    \draw (\from)--(\to);
+
+    % edge weight
+    \node[above] (ew11) at (2,8.3) {$1$};
+    \node[above] (ew12) at (2.4,7) {$2$};
+    \node[above] (ew14) at (1.9,5.5) {$1$};
+    \node[above] (ew23) at (1.5,4.4) {$3$};
+    \node[above] (ew33) at (1.5,2.5) {$2$};
+    \node[above] (ew34) at (1.9,1.3) {$4$};
+
+    \node (label1) at (3,-3) {Instance};
+
+    % annotations
+    \node[above,fill=yellow!50] (sites) at (-.5,9.5) {site};
+    \node[above,fill=yellow!50] (clients) at (9,9.5) {client};
+    \node[above,fill=yellow!50,text width=2cm] (fi) at (-1,-2.5) {cost to open facility};
+    \node[above,fill=yellow!50,text width=2cm] (edge) at (4,10) {connection cost};
+    \node[right,fill=yellow!50] (demand) at (9.5,0) {demand};
+    \draw[->,decorate] (fi) -- (faclabel3);
+    \draw[->,decorate] (sites) -- (fac1);
+    \draw[->,decorate] (clients) -- (client1);
+    \draw[->,decorate] (edge) -- (ew11);
+    \draw[->,decorate] (demand) -- (demand4);
+  \end{tikzpicture}
+\end{frame}
+
 %%% A feasible solution
 \begin{frame}
-  \frametitle{A Feasible Integral Solution}
+  \frametitle{Feasible Integral Solution}
 
+  \begin{minipage}{.4\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50] (fac1) at (0,8) {$1$};
+
+    \node[below] (faclabel3) at (-.5,1.5) {$f_3=4$};
+    \node[below] (faclabel2) at (-.5,4.5) {$f_2=6$};
+    \node[below] (faclabel1) at (-.5,7.5) {$f_1=3$};
+
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
+
+    \node[right] (demand4) at (6,-1) {$r_4=2$};
+    \node[right] (demand3) at (6,2) {$r_3=1$};
+    \node[right] (demand2) at (6,5) {$r_2=1$};
+    \node[right] (demand1) at (6,8) {$r_1=4$};
+    
+    \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
+    \draw (\from)--(\to);
+
+    % edge weight
+    \node[above] (ew11) at (2,8.3) {$1$};
+    \node[above] (ew12) at (2.4,7) {$2$};
+    \node[above] (ew14) at (1.9,5.5) {$1$};
+    \node[above] (ew23) at (1.5,4.4) {$3$};
+    \node[above] (ew33) at (1.5,2.5) {$2$};
+    \node[above] (ew34) at (1.9,1.3) {$4$};
+
+    \node (label1) at (3,-3) {Instance};
+  \end{tikzpicture}
+  \end{minipage}
+  \hspace{.5in}
+  \begin{minipage}{.4\linewidth}
     \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac33) at (.5,1.5) {};
@@ -131,14 +217,54 @@
     
     \foreach \from/\to in {fac31/client1,fac32/client1,fac33/client1,fac11/client1,fac11/client2,fac11/client4,fac21/client3,fac12/client4}
         \draw (\from)--(\to);
-
+    
+    \node (label1) at (3,-3) {Solution};
   \end{tikzpicture}
+  \end{minipage}
+  \vspace{.1in}
 
-    Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} + 3d_{31} = 38$.
+  Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} +
+  d_{23} + 3d_{31} = 38$.
 \end{frame}
 
 \begin{frame}
-  \frametitle{An Optimal Integral Solution}
+  \frametitle{Optimal Integral Solution}
+  \begin{minipage}{.4\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50] (fac1) at (0,8) {$1$};
+
+    \node[below] (faclabel3) at (-.5,1.5) {$f_3=4$};
+    \node[below] (faclabel2) at (-.5,4.5) {$f_2=6$};
+    \node[below] (faclabel1) at (-.5,7.5) {$f_1=3$};
+
+    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
+
+    \node[right] (demand4) at (6,-1) {$r_4=2$};
+    \node[right] (demand3) at (6,2) {$r_3=1$};
+    \node[right] (demand2) at (6,5) {$r_2=1$};
+    \node[right] (demand1) at (6,8) {$r_1=4$};
+    
+    \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
+    \draw (\from)--(\to);
+
+    % edge weight
+    \node[above] (ew11) at (2,8.3) {$1$};
+    \node[above] (ew12) at (2.4,7) {$2$};
+    \node[above] (ew14) at (1.9,5.5) {$1$};
+    \node[above] (ew23) at (1.5,4.4) {$3$};
+    \node[above] (ew33) at (1.5,2.5) {$2$};
+    \node[above] (ew34) at (1.9,1.3) {$4$};
+
+    \node (label1) at (3,-3) {Instance};
+  \end{tikzpicture}    
+  \end{minipage}
+  \hspace{.5in}
+  \begin{minipage}{.4\linewidth}
     \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
 
@@ -160,6 +286,8 @@
         \draw (\from)--(\to);
 
   \end{tikzpicture}
+  \end{minipage}
+  \vspace{.1in}
 
   Cost is $4f_1 + 1f_2 + 0f_3 + 4d_{11} + d_{12} + 2d_{14} +
   d_{23} = 29$.
@@ -425,16 +553,27 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Reduction from FTFP to FTFL}
+  Given an FTFP instance with demand $r_j$,
+  \begin{itemize}
+  \item Demand Reduction: Construct a restricted FTFP
+    instance with $r_j < |\sitesset|$ for all clients $j$.
+  \item Solve the restricted instance by reducing to FTFL.
+  \item Implication: FTFP has a $1.7245$-approximation algorithm.
+  \end{itemize}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% STOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% general approach
 \begin{frame}
-  \frametitle{General Approach}
+  \frametitle{Our LP-rounding Approach}
   \begin{itemize}
-  \item Generalize the LP-rounding algorithms to the FTFP problem with
-    fault-tolerant requirement.
+  \item Generalize the LP-rounding algorithms for UFL to the
+    FTFP problem with fault-tolerant requirement.
   \item Main techniques:
     \begin{itemize}
     \item Demand Reduction.
