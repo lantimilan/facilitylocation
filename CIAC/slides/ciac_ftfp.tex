@@ -1,4 +1,7 @@
 % ciac_ftfp.tex
+%% for CIAC 2013 talk
+%% and for phd defense (06/10/2013)
+%%
 \def\handout{0}
 \def\notes{0}
 \ifnum\handout=1
@@ -181,17 +184,17 @@
   \end{itemize}
 
   \textbf{Goal:} Minimize the total cost of opening
-  facilities and connecting clients.
+  facilities and connecting clients to open facilities..
 \end{frame}
 
 %%% related problem
 \begin{frame}
   \frametitle{Related Problems}
   \begin{itemize}
-    \item The Uncapacitated Facility Location problem (UFL), all
-      $r_j=1$.
-    \item The Fault-tolerant Facility Location problem (FTFL), each
-      site can have at most one facility.
+  \item The Uncapacitated Facility Location problem (UFL),
+    all clients have unit demand.
+  \item The Fault-tolerant Facility Location problem (FTFL),
+    each site can have at most one facility.
   \end{itemize}
 \end{frame}
 
@@ -220,9 +223,9 @@
   \end{minipage}
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!25,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
-    \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
+    \node[fill=blue!25,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
     \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
     \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
@@ -334,9 +337,27 @@
 \end{minipage}
 \end{frame}
 
+%%% the metric version
+\begin{frame}
+  \frametitle{The Metric Version}
+  \begin{itemize}
+  \item The UFL problem with general distances cannot be
+    approximated to a ratio better than $O(\log n)$. And
+    Hochbaum's algorithm is an $O(\log n)$-approximation
+    algorithm for UFL.
+  \item The same lower bound on approximation ratio for UFL
+    applies to FTFL and FTFP.
+  \item From now on, restrict the problem to metric version,
+    distances $d_{ij}$ satisfy the triangle inequality:
+    \begin{equation*}
+      d_{ij} \leq d_{ij'} + d_{i'j'} + d_{i'j} \text{ for all } i,i' \in \sitesset, j,j'\in \clientset.
+    \end{equation*}
+  \end{itemize}
+\end{frame}
+
 %%% related work
 \begin{frame}
-  \frametitle{Related Work}
+  \frametitle{Related Work on UFL}
 
   \begin{table}
     \centering
@@ -361,7 +382,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Related Work Cont.}
+  \frametitle{Related Work on FTFL}
   \begin{table}
     \centering
     \begin{tabular}{| c | c | c | c |}
@@ -369,15 +390,18 @@
       Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
       \hline
       Guha {\etal} & 2001 & 4 & LP-rounding\\
-      Byrka {\etal} & 2010 & 1.725 & LP-rounding\\
+      Byrka {\etal} & 2010 & 1.7245 & LP-rounding\\
       \hline
     \end{tabular}
     \caption{Approximation algorithms for the FTFL problem}
   \end{table}
+
+  \textbf{Remark:} No combinatorial algorithm for FTFL with
+  approximation ratio better than $O(\log n)$ is known.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Related Work Cont.}
+  \frametitle{Related Work on Lower Bound}
   Lower bound on approximation ratio.
   \begin{itemize}
   \item Lower bound of 1.463 for the UFL problem (Guha and Khuller, 1998).
