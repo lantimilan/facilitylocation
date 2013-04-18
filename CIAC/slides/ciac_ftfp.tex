@@ -17,7 +17,7 @@
 \fi
 
 \usepackage{amsmath, graphicx, tikz}
-\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathmorphing,arrows}
 
 \title[FTFP]{Approximation Algorithms
   for the Fault-Tolerant Facility Placement Problem}
@@ -318,6 +318,14 @@
 %%% related problem
 \begin{frame}
   \frametitle{Related Problems}
+  \begin{tikzpicture}
+    \node[rectangle, draw, minimum size=1cm] (ftfp) at (0,0) {FTFP};
+    \node[rectangle, draw, minimum size=1cm] (ufl) at (-3,-3) {UFL};
+    \node[rectangle, draw, minimum size=1cm] (ftfl) at (3,-3) {FTFL};
+    
+    \draw[->,ultra thick,label={$y=x^2$}] (ftfp) -- (ufl);
+    \draw[->,ultra thick] (ftfp) -- (ftfl);
+  \end{tikzpicture}
   \begin{itemize}
   \item The Uncapacitated Facility Location problem (UFL),
     all clients have unit demand.
