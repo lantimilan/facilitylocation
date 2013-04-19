@@ -319,6 +319,7 @@
 \begin{frame}
   \frametitle{Related Problems}
   \begin{tikzpicture}
+    %% TODO, label edge with r_j = 1 and each site opens one facility
     \node[rectangle, draw, minimum size=1cm] (ftfp) at (0,0) {FTFP};
     \node[rectangle, draw, minimum size=1cm] (ufl) at (-3,-3) {UFL};
     \node[rectangle, draw, minimum size=1cm] (ftfl) at (3,-3) {FTFL};
@@ -483,8 +484,9 @@
     algorithm for UFL.
   \item The same lower bound on approximation ratio for UFL
     applies to FTFL and FTFP.
-  \item From now on, restrict the problem to metric version,
-    distances $d_{ij}$ satisfy the triangle inequality:
+  \item From now on, restrict all three problems to metric
+    version, distances $d_{ij}$ satisfy the triangle
+    inequality:
     \begin{equation*}
       d_{ij} \leq d_{ij'} + d_{i'j'} + d_{i'j} \text{ for all } i,i' \in \sitesset, j,j'\in \clientset.
     \end{equation*}
@@ -495,8 +497,9 @@
 \begin{frame}
   \frametitle{Related Work on UFL}
 
-  \begin{table}
-    \centering
+  Approximation algorithms for UFL.
+
+  \vspace{.3in}
   \begin{tabular}{| c | c | c | c |}
     \hline
     Shmoys, Tardos and Aardal & 1997 & 3.16 & LP-rounding\\
@@ -507,20 +510,18 @@
     Jain {\etal} & 2003 & 1.61 & greedy\\
     Mahdian {\etal} & 2006 & 1.52 & greedy\\
     \hline
-    Byrka & 2007 & 1.5 & \\
-    Li & 2012 & 1.488 & (best result)\\
+    Byrka & 2007 & 1.5 & hybrid\\
+    Li & 2012 & 1.488 & hybrid (best result)\\
     \hline
   \end{tabular}
-
-    \caption{Approximation algorithms for the UFL problem}
-    
-  \end{table}
 \end{frame}
 
 \begin{frame}
   \frametitle{Related Work on FTFL}
-  \begin{table}
-    \centering
+
+    Approximation algorithms for FTFL.
+
+    \vspace{.3in}
     \begin{tabular}{| c | c | c | c |}
       \hline
       Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
@@ -529,8 +530,7 @@
       Byrka {\etal} & 2010 & 1.7245 & LP-rounding\\
       \hline
     \end{tabular}
-    \caption{Approximation algorithms for the FTFL problem}
-  \end{table}
+    \vspace{.5in}
 
   \textbf{Remark:} No combinatorial algorithm for FTFL with
   approximation ratio better than $O(\log n)$ is known.
