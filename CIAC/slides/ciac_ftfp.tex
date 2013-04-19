@@ -318,14 +318,13 @@
 %%% related problem
 \begin{frame}
   \frametitle{Related Problems}
-  \begin{tikzpicture}
-    %% TODO, label edge with r_j = 1 and each site opens one facility
+  \begin{tikzpicture}[auto]
     \node[rectangle, draw, minimum size=1cm] (ftfp) at (0,0) {FTFP};
     \node[rectangle, draw, minimum size=1cm] (ufl) at (-3,-3) {UFL};
     \node[rectangle, draw, minimum size=1cm] (ftfl) at (3,-3) {FTFL};
     
-    \draw[->,ultra thick,label={$y=x^2$}] (ftfp) -- (ufl);
-    \draw[->,ultra thick] (ftfp) -- (ftfl);
+    \draw[->,ultra thick, bend left] (ftfp) to node [swap] {All $r_j=1$} (ufl);
+    \draw[->,ultra thick, bend right] (ftfp) to node {One fac per site} (ftfl);
   \end{tikzpicture}
   \begin{itemize}
   \item The Uncapacitated Facility Location problem (UFL),
