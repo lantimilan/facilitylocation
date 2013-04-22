@@ -51,15 +51,17 @@
     \item Fault-tolerant Facility Placement problem (FTFP)
     \end{itemize}
 
-  \item General Approach
+  \item The Linear Program (LP) Formulation
 
-  \item Techniques
+  \item Reduction to FTFL
     \begin{itemize}
     \item Demand Reduction
-    \item Adaptive Partition
+    \item Site Splitting.
     \end{itemize}
 
-  \item Approximation Algorithms
+  \item Adaptive Partition
+
+  \item LP-based Approximation Algorithms
       \begin{itemize}
         \item $3$-approximation
         \item $1.736$-approximation
@@ -314,6 +316,7 @@
     \foreach \from/\to in {fac11/client1,fac12/client1,fac13/client1,fac14/client1,fac11/client2,fac11/client4,fac12/client4,fac21/client3}
         \draw (\from)--(\to);
 
+    \node (label1) at (3,-1) {Solution};
   \end{tikzpicture}
   \end{minipage}
   \vspace{.1in}
@@ -329,7 +332,7 @@
   \item $\sitesset$, a set of sites can have facilities built,
   \item $\clientset$, a set of clients with demands,
   \item $r_j$, demand for client $j$,
-  \item $f_i$, cost to build one facility at site $i$,
+  \item $f_i$, cost to open one facility at site $i$,
   \item $d_{ij}$, cost to connect one demand from client $j$ to
     facility at site $i$. Distances form a metric.
   \end{itemize}
@@ -341,7 +344,7 @@
   \end{itemize}
 
   \textbf{Goal:} Minimize the total cost of opening
-  facilities and connecting clients to open facilities..
+  facilities and connecting clients to open facilities.
 \end{frame}
 
 %%% related problem
@@ -537,8 +540,8 @@
     Sviridenko & 2002 & 1.58 & LP-rounding\\
     \hline
     Jain and Vazirani & 2001 & 3 & primal-dual\\
-    Jain {\etal} & 2003 & 1.61 & greedy\\
-    Mahdian {\etal} & 2006 & 1.52 & greedy\\
+    Jain {\etal} & 2002 & 1.61 & greedy\\
+    Mahdian {\etal} & 2002 & 1.52 & greedy\\
     \hline
     Byrka & 2007 & 1.5 & hybrid\\
     Li & 2011 & 1.488 & hybrid (best result)\\
@@ -578,7 +581,7 @@
 
 %%% our results
 \begin{frame}
-  \frametitle{Our Result} 
+  \frametitle{Our Result for FTFP}
 
   For the FTFP problem, we show
   \begin{itemize}
@@ -588,7 +591,42 @@
     $1.575$.
   \item Our approximation ratio for FTFP matches the best
     known LP-based approximation ratio for UFL.
+  \item Our approach based on optimal fractional solution to the LP.
   \end{itemize}
+\end{frame}
+
+
+%%% LP-formulation
+\begin{frame}
+  \frametitle{The LP Formulation for FTFP}
+  \begin{itemize}
+  \item $y_i$  the number of facilities built at site $i$.
+  \item $x_{ij}$ the number of connections from client $j$ to site
+    $i$.
+  \end{itemize}
+  %%%%%%%%%%% 
+  \begin{alignat}{3}
+    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
+    \\ \notag
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+    \\ \notag
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+  \end{alignat}
+  %%%%%%%%%%%%
+  \begin{alignat}{3}
+  \text{(Dual)}\quad  \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\, \alpha_j&\label{eqn:fac_dual}  
+    \\ \notag
+    \textrm{subject to} \quad \textstyle{
+      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+    \\ \notag
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+    \\ \notag
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+  \end{alignat}
+  %%%%%%%%%%%
 \end{frame}
 
 \begin{frame}
@@ -619,39 +657,6 @@
     \end{itemize}
   \end{itemize}
 
-\end{frame}
-
-%%% LP-formulation
-\begin{frame}
-  \frametitle{The LP Formulation for FTFP}
-  \begin{itemize}
-  \item $y_i$ represent the number of facilities built at site $i$.
-  \item $x_{ij}$ represent the number of connections from
-    client $j$ to facilities at site $i$.
-  \end{itemize}
-  %%%%%%%%%%% 
-  \begin{alignat}{3}
-    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
-    \\ \notag
-    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
-    \\ \notag
-    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
-    \\ \notag
-    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
-    \\ \notag
-  \end{alignat}
-  %%%%%%%%%%%%
-  \begin{alignat}{3}
-    \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\, \alpha_j&\label{eqn:fac_dual}  
-    \\ \notag
-    \textrm{subject to} \quad \textstyle{
-      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
-    \\ \notag
-    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
-    \\ \notag
-    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
-  \end{alignat}
-  %%%%%%%%%%%
 \end{frame}
 
 %%% techniques
