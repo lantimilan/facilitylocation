@@ -17,7 +17,7 @@
 \fi
 
 \usepackage{amsmath, graphicx, tikz}
-\usetikzlibrary{decorations.pathmorphing,arrows,positioning}
+\usetikzlibrary{decorations.pathmorphing,arrows,positioning,shapes,shapes.multipart}
 
 \title[FTFP]{Approximation Algorithms
   for the Fault-Tolerant Facility Placement Problem}
@@ -636,35 +636,8 @@
   \item Demand Reduction: Construct a restricted FTFP
     instance with $r_j < |\sitesset|$ for all clients $j$.
   \item Solve the restricted instance by reducing to FTFL.
+  \item Combine solutions to two instances.
   \item Implication: FTFP has a $1.7245$-approximation algorithm.
-  \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% STOP
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% general approach
-\begin{frame}
-  \frametitle{Our LP-rounding Approach}
-  \begin{itemize}
-  \item Generalize the LP-rounding algorithms for UFL to the
-    FTFP problem with fault-tolerant requirement.
-  \item Main techniques:
-    \begin{itemize}
-    \item Demand Reduction.
-    \item Adaptive Partition.
-    \end{itemize}
-  \end{itemize}
-
-\end{frame}
-
-%%% techniques
-\begin{frame}
-  \frametitle{Techniques}
-  \begin{itemize}
-  \item Demand Reduction.
-  \item Adaptive Partition.
   \end{itemize}
 \end{frame}
 
@@ -702,18 +675,18 @@
     \node (intinst) at (8,2) {$\sitesset, \clientset, f_i, d_{ij}$};
     \node (intinst1) at (8,1.5) {$\hatr_j = \sum_{i} \hatx_{ij}$};
     \draw (8,-2) ellipse (1.6cm and 1cm);
-    \node (intinst) at (8,-2) {$\sitesset, \clientset, f_i, d_{ij}$};
-    \node (intinst1) at (8,-2.5) {$\dotr_j = r_j - \hatr_j$};
+    \node (fracinst) at (8,-2) {$\sitesset, \clientset, f_i, d_{ij}$};
+    \node (fracinst1) at (8,-2.5) {$\dotr_j = r_j - \hatr_j$};
 
     \draw[->,>=latex] (.9,1) -- (2,2);
     \draw[->,>=latex] (.9,-1) -- (2,-2);
     \draw[->,>=latex] (4,2) -- (6.4,2);
     \draw[->,>=latex] (4,-2) -- (6.4,-2);
     
-    \node[above] (prop11) at (5.2,2) {feasible};
-    \node[below] (prop12) at (5.2,2) {optimal};
-    \node[above] (prop21) at (5.2,-2) {feasible};
-    \node[below] (prop22) at (5.2,-2) {optimal};
+    \node[above] (prop11) at (5.2,2) {feasible,optimal};
+    \node[below] (prop12) at (5.2,2) {integral};
+    \node[above] (prop21) at (5.2,-2) {feasible,optimal};
+    \node[below] (prop22) at (5.2,-2) {fractional};
 
     \node[below] (inst1) at (8,.9) {instance $\hat \calI$};
     \node[below] (inst2) at (8,-3) {instance $\dot \calI$};
@@ -721,6 +694,28 @@
   \end{center}
 \end{frame}
 
+%%%
+\begin{frame}
+  \frametitle{Diagram for Demand Reduction, Cont.}
+  \begin{tikzpicture}[every text node part/.style={align=center}]
+    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (intinst) at (0,2) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\hatr_j = \sum_{i} \hatx_{ij}$};
+    \node[below] (label1) at (0,.5) {$\hat \calI$};
+
+    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (fracinst) at (0,-2) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\dotr_j = r_j - \hatr_j$};
+    \node (label2) at (0,-3.5) {$\dot \calI$};
+
+    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (intsoln) at (5,2) {$\hatx_{ij}, \haty_i$};
+    \node (intsoln1) at (5,0) {Soln for $\hat \calI$};
+    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (fracsoln) at (5,-2) {$\ddot x_{ij}, \ddot y_i$};
+    \node (fracsoln1) at (5,-4) {Soln for $\dot \calI$};
+    
+    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (soln) at (9,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
+    \node (soln1) at (9,-2) {Soln for $\calI$};
+
+    \foreach \from/\to in {intinst/intsoln, fracinst/fracsoln, intsoln/soln, fracsoln/soln}
+    \draw[->,>=latex] (\from)--(\to);
+  \end{tikzpicture}
+\end{frame}
 %%%
 \begin{frame}
   \frametitle{Theorem}
@@ -737,6 +732,31 @@
     $1.7245$-approximation algorithm for FTFP.
   \end{corollary}
 \end{frame}
+
+%%% general approach
+\begin{frame}
+  \frametitle{Our LP-rounding Approach}
+  \begin{itemize}
+  \item Generalize the LP-rounding algorithms for UFL to the
+    FTFP problem with fault-tolerant requirement.
+  \item Main techniques:
+    \begin{itemize}
+    \item Demand Reduction.
+    \item Adaptive Partition.
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+%%% techniques
+\begin{frame}
+  \frametitle{Techniques}
+  \begin{itemize}
+  \item Demand Reduction.
+  \item Adaptive Partition.
+  \end{itemize}
+\end{frame}
+
 
 \begin{frame}
   \frametitle{Adaptive Partition}
@@ -1765,3 +1785,8 @@
 %  LocalWords:  Srinivasan Swamy UCR Approximability Guha Khuller ij
 %  LocalWords:  Sviridenko Integrality iy Shmoys Tardos Ardal's Svi
 %  LocalWords:  iteratively Chudak th
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% STOP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
