@@ -828,6 +828,7 @@
 
 \begin{frame}
   \frametitle{Phase 1, Step 1} 
+  \setbeamercovered{invisible}
 
   For each client $j$ with residual demand $\barr_j > 0$, arrange
   neighboring facilities from near to far. The nearest few with total
@@ -841,7 +842,7 @@
     \draw (0,0) ellipse (3cm and .8cm);
     \draw (0,2) ellipse (3cm and .8cm);
     \draw (0,4) ellipse (3cm and .8cm);
-    \draw[style=dashed] (-.5,-1) -- (-.5,5);
+
 
     %% squares, facilities
     \draw[fill=blue!50] (-1.5,0) rectangle (-2,.4);
@@ -866,6 +867,8 @@
     \draw[fill=blue!50] (.3,4) rectangle (.8,4.4);
     \draw[fill=blue!50] (2,3.6) rectangle (2.5,4);
 
+    \pause
+    \draw[style=dashed] (-.5,-1) -- (-.5,5);
   \end{tikzpicture}
   \end{center}
 \end{frame}
