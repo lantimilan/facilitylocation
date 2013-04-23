@@ -629,6 +629,7 @@
   %%%%%%%%%%%
 \end{frame}
 
+%%% FTFP to FTFL
 \begin{frame}
   \frametitle{Reduction from FTFP to FTFL}
   Given an FTFP instance with demand $r_j$,
@@ -636,17 +637,22 @@
   \item Demand Reduction: Construct a restricted FTFP
     instance with $r_j < |\sitesset|$ for all clients $j$.
   \item Solve the restricted instance by reducing to FTFL.
-  \item Combine solutions to two instances.
-  \item Implication: FTFP has a $1.7245$-approximation algorithm.
+  \item Solve for original FTFP instance.
   \end{itemize}
+
+  \begin{theorem}
+    FTFP has a $1.7245$-approximation algorithm.    
+  \end{theorem}
 \end{frame}
 
 %%% demand reduction
 \begin{frame}
   \frametitle{Demand Reduction}
+
+  \textbf{Goal:} Reduce a general FTFP instance to a restricted FTFP
+  instance with $r_j \leq |\sitesset|$ for all clients $j$.
+
   \begin{itemize}
-  \item Reduce a general FTFP instance to a restricted FTFP instance
-    with $r_j \leq |\sitesset|$ for all clients $j$.
   \item Solving LP to obtain $(\bfx^\ast, \bfy^\ast)$.
   \item Round down $(\bfx^\ast, \bfy^\ast)$ to obtain integral part
     $(\hatbfx, \hatbfy)$. Define $\hat r_j = \sum_{i}\hat x_{ij}$.
@@ -664,13 +670,13 @@
 \begin{frame}
   \frametitle{Diagram for Demand Reduction}
   \begin{center}
-  \begin{tikzpicture}
+  \begin{tikzpicture}[every text node part/.style={align=center}]
     \draw (0,0) ellipse (1cm and 2cm);
     \node (lpsoln) at (0,0) {$(x_{ij}^\ast, y_{i}^\ast)$};
     \draw (3,2) ellipse (1cm and 1.6cm);
     \node (intsoln) at (3,2) {$(\hatx_{ij}, \haty_{i})$};
     \draw (3,-2) ellipse (1cm and 1.6cm);
-    \node (fracsoln) at (3,-2) {$\dotx_{ij}, \doty_{i}$};
+    \node (fracsoln) at (3,-2) {$(\dotx_{ij}, \doty_{i})$};
     \draw (8,2) ellipse (1.6cm and 1cm);
     \node (intinst) at (8,2) {$\sitesset, \clientset, f_i, d_{ij}$};
     \node (intinst1) at (8,1.5) {$\hatr_j = \sum_{i} \hatx_{ij}$};
@@ -683,9 +689,9 @@
     \draw[->,>=latex] (4,2) -- (6.4,2);
     \draw[->,>=latex] (4,-2) -- (6.4,-2);
     
-    \node[above] (prop11) at (5.2,2) {feasible,optimal};
+    \node[above] (prop11) at (5.2,2) {feasible \\ optimal};
     \node[below] (prop12) at (5.2,2) {integral};
-    \node[above] (prop21) at (5.2,-2) {feasible,optimal};
+    \node[above] (prop21) at (5.2,-2) {feasible \\ optimal};
     \node[below] (prop22) at (5.2,-2) {fractional};
 
     \node[below] (inst1) at (8,.9) {instance $\hat \calI$};
@@ -697,23 +703,49 @@
 %%%
 \begin{frame}
   \frametitle{Diagram for Demand Reduction, Cont.}
-  \begin{tikzpicture}[every text node part/.style={align=center}]
+  \begin{tikzpicture}[every text node part/.style={align=center},auto]
     \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (intinst) at (0,2) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\hatr_j = \sum_{i} \hatx_{ij}$};
     \node[below] (label1) at (0,.5) {$\hat \calI$};
 
     \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (fracinst) at (0,-2) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\dotr_j = r_j - \hatr_j$};
     \node (label2) at (0,-3.5) {$\dot \calI$};
 
-    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (intsoln) at (5,2) {$\hatx_{ij}, \haty_i$};
+    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (intsoln) at (5,2) {($\hatx_{ij}, \haty_i$)};
     \node (intsoln1) at (5,0) {Soln for $\hat \calI$};
-    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (fracsoln) at (5,-2) {$\ddot x_{ij}, \ddot y_i$};
+    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (fracsoln) at (5,-2) {$(\ddot x_{ij}, \ddot y_i)$};
     \node (fracsoln1) at (5,-4) {Soln for $\dot \calI$};
     
-    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (soln) at (9,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
-    \node (soln1) at (9,-2) {Soln for $\calI$};
+    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (soln) at (8.5,0) {$(\hatx_{ij} + \ddot x_{ij})$ \\ $(\haty_i + \ddot y_i)$};
+    \node (soln1) at (8.5,-2) {Soln for $\calI$};
 
-    \foreach \from/\to in {intinst/intsoln, fracinst/fracsoln, intsoln/soln, fracsoln/soln}
+    % TODO: specify default arrow style
+    \draw[->,>=latex] (intinst) to node {use $(\hatx_{ij},\haty_i)$} (intsoln);
+    \draw[->,>=latex] (fracinst) to node {round $(\dotx_{ij},\doty_i)$ } (fracsoln);
+    \foreach \from/\to in {intsoln/soln, fracsoln/soln}
     \draw[->,>=latex] (\from)--(\to);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Reduction to FTFL}
+  \begin{tikzpicture}[every text node part/.style={align=center},auto]
+    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (fracinst) at (0,0) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\dotr_j$};
+    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (ftflinst) at (4.5,0) {$\sitesset', \clientset, f_i, d_{ij}$ \\ $\dotr_j$};
+    \node[ellipse,draw] (fracsoln) at (9,0) {$(\ddot x_{ij}, \ddot y_i)$};
+
+    \draw[->,>=latex] (fracinst) to node {split} node[swap] {site} (ftflinst);
+    \draw[->,>=latex] (ftflinst) to node {FTFL} node[swap] {rounding} (fracsoln);
+
+    \node[rectangle,fill=blue!50,minimum size=1cm] at (0,-3) (site) {site $i$};
+    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-1) (site1) {$i_1$};
+    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-2) (site2) {$i_2$};
+    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-4) (sitek) {};
+    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-6) (siteR) {$i_R$};
+
+    \foreach \from/\to in {site/site1,site/site2,site/sitek,site/siteR}
+    \draw[->,>=latex] (\from)--(\to);
+
+    \node[right] at (4,-6) {$R=\max_j {\dotr_j}$};
   \end{tikzpicture}
 \end{frame}
 %%%
