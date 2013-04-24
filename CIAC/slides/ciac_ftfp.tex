@@ -51,13 +51,9 @@
     \item Fault-tolerant Facility Placement problem (FTFP)
     \end{itemize}
 
-  \item The Linear Program (LP) Formulation
+  \item Linear Program (LP) Formulation
 
-  \item Reduction to FTFL
-    \begin{itemize}
-    \item Demand Reduction
-    \item Site Splitting.
-    \end{itemize}
+  \item Demand Reduction
 
   \item Adaptive Partition
 
@@ -96,7 +92,7 @@
     \node[right,fill=cyan!25] (demand3) at (6,2) {$r_3=1$};
     \node[right,fill=cyan!25] (demand2) at (6,5) {$r_2=1$};
     \node[right,fill=cyan!25] (demand1) at (6,8) {$r_1=4$};
-    
+
     \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
     \draw (\from)--(\to);
 
@@ -255,7 +251,7 @@
   \vspace{.1in}
 
   Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} +
-  d_{23} + 3d_{31} = 38$.
+  d_{23} + 3d_{31} = 38$
 \end{frame}
 
 \begin{frame}
@@ -311,40 +307,42 @@
     \node[circle,fill=green!50] (client4) at (6,0) {$4$};
     \node[circle,fill=green!50] (client3) at (6,3) {$3$};
     \node[circle,fill=green!50] (client2) at (6,6) {$2$};
-    \node[circle,fill=green!50] (client1) at (6,11) {$1$};
+    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
     
-    \foreach \from/\to in {fac11/client1,fac12/client1,fac13/client1,fac14/client1,fac11/client2,fac11/client4,fac12/client4,fac21/client3}
+    \foreach \from/\to in {fac11/client1,fac12/client1,fac11/client2,fac11/client4,fac12/client4,fac21/client3}
         \draw (\from)--(\to);
 
-    \node (label1) at (3,-1) {Solution};
+    \draw[bend left] (fac13) to node (ew13) {} (client1);
+    \draw[bend right] (fac14) to node (ew14) {} (client1);
+    \node (label1) at (3,-3) {Solution};
   \end{tikzpicture}
   \end{minipage}
   \vspace{.1in}
 
   Cost is $4f_1 + 1f_2 + 0f_3 + 4d_{11} + d_{12} + 2d_{14} +
-  d_{23} = 29$.
+  d_{23} = 29$
 \end{frame}
 %%% problem definition
 \begin{frame}
-  \frametitle{The Fault-Tolerant Facility Placement Problem (FTFP)}
+  \frametitle{Fault-Tolerant Facility Placement Problem (FTFP)}
   Given
   \begin{itemize}
-  \item $\sitesset$, a set of sites can have facilities built,
-  \item $\clientset$, a set of clients with demands,
-  \item $r_j$, demand for client $j$,
-  \item $f_i$, cost to open one facility at site $i$,
+  \item $\sitesset$, a set of sites (facility places)
+  \item $\clientset$, a set of clients with demands
+  \item $r_j$, demand for client $j$
+  \item $f_i$, cost to open one facility at site $i$
   \item $d_{ij}$, cost to connect one demand from client $j$ to
-    facility at site $i$. Distances form a metric.
+    facility at site $i$
   \end{itemize}
-  Find 
+  Assume Distances form a metric
+
+  Objective
   \begin{itemize}
-  \item the number of facilities to build at each site,
-  \item the number of connections between site $i$ and client
-    $j$.
+  \item open facilities at each site
+  \item connect clients to facilities
+  \item minimize the total cost = (facility cost) + (connection cost)
   \end{itemize}
 
-  \textbf{Goal:} Minimize the total cost of opening
-  facilities and connecting clients to open facilities.
 \end{frame}
 
 %%% related problem
@@ -361,17 +359,17 @@
   \end{tikzpicture}
   \end{center}
   \begin{itemize}
-  \item The Uncapacitated Facility Location problem (UFL),
+  \item Uncapacitated Facility Location problem (UFL),
     all clients have unit demand.
-  \item The Fault-tolerant Facility Location problem (FTFL),
+  \item Fault-tolerant Facility Location problem (FTFL),
     each site can have at most one facility.
   \end{itemize}
 \end{frame}
 
 %%% UFL example
 \begin{frame}
-  \frametitle{The Uncapacitated Facility Location Problem (UFL)}
-  All demands are 1, each site can open only one facility.
+  \frametitle{Uncapacitated Facility Location Problem (UFL)}
+  All demands are 1, each site can open only one facility
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
@@ -413,8 +411,8 @@
 
 %%% FTFL example
 \begin{frame}
-  \frametitle{The Fault-tolerant Facility Location Problem (FTFL)}
-  Demands may be more than 1, each site can open only one facility.
+  \frametitle{Fault-tolerant Facility Location Problem (FTFL)}
+  Demands may be more than 1, each site can open only one facility
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -457,8 +455,8 @@
 
 %%% FTFP example
 \begin{frame}
-  \frametitle{The Fault-tolerant Facility Placement Problem (FTFP)}
-  Demands may be more than 1, each site can open multiple facilities.
+  \frametitle{Fault-tolerant Facility Placement Problem (FTFP)}
+  Demands may be more than 1, each site can open multiple facilities
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -507,30 +505,12 @@
 \end{minipage}
 \end{frame}
 
-%%% the metric version
-\begin{frame}
-  \frametitle{The Metric Version}
-  \begin{itemize}
-  \item The UFL problem with general distances cannot be
-    approximated to a ratio better than $O(\log n)$. And
-    Hochbaum's algorithm is an $O(\log n)$-approximation
-    algorithm for UFL.
-  \item The same lower bound on approximation ratio for UFL
-    applies to FTFL and FTFP.
-  \item From now on, restrict all three problems to metric
-    version, distances $d_{ij}$ satisfy the triangle
-    inequality:
-    \begin{equation*}
-      d_{ij} \leq d_{ij'} + d_{i'j'} + d_{i'j} \text{ for all } i,i' \in \sitesset, j,j'\in \clientset.
-    \end{equation*}
-  \end{itemize}
-\end{frame}
 
 %%% related work
 \begin{frame}
   \frametitle{Related Work on UFL}
 
-  Approximation algorithms for UFL.
+  Approximation algorithms for UFL
 
   \vspace{.3in}
   \begin{tabular}{| c | c | c | c |}
@@ -547,12 +527,19 @@
     Li & 2011 & 1.488 & hybrid (best result)\\
     \hline
   \end{tabular}
+  \vspace{.3in}
+
+  \begin{tabular}{| c | c | c | c |}
+    \hline
+    lower bound (inapproximability) & Guha and Khuller & 1998 & 1.463\\
+    \hline
+  \end{tabular}
 \end{frame}
 
 \begin{frame}
   \frametitle{Related Work on FTFL}
 
-    Approximation algorithms for FTFL.
+    Approximation algorithms for FTFL
 
     \vspace{.3in}
     \begin{tabular}{| c | c | c | c |}
@@ -569,225 +556,122 @@
   approximation ratio better than $O(\log n)$ is known.
 \end{frame}
 
-\begin{frame}
-  \frametitle{Related Work on Lower Bound}
-  Lower bound on approximation ratio.
-  \begin{itemize}
-  \item Lower bound of 1.463 for the UFL problem (Guha and Khuller, 1998).
-  \item Implies FTFL and FTFP cannot be approximated better than 1.463.
-  \end{itemize}
-
-\end{frame}
 
 %%% our results
 \begin{frame}
   \frametitle{Our Result for FTFP}
 
-  For the FTFP problem, we show
   \begin{itemize}
-  \item A reduction from FTFP to FTFL, implies an algorithm
-    with ratio $1.7245$.
-  \item An LP-rounding algorithm with approximation ratio
-    $1.575$.
-  \item Our approximation ratio for FTFP matches the best
-    known LP-based approximation ratio for UFL.
-  \item Our approach based on optimal fractional solution to the LP.
+  \item Main result: 1.575-approximation LP-rounding algorithm
+  \item Our ratio for FTFP matches the best known LP-based
+    approximation ratio for UFL
+  \item Generalize known LP-rounding algorithms for UFL to algorithms for FTFP
   \end{itemize}
 \end{frame}
 
 
 %%% LP-formulation
 \begin{frame}
-  \frametitle{The LP Formulation for FTFP}
+  \frametitle{LP Formulation for FTFP}
   \begin{itemize}
-  \item $y_i$  the number of facilities built at site $i$.
-  \item $x_{ij}$ the number of connections from client $j$ to site
-    $i$.
+  \item $y_i$   number of facilities open at site $i\in \sitesset$
+  \item $x_{ij}$ number of connections from client $j\in
+    \clientset$ to site $i \in \sitesset$
   \end{itemize}
   %%%%%%%%%%% 
   \begin{alignat}{3}
-    \textrm{minimize}\quad \textstyle{\sum_{i\in \sitesset}}f_iy_i &+ \textstyle{\sum_{i\in \sitesset, j\in \clientset}}d_{ij}x_{ij}&\label{eqn:fac_primal}
+    \textrm{minimize}\quad \sum f_iy_i &+ \sum d_{ij}x_{ij}&
     \\ \notag
-    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i\in \sitesset, j\in \clientset 
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i,j
     \\ \notag
-    \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j & &\forall j\in \clientset
+    \sum x_{ij} &\geq r_j & &\forall j
     \\ \notag
-    x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i,j
     \\ \notag
   \end{alignat}
   %%%%%%%%%%%%
   \begin{alignat}{3}
-  \text{(Dual)}\quad  \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\, \alpha_j&\label{eqn:fac_dual}  
+  \text{(Dual)}\quad  \textrm{maximize}\quad \sum r_j\, \alpha_j&
     \\ \notag
-    \textrm{subject to} \quad \textstyle{
-      \sum_{j\in \clientset}\beta_{ij}} &\leq f_i  &\quad\quad			&\forall i \in \sitesset  
+    \textrm{subject to} \quad 
+      \sum \beta_{ij} &\leq f_i  &\quad\quad			&\forall i
     \\ \notag
-    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i\in \sitesset, j\in \clientset 
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i,j
     \\ \notag
-    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i,j
   \end{alignat}
   %%%%%%%%%%%
 \end{frame}
 
-%%% FTFP to FTFL
+%%% Techniques
 \begin{frame}
-  \frametitle{Reduction from FTFP to FTFL}
-  Given an FTFP instance with demand $r_j$,
+  \frametitle{Techniques}
   \begin{itemize}
-  \item Demand Reduction: Construct a restricted FTFP
-    instance with $r_j < |\sitesset|$ for all clients $j$.
-  \item Solve the restricted instance by reducing to FTFL.
-  \item Solve for original FTFP instance.
+  \item Demand Reduction
+    \begin{itemize}
+    \item Using optimal LP solution to reduce all $r_j$ to small value
+    \item Ensure partitioning and rounding in polynomial time
+    \end{itemize}
+    
+  \item Adaptive Partition
+    \begin{itemize}
+    \item Split sites into facilities and clients into unit demands
+    \item Split associated fractional values
+    \item Allow rounding generalized from that for UFL
+    \end{itemize}
   \end{itemize}
+\end{frame}
 
-  \begin{theorem}
-    FTFP has a $1.7245$-approximation algorithm.    
-  \end{theorem}
+
+%%% figure for demand reduction
+\begin{frame}
+  \frametitle{Algorithm for FTFP}
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse] (lpsoln) at (0,0) {$x_{ij}^\ast$\\ $y_{i}^\ast$};
+    \node[draw,ellipse] (intpart) at (3,2) {$\hatx_{ij}$\\ $\haty_{i}$};
+    \node[draw,ellipse] (fracpart) at (3,-2) {$\dotx_{ij}$\\ $\doty_{i}$};
+
+    \node[draw,ellipse] (intinst) at (6,2) {$\hatr_j =$ \\ $\sum_{i} \hatx_{ij}$};
+    \node (intlabel) at (6,.5) {$\hat\calI$};
+    \node[draw,ellipse] (fracinst) at (6,-2) {$\dotr_j = $\\ $r_j - \hatr_j$};
+    \node (fraclabel) at (6,-3.5) {$\dot\calI$};
+
+    \node[draw, ellipse] (intsoln) at (10.5,2) {$\hatx_{ij}$ \\ $\haty_i$};
+%    \node (intsoln1) at (9,0) {Soln for $\hat \calI$};
+    \node[draw, ellipse] (fracsoln) at (10.5,-2) {$\ddot x_{ij}$ \\ $\ddot y_i$};
+%    \node (fracsoln1) at (9,-4) {Soln for $\dot \calI$};
+    \node[draw, ellipse] (soln) at (12.5,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
+%    \node (soln1) at (12,-2) {Soln for $\calI$};
+
+    \draw[->,>=latex] (lpsoln) to node[above] (trim) {round\\ down} (intpart);
+    \draw[->,>=latex] (lpsoln) to node[below] (rem) {demand\\ reduction} (fracpart);
+    \draw[->,>=latex] (intpart) to (intinst);
+    \draw[->,>=latex] (fracpart) to (fracinst);
+    \draw[->,>=latex] (intinst) to node (edge) {use $\hatx_{ij}, \haty_i$} (intsoln);
+    \draw[->,>=latex] (fracinst) to node (edge) {LP rounding} node[swap] (edge) {of $\dotx_{ij}, \doty_{i}$} (fracsoln);
+    \draw[->,>=latex] (intsoln) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);    
+
+  \end{tikzpicture}
+  \end{center}
 \end{frame}
 
 %%% demand reduction
 \begin{frame}
   \frametitle{Demand Reduction}
 
-  \textbf{Goal:} Reduce a general FTFP instance to a restricted FTFP
-  instance with $r_j \leq |\sitesset|$ for all clients $j$.
-
   \begin{itemize}
-  \item Solving LP to obtain $(\bfx^\ast, \bfy^\ast)$.
-  \item Round down $(\bfx^\ast, \bfy^\ast)$ to obtain integral part
-    $(\hatbfx, \hatbfy)$. Define $\hat r_j = \sum_{i}\hat x_{ij}$.
-  \item The rest form fractional part $(\dotbfx,\dotbfy)$. Define
-    $\dot r_j = r_j - \hat r_j$.
-  \item Both parts are feasible and optimal for their respective FTFP
-    instances $\hat \calI$ and $\dot \calI$.
-  \end{itemize}
-  \begin{claim}
-    $\dot r_j \leq |\sitesset|$ for all clients $j$ in $\dot \calI$.
-  \end{claim}
-\end{frame}
-
-%%% figure for demand reduction
-\begin{frame}
-  \frametitle{Diagram for Demand Reduction}
-  \begin{center}
-  \begin{tikzpicture}[every text node part/.style={align=center}]
-    \draw (0,0) ellipse (1cm and 2cm);
-    \node (lpsoln) at (0,0) {$(x_{ij}^\ast, y_{i}^\ast)$};
-    \draw (3,2) ellipse (1cm and 1.6cm);
-    \node (intsoln) at (3,2) {$(\hatx_{ij}, \haty_{i})$};
-    \draw (3,-2) ellipse (1cm and 1.6cm);
-    \node (fracsoln) at (3,-2) {$(\dotx_{ij}, \doty_{i})$};
-    \draw (8,2) ellipse (1.6cm and 1cm);
-    \node (intinst) at (8,2) {$\sitesset, \clientset, f_i, d_{ij}$};
-    \node (intinst1) at (8,1.5) {$\hatr_j = \sum_{i} \hatx_{ij}$};
-    \draw (8,-2) ellipse (1.6cm and 1cm);
-    \node (fracinst) at (8,-2) {$\sitesset, \clientset, f_i, d_{ij}$};
-    \node (fracinst1) at (8,-2.5) {$\dotr_j = r_j - \hatr_j$};
-
-    \draw[->,>=latex] (.9,1) -- (2,2);
-    \draw[->,>=latex] (.9,-1) -- (2,-2);
-    \draw[->,>=latex] (4,2) -- (6.4,2);
-    \draw[->,>=latex] (4,-2) -- (6.4,-2);
-    
-    \node[above] (prop11) at (5.2,2) {feasible \\ optimal};
-    \node[below] (prop12) at (5.2,2) {integral};
-    \node[above] (prop21) at (5.2,-2) {feasible \\ optimal};
-    \node[below] (prop22) at (5.2,-2) {fractional};
-
-    \node[below] (inst1) at (8,.9) {instance $\hat \calI$};
-    \node[below] (inst2) at (8,-3) {instance $\dot \calI$};
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
-%%%
-\begin{frame}
-  \frametitle{Diagram for Demand Reduction, Cont.}
-  \begin{tikzpicture}[every text node part/.style={align=center},auto]
-    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (intinst) at (0,2) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\hatr_j = \sum_{i} \hatx_{ij}$};
-    \node[below] (label1) at (0,.5) {$\hat \calI$};
-
-    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (fracinst) at (0,-2) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\dotr_j = r_j - \hatr_j$};
-    \node (label2) at (0,-3.5) {$\dot \calI$};
-
-    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (intsoln) at (5,2) {($\hatx_{ij}, \haty_i$)};
-    \node (intsoln1) at (5,0) {Soln for $\hat \calI$};
-    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (fracsoln) at (5,-2) {$(\ddot x_{ij}, \ddot y_i)$};
-    \node (fracsoln1) at (5,-4) {Soln for $\dot \calI$};
-    
-    \node[ellipse, minimum width=2cm, minimum height=3.2cm, draw] (soln) at (8.5,0) {$(\hatx_{ij} + \ddot x_{ij})$ \\ $(\haty_i + \ddot y_i)$};
-    \node (soln1) at (8.5,-2) {Soln for $\calI$};
-
-    % TODO: specify default arrow style
-    \draw[->,>=latex] (intinst) to node {use $(\hatx_{ij},\haty_i)$} (intsoln);
-    \draw[->,>=latex] (fracinst) to node {round $(\dotx_{ij},\doty_i)$ } (fracsoln);
-    \foreach \from/\to in {intsoln/soln, fracsoln/soln}
-    \draw[->,>=latex] (\from)--(\to);
-  \end{tikzpicture}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Reduction to FTFL}
-  \begin{tikzpicture}[every text node part/.style={align=center},auto]
-    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (fracinst) at (0,0) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\dotr_j$};
-    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (ftflinst) at (4.5,0) {$\sitesset', \clientset, f_i, d_{ij}$ \\ $\dotr_j$};
-    \node[ellipse,draw] (fracsoln) at (9,0) {$(\ddot x_{ij}, \ddot y_i)$};
-
-    \draw[->,>=latex] (fracinst) to node {split} node[swap] {site} (ftflinst);
-    \draw[->,>=latex] (ftflinst) to node {FTFL} node[swap] {rounding} (fracsoln);
-
-    \node[rectangle,fill=blue!50,minimum size=1cm] at (0,-3) (site) {site $i$};
-    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-1) (site1) {$i_1$};
-    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-2) (site2) {$i_2$};
-    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-4) (sitek) {};
-    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-6) (siteR) {$i_R$};
-
-    \foreach \from/\to in {site/site1,site/site2,site/sitek,site/siteR}
-    \draw[->,>=latex] (\from)--(\to);
-
-    \node[right] at (4,-6) {$R=\max_j {\dotr_j}$};
-  \end{tikzpicture}
-\end{frame}
-%%%
-\begin{frame}
-  \frametitle{Theorem}
-  \begin{theorem}
-    Given any $\rho$-approximation algorithm $\calA$ for the
-    restricted FTFP problem with $r_j \leq |\sitesset|$, if $\rho$ is
-    an upper bound on comparing algorithm's cost and the optimal
-    fractional solution's cost, then we have a $\rho$-approximation
-    algorithm for the general FTFP problem.
-  \end{theorem}
-
-  \begin{corollary}
-    Using $1.7245$-approximation algorithm for FTFL, can have a
-    $1.7245$-approximation algorithm for FTFP.
-  \end{corollary}
-\end{frame}
-
-%%% general approach
-\begin{frame}
-  \frametitle{Our LP-rounding Approach}
-  \begin{itemize}
-  \item Generalize the LP-rounding algorithms for UFL to the
-    FTFP problem with fault-tolerant requirement.
-  \item Main techniques:
-    \begin{itemize}
-    \item Demand Reduction.
-    \item Adaptive Partition.
-    \end{itemize}
-  \end{itemize}
-
-\end{frame}
-
-%%% techniques
-\begin{frame}
-  \frametitle{Techniques}
-  \begin{itemize}
-  \item Demand Reduction.
-  \item Adaptive Partition.
+  \item Solving LP for $(\bfx^\ast, \bfy^\ast)$.
+  \item $\hat\bfx, \hat\bfy = $ round down $\bfx^\ast, \bfy^\ast$
+  \item $\dot\bfx, \dot\bfy = $ remaining fractional
+  \item $\hat r_j = \sum_{i}\hat x_{ij}$ for $\hat\calI$, $\dot r_j = r_j - \hat r_j$ for $\dot\calI$
+  \item $\hat\bfx, \hat\bfy$ feasible and optimal for $\hat\calI$
+  \item $\dot\bfx, \dot\bfy$ feasible and optimal for $\dot\calI$
   \end{itemize}
 \end{frame}
+
+
 
 
 \begin{frame}
@@ -1824,4 +1708,103 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% STOP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% the metric version
+%%\begin{frame}
+%%  \frametitle{The Metric Version}
+%%  \begin{itemize}
+%%  \item The UFL problem with general distances cannot be
+%%    approximated to a ratio better than $O(\log n)$. And
+%%    Hochbaum's algorithm is an $O(\log n)$-approximation
+%%    algorithm for UFL.
+%%  \item The same lower bound on approximation ratio for UFL
+%%    applies to FTFL and FTFP.
+%%  \item From now on, restrict all three problems to metric
+%%    version, distances $d_{ij}$ satisfy the triangle
+%%    inequality:
+%%    \begin{equation*}
+%%      d_{ij} \leq d_{ij'} + d_{i'j'} + d_{i'j} \text{ for all } i,i' \in \sitesset, j,j'\in \clientset.
+%%    \end{equation*}
+%%  \end{itemize}
+%%\end{frame}
 
+%%\begin{frame}
+%%  \frametitle{Related Work on Lower Bound}
+%%  Lower bound on approximation ratio.
+%%  \begin{itemize}
+%%  \item Lower bound of 1.463 for the UFL problem (Guha and Khuller, 1998).
+%%  \item Implies FTFL and FTFP cannot be approximated better than 1.463.
+%%  \end{itemize}
+%%
+%%\end{frame}
+
+
+%%% FTFP to FTFL
+%%\begin{frame}
+%%  \frametitle{Reduction from FTFP to FTFL}
+%%  Given an FTFP instance with demand $r_j$,
+%%  \begin{itemize}
+%%  \item Demand Reduction: Construct a restricted FTFP
+%%    instance with $r_j < |\sitesset|$ for all clients $j$.
+%%  \item Solve the restricted instance by reducing to FTFL.
+%%  \item Solve for original FTFP instance.
+%%  \end{itemize}
+%%
+%%  \begin{theorem}
+%%    FTFP has a $1.7245$-approximation algorithm.    
+%%  \end{theorem}
+%%\end{frame}
+
+%%\begin{frame}
+%%  \frametitle{Reduction to FTFL}
+%%  \begin{tikzpicture}[every text node part/.style={align=center},auto]
+%%    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (fracinst) at (0,0) {$\sitesset, \clientset, f_i, d_{ij}$ \\ $\dotr_j$};
+%%    \node[ellipse, minimum width=3.2cm, minimum height=2cm, draw] (ftflinst) at (4.5,0) {$\sitesset', \clientset, f_i, d_{ij}$ \\ $\dotr_j$};
+%%    \node[ellipse,draw] (fracsoln) at (9,0) {$(\ddot x_{ij}, \ddot y_i)$};
+%%
+%%    \draw[->,>=latex] (fracinst) to node {split} node[swap] {site} (ftflinst);
+%%    \draw[->,>=latex] (ftflinst) to node {FTFL} node[swap] {rounding} (fracsoln);
+%%
+%%    \node[rectangle,fill=blue!50,minimum size=1cm] at (0,-3) (site) {site $i$};
+%%    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-1) (site1) {$i_1$};
+%%    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-2) (site2) {$i_2$};
+%%    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-4) (sitek) {};
+%%    \node[rectangle,fill=blue!40,minimum size=.6cm] at (3,-6) (siteR) {$i_R$};
+%%
+%%    \foreach \from/\to in {site/site1,site/site2,site/sitek,site/siteR}
+%%    \draw[->,>=latex] (\from)--(\to);
+%%
+%%    \node[right] at (4,-6) {$R=\max_j {\dotr_j}$};
+%%  \end{tikzpicture}
+%%\end{frame}
+
+%%%
+%%\begin{frame}
+%%  \frametitle{Theorem}
+%%  \begin{theorem}
+%%    Given any $\rho$-approximation algorithm $\calA$ for the
+%%    restricted FTFP problem with $r_j \leq |\sitesset|$, if $\rho$ is
+%%    an upper bound on comparing algorithm's cost and the optimal
+%%    fractional solution's cost, then we have a $\rho$-approximation
+%%    algorithm for the general FTFP problem.
+%%  \end{theorem}
+%%
+%%  \begin{corollary}
+%%    Using $1.7245$-approximation algorithm for FTFL, can have a
+%%    $1.7245$-approximation algorithm for FTFP.
+%%  \end{corollary}
+%%\end{frame}
+%%
+%%%%% general approach
+%%\begin{frame}
+%%  \frametitle{Our LP-rounding Approach}
+%%  \begin{itemize}
+%%  \item Generalize the LP-rounding algorithms for UFL to the
+%%    FTFP problem with fault-tolerant requirement.
+%%  \item Main techniques:
+%%    \begin{itemize}
+%%    \item Demand Reduction.
+%%    \item Adaptive Partition.
+%%    \end{itemize}
+%%  \end{itemize}
+%%
+%%\end{frame}
