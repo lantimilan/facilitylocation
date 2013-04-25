@@ -674,227 +674,302 @@
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% old partitioning slides
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\begin{frame}
+%%  \frametitle{Adaptive Partition}
+%%  \begin{itemize}
+%%  \item Begin with a fractional complete solution $(\bfx,\bfy)$.
+%%  \item In the partitioned solution,
+%%    \begin{itemize}
+%%    \item Each site $i$ has facilities $\mu$.
+%%    \item Each client $j$ has $r_j$ demand points $\nu$.
+%%    \item Each facility $\mu$ has fractional opening $\bary_{\mu}$.
+%%    \item Each demand point connects to each facility with value
+%%      $\barx_{\mu\nu}$.
+%%    \end{itemize}
+%%    \item The partitioned solution $(\barbfx,\barbfy)$ satisfies a
+%%      number of properties.
+%%      \begin{itemize}
+%%      \item $y_i^\ast$ distributed among facilities at site $i$,
+%%      \item $x_{ij}^\ast$ distributed among sibling demands of client
+%%        $j$,
+%%      \item $\barx_{\mu\nu} = \bary_{\mu}$ or $0$ (completeness),
+%%      \item Each demand $\nu$ is assigned to a primary demand $\kappa$
+%%        with a low cost.
+%%      \end{itemize}
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Animation of Partition}
+%%
+%%  Two phases
+%%  \begin{itemize}
+%%  \item Phase 1, the partitioning phase, define demands and allocate facilities.
+%%  \item Phase 2, the augmenting phase, allocate additional facilities
+%%    to make total connection value unit.
+%%  \end{itemize}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Phase 1, Step 1} 
+%%  \setbeamercovered{invisible}
+%%
+%%  For each client $j$ with residual demand $\barr_j > 0$, arrange
+%%  neighboring facilities from near to far. The nearest few with total
+%%  connection value $1$ defines $\wbarN_1(j)$.
+%%  
+%%  \begin{center}
+%%  \begin{tikzpicture}
+%%    \node (label1) at (-2,5) {$\wtildeN_1(j)$};
+%%    \node (label2) at (4,4) {$\wtildeN(j)$};
+%%
+%%    \draw (0,0) ellipse (3cm and .8cm);
+%%    \draw (0,2) ellipse (3cm and .8cm);
+%%    \draw (0,4) ellipse (3cm and .8cm);
+%%
+%%
+%%    %% squares, facilities
+%%    \draw[fill=blue!50] (-1.5,0) rectangle (-2,.4);
+%%    \draw[fill=blue!50] (-.8,-.1) rectangle (-1.3,.3);
+%%    \draw[fill=blue!50] (-1.3,-.2) rectangle (-1.8,-.6);
+%%
+%%    \draw[fill=blue!50] (0,0) rectangle (.5,.4);
+%%    \draw[fill=blue!50] (1.3,-.2) rectangle (1.8,-.6);
+%%         
+%%    \draw[fill=blue!50] (-1.5,2) rectangle (-2,2.4);
+%%    \draw[fill=blue!50] (-.8,1.9) rectangle (-1.3,2.3);
+%%    \draw[fill=blue!50] (-1.3,1.8) rectangle (-1.8,1.4);
+%%
+%%    \draw[fill=blue!50] (.2,1.8) rectangle (.7,1.4);
+%%    \draw[fill=blue!50] (1,1.8) rectangle (1.5,1.4);
+%%
+%%    \draw[fill=blue!50] (-1.5,4) rectangle (-2,4.4);
+%%    \draw[fill=blue!50] (-.8,3.9) rectangle (-1.3,4.3);
+%%    \draw[fill=blue!50] (-1.3,3.8) rectangle (-1.8,3.4);
+%%
+%%    \draw[fill=blue!50] (0,3.4) rectangle (.5,3.8);
+%%    \draw[fill=blue!50] (.3,4) rectangle (.8,4.4);
+%%    \draw[fill=blue!50] (2,3.6) rectangle (2.5,4);
+%%
+%%    \pause
+%%    \draw[style=dashed] (-.5,-1) -- (-.5,5);
+%%  \end{tikzpicture}
+%%  \end{center}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Phase 1, Step 2} 
+%%
+%%  Select client $p$ such that the sum of the average distance to
+%%  $\wtildeN_1(p)$ and $\alpha_p^\ast$ is minimized. Now we have two
+%%  cases to proceed.
+%%
+%%  \begin{itemize}
+%%  \item Case 1: $\wtildeN_1(p)$ is disjoint from every exisiting
+%%    $\wbarN(\kappa)$.
+%%    \begin{center}
+%%    \begin{tikzpicture}
+%%    \draw (0,0) ellipse (2cm and 1cm);
+%%    \draw (5,0) ellipse (2cm and 1cm);
+%%    \node (text1) at (0,-1.5) {$\wtildeN_1(p)$};
+%%    \node (text2) at (5,-1.5) {$\wbarN(\kappa)$};
+%%    \end{tikzpicture}
+%%    \end{center}
+%%  \item Case 2: $\wtildeN_1(p)$ overlaps with some $\wbarN(\kappa)$.
+%%  \end{itemize}
+%%  \begin{center}
+%%    \begin{tikzpicture}
+%%    \draw (3,0) ellipse (2cm and 1cm);
+%%    \draw (5.5,0) ellipse (2cm and 1cm);
+%%    \node (text1) at (3,-1.5) {$\wtildeN_1(p)$};
+%%    \node (text2) at (5.5,-1.5) {$\wbarN(\kappa)$};
+%%    \end{tikzpicture}
+%%    \end{center}
+%%\end{frame}
+%%
+%%%%% make a new primary
+%%\begin{frame}
+%%  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
+%%  \begin{center}
+%%  \begin{tikzpicture}
+%%    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
+%%    \node[right] at (0,-3) {$\wtildeN(p)$};
+%%    
+%%    \draw[fill=yellow!50] (-1,0) ellipse (1cm and 2cm);
+%%    \node[above] at (-1,-1) {$\wtildeN_1(p)$};
+%%    
+%%    \draw[fill=blue!50] (-1,1.2) rectangle (-.5,1.7);
+%%    \draw[fill=blue!50] (-1.5,.4) rectangle (-1,.9);
+%%    \draw[fill=blue!50] (-1,-.2) rectangle (-.5,.3);
+%%
+%%    \draw (5,0) ellipse (1cm and 2cm);
+%%    \node[right] at (6,0) {$\wbarN(\nu)$};
+%%  \end{tikzpicture}
+%%  \end{center}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
+%%
+%%  All facilities in $\wtildeN_1(p)$ moved to $\wbarN(\nu)$.
+%%  
+%%  \vspace{1cm}
+%%  \begin{center}
+%%  \begin{tikzpicture}
+%%    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
+%%    \node[right] at (0,-3) {$\wtildeN(p)$};
+%%    
+%%    \draw[fill=white] (-1,0) ellipse (1cm and 2cm);
+%%    
+%%    \draw[fill=yellow!50] (5,0) ellipse (1cm and 2cm);
+%%    \node[right] at (6,0) {$\wbarN(\nu)$};
+%%
+%%    \draw[fill=blue!50] (5,1.2) rectangle (5.5,1.7);
+%%    \draw[fill=blue!50] (4.5,.4) rectangle (5,.9);
+%%    \draw[fill=blue!50] (5,-.2) rectangle (5.5,.3);
+%%
+%%  \end{tikzpicture}
+%%  \end{center}
+%%\end{frame}
+%%
+%%%%% intersect with a primary
+%%\begin{frame}
+%%  \frametitle{Phase 1, Step 2 (Cont. Case 2)}
+%%
+%%  Move all overlapping facilities in $\wtildeN(p) \cap
+%%  \wbarN(\kappa)$ into $\wbarN(\nu)$.
+%%
+%%  \vspace{.5cm}
+%%  \begin{center}
+%%  \begin{tikzpicture}
+%%  \draw[fill=green!50] (1,1) ellipse (1.5cm and 2.5cm);
+%%  \node (client) at (-1,0) {$\wtildeN(p)$};
+%%
+%%  \draw[fill=yellow!50] (1.2,1.5) ellipse (.7cm and 1.4cm);
+%%  \node (prefix) at (1.3,.7) {$\wbarN_1(p)$};
+%%
+%%  \draw (1,3) ellipse (1cm and 2cm);
+%%  \node (primary) at (-.5,4) {$\wbarN(\kappa)$};
+%%
+%%  \draw (7,1) ellipse (2cm and 1cm);
+%%  \node (demand) at (7,-.5) {$\wbarN(\nu)$};
+%%
+%%  %% fac
+%%  \draw[fill=blue!50] (1.2,2) rectangle (1.7,2.5);
+%%  \draw[fill=blue!50] (.4,2.8) rectangle (.9,3.3);
+%%  \draw[fill=blue!50] (.6,1.5) rectangle (1.1,2);
+%%
+%%  \draw [->,>=latex] (1.7,2) -- (7,1);
+%%  \draw [->,>=latex] (.9,3) -- (7,1.5);
+%%  \draw [->,>=latex] (.9,1.5) -- (7,.5);
+%%  \end{tikzpicture}
+%%  \end{center}
+%%\end{frame}
+%%
+%%\begin{frame}
+%%  \frametitle{Phase 2}
+%%
+%%  Add facilities from $\wtildeN(j)$ to $\wbarN(\nu)$ until total
+%%  connection value is $1$.
+%%
+%%  \vspace{1cm}
+%%  \begin{center}
+%%  \begin{tikzpicture}
+%%    \draw (0,0) ellipse (3cm and 2cm);
+%%    \node (label1) at (0,-2.5) {$\wtildeN(j)$};
+%%
+%%    \draw (5,0) ellipse (1cm and 2cm);
+%%    \node (label2) at (5,-2.5) {$\wbarN(\nu)$};
+%%
+%%    \draw[fill=blue!50] (-2.5,0) rectangle (-2,.5);
+%%    \draw[fill=blue!50] (-2,-1) rectangle (-1.5,-.5);
+%%    \draw[fill=blue!50] (-1,.5) rectangle (-.5,1);
+%%    \draw[fill=blue!50] (2,0) rectangle (2.5,.5);
+%%
+%%    \draw[fill=blue!50] (5,1) rectangle (5.5,1.5);
+%%    \draw[fill=blue!50] (5,-1.5) rectangle (5.5,-1);
+%%
+%%    \draw [->,>=latex] (2.5,.3) -- (5,0);
+%%  \end{tikzpicture}
+%%  \end{center}
+%%
+%%\end{frame}
+
 \begin{frame}
   \frametitle{Adaptive Partition}
+  \begin{tikzpicture}[scale=.8]
+    % site to facility
+    \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac1) at (3,3) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac2) at (3,1.5) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac3) at (3,0) {};
+    \node[fill=blue!75,minimum size=.6cm] (fack) at (3,-3) {};
+
+    \foreach \from in {site}
+    \foreach \to in {fac1,fac2,fac3,fack}
+    \draw[->,>=latex] (\from) -- (\to);
+
+    \node (sitelabel) at (0,0) {site};
+    \node (faclabel) at (3,4) {facility $\mu$ (to open)};
+
+    % client to demand
+    \node[circle, fill=green!50, minimum size=1cm] (client) at (12,0) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand1) at (9,4) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand2) at (9,2) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand3) at (9,0) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand4) at (9,-2) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demandk) at (9,-4) {};
+    \foreach \from in {client}
+    \foreach \to in {demand1, demand2, demand3, demand4, demandk}
+    \draw[->,>=latex] (\from) -- (\to);
+
+    \node (clientlabel) at (12,0) {client};
+    \node (demandlabel) at (9,5) {unit demand $\nu$};
+
+    % xval
+    \draw (fac3) to node (xval) {$\barx_{\mu\nu} \in \{0, \bary_{\mu}\}$} (demand2);
+  \end{tikzpicture}
+\end{frame}
+
+%%% neigbhorhood
+\begin{frame}
+  \frametitle{Neighborhood}
+  \begin{center}
+  \begin{tikzpicture}[auto,every text node part/.style={align=center}]
+    \draw[fill=yellow!25] (3,1) ellipse (1cm and 3cm);
+
+    \node[fill=blue!75,minimum size=.6cm] (fac1) at (3,3) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac2) at (3,1.5) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac3) at (3,0) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac4) at (3,-1.5) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac5) at (3,-3) {};
+
+    \node[circle,fill=green!75,minimum size=.6cm] (demand) at (10,0){};
+
+    \foreach \from in {fac1,fac2,fac3,fac4}
+    \foreach \to in {demand}
+    \draw (\from) to node (edgelabel) {$\barx > 0$} (\to);
+
+    \draw[dashed] (fac5) to node[below] (zerolabel) {$\barx = 0$} (demand);
+
+    \node (neighborlabel) at (5,4) {neighborhood};
+    \node (faclabel) at (2,-1) {neighboring \\ facility};
+    \node (otherlabel) at (2,-3) {non-neighbor \\ facility};
+    \node (demandlabel) at (10,-1) {demand};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Partition Properties}
   \begin{itemize}
-  \item Begin with a fractional complete solution $(\bfx,\bfy)$.
-  \item In the partitioned solution,
-    \begin{itemize}
-    \item Each site $i$ has facilities $\mu$.
-    \item Each client $j$ has $r_j$ demand points $\nu$.
-    \item Each facility $\mu$ has fractional opening $\bary_{\mu}$.
-    \item Each demand point connects to each facility with value
-      $\barx_{\mu\nu}$.
-    \end{itemize}
-    \item The partitioned solution $(\barbfx,\barbfy)$ satisfies a
-      number of properties.
-      \begin{itemize}
-      \item $y_i^\ast$ distributed among facilities at site $i$,
-      \item $x_{ij}^\ast$ distributed among sibling demands of client
-        $j$,
-      \item $\barx_{\mu\nu} = \bary_{\mu}$ or $0$ (completeness),
-      \item Each demand $\nu$ is assigned to a primary demand $\kappa$
-        with a low cost.
-      \end{itemize}
+  \item 
   \end{itemize}
 \end{frame}
-
-\begin{frame}
-  \frametitle{Animation of Partition}
-
-  Two phases
-  \begin{itemize}
-  \item Phase 1, the partitioning phase, define demands and allocate facilities.
-  \item Phase 2, the augmenting phase, allocate additional facilities
-    to make total connection value unit.
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Phase 1, Step 1} 
-  \setbeamercovered{invisible}
-
-  For each client $j$ with residual demand $\barr_j > 0$, arrange
-  neighboring facilities from near to far. The nearest few with total
-  connection value $1$ defines $\wbarN_1(j)$.
-  
-  \begin{center}
-  \begin{tikzpicture}
-    \node (label1) at (-2,5) {$\wtildeN_1(j)$};
-    \node (label2) at (4,4) {$\wtildeN(j)$};
-
-    \draw (0,0) ellipse (3cm and .8cm);
-    \draw (0,2) ellipse (3cm and .8cm);
-    \draw (0,4) ellipse (3cm and .8cm);
-
-
-    %% squares, facilities
-    \draw[fill=blue!50] (-1.5,0) rectangle (-2,.4);
-    \draw[fill=blue!50] (-.8,-.1) rectangle (-1.3,.3);
-    \draw[fill=blue!50] (-1.3,-.2) rectangle (-1.8,-.6);
-
-    \draw[fill=blue!50] (0,0) rectangle (.5,.4);
-    \draw[fill=blue!50] (1.3,-.2) rectangle (1.8,-.6);
-         
-    \draw[fill=blue!50] (-1.5,2) rectangle (-2,2.4);
-    \draw[fill=blue!50] (-.8,1.9) rectangle (-1.3,2.3);
-    \draw[fill=blue!50] (-1.3,1.8) rectangle (-1.8,1.4);
-
-    \draw[fill=blue!50] (.2,1.8) rectangle (.7,1.4);
-    \draw[fill=blue!50] (1,1.8) rectangle (1.5,1.4);
-
-    \draw[fill=blue!50] (-1.5,4) rectangle (-2,4.4);
-    \draw[fill=blue!50] (-.8,3.9) rectangle (-1.3,4.3);
-    \draw[fill=blue!50] (-1.3,3.8) rectangle (-1.8,3.4);
-
-    \draw[fill=blue!50] (0,3.4) rectangle (.5,3.8);
-    \draw[fill=blue!50] (.3,4) rectangle (.8,4.4);
-    \draw[fill=blue!50] (2,3.6) rectangle (2.5,4);
-
-    \pause
-    \draw[style=dashed] (-.5,-1) -- (-.5,5);
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Phase 1, Step 2} 
-
-  Select client $p$ such that the sum of the average distance to
-  $\wtildeN_1(p)$ and $\alpha_p^\ast$ is minimized. Now we have two
-  cases to proceed.
-
-  \begin{itemize}
-  \item Case 1: $\wtildeN_1(p)$ is disjoint from every exisiting
-    $\wbarN(\kappa)$.
-    \begin{center}
-    \begin{tikzpicture}
-    \draw (0,0) ellipse (2cm and 1cm);
-    \draw (5,0) ellipse (2cm and 1cm);
-    \node (text1) at (0,-1.5) {$\wtildeN_1(p)$};
-    \node (text2) at (5,-1.5) {$\wbarN(\kappa)$};
-    \end{tikzpicture}
-    \end{center}
-  \item Case 2: $\wtildeN_1(p)$ overlaps with some $\wbarN(\kappa)$.
-  \end{itemize}
-  \begin{center}
-    \begin{tikzpicture}
-    \draw (3,0) ellipse (2cm and 1cm);
-    \draw (5.5,0) ellipse (2cm and 1cm);
-    \node (text1) at (3,-1.5) {$\wtildeN_1(p)$};
-    \node (text2) at (5.5,-1.5) {$\wbarN(\kappa)$};
-    \end{tikzpicture}
-    \end{center}
-\end{frame}
-
-%%% make a new primary
-\begin{frame}
-  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
-  \begin{center}
-  \begin{tikzpicture}
-    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
-    \node[right] at (0,-3) {$\wtildeN(p)$};
-    
-    \draw[fill=yellow!50] (-1,0) ellipse (1cm and 2cm);
-    \node[above] at (-1,-1) {$\wtildeN_1(p)$};
-    
-    \draw[fill=blue!50] (-1,1.2) rectangle (-.5,1.7);
-    \draw[fill=blue!50] (-1.5,.4) rectangle (-1,.9);
-    \draw[fill=blue!50] (-1,-.2) rectangle (-.5,.3);
-
-    \draw (5,0) ellipse (1cm and 2cm);
-    \node[right] at (6,0) {$\wbarN(\nu)$};
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
-
-  All facilities in $\wtildeN_1(p)$ moved to $\wbarN(\nu)$.
-  
-  \vspace{1cm}
-  \begin{center}
-  \begin{tikzpicture}
-    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
-    \node[right] at (0,-3) {$\wtildeN(p)$};
-    
-    \draw[fill=white] (-1,0) ellipse (1cm and 2cm);
-    
-    \draw[fill=yellow!50] (5,0) ellipse (1cm and 2cm);
-    \node[right] at (6,0) {$\wbarN(\nu)$};
-
-    \draw[fill=blue!50] (5,1.2) rectangle (5.5,1.7);
-    \draw[fill=blue!50] (4.5,.4) rectangle (5,.9);
-    \draw[fill=blue!50] (5,-.2) rectangle (5.5,.3);
-
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
-%%% intersect with a primary
-\begin{frame}
-  \frametitle{Phase 1, Step 2 (Cont. Case 2)}
-
-  Move all overlapping facilities in $\wtildeN(p) \cap
-  \wbarN(\kappa)$ into $\wbarN(\nu)$.
-
-  \vspace{.5cm}
-  \begin{center}
-  \begin{tikzpicture}
-  \draw[fill=green!50] (1,1) ellipse (1.5cm and 2.5cm);
-  \node (client) at (-1,0) {$\wtildeN(p)$};
-
-  \draw[fill=yellow!50] (1.2,1.5) ellipse (.7cm and 1.4cm);
-  \node (prefix) at (1.3,.7) {$\wbarN_1(p)$};
-
-  \draw (1,3) ellipse (1cm and 2cm);
-  \node (primary) at (-.5,4) {$\wbarN(\kappa)$};
-
-  \draw (7,1) ellipse (2cm and 1cm);
-  \node (demand) at (7,-.5) {$\wbarN(\nu)$};
-
-  %% fac
-  \draw[fill=blue!50] (1.2,2) rectangle (1.7,2.5);
-  \draw[fill=blue!50] (.4,2.8) rectangle (.9,3.3);
-  \draw[fill=blue!50] (.6,1.5) rectangle (1.1,2);
-
-  \draw [->,>=latex] (1.7,2) -- (7,1);
-  \draw [->,>=latex] (.9,3) -- (7,1.5);
-  \draw [->,>=latex] (.9,1.5) -- (7,.5);
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Phase 2}
-
-  Add facilities from $\wtildeN(j)$ to $\wbarN(\nu)$ until total
-  connection value is $1$.
-
-  \vspace{1cm}
-  \begin{center}
-  \begin{tikzpicture}
-    \draw (0,0) ellipse (3cm and 2cm);
-    \node (label1) at (0,-2.5) {$\wtildeN(j)$};
-
-    \draw (5,0) ellipse (1cm and 2cm);
-    \node (label2) at (5,-2.5) {$\wbarN(\nu)$};
-
-    \draw[fill=blue!50] (-2.5,0) rectangle (-2,.5);
-    \draw[fill=blue!50] (-2,-1) rectangle (-1.5,-.5);
-    \draw[fill=blue!50] (-1,.5) rectangle (-.5,1);
-    \draw[fill=blue!50] (2,0) rectangle (2.5,.5);
-
-    \draw[fill=blue!50] (5,1) rectangle (5.5,1.5);
-    \draw[fill=blue!50] (5,-1.5) rectangle (5.5,-1);
-
-    \draw [->,>=latex] (2.5,.3) -- (5,0);
-  \end{tikzpicture}
-  \end{center}
-
-\end{frame}
-
 %%% partition example
 \begin{frame}
   \frametitle{An Example of Partition}
