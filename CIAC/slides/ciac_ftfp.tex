@@ -957,7 +957,7 @@
 
     \node (neighborlabel) at (5,4) {neighborhood};
     \node (faclabel) at (2,-1) {neighboring \\ facility};
-    \node (otherlabel) at (2,-3) {non-neighbor \\ facility};
+    \node (otherlabel) at (1.5,-3) {non-neighbor \\ facility};
     \node (demandlabel) at (10,-1) {demand};
   \end{tikzpicture}
   \end{center}
@@ -967,8 +967,26 @@
 \begin{frame}
   \frametitle{Partition Properties}
   \begin{itemize}
-  \item 
+  \item Each demand have neighborhood $\barx$ sum to $1$
+  \item Primaries have disjoint neighborhood
+  \item Non-primary assigned to primary with overlap neighborhood
+  \item Primary have smaller cost than assigned non-primary
+  \item Neighborhood $N(\kappa_1) \cup N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$
   \end{itemize}
+
+  \vspace{.5cm}
+  \begin{tikzpicture}
+    \node[fill=green!75,minimum size=.6cm] (primary1) at (0,0) {$\kappa_1$};
+    \node[fill=green!75,minimum size=.6cm] (primary2) at (0,-2.5){$\kappa_2$};
+    \draw (2.5,0) ellipse (2cm and 1cm);
+    \draw (2.5,-2.5) ellipse (2cm and 1cm);
+
+    \node[fill=green!50,minimum size=.6cm] (demand1) at (7,0) {$\nu_1$};
+    \node[fill=green!50,minimum size=.6cm] (demand2) at (7,-2.5){$\nu_2$};
+    \draw (4.5,0) ellipse (2cm and 1cm);
+    \draw (4.5,-2.5) ellipse (2cm and 1cm);
+    
+  \end{tikzpicture}
 \end{frame}
 %%% partition example
 \begin{frame}
