@@ -1086,49 +1086,52 @@
   \frametitle{Justification for Properties}
   \begin{itemize}
   \item Allow generalization of LP-rounding for UFL to apply to FTFP
-  \item Take care of fautl-tolerance: no facility accessible to two siblings.
+  \item Take care of fault-tolerance: no facility accessible to two siblings
   \item For demand $\nu$, rounding only connects $\nu$ to $N(\nu) \cup N(\kappa)$
   \end{itemize}
 \end{frame}
 
 %%% 3-approx
 \begin{frame}
-  \frametitle{A $3$-approximation Algorithm}
-  Given $(\barbfx,\barbfy)$, rounded by
+  \frametitle{$3$-approximation}
+
+  Rounding
   \begin{itemize}
-  \item For each primary $\kappa$, choose facility $\mu$ in
-    neighborhood with probability $\bary_{\mu}$.
-  \item For each non-primary $\nu$, connects to $\phi(\kappa)$, the
-    facility chosen in the primary's neighborhood.
+  \item Each primary $\kappa$ open one facility $\mu$ in $N(\kappa)$
+  \item Each non-primary connects via primary
   \end{itemize}
 
-  The rounded solution satisfies fault-tolerant requirement.
-
-  The rounded solution has cost at most $3\LP^\ast$.
+  Integral Solution
   \begin{itemize}
-  \item Facility cost is at most $F^\ast$.
-  \item For each demand $\nu$, connection cost is at most $\sum_{\mu
-      \in \wbarN(\nu)} d_{\mu\nu} \barx_{\mu\nu} + 2\alpha_{\nu}^\ast$.
+  \item Fault-tolerant
+  \item Total cost at most $3\LP^\ast$
+    \begin{itemize}
+    \item Facility cost at most $F^\ast$
+    \item Connection cost at most $C^\ast + 2\LP^\ast$
+    \end{itemize}
   \end{itemize}
+
 \end{frame}
 
 %%% 1+2/e approx
 \begin{frame}
-  \frametitle{A $1.736$-approximation Algorithm} 
+  \frametitle{$1.736$-approximation} 
 
+  Change in rounding
   \begin{itemize}
-  \item Change in rounding: 
-    \begin{itemize}
-    \item For facilities $\mu$ not in any $\wbarN(\kappa)$, round
-      indedendently.
-    \item each non-primary $\nu$ uses nearest neighboring facility if
-      one is open, else use $\phi(\kappa)$.
-    \end{itemize}
-  \item
-  The expected connection cost for $\nu$ now reduced to $\sum_{\mu
-      \in \wbarN(\nu)} d_{\mu\nu} \barx_{\mu\nu} + 2/e\cdot
-    \alpha_{\nu}^\ast$.
+  \item Non-primary use neighbor when available
   \end{itemize}
+
+  Solution
+  \begin{itemize}
+  \item Fault-tolerant
+  \item Total cost at most $(1+2/e)\LP^\ast$
+    \begin{itemize}
+    \item Facility cost at most $F^\ast$
+    \item Connection cost at most $C^\ast + 2/e \LP^\ast$
+    \end{itemize}
+  \end{itemize}
+
 \end{frame}
 
 %%% 1.575-approx
