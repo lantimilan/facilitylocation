@@ -1133,40 +1133,67 @@
 
 %%% 1.575-approx
 \begin{frame}
-  \frametitle{Refined Partition for $1.575$-approximation}
-  Properties
+  \frametitle{$1.575$-approximation}
   \begin{itemize}
-  \item $\wbarN(\nu)$ consists of $\wbarclsnb(\nu)$ and
-    $\wbarfarnb(\nu)$ and they are disjoint.
-  \item $\wbarclsnb(\nu)$ overlaps with $\wbarclsnb(\kappa)$.
-  \item For siblings $\nu_1, \nu_2$, $\wbarclsnb(\kappa_1) \cup
-    \wbarN(\nu_1)$ disjoint from $\wbarclsnb(\kappa_2) \cup
-    \wbarN(\nu_2)$.
-  \item cost of $\kappa$ is smaller than cost of $\nu$.
+  \item Refined Adaptive Partition
+  \item Rounding using Byrka's algorithm for UFL
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Construction of Partition}
+  \frametitle{Neighborhood Structure}
+  \begin{tikzpicture}
+    \draw[fill=yellow!50] (3,0) ellipse (1.5cm and 2.5cm);
+    \node (clslabel) at (3,3) {close neighborhood $\wbarclsnb(\nu)$};
+    \draw[fill=yellow!50] (8,0) ellipse (2.5cm and 2.5cm);
+    \node (farlabel) at (8,3) {far neighborhood $\wbarfarnb(\nu)$};
+
+    \node (demand) at (0,1) {demand};
+    \node[fill=green!50, circle, minimum size=.6cm] at (0,0) {$\nu$};
+    \node[fill=blue!50,minimum size=.6cm] at (2,0) {};
+    \node[fill=blue!50,minimum size=.6cm] at (4,0) {};
+    \node[fill=blue!50,minimum size=.6cm] at (6,0) {};
+    \node[fill=blue!50,minimum size=.6cm] at (8,0) {};
+    \node[fill=blue!50,minimum size=.6cm] at (10,0) {};
+  \end{tikzpicture}
+\end{frame}
+\begin{frame}
+  \frametitle{Refined Partition for $1.575$-approximation}
+  Properties
   \begin{itemize}
-  \item Allocation.
-  \item Augmentation.
+  \item $\wbarN(\nu)= \wbarclsnb(\nu) \cup \wbarfarnb(\nu)$
+  \item $\wbarclsnb(\nu)$ overlaps with $\wbarclsnb(\kappa)$
+  \item For siblings $\nu_1, \nu_2$, $\wbarclsnb(\kappa_1) \cup
+    \wbarN(\nu_1)$ disjoint from $\wbarclsnb(\kappa_2) \cup
+    \wbarN(\nu_2)$
+  \item $\text{cost}(\kappa) \leq \text{cost}(\nu)$
   \end{itemize}
 \end{frame}
+
+%%\begin{frame}
+%%  \frametitle{Construction of Partition}
+%%  \begin{itemize}
+%%  \item Allocation.
+%%  \item Augmentation.
+%%  \end{itemize}
+%%\end{frame}
 
 \begin{frame}
   \frametitle{$1.575$-approximation}
 
   \begin{itemize}
-  \item Use Byrka's rounding.
-  \item $\nu$ uses only facilities in $\wbarN(\nu) \cup
-    \wbarclsnb(\kappa)$. Thus no two sibling conflict.
-  \item Cost analysis is similar to Byrka's for UFL.
+  \item Feasibility: $\nu$ uses only facilities in $\wbarN(\nu) \cup
+    \wbarclsnb(\kappa)$. Thus no two sibling conflict
+  \item Cost analysis: for $\gamma = 1.575$
+    \begin{itemize}
+    \item $F_{\smallALG} \leq \gamma F^\ast$
+    \item $C_{\smallALG} \leq \max\{1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\} C^\ast$
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \Huge{The End.}
+  \Huge{The End}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
