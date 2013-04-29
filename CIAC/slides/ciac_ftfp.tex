@@ -17,7 +17,7 @@
 \fi
 
 \usepackage{amsmath, graphicx, tikz}
-\usetikzlibrary{decorations.pathmorphing,arrows,positioning,shapes,shapes.multipart}
+\usetikzlibrary{decorations.pathreplacing,decorations.pathmorphing,arrows,positioning,shapes,shapes.multipart}
 
 \title[FTFP]{Approximation Algorithms
   for the Fault-Tolerant Facility Placement Problem}
@@ -1097,17 +1097,17 @@
 
   Rounding
   \begin{itemize}
-  \item Each primary $\kappa$ open one facility $\mu$ in $N(\kappa)$
+  \item Each primary $\kappa$ open one facility $\mu$ in $\wbarN(\kappa)$
   \item Each non-primary connects via primary
   \end{itemize}
 
   Integral Solution
   \begin{itemize}
   \item Fault-tolerant
-  \item Total cost at most $3\LP^\ast$
+  \item Total cost at most $3\,\LP^\ast$
     \begin{itemize}
     \item Facility cost at most $F^\ast$
-    \item Connection cost at most $C^\ast + 2\LP^\ast$
+    \item Connection cost at most $C^\ast + 2\,\LP^\ast$
     \end{itemize}
   \end{itemize}
 
@@ -1122,13 +1122,13 @@
   \item Non-primary use neighbor when available
   \end{itemize}
 
-  Solution
+  Integral Solution
   \begin{itemize}
   \item Fault-tolerant
-  \item Total cost at most $(1+2/e)\LP^\ast$
+  \item Total cost at most $(1+2/e)\,\LP^\ast$
     \begin{itemize}
     \item Facility cost at most $F^\ast$
-    \item Connection cost at most $C^\ast + 2/e \LP^\ast$
+    \item Connection cost at most $C^\ast + 2/e\, \LP^\ast$
     \end{itemize}
   \end{itemize}
 
@@ -1153,11 +1153,15 @@
 
     \node (demand) at (0,1) {demand};
     \node[fill=green!50, circle, minimum size=.6cm] at (0,0) {$\nu$};
-    \node[fill=blue!50,minimum size=.6cm] at (2,0) {};
+    \node[fill=blue!50,minimum size=.6cm] (fac1) at (2,0) {};
     \node[fill=blue!50,minimum size=.6cm] at (4,0) {};
     \node[fill=blue!50,minimum size=.6cm] at (6,0) {};
     \node[fill=blue!50,minimum size=.6cm] at (8,0) {};
-    \node[fill=blue!50,minimum size=.6cm] at (10,0) {};
+    \node[fill=blue!50,minimum size=.6cm] (fack) at (10,0) {};
+
+    \draw[thick,decoration={brace,mirror,raise=3cm,amplitude=10pt},decorate] (fac1) -- (fack);
+
+    \node at (6,-4) {$\wbarN(\nu)$};
   \end{tikzpicture}
 \end{frame}
 \begin{frame}
@@ -1185,7 +1189,7 @@
   \frametitle{$1.575$-approximation}
 
   \begin{itemize}
-  \item Feasibility: $\nu$ uses only facilities in $\wbarN(\nu) \cup
+  \item Fault-tolerant: $\nu$ uses only facilities in $\wbarN(\nu) \cup
     \wbarclsnb(\kappa)$. Thus no two sibling conflict
   \item Cost analysis: for $\gamma = 1.575$
     \begin{itemize}
