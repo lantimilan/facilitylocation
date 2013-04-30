@@ -553,7 +553,7 @@
   
   {\Large
     \textcolor{blue}
-    {Approximation algorithms for FTFL}
+    {Approximation Algorithms for FTFL}
   }
 
     \vspace{.3in}
@@ -576,11 +576,10 @@
 \begin{frame}
   \frametitle{Our Result for FTFP}
 
-  \begin{itemize}
-  \item Main result: 1.575-approximation LP-rounding algorithm
-  \item Our ratio for FTFP matches the best known LP-based
-    approximation ratio for UFL
-  \item Generalize known LP-rounding algorithms for UFL to algorithms for FTFP
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+  \item Main result: 1.575-approximation LP-rounding algorithm for FTFP
+  \item Matches the best known LP-based approximation ratio for UFL
+  \item Technique: Generalize LP-rounding algorithms for UFL to FTFP
   \end{itemize}
 \end{frame}
 
@@ -621,18 +620,21 @@
 %%% Techniques
 \begin{frame}
   \frametitle{Techniques}
-  \begin{itemize}
-  \item Demand Reduction
-    \begin{itemize}
-    \item Using optimal LP solution to reduce all $r_j$ to small value
-    \item Ensure partitioning and rounding in polynomial time
+  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+
+  \item {\Large \textcolor{blue}{Demand Reduction}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item {\large Using optimal LP solution to reduce all $r_j$ to small value}
+    \item {\large Ensure partitioning and rounding in polynomial time}
     \end{itemize}
     
-  \item Adaptive Partition
-    \begin{itemize}
-    \item Split sites into facilities and clients into unit demands
-    \item Split associated fractional values
-    \item Allow rounding generalized from that for UFL
+  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item {\large Split sites into facilities and clients into unit demands}
+    \item {\large Split associated fractional values}
+    \item {\large Allow rounding generalized from that for UFL}
     \end{itemize}
   \end{itemize}
 \end{frame}
