@@ -1006,31 +1006,67 @@
   \end{center}
 \end{frame}
 
-%% TODO: add one slide for disjoint neighborhood
+\begin{frame}
+  \frametitle{Disjoint Neighborhood among Siblings}
+  \begin{tikzpicture}[every text node part/.style={align=center}]
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.3) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.5) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
+
+    \node[fill=blue!75, minimum size=.4cm] (mu1) at (-.7,7.7) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu2) at (.5,8) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu3) at (-.5,7) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu4) at (.5,7) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu5) at (0,6) {};
+
+    \node[fill=blue!75, minimum size=.4cm] (mu6) at (-.7,4) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu7) at (.5,3.5) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu8) at (0,2.8) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu9) at (.5,1.5) {};
+    \node[fill=blue!75, minimum size=.4cm] (mu10) at (-.5,1.3) {};
+
+    %% labels
+    \node (nbk1) at (2.3,8) {$N(\kappa_1)$};
+    \node (nbk2) at (2.3,2) {$N(\kappa_2)$};
+    \node (nbnu1) at (2.3,6) {$N(\nu_1)$};
+    \node (nbnu2) at (2.3,4) {$N(\nu_2)$};
+
+    %% siblings
+    \node[circle, fill=green!75,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
+    \node (kappa1label) at (4,8) {$\kappa_1$};
+    \node[circle, fill=green!75,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
+    \node (kappa2label) at (4,2) {$\kappa_2$};
+
+    \node[circle, fill=green!50,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+    \node (sib1label) at (4,6.5) {$\nu_1$};
+    \node[circle, fill=green!50,  minimum size=.3cm] (nu2) at (3.5, 4) {};
+    \node (sib1label) at (4,3.5) {$\nu_2$};
+
+    \node[circle, fill=green!50, minimum size=.5cm] (client1) at (6, 5) {};
+    \node (clientlabel) at (6.5,5) {$j$};
+
+    \draw[->,>=latex] (client1) -- (nu1);
+    \draw[->,>=latex] (client1) -- (nu2);
+
+    \draw[->,dashed] (nu1) -- (kappa1);
+    \draw[->,dashed] (nu2) -- (kappa2);
+
+    \pause
+    \node[fill=yellow!50] (prop) at (8,3) {$\left(N(\kappa_1) \cup N(\nu_1)\right)$ \\ $ \cap \left(N(\kappa_2) \cup N(\nu_2)\right)$ \\ $=\emptyset$};
+  \end{tikzpicture}
+\end{frame}
 
 \begin{frame}
-  \frametitle{Partition Properties}
+  \frametitle{Partition Properties Summary}
   \begin{itemize}
+    \addtolength{\itemsep}{1\baselineskip}
   \item Each demand have neighborhood $\barx$ sum to $1$
   \item Primaries have disjoint neighborhood
   \item Non-primary assigned to primary with overlap neighborhood
   \item Primary have smaller cost than assigned non-primary
   \item Neighborhood $N(\kappa_1) \cup N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$
   \end{itemize}
-
-  \vspace{.5cm}
-  \begin{tikzpicture}
-    \node[fill=green!75,minimum size=.6cm] (primary1) at (0,0) {$\kappa_1$};
-    \node[fill=green!75,minimum size=.6cm] (primary2) at (0,-2.5){$\kappa_2$};
-    \draw (2.5,0) ellipse (2cm and 1cm);
-    \draw (2.5,-2.5) ellipse (2cm and 1cm);
-
-    \node[fill=green!50,minimum size=.6cm] (demand1) at (7,0) {$\nu_1$};
-    \node[fill=green!50,minimum size=.6cm] (demand2) at (7,-2.5){$\nu_2$};
-    \draw (4.5,0) ellipse (2cm and 1cm);
-    \draw (4.5,-2.5) ellipse (2cm and 1cm);
-    
-  \end{tikzpicture}
 \end{frame}
 
 %%% partition example
@@ -1056,9 +1092,9 @@
     \node[left] (faclabel11) at (0,11) {$4/3$};
     \node[left] (faclabel12) at (0,12) {$2/3$};
 
-    \node[circle,fill=green!50] (client3) at (6,2) {$r_3$};
-    \node[circle,fill=green!50] (client2) at (6,7) {$r_2$};
-    \node[circle,fill=green!50] (client1) at (6,12) {$r_1$};
+    \node[circle,fill=green!50] (client3) at (6,2) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,7) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,12) {$1$};
 
     \node[right] (demand3) at (5,.5) {$r_3=1$};
     \node[right] (demand2) at (5,5.5) {$r_2=2$};
@@ -1110,18 +1146,21 @@
     \foreach \from/\to in {fac31/client31,fac21/client31,fac22/client21,fac11/client21,fac12/client22,fac11/client11,fac13/client11,fac12/client12}
     \draw (\from)--(\to);
 
+    \node at (2.5,-1) {After Partition};
+
+    \pause
     \node[fill=yellow!50] (nonprimarylabel) at (9,9) {non-primary};
     \node[fill=yellow!50] (primarylabel) at (9,4) {primary};
     
+    \foreach \from in {primarylabel}
+    \foreach \to in {client21,client22,client31}
+    \draw[->,decorate] (\from) -- (\to);
+
     \foreach \from in {nonprimarylabel}
     \foreach \to in {client11,client12}
     \draw[->,decorate] (\from) -- (\to);
 
-    \foreach \from in {primarylabel}
-    \foreach \to in {client21,client22,client31}
-    \draw[->,decorate] (\from) -- (\to);
-    
-    \node at (2.5,-1) {After Partition};
+    \draw[->,>=latex,dashed,bend right] (client22) -- (client12);
   \end{tikzpicture}
       
 \end{minipage}
