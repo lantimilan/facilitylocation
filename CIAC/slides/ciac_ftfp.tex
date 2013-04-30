@@ -5,7 +5,7 @@
 \def\handout{0}
 \def\notes{0}
 \ifnum\handout=1
-\documentclass[handout, hyperref, xcolor=dvipsnames]{beamer}
+\documentclass[handout, hyperref, dvipsnames]{beamer}
 \usepackage{pgfpages}
 \pgfpagesuselayout{4 on 1}[letterpaper,landscape,border shrink=4mm]
 \setbeamertemplate{footline}[page number]
@@ -13,10 +13,11 @@
 % use \setbeamertemplate{footline}[text line]{xxxx\hfill\thepage}
 %  if you want xxxx at bottom left, page # at bottom right
 \else
-\documentclass[hyperref, xcolor=dvipsnames]{beamer}
+\documentclass[hyperref,dvipsnames,svgnames,table]{beamer}
 \fi
 
-\usepackage{amsmath, graphicx, tikz}
+\usepackage{amsmath, tikz, subfigure}
+
 \usetikzlibrary{decorations.pathreplacing,decorations.pathmorphing,arrows,positioning,shapes,shapes.multipart}
 
 \title[FTFP]{Approximation Algorithms
@@ -187,9 +188,10 @@
 %%% A feasible solution
 \begin{frame}
   \frametitle{Feasible Integral Solution}
-
-  \begin{minipage}{.4\linewidth}
-  \begin{tikzpicture}[scale=0.5]
+  \begin{figure}
+    \centering
+    \subfigure{
+      \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50] (fac3) at (0,2) {$3$};
     \node[fill=blue!50] (fac2) at (0,5) {$2$};
     \node[fill=blue!50] (fac1) at (0,8) {$1$};
@@ -221,9 +223,10 @@
 
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
-  \end{minipage}
-  \hspace{.5in}
-  \begin{minipage}{.4\linewidth}
+}
+  \hspace{.25in}
+  \subfigure{
+    \centering
     \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac33) at (.5,1.5) {};
@@ -247,8 +250,8 @@
     
     \node (label1) at (3,-3) {Solution};
   \end{tikzpicture}
-  \end{minipage}
-  \vspace{.1in}
+}
+\end{figure}
 
   Cost is $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} +
   d_{23} + 3d_{31} = 38$
@@ -256,7 +259,10 @@
 
 \begin{frame}
   \frametitle{Optimal Integral Solution}
-  \begin{minipage}{.4\linewidth}
+  
+  \begin{figure}
+    \centering
+    \subfigure{
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50] (fac3) at (0,2) {$3$};
     \node[fill=blue!50] (fac2) at (0,5) {$2$};
@@ -288,10 +294,10 @@
     \node[above] (ew34) at (1.9,1.3) {$4$};
 
     \node (label1) at (3,-3) {Instance};
-  \end{tikzpicture}    
-  \end{minipage}
-  \hspace{.5in}
-  \begin{minipage}{.4\linewidth}
+  \end{tikzpicture}
+}    
+  \hspace{.25in}
+\subfigure{
     \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
 
@@ -316,8 +322,8 @@
     \draw[bend right] (fac14) to node (ew14) {} (client1);
     \node (label1) at (3,-3) {Solution};
   \end{tikzpicture}
-  \end{minipage}
-  \vspace{.1in}
+  }
+  \end{figure}
 
   Cost is $4f_1 + 1f_2 + 0f_3 + 4d_{11} + d_{12} + 2d_{14} +
   d_{23} = 29$
@@ -325,7 +331,7 @@
 %%% problem definition
 \begin{frame}
   \frametitle{Fault-Tolerant Facility Placement Problem (FTFP)}
-  Given
+  \textbf{Given}
   \begin{itemize}
   \item $\sitesset$, a set of sites (facility places)
   \item $\clientset$, a set of clients with demands
@@ -333,10 +339,10 @@
   \item $f_i$, cost to open one facility at site $i$
   \item $d_{ij}$, cost to connect one demand from client $j$ to
     facility at site $i$
+  \item distances form a metric
   \end{itemize}
-  Assume Distances form a metric
 
-  Objective
+  \textbf{Objective}
   \begin{itemize}
   \item open facilities at each site
   \item connect clients to facilities
@@ -510,45 +516,54 @@
 \begin{frame}
   \frametitle{Related Work on UFL}
 
-  Approximation algorithms for UFL
+  {\Large
+    \textcolor{blue}
+    {Approximation Results for UFL}
+  }
 
   \vspace{.3in}
-  \begin{tabular}{| c | c | c | c |}
-    \hline
+
+  \begin{tabular}{ c  c  c  c }
+    \rowcolor{LimeGreen}
     Shmoys, Tardos and Aardal & 1997 & 3.16 & LP-rounding\\
+    \rowcolor{LimeGreen}
     Chudak & 1998 & 1.736 & LP-rounding\\
+    \rowcolor{LimeGreen}
     Sviridenko & 2002 & 1.58 & LP-rounding\\
-    \hline
-    Jain and Vazirani & 2001 & 3 & primal-dual\\
-    Jain {\etal} & 2002 & 1.61 & greedy\\
-    Mahdian {\etal} & 2002 & 1.52 & greedy\\
-    \hline
-    Byrka & 2007 & 1.5 & hybrid\\
-    Li & 2011 & 1.488 & hybrid (best result)\\
-    \hline
-  \end{tabular}
-  \vspace{.3in}
 
-  \begin{tabular}{| c | c | c | c |}
-    \hline
-    lower bound (inapproximability) & Guha and Khuller & 1998 & 1.463\\
-    \hline
+    \rowcolor{YellowGreen}
+    Jain and Vazirani & 2001 & 3 & primal-dual\\
+    \rowcolor{YellowGreen}
+    Jain {\etal} & 2002 & 1.61 & greedy\\
+    \rowcolor{YellowGreen}
+    Mahdian {\etal} & 2002 & 1.52 & greedy\\
+
+    \rowcolor{SkyBlue}
+    Byrka & 2007 & 1.5 & hybrid\\
+    \rowcolor{SkyBlue}
+    Li & 2011 & 1.488 & hybrid (best result)\\
+
+    \rowcolor{Yellow}
+    Guha and Khuller & 1998 & 1.463 & lower bound\\
   \end{tabular}
 \end{frame}
 
 \begin{frame}
   \frametitle{Related Work on FTFL}
-
-    Approximation algorithms for FTFL
+  
+  {\Large
+    \textcolor{blue}
+    {Approximation algorithms for FTFL}
+  }
 
     \vspace{.3in}
-    \begin{tabular}{| c | c | c | c |}
-      \hline
+    \begin{tabular}{ l l l l }
+      \rowcolor{Tan}
       Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
-      \hline
+      \rowcolor{SkyBlue}
       Guha {\etal} & 2001 & 4 & LP-rounding\\
+      \rowcolor{SkyBlue}
       Byrka {\etal} & 2010 & 1.7245 & LP-rounding\\
-      \hline
     \end{tabular}
     \vspace{.5in}
 
