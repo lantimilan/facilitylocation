@@ -1119,7 +1119,6 @@
     \node[left] (faclabel22) at (0,7.5) {$2/3$};
 
 
-    \draw[fill=blue!25] (0,9.5) rectangle (1,11.5);
     \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,10) {};
     \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,11) {};
     \node[fill=blue!75,minimum size=.2cm] (fac13) at (.5,12) {};
@@ -1148,7 +1147,11 @@
 
     \node at (2.5,-1) {After Partition};
 
+    %% for split
+    \draw (0, 9.5) rectangle (1, 11.5);
+%    \node[fill=yellow!50] (label) at (0, 9.5) {split};
     \pause
+
     \node[fill=yellow!50] (nonprimarylabel) at (9,9) {non-primary};
     \node[fill=yellow!50] (primarylabel) at (9,4) {primary};
     
@@ -1160,7 +1163,10 @@
     \foreach \to in {client11,client12}
     \draw[->,decorate] (\from) -- (\to);
 
-    \draw[->,>=latex,dashed,bend right] (client22) -- (client12);
+    \pause
+%    \draw[->,>=latex,dashed,bend left] (client22) -- (client12);
+    \path[->,dashed] (client22) edge[bend left=40] node[fill=yellow!50] {assigned} (client12);
+    \path[->,dashed] (client21) edge[bend left=40] (client11);
   \end{tikzpicture}
       
 \end{minipage}
@@ -1179,15 +1185,21 @@
 \begin{frame}
   \frametitle{$3$-approximation}
 
-  Rounding
+  {\Large \textcolor{blue}{
+  Rounding}}
+
   \begin{itemize}
-  \item Each primary $\kappa$ open one facility $\mu$ in $\wbarN(\kappa)$
-  \item Each non-primary connects via primary
+  \item Facility: Each primary $\kappa$ open one facility $\mu$ in $\wbarN(\kappa)$
+  \item Connection: Each non-primary connects via primary
   \end{itemize}
 
-  Integral Solution
+  \vspace{.3in}
+  {\Large \textcolor{blue}{
+  Integral Solution}}
+
   \begin{itemize}
-  \item Fault-tolerant
+  \item Fault-tolerant: $\nu$ uses only facilities in
+    $N(\nu) \cup N_{\cls}(\kappa)$
   \item Total cost at most $3\,\LP^\ast$, because
     \begin{itemize}
     \item Facility cost at most $F^\ast$
@@ -1201,39 +1213,47 @@
 \begin{frame}
   \frametitle{$1.736$-approximation} 
 
-  Change in rounding
+  {\Large \textcolor{blue}{
+  Change in rounding}}
   \begin{itemize}
   \item Non-primary use neighbor when available
   \end{itemize}
 
-  Integral Solution
+  \vspace{.3in}
+  {\Large \textcolor{blue}{
+  Integral Solution}}
   \begin{itemize}
-  \item Fault-tolerant
+  \item Fault-tolerant: $\nu$ uses only facilities in
+    $N(\nu) \cup N_{\cls}(\kappa)$
   \item Total cost at most $(1+2/e)\,\LP^\ast$, because
     \begin{itemize}
     \item Facility cost at most $F^\ast$
     \item Connection cost at most $C^\ast + 2/e\, \LP^\ast$
     \end{itemize}
   \end{itemize}
-
 \end{frame}
 
 %%% 1.575-approx
 \begin{frame}
   \frametitle{$1.575$-approximation}
+
   \begin{itemize}
+    \addtolength{\itemsep}{1\baselineskip}
+    {\large
   \item Refined Adaptive Partition
   \item Rounding using Byrka's algorithm for UFL
+}
   \end{itemize}
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Neighborhood Structure}
   \begin{tikzpicture}
     \draw[fill=yellow!50] (3,0) ellipse (1.5cm and 2.5cm);
-    \node (clslabel) at (3,3) {close neighborhood $\wbarclsnb(\nu)$};
+    \node (clslabel) at (3,3) {close neighborhood $N_{\cls}(\nu)$};
     \draw[fill=yellow!50] (8,0) ellipse (2.5cm and 2.5cm);
-    \node (farlabel) at (8,3) {far neighborhood $\wbarfarnb(\nu)$};
+    \node (farlabel) at (8,3) {far neighborhood $N_{\far}(\nu)$};
 
     \node (demand) at (0,1) {demand};
     \node[fill=green!50, circle, minimum size=.6cm] at (0,0) {$\nu$};
@@ -1245,18 +1265,18 @@
 
     \draw[thick,decoration={brace,mirror,raise=3cm,amplitude=10pt},decorate] (fac1) -- (fack);
 
-    \node at (6,-4) {$\wbarN(\nu)$};
+    \node at (6,-4) {$N(\nu)$};
   \end{tikzpicture}
 \end{frame}
 \begin{frame}
   \frametitle{Refined Partition for $1.575$-approximation}
   Properties
   \begin{itemize}
-  \item $\wbarN(\nu)= \wbarclsnb(\nu) \cup \wbarfarnb(\nu)$
-  \item $\wbarclsnb(\nu)$ overlaps with $\wbarclsnb(\kappa)$
-  \item For siblings $\nu_1, \nu_2$, $\wbarclsnb(\kappa_1) \cup
-    \wbarN(\nu_1)$ disjoint from $\wbarclsnb(\kappa_2) \cup
-    \wbarN(\nu_2)$
+  \item $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
+  \item $N_{\cls}(\nu)$ overlaps with $N_{\cls}(\kappa)$
+  \item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
+    N(\nu_1)$ disjoint from $N_{\cls}(\kappa_2) \cup
+    N(\nu_2)$
   \item $\text{cost}(\kappa) \leq \text{cost}(\nu)$
   \end{itemize}
 \end{frame}
@@ -1273,8 +1293,8 @@
   \frametitle{$1.575$-approximation}
 
   \begin{itemize}
-  \item Fault-tolerant: $\nu$ uses only facilities in $\wbarN(\nu) \cup
-    \wbarclsnb(\kappa)$. Thus no two sibling conflict
+  \item Fault-tolerant: $\nu$ uses only facilities in
+    $N(\nu) \cup N_{\cls}(\kappa)$
   \item Cost analysis: for $\gamma = 1.575$
     \begin{itemize}
     \item $F_{\smallALG} \leq \gamma F^\ast$
@@ -1284,7 +1304,22 @@
 \end{frame}
 
 \begin{frame}
-  \Huge{The End}
+  \frametitle{Summary}
+  
+  {\Large \textcolor{blue}{
+  Our Result}}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+  \item $1.575$-approximation for FTFP
+  \end{itemize}
+
+  \vspace{.3in}
+  {\Large \textcolor{blue}{
+  Open Problem}}
+  \begin{itemize}
+  \item Can FTFL be approximated to the same ratio
+  \item Primal-dual/dual-fitting algorithms for FTFP or FTFL with sub-logarithmic approxiamtion ratio
+  \item Can UFL have an approximation ratio matching lower bound 1.463
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
