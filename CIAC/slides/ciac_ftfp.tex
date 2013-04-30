@@ -645,31 +645,22 @@
   \frametitle{Algorithm for FTFP}
   \begin{center}
   \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
-    \node[draw,ellipse] (lpsoln) at (0,0) {$x_{ij}^\ast$\\ $y_{i}^\ast$};
-    \node[draw,ellipse] (intpart) at (3,2) {$\hatx_{ij}$\\ $\haty_{i}$};
-    \node[draw,ellipse] (fracpart) at (3,-2) {$\dotx_{ij}$\\ $\doty_{i}$};
+    \node[draw,ellipse] (lpsoln) at (0,8) {$x_{ij}^\ast, y_{i}^\ast$};
+    \node[draw,ellipse] (intpart) at (-4,6) {$\hatx_{ij}, \haty_{i}$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse] (fracpart) at (4,6) {$\dotx_{ij}, \doty_{i}$ \\ $\dotr_j = r_j - \hatr_j$};
+    \node[draw,ellipse] (part) at (4,3) {$\barx_{\mu\nu},\bary_{\mu}$};
+    \node[draw,ellipse] (fracsoln) at (4,1) {$\ddot x_{ij}, \ddot y_{i}$};
 
-    \node[draw,ellipse] (intinst) at (6,2) {$\hatr_j =$ \\ $\sum_{i} \hatx_{ij}$};
-    \node (intlabel) at (6,.5) {$\hat\calI$};
-    \node[draw,ellipse] (fracinst) at (6,-2) {$\dotr_j = $\\ $r_j - \hatr_j$};
-    \node (fraclabel) at (6,-3.5) {$\dot\calI$};
+    \node[draw, ellipse] (soln) at (0,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
 
-    \node[draw, ellipse] (intsoln) at (10.5,2) {$\hatx_{ij}$ \\ $\haty_i$};
-%    \node (intsoln1) at (9,0) {Soln for $\hat \calI$};
-    \node[draw, ellipse] (fracsoln) at (10.5,-2) {$\ddot x_{ij}$ \\ $\ddot y_i$};
-%    \node (fracsoln1) at (9,-4) {Soln for $\dot \calI$};
-    \node[draw, ellipse] (soln) at (12.5,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
-%    \node (soln1) at (12,-2) {Soln for $\calI$};
-
-    \draw[->,>=latex] (lpsoln) to node[above] (trim) {round\\ down} (intpart);
-    \draw[->,>=latex] (lpsoln) to node[below] (rem) {demand\\ reduction} (fracpart);
-    \draw[->,>=latex] (intpart) to (intinst);
-    \draw[->,>=latex] (fracpart) to (fracinst);
-    \draw[->,>=latex] (intinst) to node (edge) {use $\hatx_{ij}, \haty_i$} (intsoln);
-    \draw[->,>=latex] (fracinst) to node (edge) {LP rounding} node[swap] (edge) {of $\dotx_{ij}, \doty_{i}$} (fracsoln);
-    \draw[->,>=latex] (intsoln) to (soln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3,7.5) {round down};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3.2,7.5) {demand reduction};
+    \draw[->,>=latex] (fracpart) to node (edge1) {adaptive\\ partition} (part);
+    \draw[->,>=latex] (part) to node (edge2) {rounding} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
     \draw[->,>=latex] (fracsoln) to (soln);    
-
   \end{tikzpicture}
   \end{center}
 \end{frame}
@@ -680,8 +671,8 @@
 
   \begin{itemize}
   \item Solving LP for $(\bfx^\ast, \bfy^\ast)$.
-  \item $\hat\bfx, \hat\bfy = $ round down $\bfx^\ast, \bfy^\ast$
-  \item $\dot\bfx, \dot\bfy = $ remaining fractional
+  \item $(\hat\bfx, \hat\bfy) = (\bfx^\ast, \bfy^\ast)$ round down
+  \item $(\dot\bfx, \dot\bfy) = (\bfx^\ast, \bfy^\ast) - (\hat\bfx, \hat\bfy)$
   \item $\hat r_j = \sum_{i}\hat x_{ij}$ for $\hat\calI$, $\dot r_j = r_j - \hat r_j$ for $\dot\calI$
   \item $\hat\bfx, \hat\bfy$ feasible and optimal for $\hat\calI$
   \item $\dot\bfx, \dot\bfy$ feasible and optimal for $\dot\calI$
@@ -917,7 +908,23 @@
 
 \begin{frame}
   \frametitle{Adaptive Partition}
-  \begin{tikzpicture}[scale=.8]
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8]
+    \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {};
+    \node (sitelabel) at (0,0) {site};
+    \node (ilabel) at (0,-1) {$i$};
+    \node[circle, fill=green!50, minimum size=1cm] (client) at (11,0) {};
+    \node (clientlabel) at (11,0) {client};
+    \node (jlabel) at (11,-1) {$j$};
+    \draw[above] (site) to node (dummy) {$x_{ij}^\ast$} (client);
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Adaptive Partition}
+  \setbeamercovered{invisible}
+  \begin{tikzpicture}[scale=.8,every text node part/.style={align=center}]
     % site to facility
     \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {};
     \node[fill=blue!75,minimum size=.6cm] (fac1) at (3,3) {};
@@ -929,9 +936,16 @@
     \foreach \to in {fac1,fac2,fac3,fack}
     \draw[->,>=latex] (\from) -- (\to);
 
+    \pause
     \node (sitelabel) at (0,0) {site};
-    \node (faclabel) at (3,4) {facility $\mu$ (to open)};
+    \node (siteilabel) at (0,-1) {$i$};
+    \node (faclabel) at (3,4) {facility (to open)};
+    \node[below] (faclabel) at (3,-.5) {$\mu$};
 
+    \pause
+    \node[fill=yellow!50] (sumyi) at (0,-2) {$\sum \bary_{\mu} = y_i^\ast$};
+
+    \pause
     % client to demand
     \node[circle, fill=green!50, minimum size=1cm] (client) at (12,0) {};
     \node[circle, fill=green!75, minimum size=.6cm] (demand1) at (9,4) {};
@@ -943,11 +957,20 @@
     \foreach \to in {demand1, demand2, demand3, demand4, demandk}
     \draw[->,>=latex] (\from) -- (\to);
 
+    \pause
     \node (clientlabel) at (12,0) {client};
-    \node (demandlabel) at (9,5) {unit demand $\nu$};
+    \node (jlabel) at (12,-1) {$j$};
+    \node (demandlabel) at (9,5) {unit demand};
+    \node[below] (nulabel) at (9,1.5) {$\nu$};
+    \draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand2);
 
+    \pause
+    \node[fill=yellow!50] (sumxij) at (12,-2) {$\sum \barx_{\mu\nu} = x_{ij}^\ast$};
+
+    \pause
+    \node[fill=yellow!50] (comp) at (6,-2) {$\barx_{\mu\nu} \in \{\bary_{\mu}, 0\}$ \\ completeness};
     % xval
-    \draw (fac3) to node (xval) {$\barx_{\mu\nu} \in \{0, \bary_{\mu}\}$} (demand2);
+
   \end{tikzpicture}
 \end{frame}
 
@@ -972,14 +995,18 @@
 
     \draw[dashed] (fac5) to node[below] (zerolabel) {$\barx = 0$} (demand);
 
-    \node (neighborlabel) at (5,4) {neighborhood};
-    \node (faclabel) at (2,-1) {neighboring \\ facility};
-    \node (otherlabel) at (1.5,-3) {non-neighbor \\ facility};
+    \node (neighborlabel) at (5,4) {neighborhood $N(\nu)$};
+    \node (faclabel) at (1,-1) {neighboring \\ facility};
+    \node (otherlabel) at (1.5,-2.5) {non-neighbor \\ facility};
     \node (demandlabel) at (10,-1) {demand};
+    
+    \pause
+    \node[fill=yellow!50] (sumlabel) at (1,2) {$\sum \barx = 1$};
   \end{tikzpicture}
   \end{center}
 \end{frame}
 
+%% TODO: add one slide for disjoint neighborhood
 
 \begin{frame}
   \frametitle{Partition Properties}
@@ -1005,9 +1032,10 @@
     
   \end{tikzpicture}
 \end{frame}
+
 %%% partition example
 \begin{frame}
-  \frametitle{An Example of Partition}
+  \frametitle{Example of Partition}
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
@@ -1100,7 +1128,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Justification for Properties}
+  \frametitle{Intuition for Properties}
   \begin{itemize}
   \item Allow generalization of LP-rounding for UFL to apply to FTFP
   \item Take care of fault-tolerance: no facility accessible to two siblings
@@ -1121,7 +1149,7 @@
   Integral Solution
   \begin{itemize}
   \item Fault-tolerant
-  \item Total cost at most $3\,\LP^\ast$
+  \item Total cost at most $3\,\LP^\ast$, because
     \begin{itemize}
     \item Facility cost at most $F^\ast$
     \item Connection cost at most $C^\ast + 2\,\LP^\ast$
@@ -1142,7 +1170,7 @@
   Integral Solution
   \begin{itemize}
   \item Fault-tolerant
-  \item Total cost at most $(1+2/e)\,\LP^\ast$
+  \item Total cost at most $(1+2/e)\,\LP^\ast$, because
     \begin{itemize}
     \item Facility cost at most $F^\ast$
     \item Connection cost at most $C^\ast + 2/e\, \LP^\ast$
