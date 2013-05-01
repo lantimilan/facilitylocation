@@ -339,7 +339,7 @@
   \item $f_i$, cost to open one facility at site $i$
   \item $d_{ij}$, cost to connect one demand from client $j$ to
     facility at site $i$
-  \item distances form a metric
+  \item distances $d_{ij}$ form a metric
   \end{itemize}
 
   \textbf{Objective}
@@ -366,9 +366,9 @@
   \end{center}
   \begin{itemize}
   \item Uncapacitated Facility Location problem (UFL),
-    all clients have unit demand.
+    all clients have unit demand
   \item Fault-tolerant Facility Location problem (FTFL),
-    each site can have at most one facility.
+    each site can have at most one facility
   \end{itemize}
 \end{frame}
 
@@ -376,7 +376,10 @@
 \begin{frame}
   \frametitle{Uncapacitated Facility Location Problem (UFL)}
   All demands are 1, each site can open only one facility
-  \begin{minipage}{.45\linewidth}
+
+  \begin{figure}
+    \centering
+    \subfigure{
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
@@ -394,8 +397,9 @@
     
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
-  \end{minipage}
-  \begin{minipage}{.45\linewidth}
+  }
+  \hspace{.1in}
+  \subfigure{
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
@@ -411,8 +415,8 @@
 
     \node (label2) at (3,-3) {Solution};
   \end{tikzpicture}
-  \end{minipage}
-
+}
+\end{figure}
 \end{frame}
 
 %%% FTFL example
@@ -420,7 +424,9 @@
   \frametitle{Fault-tolerant Facility Location Problem (FTFL)}
   Demands may be more than 1, each site can open only one facility
 
-  \begin{minipage}{.45\linewidth}
+  \begin{figure}
+    \centering
+    \subfigure{
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
@@ -438,8 +444,9 @@
 
     \node (label1) at (3,-3) {Instance};    
   \end{tikzpicture}
-  \end{minipage}
-  \begin{minipage}{.45\linewidth}
+}
+\hspace{.1in}
+\subfigure{
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
@@ -455,8 +462,8 @@
 
         \node (label2) at (3,-3) {Solution};
   \end{tikzpicture}
-  \end{minipage}
-
+}
+\end{figure}
 \end{frame}
 
 %%% FTFP example
@@ -464,7 +471,9 @@
   \frametitle{Fault-tolerant Facility Placement Problem (FTFP)}
   Demands may be more than 1, each site can open multiple facilities
 
-  \begin{minipage}{.45\linewidth}
+  \begin{figure}
+    \centering
+    \subfigure{
   \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50] (fac3) at (0,2) {$3$};
     \node[fill=blue!50] (fac2) at (0,5) {$2$};
@@ -482,9 +491,9 @@
     
     \node (label1) at (3,-3) {Instance};
   \end{tikzpicture}
-  
-  \end{minipage}
-  \begin{minipage}{.45\linewidth}
+  }
+  \hspace{.1in}
+  \subfigure{
     \begin{tikzpicture}[scale=0.5]
     \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2) {$3$};
     \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,1.5) {};
@@ -508,7 +517,8 @@
 
     \node (label2) at (2,-3) {Solution};
   \end{tikzpicture}
-\end{minipage}
+}
+\end{figure}
 \end{frame}
 
 
@@ -634,7 +644,7 @@
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
     \item {\large Split sites into facilities and clients into unit demands}
     \item {\large Split associated fractional values}
-    \item {\large Allow rounding generalized from that for UFL}
+    \item {\large Properties ensure rounding similar to UFL can be done with matching ratio}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -652,6 +662,8 @@
     \node[draw,ellipse] (fracsoln) at (4,1) {$\ddot x_{ij}, \ddot y_{i}$};
 
     \node[draw, ellipse] (soln) at (0,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
+
+    \node[fill=yellow!50] (solnlabel) at (2.3,-.5) {Solution};
 
     \draw[->,>=latex] (lpsoln) to (intpart);
     \node (label1) at (-3,7.5) {round down};
@@ -674,8 +686,8 @@
   \item $(\hat\bfx, \hat\bfy) = (\bfx^\ast, \bfy^\ast)$ round down
   \item $(\dot\bfx, \dot\bfy) = (\bfx^\ast, \bfy^\ast) - (\hat\bfx, \hat\bfy)$
   \item $\hat r_j = \sum_{i}\hat x_{ij}$ for $\hat\calI$, $\dot r_j = r_j - \hat r_j$ for $\dot\calI$
-  \item $\hat\bfx, \hat\bfy$ feasible and optimal for $\hat\calI$
-  \item $\dot\bfx, \dot\bfy$ feasible and optimal for $\dot\calI$
+  \item $(\hat\bfx, \hat\bfy)$ (integral) feasible and optimal for $\hat\calI$
+  \item $(\dot\bfx, \dot\bfy)$ (fractional) feasible and optimal for $\dot\calI$
   \end{itemize}
 \end{frame}
 
@@ -1008,7 +1020,7 @@
 
 \begin{frame}
   \frametitle{Disjoint Neighborhood among Siblings}
-  \begin{tikzpicture}[every text node part/.style={align=center}]
+  \begin{tikzpicture}[auto,every text node part/.style={align=center}]
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.3) {};
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.5) {};
@@ -1049,8 +1061,13 @@
     \draw[->,>=latex] (client1) -- (nu1);
     \draw[->,>=latex] (client1) -- (nu2);
 
-    \draw[->,dashed] (nu1) -- (kappa1);
+    \pause
+    \draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+
     \draw[->,dashed] (nu2) -- (kappa2);
+
+    \node[fill=yellow!50] (primary) at (5,8) {primary};
+    \node[fill=yellow!50] (nonprimary) at (5.5,6.5) {non-primary};
 
     \pause
     \node[fill=yellow!50] (prop) at (8,3) {$\left(N(\kappa_1) \cup N(\nu_1)\right)$ \\ $ \cap \left(N(\kappa_2) \cup N(\nu_2)\right)$ \\ $=\emptyset$};
@@ -1165,8 +1182,8 @@
 
     \pause
 %    \draw[->,>=latex,dashed,bend left] (client22) -- (client12);
-    \path[->,dashed] (client22) edge[bend left=40] node[fill=yellow!50] {assigned} (client12);
-    \path[->,dashed] (client21) edge[bend left=40] (client11);
+    \path[->,dashed] (client12) edge[bend right=40] node[fill=yellow!50] {assign} (client22);
+    \path[->,dashed] (client11) edge[bend right=40] (client21);
   \end{tikzpicture}
       
 \end{minipage}
@@ -1174,7 +1191,7 @@
 
 \begin{frame}
   \frametitle{Intuition for Properties}
-  \begin{itemize}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
   \item Allow generalization of LP-rounding for UFL to apply to FTFP
   \item Take care of fault-tolerance: no facility accessible to two siblings
   \item For demand $\nu$, rounding only connects $\nu$ to $N(\nu) \cup N(\kappa)$
@@ -1199,7 +1216,7 @@
 
   \begin{itemize}
   \item Fault-tolerant: $\nu$ uses only facilities in
-    $N(\nu) \cup N_{\cls}(\kappa)$
+    $N(\nu) \cup N(\kappa)$
   \item Total cost at most $3\,\LP^\ast$, because
     \begin{itemize}
     \item Facility cost at most $F^\ast$
@@ -1224,7 +1241,7 @@
   Integral Solution}}
   \begin{itemize}
   \item Fault-tolerant: $\nu$ uses only facilities in
-    $N(\nu) \cup N_{\cls}(\kappa)$
+    $N(\nu) \cup N(\kappa)$
   \item Total cost at most $(1+2/e)\,\LP^\ast$, because
     \begin{itemize}
     \item Facility cost at most $F^\ast$
@@ -1270,8 +1287,11 @@
 \end{frame}
 \begin{frame}
   \frametitle{Refined Partition for $1.575$-approximation}
-  Properties
-  \begin{itemize}
+  {\Large \textcolor{blue}{
+  Properties}}
+
+\vspace{.3in}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
   \item $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
   \item $N_{\cls}(\nu)$ overlaps with $N_{\cls}(\kappa)$
   \item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
@@ -1292,7 +1312,7 @@
 \begin{frame}
   \frametitle{$1.575$-approximation}
 
-  \begin{itemize}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
   \item Fault-tolerant: $\nu$ uses only facilities in
     $N(\nu) \cup N_{\cls}(\kappa)$
   \item Cost analysis: for $\gamma = 1.575$
