@@ -361,7 +361,7 @@
     \node[rectangle, draw, minimum size=1cm] (ftfl) at (3,-3) {FTFL};
     
     \draw[->,ultra thick, bend left] (ftfp) to node [swap] {All $r_j=1$} (ufl);
-    \draw[->,ultra thick, bend right] (ftfp) to node {One fac per site} (ftfl);
+    \draw[->,ultra thick, bend right] (ftfp) to node {One facility per site} (ftfl);
   \end{tikzpicture}
   \end{center}
   \begin{itemize}
@@ -533,19 +533,19 @@
 
   \vspace{.3in}
 
-  \begin{tabular}{ c  c  c  c }
-    \rowcolor{LimeGreen}
+  \begin{tabular}{ l l l l }
+    \rowcolor{GreenYellow}
     Shmoys, Tardos and Aardal & 1997 & 3.16 & LP-rounding\\
-    \rowcolor{LimeGreen}
+    \rowcolor{GreenYellow}
     Chudak & 1998 & 1.736 & LP-rounding\\
-    \rowcolor{LimeGreen}
+    \rowcolor{GreenYellow}
     Sviridenko & 2002 & 1.58 & LP-rounding\\
 
-    \rowcolor{YellowGreen}
+    \rowcolor{ProcessBlue}
     Jain and Vazirani & 2001 & 3 & primal-dual\\
-    \rowcolor{YellowGreen}
+    \rowcolor{ProcessBlue}
     Jain {\etal} & 2002 & 1.61 & greedy\\
-    \rowcolor{YellowGreen}
+    \rowcolor{ProcessBlue}
     Mahdian {\etal} & 2002 & 1.52 & greedy\\
 
     \rowcolor{SkyBlue}
@@ -553,6 +553,7 @@
     \rowcolor{SkyBlue}
     Li & 2011 & 1.488 & hybrid (best result)\\
 
+    & & & \\
     \rowcolor{Yellow}
     Guha and Khuller & 1998 & 1.463 & lower bound\\
   \end{tabular}
@@ -568,7 +569,7 @@
 
     \vspace{.3in}
     \begin{tabular}{ l l l l }
-      \rowcolor{Tan}
+      \rowcolor{GreenYellow}
       Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
       \rowcolor{SkyBlue}
       Guha {\etal} & 2001 & 4 & LP-rounding\\
@@ -627,19 +628,86 @@
   %%%%%%%%%%%
 \end{frame}
 
+
+%%% figure for overall algorithm
+\begin{frame}
+  \frametitle{Algorithm for FTFP}
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse] (lpform) at (-5,9) {LP};
+    \node[draw,ellipse] (lpsoln) at (0,9) {$x_{ij}^\ast, y_{i}^\ast$};
+    \node[draw,ellipse] (intpart) at (-4,6) {$\hatx_{ij}, \haty_{i}$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse] (fracpart) at (4,6) {$\dotx_{ij}, \doty_{i}$ \\ $\dotr_j = r_j - \hatr_j$};
+    \node[draw,ellipse] (part) at (4,3) {$\barx_{\mu\nu},\bary_{\mu}$};
+    \node[draw,ellipse] (fracsoln) at (4,1) {$\ddot x_{ij}, \ddot y_{i}$};
+
+    \node[draw, ellipse] (soln) at (0,.5) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
+
+    \node[fill=yellow!50] (solnlabel) at (-3,.5) {Solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3.7,7.5) {fractional part};
+    \draw[->,>=latex] (fracpart) to node (edge1) {adaptive\\ partitioning} (part);
+    \draw[->,>=latex] (part) to node (edge2) {LP-rounding} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);    
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Algorithm for FTFP}
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse] (lpform) at (-5,9) {LP};
+    \node[draw,ellipse] (lpsoln) at (0,9) {$x_{ij}^\ast, y_{i}^\ast$};
+    \node[draw,ellipse] (intpart) at (-4,6) {$\hatx_{ij}, \haty_{i}$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse] (fracpart) at (4,6) {$\dotx_{ij}, \doty_{i}$ \\ $\dotr_j = r_j - \hatr_j$};
+    \node[draw,ellipse] (part) at (4,3) {$\barx_{\mu\nu},\bary_{\mu}$};
+    \node[draw,ellipse] (fracsoln) at (4,1) {$\ddot x_{ij}, \ddot y_{i}$};
+
+    \node[draw, ellipse] (soln) at (0,.5) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
+
+    \node[fill=yellow!50] (solnlabel) at (-3,.5) {Solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3.7,7.5) {fractional part};
+    \draw[->,>=latex] (fracpart) to node[fill=yellow!50] (edge1) {adaptive\\ partitioning} (part);
+    \draw[->,>=latex] (part) to node (edge2) {LP-rounding} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);
+
+    \draw[dashed] (-1,9.8) -- (1,9.8) -- (7,8) -- (7,4) -- (2,4)
+    -- (2,2) -- (7,2) -- (7,-.5) -- (-6,-.5) -- (-6,8) -- (-1,9.8);
+
+    \node[fill=yellow!50] at (4,9.5) {demand reduction};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
 %%% Techniques
 \begin{frame}
+  \setbeamercolor{normal text}{fg=gray,bg=}
+  \setbeamercolor{alerted text}{fg=black,bg=}
+  \usebeamercolor{normal text}
+
   \frametitle{Techniques}
   \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
 
-  \item {\Large \textcolor{blue}{Demand Reduction}}
+  \item \alert{\Large \textcolor{blue}{Demand Reduction}}
     \vspace{.1in}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \item {\large Using optimal LP solution to reduce all $r_j$ to small value}
-    \item {\large Ensure partitioning and rounding in polynomial time}
+    \item \alert {\large Using optimal LP solution to reduce all $r_j$ to small value}
+    \item \alert {\large Ensure partitioning and rounding in polynomial time}
     \end{itemize}
     
-  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+  \item {\Large {Adaptive Partitioning}}
     \vspace{.1in}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
     \item {\large Split sites into facilities and clients into unit demands}
@@ -649,48 +717,53 @@
   \end{itemize}
 \end{frame}
 
-
-%%% figure for demand reduction
-\begin{frame}
-  \frametitle{Algorithm for FTFP}
-  \begin{center}
-  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
-    \node[draw,ellipse] (lpsoln) at (0,8) {$x_{ij}^\ast, y_{i}^\ast$};
-    \node[draw,ellipse] (intpart) at (-4,6) {$\hatx_{ij}, \haty_{i}$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
-    \node[draw,ellipse] (fracpart) at (4,6) {$\dotx_{ij}, \doty_{i}$ \\ $\dotr_j = r_j - \hatr_j$};
-    \node[draw,ellipse] (part) at (4,3) {$\barx_{\mu\nu},\bary_{\mu}$};
-    \node[draw,ellipse] (fracsoln) at (4,1) {$\ddot x_{ij}, \ddot y_{i}$};
-
-    \node[draw, ellipse] (soln) at (0,0) {$\hatx_{ij} + \ddot x_{ij}$ \\ $\haty_i + \ddot y_i$};
-
-    \node[fill=yellow!50] (solnlabel) at (2.3,-.5) {Solution};
-
-    \draw[->,>=latex] (lpsoln) to (intpart);
-    \node (label1) at (-3,7.5) {round down};
-    \draw[->,>=latex] (lpsoln) to (fracpart);
-    \node (label2) at (3.2,7.5) {demand reduction};
-    \draw[->,>=latex] (fracpart) to node (edge1) {adaptive\\ partition} (part);
-    \draw[->,>=latex] (part) to node (edge2) {rounding} (fracsoln);
-    \draw[->,>=latex] (intpart) to (soln);
-    \draw[->,>=latex] (fracsoln) to (soln);    
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
 %%% demand reduction
 \begin{frame}
   \frametitle{Demand Reduction}
 
+  \large{\textcolor{blue}{Implementation}}
+
   \begin{itemize}
   \item Solving LP for $(\bfx^\ast, \bfy^\ast)$.
-  \item $(\hat\bfx, \hat\bfy) = (\bfx^\ast, \bfy^\ast)$ round down
-  \item $(\dot\bfx, \dot\bfy) = (\bfx^\ast, \bfy^\ast) - (\hat\bfx, \hat\bfy)$
+  \item $(\hat\bfx, \hat\bfy) = (\bfx^\ast, \bfy^\ast)$ round down to integer
+  \item $(\dot\bfx, \dot\bfy) = (\bfx^\ast, \bfy^\ast) - (\hat\bfx, \hat\bfy)$, fractional part
   \item $\hat r_j = \sum_{i}\hat x_{ij}$ for $\hat\calI$, $\dot r_j = r_j - \hat r_j$ for $\dot\calI$
   \item $(\hat\bfx, \hat\bfy)$ (integral) feasible and optimal for $\hat\calI$
   \item $(\dot\bfx, \dot\bfy)$ (fractional) feasible and optimal for $\dot\calI$
   \end{itemize}
+  
+  \large{\textcolor{blue}{Properties}}
+
+  \begin{itemize}
+  \item $\dotr_j = \poly(|\sitesset|)$
+  \item $\rho$-approx for $\dot \calI$ implies $\rho$-approx for $\calI$
+  \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \setbeamercolor{normal text}{fg=gray,bg=}
+  \setbeamercolor{alerted text}{fg=black,bg=}
+  \usebeamercolor{normal text}
+
+  \frametitle{Techniques}
+  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+
+  \item {\Large {Demand Reduction}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item  {\large Using optimal LP solution to reduce all $r_j$ to small value}
+    \item  {\large Ensure partitioning and rounding in polynomial time}
+    \end{itemize}
+    
+  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item \alert{\large Split sites into facilities and clients into unit demands}
+    \item \alert{\large Split associated fractional values}
+    \item \alert{\large Properties ensure rounding similar to UFL can be done with matching ratio}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
 
 
 
