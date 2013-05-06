@@ -769,18 +769,18 @@
   \frametitle{Adaptive Partition}
   \begin{itemize}
     \addtolength{\itemsep}{1\baselineskip}
-    \item Assumptions
+    \item \Large{Assumptions}
       \begin{itemize}
-      \item w.l.o.g. $\dotr = \poly(|\sitesset|)$
-      \item w.l.o.g. $x_{ij}^\ast \in \{y_i^\ast, 0\}$
+      \item \large{w.l.o.g. $\dotr = \poly(|\sitesset|)$}
+      \item \large{w.l.o.g. $x_{ij}^\ast \in \{y_i^\ast, 0\}$}
       \end{itemize}
-    \item Partition
+    \item \Large{Partition}
        \begin{itemize}
-       \item clients into demands
-       \item sites into facilities
-       \item $(\bfx^\ast,\bfy^\ast)$ into $(\bar\bfx, \bar\bfy)$
+       \item \large{clients into demands}
+       \item \large{sites into facilities}
+       \item \large{$(\bfx^\ast,\bfy^\ast)$ into $(\bar\bfx, \bar\bfy)$}
        \end{itemize}
-     \item Partition has a structure that allows rounding
+     \item \Large{Partition has a structure that allows rounding}
   \end{itemize}
 \end{frame}
 
@@ -1152,11 +1152,11 @@
   \frametitle{Partition Properties Summary}
   \begin{itemize}
     \addtolength{\itemsep}{1\baselineskip}
-  \item Each demand have neighborhood $\barx$ sum to $1$
-  \item Primart demands have disjoint neighborhood
-  \item Non-primary demands assigned to primary demands with overlap neighborhood
-  \item Primary $\kappa$ have smaller cost than assigned non-primary $\nu$
-  \item Neighborhood $N(\kappa_1) \cup N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$
+  \item \large{Each demand have neighborhood $\barx$ sum to $1$}
+  \item \large{Primart demands have disjoint neighborhood}
+  \item \large{Non-primary demands assigned to primary demands with overlap neighborhood}
+  \item \large{Primary $\kappa$ have smaller cost than assigned non-primary $\nu$}
+  \item \large{Neighborhood $N(\kappa_1) \cup N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$}
   \end{itemize}
 \end{frame}
 
@@ -1266,9 +1266,9 @@
 \begin{frame}
   \frametitle{Intuition for Properties}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-  \item Allow generalization of LP-rounding for UFL to apply to FTFP
-  \item Take care of fault-tolerance: no facility accessible to two siblings
-  \item For demand $\nu$, rounding only connects $\nu$ to $N(\nu) \cup N(\kappa)$
+  \item \large{Allow generalization of LP-rounding for UFL to apply to FTFP}
+  \item \large{Take care of fault-tolerance: no facility accessible to two siblings}
+  \item \large{For demand $\nu$, rounding only connects $\nu$ to $N(\nu) \cup N(\kappa)$}
   \end{itemize}
 \end{frame}
 
@@ -1376,12 +1376,14 @@
 
 \vspace{.3in}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \large{
   \item $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
   \item $N_{\cls}(\nu)$ overlaps with $N_{\cls}(\kappa)$
   \item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
     N(\nu_1)$ disjoint from $N_{\cls}(\kappa_2) \cup
     N(\nu_2)$
   \item $\text{cost}(\kappa) \leq \text{cost}(\nu)$
+}
   \end{itemize}
 \end{frame}
 
@@ -1397,6 +1399,7 @@
   \frametitle{$1.575$-approximation}
 
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \large{
   \item Fault-tolerant: $\nu$ uses only facilities in
     $N(\nu) \cup N_{\cls}(\kappa)$
   \item Cost analysis: for $\gamma = 1.575$
@@ -1404,6 +1407,7 @@
     \item $F_{\smallALG} \leq \gamma F^\ast$
     \item $C_{\smallALG} \leq \max\{1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\} C^\ast$
     \end{itemize}
+}
   \end{itemize}
 \end{frame}
 
