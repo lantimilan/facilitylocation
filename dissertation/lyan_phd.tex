@@ -1,5 +1,6 @@
 %% lyan doctoral dissertation
 %% init @ 03/26/2013
+%% TODO: make a better template
 
 %% the preamble below is from the template
 %%
@@ -43,14 +44,6 @@
 \usepackage{flafter}
 \usepackage{sw20uctd}
 
-%TCIDATA{OutputFilter=LATEX.DLL}
-%TCIDATA{Created=Saturday, April 29, 2006 22:07:22}
-%TCIDATA{LastRevised=Tuesday, July 17, 2007 22:48:56}
-%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
-%TCIDATA{<META NAME="DocumentShell" CONTENT="Other Documents\SW\Thesis - University of California Thesis">}
-%TCIDATA{Language=American English}
-%TCIDATA{CSTFile=ucr.cst}
-
 \newtheorem{theorem}{Theorem}
 \newtheorem{acknowledgement}[theorem]{Acknowledgement}
 \newtheorem{algorithm}[theorem]{Algorithm}
@@ -76,9 +69,7 @@
 \newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
 \def\dsp{\def\baselinestretch{2.0}\large\normalsize}
 \dsp
-%% tcilatex is a package from Scientific Workplace.
-%% The user may remove the following line without serious damage.
-%% \input{tcilatex}
+
 %% The user must use \textheight and \topmargin to control to button margin.
 \textheight = 8.25in
 \topmargin = 0.750in
@@ -116,13 +107,16 @@ Professor Neal Young}
 
 \begin{acknowledgements}
   I would thank my advisor, Marek Chrobak, for bringing me into the
-  PhD program of U of California Riverside, and for his guidance and
-  patience on my study and research in the past five years. I am also
-  grateful for the committee for helpful discussion and helpful
-  comments on my research and the dissertation.
+  PhD program of University of California Riverside, and for his
+  guidance and patience on my study and research in the past five
+  years. I am also grateful for the committee, Tao Jiang, Stefano
+  Lonardi, and Neal Young for helpful discussion and helpful comments
+  on my research and the dissertation.
 
-  The support and encouragement from my wife and my parents is always
-  a source of morale.
+  The supportive environment of the algorithm lab and computer science
+  department has made PhD study here a pleasant experience and I am
+  grateful for Claire Huang, Wei Li and the algorithm lab for helpful
+  discussions and stimulation of ideas.
 \end{acknowledgements}
 
 \begin{dedication}
@@ -137,11 +131,24 @@ Professor Neal Young}
 \begin{abstract}
   The dissertation concerns the fault-tolerant facility placement
   problem (FTFP), a variant of the well-known uncapacitated facility
-  location problem (UFL). The result was mostly on the approximation
-  algorithms and their performance guarantee. It is easily seen that
-  FTFP is a generalization of UFL. In this thesis we show that several
-  techniques that have been applied in the UFL problem can be
-  generalized to the FTFP problem with good approximation results.
+  location problem (UFL). In this problem, we have a set of sites
+  where we can open facilities and a set of clients each with an
+  integral demand. To satisfy their demands, clients need to be
+  connected to open facilities in sites. And the goal is to satisfy
+  all clients' demand while minimizing the total cost of opening
+  facilities and connecting clients to facilities. The problem is
+  shown to be NP-hard and hence we study the approximation algorithms
+  that runs in polynomial time and their performance guarantee.
+
+  In this thesis we show two techniques that lead to several LP-rounding
+  algorithms with progressively improved approximation ratio, and the
+  best ratio we have is 1.575. This ratio matches the best LP-based
+  approximation ratio for a more restricted problem, namely UFL. We
+  have also studied the applicability of primal-dual approach. In
+  particular, we show that the greedy algorithm analyzed using
+  dual-fitting technique gives an upper bound of O(logn) for
+  approximation ratio and under a natural assumption, the dual-fitting
+  analysis cannot give a ratio better than Omega(logn/loglogn).
 \end{abstract}
 
 \tableofcontents
@@ -161,9 +168,33 @@ like setting up warehouses to deliver commodities to retailers,
 building power suppliers to serve the needs of a district of
 residents, placing content servers in a network to send files to
 clients. This simple model has been an active topic in both operations
-research and computer science since 1960s, and a number of algorithm
-design techniques have been found applicable in obtaining solutions
-with desired properties.
+research and computer science since 1960s (see books by Francis), and
+a number of algorithm design techniques have been found applicable in
+obtaining solutions with desired properties. The problems we study in
+this thesis is the so-called \emph{discrete} facility location
+problems in which we are given a set of facilities that could be
+opened, and a set of clients each with some demand, and the distance
+(or connection cost) between a client and a facility. A client needs
+to be serviced by connecting it to the number of open facilities that
+matches its demand. We would like to service all clients while
+minimizing the total cost of opening facilities and connecting clients
+to facilities.
+
+The facility location problems have taken a central place in both
+operations research and theoretical computer science since the 60's,
+and a number of approaches have been proposed, including heuristic
+solutions, branch and bound, probabilistic methods from operations
+research and from theoretical computer science, approximation
+algorithms, that is, algorithms that run in polynomial time while
+providing a solution whose cost is bounded from the cost of an optimal
+solution even in the worst case. Interestingly, some of the heuristic
+solutions have later been shown to offer a provably worst-case
+performance guarantee even in the worst case instance. Not
+surprisingly, the facility location problems have been shown to be
+\NP-hard that precludes a promise for polynomial time algorithms that
+solve the problem exactly. Nonetheless there are polynomial time
+algorithms that deliver a solution with cost only a small percentage
+off from the cost of optimal solutions.
 
 There are over a dozen different variation in the problem formulation,
 and the uncapacitated facility location problem (UFL) concerns the
@@ -174,7 +205,19 @@ facility. A solution consists of a set of facilities to open and a
 specification of connections for each client to an open facility. The
 cost of the solution is simply the sum of facility opening cost and
 the connection cost to connect every client to some open facility. The
-UFL problem asks for a solution with minimum cost.
+UFL problem asks for a solution with minimum cost. The UFL problem
+with general distances has an algorithm with approximation ratio
+$O(\log n)$ where $n$ is the number of clients, due to
+Hochbaum~\cite{Hochbaum82}. A matching lower bound of $O(\log n)$ is
+easily seen as the UFL problem contains the well-known Set-Cover
+problem as a special case. Renewed interest in the UFL problem has
+been possible after Shmoys, Tardos and Aardal showed that, when
+distances form a metric, there is an algorithm with $O(1)$
+approximation ratio. Improved algorithms with more sophisticated ideas
+have been proposed and a sequence of improved approximation ratio have
+been observed, from the original $4$-approximation, to the
+$1.488$-approximation by Li~\cite{Li11}, the best known
+approximation ratio to date.
 
 The problem studied in this thesis is a generalization of the UFL
 problem, in that each client may specify a demand and the client then
