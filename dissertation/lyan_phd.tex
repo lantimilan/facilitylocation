@@ -54,6 +54,7 @@
 \newtheorem{condition}[theorem]{Condition}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{observation}[theorem]{Observation}
 \newtheorem{criterion}[theorem]{Criterion}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
@@ -275,6 +276,7 @@ algorithm that runs in polynomial time is not possible unless $\PP =
 a solution whose cost can be proved to be within some factor away from
 the cost of an optimal solution.
 
+\section{Hardness Results on Approximating UFL}
 Since FTFP contains UFL as a special case, any hardness result
 obtained on UFL remains applicable to FTFP. In the following, we
 review some well-known hardness results on UFL, with the implication
@@ -582,7 +584,7 @@ the UFL instance, we have
 Let $\rho > 1$ be some fixed constant. Now we have two
 cases:
 
-\mycase{Case 1} There exists some iteration $t$ such that $\gamma_t <
+\mycase{1} There exists some iteration $t$ such that $\gamma_t <
 1 - e^{-\rho\beta_t}$. Then we have
 \begin{equation*}
   \alpha > \frac{c\beta_t + 3 - 2 (1 - e^{-\rho\beta_t})}{1+c} =
@@ -612,7 +614,7 @@ being the solution of the equation $\ln (2/c) = 1+c$ and solve for
 $c=0.463$. Substitute the value $c$ back, we have $\alpha > 1.463$ in
 this case.
 
-\mycase{Case 2} The other case is that we have $\gamma_t \geq
+\mycase{2} The other case is that we have $\gamma_t \geq
 1-e^{-\rho\beta_t}$ for every iteration $t$. Suppose we have $l$
 iterations, we then have
 \begin{equation*}
@@ -645,18 +647,133 @@ $1.463$ unless $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
 Using an observation by Sviridenko, the underlying
 assumption can be strengthened to $\PP \neq \NP$. That is,
 metric UFL cannot have a polynomial time algorithm with
-ratio less than $1.463$ unless $\PP = \NP$.
+ratio less than $1.463$ unless $\PP = \NP$. With that, we
+conclude the discussion on the hardness results for the
+Uncapaciated Facility Location problem ({\UFL}), with the
+implication that all these hardness results apply to our
+problem, the Fault-tolerant Facility Placement problem
+(\FTFP) as well.
 %% end of ch1
 
 %% ch2 related work and results summary
 \chapter{Related Work and Known Results} \label{ch: related_work}
 
-\section{Related Problems}
+In designing algorithms for the facility location problems
+(FL), which encompass all three problems addressed in the
+following: the Uncapacitated Facility Location problem
+(UFL), the Fault-tolerant Facility Location problem (FTFL),
+and the Fault-tolerant Facility Placement problem (FTFP), we
+have two competing goals: On one hand we want to open as few
+facilities as possible so that our facility cost is small;
+on the other hand we need as many facilities as possible so
+that every client can connect to a nearby facility.
 
-\subsection{UFL}
-Upper and lower bound.
+Some simple observations about the UFL problem, and apply to
+other FL problems with minor adjustments:
+\begin{observation}
+  If all facility opening cost are zero, then an optimal
+  solution is to open all facilities and connect each client
+  to the nearest facility.
+\end{observation}
 
-\subsection{FTFL}
+\begin{observation}
+  If all distances are zero, that is, all facilities and
+  clients are colocated at the same point, then an optimal
+  solution is to open the cheapest facility and connect all
+  clients to that facility.
+\end{observation}
+
+\begin{observation}
+  For a fixed set of open facilities, there is a polynomial
+  algorithm to find the optimal assignment from clients to
+  those facilities.
+\end{observation}
+\begin{proof}
+  For UFL, it is a simple matter of finding the nearest open
+  facility for each client and a brute force search only
+  takes time $O(|\sitesset|\cdot |\clientset|)$. Even for
+  more complicated variants where the facilities each has a
+  capacity, the optimal assignment can be found by using the
+  mincost flow algorithm.
+\end{proof}
+
+Next we review the known algorithms for UFL and FTFL, since
+these two are well studied problems in literature. In
+particular, the LP-rounding algorithms for UFL inspired our
+approach to the FTFP problem.
+
+\section{Related Work on UFL}
+The Uncapacitated Facility Location problem (UFL) is the
+simpliest variant of the Facility Location problems (FL),
+and has received the most attention in research
+community. One thing that is surprising about UFL is that
+almost all known design techniques for approximation
+algorithms can be applied on UFL with good approximation
+ratio. The first $O(1)$-approximation algorithm was obtained
+by Shmoys, Tardos and Aardal~\cite{ShmoysTA97}, with a ratio
+of $3.16$, using LP-rounding. Following that, more
+sophisticated rounding algorithms have been proposed with
+improved approximation ratios. Significant improvement comes
+from randomized rounding and Chudak and
+Shmoys~\cite{ChudakS04}, and Sviridenko~\cite{Svi02}
+achieved a raio of $1.736$ and $1.582$ respectively. The
+LP-rounding algorithms require solving the LP. More
+efficient algorithms that are combinatorial have been
+proposed as well. Jain and Vazirani~\cite{JainV01}
+introduced a primal-dual algorithm which grows a feasible
+dual solution and updates a primal solution until the primal
+solution is feasible. The approximation ratio is obtained
+via a relaxed version of the complementary slackness
+conditions. Two greedy algorithms that repeatedly picking
+the star with minimum average cost, where a star is a
+facility and a subset of clients, has been analyzed by Jain,
+Markakis, Mahdian, Saberi and Vazirani~\cite{JainMMSV03}
+using the dual-fitting technique. They showed that the cost
+of the integral solution is equal to the sum of dual
+variable values produced by the greedy algorithm, and the
+dual variable values, after shrinking by a common factor, is
+feasible to the dual program. That common factor is then the
+desired approximaation ratio. They showed their algorithms
+have approximation ratio $1.861$ and $1.61$
+respectively. Another approach is local search, in which we
+start with a feasible integral solution and make local moves
+to improve the solution, and stop at some local
+optimum. Arya {\etal}~\cite{AryaGKMMP01} showed that local
+search gives a ratio of $3$ for the UFL problem.
+
+Given that the total cost of a solution to the {\UFL}
+problem consists of two parts, the facility cost and the
+connection cost, a notion of bifactor approximation was
+introduced in the literation. An algorithm with facility
+cost $F_{\smallALG}$ and connection cost $C_{\smallALG}$, is
+said to be $(\gamma_f,\gamma_c)$ approximation if, for every
+feasible solution {\SOL}, with facility cost $F_{\SOL}$ and
+connection cost $C_{\SOL}$, we have
+\begin{equation*}
+  F_{\smallALG} + C_{\smallALG} \leq \gamma_f F_{\SOL} +
+  \gamma_c C_{\SOL}.
+\end{equation*}
+In particular, for the optimal fractional solution
+$(\bfx^\ast,\bfy^\ast)$ with facility cost $F^\ast =
+\sum_{i\in\sitesset} f_i y_i^\ast$ and connection cost
+$C^\ast = \sum_{j\in\clientset} d_{ij} x_{ij}^\ast$, we have
+\begin{equation*}
+  F_{\smallALG} + C_{\smallALG} \leq \gamma_f F^\ast +
+  \gamma_c C^\ast.
+\end{equation*}
+
+The notion of bifactor approximation is helpful when an
+algorithm has imbalanced factors $\gamma_f$ and
+$\gamma_c$. It is easy to see such an algorithm has
+approximation ratio $\max\{\gamma_f, \gamma_c\}$. However,
+more can be said, as there are techniques like cost scaling
+and greedy augmentation to balance the two factors, that is,
+to decrease one at the expense of increasing the other, and
+achieve a better approximation ratio. The techniques are
+introduced by Guha, Khuller and Charikar~\cite{GuhaK98,
+  CharikarG05}.
+
+\section{Related Work on FTFL}
 Upper and lower bound.
 
 \subsection{Our Problem: FTFP}
