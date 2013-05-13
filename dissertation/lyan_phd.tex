@@ -773,6 +773,157 @@ achieve a better approximation ratio. The techniques are
 introduced by Guha, Khuller and Charikar~\cite{GuhaK98,
   CharikarG05}.
 
+We now present a more detailed description on the
+LP-rounding approaches, as our results on \FTFP are built
+on the work of LP-rounding for \UFL.
+
+Every LP-rounding algorithm for \UFL starts with solving the
+LP to obtain an optimal fraction solution
+$(\bfx^\ast,\bfy^\ast)$. Then we need to round the
+fractional solution to an integral solution
+$(\hat\bfx,\hat\bfy)$ without increasing the cost by
+much. As hinted in the above discussion, an integral
+solution with small cost would have each client connect to a
+nearby facility and few facilities open. Consider a client
+$j$, to get a handle on the connection cost, we would like
+$j$ to connect to some neighboring facility $i\in N(j)$,
+where $N(j) = \{i\in\sitesset \suchthat x_{ij}^\ast >
+0\}$. However, it is in general not possible to have every
+client connect to a neighboring facility, or we would open
+too many facilities, and thus incur a high facility cost. An
+alternative is to select a subset of clients, denoted as $C'
+\subseteq \clientset$ and only require clients in $C'$ have
+a neighoring facility open. Clients outside $C'$ are then
+connected to a facility via some clients in $C'$. The
+connection cost for clients in $|\clientset|\setminus C'$ is
+then bounded using the triangle inequality.
+
+Suppose we have chosen a subset $C'$ of client, we then open
+one facility for each client $j'$ in $C'$ and $j'$ would
+connect to that facility. Let $\phi(j)$ be the facility that
+client $j$ connects to. To bound the facility cost
+$F_{\smallALG}$, it suffices to require the clients $j'$ in
+$C'$ have disjoint neighborhood $N(j')$, and $f_{\phi(j')}$
+bounded by the average facility cost of $N(j')$, that is,
+$f_{\phi(j')} \leq \sum_{i\in N(j')} f_i y_i^\ast$. Call two
+clients $j_1$ and $j_2$ related if their neighborhood
+overlap, that is $N(j_1) \cap N(j_2) \neq \emptyset$. It is
+easy to see this relation defines an equivalence class. The
+requirement of disjoint neighborhood on the set $C'$
+immediately implies that from each equivalance class we can
+select at most one client into set $C'$. 
+
+Suppose we do select exactly one client from each
+equivalance class, and we open one facility, which is
+$\phi(j')$ for each client $j'$ in $C'$ in a way that
+$f_{\phi(j')}$ is no more than the average cost of
+facilities in $N(j')$, that is $f_{\phi(j')} \leq \sum_{i\in
+  N(j')} f_i y_{i}$. Then we know that the facility cost is
+bounded by $\sum_{i\in \sitesset} f_i y_i^\ast = F^\ast$
+because the neighborhood of clients in $C'$ are disjoint.
+
+For connection cost, each client $j'$ in $C'$ connects to
+the only facility open in $N(j')$ and we have mentioned that
+there is a way to bound the distance from $\phi(j')$ to $j'$
+when $\phi(j') \in N(j')$. For clients $j$ not in $C'$, we
+need to have an open facility to connect to, in case none of
+its neighbor opens. One possibility is to use $phi(j')$, if
+$j$ is assigned to $j'$. When that happens, $d_{phi(j'), j}$
+can be bounded by the triangle inequality as,
+\begin{equation*}
+  d_{\phi(j'), j} \leq d_{\phi(j'), j'} + d_{j'j} \leq
+  d_{\phi(j'), j'} + d_{i,j'} + d_{i,j} \text{ for all } i
+  \in \sitesset.
+\end{equation*}
+In the above $d_{jj'}$ denotes the shortest distance between
+client $j$ and $j'$, that is $d_{jj'} = \min_{i\in\sitesset}
+d_{ij'} + d_{ij}$. Now if we can show a bound on both
+$d_{\phi(j'),j'}$ and $d_{j'j}$ in terms of some quantity of
+client $j$, we can expect to have some bound on
+$d_{\phi(j'),j}$.
+
+Since the above holds for any facility $i \in \sitesset$, it
+would hold for some facility $i'$ in $N(j') \cap N(j)$. Such
+facility $i'$ exists because the way the relation between
+clients are defined. We then have a bound on all three
+quantities, namely $d_{\phi(j'), j'}, d_{i'j'}$ and
+$d_{i'j}$ because the corresponding facilities are all in
+the clients' neighborhood. Now we only need $d_{\phi(j')
+  j'}$ and $d_{i'j'}$ to be small in terms of some bound on
+$d_{ij}$. As we have a choice on which representative we
+pick in each equivalence class, we pick the representative
+to minimize some measure on that client. Let $g(j)$ be some
+measure on client $j$ such that for any facility $i$ in $N'(j)$,
+we have $d_{ij} \leq g(j)$, where $N'(j)$ is a subset of
+facilities that depends on the defition of $g(j)$. Then our
+integral solution consists of one facility from each
+$N'(j')$. Given $g(j)$ for all clients $j\in\clientset$, we
+can choose the representative $j'$ as the one that minimizes
+the measure $g(j)$ in its equivalance class. One consequence
+is that any client $j$ outside $C'$, can now have its
+connection cost being bounded as:
+\begin{equation*}
+  d_{\phi(j), j} \leq d_{phi(j'), j'} + d_{i'j'} + d_{i'j}
+  \leq g(j') + g(j') + g(j) \leq g(j) + g(j) + g(j) = 3g(j).
+\end{equation*}
+In other words, given the function $g(j)$ and its associated
+subsets of facilities $N'(j)$ for each client $j\in
+\clientset$, we are able to round the fractional solution
+$(\bfx^\ast, \bfy^\ast)$ into an integral solution such that
+$F_{\smallALG} \leq F^\ast$ and $d_{\phi(j), j} \leq 3
+g(j)$.
+
+Next we discuss approaches to derive the function
+$g(j)$. Two ways are possible: One is to use the dual
+solution $(\bfalpha^\ast, \bfbeta^\ast)$, and then the
+complementary slackness conditions tell us that $d_{ij} \leq
+\alpha_j^\ast$ for every $i \in N(j) = \{i\in\sitesset
+\suchthat x_{ij}^\ast > 0\}$. This defines $g(j) =
+\alpha_j^\ast$ and $N'(j) = N(j)$. The other way is to trim
+the neighborhood of a client by throwing away most distant
+neighbors so that the farthest facility in the trimmed down
+neighborhood is at a distance within some factor of the
+average distance $C_j^\ast = \sum_{i\in N(j)} d_{ij}
+x_{ij}^\ast$. We now open one facility in $N'(j')$ for each
+representative $j' \in C'$ in a way that $f_{\phi(j')}$ is
+no more than the average facility cost of facilities in
+$N'(j')$, that is $\sum_{i\in N'(j')} f_i y_i / \sum_{i \in
+  N'(j')} y_i$. Now we have a bound on $d_{\phi(j),j}$ in
+terms of $C_j^\ast$. However, our facility cost is now
+bounded by 
+\begin{equation*}
+  F_{\smallALG} \leq \sum_{j'\in C'} \left(\sum_{i\in N'(j')} f_i y_i /
+    \sum_{i\in N'(j')} y_i\right).
+\end{equation*}
+To estimate this cost, we assume a lower bound $\gamma$ on
+$\sum_{i\in N'(j')} y_i$ for every client $j' \in C'$.  Our
+facility cost can then be bounded as
+\begin{align*}
+  F_{\smallALG} &\leq \sum_{j'\in C'} \left(\sum_{i\in
+      N'(j')} f_i y_i^\ast /
+    \sum_{i\in N'(j')} y_i^\ast\right)\\
+  &\leq \sum_{j'\in C'}
+  \sum_{i \in N'(j')} f_i y_i^\ast /\gamma\\
+  &= \frac{1}{\gamma} \sum_{j' \in C'} \sum_{i \in N'(j')}
+  f_i y_i^\ast\\
+  &= \frac{1}{\gamma} \sum_{j' \in C'} \sum_{i \in N(j')}
+  f_i y_i^\ast \qquad (\text{replace } N'(j) \text{ with } N(j))\\
+  &=
+  \frac{1}{\gamma} \sum_{i \in \sitesset} f_i y_i^\ast = F^\ast.\\
+\end{align*}
+We note that the factor that bounds $g(j)$ by $C_j^\ast$ is
+related to $\gamma$ and we denote that factor as
+$f(\gamma)$. Then we have $g(j) \leq f(\gamma) C_j^\ast$. It
+follows that we can obtain an integral solution with
+facility cost no more than $\gamma F^\ast$ and connection
+cost no more than $3 \sum_{j\in \clientset} g(j) = 3
+\sum_{j\in \clientset} f(\gamma) C_j^\ast = 3 f(\gamma)
+C^\ast$. Recall that $F^\ast = \sum_{i\in \sitesset} f_i
+y_i^\ast$ and $C^\ast = \sum_{i\in\sitesset, j\in\clientset}
+d_{ij} x_{ij}^\ast$ and we also define $\LP^\ast = F^\ast +
+C^\ast$. Our rounded solution then has approximation ratio
+$\max\{\gamma, 3 f(\gamma)\}$.
+
 \section{Related Work on FTFL}
 Upper and lower bound.
 
