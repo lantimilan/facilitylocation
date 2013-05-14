@@ -863,7 +863,7 @@ the measure $g(j)$ in its equivalance class. One consequence
 is that any client $j$ outside $C'$, can now have its
 connection cost being bounded as:
 \begin{equation*}
-  d_{\phi(j), j} \leq d_{phi(j'), j'} + d_{i'j'} + d_{i'j}
+  d_{\phi(j), j} \leq d_{\phi(j'), j'} + d_{i'j'} + d_{i'j}
   \leq g(j') + g(j') + g(j) \leq g(j) + g(j) + g(j) = 3g(j).
 \end{equation*}
 In other words, given the function $g(j)$ and its associated
@@ -923,6 +923,81 @@ y_i^\ast$ and $C^\ast = \sum_{i\in\sitesset, j\in\clientset}
 d_{ij} x_{ij}^\ast$ and we also define $\LP^\ast = F^\ast +
 C^\ast$. Our rounded solution then has approximation ratio
 $\max\{\gamma, 3 f(\gamma)\}$.
+
+For concreteness we now describe the original approach by Shmoys,
+Tardos and Aardal~\cite{ShmoysTA97}, followed by improvement by Chudak
+and Shmoys~\cite{ChudakS04} and Sviridenko~\cite{Svi02},
+Byrka~\cite{Byrka07} and Li~\cite{Li11}.
+
+We start with an result by Chudak which gives an easy
+$4$-approximation. The algorithm starts with fractional optimal
+solution for the primal $(\bfx^\ast,\bfy^\ast)$ and the dual
+$(\bfalpha^\ast, \bfbeta^\ast)$. The algorithm then repeatedly pick an
+unconnnected client $j$ with minimum $\alpha_j^\ast$, open a cheapest
+facility $i$ in $N(j)$, and then connect remaining clients to $i$ with
+a neighborhood overlapping $N(j)$. Given the above discussion, clearly
+the facility cost is no more than $F^\ast$. For connection cost, we
+can use $g(j) = \alpha_j^\ast$, and client $j$ is connected to a
+facility with distance no more than $3 g(j) = 3
+\alpha_j^\ast$. Summarizing we have total cost no more than $F^\ast +
+\sum_{j\in\clientset} \alpha_j^\ast = F^\ast + 3\,\LP^\ast \leq
+4\,\LP^\ast$.
+
+Another $4$-approximation, which is the original approach by Shmoys,
+Tardos and Aardal uses the other way to obtain $g(j)$, by cutting the
+neighborhood. More precisely, for each client $j$, they cut at a
+distance $g(j)$ such that the accumulated fractional value is at least
+some constant $\gamma$, that is
+\begin{equation*}
+  \sum_{i\in N(j)\suchthat d_{ij} \leq g(j)} x_{ij}^\ast \geq \gamma.
+\end{equation*}
+An argument similar to Markov's inequality would then show that the
+trimmed neighborhood, call it $N'(j)$, has the farthest facility
+within a distance of $g(j)$. To bound $g(j)$, we have
+\begin{equation*}
+  C_j^\ast \stackrel{\text{def}}{=} \sum_{i\in N(j)} d_{ij} x_{ij}^\ast \geq \sum_{i\in
+    N(j)\setminus N'(j)} d_{ij} x_{ij}^\ast \geq \sum_{i \in N(j)
+    \setminus N'(j)} g(j) x_{ij}^\ast \geq g(j) (1 - \gamma).
+\end{equation*}
+As a result $g(j) \leq C_j^\ast / (1 - \gamma)$ and notice that
+$\sum_{j\in \clientset} C_j^\ast = C^\ast$. As discussed above, we
+have total connection cost no more than $3C^\ast/(1-\gamma)$. On the
+facility cost, since we have limited ourselves only facilities in
+$N'(j)$, as opposed to $N(j)$. If we open the cheapest facility in
+$N'(j)$ for each chosen client $j$, all we can say now is that the
+facility cost is not more than
+\begin{equation*}
+  \sum_{j \in P} \sum_{i\in N'(j)} f_i y_i^\ast / \sum_{i\in N'(j)} y_i^\ast.
+\end{equation*}
+We are blessed since we have an lower bound of $\gamma$ on $\sum_{i\in
+  N'(j)} y_i^\ast$ for every client $j$. So the above sum can be upper
+bounded by
+\begin{equation*}
+  \sum_{j \in P} \sum_{i\in N'(j)} f_i y_i^\ast / \gamma \leq
+  \frac{1}{\gamma} \sum_{j \in P} \sum_{i \in N(j)} f_i y_i^\ast \leq
+  \frac{1}{\gamma} \sum_{i \in sitesset} f_i y_i^\ast =
+  \frac{1}{\gamma} F^\ast.
+\end{equation*}
+So our approximation ratio is $\max\{3/(1-\gamma), 1/\gamma\}$. Pick
+$\gamma=1/4$ and we have a $4$-approximation.
+
+The simpliest rounding described so far is clearly not the best
+possible and there are several improvements proposed afterwards,
+albeit they all follow the same equivalence class partition and opens
+exactly one facility for each representative. To save on connection
+cost, one observes that a not chosen client $j$ can use a neighbor
+provided that the neighbor is open. For the interest of facility cost,
+it is not necessary to open the cheapest, opening each facility in a
+neighborhood with probability proportional to $y_i^\ast$ would give an
+expectation bounded by $F^\ast$ as well. The analysis, however, is
+much more involved and requires one to estimate the probabilities of a
+not chosen client connects to its neighbor and to the target facility
+opened by its assigned primary client. We shall not elaborate here as
+our rounding algorithms for the FTFP problem in the main part will
+rephrase and prove similar theorems later. This concludes our review
+on the known approximation results on the Uncapacitated Facility
+Location problem (UFL).
+
 
 \section{Related Work on FTFL}
 Upper and lower bound.
