@@ -507,7 +507,7 @@ We briefly mention the last piece of hardness result, which is the
 Guha-Khuller theorem.
 \begin{theorem}\label{thm:1463}
   {\UFL} cannot be approximated to less than $1.463$ unless $\NP
-  \subseteq \DTIME(n^{\log\log n})$.
+  \subseteq \DTIME(n^{O\log\log n})$.
 \end{theorem}
 
 \begin{proof}
@@ -660,7 +660,7 @@ problem, the Fault-tolerant Facility Placement problem
 
 In designing algorithms for the facility location problems
 (FL), which encompass all three problems addressed in the
-following: the Uncapacitated Facility Location problem
+following, the Uncapacitated Facility Location problem
 (UFL), the Fault-tolerant Facility Location problem (FTFL),
 and the Fault-tolerant Facility Placement problem (FTFP), we
 have two competing goals: On one hand we want to open as few
@@ -703,43 +703,38 @@ particular, the LP-rounding algorithms for UFL inspired our
 approach to the FTFP problem.
 
 \section{Related Work on UFL}
-The Uncapacitated Facility Location problem (UFL) is the
-simpliest variant of the Facility Location problems (FL),
-and has received the most attention in research
-community. One thing that is surprising about UFL is that
-almost all known design techniques for approximation
-algorithms can be applied on UFL with good approximation
-ratio. The first $O(1)$-approximation algorithm was obtained
-by Shmoys, Tardos and Aardal~\cite{ShmoysTA97}, with a ratio
-of $3.16$, using LP-rounding. Following that, more
-sophisticated rounding algorithms have been proposed with
-improved approximation ratios. Significant improvement comes
-from randomized rounding and Chudak and
-Shmoys~\cite{ChudakS04}, and Sviridenko~\cite{Svi02}
-achieved a raio of $1.736$ and $1.582$ respectively. The
-LP-rounding algorithms require solving the LP. More
-efficient algorithms that are combinatorial have been
-proposed as well. Jain and Vazirani~\cite{JainV01}
-introduced a primal-dual algorithm which grows a feasible
-dual solution and updates a primal solution until the primal
-solution is feasible. The approximation ratio is obtained
-via a relaxed version of the complementary slackness
-conditions. Two greedy algorithms that repeatedly picking
-the star with minimum average cost, where a star is a
-facility and a subset of clients, has been analyzed by Jain,
-Markakis, Mahdian, Saberi and Vazirani~\cite{JainMMSV03}
-using the dual-fitting technique. They showed that the cost
-of the integral solution is equal to the sum of dual
-variable values produced by the greedy algorithm, and the
-dual variable values, after shrinking by a common factor, is
-feasible to the dual program. That common factor is then the
-desired approximaation ratio. They showed their algorithms
-have approximation ratio $1.861$ and $1.61$
-respectively. Another approach is local search, in which we
-start with a feasible integral solution and make local moves
-to improve the solution, and stop at some local
-optimum. Arya {\etal}~\cite{AryaGKMMP01} showed that local
-search gives a ratio of $3$ for the UFL problem.
+The Uncapacitated Facility Location problem (UFL) is the simpliest
+variant of the Facility Location problems (FL), and has received the
+most attention in research community. One thing that is surprising
+about UFL is that almost all known approximation algorithm design
+techniques can be applied to UFL with a good approximation ratio. The
+first $O(1)$-approximation algorithm was obtained by Shmoys, Tardos
+and Aardal~\cite{ShmoysTA97}, with a ratio of $3.16$, using
+LP-rounding. Following that, more sophisticated rounding algorithms
+have been proposed with improved approximation ratios. Significant
+improvement comes from randomized rounding and Chudak and
+Shmoys~\cite{ChudakS04}, and Sviridenko~\cite{Svi02} achieved a raio
+of $1.736$ and $1.582$ respectively. The LP-rounding algorithms
+require solving the LP. More efficient algorithms that are
+combinatorial have been proposed as well. Jain and
+Vazirani~\cite{JainV01} introduced a primal-dual algorithm which grows
+a feasible dual solution and updates a primal solution accordingly
+until the primal solution is feasible. The approximation ratio is
+obtained via a relaxed version of the complementary slackness
+conditions. Two greedy algorithms that repeatedly picking the star
+with minimum average cost, where a star is a facility and a subset of
+clients, has been analyzed by Jain, Markakis, Mahdian, Saberi and
+Vazirani~\cite{JainMMSV03} using the dual-fitting technique. They
+showed that the cost of the integral solution is equal to the sum of
+dual variable values produced by the greedy algorithm, and the dual
+variable values, after shrinking by a common factor, is feasible to
+the dual program. That common factor is then the desired
+approximaation ratio. They showed their algorithms have approximation
+ratio $1.861$ and $1.61$ respectively. Another approach is local
+search, in which we start with a feasible integral solution and make
+local moves to improve the solution, and stop at some local
+optimum. Arya {\etal}~\cite{AryaGKMMP01} showed that local search
+gives a ratio of $3$ for the UFL problem.
 
 Given that the total cost of a solution to the {\UFL}
 problem consists of two parts, the facility cost and the
@@ -747,11 +742,11 @@ connection cost, a notion of bifactor approximation was
 introduced in the literation. An algorithm with facility
 cost $F_{\smallALG}$ and connection cost $C_{\smallALG}$, is
 said to be $(\gamma_f,\gamma_c)$ approximation if, for every
-feasible solution {\SOL}, with facility cost $F_{\SOL}$ and
-connection cost $C_{\SOL}$, we have
+feasible solution {\SOL}, with facility cost $F_{\smallSOL}$ and
+connection cost $C_{\smallSOL}$, we have
 \begin{equation*}
-  F_{\smallALG} + C_{\smallALG} \leq \gamma_f F_{\SOL} +
-  \gamma_c C_{\SOL}.
+  F_{\smallALG} + C_{\smallALG} \leq \gamma_f F_{\smallSOL} +
+  \gamma_c C_{\smallSOL}.
 \end{equation*}
 In particular, for the optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ with facility cost $F^\ast =
@@ -769,16 +764,16 @@ approximation ratio $\max\{\gamma_f, \gamma_c\}$. However,
 more can be said, as there are techniques like cost scaling
 and greedy augmentation to balance the two factors, that is,
 to decrease one at the expense of increasing the other, and
-achieve a better approximation ratio. The techniques are
-introduced by Guha, Khuller and Charikar~\cite{GuhaK98,
+achieve a better overall approximation ratio. The techniques
+are introduced by Guha, Khuller and Charikar~\cite{GuhaK98,
   CharikarG05}.
 
 We now present a more detailed description on the
-LP-rounding approaches, as our results on \FTFP are built
-on the work of LP-rounding for \UFL.
+LP-rounding approaches, as our results on {\FTFP} are built
+on the work of LP-rounding for {\UFL}.
 
-Every LP-rounding algorithm for \UFL starts with solving the
-LP to obtain an optimal fraction solution
+Every LP-rounding algorithm for {\UFL} starts with solving
+the LP to obtain an optimal fraction solution
 $(\bfx^\ast,\bfy^\ast)$. Then we need to round the
 fractional solution to an integral solution
 $(\hat\bfx,\hat\bfy)$ without increasing the cost by
@@ -795,28 +790,31 @@ alternative is to select a subset of clients, denoted as $C'
 \subseteq \clientset$ and only require clients in $C'$ have
 a neighoring facility open. Clients outside $C'$ are then
 connected to a facility via some clients in $C'$. The
-connection cost for clients in $|\clientset|\setminus C'$ is
-then bounded using the triangle inequality.
+connection cost for clients in $|\clientset|\setminus C'$
+are then bounded using the triangle inequality.
 
 Suppose we have chosen a subset $C'$ of client, we then open
 one facility for each client $j'$ in $C'$ and $j'$ would
-connect to that facility. Let $\phi(j)$ be the facility that
-client $j$ connects to. To bound the facility cost
+connect to that facility. Denote by $\phi(j)$ the facility
+that client $j$ connects to. To bound the facility cost
 $F_{\smallALG}$, it suffices to require the clients $j'$ in
 $C'$ have disjoint neighborhood $N(j')$, and $f_{\phi(j')}$
-bounded by the average facility cost of $N(j')$, that is,
+be bounded by the average facility cost of $N(j')$, that is,
 $f_{\phi(j')} \leq \sum_{i\in N(j')} f_i y_i^\ast$. Call two
-clients $j_1$ and $j_2$ related if their neighborhood
+clients $j_1$ and $j_2$ \emph{related} if their neighborhood
 overlap, that is $N(j_1) \cap N(j_2) \neq \emptyset$. It is
 easy to see this relation defines an equivalence class. The
 requirement of disjoint neighborhood on the set $C'$
 immediately implies that from each equivalance class we can
-select at most one client into set $C'$. 
+select at most one client into set $C'$. The chosen client
+is then called the \emph{representative} of that class, and
+we say other clients in that class are \emph{assigned} to
+that representative.
 
-Suppose we do select exactly one client from each
-equivalance class, and we open one facility, which is
-$\phi(j')$ for each client $j'$ in $C'$ in a way that
-$f_{\phi(j')}$ is no more than the average cost of
+Suppose we do select exactly one representative client from
+each equivalance class, and we open one facility, which is
+$\phi(j')$ for each representative client $j'$ in $C'$ in a
+way that $f_{\phi(j')}$ is no more than the average cost of
 facilities in $N(j')$, that is $f_{\phi(j')} \leq \sum_{i\in
   N(j')} f_i y_{i}$. Then we know that the facility cost is
 bounded by $\sum_{i\in \sitesset} f_i y_i^\ast = F^\ast$
@@ -827,11 +825,11 @@ the only facility open in $N(j')$ and we have mentioned that
 there is a way to bound the distance from $\phi(j')$ to $j'$
 when $\phi(j') \in N(j')$. For clients $j$ not in $C'$, we
 need to have an open facility to connect to, in case none of
-its neighbor opens. One possibility is to use $phi(j')$, if
-$j$ is assigned to $j'$. When that happens, $d_{phi(j'), j}$
-can be bounded by the triangle inequality as,
+its neighbor opens. One possibility is to use $\phi(j')$, if
+$j$ is assigned to $j'$. When that happens, $d_{\phi(j'), j}$
+can be bounded by the triangle inequality as
 \begin{equation*}
-  d_{\phi(j'), j} \leq d_{\phi(j'), j'} + d_{j'j} \leq
+  d_{\phi(j),j} = d_{\phi(j'), j} \leq d_{\phi(j'), j'} + d_{j'j} \leq
   d_{\phi(j'), j'} + d_{i,j'} + d_{i,j} \text{ for all } i
   \in \sitesset.
 \end{equation*}
@@ -843,25 +841,25 @@ client $j$, we can expect to have some bound on
 $d_{\phi(j'),j}$.
 
 Since the above holds for any facility $i \in \sitesset$, it
-would hold for some facility $i'$ in $N(j') \cap N(j)$. Such
-facility $i'$ exists because the way the relation between
-clients are defined. We then have a bound on all three
-quantities, namely $d_{\phi(j'), j'}, d_{i'j'}$ and
-$d_{i'j}$ because the corresponding facilities are all in
-the clients' neighborhood. Now we only need $d_{\phi(j')
+would certainly hold for some facility $i'$ in $N(j') \cap
+N(j)$. Such facility $i'$ exists because the way the
+relation between clients are defined. We then have a bound
+on all three quantities, namely $d_{\phi(j'), j'}, d_{i'j'}$
+and $d_{i'j}$ because the corresponding facilities are all
+in the clients' neighborhood. Now we only need $d_{\phi(j')
   j'}$ and $d_{i'j'}$ to be small in terms of some bound on
 $d_{ij}$. As we have a choice on which representative we
 pick in each equivalence class, we pick the representative
 to minimize some measure on that client. Let $g(j)$ be some
-measure on client $j$ such that for any facility $i$ in $N'(j)$,
-we have $d_{ij} \leq g(j)$, where $N'(j)$ is a subset of
-facilities that depends on the defition of $g(j)$. Then our
-integral solution consists of one facility from each
-$N'(j')$. Given $g(j)$ for all clients $j\in\clientset$, we
-can choose the representative $j'$ as the one that minimizes
-the measure $g(j)$ in its equivalance class. One consequence
-is that any client $j$ outside $C'$, can now have its
-connection cost being bounded as:
+measure on client $j$ such that for any facility $i$ in
+$N'(j)$, we have $d_{ij} \leq g(j)$, where $N'(j)$ is a
+subset of facilities that depends on the defition of
+$g(j)$. Then our integral solution consists of one facility
+from each $N'(j')$. Given $g(j)$ for all clients
+$j\in\clientset$, we can choose the representative $j'$ as
+the one that minimizes the measure $g(j)$ in its equivalance
+class. One consequence is that any client $j$ outside $C'$,
+can now have its connection cost being bounded as:
 \begin{equation*}
   d_{\phi(j), j} \leq d_{\phi(j'), j'} + d_{i'j'} + d_{i'j}
   \leq g(j') + g(j') + g(j) \leq g(j) + g(j) + g(j) = 3g(j).
@@ -881,7 +879,7 @@ complementary slackness conditions tell us that $d_{ij} \leq
 \suchthat x_{ij}^\ast > 0\}$. This defines $g(j) =
 \alpha_j^\ast$ and $N'(j) = N(j)$. The other way is to trim
 the neighborhood of a client by throwing away most distant
-neighbors so that the farthest facility in the trimmed down
+neighbors so that the farthest facility in the trimmed
 neighborhood is at a distance within some factor of the
 average distance $C_j^\ast = \sum_{i\in N(j)} d_{ij}
 x_{ij}^\ast$. We now open one facility in $N'(j')$ for each
@@ -890,23 +888,25 @@ no more than the average facility cost of facilities in
 $N'(j')$, that is $\sum_{i\in N'(j')} f_i y_i / \sum_{i \in
   N'(j')} y_i$. Now we have a bound on $d_{\phi(j),j}$ in
 terms of $C_j^\ast$. However, our facility cost is now
-bounded by 
+bounded by
 \begin{equation*}
-  F_{\smallALG} \leq \sum_{j'\in C'} \left(\sum_{i\in N'(j')} f_i y_i /
-    \sum_{i\in N'(j')} y_i\right).
+  F_{\smallALG} \leq \sum_{j'\in C'} \left(\sum_{i\in N'(j')} f_i y_i^\ast /
+    \sum_{i\in N'(j')} y_i^\ast\right).
 \end{equation*}
 To estimate this cost, we assume a lower bound $\gamma$ on
-$\sum_{i\in N'(j')} y_i$ for every client $j' \in C'$.  Our
-facility cost can then be bounded as
+$\sum_{i\in N'(j')} y_i^\ast$ for every client $j' \in C'$.
+Our facility cost can then be bounded as
 \begin{align*}
   F_{\smallALG} &\leq \sum_{j'\in C'} \left(\sum_{i\in
       N'(j')} f_i y_i^\ast /
-    \sum_{i\in N'(j')} y_i^\ast\right)\\
+    \sum_{i\in N'(j')} y_i^\ast\right) \qquad (\text{choice
+    of } \phi(j'))\\
   &\leq \sum_{j'\in C'}
-  \sum_{i \in N'(j')} f_i y_i^\ast /\gamma\\
+  \sum_{i \in N'(j')} f_i y_i^\ast /\gamma \qquad
+  (\text{assumption } \sum_{i\in N'(j')} y_i^\ast \leq \gamma)\\
   &= \frac{1}{\gamma} \sum_{j' \in C'} \sum_{i \in N'(j')}
   f_i y_i^\ast\\
-  &= \frac{1}{\gamma} \sum_{j' \in C'} \sum_{i \in N(j')}
+  &\leq \frac{1}{\gamma} \sum_{j' \in C'} \sum_{i \in N(j')}
   f_i y_i^\ast \qquad (\text{replace } N'(j) \text{ with } N(j))\\
   &=
   \frac{1}{\gamma} \sum_{i \in \sitesset} f_i y_i^\ast = F^\ast.\\
@@ -924,24 +924,27 @@ d_{ij} x_{ij}^\ast$ and we also define $\LP^\ast = F^\ast +
 C^\ast$. Our rounded solution then has approximation ratio
 $\max\{\gamma, 3 f(\gamma)\}$.
 
-For concreteness we now describe the original approach by Shmoys,
-Tardos and Aardal~\cite{ShmoysTA97}, followed by improvement by Chudak
-and Shmoys~\cite{ChudakS04} and Sviridenko~\cite{Svi02},
-Byrka~\cite{Byrka07} and Li~\cite{Li11}.
+For concreteness we now describe a simple rounding by
+Chudak~\cite{Chudak98}, and the original approach by Shmoys,
+Tardos and Aardal~\cite{ShmoysTA97}, followed by improvement
+by Chudak and Shmoys~\cite{ChudakS04} and
+Sviridenko~\cite{Svi02}, Byrka~\cite{Byrka07} and
+Li~\cite{Li11}.
 
 We start with an result by Chudak which gives an easy
-$4$-approximation. The algorithm starts with fractional optimal
-solution for the primal $(\bfx^\ast,\bfy^\ast)$ and the dual
-$(\bfalpha^\ast, \bfbeta^\ast)$. The algorithm then repeatedly pick an
-unconnnected client $j$ with minimum $\alpha_j^\ast$, open a cheapest
-facility $i$ in $N(j)$, and then connect remaining clients to $i$ with
-a neighborhood overlapping $N(j)$. Given the above discussion, clearly
-the facility cost is no more than $F^\ast$. For connection cost, we
-can use $g(j) = \alpha_j^\ast$, and client $j$ is connected to a
-facility with distance no more than $3 g(j) = 3
-\alpha_j^\ast$. Summarizing we have total cost no more than $F^\ast +
-\sum_{j\in\clientset} \alpha_j^\ast = F^\ast + 3\,\LP^\ast \leq
-4\,\LP^\ast$.
+$4$-approximation. The algorithm starts with fractional
+optimal solution for the primal $(\bfx^\ast,\bfy^\ast)$ and
+the dual $(\bfalpha^\ast, \bfbeta^\ast)$. The algorithm then
+repeatedly pick an unconnnected client $j$ with minimum
+$\alpha_j^\ast$, open a cheapest facility $i$ in $N(j)$, and
+then connect remaining clients to $i$ with a neighborhood
+overlapping $N(j)$. Given the above discussion, clearly the
+facility cost is no more than $F^\ast$. For connection cost,
+we can use $g(j) = \alpha_j^\ast$, and client $j$ is
+connected to a facility with distance no more than $3 g(j) =
+3 \alpha_j^\ast$. Summarizing we have total cost no more
+than $F^\ast + \sum_{j\in\clientset} \alpha_j^\ast = F^\ast
++ 3\,\LP^\ast \leq 4\,\LP^\ast$.
 
 Another $4$-approximation, which is the original approach by Shmoys,
 Tardos and Aardal uses the other way to obtain $g(j)$, by cutting the
@@ -969,9 +972,9 @@ facility cost is not more than
 \begin{equation*}
   \sum_{j \in P} \sum_{i\in N'(j)} f_i y_i^\ast / \sum_{i\in N'(j)} y_i^\ast.
 \end{equation*}
-We are blessed since we have an lower bound of $\gamma$ on $\sum_{i\in
-  N'(j)} y_i^\ast$ for every client $j$. So the above sum can be upper
-bounded by
+We are blessed since we have an lower bound of $\gamma$ on
+$\sum_{i\in N'(j)} y_i^\ast$ for every client $j$. As shown
+earlier, the above sum can be upper bounded by
 \begin{equation*}
   \sum_{j \in P} \sum_{i\in N'(j)} f_i y_i^\ast / \gamma \leq
   \frac{1}{\gamma} \sum_{j \in P} \sum_{i \in N(j)} f_i y_i^\ast \leq
@@ -981,22 +984,26 @@ bounded by
 So our approximation ratio is $\max\{3/(1-\gamma), 1/\gamma\}$. Pick
 $\gamma=1/4$ and we have a $4$-approximation.
 
-The simpliest rounding described so far is clearly not the best
-possible and there are several improvements proposed afterwards,
-albeit they all follow the same equivalence class partition and opens
-exactly one facility for each representative. To save on connection
-cost, one observes that a not chosen client $j$ can use a neighbor
-provided that the neighbor is open. For the interest of facility cost,
-it is not necessary to open the cheapest, opening each facility in a
-neighborhood with probability proportional to $y_i^\ast$ would give an
-expectation bounded by $F^\ast$ as well. The analysis, however, is
-much more involved and requires one to estimate the probabilities of a
-not chosen client connects to its neighbor and to the target facility
-opened by its assigned primary client. We shall not elaborate here as
-our rounding algorithms for the FTFP problem in the main part will
-rephrase and prove similar theorems later. This concludes our review
-on the known approximation results on the Uncapacitated Facility
-Location problem (UFL).
+The simpliest rounding described so far is clearly not the
+best possible and there are several improvements proposed
+afterwards, nonetheless, they all follow the same
+equivalence class partition and opens exactly one facility
+for each representative. To save on connection cost, one
+observes that a not chosen client can use a neighboring
+facility provided that the neighbor is open. For the
+interest of facility cost, it is not necessary to open the
+cheapest, by opening each facility in a neighborhood with
+probability proportional to $y_i^\ast$, we would have an
+expectation of facility cost bounded by $F^\ast$ as
+well. The analysis, however, is much more involved and
+requires one to estimate the probabilities of a not chosen
+client connects to its neighbor and to the facility opened
+by its assigned representative client. We shall not
+elaborate here as our rounding algorithms for the FTFP
+problem in the main part will rephrase and prove similar
+theorems later. This concludes our review on the known
+approximation results on the Uncapacitated Facility Location
+problem (UFL).
 
 
 \section{Related Work on FTFL}
