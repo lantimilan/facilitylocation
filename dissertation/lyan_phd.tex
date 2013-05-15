@@ -37,8 +37,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{bm}
 \usepackage{amsmath}
-\usepackage[dvips]{graphicx}
-\usepackage{graphics}
+%\usepackage[dvips]{graphicx}
+%\usepackage{graphics}
+\usepackage{graphicx}
 \usepackage{caption,subcaption,enumerate}
 \usepackage{flafter}
 \usepackage{sw20uctd}
@@ -2948,20 +2949,20 @@ At this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
 
 %% TODO: restall figure
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\begin{figure}[ht]
-%%\begin{center}
-%%\includegraphics[width=3.2in,natwidth=610,natheight=642]{./proof_of_lemma_PD'3a.pdf}
-%%\caption{Illustration of the sets $\wbarN(\nu)$, $A$, $B$,
-%%  $E^-$ and $E^+$ in the proof of Lemma~\ref{lem: PD1:
-%%    primary overlap}. Let $X \Subset Y$ mean that the facility
-%%	sets $X$ is obtained from $Y$ by splitting facilities.
-%%	We then have $A \Subset \wtildeN(j)$, 
-%%	$B \Subset  \wtildeclsnb(j) \cap \wbarclsnb(\kappa)$, 
-%%	$E^- \Subset  \wtildeclsnb(j) - \wbarclsnb(\kappa)$, 
-%%	$E^+ \Subset \wtildeN(j) - \wtildeclsnb(j)$.}
-%%\label{fig: sets lemma PD'3a}
-%%\end{center}
-%%\end{figure}
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=3.2in]{proof_of_lemma_PD'3a.pdf}
+\caption{Illustration of the sets $\wbarN(\nu)$, $A$, $B$,
+  $E^-$ and $E^+$ in the proof of Lemma~\ref{lem: PD1:
+    primary overlap}. Let $X \Subset Y$ mean that the facility
+	sets $X$ is obtained from $Y$ by splitting facilities.
+	We then have $A \Subset \wtildeN(j)$, 
+	$B \Subset  \wtildeclsnb(j) \cap \wbarclsnb(\kappa)$, 
+	$E^- \Subset  \wtildeclsnb(j) - \wbarclsnb(\kappa)$, 
+	$E^+ \Subset \wtildeN(j) - \wtildeclsnb(j)$.}
+\label{fig: sets lemma PD'3a}
+\end{center}
+\end{figure}
 
   We define the sets $A$, $B$, $E^-$ and $E^+$ as the subsets of
   $\facilityset$ (the final set of facilities) that were obtained from
