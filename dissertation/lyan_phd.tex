@@ -1121,23 +1121,33 @@ Shen~\cite{XuS09}~\footnote{In their paper they call the
   problem the fault-tolerant facility allocation problem, or
   FTFA.}. The study of {\FTFP} was partly motivated to
 obtain a better understanding of the implication of
-fault-tolerant requirement on facility location problems. In
-particular, our results demonstrated that LP-rounding
-algorithms for {\FTFP} can achieve an approximation ratio
-that matches that for {\UFL}. For the applicability of
-primal-dual techniques on {\FTFP}, we provide an argument of
-possible difficulty in obtaining sub-logarithmic ratio using
-dual-fitting approach. Again we refer the reader to
-Chapter~\ref{ch: primal-dual} for more discussion on results
-using primal-dual approaches on {\FTFP}.
+fault-tolerant requirement on facility location
+problems. The Xu and Shen's results seem to be valid only
+for a special case of {\FTFP} and we later adapted the
+Chudak's 4-approximation algorithm for {\UFL} to {\FTFP},
+thus obtaining the first $O(1)$-approximation algorithm for
+this problem. The algorithm was based on LP-rounding. Our
+subsequent work improved the algorithm and analysis on
+LP-rounding and our most recent results demonstrated that
+LP-rounding algorithms for {\FTFP} can achieve an
+approximation ratio that matches that for {\UFL}. For the
+applicability of primal-dual techniques on {\FTFP}, we
+provide an argument of possible difficulty in obtaining
+sub-logarithmic ratio using dual-fitting approach. Again we
+refer the reader to Chapter~\ref{ch: primal-dual} for more
+discussion on results using primal-dual approaches on
+{\FTFP}.
 
 %% linear program
 \chapter{Linear Program} \label{ch:lp} 
 
 In all our algorithms, we use the standard linear
-program~\ref{eqn:fac_primal} and its dual~\ref{eqn:fac_dual}
-to develop our algorithms and estimate the optimal solution
-value.
+program~\ref{eqn:fac_primal} and its
+dual~\ref{eqn:fac_dual}, first formulated by Balinski, to
+develop our algorithms and estimate the optimal solution
+value. For readers unfamiliar with Linear Programming (LP)
+and Integer Programming (IP), we included a short
+introductory section in the appendix.
 
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
@@ -4066,7 +4076,79 @@ bound.
 \bibliography{facility}
 
 \appendix
-In the appendix we list the proof of technical lemmas.
+\chapter{Technical Background}
+
+\section{Linear Programming and Integer Programming}
+\label{sec: ILP}
+
+In this section we give a short introduction on Linear
+Programming and Integer Programming with an emphasis on
+their applicability in design and analysis of approximation
+algorithms for {\NP}-optimization problems.
+
+Most {\NP}-optimization problems have a natural integer
+program in which we use variables to represent parameters in
+the solution we seek, and write the constraints imposed by
+feasiblity of the solution, the objective function is
+obtained by the function of the solution cost. For example,
+in the Vertex Cover problem, we are given a graph $G=(V,E)$
+and we are to find a subset of $V$, call it $W$ such that
+every edge $e\in E$ has at least one endpoint in $W$, and we
+want $W$ with minimum size. To formulate an integer program,
+we use $x_v \in \{0,1\}$ to denote whether a node $v\in V$
+is in $W$ or not. The constraint is that for every edge
+$e=(u,v)$, we have $x_u + x_v \geq 1$. The objective is to
+minimize $\sum_{v\in V} x_v$. The integer program is usually
+written as
+\begin{align*}
+  &\text{minimize } \sum_{v\in V} x_v\\
+  &\text{subject to } x_u + x_v \geq 1  \qquad \forall (u,v) \in
+  E\\
+  &x_v \in \{0, 1\} \qquad \forall v \in V\\
+\end{align*}
+In general an integer program cannot be solved exactly in
+polynomial time, as integer programming is
+{\NP}-hard. However, if we relax the integral constraint and
+allow the variables to take fractional value, we then obtain
+a Linear Program (LP) and LP is polynomially solvable. Thus
+we can solve the LP optimally, obtaining the objective
+function value of the optimal LP solution. This value is
+then a lower bound on the optimal integral solution's value,
+assuming a minimization problem.
+
+For a general Linear Program, we usually write as
+\begin{align*}
+  &\text{minimize } c^T x\\
+  &\text{subject to } A x \geq b\\
+  & x \geq 0\\
+\end{align*}
+This one is called primal, and its dual is
+\begin{align*}
+  &\text{maximize } b^T y\\
+  &\text{subject to } A^T y \leq c\\
+  & y \geq 0\\
+\end{align*}
+The weak duality theorem tells us that, for every feasible
+solution $\bfx$ for the primal and $\bfy$ for the dual, we
+have that $c^T \bfx \geq b^T \bfy$. The strong duality
+theorem tells us that if both the primal and dual are
+feasible, then both of them have optimal solution
+$\bfx^\ast$ and $\bfy^\ast$ and their objective function
+values equal. Moreover, the complementary slackness
+conditions assert that two solutions $\bfx$ and $\bfy$ are
+both optimal if and only if, for every primal variable
+$x_j$, either $x_j = 0$ or the corresponding constraint in
+the dual is tight, that is, an equality. And for every dual
+variable $y_i$, either $y_i = 0$ or the corresponding
+constraint in the primal is tight.
+
+The complementary slackness conditions play a crucial role
+in the analysis of approximation algorithms. For the
+facility location problems, they provide an upper bound on
+the maximum distance from a facility $i$ with $x_{ij}^\ast$
+to a client $j$. And in the Jain and Vazirani's primal-dual
+algorithm~\cite{JainV01}, the analysis of approximation ratio
+is based on relaxed complementary slackness conditions.
 
 \section{Proof of Inequality  (\ref{eqn: echs ineq direct cost, step 1})}
 \label{sec: ECHSinequality}
