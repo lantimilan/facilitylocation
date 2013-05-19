@@ -3161,8 +3161,7 @@ $\Exp[C_\nu\mid\neg \Lambda^{\nu}] = \Exp[d_{\phi(\kappa)\nu} \mid
 Properties~(PD'.\ref{PD1:assign:overlap}) and
 (PD'.\ref{PD1:assign:cost}) of modified partitioning and follows the
 reasoning in the proof of a similar lemma
-in~\cite{ByrkaGS10,ByrkaA10}.  For the sake of completeness, we
-include a proof in~\ref{sec: proof of lemma 15}.
+in~\cite{ByrkaGS10,ByrkaA10}.
 
 %%%%%%%
 
@@ -3177,8 +3176,168 @@ cost of $\nu$ is
 \end{equation}
 %
 \end{lemma}
+
 \begin{proof}
-See \ref{sec: proof of lemma 15}.
+It suffices to show a stronger inequality
+\begin{equation}
+  \Exp[C_{\nu} \mid \neg \Lambda^{\nu}] \leq
+  \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu)
+			\label{eqn: lemma ebgs indirect connection cost},
+\end{equation}
+which then implies (\ref{eqn: expected connection cost
+  target facility}) because $\clsmax(\nu) \leq
+\fardist(\nu)$.  The proof of (\ref{eqn: lemma ebgs indirect
+  connection cost}) is similar to that in
+\cite{ByrkaA10}. For the sake of completeness, we provide it
+here, formulated in our terminology and notation.
+
+Assume that the event $\neg \Lambda^{\nu}$ is true, that is Algorithm~{\EBGS}
+does not open any facility in $\wbarN(\nu)$.
+Let $\kappa$ be the primary demand that $\nu$ was assigned to. Also let
+%K
+\begin{equation*}
+K = \wbarclsnb(\kappa) \setminus \wbarN(\nu), \quad
+V_{\cls} = \wbarclsnb(\kappa) \cap \wbarclsnb(\nu) \quad \textrm{and}\quad 
+V_{\far} = \wbarclsnb(\kappa) \cap \wbarfarnb(\nu).
+\end{equation*}
+% 
+Then $K, V_{\cls}, V_{\far}$ form a partition of
+$\wbarclsnb(\kappa)$, that is, they are disjoint and their union is $\wbarclsnb(\kappa)$.
+Moreover, we have that $K$ is not empty, because Algorithm~{\EBGS}
+opens some facility in $\wbarclsnb(\kappa)$ and this facility cannot be in $V_{\cls}\cup V_{\far}$,
+by our assumption. 
+We also have that $V_{\cls}$ is not empty due to (PD'.\ref{PD1:assign:overlap}). 
+
+Recall that $D(A,\eta) = \sum_{\mu\in A}d_{\mu\eta}\bary_{\mu}/\sum_{\mu\in A}\bary_{\mu}$
+is the average distance between a demand $\eta$ and the facilities in a set $A$. We shall show that
+%
+\begin{equation}
+	 D(K, \nu) \leq \clsdist(\kappa)+\clsmax(\kappa) + \fardist(\nu).
+				\label{eqn: bound on D(K,nu)}
+\end{equation}
+%
+This is sufficient, because, by the algorithm, $D(K,\nu)$ is exactly 
+the expected connection cost for demand $\nu$ conditioned on
+the event that none of $\nu$'s neighbors 
+opens, that is the left-hand side of (\ref{eqn: lemma ebgs indirect connection cost}).
+Further, (PD'.\ref{PD1:assign:cost}) states that 
+$\clsdist(\kappa)+\clsmax(\kappa) \le \clsdist(\nu) + \clsmax(\nu)$, and thus
+(\ref{eqn: bound on D(K,nu)})  implies (\ref{eqn: lemma ebgs indirect connection cost}).
+
+\medskip
+
+The proof of (\ref{eqn: bound on D(K,nu)}) is by analysis of several cases.
+%
+
+\medskip
+\noindent
+{\mycase{1}} $D(K, \kappa) \leq \clsdist(\kappa)$. For any
+facility $\mu \in V_{\cls}$ (recall that $V_{\cls}\neq\emptyset$), 
+we have $d_{\mu\kappa} \leq \clsmax(\kappa)$ 
+and $d_{\mu\nu} \leq \clsmax(\nu) \leq \fardist(\nu)$. Therefore, using the
+case assumption, we get
+	$D(K,\nu) \leq D(K,\kappa) + d_{\mu\kappa} + d_{\mu\nu} 
+				\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu)$.
+
+\medskip
+\noindent
+{\mycase{2}} There exists a facility $\mu\in V_{\cls}$ such that
+  $d_{\mu\kappa} \leq \clsdist(\kappa)$. Since $\mu\in V_{\cls}$, we infer
+  that $d_{\mu\nu} \leq \clsmax(\nu) \leq \fardist(\nu)$.  Using
+  $\clsmax(\kappa)$ to bound $D(K, \kappa)$, we have $D(K, \nu)
+  \leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq
+  \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu)$.
+
+\medskip
+\noindent
+{\mycase{3}} In this case we assume that neither of Cases~1 and 2 applies, that is
+ $D(K, \kappa) > \clsdist(\kappa)$ and every $\mu \in V_{\cls}$ satisfies
+ $d_{\mu\kappa} >  \clsdist(\kappa)$. This implies that
+$D(K\cup V_{\cls}, \kappa) > \clsdist(\kappa) = D(\wbarclsnb(\kappa), \kappa)$.
+Since sets $K$, $V_{\cls}$ and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
+we obtain that in this case $V_{\far}$ is not
+empty and $D(V_{\far}, \kappa) < \clsdist(\kappa)$. 
+Let $\delta = \clsdist(\kappa) - D(V_{\far}, \kappa) > 0$. 
+We now have two sub-cases:
+%
+\begin{description}
+	
+\item{\mycase{3.1}} {$D(V_{\far}, \nu) \leq \fardist(\nu) + \delta$}.
+  Substituting $\delta$, this implies that $D(V_{\far}, \nu) +
+  D(V_{\far},\kappa) \le \clsdist(\kappa) + \fardist(\nu)$.  From the
+  definition of the average distance $D(V_{\far},\kappa)$ and
+  $D(V_{\far}, \nu)$, we obtain that there exists some $\mu \in
+  V_{\far}$ such that $d_{\mu\kappa} + d_{\mu\nu} \leq
+  \clsdist(\kappa) + \fardist(\nu)$.  Thus $D(K, \nu) \leq D(K,
+  \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq \clsmax(\kappa) +
+  \clsdist(\kappa) + \fardist(\nu)$.
+
+\item{\mycase{3.2}} {$D(V_{\far}, \nu) > \fardist(\nu) + \delta$}.
+  The case assumption implies that $V_{\far}$ is a proper subset of
+  $\wbarfarnb(\nu)$, that is $\wbarfarnb(\nu) \setminus V_{\far}
+  \neq\emptyset$.  Let $\hat{y} = \gamma \sum_{\mu\in V_{\smallfar}}
+  \bary_{\mu}$.  We can express $\fardist(\nu)$ using $\hat{y}$ as
+  follows
+%
+\begin{equation*}
+\fardist(\nu) = D(V_{\far},\nu) \frac{\hat{y}}{\gamma-1} +
+    D(\wbarfarnb(\nu)\setminus V_{\far}, \nu) \frac{\gamma-1-\hat{y}}{\gamma-1}.
+\end{equation*}
+%
+Then, using the case condition and simple algebra, we have
+%
+  \begin{align}
+    \clsmax(\nu) &\leq D(\wbarfarnb(\nu) \setminus V_{\far}, \nu) 
+			\notag
+		\\
+		&\leq \fardist(\nu) - \frac{\hat{y}\delta}{\gamma-1-\hat{y}} 
+		\leq \fardist(\nu) - \frac{\hat{y}\delta}{1-\hat{y}},
+			\label{eqn: case 3, bound on C_cls^max(nu)}
+  \end{align}
+%
+where the last step follows from $1 < \gamma < 2$. 
+
+On the other hand, since $K$, $V_{\cls}$, and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
+we have
+$\clsdist(\kappa) = (1-\hat{y}) D(K\cup V_{\cls}, \kappa) + \hat{y} D(V_{\far}, \kappa)$.
+Then using the definition of $\delta$ we obtain
+%
+\begin{equation}
+    D(K \cup V_{\cls}, \kappa) = \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}}.
+				\label{eqn: formula for D(V_cls,kappa)}
+\end{equation}
+%
+  Now we are essentially done. If there exists some $\mu \in V_{\cls}$ such
+  that $d_{\mu\kappa} \leq \clsdist(\kappa) +
+  \hat{y}\delta/(1-\hat{y})$, then	we have
+%
+  \begin{align*}
+    D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) +
+    			\frac{\hat{y}\delta}{1-\hat{y}}
+    + \clsmax(\nu)\\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu),
+  \end{align*}
+%
+where we used (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
+  Otherwise, from (\ref{eqn: formula for D(V_cls,kappa)}),
+we must have $D(K, \kappa) \leq \clsdist(\kappa) +
+  \hat{y}\delta/(1-\hat{y})$. Choosing any $\mu \in V_{\cls}$, it follows that
+%
+  \begin{align*}
+    D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+    &\leq \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}} +
+    		\clsmax(\kappa)  + \clsmax(\nu)\\
+    &\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu),
+  \end{align*}
+%
+again using (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
+
+\end{description}
+
+This concludes the proof of (\ref{eqn: expected connection
+  cost target facility}).  As explained earlier,
+Lemma~\ref{lem: EBGS target connection cost} follows.
 \end{proof}
 
 Next, we derive some estimates for the expected cost of direct
@@ -3801,188 +3960,7 @@ bound.
 \bibliography{facility}
 
 \appendix
-\chapter{Technical Lemmas}
-In this chapter we list the proof of a few technical lemmas
-that are used.
-
-\section{Proof of Lemma~\ref{lem: EBGS target connection
-    cost}}
-\label{sec: proof of lemma 15}
-
-Lemma~\ref{lem: EBGS target connection cost} provides a bound on the
-expected connection cost of a demand $\nu$ when Algorithm~{\EBGS} does not open
-any facilities in $\wbarN(\nu)$, namely
-%
-\begin{equation}
-  \Exp[C_{\nu} \mid \neg \Lambda^{\nu}] \leq
-  \clsdist(\nu) +  2\fardist(\nu),
-			\label{eqn: lemma ebgs target connection cost}
-\end{equation}
-%
-We show a stronger inequality that 
-\begin{equation}
-  \Exp[C_{\nu} \mid \neg \Lambda^{\nu}] \leq
-  \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu)
-			\label{eqn: lemma ebgs indirect connection cost},
-\end{equation}
-which then implies (\ref{eqn: lemma ebgs target connection cost})
-because $\clsmax(\nu) \leq \fardist(\nu)$.  The proof of (\ref{eqn:
-  lemma ebgs indirect connection cost}) is similar to that in
-\cite{ByrkaA10}. For the sake of completeness, we provide it here,
-formulated in our terminology and notation.
-
-Assume that the event $\neg \Lambda^{\nu}$ is true, that is Algorithm~{\EBGS}
-does not open any facility in $\wbarN(\nu)$.
-Let $\kappa$ be the primary demand that $\nu$ was assigned to. Also let
-%K
-\begin{equation*}
-K = \wbarclsnb(\kappa) \setminus \wbarN(\nu), \quad
-V_{\cls} = \wbarclsnb(\kappa) \cap \wbarclsnb(\nu) \quad \textrm{and}\quad 
-V_{\far} = \wbarclsnb(\kappa) \cap \wbarfarnb(\nu).
-\end{equation*}
-% 
-Then $K, V_{\cls}, V_{\far}$ form a partition of
-$\wbarclsnb(\kappa)$, that is, they are disjoint and their union is $\wbarclsnb(\kappa)$.
-Moreover, we have that $K$ is not empty, because Algorithm~{\EBGS}
-opens some facility in $\wbarclsnb(\kappa)$ and this facility cannot be in $V_{\cls}\cup V_{\far}$,
-by our assumption. 
-We also have that $V_{\cls}$ is not empty due to (PD'.\ref{PD1:assign:overlap}). 
-
-Recall that $D(A,\eta) = \sum_{\mu\in A}d_{\mu\eta}\bary_{\mu}/\sum_{\mu\in A}\bary_{\mu}$
-is the average distance between a demand $\eta$ and the facilities in a set $A$. We shall show that
-%
-\begin{equation}
-	 D(K, \nu) \leq \clsdist(\kappa)+\clsmax(\kappa) + \fardist(\nu).
-				\label{eqn: bound on D(K,nu)}
-\end{equation}
-%
-This is sufficient, because, by the algorithm, $D(K,\nu)$ is exactly 
-the expected connection cost for demand $\nu$ conditioned on
-the event that none of $\nu$'s neighbors 
-opens, that is the left-hand side of (\ref{eqn: lemma ebgs indirect connection cost}).
-Further, (PD'.\ref{PD1:assign:cost}) states that 
-$\clsdist(\kappa)+\clsmax(\kappa) \le \clsdist(\nu) + \clsmax(\nu)$, and thus
-(\ref{eqn: bound on D(K,nu)})  implies (\ref{eqn: lemma ebgs indirect connection cost}).
-
-\medskip
-
-The proof of (\ref{eqn: bound on D(K,nu)}) is by analysis of several cases.
-%
-
-\medskip
-\noindent
-{\mycase{1}} $D(K, \kappa) \leq \clsdist(\kappa)$. For any
-facility $\mu \in V_{\cls}$ (recall that $V_{\cls}\neq\emptyset$), 
-we have $d_{\mu\kappa} \leq \clsmax(\kappa)$ 
-and $d_{\mu\nu} \leq \clsmax(\nu) \leq \fardist(\nu)$. Therefore, using the
-case assumption, we get
-	$D(K,\nu) \leq D(K,\kappa) + d_{\mu\kappa} + d_{\mu\nu} 
-				\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu)$.
-
-\medskip
-\noindent
-{\mycase{2}} There exists a facility $\mu\in V_{\cls}$ such that
-  $d_{\mu\kappa} \leq \clsdist(\kappa)$. Since $\mu\in V_{\cls}$, we infer
-  that $d_{\mu\nu} \leq \clsmax(\nu) \leq \fardist(\nu)$.  Using
-  $\clsmax(\kappa)$ to bound $D(K, \kappa)$, we have $D(K, \nu)
-  \leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq
-  \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu)$.
-
-\medskip
-\noindent
-{\mycase{3}} In this case we assume that neither of Cases~1 and 2 applies, that is
- $D(K, \kappa) > \clsdist(\kappa)$ and every $\mu \in V_{\cls}$ satisfies
- $d_{\mu\kappa} >  \clsdist(\kappa)$. This implies that
-$D(K\cup V_{\cls}, \kappa) > \clsdist(\kappa) = D(\wbarclsnb(\kappa), \kappa)$.
-Since sets $K$, $V_{\cls}$ and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
-we obtain that in this case $V_{\far}$ is not
-empty and $D(V_{\far}, \kappa) < \clsdist(\kappa)$. 
-Let $\delta = \clsdist(\kappa) - D(V_{\far}, \kappa) > 0$. 
-We now have two sub-cases:
-%
-\begin{description}
-	
-\item{\mycase{3.1}} {$D(V_{\far}, \nu) \leq \fardist(\nu) + \delta$}.
-  Substituting $\delta$, this implies that $D(V_{\far}, \nu) +
-  D(V_{\far},\kappa) \le \clsdist(\kappa) + \fardist(\nu)$.  From the
-  definition of the average distance $D(V_{\far},\kappa)$ and
-  $D(V_{\far}, \nu)$, we obtain that there exists some $\mu \in
-  V_{\far}$ such that $d_{\mu\kappa} + d_{\mu\nu} \leq
-  \clsdist(\kappa) + \fardist(\nu)$.  Thus $D(K, \nu) \leq D(K,
-  \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq \clsmax(\kappa) +
-  \clsdist(\kappa) + \fardist(\nu)$.
-
-\item{\mycase{3.2}} {$D(V_{\far}, \nu) > \fardist(\nu) + \delta$}.
-  The case assumption implies that $V_{\far}$ is a proper subset of
-  $\wbarfarnb(\nu)$, that is $\wbarfarnb(\nu) \setminus V_{\far}
-  \neq\emptyset$.  Let $\hat{y} = \gamma \sum_{\mu\in V_{\smallfar}}
-  \bary_{\mu}$.  We can express $\fardist(\nu)$ using $\hat{y}$ as
-  follows
-%
-\begin{equation*}
-\fardist(\nu) = D(V_{\far},\nu) \frac{\hat{y}}{\gamma-1} +
-    D(\wbarfarnb(\nu)\setminus V_{\far}, \nu) \frac{\gamma-1-\hat{y}}{\gamma-1}.
-\end{equation*}
-%
-Then, using the case condition and simple algebra, we have
-%
-  \begin{align}
-    \clsmax(\nu) &\leq D(\wbarfarnb(\nu) \setminus V_{\far}, \nu) 
-			\notag
-		\\
-		&\leq \fardist(\nu) - \frac{\hat{y}\delta}{\gamma-1-\hat{y}} 
-		\leq \fardist(\nu) - \frac{\hat{y}\delta}{1-\hat{y}},
-			\label{eqn: case 3, bound on C_cls^max(nu)}
-  \end{align}
-%
-where the last step follows from $1 < \gamma < 2$. 
-
-On the other hand, since $K$, $V_{\cls}$, and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
-we have
-$\clsdist(\kappa) = (1-\hat{y}) D(K\cup V_{\cls}, \kappa) + \hat{y} D(V_{\far}, \kappa)$.
-Then using the definition of $\delta$ we obtain
-%
-\begin{equation}
-    D(K \cup V_{\cls}, \kappa) = \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}}.
-				\label{eqn: formula for D(V_cls,kappa)}
-\end{equation}
-%
-  Now we are essentially done. If there exists some $\mu \in V_{\cls}$ such
-  that $d_{\mu\kappa} \leq \clsdist(\kappa) +
-  \hat{y}\delta/(1-\hat{y})$, then	we have
-%
-  \begin{align*}
-    D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
-    &\leq \clsmax(\kappa) + \clsdist(\kappa) +
-    			\frac{\hat{y}\delta}{1-\hat{y}}
-    + \clsmax(\nu)\\
-    &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu),
-  \end{align*}
-%
-where we used (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
-  Otherwise, from (\ref{eqn: formula for D(V_cls,kappa)}),
-we must have $D(K, \kappa) \leq \clsdist(\kappa) +
-  \hat{y}\delta/(1-\hat{y})$. Choosing any $\mu \in V_{\cls}$, it follows that
-%
-  \begin{align*}
-    D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
-    &\leq \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}} +
-    		\clsmax(\kappa)  + \clsmax(\nu)\\
-    &\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu),
-  \end{align*}
-%
-again using (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
-
-\end{description}
-
-This concludes the proof of (\ref{eqn: lemma ebgs target connection cost}).
-As explained earlier, Lemma~\ref{lem: EBGS target connection cost} follows.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\vfill
+In the appendix we list the proof of technical lemmas.
 
 \section{Proof of Inequality  (\ref{eqn: echs ineq direct cost, step 1})}
 \label{sec: ECHSinequality}
