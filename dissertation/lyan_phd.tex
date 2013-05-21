@@ -4026,36 +4026,43 @@ Therefore we have $\alpha_j \leq (1/(k-j+1)) (f +
   H_k \leq H_n = \ln(n)
 \end{equation}
 
-\section{An Example Showing the Difficulty in Obtaining $O(1)$ Ratio}
-For FTFP, the greedy algorithm that repeatedly picks the best star
-until all clients have all demands satisfied can be implemented in
-polynomial time and in Section~\ref{sec:upp} we show that this
-algorithm is $H_n$-approximation where $n=|\mathcal C|$ is the number
-of clients. Since the same greedy algorithm is shown to have constant
-approximation ratio for UFL, a natural question to ask is whether
-greedy can be shown to have $O(1)$ approximation ratio. Here we give
-an argument that hints a negative answer.
+\section{An Example Showing the Difficulty in Obtaining
+  $O(1)$ Ratio}
 
-We assume the greedy algorithm is analyzed using the dual-fitting
-technique, which associates with client $j$ with a number $\alpha_j$
-and show that by shrinking the dual solution by some factor $\gamma$,
-all dual constraints are satisfied, that is $\sum_{j\in \mathcal C}
-(\alpha_j/\gamma - d_{ij})_+ \leq f_i$ for all $i\in \mathcal F$. Then
-$\gamma$ is an upper bound on the approximation ratio.
+For FTFP, the greedy algorithm that repeatedly picks the
+best star until all clients have all demands satisfied can
+be implemented in polynomial time and in
+Section~\ref{sec:upp} we show that this algorithm is
+$H_n$-approximation where $n=|\mathcal C|$ is the number of
+clients. Since the same greedy algorithm is shown to have
+constant approximation ratio for UFL, a natural question to
+ask is whether greedy can be shown to have $O(1)$
+approximation ratio. Here we give an argument that hints a
+negative answer.
 
-In the greedy algorithm, a star with minimum average cost is picked at
-each iteration and each member client of that star then gets one more
-connection. It is not specified by the algorithm how we distribute the
-cost of $f_i$ into member clients, which is part of the
-analysis. Nonetheless we assume that the cost of $f_i$ is distributed
-among members only, and not to clients outside this star. We call this
-\emph{local charging} assumption. Our second assumption is that the
-proposed dual variable value $\alpha_j$, is taken as the average of
-individual $\alpha_j^l$ for each of the $l^{th}$ demand of client $j$,
-with $l=1,\ldots,r_j$. Suppose the $l^{th}$ demand of $j$ is satisfied
-while $j$ is in a star with facility $i$, then $\alpha_j^l = d_{ij} +
-f_j^l$, where $f_j^l$ is the portion of $f_i$ attributed to $j$ in the
-analysis.
+We assume the greedy algorithm is analyzed using the
+dual-fitting technique, which associates with client $j$
+with a number $\alpha_j$ and show that by shrinking the dual
+solution by some factor $\gamma$, all dual constraints are
+satisfied, that is $\sum_{j\in \mathcal C} (\alpha_j/\gamma
+- d_{ij})_+ \leq f_i$ for all $i\in \mathcal F$. Then
+$\gamma$ is taken as the approximation ratio.
+
+In the greedy algorithm, a star with minimum average cost is
+picked at each iteration and each member client of that star
+then gets one more connection. It is not specified by the
+algorithm how we distribute the cost of $f_i$ into member
+clients, which is part of the analysis. Nonetheless we
+assume that the cost of $f_i$ is distributed among members
+only, and not to clients outside this star. We call this
+\emph{local charging} assumption. Our second assumption is
+that the proposed dual variable value $\alpha_j$, is taken
+as the average of individual $\alpha_j^l$ for each of the
+$l^{th}$ demand of client $j$, with
+$l=1,\ldots,r_j$. Suppose the $l^{th}$ demand of $j$ is
+satisfied while $j$ is in a star with facility $i$, then
+$\alpha_j^l = d_{ij} + f_j^l$, where $f_i^{j,l}$ is the portion
+of $f_i$ attributed to $j$ in the analysis.
 
 Our example has one site and $k$ groups of clients. Opening one facility
 at that site costs $f_1$. The first group has $n_1$ clients each with
