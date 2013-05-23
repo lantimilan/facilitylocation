@@ -44,6 +44,8 @@
 \usepackage{flafter}
 \usepackage{sw20uctd}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes}
 %% pseudocode related
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
@@ -4031,14 +4033,13 @@ Therefore we have $\alpha_j \leq (1/(k-j+1)) (f +
 
 For FTFP, the greedy algorithm that repeatedly picks the
 best star until all clients have all demands satisfied can
-be implemented in polynomial time and in
-Section~\ref{sec:upp} we show that this algorithm is
-$H_n$-approximation where $n=|\mathcal C|$ is the number of
-clients. Since the same greedy algorithm is shown to have
-constant approximation ratio for UFL, a natural question to
-ask is whether greedy can be shown to have $O(1)$
-approximation ratio. Here we give an argument that hints a
-negative answer.
+be implemented in polynomial time. In Section~\ref{sec:upp}
+we show that this algorithm is $H_n$-approximation where
+$n=|\mathcal C|$ is the number of clients. Since the same
+greedy algorithm is shown to have constant approximation
+ratio for UFL, a natural question to ask is whether greedy
+can be shown to have $O(1)$ approximation ratio. Here we
+give an argument that hints a negative answer.
 
 We assume the greedy algorithm is analyzed using the
 dual-fitting technique, which associates with client $j$
@@ -4056,18 +4057,57 @@ clients, which is part of the analysis. Nonetheless we
 assume that the cost of $f_i$ is distributed among members
 only, and not to clients outside this star. We call this
 \emph{local charging} assumption. Our second assumption is
-that the proposed dual variable value $\alpha_j$, is taken
-as the average of individual $\alpha_j^l$ for each of the
-$l^{th}$ demand of client $j$, with
-$l=1,\ldots,r_j$. Suppose the $l^{th}$ demand of $j$ is
-satisfied while $j$ is in a star with facility $i$, then
-$\alpha_j^l = d_{ij} + f_j^l$, where $f_i^{j,l}$ is the portion
-of $f_i$ attributed to $j$ in the analysis.
+that the proposed dual solution $\alpha_j$, is taken as the
+average of individual $\alpha_j^l$ for each of the $l^{th}$
+demand of client $j$, with $l=1,\ldots,r_j$. Suppose the
+$l^{th}$ demand of $j$ is satisfied while $j$ is in a star
+with facility $i$, then $\alpha_j^l = d_{ij} + f_i^{j,l}$,
+where $f_i^{j,l}$ is the portion of $f_i$ attributed to $j$
+in the analysis. Notice that taking the average implies the
+$\alpha_j$ values thus computed results in
+$\sum_{j\in\clientset} r_j \alpha_j$ equal to the cost of
+the integral solution by the greedy algorithm.
 
-Our example has one site and $k$ groups of clients. Opening one facility
-at that site costs $f_1$. The first group has $n_1$ clients each with
-demand $r_1$, all at distance $d_1 = 0$ from $f_1$. The other groups
-are listed below:
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[auto]
+    \node[draw,rectangle,minimum size=.7cm] (fac) at (-4,0) {};
+    \node at (-5,0) {$f_1$};
+    
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (client1) at
+    (6,0) {$n_1 = k^{k-1}, r_1$};
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (client2) at
+    (6,-3) {$n_2 = k^{k-2}, r_2$};
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (client3) at
+    (6,-6) {$n_3 = k^{k-3}, r_3$};
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (clientk) at
+    (6,-12) {$n_k = 1, r_k$};
+    
+    \node at (-3,-10) {\large{demands $r_1 \ll r_2 \ll \ldots \ll r_k$}};
+
+    \draw (fac) to node {$d_1=0$} (client1);
+    \draw[bend right] (fac) to node {$d_2 = d_1 + f_1 /
+      n_2$}  (client2);
+    \draw[bend right] (fac) to node {$d_3 = d_2 + f_1 /
+      n_3$}  (client3);
+    \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_k$}  (clientk);
+  \end{tikzpicture}
+  \caption{An example showing the greedy algorithm for FTFP,
+    analyzed using dual-fitting, could give a solution with
+    cost $\Omega(\log n / \log\log n)$ from the optimal
+    value, assuming facility cost can only be charged to
+    clients within the star.}
+  \label{fig:greedy_lower_bound}
+\end{figure}
+Our example has one site and $k$ groups of clients, a figure
+is given in Figure~\ref{fig:greedy_lower_bound}. Opening
+one facility at that site costs $f_1$. The first group has
+$n_1$ clients each with demand $r_1$, all at distance $d_1 =
+0$ from $f_1$. The other groups are listed below:
 \begin{align*}
   &d_1 = 0\\
   &d_2 = \frac{f_1}{n_1}\\
