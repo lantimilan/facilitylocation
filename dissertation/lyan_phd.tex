@@ -4037,17 +4037,25 @@ be implemented in polynomial time. In Section~\ref{sec:upp}
 we show that this algorithm is $H_n$-approximation where
 $n=|\mathcal C|$ is the number of clients. Since the same
 greedy algorithm is shown to have constant approximation
-ratio for UFL, a natural question to ask is whether greedy
-can be shown to have $O(1)$ approximation ratio. Here we
-give an argument that hints a negative answer.
+ratio for UFL~\cite{MahdianMSV01}, a natural question to
+ask is whether greedy can be shown to have $O(1)$
+approximation ratio. Here we give an argument that hints a
+negative answer.
 
 We assume the greedy algorithm is analyzed using the
-dual-fitting technique, which associates with client $j$
-with a number $\alpha_j$ and show that by shrinking the dual
-solution by some factor $\gamma$, all dual constraints are
-satisfied, that is $\sum_{j\in \mathcal C} (\alpha_j/\gamma
-- d_{ij})_+ \leq f_i$ for all $i\in \mathcal F$. Then
-$\gamma$ is taken as the approximation ratio.
+dual-fitting technique, which associates with every client
+$j$ with a number $\alpha_j$, interpreted as a dual solution
+to the LP~(\ref{eqn:fac_dual}). However, the dual solution
+in general may not be feasible. The dual-fitting technique
+aims at finding a smallest possible number $\gamma$ such
+that after the dual solution $\{\alpha_j\}$ is shrinked
+(divided) by $\gamma$, all dual constraints are
+satisfied. That is
+\begin{equation*}
+\sum_{j\in \mathcal C} (\alpha_j/\gamma
+- d_{ij})_+ \leq f_i \qquad \text{ for all } i\in \mathcal F. 
+\end{equation*}
+That $\gamma$ is taken as the approximation ratio.
 
 In the greedy algorithm, a star with minimum average cost is
 picked at each iteration and each member client of that star
@@ -4068,6 +4076,7 @@ $\alpha_j$ values thus computed results in
 $\sum_{j\in\clientset} r_j \alpha_j$ equal to the cost of
 the integral solution by the greedy algorithm.
 
+%%%%%%%%%%%%%%%%%%% start figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
   \centering
   \begin{tikzpicture}[auto]
@@ -4103,6 +4112,9 @@ the integral solution by the greedy algorithm.
     clients within the star.}
   \label{fig:greedy_lower_bound}
 \end{figure}
+%%%%%%%%%%%%%%%%% end figure %%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Our example has one site and $k$ groups of clients, a figure
 is given in Figure~\ref{fig:greedy_lower_bound}. Opening
 one facility at that site costs $f_1$. The first group has
@@ -4115,26 +4127,33 @@ $n_1$ clients each with demand $r_1$, all at distance $d_1 =
   &\ldots\\
   &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})\\
 \end{align*}
-For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$, and $n_1 =
-u^k, n_2 = u^{k-1}, \ldots, n_k = u$ for some number $u$ (actually we
-take $u=k$ currently, this choice may not be the best possible).
+For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$,
+and $n_1 = u^{k-1}, n_2 = u^{k-2}, \ldots, n_k = u^0 = 1$
+for some number $u$ (Actually we take $u=k$, this choice may
+not be the best possible).
 
-Now the greedy execution goes like this: First star (with $r_1$
-replica) is $(f_1, n_1)$.  Second star (with $r_2$ replica) is $(f_1,
-n_2)$. Notice that $r_2 \gg r_1$, and we also have some stars with a
-zero-cost $f_1$ which satisfies some demand of $n_2$ group. After that
-the $n_2$ group clients each has residual demand $r_2 - r_1 =
-r_2$. The process repeats until the $k^{th}$ group finishes with $r_k$
-new facilities.
+Call a star with facility cost zero \emph{trivial}. It is
+\emph{non-trivial} if the facility has non-zero cost. Now
+the greedy execution goes like this: The first non-trivial
+star (with $r_1$ replica) is $(f_1, n_1)$. Then we have a
+trivial star of zero cost facility and all $n_2$ clients in
+group $2$ for $r_1$ replica. The second non-trivial star
+(with $r_2$ replica) is $(f_1, n_2)$. Notice that $r_2 \gg
+r_1$. The $r_1$ replica of trivial star with group $2$
+satisfy $r_1$ demand of the $n_2$ group. After that the
+$n_2$ group clients each has residual demand $r_2 - r_1 =
+r_2$. The process repeats until the $k^{th}$ group finishes
+with $r_k$ new facilities.
 
-According to our local charging assumption, we have $\alpha_1 = f_1$
-which is the total dual value of group $n_1$, regardless how the
-analysis would distribute within that group. Similarly $\alpha_2 = f_1
-+ n_2 d_2$, and so on. Substituing in the numbers, we have
+According to our local charging assumption, we have
+$\alpha_1 = f_1$, now defined as the total dual value of
+clients in group $n_1$, regardless how the analysis would
+distribute within that group. Similarly $\alpha_2 = f_1 +
+n_2 d_2$, and so on. Substituing in the numbers, we have
 
 \begin{align*}
   &\alpha_1 = f_1\\
-  &\alpha_2 = f_1 + n_2 d_2 = f_1 + f_1/n_1 n_2 = f_1 (1 + n_2 /
+  &\alpha_2 = f_1 + n_2 d_2 = f_1 + f_1/n_1\cdot n_2 = f_1 (1 + n_2 /
   n_1)\\
   &\alpha_3 = f_1 + n_3 d_3 = f_1 + f_1 (\frac{1}{n_2} +
   \frac{1}{n_1}) n_3 = f_1 (1 + \frac{n_3}{n_2} + \frac{n_3}{n_1})\\
@@ -4173,16 +4192,19 @@ Substitute in the $\alpha_j$ values derived above, we have
   &= 1 + (k-1) / \left(1 + 1 + 1/k + \ldots + 1/k^{k-2}\right)\\
   &\approx k/2\\
 \end{align*}
-So for $k$ groups we can force a shrinking factor $\gamma$ as big as
-$k/2$. Recall that we have greedy being no more than
-$H_n$-approximation. Is that a contradiction? No, because we have
-$n=k^k + k^{k-1} + \ldots + k = k^k$, so $k = O(\log n / \log\log
-n)$. Therefore, the example shows that dual fitting with local
-charging cannot hope to get $O(\log n / \log\log n)$ ratio or better.
+So for $k$ groups we can force a shrinking factor $\gamma$
+as big as $k/2$. Recall that we have greedy being no more
+than $H_n$-approximation. Is that a contradiction? No,
+because we have the number of clients $n=k^{k-1} + k^{k-1} +
+\ldots + 1 = k^k$, so $k = O(\log n / \log\log
+n)$. Therefore, the example shows that dual fitting with
+local charging cannot hope to get $O(\log n / \log\log n)$
+ratio or better.
 
-Notice this example is similar in spirit to the $\Omega(\log
-n/ \log\log n)$ example for Hochbaum's algorithm for UFL,
-constructed by Mahdian et al~\cite{JainMMSV03}.
+\paragraph{Remark} Notice this example is similar in spirit
+to the $\Omega(\log n/ \log\log n)$ example for Hochbaum's
+algorithm for UFL, constructed by Mahdian {\etal}
+~\cite{JainMMSV03}.
 
 %% ch6 conclusion
 \chapter{Conclusion} \label{ch: conclusion} 
