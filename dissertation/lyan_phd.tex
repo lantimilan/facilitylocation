@@ -304,6 +304,15 @@ y_i$ the facility cost of the solution, and the second term
 $\sum_{i \in \sitesset, j \in \clientset} d_{ij} x_{ij}$ the
 connection cost of the solution $(\bfx, \bfy)$.
 
+For both the uncapacitated facility location problem (UFL)
+and the fault-tolerant facility placement problem (FTFP), we
+have a metric version in which the distances satisfy the
+triangle inequality, that is, for any two facilities/sites
+$i_1,i_2$ and any two clients $j_1,j_2$, we have
+\begin{equation*}
+  d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
+\end{equation*}
+
 \section{The Notion of P vs NP, Approximation}
 All problems studied in this thesis are optimization
 problems. An optimization problem is defined by a set of
@@ -436,25 +445,27 @@ being constant.
 \begin{proposition}\label{prop:maxsnp}
   The metric UFL problem is {\MaxSNP}-hard~{\mbox{\rm \cite{GuhaK98}}}.
 \end{proposition}
-\begin{proof}
+%%\begin{proof}
+  Proof Sketch: The full proof can be found
+  in~\cite{GuhaK98} and we only sketch the main idea here.
+
   The proof is by a reduction from the B-Vertex Cover
-  problem. In the B-Vertex Cover problem, we are given a
-  graph $G=(V,E)$, and a constant $B$, such that every
-  vertex $u\in V$ has degree no more than $B$. And the
-  problem asks for a vertex cover with minimum size. That
-  is, we are to find a minimum set $V' \subseteq V$ such
-  that every edge $e \in E$ has at least one endpoint in
-  $V'$.
+  problem, a problem known to be {\MaxSNP}-hard. In the
+  B-Vertex Cover problem, we are given a graph $G=(V,E)$,
+  and a constant $B$, such that every vertex $u\in V$ has
+  degree no more than $B$. And the problem asks for a vertex
+  cover with minimum size. That is, we are to find a minimum
+  set $V' \subseteq V$ such that every edge $e \in E$ has at
+  least one endpoint in $V'$.
 
   The idea is to show that, for any given constant $\epsilon
   < 1$, given an algorithm for the metric UFL problem with
-  approximation ratio $1+\epsilon$ for any constant
-  $\epsilon < 1$, we are able to find an algorithm for the
-  B-Vertex Cover problem with approximation ratio
-  $1+\epsilon'$ such that $\epsilon'$ is a constant
-  depending on $\epsilon$ and possibly $B$, and $\epsilon'$
-  approaches $0$ as $\epsilon$ approaches $0$. In the
-  following we shall see that we can set $\epsilon' =
+  approximation ratio $1+\epsilon$, we are able to find an
+  algorithm for the B-Vertex Cover problem with
+  approximation ratio $1+\epsilon'$ such that $\epsilon'$ is
+  a constant depending on $\epsilon$ and possibly $B$, and
+  $\epsilon'$ approaches $0$ as $\epsilon$ approaches
+  $0$. It turns out that we can set $\epsilon' =
   (1+B)\epsilon$ for our purpose.
 
   Given an instance of B-Vertex Cover, we construct an
@@ -462,151 +473,57 @@ being constant.
   a facility $i$ and for every edge $e \in E$ we have a city
   $j$. $c_{ij} = 1$ if the corresponding edge $e$ of client
   $j$ is incident on vertex $u$, which corresponds to the
-  facility $i$, $d_{ij} = 3$ otherwise. We postpone defining
-  the facility cost $f_i$ but remark that all facilities $i$
-  have the same facility opening cost, that is $f_i$ equal
-  for all facility $i$, so in the following we use $f$ to
-  denote the facility opening cost for a single facility.
+  facility $i$, $d_{ij} = 3$ otherwise. We set all
+  facilities to have the same facility opening cost $f$,
+  that is $f_i = f$ equal for all facility $i$. The value of
+  $f$ is chosen to facilitate the derivation of desired
+  inequalities. We also assume that we know the size of an
+  optimal vertex cover, call it $k$, as our choice of $f$
+  depends on $k$. In general we do not know $k$, as it is
+  {\NP}-hard to compute $k$, the optimal solution value for
+  B-Vertex Cover. However, we can still proceed assuming
+  knowing $k$, because we can perform the proof for every
+  possible value of $k=1,2,\ldots,n$ and if our proof goes
+  through for every choice of $k$, our claim must hold on
+  the (unknown) value of $k$ as well. The same trick is used
+  in the proof of Theorem~\ref{thm:1463} as well.
 
-  Given an instance of B-Vertex Cover, let $k$ be the size
-  of an optimal vertex cover. The reason we need the
-  knowledge of $k$ is that we shall set our $f$ as a
-  function of $k$. On the other hand, we really do not know
-  $k$, as it is \NP-hard to compute $k$, the optimal
-  solution value for B-Vertex Cover. However, we can still
-  proceed assuming knowing $k$, because we can perform the
-  following steps for every possible value of
-  $k=1,2,\ldots,n$ and if our proof goes through for every
-  choice of $k$, our claim must hold on the (unknown) value
-  of $k$ as well. From now on we assume the knowledge of
-  $k$. The same trick is used in the proof of
-  Theorem~\ref{thm:1463} as well.
-
-  We are to show that we can use an
+  The proof completes by showing that we can use an
   $(1+\epsilon)$-approximation algorithm $\calA_{\smallUFL}$
   for metric UFL to construct an
   $(1+\epsilon')$-approximation algorithm
-  $\calA_{\smallBVC}$ for B-Vertex Cover. First we run
-  algorithm $\calA_{\smallUFL}$ on the UFL instance, and let
-  there be $\beta k$ facilities open and $\gamma n$ cities
-  connect with $d_{ij}=1$ and the rest with $d_{ij} =
-  3$. Then the cost of $\calA_{\smallUFL}$ is
-  \begin{equation*}
-    \ALG_{\smallUFL} = \beta k f + \gamma n + 3 (1 - \gamma) n
-  \end{equation*}
+  $\calA_{\smallBVC}$ for B-Vertex Cover. Since B-Vertex
+  Cover has \MaxSNP-hard, and therefore no such algorithm
+  $\calA_{\smallBVC}$ exists unless $\PP=\NP$, we conclude
+  metric UFL is \MaxSNP-hard as well.
+%%\end{proof}
 
-  Since $\calA_{\smallUFL}$ is a
-  $(1+\epsilon)$-approximation algorithm, we have that
-  $\ALG_{\smallUFL} \leq (1+\epsilon) \OPT_{\smallUFL}$. To
-  get a handle on $\OPT_{\smallUFL}$, we use a feasible
-  solution to this $\UFL$ instance. One possible choice is
-  to use the solution with $k$-facilities and all clients
-  are connected at distance $1$. Notice that we only need to
-  know such a solution exists. This solution has cost $kf +
-  n$. Therefore, we have
-  \begin{equation*}
-    \beta k f + \gamma n + 3 (1 - \gamma) n \leq (1 + \epsilon) (kf + n)
-  \end{equation*}
-  Cancelling $n$ from both sides, we get
-  \begin{equation}
-    \label{eq:APX:UFL}
-    \beta k f + 2(1-\gamma) n \leq (1+\epsilon)kf + \epsilon n
-  \end{equation}
-
-  Now we look for a solution to the B-Vertex Cover
-  instance. The solution to {\UFL} shows that we can use
-  $\beta k$ facilities to connect to $\gamma n$ clients with
-  distance $1$, for the others at distance $3$, we need at
-  most one facility each to connect them at distance $1$,
-  that is, we need at most $(1-\gamma)n$ vertices to cover
-  the remaining edges. So we have a vertex cover with size
-  $\beta k + (1 - \gamma) n$, we hope to show that
-  \begin{equation}
-    \label{eq:APX:BVC}
-    \beta k + (1 - \gamma) n \leq (1 + \epsilon') k,
-  \end{equation}
-  where $\epsilon'$ is a constant depend on $\epsilon$ and possibly
-  $B$, with the property that $\epsilon'$ approaches $0$ as $\epsilon$
-  approaches $0$.
-
-  Compare Eqn.~(\ref{eq:APX:UFL}) and
-  Eqn.~(\ref{eq:APX:BVC}), we need to have some way to clean
-  up the variables to get simpler inequalities so that we
-  can use (\ref{eq:APX:UFL}) to deduce
-  (\ref{eq:APX:BVC}). Since we have the flexibility to
-  choose $f$, we use that to simplify (\ref{eq:APX:UFL}) by
-  setting $f$ to be such that $n/(kf) = B$, then
-  (\ref{eq:APX:UFL}) becomes
-  \begin{equation}
-    \label{eq:APX:UFL2}
-    \beta + 2(1-\gamma)B \leq (1+\epsilon) + \epsilon B.
-  \end{equation}
-  This looks very similar to the left hand side of
-  (\ref{eq:APX:BVC}) now, if we can get rid of $n$ in that
-  left hand side. We now use the fact that every vertex in
-  the B-Vertex Cover instance has degree at most $B$, so the
-  $k$ vertices in an optimal solution to this B-Vertex Cover
-  instance have sum of degree at most $kB$, which is no less
-  than $n$, the number of edges covered, since the $k$
-  vertices form a vertex cover. So we have $kB \geq n$,
-  thus, to obtain (\ref{eq:APX:BVC}), it suffices to show
-  \begin{equation}
-    \label{eq:APX:BVC2}
-    \beta k + (1 - \gamma) kB \leq (1 + \epsilon') k.
-  \end{equation}
-  Dividing $k$ from both sides, our goal now is to show
-  \begin{equation}
-    \label{eq:APX:BVC3}
-    \beta + (1 - \gamma) B \leq (1 + \epsilon').
-  \end{equation}
-  Recall that in (\ref{eq:APX:UFL2}) we have $\beta +
-  2(1-\gamma)B \leq (1+\epsilon) + \epsilon B$, if we set
-  $\epsilon' = \epsilon (1 + B)$, we shall have the
-  following
-  \begin{equation*}
-    \beta + (1-\gamma)B \leq \beta + 2(1-\gamma)B \leq (1+\epsilon) +
-    \epsilon B = 1 + \epsilon (1 + B) = 1 + \epsilon',
-  \end{equation*}
-  where the first inequality is due to $\gamma \geq 1$, and
-  the second is from (\ref{eq:APX:UFL2}).  It is easy to see
-  that $\epsilon'$ approaches $0$ as $\epsilon$ approaches
-  $0$ and we have the desired inequality
-  (\ref{eq:APX:BVC3}). We have thus found a $(1+\epsilon')$
-  approximation algorithm for the B-Vertex Cover problem,
-  given a $(1+\epsilon)$-approximation algorithm for the
-  metric {\UFL} problem, with the property that as
-  $\epsilon$ approaches $0$, $\epsilon'$ approaches $0$ as
-  well.
-
-  Since B-Vertex Cover has \MaxSNP-hard, we conclude metric UFL is
-  \MaxSNP-hard as well.
-\end{proof}
-
-After we have shown the metric UFL problem is MaxSNP-hard,
+After we have shown the metric UFL problem is {\MaxSNP}-hard,
 we focus on the metric version from now on. In the follow,
 we mention UFL and FTFP without explicitly specifying that
 their distances form a metric, that is, $d_{ij}$'s are
 symmetric and satisfy the triangle inequality.
 
-We briefly mention the last piece of hardness result, which
-is the Guha-Khuller theorem.
+We briefly mention the last piece of hardness result, also
+due to Guha and Khuller.
 \begin{theorem}\label{thm:1463}
   {\UFL} cannot be approximated to less than $1.463$ unless $\NP
-  \subseteq \DTIME(n^{O\log\log n})$.
+  \subseteq \DTIME(n^{O(\log\log n)})$.
 \end{theorem}
 
 \begin{proof}
   The proof is by contradiction. In other words, we show
   that if metric UFL can be solved by a polynomial time
   algorithm with approximation ratio $\alpha$ that is less
-  than $1.463$, then we have a polynomial time algorithm
-  with approximation ratio $1/\rho \ln n$ for some constant
-  $\rho > 1$ for Set Cover, where $n$ is the number of
-  elements in the universe in the Set Cover instance. Using
-  a result by Feige~\cite{Feige98}, the existence of an
-  $1/rho \ln n$ approximation algorithm for some constant
-  $\rho > 1$ implies $\NP \subseteq \DTIME(n^{O(\log\log
-    n)})$.
+  than $\gamma = 1.463$~\footnote{$\gamma$ is the solution to
+    the equation $\gamma = 1 + 2/e^\gamma$.}, then we have a
+  polynomial time algorithm with approximation ratio $1/\rho
+  \ln n$ for some constant $\rho > 1$ for Set Cover, where
+  $n$ is the number of elements in the universe in the Set
+  Cover instance. Using a result by Feige~\cite{Feige98},
+  the existence of an $1/\rho \ln n$ approximation algorithm
+  for some constant $\rho > 1$ implies $\NP \subseteq
+  \DTIME(n^{O(\log\log n)})$.
 
   Given a Set Cover instance with a universe $\calU = \{e_j
   \suchthat j=1,\ldots, n\}$ of elements and a family of
@@ -616,129 +533,133 @@ is the Guha-Khuller theorem.
   metric UFL instance with the set of facilities $\sitesset$
   corresponding to the set $\calS$, and we have one client
   $j$ for each uncovered element $e_j$ in $\calU$. The
-  distances are defined as $1$ if $e_j \in S_i$, and $3$
-  otherwise. We then run the supposed $\rho$-approximation
-  algorithm for the constructed UFL instance. Our
-  construction ensures that, if the UFL solution does not
-  cover a large portion of the clients, then the ratio
-  $\alpha$ between the UFL solution and an optimal integral
-  solution for the UFL instance must be at least
-  $1.463$. The other case is that in all iterations we have
-  an UFL solution that covers a large portion of clients,
-  and this gives us a solution for the given Set Cover
-  instance with no more than $1/\rho \ln n$ times of an
-  optimal solution for some $\rho > 1$, which then implies
-  $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
+  distances are $1$ if $e_j \in S_i$, and $3$ otherwise. We
+  set $f_i = c\,n_t / k$ for some constant $c$.  Here $n_t$
+  is the number of clients not covered in the beginning of
+  the $t^{th}$ iteration, and $k$ is the number of sets in
+  an optimal solution for the Set Cover instance. Note that
+  we can perform the rest of the proof for every possible
+  $k=1,\ldots,n$, so we can assume we know $k$. We then run
+  the supposed $\alpha$-approximation algorithm for the
+  constructed UFL instance. Our construction ensures that,
+  if the UFL solution does not cover a large portion of the
+  clients, then the ratio $\alpha$ between the UFL solution
+  and an optimal integral solution for the UFL instance must
+  be at least $1.463$. The other case is that in all
+  iterations we have an UFL solution that covers a large
+  portion of clients, and this gives us a solution for the
+  given Set Cover instance with no more than $1/\rho \ln n$
+  times of an optimal solution for some $\rho > 1$, which
+  then implies $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
 
-  Let $k$ be the number of sets in an optimal solution for
-  the Set Cover instance. Note that we can run the following
-  for every $k=1,\ldots,n$ so we can assume we know $k$.  We
-  now give the construction of the UFL instance. In
-  iteration $t$, suppose we begin with $n_t$ elements
-  uncovered. Then we have a UFL instance with $|\sitesset| =
-  m, |\clientset| = n_t$, $d_{ij} = 1 \text{ or } 3$ and
-  $f_i$ to be specified but all $i\in\sitesset$ have equal
-  $f_i$, although $f_i$ is set to a different value in each
-  iteration. Now suppose the UFL algorithm chooses $\beta_t
-  k$ facilities and covers $\gamma_t n_t$ clients, the rest
-  $(1-\gamma_t) n_t$ clients are then servied at a distance
-  of $3$. The cost of this UFL solution is
-\begin{equation*}
-  \ALG_{\smallUFL} = \beta_t k f_i + \gamma_t n_t \cdot 1 + (1 -
-  \gamma_t) n_t \cdot 3.
-\end{equation*}
-We set $f_i = c\,n_t / k$ for some constant $c$. Notice that
-the same constant $c$ is used for all iterations and we
-shall use $c$ to optimize our analysis on the lower bound of
-approximation ratio of any UFL algorithms. The cost of the
-UFL solution now becomes
-\begin{equation*}
-  \beta_t c n_t + \gamma_t n_t + 3 (1-\gamma_t) n_t = n_t
-  (c\beta_t + 3 - 2\gamma_t).
-\end{equation*}
-
-On the other hand, we know that there exists a solution with
-$k$ facilities that covers all clients at distance $1$,
-which corresponds to an optimal Set Cover solution. So an
-optimal UFL solution has cost no more than
-\begin{equation*}
-  \OPT_{\smallUFL} \leq k f_i + n_t = c n_t + n_t = (1+c)n_t.
-\end{equation*}
-
-Since we are running an $\alpha$-approximation algorithm for
-the UFL instance, we have
-\begin{equation*}
-  \alpha \geq \frac{\ALG_{\smallUFL}}{\OPT_{\smallUFL}} \geq \frac{n_t
-  (c\beta_t + 3 - 2\gamma_t)}{(1+c)n_t} = \frac{\beta_t + 3 -
-2\gamma_t}{1+c}.
-\end{equation*}
-
-Let $\rho > 1$ be some fixed constant. Now we have two
-cases:
-
-\mycase{1} There exists some iteration $t$ such that $\gamma_t <
-1 - e^{-\rho\beta_t}$. Then we have
-\begin{equation*}
-  \alpha > \frac{c\beta_t + 3 - 2 (1 - e^{-\rho\beta_t})}{1+c} =
-  \frac{c\beta_t + 1 + 2 e^{-\rho\beta_t}}{1+c}.
-\end{equation*}
-Because we have no control over $\beta_t$, we set $\beta_t$
-so that the right hand side is minimized, and this would
-surely be a lower bound on $\alpha$. Fix $c$ and $\rho$, and
-view the right hand side as a function of a single variable
-of $\beta_t$. We then choose $\beta_t$ to minimize the right
-hand side. By setting the derivative with respect to
-$\beta_t$ to zero, we have $\beta_t = (1/\rho)\ln
-(2\rho/c)$. Therefore
-\begin{equation*}
-  \alpha > \frac{c/\rho \ln (2\rho/c) + 1 + c/\rho}{1 +
-    c}.
-\end{equation*}
-Now we deal with $\rho$. For any fixed $c > 0$, we observe
-that the right hand side is a decreasing function of $\rho >
-1$. So the lower bound on $\alpha$ is tightest when $\rho$
-is close to $1$. By taking $\rho$ arbitrarily close to $1$
-(although $\rho$ remains a constant strictly greater than
-1), we have $\alpha > \frac{c\ln (2/c) + 1 + c}{1+c}$. Since
-we have the choice of $c$, we choose $c$ to maximize the
-right hand side of the above, by taking the derivative of
-the right hand side with respect to $c$ and set it to
-zero. This will give us as good a lower bound on $\alpha$ as
-possible. We thus have $c$ being the solution of the
-equation $\ln (2/c) = 1+c$ and solve for
-$c=0.463$. Substitute the value $c$ back, we have $\alpha >
-1.463$ in this case.
-
-\mycase{2} The other case is that we have $\gamma_t \geq
-1-e^{-\rho\beta_t}$ for every iteration $t$. Suppose we have $l$
-iterations, we then have
-\begin{equation*}
-  n (1-\gamma_1) (1-\gamma_2) \ldots (1-\gamma_l) = 1.
-\end{equation*}
-Applying the assumed inequality $\gamma_t \geq 1 - e^{-\rho\beta_t}$,
-we have
-\begin{equation*}
-  n \prod_{t=1}^l e^{-\rho\beta_t} \geq 1,
-\end{equation*}
-which is
-\begin{equation*}
-  e^{-\sum_{t=1}^l \rho\beta_t} \geq 1/n,
-\end{equation*}
-which is
-\begin{equation*}
-  \sum_{t=1}^l \rho\beta_t \leq \ln n.
-\end{equation*}
-Notice that we have a Set Cover solution with $(\sum_{t=1}^l
-\beta_t)k$ sets, so this Set Cover solution has cost no more
-than $\sum_{t=1}^l \beta_t$ times $k$, where $k$ is the
-number of sets in an optimal Set Cover solution. So we have
-a Set Cover algorithm with approximation ratio no more than
-$\sum_{t=1}^l \beta_t k / k \leq 1/\rho \ln n$ for some
-$\rho > 1$. Using Feige's result we have that metric UFL
-cannot have approximation algorithm with ratio less than
-$1.463$ unless $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
+%%  Let $k$ be the number of sets in an optimal solution for
+%%  the Set Cover instance. Note that we can run the following
+%%  for every $k=1,\ldots,n$, so we can assume we know $k$.  We
+%%  now give the construction of the UFL instance. In
+%%  iteration $t$, suppose we begin with $n_t$ elements
+%%  uncovered. Then we have a UFL instance with $|\sitesset| =
+%%  m, |\clientset| = n_t$, $d_{ij} = 1 \text{ or } 3$ and
+%%  $f_i$ to be specified but all $i\in\sitesset$ have equal
+%%  $f_i$, although $f_i$ is set to a different value in each
+%%  iteration. Now suppose the UFL algorithm chooses $\beta_t
+%%  k$ facilities and covers $\gamma_t n_t$ clients, the rest
+%%  $(1-\gamma_t) n_t$ clients are then servied at a distance
+%%  of $3$. The cost of this UFL solution is
+%%\begin{equation*}
+%%  \ALG_{\smallUFL} = \beta_t k f_i + \gamma_t n_t \cdot 1 + (1 -
+%%  \gamma_t) n_t \cdot 3.
+%%\end{equation*}
+%%We set $f_i = c\,n_t / k$ for some constant $c$. Notice that
+%%the same constant $c$ is used for all iterations and we
+%%shall use $c$ to optimize our analysis on the lower bound of
+%%approximation ratio of any UFL algorithms. The cost of the
+%%UFL solution now becomes
+%%\begin{equation*}
+%%  \beta_t c n_t + \gamma_t n_t + 3 (1-\gamma_t) n_t = n_t
+%%  (c\beta_t + 3 - 2\gamma_t).
+%%\end{equation*}
+%%
+%%On the other hand, we know that there exists a solution with
+%%$k$ facilities that covers all clients at distance $1$,
+%%which corresponds to an optimal Set Cover solution. So an
+%%optimal UFL solution has cost no more than
+%%\begin{equation*}
+%%  \OPT_{\smallUFL} \leq k f_i + n_t = c n_t + n_t = (1+c)n_t.
+%%\end{equation*}
+%%
+%%Since we are running an $\alpha$-approximation algorithm for
+%%the UFL instance, we have
+%%\begin{equation*}
+%%  \alpha \geq \frac{\ALG_{\smallUFL}}{\OPT_{\smallUFL}} \geq \frac{n_t
+%%  (c\beta_t + 3 - 2\gamma_t)}{(1+c)n_t} = \frac{\beta_t + 3 -
+%%2\gamma_t}{1+c}.
+%%\end{equation*}
+%%
+%%Let $\rho > 1$ be some fixed constant. Now we have two
+%%cases:
+%%
+%%\mycase{1} There exists some iteration $t$ such that $\gamma_t <
+%%1 - e^{-\rho\beta_t}$. Then we have
+%%\begin{equation*}
+%%  \alpha > \frac{c\beta_t + 3 - 2 (1 - e^{-\rho\beta_t})}{1+c} =
+%%  \frac{c\beta_t + 1 + 2 e^{-\rho\beta_t}}{1+c}.
+%%\end{equation*}
+%%Because we have no control over $\beta_t$, we set $\beta_t$
+%%so that the right hand side is minimized, and this would
+%%surely be a lower bound on $\alpha$. Fix $c$ and $\rho$, and
+%%view the right hand side as a function of a single variable
+%%of $\beta_t$. We then choose $\beta_t$ to minimize the right
+%%hand side. By setting the derivative with respect to
+%%$\beta_t$ to zero, we have $\beta_t = (1/\rho)\ln
+%%(2\rho/c)$. Therefore
+%%\begin{equation*}
+%%  \alpha > \frac{c/\rho \ln (2\rho/c) + 1 + c/\rho}{1 +
+%%    c}.
+%%\end{equation*}
+%%Now we deal with $\rho$. For any fixed $c > 0$, we observe
+%%that the right hand side is a decreasing function of $\rho >
+%%1$. So the lower bound on $\alpha$ is tightest when $\rho$
+%%is close to $1$. By taking $\rho$ arbitrarily close to $1$
+%%(although $\rho$ remains a constant strictly greater than
+%%1), we have $\alpha > \frac{c\ln (2/c) + 1 + c}{1+c}$. Since
+%%we have the choice of $c$, we choose $c$ to maximize the
+%%right hand side of the above, by taking the derivative of
+%%the right hand side with respect to $c$ and set it to
+%%zero. This will give us as good a lower bound on $\alpha$ as
+%%possible. We thus have $c$ being the solution of the
+%%equation $\ln (2/c) = 1+c$ and solve for
+%%$c=0.463$. Substitute the value $c$ back, we have $\alpha >
+%%1.463$ in this case.
+%%
+%%\mycase{2} The other case is that we have $\gamma_t \geq
+%%1-e^{-\rho\beta_t}$ for every iteration $t$. Suppose we have $l$
+%%iterations, we then have
+%%\begin{equation*}
+%%  n (1-\gamma_1) (1-\gamma_2) \ldots (1-\gamma_l) = 1.
+%%\end{equation*}
+%%Applying the assumed inequality $\gamma_t \geq 1 - e^{-\rho\beta_t}$,
+%%we have
+%%\begin{equation*}
+%%  n \prod_{t=1}^l e^{-\rho\beta_t} \geq 1,
+%%\end{equation*}
+%%which is
+%%\begin{equation*}
+%%  e^{-\sum_{t=1}^l \rho\beta_t} \geq 1/n,
+%%\end{equation*}
+%%which is
+%%\begin{equation*}
+%%  \sum_{t=1}^l \rho\beta_t \leq \ln n.
+%%\end{equation*}
+%%Notice that we have a Set Cover solution with $(\sum_{t=1}^l
+%%\beta_t)k$ sets, so this Set Cover solution has cost no more
+%%than $\sum_{t=1}^l \beta_t$ times $k$, where $k$ is the
+%%number of sets in an optimal Set Cover solution. So we have
+%%a Set Cover algorithm with approximation ratio no more than
+%%$\sum_{t=1}^l \beta_t k / k \leq 1/\rho \ln n$ for some
+%%$\rho > 1$. Using Feige's result we have that metric UFL
+%%cannot have approximation algorithm with ratio less than
+%%$1.463$ unless $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
 \end{proof}
-
 
 Using an observation by Sviridenko, the underlying
 assumption can be strengthened to $\PP \neq \NP$. That is,
