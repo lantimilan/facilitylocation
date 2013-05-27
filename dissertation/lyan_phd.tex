@@ -285,45 +285,47 @@ cost.
 We denote the set of sites as $\sitesset$ and the set of
 clients as $\clientset$. Each client $j \in \clientset$ has
 a demand $r_j$, meaning the client $j$ needs to be connected
-to $r_j$ different facilities. To open one facility at site
-$i$ incurs a cost of $f_i$. To make one connection from
-client $j$ to a facility at site $i$ incurs a cost of
-$d_{ij}$. The problem asks for a vector of $(\bfx, \bfy)$
-such that $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes the
-number of connections between site $i$ and client $j$, and
-$y_i \in \{0, 1, 2\ldots\}$ denotes the number of facilities
-opened at site $i$. We then seek a solution such that $y_i
-\geq x_{ij}$ for every $i \in \sitesset, j \in \clientset$
-and $\sum_{i\in\sitesset} x_{ij} \geq r_j$ for all clients
-$j \in \clientset$, and we are to minimize the total cost of
-the solution, which is $\sum_{i \in \sitesset} f_i y_i +
-\sum_{i \in \sitesset, j \in \clientset} d_{ij} x_{ij}$. We
-call $\sum_{i \in \sitesset} f_i y_i$ the facility cost of a
-solution and $\sum_{i \in \sitesset, j \in \clientset}
-d_{ij} x_{ij}$ the connection cost of a solution $(\bfx,
-\bfy)$.
+to $r_j$ different facilities. The distance between a site
+$i$ and a client $j$ is denoted as $d_{ij}$. To open one
+facility at site $i$ incurs a cost of $f_i$. To make one
+connection from client $j$ to a facility at site $i$ incurs
+a cost of $d_{ij}$. The problem asks for a vector of $(\bfx,
+\bfy)$ such that $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes
+the number of connections between site $i$ and client $j$,
+and $y_i \in \{0, 1, 2\ldots\}$ denotes the number of
+facilities opened at site $i$. We then seek a solution such
+that $y_i \geq x_{ij}$ for every $i \in \sitesset, j \in
+\clientset$ and $\sum_{i\in\sitesset} x_{ij} \geq r_j$ for
+all clients $j \in \clientset$, and we are to minimize the
+total cost of the solution, that is $\sum_{i \in \sitesset}
+f_i y_i + \sum_{i \in \sitesset, j \in \clientset} d_{ij}
+x_{ij}$. We call the first term $\sum_{i \in \sitesset} f_i
+y_i$ the facility cost of the solution, and the second term
+$\sum_{i \in \sitesset, j \in \clientset} d_{ij} x_{ij}$ the
+connection cost of the solution $(\bfx, \bfy)$.
 
 \section{The Notion of P vs NP, Approximation}
-All problems unders study in this thesis are optimization
-problems. An optimization problem is specified by a set of
-parameters and constraints, which describes an instance. An
+All problems studied in this thesis are optimization
+problems. An optimization problem is defined by a set of
+parameters and constraints. Specifying the values of the
+parameters defines an instance of the problem. An
 optimization problem is either a minimization problem or a
-maximization problem.
-
-A feasible solution is a solution that satisfies all the
+maximization problem. A feasible solution to an
+optimalization problem is a solution that satisfies all the
 constraints. There is also a cost function evalutes every
 feasible solution to a numerical cost. For a minimization
-problem, an optimal solution is a feasible solution with a
+problem, an optimal solution is a feasible solution with the
 cost that is no more than the cost of any feasible solution.
 
 An algorithm is said to solve an optimization problem
-exactly if the algorithm always computes an optimal solution
-given an instance with a nonempty solution space. For
-problems that are \NP-hard, such an exact algorithm that
-runs in polynomial time is not possible unless $\PP =
-\NP$. Therefore we resort to polynomial time algorithms that
-computes a solution whose cost can be proved to be within
-some factor away from the cost of an optimal solution.
+exactly if for every instance, the algorithm always computes
+an optimal solution, or reports that no feasible solution
+exists. For problems that are \NP-hard, such an exact
+algorithm that runs in polynomial time is not possible
+unless $\PP = \NP$. Therefore we focus our attention on
+polynomial time algorithms that computes a feasible solution
+with a cost can be proved to be within some factor away from
+the cost of an optimal solution.
 
 \section{Hardness Results on Approximating UFL}
 \label{sec:hardness}
