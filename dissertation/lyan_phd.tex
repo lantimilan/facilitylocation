@@ -339,11 +339,13 @@ as well.
 The UFL problem is easily seen to be NP-hard, as they
 contain the Set Cover problem as a special case. The Set
 Cover problem is that, given a universe $\calU = \{e_1,
-\ldots, e_n\}$ and a collection of subsets $\calS = \{S_1,
-\ldots, S_m\}$ such that $S_l \leq U$ for $l=1,\ldots,m$,
-find a minimum number of sets in $\calS$ to cover all
-elements in $\calU$. It is well-known that the Set-Cover
-problem is NP-hard.
+\ldots, e_n\}$ and a collection $\calS$ of sets such that
+$\calS = \{S_1, \ldots, S_m\}$ such that $S_l \subseteq
+\calU$ for $l=1,\ldots,m$, find a minimum number of sets in
+$\calS$ to cover all elements in $\calU$. That is, find a
+set $\calS' \subseteq \calS$ such that $\bigcup_{S\in
+  \calS'} = \calU$ such that $|\calS'|$ is minimized. It is
+well-known that the Set-Cover problem is NP-hard.
 
 %%% NP-optimization problems:
 %%% - can verify instance validity in polynomial time
@@ -373,8 +375,8 @@ problem is NP-hard.
   optimal solution for the UFL instance can only use edges
   with $d_{ij} = 1$. It is easy to see that given any
   optimal solution of the Set Cover instance, we can
-  construct an optimal solution for the UFL instance, by
-  simply taking the facilities whose corresponding sets are
+  construct an optimal solution for the UFL instance, simply
+  by taking the facilities whose corresponding sets are
   chosen in the set cover. On the other hand, given an
   optimal solution to the UFL instance, we can only have
   $d_{ij}=1$ connections, that implies for every client $j$,
