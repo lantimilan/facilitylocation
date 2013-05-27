@@ -4258,16 +4258,17 @@ Most {\NP}-optimization problems have a natural integer
 program in which we use variables to represent parameters in
 the solution we seek, and write the constraints imposed by
 feasiblity of the solution, the objective function is
-obtained by the function of the solution cost. For example,
-in the Vertex Cover problem, we are given a graph $G=(V,E)$
-and we are to find a subset of $V$, call it $W$ such that
-every edge $e\in E$ has at least one endpoint in $W$, and we
-want $W$ with minimum size. To formulate an integer program,
-we use $x_v \in \{0,1\}$ to denote whether a node $v\in V$
-is in $W$ or not. The constraint is that for every edge
+obtained by the cost function of the solution, specified by
+the problem. For example, in the Vertex Cover problem, we
+are given a graph $G=(V,E)$ and we are to find a subset $W$
+of $V$, such that every edge $e\in E$ has at least one
+endpoint in $W$, and we want the set $W$ to have minimum
+size. To formulate this problem as an integer program, we
+use $x_v \in \{0,1\}$ to denote whether a node $v\in V$ is
+in $W$ or not. The constraint is that for every edge
 $e=(u,v)$, we have $x_u + x_v \geq 1$. The objective is to
-minimize $\sum_{v\in V} x_v$. The integer program is usually
-written as
+minimize $\sum_{v\in V} x_v$. The integer program for Vertex
+Cover is written as
 \begin{align*}
   &\text{minimize } \sum_{v\in V} x_v\\
   &\text{subject to } x_u + x_v \geq 1  \qquad \forall (u,v) \in
@@ -4278,51 +4279,130 @@ In general an integer program cannot be solved exactly in
 polynomial time, as integer programming is
 {\NP}-hard. However, if we relax the integral constraint and
 allow the variables to take fractional value, we then obtain
-a Linear Program (LP) and LP is polynomially solvable. Thus
-we can solve the LP optimally, obtaining the objective
-function value of the optimal LP solution. This value is
-then a lower bound on the optimal integral solution's value,
-assuming a minimization problem.
+a Linear Program (LP) and LP is polynomially solvable, for
+example, using the ellipsoid method or the interior point
+method. Thus we can first solve the LP optimally, obtaining
+a fractional optimal solution to the LP. The value of the
+fractional optimal solution is then a lower bound on the
+value of the optimal integral solution, assuming a
+minimization problem. Our next step is then to round the
+fractional solution appropriately, so that we maintain the
+feasibility while keeping the cost from increasing too
+much. The exact rounding procedure is problem specific and
+we shall not delve into the details here. The rounding
+relevant to the FTFP problem in this thesis is presented in
+detail in Chapter~\ref{ch: lp-rounding}.
 
-For a general Linear Program, we usually write as
-\begin{align*}
-  &\text{minimize } c^T x\\
-  &\text{subject to } A x \geq b\\
-  & x \geq 0\\
-\end{align*}
-This one is called primal, and its dual is
-\begin{align*}
-  &\text{maximize } b^T y\\
-  &\text{subject to } A^T y \leq c\\
-  & y \geq 0\\
-\end{align*}
+We now give a brief introduction of linear programming,
+see~\cite{Chvatal83} for an introductory book on this topic.
+A general Linear Program can be written as
+\begin{align}
+  \label{eqn:lp_primal}
+  \text{minimize } & \sum_{j=1}^n c_j x_j & \\ \notag
+  \text{subject to } & \sum_{j=1}^n a_{ij} x_j \geq b_i,
+   & \text{for } i = 1, \ldots, m\\ \notag
+   & x_j \geq 0 & \text{for } j = 1, \ldots, n\\ \notag
+\end{align}
+For the LP above, we can take its dual as
+\begin{align}
+  \label{eqn:lp_dual}
+  \text{maximize } & \sum_{i=1}^m b_i y_i &\\ \notag
+  \text{subject to } & \sum_{i=1}^m a_{ij} y_i \leq c_j
+   & \text{for } j = 1, \ldots, n\\ \notag
+   & y_i \geq 0 & \text{for } i = 1,\ldots,m\\ \notag
+\end{align}
+The LP (\ref{eqn:lp_primal}) is called the primal program
+and the LP (\ref{eqn:lp_dual}) is called the dual program.
 The weak duality theorem tells us that, for every feasible
-solution $\bfx$ for the primal and $\bfy$ for the dual, we
-have that $c^T \bfx \geq b^T \bfy$. The strong duality
-theorem tells us that if both the primal and dual are
+solution $\bfx$ for the primal (\ref{eqn:lp_primal}) and
+$\bfy$ for the dual (\ref{eqn:lp_dual}), we have that
+$\textbf{c}^T \bfx \geq \textbf{b}^T \bfy$. The strong
+duality theorem tells us that if both the primal
+(\ref{eqn:lp_primal}) and the dual (\ref{eqn:lp_dual}) are
 feasible, then both of them have optimal solution
 $\bfx^\ast$ and $\bfy^\ast$ and their objective function
-values equal. Moreover, the complementary slackness
-conditions assert that two solutions $\bfx$ and $\bfy$ are
-both optimal if and only if, for every primal variable
-$x_j$, either $x_j = 0$ or the corresponding constraint in
-the dual is tight, that is, an equality. And for every dual
-variable $y_i$, either $y_i = 0$ or the corresponding
-constraint in the primal is tight.
+values equal, that is $\textbf{c}^T \bfx^\ast = \textbf{b}^T
+\bfy^\ast$. Moreover, the complementary slackness conditions
+assert that two feasible solutions $\bfx$ and $\bfy$ are
+both optimal to LP (\ref{eqn:lp_primal}) and
+(\ref{eqn:lp_dual}) respectively, if and only if, for every
+primal variable $x_j$, either $x_j = 0$ or the corresponding
+constraint in the dual is tight, that is $\sum_{i=1}^m
+a_{ij} y_i = c_j$. And for every dual variable $y_i$, either
+$y_i = 0$ or the corresponding constraint in the primal is
+tight, that is $\sum_{j=1}^n a_{ij} x_j = b_i$. The
+complementary slackness conditions provide a simple way to
+validate the optimality when one is presented with two
+solutions, proposed to be optimal for the primal and dual
+program respectively.
 
 The complementary slackness conditions play a crucial role
-in the analysis of approximation algorithms. For the
-facility location problems, they provide an upper bound on
-the maximum distance from a facility $i$ with $x_{ij}^\ast$
-to a client $j$. And in the Jain and Vazirani's primal-dual
-algorithm~\cite{JainV01}, the analysis of approximation ratio
-is based on relaxed complementary slackness conditions.
+in the design and analysis of approximation algorithms. For
+example, suppose we have an algorithm that computes a
+feasible integral solution $\bfx$ to the primal program
+(\ref{eqn:lp_primal}) and a feasible integral solution to
+the dual program (\ref{eqn:lp_dual}). Moreover, we know that
+the two solutions satisfy a relaxed version of the
+complementary slackness conditions: for some numbers
+$\alpha$ and $\beta$, we have
+\begin{align*}
+  \text{either } y_i = 0  \quad \text{or } \quad b_i \leq \sum_{j}
+  a_{ij} x_j \leq \alpha\, b_i \qquad \text{for } i = 1,
+  \ldots, m.\\
+  \text{either } x_j = 0  \quad \text{or } \quad \beta\, c_j \leq
+  \sum_{i}a_{ij}y_i \leq c_j \qquad \text{for } j = 1,
+  \ldots, n.\\
+\end{align*}
+Then the integral solution $\bfx$ has cost no more than
+$\alpha/\beta$ times the optimal value. In particular, we
+have $\sum_{j} c_j x_j \leq \alpha/\beta \sum_{i} b_i y_i$
+and the value for a feasible dual solution, namely $\sum_{i}
+b_i y_i$, is a lower bound on the optimal value of the
+primal program.
 
-\section{Proof of Inequality  (\ref{eqn: echs ineq direct cost, step 1})}
+As an application of the complementary slackness conditions,
+we look at their use in the design and analysis of
+algorithms for the facility location problems. Recall that
+we define the neighborhood $N(j)$ of a client $j$ as the set
+of facilities with $x_{ij}^\ast > 0$, where
+$\bfx^\ast,\bfy^\ast$ is some fractional optimal fractional
+solution and $\bfalpha^\ast, \bfbeta^\ast$ is some optimal
+fractional dual solution. The complementary slackness
+conditions provide an upper bound on the maximum distance
+from a facility $i \in N(j)$ to a client $j$, since one dual
+constraint says $\alpha_j - \beta_{ij} \leq d_{ij}$ and if
+the primal solution has $x_{ij}^\ast > 0$, then the
+inequality is actually an equality and we have
+$\alpha_j^\ast - \beta_{ij}^\ast = d_{ij}$. Together with
+$\beta_{ij}^\ast \geq 0$, we have $\alpha_j^\ast \geq
+d_{ij}$ for every $i$ such that $x_{ij}^\ast > 0$.
+
+The idea of using relaxed complementary slackness conditions
+in designing approximation algorithms for the uncapacitated
+facility location problem is demonstrated by Jain and
+Vazirani~\cite{JainV01}. They proposed an algorithm that
+outputs an integral solution $(\bfx, \bfy)$ to the primal
+program (\ref{eqn:fac_primal}) and a feasible (possibly
+fractional) solution $(\bfalpha,\bfbeta)$ to the dual
+program (\ref{eqn:fac_dual})~\footnote{For the uncapacitated
+  facility location problem we have all $r_j = 1$ for
+  $j\in\clientset$.}. Moreover, the two solutions satisfy the
+conditions that
+\begin{align*}
+  &\text{either } \sum_{j} \beta_{ij} = f_i  \quad \text{ or
+} \quad y_i = 0.\\
+  &\text{either } 1/3\, d_{ij} \leq \alpha_j - \beta_{ij}
+  \leq d_{ij} \quad \text{ or } \quad x_{ij} = 0.\\
+\end{align*}
+The solution $(\bfx,\bfy)$ then is an $3$-approximation to
+the optimal solution.
+
+\section{Proof of Inequality (\ref{eqn: echs ineq direct
+    cost, step 1})}
 \label{sec: ECHSinequality}
 
-In Sections~\ref{sec: 1.736-approximation} and \ref{sec: 1.575-approximation}
-we use the following inequality
+In Sections~\ref{sec: 1.736-approximation} and \ref{sec:
+  1.575-approximation} we use the following inequality
 %
 \begin{align}
   \label{eq:min expected distance}
@@ -4337,22 +4417,25 @@ $0 < g_1,...,g_s \le 1$.
 \medskip
 
 We give here a new proof of this inequality, much simpler
-than the existing proof in \cite{ChudakS04}, and also simpler than the
-argument by Sviridenko~\cite{Svi02}.  We derive this inequality from
-the following generalized version of the Chebyshev Sum Inequality:
+than the existing proof in \cite{ChudakS04}, and also
+simpler than the argument by Sviridenko~\cite{Svi02}.  We
+derive this inequality from the following generalized
+version of the Chebyshev Sum Inequality:
 %
 \begin{equation}
   \label{eq:cheby}
   \textstyle{\sum_{i}} p_i \textstyle{\sum_j} p_j a_j b_j \leq \textstyle{\sum_i} p_i a_i \textstyle{\sum_j} p_j b_j,
 \end{equation}
 %
-where each summation runs from $1$ to $l$ and the sequences $(a_i)$,
-$(b_i)$ and $(p_i)$ satisfy the following conditions: $p_i\geq 0, a_i
-\geq 0, b_i \geq 0$ for all $i$, $a_1\leq a_2 \leq \ldots \leq a_l$,
-and $b_1 \geq b_2 \geq \ldots \geq b_l$.
+where each summation runs from $1$ to $l$ and the sequences
+$(a_i)$, $(b_i)$ and $(p_i)$ satisfy the following
+conditions: $p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$,
+$a_1\leq a_2 \leq \ldots \leq a_l$, and $b_1 \geq b_2 \geq
+\ldots \geq b_l$.
 
-Given inequality (\ref{eq:cheby}), we can obtain our inequality
-(\ref{eq:min expected distance}) by simple substitution
+Given inequality (\ref{eq:cheby}), we can obtain our
+inequality (\ref{eq:min expected distance}) by simple
+substitution
 %
 \begin{equation*}
   p_i \leftarrow g_i, a_i \leftarrow \bard_i, b_i \leftarrow
@@ -4361,8 +4444,9 @@ Given inequality (\ref{eq:cheby}), we can obtain our inequality
 %
 for $i = 1,...,k$.
 
-For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
-due to Hardy, Littlewood and Polya~\cite{HardyLP88}. The idea is to evaluate the 
+For the sake of completeness, we include the proof of
+inequality (\ref{eq:cheby}), due to Hardy, Littlewood and
+Polya~\cite{HardyLP88}. The idea is to evaluate the
 following sum:
 %
 \begin{align*}
@@ -4377,8 +4461,9 @@ following sum:
 \\
   &= \half \cdot \textstyle{\sum_i \sum_j} p_i p_j (a_i - a_j)(b_i - b_j) \leq 0.
 \end{align*}
-The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq 0$, since the sequences
-$(a_i)$ and $(b_i)$ are ordered oppositely.
+The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq
+0$, since the sequences $(a_i)$ and $(b_i)$ are ordered
+oppositely.
 
 
 \end{document}
