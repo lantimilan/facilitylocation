@@ -1143,7 +1143,9 @@ $F^\ast$. For connection cost, we can use $g(j) =
 with distance no more than $3 g(j) = 3
 \alpha_j^\ast$. Summarizing we have total cost no more than
 $F^\ast + \sum_{j\in\clientset} \alpha_j^\ast = F^\ast +
-3\,\LP^\ast \leq 4\,\LP^\ast$.
+3\,\LP^\ast \leq 4\,\LP^\ast \leq 4\OPT$, where $\LP^\ast$ is
+the cost of optimal fractional solution and $\OPT$ is the
+cost of optimal integral solution.
 
 Another $4$-approximation, which is the original approach by
 Shmoys, Tardos and Aardal uses the other way to obtain
@@ -1154,9 +1156,10 @@ $\gamma$, that is
 \begin{equation*}
   \sum_{i\in N(j)\suchthat d_{ij} \leq g(j)} x_{ij}^\ast \geq \gamma.
 \end{equation*}
-An argument similar to Markov's inequality would then show that the
-trimmed neighborhood, call it $N'(j)$, has the farthest facility
-within a distance of $g(j)$. To bound $g(j)$, we have
+By definition, the farthest facility in the trimmed
+neighborhood, call it $N'(j)$, is at a distance of $g(j)$
+from client $j$. To bound $g(j)$, we use an argument similar
+to the proof of Markov's inequality. More precisely, we have
 \begin{equation*}
   C_j^\ast \stackrel{\text{def}}{=} \sum_{i\in N(j)} d_{ij} x_{ij}^\ast \geq \sum_{i\in
     N(j)\setminus N'(j)} d_{ij} x_{ij}^\ast \geq \sum_{i \in N(j)
@@ -1191,22 +1194,23 @@ $4$-approximation.
 The simpliest rounding described so far is clearly not the
 best possible and there are several improvements proposed
 afterwards, nonetheless, they all follow the same cluster
-partition and opens exactly one facility for each
-representative. To save on connection cost, one observes
-that a not chosen client can use a neighboring facility
-provided that the neighbor is open. For facility cost, it is
-not necessary to open the cheapest. By opening each facility
-in a neighborhood with probability proportional to
-$y_i^\ast$, we would have an expectation of facility cost
-bounded by $F^\ast$ as well. The analysis, however, is much
-more involved and requires one to estimate the probabilities
-of a not chosen client connects to its neighbor and to the
-facility opened by its assigned representative client. We
-shall not elaborate here as our rounding algorithms for the
-FTFP problem in the main part, Chapter~\ref{ch: lp-rounding}
-will rephrase and prove similar theorems later. This
-concludes our review on the known approximation results on
-the Uncapacitated Facility Location problem (UFL).
+partition and open exactly one facility for each
+representative client. To save on connection cost, one
+observes that a not chosen client can use a neighboring
+facility provided that the neighbor is open. For facility
+cost, it is not necessary to open the cheapest. By opening
+each facility in a neighborhood with probability
+proportional to $y_i^\ast$, we would have an expectation of
+facility cost bounded by $F^\ast$ as well. The analysis,
+however, is much more involved and requires one to estimate
+the probabilities of a not chosen client connects to its
+neighbor and to the facility opened by its assigned
+representative client. We shall not elaborate here as our
+rounding algorithms for the FTFP problem in the main part,
+Chapter~\ref{ch: lp-rounding} will rephrase and prove
+similar theorems later. This concludes our review on the
+known approximation results on the Uncapacitated Facility
+Location problem (UFL).
 
 
 \section{Related Work on FTFL}
@@ -1217,12 +1221,13 @@ to obtain a ratio of $3\ln R$ where $R=\max_j r_j$ is the
 maximum demand among all clients. The first constant
 approximation algorithm was given by Guha, Meyerson and
 Munagala~\cite{GuhaMM03}, using LP-rounding similar to the
-Shmoys' \etal's approach for the {\UFL} problem. Subsequent
-improvement were made by Swamy and Shmoys~\cite{SwamyS08}
-using pipage rounding with a ratio of $2.076$. The current
-best known approximation ratio is $1.7245$, by Byrka,
-Srinivasan and Swamy~\cite{ByrkaSS10}, using dependent
-rounding with a laminar clustering structure.
+Shmoys, Tardos and Aardal's~\cite{ShmoysTA97} approach for
+the {\UFL} problem. Subsequent improvement were made by
+Swamy and Shmoys~\cite{SwamyS08} using pipage rounding with
+a ratio of $2.076$. The current best known approximation
+ratio is $1.7245$, by Byrka, Srinivasan and
+Swamy~\cite{ByrkaSS10}, using dependent rounding with a
+laminar clustering structure.
 
 We note that all the known $O(1)$-approximation algorithms
 for {\FTFL} are LP-rounding algorithms and they need to
@@ -1231,9 +1236,11 @@ primal-dual based approaches for {\UFL}, it is natural to
 ask whether such algorithms could be adapted to {\FTFL} with
 a good ratio. To the best of the author's knowledge, it is
 not known whether there is a primal-dual algorithm for
-{\FTFL} with a sub-logarithmic approximation ratio. We shall
-have more to say about this in Chapter~\ref{ch:
-  primal-dual}.
+{\FTFL} with a sub-logarithmic approximation ratio. This is
+in stark constrast with the fact that two different
+primal-dual algorithms~\cite{JainV03,JainMMSV03} achieve
+constant ratio for {\UFL}. We shall have more to say about
+this in Chapter~\ref{ch: primal-dual}.
 
 \section{Our Problem: FTFP}
 Our problem, the fault-tolerant facility placement problem
@@ -1247,34 +1254,37 @@ problems. The Xu and Shen's results seem to be valid only
 for a special case of {\FTFP} and we later adapted the
 Chudak's 4-approximation algorithm for {\UFL} to {\FTFP},
 thus obtaining the first $O(1)$-approximation algorithm for
-this problem. The algorithm was based on LP-rounding. Our
-subsequent work improved the algorithm and analysis on
-LP-rounding and our most recent results demonstrated that
-LP-rounding algorithms for {\FTFP} can achieve an
-approximation ratio that matches that for {\UFL}. For the
-applicability of primal-dual techniques on {\FTFP}, we
-provide an argument of possible difficulty in obtaining
-sub-logarithmic ratio using dual-fitting approach. Again we
-refer the reader to Chapter~\ref{ch: primal-dual} for more
-discussion on results using primal-dual approaches on
-{\FTFP}.
+this problem~\cite{YanC11}. The algorithm was based on
+LP-rounding. Our subsequent work improved the algorithm and
+analysis on LP-rounding and our most recent results
+demonstrated that LP-rounding algorithms for {\FTFP} can
+achieve an approximation ratio that matches that for
+{\UFL}. For the applicability of primal-dual techniques on
+{\FTFP}, we provide an argument of possible difficulty in
+obtaining sub-logarithmic ratio using dual-fitting
+approach. Again we refer the reader to Chapter~\ref{ch:
+  primal-dual} for more discussion on results using
+primal-dual approaches on the {\FTFP} problem.
 
 %% linear program
 \chapter{Linear Program} \label{ch:lp} 
 
 In all our algorithms, we use the standard linear
 program~\ref{eqn:fac_primal} and its
-dual~\ref{eqn:fac_dual}, first formulated by Balinski, to
-develop our algorithms and estimate the optimal solution
-value. For readers unfamiliar with Linear Programming (LP)
-and Integer Programming (IP), we included a short
-introductory section in the appendix.
+dual~\ref{eqn:fac_dual}, first formulated by
+Balinski~\cite{Bal66}, to develop our algorithms and
+estimate the optimal solution value. For readers unfamiliar
+with Linear Programming (LP) and Integer Programming (IP),
+and their application on approximation algorithms, we
+included a short introductory section in the
+appendix~\ref{sec: ILP}.
 
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
 built at site $i$ and let $x_{ij}$ represent the number of
 connections from client $j$ to facilities at site $i$. If we
-relax the integrality constraints, we obtain the following LP:
+relax the integrality constraints, we obtain the following
+LP.
 
 %%%%%%%%%%%
 \begin{alignat}{3}
@@ -1358,34 +1368,40 @@ and $i$ and does not create any new partial
 connections. Each client can split at most one site and
 hence we shall have at most $|\clientset|$ more sites.
 
-By the above paragraph,  without loss of generality we can
-assume that the optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
-is complete. This assumption will in fact greatly simplify some of
-the arguments in the paper. Additionally, we will frequently use the facility
-splitting operation described above in our algorithms to obtain fractional solutions with
-desirable properties.
+By the above paragraph, without loss of generality we can
+assume that the optimal fractional solution $(\bfx^\ast,
+\bfy^\ast)$ is complete. This assumption will in fact
+greatly simplify some of the arguments in the
+paper. Additionally, we will frequently use the facility
+splitting operation described above in our algorithms to
+obtain fractional solutions with desirable properties. Those
+properties allow a smooth generalization of known
+LP-rounding algorithms for {\UFL} to be applicable to
+{\FTFP}, and handles the fault-tolerant requirement of the
+problem without effort.
 
 
 %% ch3 techniques
 \chapter{Techniques} \label{ch: techniques} 
 
-After obtaining an optimal fractional solution to
-LP(\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual}), we employ
+After obtaining an optimal fractional solution to LP
+(\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual}), we employ
 two techniques to obtain approximation results on the FTFP
 problem. Our first technique, which we call \emph{demand
-  reduction}, allow us to restrict our attention to a
-restricted version of the FTFP problem, in which all demands
-$r_j$ are not too large. This restriction then allow the
-application of our next technique, \emph{adaptive
-  partition}, so that we obtain an FTFP instance with
-facilities and unit demand points. For this FTFP instance,
-each facility can be either open or close, and each unit
-demand point connects to one of the open facilities. We
-would like to point out that we still need to cater the
-fault-tolerant requirement, that is, unit demands originated
-from the same client must connect to different
-facilities. We shall see that our adaptive partitioning step
-takes care of the fault-tolerant requirement smoothly.
+  reduction}, allows us to restrict our attention to a
+restricted version of the {\FTFP} problem, in which all
+demands $r_j$ are not too large. This restriction then sets
+stage for the application of our next technique,
+\emph{adaptive partition}, so that we obtain an FTFP
+instance with facilities at sites and unit demand points
+derived from clients. For this FTFP instance, each facility
+can be either open or close, and each unit demand point
+connects to one of the open facilities. We would like to
+point out that we still need to cater the fault-tolerant
+requirement, that is, unit demands originated from the same
+client must connect to different facilities. We shall see
+that our adaptive partitioning step takes care of the
+fault-tolerant requirement smoothly.
 
 \section{Demand Reduction}
 \label{sec: polynomial demands}
