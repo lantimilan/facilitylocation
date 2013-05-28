@@ -1526,7 +1526,9 @@ the proof.
 \end{proof}
 
 %%%%%%%%%%%%%%%% TODO: expand this %%%%%%%%%%%%%%%%%%
-Two nice consequences are immediate, given demand reduction.
+Two nice consequences are immediate, given demand reduction
+above.
+
 \subsection{Reduction from FTFP to FTFL}
 Given demand reduction, we may assume that we are working
 with a restricted version of FTFP where every demand $r_j$
@@ -1542,11 +1544,29 @@ corresponding FTFP instance. Moreover, the approximation
 ratio for FTFL is preserved for FTFP. Given that FTFL has a
 $1.7245$-approximation algorithm by Byrka, Srinivasan and
 Swamy~\cite{ByrkaSS10}, it is easy to see that FTFP has an
-approximation algorithm with the same ratio.
+approximation algorithm with the same ratio. On the other
+hand, as we show in Chapter~\ref{ch: lp-rounding}, {\FTFP}
+can be approximated to a ratio of $1.575$, a ratio that
+matches the best LP-based ratio for {\UFL}. So from the
+standpoint of approximation, {\FTFP} is more amenable than
+{\FTFL}.
 
 \subsection{Asymptotic Approximation Ratio for Large
   Demands}
-When all demands are large, say $R_{\min} =
+When all demands are large, one would expect the fractional
+optimal solution to LP (\ref{eqn:fac_primal}) is very close
+to an integral solution, and it is reasonable to expect that
+in this case the fractional solution can be rounded to an
+integral solution with almost the same cost. We made this
+intuition a concrete statement and provide an affirmative
+answer to this statement.
+
+Let $R_{\min} = \min_{j\in\clientset} r_j$ be the smallest
+demand among all clients $j \in \clientset$. We have the
+following
+
+
+say $R_{\min} =
 \omega(|\sitesset|)$, where $R_{\min} \defeq
 \min_{j\in\clientset} r_j$ is the minimum demand among all
 clients, then after we apply demand reduction, the integral
