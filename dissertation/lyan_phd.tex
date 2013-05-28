@@ -1566,9 +1566,9 @@ and provide an affirmative answer to this statement.
   Given an {\FTFP} instance $(\sitesset, \clientset, r_j,
   d_{ij} \text{ for } i\in\sitesset, j\in\clientset)$, let
   $m = |\sitesset|$ be the number of sites, and the minimum
-  demand $R = \min_{j\in\clientset} r_j$, then there is an
-  approximation algorithm with ratio $1 + O(m/R)$. In
-  particular, when $R$ is large compared to $m$, this ratio
+  demand $Q = \min_{j\in\clientset} r_j$, then there is an
+  approximation algorithm with ratio $1 + O(m/Q)$. In
+  particular, when $Q$ is large compared to $m$, this ratio
   approaches $1$.
 \end{theorem}
 
@@ -1591,24 +1591,30 @@ and provide an affirmative answer to this statement.
   the $\dot \calI$ instance (We might have to remove some
   redundant connections and facilities, but this only
   reduces the total cost.). Using an $c$-approximation
-  algorithm for {\UFL}, we can obtain a solution with cost
-  no more than $cm \LP_{\smallUFL}$, where $\LP_{\smallUFL}$
-  is the cost of the optimal fractional solution for the
-  {\UFL} instance. On the other hand, it is easy to see that
-  $(\bfx/R,\bfy/R)$ constitutes a feasible solution to the
-  {\UFL} instance as we have $r_j \geq R$ for every client
-  $j$. Therefore, we have an integral solution to instance
-  $\dot\calI$ with cost at most $(cm/R) \OPT$ where $\OPT$ is
-  the optimal integral solution to the original {\FTFP}
-  instance $\calI$ with demands $r_j$ for client $j$. This
-  solution to $\dot\calI$, call it $S_1$, when combined with
-  the solution to $\hat\calI$, call it $S_2 =
+  algorithm for {\UFL}~\footnote{We actually need more than
+    that. What we need is that the integral solution for the
+    {\UFL} instance needs to have cost no more than $c$
+    times the cost of an optimal fractional
+    solution. However, most LP-rounding algorithms do have
+    this property.}, we can obtain a solution with cost no
+  more than $cm\cdot\LP_{\smallUFL}$, where
+  $\LP_{\smallUFL}$ is the cost of the optimal fractional
+  solution for the {\UFL} instance. On the other hand, it is
+  easy to see that $(\bfx/Q,\bfy/Q)$ constitutes a feasible
+  solution to the {\UFL} instance as we have $r_j \geq Q$
+  for every client $j$. Therefore, we have an integral
+  solution to instance $\dot\calI$ with cost at most $(cm/Q)
+  \OPT$ where $\OPT$ is the optimal integral solution to the
+  original {\FTFP} instance $\calI$ with demands $r_j$ for
+  client $j$. This solution to $\dot\calI$, obtained from
+  solutions to $m$ {\UFL} instances, call it $S_1$, when
+  combined with the solution to $\hat\calI$, call it $S_2 =
   (\hat\bfx,\hat\bfy)$, gives a feasible integral solution
   to the instance $\calI$, and the total cost is no more
   than
   \begin{equation*}
-    \cost(S_1) + \cost(S_2) \leq cm/R \OPT + \OPT = (1 +
-    cm/R) \OPT = 1 + O(m/R) \OPT.
+    \cost(S_1) + \cost(S_2) \leq (cm/Q) \OPT + \OPT = (1 +
+    cm/Q) \OPT = 1 + O(m/Q) \OPT.
   \end{equation*}
 \end{proof}
 
