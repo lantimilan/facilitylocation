@@ -1558,21 +1558,59 @@ optimal solution to LP (\ref{eqn:fac_primal}) is very close
 to an integral solution, and it is reasonable to expect that
 in this case the fractional solution can be rounded to an
 integral solution with almost the same cost. We made this
-intuition a concrete statement and provide an affirmative
-answer to this statement.
+intuition a concrete statement, Theorem~\ref{thm:largeR},
+and provide an affirmative answer to this statement.
 
-Let $R_{\min} = \min_{j\in\clientset} r_j$ be the smallest
-demand among all clients $j \in \clientset$. We have the
-following
+\begin{theorem}
+  \label{thm:largeR}
+  Given an {\FTFP} instance $(\sitesset, \clientset, r_j,
+  d_{ij} \text{ for } i\in\sitesset, j\in\clientset)$, let
+  $m = |\sitesset|$ be the number of sites, and the minimum
+  demand $R = \min_{j\in\clientset} r_j$, then there is an
+  approximation algorithm with ratio $1 + O(m/R)$. In
+  particular, when $R$ is large compared to $m$, this ratio
+  approaches $1$.
+\end{theorem}
 
+\begin{proof}
+  We first solve the LP for this instance and obtain optimal
+  frational solution $(\bfx^\ast, \bfy^\ast)$, then apply
+  demand reduction to obtain the two instance $\hat \calI$
+  and $\dot \calI$. For the $\hat \calI$ instance we already
+  have an optimal integral solution, namely
+  $(\hat\bfx,\hat\bfy)$. And we now deal with the
+  $\dot\calI$ instance.
 
-say $R_{\min} =
-\omega(|\sitesset|)$, where $R_{\min} \defeq
-\min_{j\in\clientset} r_j$ is the minimum demand among all
-clients, then after we apply demand reduction, the integral
-part has a cost that dominates the overall cost. Since we
-have a ratio $1$ for the integral part, we have a ratio
-asymptotically close to $1$ in the overall cost.
+  Lemma~\ref{lem: polynomial demands partition} tells us
+  that $\dot r_j$ is no more than $|\sitesset|$ for every
+  client $j$. So we can solve the $\dot \calI$ instance by
+  creating $m$ independent {\UFL} instances with the same
+  parameters $\sitesset, \clientset, d_{ij}$ and all demands
+  are $1$. Clearly combining the integral solutions to the
+  $m$ {\UFL} problem would give us an integral solution to
+  the $\dot \calI$ instance (We might have to remove some
+  redundant connections and facilities, but this only
+  reduces the total cost.). Using an $c$-approximation
+  algorithm for {\UFL}, we can obtain a solution with cost
+  no more than $cm \LP_{\smallUFL}$, where $\LP_{\smallUFL}$
+  is the cost of the optimal fractional solution for the
+  {\UFL} instance. On the other hand, it is easy to see that
+  $(\bfx/R,\bfy/R)$ constitutes a feasible solution to the
+  {\UFL} instance as we have $r_j \geq R$ for every client
+  $j$. Therefore, we have an integral solution to instance
+  $\dot\calI$ with cost at most $(cm/R) \OPT$ where $\OPT$ is
+  the optimal integral solution to the original {\FTFP}
+  instance $\calI$ with demands $r_j$ for client $j$. This
+  solution to $\dot\calI$, call it $S_1$, when combined with
+  the solution to $\hat\calI$, call it $S_2 =
+  (\hat\bfx,\hat\bfy)$, gives a feasible integral solution
+  to the instance $\calI$, and the total cost is no more
+  than
+  \begin{equation*}
+    \cost(S_1) + \cost(S_2) \leq cm/R \OPT + \OPT = (1 +
+    cm/R) \OPT = 1 + O(m/R) \OPT.
+  \end{equation*}
+\end{proof}
 
 
 \section{Adaptive Partition}
