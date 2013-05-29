@@ -1301,19 +1301,37 @@ Uncapacitated Facility Location problem (UFL).
 
 \section{Related Work on FTFL}
 The fault-tolerant facility location problem (\FTFL), was
-first introduced by Jain and Vazirani~\cite{JainV03} and
-they adapted their primal-dual algorithm for UFL to {\FTFL}
-to obtain a ratio of $3\ln R$ where $R=\max_j r_j$ is the
-maximum demand among all clients. The first constant
-approximation algorithm was given by Guha, Meyerson and
-Munagala~\cite{GuhaMM03}, using LP-rounding similar to the
-Shmoys, Tardos and Aardal's~\cite{ShmoysTA97} approach for
-the {\UFL} problem. Subsequent improvement were made by
+first introduced by Jain and Vazirani~\cite{JainV03}.  The
+LP is
+\begin{alignat}{3}
+  \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
+  \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
+  &\label{eqn:ftfl_primal}
+\\ \notag
+\textrm{subject to} \quad y_i - x_{ij} &\geq 0 &\quad\quad & \forall i\in \sitesset, j\in \clientset 
+\\ \notag
+\sum_{i\in \sitesset} x_{ij} &\geq r_j & &\forall j\in \clientset
+\\ \notag
+y_i &\leq 1 & &\forall i \in \sitesset
+\\ \notag
+x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in
+\clientset 
+\\ \notag
+\end{alignat}
+
+Jain and Vazirani adapted their primal-dual algorithm for
+UFL to {\FTFL} to gain a ratio of $3\ln R$ where $R=\max_j
+r_j$ is the maximum demand among all clients. The first
+constant approximation algorithm was given by Guha, Meyerson
+and Munagala~\cite{GuhaMM03}, using LP-rounding similar to
+the Shmoys, Tardos and Aardal's~\cite{ShmoysTA97} approach
+for the {\UFL} problem. Subsequent improvement was made by
 Swamy and Shmoys~\cite{SwamyS08} using pipage rounding with
 a ratio of $2.076$. The current best known approximation
-ratio is $1.7245$, by Byrka, Srinivasan and
+ratio is $1.7245$, due to Byrka, Srinivasan and
 Swamy~\cite{ByrkaSS10}, using dependent rounding with a
 laminar clustering structure.
+
 
 We note that all the known $O(1)$-approximation algorithms
 for {\FTFL} are LP-rounding algorithms and they need to
@@ -1334,23 +1352,23 @@ Our problem, the fault-tolerant facility placement problem
 Shen~\cite{XuS09}~\footnote{In their paper they call the
   problem the fault-tolerant facility allocation problem, or
   FTFA.}. The study of {\FTFP} was partly motivated to
-obtain a better understanding of the implication of
+obtain a better understanding of the implication of the
 fault-tolerant requirement on facility location
 problems. The Xu and Shen's results seem to be valid only
-for a special case of {\FTFP} and we later adapted the
-Chudak's 4-approximation algorithm for {\UFL} to {\FTFP},
-thus obtaining the first $O(1)$-approximation algorithm for
-this problem~\cite{YanC11}. The algorithm was based on
-LP-rounding. Our subsequent work improved the algorithm and
-analysis on LP-rounding and our most recent results
-demonstrated that LP-rounding algorithms for {\FTFP} can
-achieve an approximation ratio that matches that for
-{\UFL}. For the applicability of primal-dual techniques on
-{\FTFP}, we provide an argument of possible difficulty in
-obtaining sub-logarithmic ratio using dual-fitting
-approach. Again we refer the reader to Chapter~\ref{ch:
-  primal-dual} for more discussion on results using
-primal-dual approaches on the {\FTFP} problem.
+for a special case of {\FTFP}. We later adapted the Chudak's
+4-approximation algorithm for {\UFL} to {\FTFP}, thus
+obtaining the first $O(1)$-approximation algorithm for
+{\FTFP}~\cite{YanC11}. The algorithm was based on
+LP-rounding. Since then we have worked on improving the
+algorithm and analysis on LP-rounding. Our most recent
+results in \cite{YanC13} demonstrated that LP-rounding
+algorithms for {\FTFP} can achieve an approximation ratio
+that matches that for {\UFL}. For the applicability of
+primal-dual techniques on {\FTFP}, we provide an explanation
+of possible difficulty in obtaining sub-logarithmic ratio
+using the dual-fitting approach. More details on primal-dual
+approaches can be found in Chapter~\ref{ch: primal-dual}.
+
 
 %% linear program
 \chapter{Linear Program} \label{ch:lp} 
