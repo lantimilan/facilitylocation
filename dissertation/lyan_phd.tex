@@ -1374,8 +1374,8 @@ approaches can be found in Chapter~\ref{ch: primal-dual}.
 \chapter{Linear Program} \label{ch:lp} 
 
 In all our algorithms, we use the standard linear
-program~\ref{eqn:fac_primal} and its
-dual~\ref{eqn:fac_dual}, first formulated by
+program~(\ref{eqn:fac_primal}) and its
+dual~(\ref{eqn:fac_dual}), first formulated by
 Balinski~\cite{Bal66}, to develop our algorithms and
 estimate the optimal solution value. For readers unfamiliar
 with Linear Programming (LP) and Integer Programming (IP),
@@ -4559,8 +4559,8 @@ algorithms for {\NP}-optimization problems.
 
 Most {\NP}-optimization problems have a natural integer
 program in which we use variables to represent parameters in
-the solution we seek, and write the constraints imposed by
-feasiblity of the solution, the objective function is
+the solution that we seek, and write the constraints imposed
+by feasiblity of the solution. The objective function is
 obtained by the cost function of the solution, specified by
 the problem. For example, in the Vertex Cover problem, we
 are given a graph $G=(V,E)$ and we are to find a subset $W$
@@ -4647,18 +4647,18 @@ feasible integral solution $\bfx$ to the primal program
 the dual program (\ref{eqn:lp_dual}). Moreover, we know that
 the two solutions satisfy a relaxed version of the
 complementary slackness conditions: for some numbers
-$\alpha$ and $\beta$, we have
+$\gamma$ and $\rho$, we have
 \begin{align*}
   \text{either } y_i = 0  \quad \text{or } \quad b_i \leq \sum_{j}
-  a_{ij} x_j \leq \alpha\, b_i \qquad \text{for } i = 1,
+  a_{ij} x_j \leq \gamma\, b_i \qquad \text{for } i = 1,
   \ldots, m.\\
-  \text{either } x_j = 0  \quad \text{or } \quad \beta\, c_j \leq
+  \text{either } x_j = 0  \quad \text{or } \quad \rho\, c_j \leq
   \sum_{i}a_{ij}y_i \leq c_j \qquad \text{for } j = 1,
   \ldots, n.\\
 \end{align*}
 Then the integral solution $\bfx$ has cost no more than
-$\alpha/\beta$ times the optimal value. In particular, we
-have $\sum_{j} c_j x_j \leq \alpha/\beta \sum_{i} b_i y_i$
+$\gamma/\rho$ times the optimal value. In particular, we
+have $\sum_{j} c_j x_j \leq \gamma/\rho \sum_{i} b_i y_i$
 and the value for a feasible dual solution, namely $\sum_{i}
 b_i y_i$, is a lower bound on the optimal value of the
 primal program.
