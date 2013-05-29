@@ -963,13 +963,14 @@ and first introduce the notion of bifactor analysis.
 Given that the total cost of a solution to the {\UFL}
 problem consists of two parts, the facility cost and the
 connection cost, a notion of bifactor approximation was
-introduced in~\cite{JainMMSV03}. An algorithm with facility
-cost $F_{\smallALG}$ (sum of $f_i$ for all open facility
-$i$) and connection cost $C_{\smallALG}$ (sum of $d_{ij}$
-for pairs of $(i,j)$ connected), is said to be
-$(\gamma_f,\gamma_c)$ approximation if, for every feasible
-solution {\SOL}, with facility cost $F_{\smallSOL}$ and
-connection cost $C_{\smallSOL}$, we have
+introduced by Jain {\etal} in~\cite{JainMMSV03}. An
+algorithm with facility cost $F_{\smallALG}$ (sum of $f_i$
+for all open facility $i$) and connection cost
+$C_{\smallALG}$ (sum of $d_{ij}$ for pairs of $(i,j)$
+connected), is said to be $(\gamma_f,\gamma_c)$-
+approximation if, for every feasible solution {\SOL}, with
+facility cost $F_{\smallSOL}$ and connection cost
+$C_{\smallSOL}$, we have
 \begin{equation*}
   F_{\smallALG} + C_{\smallALG} \leq \gamma_f F_{\smallSOL} +
   \gamma_c C_{\smallSOL}.
@@ -988,15 +989,16 @@ $\gamma_c$. It is easy to see such an algorithm has
 approximation ratio $\max\{\gamma_f, \gamma_c\}$. However,
 more can be said, as there are techniques like cost scaling
 and greedy augmentation to balance the two factors, that is,
-to decrease one at the expense of increasing the other, and
-achieve a better overall approximation ratio. The techniques
-of cost scaling and greedy augmentation and their use to
-balance the two factors are introduced by Guha, Khuller and
-Charikar~\cite{GuhaK98, CharikarG05}. For example, the
-primal-dual algorithm by Jain and Vazirani~\cite{JainV03} is
-a (1,3)-approximation algorithm and using cost scaling and
-greedy augmentation, it is possible to show the algorithm
-can achieve a ratio of $1.85$~\cite{CharikarG05}.
+to decrease one at the expense of increasing the other, thus
+achieving a better overall approximation ratio. The
+techniques of cost scaling and greedy augmentation and their
+use to balance the two factors are introduced by Guha,
+Khuller and Charikar~\cite{GuhaK98, CharikarG05}. For
+example, the primal-dual algorithm by Jain and
+Vazirani~\cite{JainV03} is a (1,3)-approximation algorithm
+and using cost scaling and greedy augmentation, it is
+possible to show the algorithm can achieve a ratio of
+$1.85$~\cite{CharikarG05}.
 
 Finally we return to the hybrid algorithms by Byrka and
 Aardal~\cite{ByrkaA10} and Li~\cite{Li11}. Byrka and Aardal
@@ -1024,21 +1026,25 @@ solution with small cost would have each client connect to a
 nearby facility and few facilities open. Consider a client
 $j$, to get a handle on the connection cost, we would like
 $j$ to connect to some neighboring facility $i\in N(j)$,
-where $N(j) = \{i\in\sitesset \suchthat x_{ij}^\ast >
-0\}$. However, it is in general not possible to have every
-client connect to a neighboring facility, or we would open
-too many facilities, and thus incur a high facility cost. An
-alternative is to select a subset of clients, denoted as $C'
-\subseteq \clientset$ and only require clients in $C'$ have
-a neighoring facility open. Clients outside $C'$ are then
-connected to a facility via some client in $C'$. The
-connection cost for clients in $\clientset \setminus C'$ are
-then bounded using the triangle inequality. For this
-strategy to work, the clients $j$ outside $C'$ need to be
-able to find some client $j'$ in $C'$ such that both
-$d_{jj'} \defeq \min_{i\in \sitesset} d_{ij} + d_{ij'}$ and
-$d_{\phi(j') j'}$ are small. Here $\phi(j')$ is the facility
-that $j'$ connects to.
+where $N(j) \defeq \{i\in\sitesset \suchthat x_{ij}^\ast >
+0\}$. For the sake of connection cost, it is desirable for a
+client to have a neighboring facility open, as those are
+facilities not too far away. In fact, at the end of
+Appendix~\ref{sec: ILP} we give a bound on the distance from
+a client to any of its neighbors. However, it is in general
+not possible to have every client connect to a neighboring
+facility, or we would have to open too many facilities, and
+thus incur a high facility cost. An alternative is to select
+a subset of clients, denoted as $C' \subseteq \clientset$
+and only require clients in $C'$ have a neighboring facility
+open. Clients outside $C'$ are then connected to a facility
+via some client in $C'$. The connection cost for clients in
+$\clientset \setminus C'$ are then bounded using the
+triangle inequality. For this strategy to work, the clients
+$j$ outside $C'$ need to be able to find some client $j'$ in
+$C'$ such that both $d_{jj'} \defeq \min_{i\in \sitesset}
+d_{ij} + d_{ij'}$ and $d_{\phi(j') j'}$ are small. Here
+$\phi(j')$ is the facility that $j'$ connects to.
 
 Suppose we have chosen a subset $C'$ of client, we then open
 one facility for each client $j'$ in $C'$ and $j'$ would
@@ -1054,7 +1060,7 @@ is $N(j_1) \cap N(j_2) \neq \emptyset$. The requirement of
 disjoint neighborhood on the set $C'$ immediately implies
 that between every two related clients, we can select at
 most one of them into the set $C'$. Suppose we choose a
-client $j'$ into the set $C'$. This would then preclude
+client $j'$ into the set $C'$. This would then disqualify
 every client $j$ that is related to $j'$. We then define a
 cluster as the set of all clients $j$ that are related to
 $j'$, and call $j'$ the \emph{representative} of that
@@ -1063,7 +1069,7 @@ cluster, and we say other clients in that cluster are
 
 Suppose we have chosen the set $C'$ of representative
 clients, and we open one facility, which is $\phi(j')$ for
-each representative client $j'$ in $C'$ in a way that
+each representative client $j'$ in $C'$, in a way that
 $f_{\phi(j')}$ is no more than the average cost of
 facilities in $N(j')$, that is $f_{\phi(j')} \leq \sum_{i\in
   N(j')} f_{i} y_{i}$. Then we know that the facility cost
@@ -1071,14 +1077,14 @@ is bounded by $\sum_{i\in \sitesset} f_i y_i^\ast = F^\ast$
 because the neighborhood of clients in $C'$ are disjoint.
 
 For connection cost, each client $j'$ in $C'$ connects to
-the only facility open in $N(j')$ and we have mentioned that
-there is a way to bound the distance from $\phi(j')$ to $j'$
-when $\phi(j') \in N(j')$, see the end of Appendix~\ref{sec:
-  ILP}. For clients $j$ not in $C'$, we need to have an open
-facility to connect to, in case none of its neighbor
-opens. One possibility is to use $\phi(j')$, if $j$ is
-assigned to $j'$. When that happens, $d_{\phi(j'), j}$ can
-be bounded by the triangle inequality as
+the only facility open in $N(j')$ and we have mentioned
+earlier that there is a way to bound the distance from
+$\phi(j')$ to $j'$ when $\phi(j') \in N(j')$, see the end of
+Appendix~\ref{sec: ILP}. For clients $j$ not in $C'$, we
+need to have an open facility for it to connect to. One
+possibility is to use $\phi(j')$, if $j$ is assigned to
+$j'$. When that happens, $d_{\phi(j'), j}$ can be bounded by
+the triangle inequality as
 \begin{equation}
   \label{eqn:bound phi(j)}
   d_{\phi(j),j} = d_{\phi(j'), j} \leq d_{\phi(j'), j'} + d_{j'j} \leq
@@ -1089,35 +1095,44 @@ In the above $d_{jj'}$ denotes the shortest distance between
 client $j$ and $j'$, that is $d_{jj'} = \min_{i\in\sitesset}
 d_{ij'} + d_{ij}$. Now if we can show a bound on both
 $d_{\phi(j'),j'}$ and $d_{j'j}$ in terms of some quantity of
-client $j$, we can expect to have a bound on
-$d_{\phi(j),j}$. Since the inequality (\ref{eqn:bound
-  phi(j)}) holds for any facility $i \in \sitesset$, it
-would certainly hold for some facility $i'$ in $N(j') \cap
-N(j)$. Such facility $i'$ exists because the way the
-relation between clients are defined. We then have a bound
-on all three quantities, namely $d_{\phi(j'), j'}, d_{i'j'}$
-and $d_{i'j}$, because the corresponding facilities are all
-in the clients' neighborhood. Now we only need $d_{\phi(j')
-  j'}$ and $d_{i'j'}$ to be small in terms of
-$d_{i'j}$. Since we have a choice on which representatives
-to pick from the client set, we greedily pick a
-representative client to minimize some measure on a client,
-and then remove both the client and clients assigned to it
-for consideration. Repeat until no client remains to be
-considered.
+client $j$, we can expect to have a bound on $d_{\phi(j),j}$
+using the same quantity. Since the inequality
+(\ref{eqn:bound phi(j)}) holds for any facility $i \in
+\sitesset$, it would certainly hold for some facility $i'$
+in $N(j') \cap N(j)$. Such facility $i'$ exists because of
+the way the relation between clients are defined. We then
+have a bound on all three quantities, namely $d_{\phi(j'),
+  j'}, d_{i'j'}$ and $d_{i'j}$, because the corresponding
+facilities are all in the clients' neighborhood. Now we only
+need $d_{\phi(j') j'}$ and $d_{i'j'}$ to be small in terms
+of $d_{i'j}$. Since we have a choice on which
+representatives to pick from the client set, we greedily
+pick a representative client to minimize some measure on a
+client, and then remove both the client and clients assigned
+to it from future consideration. Repeat until no client
+remains to be considered. This process gives us a set of
+representatives and their associated clusters of
+clients. This structure is then used in the rounding
+process.
 
-Let $g(j)$ be some measure on client $j$ such that for any
-facility $i$ in $N'(j)$, we have $d_{ij} \leq g(j)$. For any
-reasonable choice of $g(j)$, we shall have $N'(j)$ be a
-subset of $N(j)$. Recall that $N(j) \defeq \{i\in\sitesset
-\suchthat x_{ij}^\ast > 0\}$ is the neighborhood of client
-$j$. Then our integral solution consists of one facility
-from each reduced neighborhood $N'(j')$. Given $g(j)$ for
-all clients $j\in\clientset$, we can choose the
-representative $j'$ as the one that minimizes the measure
-$g(j)$ among all clients assigned to $j'$~\footnote{We
-  consider $j'$ assigned to itself.}. One consequence is
-that any client $j$ outside $C'$, can now have its
+We now describe a general rounding process based on the
+above discussions. Let $N'(j)$ be a subset of facilities
+defined for each client $j$ and let $g(j)$ be some measure
+on client $j$ such that for any facility $i$ in $N'(j)$, we
+have $d_{ij} \leq g(j)$. For any reasonable choice of
+$g(j)$, we shall have $N'(j)$ be a subset of $N(j)$,
+although $N'(j)$ could be a strict subset. Recall that $N(j)
+\defeq \{i\in\sitesset \suchthat x_{ij}^\ast > 0\}$ is the
+neighborhood of client $j$. Then our integral solution
+consists of one facility from each reduced neighborhood
+$N'(j')$. Notice that this implies that every representative
+client $j'$ is connected to a facility with distance at most
+$g(j')$. Given $g(j)$ for all clients $j\in\clientset$, we
+can choose the representative $j'$ as the one that minimizes
+the measure $g(j)$ among all clients assigned to
+$j'$~\footnote{We consider $j'$ assigned to itself.}. One
+consequence is that any client $j$ outside $C'$, that is,
+clients that are not representatives, can now have their
 connection cost being bounded as:
 \begin{equation*}
   d_{\phi(j), j} \leq d_{\phi(j'), j'} + d_{i'j'} + d_{i'j}
@@ -1137,19 +1152,19 @@ ways are possible: One is to use the dual solution
 $(\bfalpha^\ast, \bfbeta^\ast)$, and then the complementary
 slackness conditions tell us that $d_{ij} \leq
 \alpha_j^\ast$ for every $i \in N(j) = \{i\in\sitesset
-\suchthat x_{ij}^\ast > 0\}$. This defines $g(j) =
-\alpha_j^\ast$ and $N'(j) = N(j)$. The other way is to trim
-the neighborhood of a client by throwing away most distant
-neighbors so that the farthest facility in the trimmed
-neighborhood is at a distance within some factor of the
-average distance $C_j^\ast = \sum_{i\in N(j)} d_{ij}
-x_{ij}^\ast$. We now open one facility in $N'(j')$ for each
-representative $j' \in C'$ in a way that $f_{\phi(j')}$ is
-no more than the average facility cost of facilities in
-$N'(j')$, that is $\sum_{i\in N'(j')} f_i y_i / \sum_{i \in
-  N'(j')} y_i$. Now we have a bound on $d_{\phi(j),j}$ in
-terms of $C_j^\ast$. However, our facility cost is now
-bounded by
+\suchthat x_{ij}^\ast > 0\}$. This allows us to define $g(j)
+= \alpha_j^\ast$ and $N'(j) = N(j)$. The other way is to
+trim the neighborhood of a client by throwing away most
+distant neighbors so that the farthest facility remaining in
+the trimmed neighborhood is at a distance within some factor
+of the average distance $C_j^\ast \defeq \sum_{i\in N(j)}
+d_{ij} x_{ij}^\ast$. We now open one facility in $N'(j')$
+for each representative $j' \in C'$ in a way that
+$f_{\phi(j')}$ is no more than the average facility cost of
+facilities in $N'(j')$, that is $\sum_{i\in N'(j')} f_i y_i
+/ \sum_{i \in N'(j')} y_i$. Now we have a bound on
+$d_{\phi(j),j}$ in terms of $C_j^\ast$. However, our
+facility cost is now bounded by
 \begin{equation*}
   F_{\smallALG} \leq \sum_{j'\in C'} \left(\sum_{i\in N'(j')} f_i y_i^\ast /
     \sum_{i\in N'(j')} y_i^\ast\right).
@@ -1173,56 +1188,61 @@ Our facility cost can then be bounded as
   \frac{1}{\gamma} \sum_{i \in \sitesset} f_i y_i^\ast = F^\ast.\\
 \end{align*}
 We note that the factor that bounds $g(j)$ by $C_j^\ast$ is
-related to $\gamma$ and we denote that factor as
-$f(\gamma)$. Then we have $g(j) \leq f(\gamma) C_j^\ast$. It
-follows that we can obtain an integral solution with
-facility cost no more than $\gamma F^\ast$ and connection
-cost no more than $3 \sum_{j\in \clientset} g(j) = 3
-\sum_{j\in \clientset} f(\gamma) C_j^\ast = 3 f(\gamma)
-C^\ast$. Recall that $F^\ast = \sum_{i\in \sitesset} f_i
-y_i^\ast$ and $C^\ast = \sum_{i\in\sitesset, j\in\clientset}
-d_{ij} x_{ij}^\ast$ and we also define $\LP^\ast = F^\ast +
-C^\ast$. Our rounded solution then has approximation ratio
-$\max\{\gamma, 3 f(\gamma)\}$.
+related to $\gamma$ and we denote that factor as a function
+of $\gamma$, that is $f(\gamma)$. Thus we have $g(j) \leq
+f(\gamma) C_j^\ast$. It follows that we can obtain an
+integral solution with facility cost no more than $\gamma
+F^\ast$ and connection cost no more than $3 \sum_{j\in
+  \clientset} g(j) = 3 \sum_{j\in \clientset} f(\gamma)
+C_j^\ast = 3 f(\gamma) C^\ast$. Recall that $F^\ast =
+\sum_{i\in \sitesset} f_i y_i^\ast$ and $C^\ast =
+\sum_{i\in\sitesset, j\in\clientset} d_{ij} x_{ij}^\ast$ and
+we also define $\LP^\ast = F^\ast + C^\ast$. Since $\LP^\ast
+\leq \OPT$, because the cost of an optimal fractional
+solution, that is $\LP^\ast$ is no more than that of an
+optimal integral solution $\OPT$. Our rounded solution then
+has approximation ratio $\max\{\gamma, 3 f(\gamma)\}$.
 
-For concreteness we now describe a simple rounding by
-Chudak~\cite{Chudak98}, and the original approach by Shmoys,
-Tardos and Aardal~\cite{ShmoysTA97}, followed by improvement
-by Chudak and Shmoys~\cite{ChudakS04} and
+For concreteness we now describe a simple rounding algorithm
+by Chudak~\cite{Chudak98}, as well as the original algorithm
+by Shmoys, Tardos and Aardal~\cite{ShmoysTA97}, followed by
+improvement by Chudak and Shmoys~\cite{ChudakS04} and
 Sviridenko~\cite{Svi02}, Byrka~\cite{Byrka07} and
 Li~\cite{Li11}.
 
-We start with an result by Chudak which gives an easy
+We start with an algorithm by Chudak that gives an easy
 $4$-approximation. The algorithm starts with fractional
-optimal solution for the primal $(\bfx^\ast,\bfy^\ast)$ and
-the dual $(\bfalpha^\ast, \bfbeta^\ast)$. The algorithm then
-repeatedly pick an unconnnected client $j$ with minimum
-$\alpha_j^\ast$, open a cheapest facility $i$ in $N(j)$, and
-then connect remaining clients to $i$. Those are clients
-that with a neighborhood overlapping $N(j)$. Given the above
-discussion, clearly the facility cost is no more than
-$F^\ast$. For connection cost, we can use $g(j) =
-\alpha_j^\ast$, and client $j$ is connected to a facility
-with distance no more than $3 g(j) = 3
-\alpha_j^\ast$. Summarizing we have total cost no more than
-$F^\ast + \sum_{j\in\clientset} \alpha_j^\ast = F^\ast +
-3\,\LP^\ast \leq 4\,\LP^\ast \leq 4\OPT$, where $\LP^\ast$ is
-the cost of optimal fractional solution and $\OPT$ is the
-cost of optimal integral solution.
+optimal solution $(\bfx^\ast,\bfy^\ast)$ for the primal and
+optimal solution $(\bfalpha^\ast, \bfbeta^\ast)$ for the
+dual. The algorithm then repeatedly picks an unconnnected
+client $j$ with minimum $\alpha_j^\ast$, open a cheapest
+facility $i$ in $N(j)$, and then connect $j$ to $i$. In
+addition, unconnected clients with a neighborhood
+overlapping $N(j)$ are connected to $i$ as well. The
+algorithm terminates when all clients are connected.  Given
+the previous discussion, clearly the facility cost is no
+more than $F^\ast$. For connection cost, we can use $g(j) =
+\alpha_j^\ast$, and every client $j$ is connected to a
+facility with distance no more than $3 g(j) = 3
+\alpha_j^\ast$. Summarizing, we have total cost no more than
+$F^\ast + \sum_{j\in\clientset} 3\alpha_j^\ast = F^\ast +
+3\,\LP^\ast \leq 4\,\LP^\ast \leq 4\OPT$, where $\LP^\ast$
+is the cost of an optimal fractional solution and $\OPT$ is
+the cost of an optimal integral solution.
 
-Another $4$-approximation, which is the original approach by
-Shmoys, Tardos and Aardal uses the other way to obtain
-$g(j)$, by cutting the neighborhood. More precisely, for
-each client $j$, they cut at a distance $g(j)$ such that the
-accumulated fractional value is at least some constant
-$\gamma$, that is
+Another $4$-approximation algorithm, the original approach
+by Shmoys, Tardos and Aardal, uses a different way to obtain
+$g(j)$, by cutting the neighborhood $N(j)$ to a smaller set
+$N'(j)$. More precisely, for each client $j$, they cut at a
+distance $g(j)$ such that the accumulated fractional value
+is at least some constant $\gamma$, that is
 \begin{equation*}
   \sum_{i\in N(j)\suchthat d_{ij} \leq g(j)} x_{ij}^\ast \geq \gamma.
 \end{equation*}
 By definition, the farthest facility in the trimmed
-neighborhood, call it $N'(j)$, is at a distance of $g(j)$
-from client $j$. To bound $g(j)$, we use an argument similar
-to the proof of Markov's inequality. More precisely, we have
+neighborhood $N'(j)$, is at a distance of $g(j)$ from client
+$j$. To bound $g(j)$, we use an argument similar to the
+proof of Markov's inequality. More precisely, we have
 \begin{equation*}
   C_j^\ast \stackrel{\text{def}}{=} \sum_{i\in N(j)} d_{ij} x_{ij}^\ast \geq \sum_{i\in
     N(j)\setminus N'(j)} d_{ij} x_{ij}^\ast \geq \sum_{i \in N(j)
@@ -1231,7 +1251,7 @@ to the proof of Markov's inequality. More precisely, we have
 As a result $g(j) \leq C_j^\ast / (1 - \gamma)$ and notice
 that $\sum_{j\in \clientset} C_j^\ast = C^\ast$. As
 discussed above, we have total connection cost no more than
-$3C^\ast/(1-\gamma)$. On the facility cost, since we have
+$3C^\ast/(1-\gamma)$. For the facility cost, since we have
 limited ourselves only facilities in $N'(j)$, as opposed to
 $N(j)$. If we open the cheapest facility in $N'(j)$ for each
 chosen client $j$, all we can say now is that the facility
@@ -1254,26 +1274,29 @@ So our approximation ratio is $\max\{3/(1-\gamma),
 1/\gamma\}$. Pick $\gamma=1/4$ and we have a
 $4$-approximation.
 
-The simpliest rounding described so far is clearly not the
-best possible and there are several improvements proposed
-afterwards, nonetheless, they all follow the same cluster
-partition and open exactly one facility for each
-representative client. To save on connection cost, one
-observes that a not chosen client can use a neighboring
+The simpliest rounding algorithms described so far is
+clearly not the best possible and there have been several
+improvement proposed afterwards. Nonetheless, they all
+follow the same structure by partitioning clients into
+clusters with representatives, and open exactly one facility
+for each representative client. To save on connection cost,
+one observes that a not chosen client can use a neighboring
 facility provided that the neighbor is open. For facility
-cost, it is not necessary to open the cheapest. By opening
-each facility in a neighborhood with probability
-proportional to $y_i^\ast$, we would have an expectation of
-facility cost bounded by $F^\ast$ as well. The analysis,
-however, is much more involved and requires one to estimate
-the probabilities of a not chosen client connects to its
-neighbor and to the facility opened by its assigned
-representative client. We shall not elaborate here as our
-rounding algorithms for the FTFP problem in the main part,
-Chapter~\ref{ch: lp-rounding} will rephrase and prove
-similar theorems later. This concludes our review on the
-known approximation results on the Uncapacitated Facility
-Location problem (UFL).
+cost, it is not necessary to open the cheapest facility in
+the reduced neighborhood $N'(j)$. By choosing each facility
+in a neighborhood with probability proportional to
+$y_i^\ast$, we would have an expectation of facility cost
+bounded by $F^\ast$ as well, and this would help the
+expected connection cost. The analysis, however, is much
+more involved and requires one to estimate the probability
+of a non-representative client connecting to its neighbor
+and the probability to connect to the facility opened by its
+assigned representative. We shall not elaborate the
+intricacies here as our rounding algorithms for the FTFP
+problem in the main part, Chapter~\ref{ch: lp-rounding} will
+rephrase and prove similar theorems there. This concludes
+our review on the known approximation results for the
+Uncapacitated Facility Location problem (UFL).
 
 
 \section{Related Work on FTFL}
