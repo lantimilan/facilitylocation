@@ -1140,79 +1140,175 @@
     \pause
     \node[fill=yellow!50] (comp) at (6,-2) {$\barx_{\mu\nu} \in \{\bary_{\mu}, 0\}$ \\ completeness};
     % xval
-
   \end{tikzpicture}
+    \pause 
+    Partition must satisfy several properties \\ needed for rounding to work ...
   \end{center}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Neigbhorhood
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% neigbhorhood
 \begin{frame}
-  \frametitle{Neighborhood}
+  \frametitle{Neighborhood of a demand}
+
   \begin{center}
-  \begin{tikzpicture}[auto,every text node part/.style={align=center}]
-    \draw[fill=yellow!25] (3,1) ellipse (1cm and 3cm);
+  \begin{tikzpicture}[scale = 0.8,auto,every text node part/.style={align=left}]
+  
+  \draw[fill=yellow!20] (3,4) ellipse (0.7cm and 1.4cm);
+    \node[fill=blue!75,minimum size=.3cm] (fac1) at (3,5) {};
+    \node[fill=blue!75,minimum size=.3cm] (fac2) at (3,4) {};
+    \node[fill=blue!75,minimum size=.3cm] (fac3) at (3,3) {};
+    \node[fill=blue!75,minimum size=.3cm] (fac4) at (4,2.3) {};
 
-    \node[fill=blue!75,minimum size=.6cm] (fac1) at (3,3) {};
-    \node[fill=blue!75,minimum size=.6cm] (fac2) at (3,1.5) {};
-    \node[fill=blue!75,minimum size=.6cm] (fac3) at (3,0) {};
-    \node[fill=blue!75,minimum size=.6cm] (fac4) at (3,-1.5) {};
-    \node[fill=blue!75,minimum size=.6cm] (fac5) at (3,-3) {};
+    \node[circle,fill=green!75,minimum size=.4cm] (demand) at (8,4){};
 
-    \node[circle,fill=green!75,minimum size=.6cm] (demand) at (10,0){};
+    \draw[solid] (fac1) to node[above] {\ \ $\barx_{\mu\nu} = \bary_{\mu} > 0$} (demand);
+	\draw[solid] (fac2) to (demand);
+	\draw[solid] (fac3) to (demand);
 
-    \foreach \from in {fac1,fac2,fac3,fac4}
-    \foreach \to in {demand}
-    \draw (\from) to node (edgelabel) {$\barx > 0$} (\to);
+    \draw[dashed] (fac4) to node[below] (zerolabel) {\ \ $\barx = 0$} (demand);
 
-    \draw[dashed] (fac5) to node[below] (zerolabel) {$\barx = 0$} (demand);
-
-    \node (neighborlabel) at (5,4) {neighborhood $N(\nu)$};
-    \node (faclabel) at (1,-1) {neighboring \\ facility};
-    \node (otherlabel) at (1.5,-2.5) {non-neighbor \\ facility};
-    \node (demandlabel) at (10,-1) {demand};
+    \node (faclabel) at (0.3,3.5) {neighborhood $N(\nu)$};
+    \node (otherlabel) at (5.4,1.9) {non-neighbor};
+    \node (demandlabel) at (9,5) {demand $\nu$};
     
-    \pause
-    \node[fill=yellow!50] (sumlabel) at (1,2) {$\sum \barx = 1$};
+    \node[fill=yellow!50] (sumlabel) at (0.5,4.6) {$\sum_\mu \barx_{\mu\nu} = 1$};
   \end{tikzpicture}
-  \end{center}
+	\end{center}
+
+\pause
+\noindent
+\begin{minipage}{2in}	
+\textcolor{blue}{Strategy 1:} for each $\nu$, open one $\mu\in N(\nu)$ with prob. $\bary_\mu$ 
+		\begin{itemize}
+			\item optimal connection cost
+			\item large facility cost 
+		\end{itemize}
+\end{minipage}
+\ \ 
+\begin{minipage}{2in}
+\textcolor{blue}{Strategy 2:} do this for demands with disjoint neighborhoods
+		\begin{itemize}
+			\item optimal facility cost
+			\item large connection cost 
+		\end{itemize}
+\end{minipage}
+
+\vspace{0.2in}
+\noindent
+\textcolor{brown}{How to balance these strategies?}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Two Types of Demands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-  \frametitle{Disjoint Neighborhood among Siblings}
+  \frametitle{Two Types of Demands}
   \begin{tikzpicture}[auto,every text node part/.style={align=center}]
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.3) {};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.5) {};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
 
-    \node[fill=blue!75, minimum size=.4cm] (mu1) at (-.7,7.7) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu2) at (.5,8) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu3) at (-.5,7) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu4) at (.5,7) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu5) at (0,6) {};
+\definecolor{primcolor}{rgb}{0,0.7,0.3}
+\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
 
-    \node[fill=blue!75, minimum size=.4cm] (mu6) at (-.7,4) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu7) at (.5,3.5) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu8) at (0,2.8) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu9) at (.5,1.5) {};
-    \node[fill=blue!75, minimum size=.4cm] (mu10) at (-.5,1.3) {};
-
-    %% labels
-    \node (nbk1) at (2.3,8) {$N(\kappa_1)$};
-    \node (nbk2) at (2.3,2) {$N(\kappa_2)$};
-    \node (nbnu1) at (2.3,6) {$N(\nu_1)$};
-    \node (nbnu2) at (2.3,4) {$N(\nu_2)$};
-
-    %% siblings
-    \node[circle, fill=green!75,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
+    %% primary demands
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
     \node (kappa1label) at (4,8) {$\kappa_1$};
-    \node[circle, fill=green!75,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
     \node (kappa2label) at (4,2) {$\kappa_2$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu1) at (-.7,7.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,1.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,1.5) {};
+    \node (nbk1) at (1.8,8.3) {$N(\kappa_1)$};
+    \node (nbk2) at (1.8,1.3) {$N(\kappa_2)$};
+	\node[fill=yellow!50] (primary) at (5,8) {primary};
+    \node[fill=yellow!50] (prop) at (8,2) {$N(\kappa_1)\cap N(\kappa_2) = \emptyset$};
 
-    \node[circle, fill=green!50,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+	\pause
+	% non-primary demands
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
     \node (sib1label) at (4,6.5) {$\nu_1$};
-    \node[circle, fill=green!50,  minimum size=.3cm] (nu2) at (3.5, 4) {};
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
     \node (sib1label) at (4,3.5) {$\nu_2$};
+    \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
+
+    \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
+    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
+    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
+
+	\pause
+	% assignment
+	\draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+	\draw[->,dashed] (nu2) -- (kappa2);
+
+    \node[circle, minimum size=.5cm] (client1) at (6, 5) {};
+    \node (clientlabel) at (6.5,5) {$\ $};r
+
+   
+  \end{tikzpicture}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Neighborhood Structure for Siblings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Neighborhood Structure for Siblings}
+  \begin{tikzpicture}[auto,every text node part/.style={align=center}]
+
+\definecolor{primcolor}{rgb}{0,0.7,0.3}
+\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
+
+    %% primary demands
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
+    \node (kappa1label) at (4,8) {$\kappa_1$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
+    \node (kappa2label) at (4,2) {$\kappa_2$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu1) at (-.7,7.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,1.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,1.5) {};
+    \node (nbk1) at (1.8,8.3) {$N(\kappa_1)$};
+    \node (nbk2) at (1.8,1.3) {$N(\kappa_2)$};
+	\node[fill=yellow!50] (primary) at (5,8) {primary};
+    
+
+	%\pause
+	% non-primary demands
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+    \node (sib1label) at (4,6.5) {$\nu_1$};
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
+    \node (sib1label) at (4,3.5) {$\nu_2$};
+    \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
+
+    \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
+    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
+    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
+
+	%\pause
+	% assignment
+	\draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+	\draw[->,dashed] (nu2) -- (kappa2);
 
     \node[circle, fill=green!50, minimum size=.5cm] (client1) at (6, 5) {};
     \node (clientlabel) at (6.5,5) {$j$};
@@ -1220,49 +1316,42 @@
     \draw[->,>=latex] (client1) -- (nu1);
     \draw[->,>=latex] (client1) -- (nu2);
 
-    \pause
     \draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
-
     \draw[->,dashed] (nu2) -- (kappa2);
 
-    \node[fill=yellow!50] (primary) at (5,8) {primary};
-    \node[fill=yellow!50] (nonprimary) at (5.5,6.5) {non-primary};
+    \node[fill=yellow!50] (prop) at (8,2) {For siblings \\
+						$\left(N(\kappa_1) \cup N(\nu_1)\right)$ \\ 
+						$ \cap \left(N(\kappa_2) \cup N(\nu_2)\right) =\emptyset$};
 
-    \pause
-    \node[fill=yellow!50] (prop) at (8,3) {$\left(N(\kappa_1) \cup N(\nu_1)\right)$ \\ $ \cap \left(N(\kappa_2) \cup N(\nu_2)\right)$ \\ $=\emptyset$};
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Partition Properties Summary}
-  \begin{itemize}
-    \addtolength{\itemsep}{1\baselineskip}
-  \item \large{Each demand have neighborhood $\barx$ sum to $1$}
-  \item \large{Primary demands have disjoint neighborhood}
-  \item \large{Non-primary demands assigned to primary demands with overlap neighborhood}
-  \item \large{Primary $\kappa$ have smaller cost than assigned non-primary $\nu$}
-  \item \large{Neighborhood $N(\kappa_1) \cup N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$}
-  \end{itemize}
-\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Partitioning Example
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% partition example
+
 \begin{frame}
-  \frametitle{Example of Partition}
+  \frametitle{Example of Partitioning}
 
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,1) {};
+	
+	\definecolor{primcolor}{rgb}{0,0.7,0.3}
+	\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}	
+
+    \node[fill=blue!75,minimum size=.35cm] (fac31) at (.5,1) {};
     \node[left] (faclabel31) at (0,1) {$2/3$};
 
-    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,6.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,7.5) {};
+    \node[fill=blue!75,minimum size=.35cm] (fac21) at (.5,6.5) {};
+    \node[fill=blue!75,minimum size=.35cm] (fac22) at (.5,7.5) {};
 
     % label
     \node[left] (faclabel21) at (0,6.5) {$1/3$};
     \node[left] (faclabel22) at (0,7.5) {$2/3$};
 
-    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,11) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,12) {};
+    \node[fill=blue!75,minimum size=.35cm] (fac11) at (.5,11) {};
+    \node[fill=blue!75,minimum size=.35cm] (fac12) at (.5,12) {};
 
     % label
     \node[left] (faclabel11) at (0,11) {$4/3$};
@@ -1279,38 +1368,36 @@
     \foreach \from/\to in {fac31/client3,fac21/client3,fac22/client2,fac11/client2,fac11/client1,fac12/client1}
     \draw (\from)--(\to);
 
-    \node at (2.5,-1) {Before Partition};
+    \node at (2.5,-1) {Before Partitioning};
   \end{tikzpicture}
   \end{minipage}
   \begin{minipage}{.45\linewidth}
     \begin{tikzpicture}[scale=0.5,decoration=snake]
-    \node[fill=blue!75,minimum size=.2cm] (fac31) at (.5,1) {};
-    \node[left] (faclabel31) at (0,1) {$2/3$};
+	
+	\definecolor{primcolor}{rgb}{0,0.7,0.3}
+	\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
+	
+	% facilities
+    \node[fill=blue!75,minimum size=.15cm] (fac31) at (.5,1) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac21) at (.5,6.5) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac22) at (.5,7.5) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac11) at (.5,10) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac12) at (.5,11) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac13) at (.5,12) {};
 
-    \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,6.5) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac22) at (.5,7.5) {};
-
-    % label
+ 	\node[left] (faclabel31) at (0,1) {$2/3$};
     \node[left] (faclabel21) at (0,6.5) {$1/3$};
     \node[left] (faclabel22) at (0,7.5) {$2/3$};
-
-
-    \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,10) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,11) {};
-    \node[fill=blue!75,minimum size=.2cm] (fac13) at (.5,12) {};
-
-    % label
     \node[left] (faclabel11) at (0,10) {$1/3$};
     \node[left] (faclabel12) at (0,11) {$1$};
     \node[left] (faclabel13) at (0,12) {$2/3$};
 
-
-    \node[circle,fill=green!75,minimum size=.2cm] (client31) at (6,2) {};
-    \node[circle,fill=green!75,minimum size=.2cm] (client21) at (6,6) {};
-    \node[circle,fill=green!75,minimum size=.2cm] (client22) at (6,7) {};
-    \node[circle,fill=green!50,minimum size=.2cm] (client11) at (6,11) {};
-    \node[circle,fill=green!50,minimum size=.2cm] (client12) at (6,12) {};
-
+	% demands
+    \node[circle,fill=primcolor,minimum size=.2cm] (client31) at (6,2) {};
+    \node[circle,fill=primcolor,minimum size=.2cm] (client21) at (6,6) {};
+    \node[circle,fill=primcolor,minimum size=.2cm] (client22) at (6,7) {};
+    \node[circle,fill=nonprimcolor,minimum size=.2cm] (client11) at (6,11) {};
+    \node[circle,fill=nonprimcolor,minimum size=.2cm] (client12) at (6,12) {};
 
     \node[right] (demand31) at (7,2) {$\nu_{31}$};
     \node[right] (demand21) at (7,6) {$\nu_{21}$};
@@ -1321,186 +1408,273 @@
     \foreach \from/\to in {fac31/client31,fac21/client31,fac22/client21,fac11/client21,fac12/client22,fac11/client11,fac13/client11,fac12/client12}
     \draw (\from)--(\to);
 
-    \node at (2.5,-1) {After Partition};
+    \node at (2.5,-1) {After Partitioning};
 
     %% for split
     \draw (0, 9.5) rectangle (1, 11.5);
-%    \node[fill=yellow!50] (label) at (0, 9.5) {split};
-    \pause
 
-    \node[fill=yellow!50] (nonprimarylabel) at (8.3,8.5) {non-primary};
-    \node[fill=yellow!50] (primarylabel) at (9,4) {primary};
-    
-    \foreach \from in {primarylabel}
-    \foreach \to in {client21,client22,client31}
-    \draw[->,decorate] (\from) -- (\to);
+    %\pause
 
-    \foreach \from in {nonprimarylabel}
-    \foreach \to in {client11,client12}
-    \draw[->,decorate] (\from) -- (\to);
-
-    \pause
-%    \draw[->,>=latex,dashed,bend left] (client22) -- (client12);
-    \path[->,dashed] (client12) edge[bend right=40] node[fill=yellow!50] {assign} (client22);
+    \path[->,dashed] (client12) edge[bend right=40] (client22);
     \path[->,dashed] (client11) edge[bend right=40] (client21);
   \end{tikzpicture}
       
 \end{minipage}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Summary of Partition Properties
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-  \frametitle{Intuition for Properties}
+  \frametitle{Summary of Partitioning}
+
+\begin{minipage}{2in}
+\noindent \textcolor{blue}{Partitioning:}
+\noindent
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+	\item Clients $\rightarrow$ demands
+	\item Sites $\rightarrow$ facilities
+			\\ \textcolor{gray}{(not yet opened)}
+	\item $(x^\ast,y^\ast)$ $\rightarrow (\barx,\bary)$
+	\item $\sum_{\mu}\barx_{\mu\nu} = 1$
+	\item $\barx_{\mu\nu} = \bary_\mu$ or $0$
+\end{itemize}
+\vspace{0.4in}{\ }
+\end{minipage}
+\hspace{-0.5in}
+\pause
+\begin{minipage}{2.6in}
+\noindent \textcolor{blue}{Structure:}
+\noindent
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-  \item \large{Allow generalization of LP-rounding for UFL to apply to FTFP}
-  \item \large{Take care of fault-tolerance: no facility accessible to two siblings}
-  \item \large{For demand $\nu$, rounding only connects $\nu$ to $N(\nu) \cup N(\kappa)$}
+  \item If $\kappa_1,\kappa_2$ primary then $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
+  \item Each non-primary $\nu$ assigned to $\kappa$ with 
+	\begin{itemize}
+		\item $N(\kappa)\cap N(\nu) \neq \emptyset$
+		\item priority$(\kappa)$ $\le$ priority $(\nu)$
+		\\
+		\textcolor{gray}{(rough estimate of demand's cost)}
+	\end{itemize}
+  \item if $\nu_1$, $\nu_2$ are siblings and 
+		$\nu_i$ assigned to $\kappa_i$, then
+		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
   \end{itemize}
+\end{minipage}
 \end{frame}
 
-%%% 3-approx
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Summary of Partition Properties
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-  \frametitle{$3$-approximation}
+  \frametitle{Summary of Partitioning - Intuition}
 
-  {\Large \textcolor{blue}{
-  Rounding}}
+\begin{minipage}{2in}
+{\ }
+\begin{tikzpicture}[scale = 0.5,every text node part/.style={align=center}]
+\node[fill=yellow!50,minimum width=2cm] (sfc) at (0,8.8) {small facility cost};
+\node[fill=yellow!50,minimum width=2cm,align=left] (scc) at (0,5.9) {small connection \\ cost of $\nu$};
+\node[fill=yellow!50,minimum width=2cm] (fto) at (0,0.4) {fault tolerance};
+\node (dummy) at (0,0) {};
 
-  \begin{itemize}
-  \item Facility: Each primary $\kappa$ opens one facility $\mu$ in $N(\kappa)$
-  \item Connection: Each non-primary connects via its primary demand
+\draw[->] (sfc) -- (5,8.8);
+\draw[->] (scc) -- (5,5.9);
+\draw[->] (fto) -- (5,0.4);
+\end{tikzpicture}
+\end{minipage}
+\hspace{-0.5in}
+\begin{minipage}{2.6in}
+\noindent \textcolor{blue}{Structure:}
+\noindent
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+  \item If $\kappa_1,\kappa_2$ primary then $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
+  \item Each non-primary $\nu$ assigned to $\kappa$ with 
+	\begin{itemize}
+		\item $N(\kappa)\cap N(\nu) \neq \emptyset$
+		\item priority$(\kappa)$ $\le$ priority $(\nu)$
+		\\
+		\textcolor{gray}{(rough estimate of demand's cost)}
+	\end{itemize}
+  \item if $\nu_1$, $\nu_2$ are siblings and 
+		$\nu_i$ assigned to $\kappa_i$, then
+		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
   \end{itemize}
-
-  \vspace{.3in}
-  {\Large \textcolor{blue}{
-  Integral Solution}}
-
-  \begin{itemize}
-  \item Fault-tolerant: $\nu$ uses only facilities in
-    $N(\nu) \cup N(\kappa)$
-  \item Total cost at most $3\,\LP^\ast$, because
-    \begin{itemize}
-    \item Facility cost at most $F^\ast$
-    \item Connection cost at most $C^\ast + 2\,\LP^\ast$
-    \end{itemize}
-  \end{itemize}
-
+\end{minipage}
 \end{frame}
 
-%%% 1+2/e approx
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3-Approximation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-  \frametitle{$1.736$-approximation} 
+  \frametitle{$3$-Approximation for FTFP}
 
-  {\Large \textcolor{blue}{
-  Change in rounding}}
-  \begin{itemize}
-  \item Non-primary demands use neighbor if open
-  \end{itemize}
+{\large
 
-  \vspace{.3in}
-  {\Large \textcolor{blue}{
-  Integral Solution}}
-  \begin{itemize}
-  \item Fault-tolerant: $\nu$ uses only facilities in
-    $N(\nu) \cup N(\kappa)$
-  \item Total cost at most $(1+2/e)\,\LP^\ast$, because
-    \begin{itemize}
-    \item Facility cost at most $F^\ast$
-    \item Connection cost at most $C^\ast + 2/e\, \LP^\ast$
-    \end{itemize}
-  \end{itemize}
-\end{frame}
+\textcolor{blue}{Client priority values}	
+	
+	\begin{itemize}
+		\item $\tcc(j) + \alpha_j^\ast$
+		\\
+		{\normalsize \textcolor{gray}{(average connection cost + dual value)}}
+	\end{itemize}
+	
+\textcolor{blue}{Rounding}
 
-%%% 1.575-approx
-\begin{frame}
-  \frametitle{$1.575$-approximation}
+  	\begin{itemize}
+  	\item \textcolor{purple}{Facilities:}
+ 					Each primary $\kappa$ opens random $\mu\in N(\kappa)$
+  	\item \textcolor{purple}{Connections:}
+ 					All demands assigned to $\kappa$ connect to $\mu$
+  	\end{itemize}
+
+\textcolor{blue}{Analysis}
 
   \begin{itemize}
-    \addtolength{\itemsep}{1\baselineskip}
-    {\large
-  \item Refined Adaptive Partition
-    \begin{itemize}
-    \item Two neighborhoods: close and far
-    \item More intricate overlapping structure
-    \end{itemize}
-  \item Rounding using Byrka's algorithm for UFL
-    \begin{itemize}
-    \item Each primary demand has one facility open in close neigbhorhood
-    \item Each non-primary demand connects to nearest neighbor if open, or its primary demand's facility
-    \end{itemize}
+  	\item \textcolor{purple}{Fault-tolerance:}
+ 			$\nu$ uses only facilities in $N(\nu) \cup N(\kappa)$
+  	\item \textcolor{purple}{Cost:} $\le 3\cdot\LP^\ast$, because
+    	\begin{itemize}
+    		\item Facility cost $\le F^\ast$
+    		\item Connection cost $\le C^\ast + 2\cdot\LP^\ast$
+    	\end{itemize}
+ 	\end{itemize}
 }
-  \end{itemize}
-
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1+2/e Approximation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}
-  \frametitle{Neighborhood Structure}
-  \begin{center}
-  \begin{tikzpicture}
-    \node[fill=blue!50,rectangle,minimum size=.6cm] (mu1) at (0,0) {};
-    \node[fill=blue!50,rectangle,minimum size=.6cm] (mu2) at (.5,1) {};      \node[fill=blue!50,rectangle,minimum size=.6cm] (mu3)  at (1,3) {};      \node[fill=blue!50,rectangle,minimum size=.6cm] (mu4) at (2,4) {};      \node[fill=blue!50,rectangle,minimum size=.6cm] (mu5) at (2.5,5) {};      
-    \draw (1.5,2) ellipse (2.5 and 4);
-    \node[fill=green!50,circle,minimum size=.6cm] (nu) at (7,2) {};
-    \node at (7.5,2.5) {$\nu$};
+  \frametitle{$1.736$-Approximation for FTFP} 
 
-    \node[fill=yellow!50] at (4.5,5) {$N(\nu)$};
-    \node[fill=yellow!50] at (.5,5) {$N_{\cls}(\nu)$};
-    \node[fill=yellow!50] at (1,-1) {$N_{\far}(\nu)$};
+{\large
 
-    \draw[dashed] (-1,2) -- (4,2);
+\textcolor{blue}{Client priority values}	
+	
+	\begin{itemize}
+		\item $\tcc(j) + \alpha_j^\ast$ 
+			\\
+				{\normalsize \textcolor{gray}{(average connection cost + dual value)}}
+	\end{itemize}
+
+\textcolor{blue}{Rounding}
+
+  	\begin{itemize}
+  	  	\item  \textcolor{purple}{Facilities:} 
+			\begin{itemize}
+				\item Each primary $\kappa$ opens random $\mu\in N(\kappa)$
+				\item Other facilities open randomly independently
+			\end{itemize}
+	  	\item \textcolor{purple}{Connections:} 
+	 		\begin{itemize}
+					\item if a neighbor open, connect to nearest neighbor
+					\item else, connect via assigned primary demand
+			\end{itemize}
+  	\end{itemize}
+
+\textcolor{blue}{Analysis}
+
+  \begin{itemize}
+  	\item \textcolor{purple}{Fault-tolerance:} $\nu$ uses only facilities in
+    			$N(\nu) \cup N(\kappa)$
+  	\item \textcolor{purple}{Cost:} $\le (1+2/e)\,\LP^\ast$, because
+    	\begin{itemize}
+    		\item Facility cost $\le F^\ast$
+    		\item Connection cost $\le C^\ast + \frac{2}{e}\cdot \LP^\ast$
+    	\end{itemize}
+  \end{itemize}
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1.575-approx
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{$1.575$-Approximation for FTFP -- Idea}
+
+
+{\textcolor{blue}{More intricate neighborhood structure}}
+    \begin{itemize}
+    	\item Two neighborhoods: close and far, $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
+		\item $N_{\cls}(\nu)=$ nearest $\gamma$-fraction of $N(\nu)$
+  		\item $N_{\cls}(\nu)\cap N_{\cls}(\kappa) \neq\emptyset$, if $\nu$ assigned to $\kappa$
+  		\item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
+    			N(\nu_1)$ and $N_{\cls}(\kappa_2) \cup N(\nu_2)$ disjoint
+				\item ...
+    \end{itemize}
+
+	\begin{center}
+	\begin{tikzpicture}[scale = 0.9,align = right]
+    \node[fill=blue!50,rectangle,minimum size=.3cm] (mu1) at (1,1.5) {};
+    \node[fill=blue!50,rectangle,minimum size=.3cm] (mu2) at (1.3,1.9) {};      
+	\node[fill=blue!50,rectangle,minimum size=.3cm] (mu3)  at (1.6,2.5) {};      
+	\node[fill=blue!50,rectangle,minimum size=.3cm] (mu4) at (1.9,3.2) {};     
+	\node[fill=blue!50,rectangle,minimum size=.3cm] (mu5) at (2.2,3.8) {};      
+    \draw[rotate=-30] (0,3) ellipse (1 and 2);
+ \draw[dashed] (0.3,2.2) -- (2.3,2.2);
+    \node[fill=green!50,circle,minimum size=.3cm] (nu) at (4,2) {};
+    \node at (4.5,2.5) {$\nu$};
+
+    \node at (.7,4.2) {$N_{\cls}(\nu)$};
+    \node at (2.7,1.3) {$N_{\far}(\nu)$};
 
     \foreach \from in {mu1,mu2,mu3,mu4,mu5}
     \draw (\from) -- (nu);
   \end{tikzpicture}
-  \end{center}
+\end{center}
+
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%% 1+2/e approx
 \begin{frame}
-  \frametitle{Refined Partition for $1.575$-approximation}
-  {\Large \textcolor{blue}{
-  Properties}}
+\frametitle{$1.575$-Approximation for FTFP}
 
-\vspace{.3in}
-  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \large{
-  \item $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
-  \item $N_{\cls}(\nu)$ overlaps with $N_{\cls}(\kappa)$
-  \item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
-    N(\nu_1)$ disjoint from $N_{\cls}(\kappa_2) \cup
-    N(\nu_2)$
-  \item $\text{priority}(\kappa) \leq \text{priority}(\nu)$
-}
-  \end{itemize}
-\end{frame}
+{\large
 
-%%\begin{frame}
-%%  \frametitle{Construction of Partition}
-%%  \begin{itemize}
-%%  \item Allocation.
-%%  \item Augmentation.
-%%  \end{itemize}
-%%\end{frame}
+\textcolor{blue}{Client priority values}	
+	
+	\begin{itemize}
+		\item $\tcccls(j) + \dmaxcls(j)$
+			\\
+			{\normalsize \textcolor{gray}{(average + worst connection cost to close neighborhood)}}
+	\end{itemize}
 
-\begin{frame}
-  \frametitle{$1.575$-approximation}
+\textcolor{blue}{Rounding (extension of Byrka's)}
 
-  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \large{
-  \item Fault-tolerant: $\nu$ uses only facilities in
-    $N(\nu) \cup N_{\cls}(\kappa)$
-  \item Cost analysis: for $\gamma = 1.575$
+  	\begin{itemize}
+  	  	\item  \textcolor{purple}{Facilities:} 
+			\begin{itemize}
+				\item Each primary $\kappa$ opens random $\mu\in N_{\cls}(\kappa)$
+				\item Other facilities open randomly independently
+			\end{itemize}
+	  	\item \textcolor{purple}{Connections:} 
+	 		\begin{itemize}
+					\item if a neighbor open, connect to nearest neighbor
+					\item else, connect via assigned primary demand
+			\end{itemize}
+  	\end{itemize}
+
+\textcolor{blue}{Analysis}
+
+  \begin{itemize}
+  	\item \textcolor{purple}{Fault-tolerance:} $\nu$ uses only facilities in
+	    $N(\nu) \cup N_{\cls}(\kappa)$
+	
+  	\item \textcolor{purple}{Cost:} $\le \gamma\cdot\LP$ for $\gamma = 1.575$, because
     \begin{itemize}
-    \item $F_{\smallALG} \leq \gamma F^\ast$
-    \item $C_{\smallALG} \leq \max\{1+2/e^\gamma, \frac{1/e+1/e^\gamma}{1-1/\gamma}\} C^\ast$
+    \item Facility cost $ \leq \gamma\cdot F^\ast$
+    \item Connection cost $ \leq \gamma\cdot C^\ast$
     \end{itemize}
+\end{itemize}
 }
-  \end{itemize}
-
-%%  \begin{figure}
-%%    \centering
-%%    \includegraphics[height=3.0in]{byrka1575.pdf}
-%%    \caption{approximation ratio}
-%%    \label{fig:byrka}
-%%  \end{figure}
 
 \end{frame}
 
