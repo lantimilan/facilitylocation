@@ -700,17 +700,17 @@ Fault-Tolerant Facility Placement problem (FTFP), and those
 for the two closely related problems, the Uncapacitated
 Facility Location problem (UFL) and the Fault-Tolerant
 Facility Location problem (FTFL). In all three problems, we
-are given a set of sites $\sitesset$ that we could open one
-or more facilities, and a set of clients $\clientset$ with
-demands that need to be connected to open facilities. The
-cost to open one facility at site $i$ is $f_i$, and the cost
-to make one connection between a client $j$ to a facility at
-site $i$ is $d_{ij}$. A client $j$ with demand $r_j$ needs
-to be connected to $r_j$ different facilities (Facilities at
-the same site are considered different.). Our goal is to
-open a set of facilities at the given sites, and connecting
-clients to those facilities in such a way that all clients'
-demands are satisfied, and the total cost is minimized. The
+are given a set of sites $\sitesset$ that we could open
+facilities, and a set of clients $\clientset$ with demands
+that need to be connected to open facilities. The cost to
+open one facility at site $i$ is $f_i$, and the cost to make
+one connection between a client $j$ to a facility at site
+$i$ is $d_{ij}$. A client $j$ with demand $r_j$ needs to be
+connected to $r_j$ different facilities (Facilities at the
+same site are considered different.). Our goal is to open a
+set of facilities at the given sites, and connecting clients
+to those facilities in such a way that all clients' demands
+are satisfied, and the total cost is minimized. The
 difference between the problems are: In the {\UFL} problem,
 all demands are $1$, that is $r_j=1$ for all clients $j$,
 then we need no more than $1$ facility at a site; In the
@@ -720,21 +720,20 @@ demands may be more than $1$, and each site can open any
 number of facilities, including zero.
 
 In designing algorithms for the facility location problems
-(FL), which encompass all three problems, the Uncapacitated
-Facility Location problem (UFL), the Fault-tolerant Facility
-Location problem (FTFL), and the Fault-tolerant Facility
-Placement problem (FTFP), we have two competing goals: On
-one hand we want to open as few facilities as possible so
-that our facility cost is small; On the other hand we need
-as many facilities as possible so that every client can
-connect to nearby facilities.
+(FL), which encompass all three problems, {\UFL}, {\FTFL},
+and {\FTFP}, we have two competing goals: On one hand we
+want to open as few facilities as possible so that our
+facility cost is small; On the other hand we need as many
+facilities as possible so that every client can connect to
+nearby facilities.
 
 Before delving into specific results and techniques for the
 facility location problems, we give some simple observations
 about the {\UFL} problem, which apply to other FL problems
 with minor adjustments. In the {\UFL} we need no more than
 $1$ facility in each site so we talk about facility without
-mentioning the site.
+mentioning the site. The following observations are obvious.
+
 \begin{observation}
   If all facility opening cost are zero, then an optimal
   solution is to open all facilities and connect each client
@@ -750,8 +749,8 @@ mentioning the site.
 
 \begin{observation}
   For a fixed set of open facilities, there is a polynomial
-  algorithm to find the optimal assignment from clients to
-  those facilities.
+  algorithm to find the optimal way to connect clients to
+  facilities.
 \end{observation}
 \begin{proof}
   For UFL, it is a simple matter of finding the nearest open
@@ -774,20 +773,19 @@ simpliest variant of the Facility Location problems (FL),
 and has received the most attention in research
 community. One thing that is surprising about UFL is that a
 wide range of different techniques to design approximation
-algorithms have been found applicable to the UFL problem. As
-is the case for many other optimization prolems, the
-analysis of the approximation ratio hinges on estimating the
-optimal value using a linear program formulation. For the
+algorithms have been successful on the UFL problem. As is
+the case for many other optimization prolems, the analysis
+of the approximation ratio hinges on estimating the optimal
+value using the solution to a linear program (LP). For the
 {\UFL} problem, the LP formulation by Balinski~\cite{Bal66}
-is now standard in approximation algorithm analysis. In the
-LP formulation we use $y_i\in \{0,1\}$ to indicate whether
-facility $i\in\sitesset$ is open or not, and $x_{ij} \in
-\{0,1\}$ to indicate whether client $j$ is connected to
-facility $i$. Relaxing the integral constraint to allow
-fractional values, we obtain the following Linear Program
-(LP~\ref{eqn:ufl_primal}) for the UFL problem. Observe that
+is now standard. In the LP we use $y_i\in \{0,1\}$ to
+indicate whether facility $i\in\sitesset$ is open or not,
+and $x_{ij} \in \{0,1\}$ to indicate whether client $j$ is
+connected to facility $i$. Relaxing the integral constraint
+to allow fractional values, we obtain the following
+LP~(\ref{eqn:ufl_primal}) for the UFL problem. Observe that
 we do not need an explicit constraint of $x_{ij} \leq 1$ or
-$y_i \leq 1$ as any optimal solution to the
+$y_i \leq 1$ as any optimal solution to
 LP~(\ref{eqn:ufl_primal}) must satisfy the two constaints
 automatically. The LP is,
 %%%%%%%%%%%
@@ -826,7 +824,7 @@ algorithms are LP-rounding and primal-dual. LP-rounding
 algorithms start with calling an LP-solver to obtain an
 optimal fractional solution $(\bfx^\ast,\bfy^\ast)$, and
 then round the fractional solution in a way that preserves
-the feasibility while keeping the cost from increasing too
+the feasibility while keeps the cost from increasing by too
 much. On the other hand, primal-dual algorithms do not
 require solving the LP and the use of LP in the algorithms
 and their analysis is implicit. Those algorithms work by
@@ -873,11 +871,12 @@ improved the ratio to $1.582$, by using a scaled version of
 the optimal fractional solution, and a judicious choice of
 some distribution of the scaling parameter. The rounding
 process is called pipage rounding, a deterministic rounding
-process that takes advantage of concave property of some
+process that takes advantage of the concave property of some
 cost function. The analysis is highly technical.
 
-Algorithms that do not require solving the LP have also been
-proposed by a number of researchers. Most notably, Jain and
+Combinatorial algorithms that do not require solving the LP
+have also been found successful in obtaining good
+approximation ratio for {\UFL}. Most notably, Jain and
 Vazirani~\cite{JainV01} introduced a primal-dual algorithm
 with ratio $3$. The algorithm grows a feasible dual solution
 from zero, and updates a primal solution accordingly until
@@ -885,11 +884,11 @@ the primal solution is feasible. The approximation ratio is
 obtained via a relaxed version of the complementary
 slackness conditions. The conditions provide a bound on the
 cost of the primal solution in terms of the cost of the dual
-solution. From LP theory, the cost of a feasible dual
-solution provides a lower bound on the cost of an optimal
-primal solution, assuming the primal is a minimization
-problem. A slightly different primal-dual based result is
-obtained by Jain, Markakis, Mahdian, Saberi and
+solution. Clearly the cost of a feasible dual solution
+provides a lower bound on the cost of an optimal primal
+solution, assuming the primal is a minimization problem. A
+slightly different primal-dual based result is obtained by
+Jain, Markakis, Mahdian, Saberi and
 Vazirani~\cite{JainMMSV03}. They analyzed a greedy algorithm
 that repeatedly picks the most cost-effective star until all
 clients are connected. A star consists of one facility and a
@@ -908,9 +907,9 @@ solution and updating a primal solution. Moreover, the cost
 of the primal solution is equal to the cost of the dual
 solution produced by the greedy algorithm. It might appear
 that we have solved the {\UFL} problem optimally, although
-we know this cannot be the case as the {\UFL} problem is
-{\NP}-hard. The catch is that the dual solution computed by
-the greedy algorithm is not feasible. The next step is to
+we know that this cannot be the case, as the {\UFL} problem
+is {\NP}-hard. The catch is that the dual solution computed
+by the greedy algorithm is not feasible. The next step is to
 find a common factor $\gamma$, such that the dual values,
 after shrinking by $\gamma$, is feasible to the dual
 program. That common factor $\gamma$ is then the desired
@@ -922,22 +921,23 @@ respectively.
 A still different approach is local search, in which we
 start with a feasible integral solution and make local moves
 to improve the solution, and stop at some local optimum. The
-set of allowed local moves needs to be chosen carefully as
-more powerful moves allow local optimal to get closer to
-global optimal but restricting on a few simple moves results
-in faster algorithms and easier analysis. Arya
-{\etal}~\cite{AryaGKMMP01} showed that local search gives a
-ratio of $3$ for the UFL problem.
+set of allowed local moves needs to be chosen carefully, as
+more powerful moves allow local optimal to be closer to
+global optimal, on the other hand restricting on a few
+simple moves results in faster algorithms and easier
+analysis. Arya {\etal}~\cite{AryaGKMMP01} showed that local
+search gives a ratio of $3$ for the {\UFL} problem.
 
-To date, the best known approximation results are due to
-Byrka~\cite{Byrka07} with ratio $1.5$ and a follow-up work
-by Li~\cite{Li11} with ratio $1.488$. Both use a combination
-of two algorithms, one is an LP-rounding algorithm and the
-other is the $1.61$ greedy algorithm of Jain, Mahdian and
-Saberi~\cite{JainMS02}. Since the hybrid approach requires
-the introduction of the notion of \emph{bifactor} analysis,
-we postpone the discussion of Byrka and Li's result for now
-and first introduce the notion of bifactor analysis.
+To date, the best known approximation results for {\UFL} are
+due to Byrka~\cite{Byrka07} with ratio $1.5$ and a follow-up
+work by Li~\cite{Li11} with ratio $1.488$. Both use a
+combination of two algorithms, one is an LP-rounding
+algorithm and the other is the $1.61$ greedy algorithm of
+Jain, Mahdian and Saberi~\cite{JainMS02}. Since the hybrid
+approach requires the introduction of the notion of
+\emph{bifactor} analysis, we postpone the discussion of
+Byrka and Li's result for now and introduce the notion of
+bifactor analysis first.
 
 \paragraph{Bifactor Analysis}
 Given that the total cost of a solution to the {\UFL}
