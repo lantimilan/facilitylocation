@@ -171,7 +171,7 @@ Professor Neal Young}
   an upper bound of O(logn) for approximation ratio. On the
   negative side, under a natural assumption, we give an
   example showing the dual-fitting analysis cannot give a
-  ratio better than Omega(logn/loglogn).
+  ratio better than O(logn/loglogn).
 \end{abstract}
 
 \tableofcontents
@@ -184,8 +184,8 @@ Professor Neal Young}
 \chapter{Introduction} \label{ch: intro}
 
 \section{The Problem and the Background}
-The facility location problems (FL) are about selecting a
-set of candidate places to build (or open) facilities and
+Facility location problems (FL) are about selecting a set of
+candidate places to build (or open) facilities and
 connecting clients to the facilities to satisfy their
 demands. These problems model real world scenarios like
 setting up warehouses to deliver commodities to retailers,
@@ -195,63 +195,57 @@ files to clients. This simple model has been studied
 extensively since 1960s (see books by Mirchandani and
 Francis~\cite{Francis90}) due to its practical significance
 and nice structure that allow a multitude of approaches to
-be applicable. The problems we study in this thesis fall
-under the category of the so-called \emph{discrete} facility
-location problems. In the discrete facility location
-problems, we are given a set of facilities that could be
-opened, and a set of clients each with some demand, and the
-distance (or connection cost) between a client and a
-facility. A client needs to be serviced by getting connected
-to as many open facilities as its demand. We would like to
-service all clients while minimizing the total cost of
-opening facilities and connecting clients to facilities.
+be applicable. The problems have been studied in both
+Operations Research and Computer Science research
+communities, and a number of approaches have been proposed,
+including heuristic solutions, branch and bound,
+probabilistic methods, and approximation algorithms.
 
-The facility location problems have taken a central place in
-both operations research and theoretical computer science
-since the 60's, and a number of approaches have been
-proposed, including heuristic solutions, branch and bound,
-probabilistic methods, and more recently, approximation
-algorithms. Interestingly, some of the heuristic solutions,
-although are not concerned with the performance on the
-hardest instance, have later been shown to offer a provably
-worst-case performance guarantee.
+The facility location problems come with different
+formulations and the variant studied in this thesis is
+called the Fault-Tolerant Facility Placement problem
+(\FTFP). In the {\FTFP} problem, we are given a set of sites
+where zero or more facilities could be opened, and a set of
+clients. Every client specifies a demand and a client needs
+to be connected to several different facilities with the
+number of connections equal to its demand. We are also given
+the opening cost of a site, which is the cost to open one
+facility at that site, and the distance between a site and a
+client.  A solution consists of a specification of the
+number of facilities to open at each site, and the number of
+connections between clients and sites. Open multiple
+facilities in the same site incurs a cost of the opening
+cost for this site multiplied by the number of facilities
+opened. The connection cost between a site and a client is
+the number of connections times the distance between the
+two, with the constaint that the number of connections
+cannot exceed the number of facilities opened in that
+site. The FTFP problem asks for a solution with minimum
+total cost, that is, the sum of facility cost and connection
+cost.
 
 As many optimization problems arising in practical
 applications, it comes without much surprise that the
-facility location problems is \NP-hard, and thus precludes a
-promise for polynomial time algorithms that solve the
-problems exactly. Nonetheless there are polynomial time
-algorithms that deliver a solution with cost only a small
-percentage off from the cost of optimal solutions. These
-type of algorithms, known as approximation algorithms and
-their performance analysis, is the subject of this thesis.
+{\FTFP} problem is \NP-hard, and thus preclude a promise for
+polynomial time algorithms that solve the problems
+exactly. Nonetheless there are polynomial time algorithms
+that deliver a solution with cost only a small percentage
+off from the cost of optimal solutions. These algorithms,
+known as approximation algorithms and their performance
+analysis, are the subject of this thesis.
 
-There are over a dozen different variation in the problem
-formulation, and the uncapacitated facility location problem
-(UFL) concerns the simpliest model where each candidate
-facility point has an opening cost and the connection cost
-between a client and a facility is the distance between the
-two. Each client needs to be connected to one open
-facility. A solution consists of a set of facilities to open
-and a specification of connection from each client to an
-open facility. The cost of the solution is simply the
-facility cost, defined as the sum of opening cost for the
-facilities chosen to open, and the connection cost, defined
-as the sum of the cost to connect every client to some open
-facility. The UFL problem asks for a solution that satisfies
-all clients with minimum total cost. The UFL problem with
-general distances has an algorithm with approximation ratio
-$O(\log n)$ where $n$ is the number of clients, due to
-Hochbaum~\cite{Hochbaum82}. A matching lower bound of
-$O(\log n)$ is immediate, as the UFL problem contains the
-well-known Set-Cover problem as a special case. In the
-Set-Cover problem, we are given a universe $\calU =
-\{e_1,\ldots,e_n\}$ and a collection of sets $\calS =
-\{S_1,\ldots,S_m\}$ such that every $S_i, i=1,\ldots,m$ is a
-subset of $\calU$. The problem asks for the smallest number
-of sets from $\calS$ whose union is $\calU$. More on the
-relation of the two problems, UFL and Set-Cover can be found
-in Section~\ref{sec:hardness}.
+By restricting the demand to $1$ for every client, we obtain
+a more restricted problem, the uncapacitated facility
+location problem (UFL). The {\UFL} problem has been studied
+extensively in the past two decades. Many of our results on
+{\FTFP} use the idea from the known results for {\UFL}. The
+UFL problem with general distances has an algorithm with
+approximation ratio $O(\log n)$ where $n$ is the number of
+clients, due to Hochbaum~\cite{Hochbaum82}. A matching lower
+bound of $O(\log n)$ is immediate, as the UFL problem
+contains the well-known Set Cover problem as a special
+case. More on the relation of the two problems, UFL and Set
+Cover can be found in Section~\ref{sec:hardness}.
 
 Renewed interest in the UFL problem has been made possible
 after Shmoys, Tardos and Aardal~\cite{ShmoysTA97} showed
@@ -264,41 +258,18 @@ $4$-approximation~\cite{ShmoysTA97}, to the
 $1.488$-approximation by Li~\cite{Li11}, the best known
 approximation ratio to date.
 
-The problem studied in this thesis is a generalization of
-the UFL problem, and we call the problem the fault-tolerant
-facility placement problem ({\FTFP}). In the {\FTFP}
-problem, we are also given a set of sites where zero or more
-facilities could be opened, and a set of clients. Every
-client specifies a demand and a client needs to be connected
-to several different facilities with the number of
-connections equal to its demand. We are also given the
-opening cost of a site, which is the cost to open one
-facility at that site, and the distance between a site and a
-client.  A solution consists of a specification of the
-number of facilities to open at each site, and the number of
-connections between clients and sites. Open multiple
-facilities in the same site incurs a cost of the opening
-cost for this site multiplied by the number of facilities
-opened. The connection cost between a site and a client is
-the number of connections times the distance between the
-two, with the constaint that the number of connections
-cannot exceed the number of facilities opened in that
-site. The FTFP problem asks for a solution with minimum
-total cost, that is the sum of facility cost and connection
-cost.
-
 \section{Notation and Definition}
 In the fault-tolerant facility placement problem ({\FTFP}),
 we denote the set of sites as $\sitesset$ and the set of
 clients as $\clientset$. Each client $j \in \clientset$ has
-a demand $r_j$, meaning the client $j$ needs to be connected
-to $r_j$ different facilities. The distance between a site
-$i$ and a client $j$ is denoted as $d_{ij}$. To open one
-facility at site $i$ incurs a cost of $f_i$. To make one
-connection from client $j$ to a facility at site $i$ incurs
-a cost of $d_{ij}$. So an {\FTFP} instance is fully
-specified by $\sitesset, \clientset$, $r_j$ for every
-$j\in\clientset$, and $d_{ij}$ for every
+a demand $r_j$, meaning that client $j$ needs to be
+connected to $r_j$ different facilities. The distance
+between a site $i$ and a client $j$ is denoted as
+$d_{ij}$. To open one facility at site $i$ incurs a cost of
+$f_i$. To make one connection from client $j$ to a facility
+at site $i$ incurs a cost of $d_{ij}$. So an {\FTFP}
+instance is fully specified by $\sitesset, \clientset$,
+$r_j$ for every $j\in\clientset$, and $d_{ij}$ for every
 $i\in\sitesset,j\in\clientset$.
 
 A solution to the {\FTFP} problem is a vector of $(\bfx,
@@ -325,7 +296,7 @@ $i_1,i_2$ and any two clients $j_1,j_2$, we have
   d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
 \end{equation*}
 
-\section{The Notion of P vs NP, Approximation}
+\section{Optimization, P vs NP, and Approximation}
 All problems studied in this thesis are optimization
 problems. An optimization problem is defined by a set of
 parameters and constraints. Specifying the values of the
@@ -333,31 +304,33 @@ parameters defines an instance of the problem. An
 optimization problem is either a minimization problem or a
 maximization problem. A feasible solution to an
 optimalization problem is a solution that satisfies all the
-constraints. There is also a cost function evalutes every
-feasible solution to a numerical cost. For a minimization
-problem, an optimal solution is a feasible solution with the
-cost that is no more than the cost of any feasible solution.
+constraints. The problem also specifies a cost function that
+evalutes every feasible solution to a numerical cost. For a
+minimization problem, an optimal solution is a feasible
+solution with cost that is no more than the cost of any
+feasible solution.
 
 An algorithm is said to solve an optimization problem
 exactly if for every instance, the algorithm always computes
 an optimal solution, or reports that no feasible solution
 exists. For problems that are \NP-hard, such an exact
-algorithm that runs in polynomial time is not possible
+algorithm that also runs in polynomial time is not possible
 unless $\PP = \NP$. Therefore we focus our attention on
-polynomial time algorithms that computes a feasible solution
+polynomial-time algorithms that computes a feasible solution
 with a cost can be proved to be within some factor away from
-the cost of an optimal solution.
+the cost of an optimal solution. These algorithms are called
+approximation algorithms.
 
-\section{Hardness Results on Approximating UFL}
+\section{Hardness Results on Approximating UFL and FTFP}
 \label{sec:hardness}
 
 Since the fault-tolerant facility location problem (\FTFP)
 contains the uncapacitated facility location problem (\UFL)
-as a special case (set all $r_j=1$ in {\FTFP} we get {\UFL})
-, any hardness result obtained on UFL remains applicable to
-FTFP. In the following, we review some well-known hardness
-results on UFL, with the implication that the same claims
-hold for FTFP as well.
+as a special case (setting all $r_j=1$ in {\FTFP} we get
+{\UFL}) , any hardness result obtained on UFL remains
+applicable to FTFP. In the following, we review some
+well-known hardness results on UFL, with the implication
+that the same claims hold for FTFP as well.
 
 The UFL problem is easily seen to be NP-hard, as they
 contain the Set Cover problem as a special case. The Set
@@ -392,7 +365,7 @@ Set Cover problem is NP-hard.
   \{S_1, \ldots, S_m\}$ such that $S_i \subseteq \calU$ for
   $i=1,\ldots,m$. We construct a general UFL instance like
   this: for each element $e_j, j=1,\ldots,n$, we have a
-  client $j$, and for each set $S_i, i=1,\ldots,m$ we have a
+  client $j$; and for each set $S_i, i=1,\ldots,m$, we have a
   facility $i$. The facility cost $f_i=1$ for every facility
   $i=1,\ldots,m$~\footnote{Actually any value of $f_i > 0$
     will work, for example, we can set $f_i=100$ for every
@@ -442,8 +415,8 @@ Set Cover problem is NP-hard.
   $1$. Such a solution would have a facility set corresponds
   to a set cover for the corresponding Set Cover instance,
   as for every client $j$, the corresponding element $e_j$
-  is covered by some set $S_i$ corresponding to some
-  facility $i$.
+  is covered by some set $S_i$ corresponding to facility
+  $i$.
 \end{proof}
 
 %%% MaxSNP, a technically difficult class of problems
@@ -454,11 +427,10 @@ problem. This implies that there exists some constant $c$
 such that the metric UFL problem cannot be approximated to
 be better than $c$-approximation. As a consequence, the
 metric UFL problem cannot have polynomial approximation
-scheme (PTAS), that is, a family of algorithms that computes
-a solution with cost no more than $(1+\epsilon)$ from the
-optimal, for any given constant $\epsilon > 0$, and the
-running time is polynomial in the input size with $\epsilon$
-being constant.
+scheme (PTAS), that is, algorithms that compute a solution
+with cost no more than $(1+\epsilon)$ from the optimal, for
+any given constant $\epsilon > 0$, and the running time is
+polynomial in the input size with $\epsilon$ being constant.
 
 \begin{proposition}\label{prop:maxsnp} \cite{GuhaK98}
   The metric UFL problem is {\MaxSNP}-hard.
@@ -4372,13 +4344,15 @@ used the triangle inequality in deriving the approximation
 ratio, although we are working on metric {\FTFP}. On the
 other hand, similar attemps in adapting the greedy algorithm
 for {\UFL} to {\FTFL} and look for a sub-logarithmic ratio
-were not successful. Although {\FTFP} seems to be easier to
-approximate than {\FTFL} when LP-rounding algorithms were
-used, it seems the fault-tolerant requirement in both
-problems sets a hurdle for primal-dual based techniques. In
-the following section we provide an example that illustrates
-some difficulty when adapting the dual-fitting analysis to
-fault-tolerant facility location problems.
+were not successful by other researchers, as described in
+the beginning of this chapter. Although {\FTFP} seems to be
+easier to approximate than {\FTFL} when LP-rounding
+algorithms were used, it seems the fault-tolerant
+requirement in both problems sets a hurdle for primal-dual
+based techniques. In the following section we provide an
+example that illustrates some difficulty when adapting the
+dual-fitting analysis to fault-tolerant facility location
+problems.
 
 \section{An Example Showing the Difficulty in Obtaining
   $O(1)$ Ratio}
@@ -4389,20 +4363,19 @@ be implemented in polynomial time. In Section~\ref{sec:upp}
 we show that this algorithm is $H_n$-approximation where
 $n=|\mathcal C|$ is the number of clients. Since the same
 greedy algorithm is shown to have constant approximation
-ratio for UFL~\cite{MahdianMSV01}, a natural question to
-ask is whether greedy can be shown to have $O(1)$
-approximation ratio. Here we give an argument that hints a
-negative answer.
+ratio for UFL~\cite{MahdianMSV01}, a natural question to ask
+is whether greedy can be shown to have $O(1)$ approximation
+ratio. Here we give an example that hints a negative answer.
 
 We assume the greedy algorithm is analyzed using the
 dual-fitting technique, which associates with every client
 $j$ with a number $\alpha_j$, interpreted as a dual solution
 to the LP~(\ref{eqn:fac_dual}). However, the dual solution
-in general may not be feasible. The dual-fitting technique
-aims at finding a smallest possible number $\gamma$ such
-that after the dual solution $\{\alpha_j\}$ is shrinked
-(divided) by $\gamma$, all dual constraints are
-satisfied. That is
+$\{\alpha_j\}$ in general may not be feasible. The
+dual-fitting technique aims at finding a smallest possible
+number $\gamma$ such that, after the dual solution
+$\{\alpha_j\}$ is shrinked (divided) by $\gamma$, all dual
+constraints are satisfied. That is
 \begin{equation*}
 \sum_{j\in \mathcal C} (\alpha_j/\gamma
 - d_{ij})_+ \leq f_i \qquad \text{ for all } i\in \mathcal F. 
@@ -4419,14 +4392,15 @@ only, and not to clients outside this star. We call this
 \emph{local charging} assumption. Our second assumption is
 that the proposed dual solution $\alpha_j$, is taken as the
 average of individual $\alpha_j^l$ for each of the $l^{th}$
-demand of client $j$, with $l=1,\ldots,r_j$. Suppose the
+demand of client $j$, with $l=1,\ldots,r_j$. That is
+$\alpha_j = \sum_{l=1}^{r_j} \alpha_j^l / r_j$. Suppose the
 $l^{th}$ demand of $j$ is satisfied while $j$ is in a star
 with facility $i$, then $\alpha_j^l = d_{ij} + f_i^{j,l}$,
 where $f_i^{j,l}$ is the portion of $f_i$ attributed to $j$
 in the analysis. Notice that taking the average implies the
-$\alpha_j$ values thus computed results in
-$\sum_{j\in\clientset} r_j \alpha_j$ equal to the cost of
-the integral solution by the greedy algorithm.
+$\alpha_j$ values thus computed make $\sum_{j\in\clientset}
+r_j \alpha_j$ equal to the cost of the integral solution by
+the greedy algorithm.
 
 %%%%%%%%%%%%%%%%%%% start figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -4467,11 +4441,12 @@ the integral solution by the greedy algorithm.
 %%%%%%%%%%%%%%%%% end figure %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our example has one site and $k$ groups of clients, a figure
-is given in Figure~\ref{fig:greedy_lower_bound}. Opening
-one facility at that site costs $f_1$. The first group has
-$n_1$ clients each with demand $r_1$, all at distance $d_1 =
-0$ from $f_1$. The other groups are listed below:
+We now give our example in
+Figure~\ref{fig:greedy_lower_bound}. Our example has one
+site and $k$ groups of clients. Opening one facility at that
+site costs $f_1$. The first group has $n_1$ clients each
+with demand $r_1$, all at distance $d_1 = 0$ from $f_1$. The
+other groups are listed below:
 \begin{align*}
   &d_1 = 0\\
   &d_2 = \frac{f_1}{n_1}\\
