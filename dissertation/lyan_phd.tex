@@ -144,7 +144,7 @@ Professor Neal Young}
 \vfil\null
 \end{dedication}
 
-\begin{abstract}
+\begin{abstract}  %% CHECKED
   In this thesis we study the fault-tolerant facility
   placement problem (FTFP). In the FTFP problem, we are
   given a set of sites where we can open facilities, and a
@@ -181,9 +181,9 @@ Professor Neal Young}
 
 \section{The Problem and the Background}
 The facility location problems are about selecting a set of
-candidate places, or sites, to build (or open) facilities
-and connecting clients to the facilities to satisfy their
-demands. These problems model real world scenarios like
+candidate places (or sites), to build (or open) facilities,
+and connecting clients to facilities to satisfy their
+demands. These problems model real-world scenarios like
 \begin{itemize}
 \item Setting up warehouses to deliver commodities to
   retailers,
@@ -200,16 +200,17 @@ proposed, including heuristic solutions, branch and bound,
 probabilistic methods, and approximation algorithms. See for
 example, the book by Mirchandani and
 Francis~\cite{Francis90}. The exact problem formulation
-takes into account specific requirements of the applications
+takes into account specific requirements of the application,
 and the facility location problems come with a number of
-variants. Here are some examples.
+variants. Here are some examples of possible problem
+specific requirements.
 \begin{itemize}
 \item The demands of clients could be $1$ or more, and the
-  fault-tolerant requirement would force each unit demand of
-  a client connected to a different facility.
-\item Each site can open one facility, or multiple
-  facilities.
-\item Facilities could have capacities. That is, a single
+  so-called fault-tolerant requirement would force each unit
+  demand of a client connected to a different facility.
+\item Each site may be limited to one facility, or may open
+  multiple facilities.
+\item Facilities could have capacities; that is, a single
   facility can accept only that many connections, up to its
   capacity.
 \item We may not have to connect all clients, and instead we
@@ -217,19 +218,23 @@ variants. Here are some examples.
 \end{itemize}
 
 \paragraph{The UFL Problem}
-The simplest model, which is known as the uncapacitated
-facility location problem ({\UFL}), is also the one that
+The simplest variant, known as the uncapacitated facility
+location problem ({\UFL}), is also the one that has been
 studied most extensively. A history of results and
 techniques for the {\UFL} problem is given in
 Table~\ref{tab:ufl_history}. In the {\UFL} problem, we are
-given a set of facilities and a set of clients. A client
-needs to be connected to an open facility. We are also given
-the opening cost of each facility, and the distance between
-a facility and a client. The problem asks us to find a set
-of facilities to open, and to connect every client to an
-open facility, in a way that the total cost is
-minimized. The total cost is the sum of the cost to open
-facilities, and the cost to connect clients to facilities.
+given a set of sites and a set of clients. Each site can
+open one facility, or none. Each client has a demand of $1$,
+meaning it needs to be connected to an open
+facility. Facilities are uncapacitated, meaning a facility
+can accept any number of connections from clients. We are
+also given the cost of opening one facility at each site,
+and the distance between a site and a client. The problem
+asks us to find a set of sites to open facilities, and to
+connect every client to an open facility, in a way that the
+total cost is minimized. The total cost is the sum of the
+cost to open facilities and the cost to connect clients to
+facilities.
 
 \begin{table}
   \centering
@@ -246,7 +251,7 @@ facilities, and the cost to connect clients to facilities.
     Byrka and Aardal & hybrid & 1.50 & 2007~\cite{Byrka07}\\
     Li & hybrid & 1.488 & 2011 (best result)~\cite{Li11}\\
     \hline
-    Guha, Khuller & lower-bound & 1.463 & 1998~\cite{GuhaK98}\\
+    Guha and Khuller & lower-bound & 1.463 & 1998~\cite{GuhaK98}\\
     \hline
   \end{tabular}
   \caption[A history of approximation algorithms and their
@@ -262,7 +267,7 @@ facilities, and the cost to connect clients to facilities.
 \end{table}
 The UFL problem with general distances has an algorithm with
 approximation ratio $O(\log n)$ where $n$ is the number of
-clients, due to Hochbaum~\cite{Hochbaum82}. A matching lower
+clients, by Hochbaum~\cite{Hochbaum82}. A matching lower
 bound of $\Omega(\log n)$ is immediate, as the UFL problem
 contains the well-known Set Cover problem as a special
 case. When the distances form a metric, that is, they
@@ -274,7 +279,7 @@ best known approximation ratio is $1.488$ by
 Li~\cite{Li11}. On the other hand, Guha and
 Khuller~\cite{GuhaK98} showed a lower bound of $1.463$ on
 approximability, assuming $\NP \nsubseteq
-\DTIME(n^{O(\log\log n)})$. Sviridenko~\cite{Svi_lower}
+\DTIME(n^{O(\log\log n)})$. Sviridenko~\cite{Vygen05}
 strengthened the underlying assumption to $\PP \neq \NP$.
 
 \paragraph{The FTFP Problem}
@@ -283,16 +288,15 @@ Facility Placement problem (\FTFP), which generalizes the
 {\UFL} problem. The difference from the {\UFL} problem is
 that, in the {\FTFP} problem, each client now has a demand
 that could be more than one, and each unit demand of a
-client needs to be connected to a different facility. In the
-{\FTFP} problem we are also given a set of sites, and at
-each site we can open one or more facilities. Open multiple
-facilities at the same site incurs a cost of the opening
-cost for this site multiplied by the number of facilities
-opened. The connection cost between a site and a client is
-the number of connections times the distance between the
-two, with the constaint that the number of connections
-cannot exceed the number of open facilities at that
-site. The FTFP problem asks for a solution with minimum
+client needs to be connected to a different facility; at
+each site, we can open one or more facilities. Opening
+multiple facilities at the same site incurs a cost of the
+opening cost for this site multiplied by the number of
+facilities opened. The connection cost between a site and a
+client is the number of connections times the distance
+between the two, with the constraint that the number of
+connections cannot exceed the number of open facilities at
+that site. The FTFP problem asks for a solution with minimum
 total cost, that is, the sum of facility cost and connection
 cost.
 
@@ -305,6 +309,7 @@ solution's cost. These algorithms, known as approximation
 algorithms, and their performance analysis, are the subject
 of this thesis.
 
+%%%%%%%%%% CHECK LINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Hardness Results on Approximating UFL and FTFP}
 \label{sec:hardness}
 
@@ -344,12 +349,12 @@ Set Cover problem is NP-hard.
 %%% from problem A to problem B
 %%% given an algorithm for B, then can solve A by constructing
 %%% an oracle machine with oracle for B.
-\begin{proposition}\label{prop:UFLNP}
+\begin{theorem}\label{thm:UFLNP}
   The general~\footnote{\emph{general} means no restriction
     on the distances $d_{ij}$. This is in constrast with the
     \emph{metric} version where $d_{ij}$ satisfies the
     triangle inequality.} UFL problem is NP-hard.
-\end{proposition}
+\end{theorem}
 \begin{proof}
   Reduction from the Set Cover problem. In the Set Cover
   problem, we are given a universe of elements, that is
@@ -380,9 +385,9 @@ Set Cover problem is NP-hard.
   form a set cover.
 \end{proof}
 
-\begin{proposition} \label{prop:metricNP}
+\begin{theorem} \label{thm:metricNP}
   The metric UFL problem is NP-hard.
-\end{proposition}
+\end{theorem}
 \begin{proof}
   The reduction is also from the Set Cover problem. Unlike
   the general UFL problem, we can no longer have edges with
@@ -426,11 +431,11 @@ $(1+\epsilon)$ from the optimal, and the running time is
 polynomial in the input size with $\epsilon$ treated as a
 constant.
 
-\begin{proposition}\label{prop:maxsnp} \cite{GuhaK98}
+\begin{theorem}\label{thm:maxsnp} \cite{GuhaK98}
   The metric UFL problem is {\MaxSNP}-hard.
-\end{proposition}
+\end{theorem}
 \begin{proof}
-  Sketch: The full proof can be found in~\cite{GuhaK98} and
+  Sketch: the full proof can be found in~\cite{GuhaK98} and
   we only sketch the main idea here.
 
   The proof is by a reduction from the B-Vertex Cover
@@ -490,7 +495,7 @@ we mention UFL and FTFP without explicitly specifying that
 their distances form a metric, that is, $d_{ij}$'s are
 symmetric and satisfy the triangle inequality.
 
-From Proposition~\ref{prop:maxsnp} we know there exists a
+From Theorem~\ref{thm:maxsnp} we know there exists a
 constant $c$ such that the {\UFL} problem cannot be
 approximated better than $c$. The last piece of hardness
 result presented in this section gives the best known such
@@ -698,7 +703,7 @@ same site are considered different.). Our goal is to open a
 set of facilities at the given sites, and connecting clients
 to those facilities in such a way that all clients' demands
 are satisfied, and the total cost is minimized. The
-difference between the problems are: In the {\UFL} problem,
+difference between the problems are: in the {\UFL} problem,
 all demands are $1$, that is $r_j=1$ for all clients $j$,
 then we need no more than $1$ facility at a site; In the
 {\FTFL} problem, demands may be more than $1$, but each site
@@ -708,7 +713,7 @@ number of facilities, including zero.
 
 In designing algorithms for the facility location problems
 (FL), which encompass all three problems, {\UFL}, {\FTFL},
-and {\FTFP}, we have two competing goals: On one hand we
+and {\FTFP}, we have two competing goals: on one hand we
 want to open as few facilities as possible so that our
 facility cost is small; On the other hand we need as many
 facilities as possible so that every client can connect to
@@ -792,7 +797,7 @@ x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset
 %%%%%%%%%%%%
 
 \noindent
-The dual program is:
+The dual program is,
 
 \begin{alignat}{3}
   \textrm{maximize}\quad \sum_{j\in \clientset} \alpha_j&\label{eqn:ufl_dual}  
@@ -1115,7 +1120,7 @@ have the total connection cost bounded by
 $3\sum_{j\in\clientset} g(j)$.
 
 Next we discuss specific choices of the function $g(j)$. Two
-ways are possible: One is to use the dual solution
+ways are possible: one is to use the dual solution
 $(\bfalpha^\ast, \bfbeta^\ast)$, and then the complementary
 slackness conditions tell us that $d_{ij} \leq
 \alpha_j^\ast$ for every $i \in N(j) = \{i\in\sitesset
@@ -1313,7 +1318,7 @@ primal-dual algorithms~\cite{JainV03,JainMMSV03} achieve
 constant ratio for {\UFL}. We shall have more to say about
 this in Chapter~\ref{ch: primal-dual}.
 
-\section{Our Problem: FTFP}
+\section{Our Problem FTFP}
 Our problem, the fault-tolerant facility placement problem
 (\FTFP), was introduced by Xu and
 Shen~\cite{XuS09}~\footnote{In their paper they call the
@@ -1415,8 +1420,7 @@ LP.
 %%%%%%%%%%%%
 
 \noindent
-The dual program is:
-
+The dual program is,
 \begin{alignat}{3}
   \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
      						\\ \notag
@@ -1454,21 +1458,24 @@ algorithms.
 
 \paragraph{Completeness and facility splitting.}
 Define $(\bfx^\ast, \bfy^\ast)$ to be \emph{complete} if
-$x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all $i,j$. In
-other words, each connection either uses a site fully or not at all.
-As shown by Chudak and Shmoys~\cite{ChudakS04}, we can modify the
-given instance by adding at most $|\clientset|$ sites to obtain an
-equivalent instance that has a complete optimal solution, where
-``equivalent" means that the values of $F^\ast$, $C^\ast$ and
-$\LP^\ast$, as well as $\OPT$, are not affected. Roughly, the argument
-is this: We notice that, without loss of generality, for each client
-$k$ there exists at most one site $i$ such that $0 < x_{ik}^\ast <
-y_i^\ast$.  We can then perform the following \emph{facility
-  splitting} operation on $i$: introduce a new site $i'$, let
-$y^\ast_{i'} = y^\ast_i - x^\ast_{ik}$, redefine $y^\ast_i$ to be
-$x^\ast_{ik}$, and then for each client $j$ redistribute $x^\ast_{ij}$
-so that $i$ retains as much connection value as possible and $i'$
-receives the rest. Specifically, we set
+$x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all
+$i,j$. In other words, each connection either uses a site
+fully or not at all.  As shown by Chudak and
+Shmoys~\cite{ChudakS04}, we can modify the given instance by
+adding at most $|\clientset|$ sites to obtain an equivalent
+instance that has a complete optimal solution, where
+``equivalent" means that the values of $F^\ast$, $C^\ast$
+and $\LP^\ast$, as well as $\OPT$, are not
+affected. Roughly, the argument is this: we notice that,
+without loss of generality, for each client $k$ there exists
+at most one site $i$ such that $0 < x_{ik}^\ast < y_i^\ast$.
+We can then perform the following \emph{facility splitting}
+operation on $i$: introduce a new site $i'$, let
+$y^\ast_{i'} = y^\ast_i - x^\ast_{ik}$, redefine $y^\ast_i$
+to be $x^\ast_{ik}$, and then for each client $j$
+redistribute $x^\ast_{ij}$ so that $i$ retains as much
+connection value as possible and $i'$ receives the
+rest. Specifically, we set
 %
 \begin{align*}
   &y^\ast_{i'} \;\assign\; y^\ast_i - x^\ast_{ik},\;   y^\ast_{i} \;\assign\; x^\ast_{ik}, \quad \text{ and }\\
@@ -1797,7 +1804,7 @@ properties that are detailed below.
 
 \item{(PS)} \emph{Partitioned solution}.
 Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-value
-  demands, that is:
+  demands, that is,
 
 	\begin{enumerate}
 		%
@@ -1917,7 +1924,7 @@ $\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu} >0\}$ for
 $\nu\in\demandset$.  During this process we preserve the completeness
 (CO) of the fractional solutions $\tildebfx$ and $\barbfx$. More
 precisely, the following properties will hold for every facility $\mu$
-after every iteration:
+after every iteration,
 %
 \begin{description}
 	
@@ -2373,7 +2380,7 @@ exhausted at that time.)
   Pseudocode~\ref{alg:lpr2}, Line~7.  Let $\wtildeN(j) =
   \{\mu_1,...,\mu_q\}$ with all facilities $\mu_s$ ordered
   according to nondecreasing distance from $j$.  Consider
-  the following linear program:
+  the following linear program,
 %
 \begin{alignat*}{1}
 	\textrm{minimize} \quad & \sum_s d_{\mu_s j}z_s
@@ -2982,7 +2989,7 @@ $\sum_{\mu \in \wbarN(\nu)} \bary_{\mu} = 1$.
 
 We are now ready to estimate the unconditional expected connection cost of $\nu$
 (in the case when $\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$)
-as follows:
+as follows,
 %
 \begin{align}
   \notag
@@ -4501,7 +4508,7 @@ not be the best possible).
 
 Call a star with facility cost zero \emph{trivial}. It is
 \emph{non-trivial} if the facility has non-zero cost. Now
-the greedy execution goes like this: The first non-trivial
+the greedy execution goes like this: the first non-trivial
 star (with $r_1$ replica) is $(f_1, n_1)$. Then we have a
 trivial star of zero cost facility and all $n_2$ clients in
 group $2$ for $r_1$ replica. The second non-trivial star
