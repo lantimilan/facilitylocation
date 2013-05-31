@@ -42,6 +42,7 @@
 \usepackage{graphicx}
 \usepackage{caption,subcaption,enumerate}
 \usepackage{flafter}
+\usepackage{empheq}
 \usepackage{sw20uctd}
 
 \usepackage{tikz}
@@ -704,7 +705,7 @@ facilities (Facilities at the same site are considered
 different.). Our goal is to open facilities and connect
 clients to those facilities in such a way that all clients'
 demands are satisfied, and the total cost is minimized. The
-difference between the problems are:
+differences between the problems are:
 \begin{itemize}
 \item{UFL}: All demands are $1$; that is $r_j=1$ for
   all clients $j$. Then we need no more than $1$ facility at
@@ -762,18 +763,19 @@ Linear Program and their application to the {\UFL} problem.
 
 For the {\UFL} problem, the LP formulated by
 Balinski~\cite{Bal66} is now standard. We start with an
-integer program in which we use $y_i\in \{0,1\}$ to indicate
-whether a facility $i\in\sitesset$ is open or not, and
-$x_{ij} \in \{0,1\}$ to indicate whether a client $j$ is
-connected to a facility $i$. Relaxing the integral
-constraints, we obtain the following
+integer program in which we use a variable $y_i\in \{0,1\}$
+to indicate whether a facility $i\in\sitesset$ is open or
+not, and a variable $x_{ij} \in \{0,1\}$ to indicate whether
+a client $j$ is connected to a facility $i$. Relaxing the
+integral constraints, we obtain the following
 LP~(\ref{eqn:ufl_primal}) for the UFL problem. Observe that
 we do not need an explicit constraint of $x_{ij} \leq 1$ or
 $y_i \leq 1$, as any optimal solution to
 LP~(\ref{eqn:ufl_primal}) must satisfy these two constaints
 automatically. The LP is:
 %%%%%%%%%%%
-\begin{alignat}{3}
+\begin{empheq}[box=\fbox]{align}
+%{{alignat}{3}}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
   &\label{eqn:ufl_primal}
@@ -784,14 +786,16 @@ automatically. The LP is:
 \\ \notag
 x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
 \\ \notag
-\end{alignat}
+%\end{alignat}
+\end{empheq}
 
 %%%%%%%%%%%%
 
 \noindent
 The dual program is:
 
-\begin{alignat}{3}
+\begin{empheq}[box=\fbox]{align}
+%\begin{alignat}{3}
   \textrm{maximize}\quad \sum_{j\in \clientset} \alpha_j&\label{eqn:ufl_dual}  
   \\ \notag
   \textrm{subject to} \quad 
@@ -801,7 +805,8 @@ The dual program is:
   \\ \notag
   \alpha_j \geq 0, \beta_{ij} &\geq 0 &  & \forall i\in \sitesset, j\in \clientset
   \\ \notag
-\end{alignat}
+%\end{alignat}
+\end{empheq}
 
 
 Two general approaches using LP to design approximation
@@ -821,10 +826,7 @@ optimal solution by the cost of the dual solution. Note that
 the cost of any feasible dual solution provides a lower
 bound of the optimal fractional solution value for the
 primal, assuming the primal is a minimization program and
-the dual is a maximization program. For more information
-about Linear Programming and its application in
-approximation algorithms, we refer the reader to
-Appendix~\ref{sec:ILP}.
+the dual is a maximization program.
 
 \subsection{Approximation Algorithms}
 In this subsection we give an overview of known
@@ -834,9 +836,9 @@ other algorithms.
 
 \subsubsection{LP-rounding Algorithms}
 The first $O(1)$-approximation algorithm was obtained by
-Shmoys, Tardos and Aardal~\cite{ShmoysTA97}, with a ratio of
-$3.16$, using LP-rounding. The Shmoys {\etal}'s algorithm
-also established a general framework that underpins all
+Shmoys, Tardos and Aardal~\cite{ShmoysTA97}, using
+LP-rounding. The Shmoys {\etal}'s algorithm has also
+established a general framework that underpins all
 subsequent LP-rounding algorithms. In the framework the
 clients are partitioning into clusters and each cluster has
 a representative client. The rounding algorithm guarantees
@@ -844,7 +846,7 @@ that each representative has a nearby facility to connect
 to, and the rest of the clients can then use the facility
 via their representatives. The same solution structure is
 used in all known LP-rounding algorithms for the UFL
-problem. 
+problem.
 
 The Shmoy {\etal}'s algorithm achieved a ratio of
 $3.16$. Since their algorithm has made several greedy
@@ -920,9 +922,9 @@ and $1.61$ respectively.
 A still different approach is local search, in which we
 start with a feasible integral solution and make local moves
 to improve the solution, and stop at some local optimum. The
-allowed local moves need to be chosen carefully: More
-powerful moves allow the local optimal to be closer to the
-global optimal, while restricting to a few simple moves
+allowed local moves need to be chosen carefully: Admitting
+more powerful moves allows the local optimal to be closer to
+the global optimal, while restricting to a few simple moves
 results in faster algorithms and easier analysis. Arya
 {\etal}~\cite{AryaGKMMP01} showed that their local search
 algorithm gives a ratio of $3$ for the {\UFL} problem.
@@ -967,19 +969,19 @@ $(\gamma_f,\gamma_c)$-approximation algorithm, we have
 
 The notion of bifactor approximation is helpful when an
 algorithm has imbalanced factors $\gamma_f$ and
-$\gamma_c$. It is easy to see such an algorithm has
+$\gamma_c$. It is easy to see that such an algorithm has
 approximation ratio $\max\{\gamma_f, \gamma_c\}$. However,
 more can be said, as there are techniques like cost scaling
-and greedy augmentation to balance the two factors; that is,
+and greedy augmentation to balance the two factors. That is,
 to decrease one at the expense of increasing the other, thus
 achieving a better overall approximation ratio. The
 techniques of cost scaling and greedy augmentation and their
-use to balance the two factors are introduced by Guha,
+use to balance the two factors were introduced by Guha,
 Khuller and Charikar~\cite{GuhaK98, CharikarG05}. For
 example, the primal-dual algorithm by Jain and
 Vazirani~\cite{JainV03} is a (1,3)-approximation algorithm;
 using cost scaling and greedy augmentation, it is possible
-to show the algorithm can achieve a ratio of
+to show that the algorithm can achieve a ratio of
 $1.85$~\cite{CharikarG05}.
 
 Finally we return to the hybrid algorithms by Byrka and
@@ -987,7 +989,7 @@ Aardal~\cite{ByrkaA10}, and Li~\cite{Li11}. Byrka and Aardal
 gave an LP-rounding algorithm with bifactor $(1.68,1.37)$,
 and showed that this algorithm, when combined with a
 $(1.11,1.78)$ algorithm by Jain {\etal}~\cite{JainMMSV03},
-gives a ratio of $1.50$. Li showed that by choosing a
+gave a ratio of $1.50$. Li showed that by choosing a
 nontrivial distribution of the scaling factor of Byrka's
 algorithm, the analysis can be refined to show an overall
 ratio of $1.488$. The $1.488$ ratio is currently the best
@@ -1017,13 +1019,13 @@ a neighboring facility open, as those are facilities not too
 far away. However, it is in general not possible, or we
 would have to open too many facilities, and thus incur a
 high facility cost. An alternative is to select a subset of
-clients, denoted as $C' \subseteq \clientset$ and only
+clients, denoted by $C' \subseteq \clientset$ and only
 require clients in $C'$ have a neighboring facility
 open. Clients outside $C'$ are then connected to a facility
 via some client in $C'$. The connection cost for clients in
-$\clientset \setminus C'$ are then bounded using the
-triangle inequality. For this strategy to work, the clients
-$j$ outside $C'$ need to be able to find some client $j'$ in
+$\clientset \setminus C'$ are bounded using the triangle
+inequality. For this strategy to work, the clients $j$
+outside $C'$ need to be able to find some client $j'$ in
 $C'$ such that both $d_{jj'} \defeq \min_{i\in \sitesset}
 d_{ij} + d_{ij'}$ and $d_{\phi(j') j'}$ are small. Here
 $\phi(j')$ is the facility that $j'$ connects to.
@@ -1031,7 +1033,7 @@ $\phi(j')$ is the facility that $j'$ connects to.
 \subsubsection{The Clustering Structure}
 The clustering structure produced by the Shmoys, Tardos and
 Aardal's algorithm is depicted in Figure~\ref{fig:STA97}. It
-is interesting in three aspects.
+has three interesting properties:
 \begin{itemize}
 \item First, each cluster of clients has a
   representative~\footnote{In the literature, the
@@ -1043,7 +1045,7 @@ is interesting in three aspects.
 \end{itemize}
 
 \subsubsection{A Simple $4$-approximation}
-To see how this clustering structure helps rounding. We use
+To see how this clustering structure helps rounding, we use
 a simple $4$-approximation algorithm by
 Chudak~\cite{Chudak98} as an example. In this algorithm
 clusters are formed by repeatedly picking a non-clustered
@@ -1072,11 +1074,11 @@ $j$ and $j'$. Using complementary slackness conditions, the
 distance of $d_{i'j}$ is no more than $\alpha_{j'}^\ast +
 \alpha_{j'}^\ast + \alpha_j^\ast$, which is no more than
 $3\alpha_j^\ast$ because the representative $j'$ has minimum
-$\alpha_{j'}^\ast$ value in its cluster. Summarizing, the
-solution has facility cost at most $F^\ast$ and connection
-cost no more than $3\sum_{j\in\clientset} \alpha_j^\ast =
-3\,\LP^\ast$, where $\LP^\ast = F^\ast + C^\ast$, so it is a
-$4$-approximation.
+$\alpha_{j'}^\ast$ value among clients in its
+cluster. Summarizing, the solution has facility cost at most
+$F^\ast$ and connection cost no more than
+$3\sum_{j\in\clientset} \alpha_j^\ast = 3\,\LP^\ast$, where
+$\LP^\ast = F^\ast + C^\ast$, so it is a $4$-approximation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% UFL cluster figure %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1163,10 +1165,12 @@ $4$-approximation.
 
 
 \section{Related Work on FTFL}
-The fault-tolerant facility location problem (\FTFL), was
+The Fault-Tolerant Facility Location problem (\FTFL), was
 first introduced by Jain and Vazirani~\cite{JainV03}.  The
 LP is
-\begin{alignat}{3}
+
+\begin{empheq}{align}
+%\begin{alignat}{3}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
   &\label{eqn:ftfl_primal}
@@ -1180,21 +1184,24 @@ y_i &\leq 1 & &\forall i \in \sitesset
 x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in
 \clientset 
 \\ \notag
-\end{alignat}
-The extra constraint $y_i \leq 1$ is what differentiates
-{\FTFL} from {\FTFP}.
+%\end{alignat}
+\end{empheq}
+The constraint $\sum_{i\in\sitesset} x_{ij} \geq r_j$ is
+there because, unlike {\UFL}, a client $j$ now needs to be
+connected to $r_j$ different facilities. The constraint $y_i
+\leq 1$ is what differentiates {\FTFL} from {\FTFP}.
 
 Jain and Vazirani adapted their primal-dual algorithm for
-UFL to {\FTFL} to gain a ratio of $3\ln R$ where $R=\max_j
-r_j$ is the maximum demand among all clients. The first
-constant approximation algorithm was given by Guha, Meyerson
-and Munagala~\cite{GuhaMM03}, using LP-rounding similar to
-the Shmoys, Tardos and Aardal's~\cite{ShmoysTA97} approach
-for the {\UFL} problem. Subsequent improvement was made by
-Swamy and Shmoys~\cite{SwamyS08} using pipage rounding with
-a ratio of $2.076$. The current best known approximation
-ratio is $1.7245$, due to Byrka, Srinivasan and
-Swamy~\cite{ByrkaSS10}, using dependent rounding with a
+UFL to {\FTFL} and obtained a ratio of $3\ln R$ where
+$R=\max_j r_j$ is the maximum demand among all clients. The
+first constant approximation algorithm was given by Guha,
+Meyerson and Munagala~\cite{GuhaMM03}, using LP-rounding
+similar to the Shmoys, Tardos and Aardal's~\cite{ShmoysTA97}
+approach for the {\UFL} problem. A subsequent improvement
+was made by Swamy and Shmoys~\cite{SwamyS08} using pipage
+rounding with a ratio of $2.076$. The current best known
+approximation ratio is $1.7245$, due to Byrka, Srinivasan
+and Swamy~\cite{ByrkaSS10}, using dependent rounding with a
 laminar clustering structure.
 
 We note that all the known $O(1)$-approximation algorithms
@@ -1211,7 +1218,7 @@ algorithms~\cite{JainV03,JainMMSV03} have achieved constant
 ratio for {\UFL}.
 
 \section{Our Problem FTFP}
-Our problem, the fault-tolerant facility placement problem
+Our problem, the Fault-Tolerant Facility Placement problem
 (\FTFP), was introduced by Xu and
 Shen~\cite{XuS09}~\footnote{In their paper they call the
   problem the fault-tolerant facility allocation problem, or
@@ -1224,14 +1231,14 @@ $4$-approximation algorithm for {\UFL} to {\FTFP}, thus
 obtaining the first $O(1)$-approximation algorithm for
 {\FTFP}~\cite{YanC11}. The algorithm was based on
 LP-rounding. In this thesis we present significantly
-improved results on {\FTFP}. For LP-rounding algorithms, we
+improved results for {\FTFP}. For LP-rounding algorithms, we
 achieved a ratio of $1.575$, which matches the best known
-LP-based ratio for {\UFL}. The LP-rounding results are
-explained in Chapter~\ref{ch: lp-rounding}. For primal-dual
-approaches, we provide an explanation of possible difficulty
-in obtaining constant ratio using such approaches. The
-primal-dual related results are in Chapter~\ref{ch:
-  primal-dual}.
+LP-based ratio for {\UFL}~\cite{ByrkaGS10}. The LP-rounding
+results are explained in Chapter~\ref{ch: lp-rounding}. For
+primal-dual approaches, we provide an explanation of
+possible difficulty in obtaining constant ratio using such
+approaches. The primal-dual related results are in
+Chapter~\ref{ch: primal-dual}.
 
 
 %% linear program
@@ -1297,7 +1304,8 @@ relax the integrality constraints, we obtain the following
 LP.
 
 %%%%%%%%%%%
-\begin{alignat}{3}
+\begin{empheq}{align}
+%\begin{alignat}{3}
   \textrm{minimize} \quad \cost(\bfx,\bfy) &= \textstyle{\sum_{i\in \sitesset}f_iy_i 
 								+ \sum_{i\in \sitesset, j\in \clientset}d_{ij}x_{ij}}\label{eqn:fac_primal}\hspace{-1.5in}&&
 									\\ \notag
@@ -1307,13 +1315,15 @@ LP.
  									\\ \notag
   	  x_{ij} \geq 0, y_i &\geq 0 						& 			&\forall i\in \sitesset, j\in \clientset 
   									\\ \notag
-\end{alignat}
+%\end{alignat}
+\end{empheq}
 
 %%%%%%%%%%%%
 
 \noindent
 The dual program is,
-\begin{alignat}{3}
+\begin{empheq}{align}
+%\begin{alignat}{3}
   \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
      						\\ \notag
   \textrm{subject to} \quad \textstyle{
@@ -1323,7 +1333,8 @@ The dual program is,
 							\\ \notag
   \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
   							\\ \notag
-\end{alignat}
+%\end{alignat}
+\end{empheq}
 
 In each of our algorithms we will fix some optimal
 solutions of the LPs (\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual})
@@ -1369,11 +1380,13 @@ redistribute $x^\ast_{ij}$ so that $i$ retains as much
 connection value as possible and $i'$ receives the
 rest. Specifically, we set
 %
-\begin{align*}
+\begin{empheq}{align*}
+%\begin{align*}
   &y^\ast_{i'} \;\assign\; y^\ast_i - x^\ast_{ik},\;   y^\ast_{i} \;\assign\; x^\ast_{ik}, \quad \text{ and }\\
   &x^\ast_{i'j} \;\assign\;\max( x^\ast_{ij} - x^\ast_{ik}, 0 ),\;	 x^\ast_{ij} \;\assign\; \min( x^\ast_{ij} , x^\ast_{ik}) 
 			\quad	\textrm{for all}\ j \neq k.
-\end{align*}
+%\end{align*}
+\end{empheq}
 %
 This operation eliminates the partial connection between $k$
 and $i$ and does not create any new partial
@@ -1439,13 +1452,15 @@ $i,j$.  We split this solution into two parts, namely
 $(\bfx^\ast,\bfy^\ast) = (\hatbfx,\hatbfy)+
 (\dotbfx,\dotbfy)$, where
 %
-\begin{align*}
+\begin{empheq}{align*}
+%\begin{align*}
 \haty_i &\;\assign\; \floor{y_i^\ast}, \quad
 			\hatx_{ij} \;\assign\; \floor{x_{ij}^\ast} \quad\textrm{and}
 			\\
 \doty_i &\;\assign\; y_i^\ast - \floor{y_i^\ast}, \quad
  	\dotx_{ij} \;\assign\; x_{ij}^\ast -  \floor{x_{ij}^\ast}
-\end{align*}
+%\end{align*}
+\end{empheq}
 %
 for all $i,j$. Now we construct two
 FTFP instances $\hatcalI$ and $\dotcalI$ with the same
@@ -1526,12 +1541,14 @@ The solution produced by $\calA$ has cost at most
 $\rho\cdot\cost(\dotbfx,\dotbfy)$, because $(\dotbfx,\dotbfy)$
 is feasible for $\dotcalI$. Thus the cost of $\calA'$ is at most
 % 
- \begin{align*}
+\begin{empheq}{align*}
+% \begin{align*}
  \cost(\hatbfx, \hatbfy) + \rho\cdot\cost(\dotbfx,\dotbfy)
 	\le
  \rho(\cost(\hatbfx, \hatbfy) + \cost(\dotbfx,\dotbfy))
 		= \rho\cdot\LP^\ast \le \rho\cdot\OPT,
-  \end{align*}
+%  \end{align*}
+\end{empheq}
 %
 where the first inequality follows from $\rho\geq 1$. This completes
 the proof.
@@ -2274,13 +2291,15 @@ exhausted at that time.)
   according to nondecreasing distance from $j$.  Consider
   the following linear program,
 %
-\begin{alignat*}{1}
+\begin{empheq}{align*}
+%\begin{alignat*}{1}
 	\textrm{minimize} \quad & \sum_s d_{\mu_s j}z_s
 			\\
 	\textrm{subject to} \quad & \sum_s z_s  \ge 1
 			\\
  	0 &\le z_s \le \tildex_{\mu_s j} \quad \textrm{for all}\ s
-\end{alignat*}
+%\end{alignat*}
+\end{empheq}
 %
   This is a fractional
   minimum knapsack covering problem (with knapsack size equal $1$) and its optimal fractional
@@ -2420,7 +2439,8 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
   $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the expected
   total facility cost is
 %
-\begin{align*}
+\begin{empheq}{align*}
+%\begin{align*}
     \Exp[F_{\smallEGUP}]
 	&= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\wbarN(\kappa)}} f_{\mu} \barx_{\mu\kappa}
 	\\
@@ -2430,7 +2450,8 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
 	\\
 	&\leq \textstyle{\sum_{i\in\sitesset}} f_i y_i^\ast 
 	= F^\ast,
-\end{align*}
+%\end{align*}
+\end{empheq}
 %
 where the inequality follows from Property~(PD.\ref{PD:yi}).
 \end{proof}
