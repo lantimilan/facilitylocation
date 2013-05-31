@@ -823,7 +823,7 @@ primal, assuming the primal is a minimization program and
 the dual is a maximization program. For more information
 about Linear Programming and its application in
 approximation algorithms, we refer the reader to
-Appendix~\ref{sec: ILP}.
+Appendix~\ref{sec:ILP}.
 
 \subsection{Approximation Algorithms}
 In this subsection we give an overview of known
@@ -847,45 +847,44 @@ problem.
 
 The Shmoy {\etal}'s algorithm achieved a ratio of
 $3.16$. Since their algorithm has made several greedy
-choices, the algorithm left quite some room for
-improvements. Chudak and Shmoys~\cite{ChudakS04} was the
-first to use the idea of randomized rounding to improve the
-approximation ratio. Roughly speaking, in their algorithm,
-each facility $i$ is opened with probabiliy $y_i^\ast$ where
-$y_i^\ast$ is given by the optimal fractional solution
+choices, the algorithm has left quite some room for
+improvements. Chudak and Shmoys~\cite{ChudakS04} were the
+first to use the idea of randomized rounding for
+{\UFL}. Roughly speaking, in their algorithm, each facility
+$i$ is opened with probabiliy $y_i^\ast$ where $y_i^\ast$ is
+given by the optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ to the LP
 (\ref{eqn:ufl_primal}). The expected connection cost is then
 estimated using a provably worse random process in which
-each facility was opened indepedently and hence the expected
-connection cost is easier to analyze. With a refined
-analysis, they obtained a ratio of $1+2/e =
-1.736$. Sviridenko~\cite{Svi02} further improved the ratio
-to $1.582$, by using a scaled version of the optimal
-fractional solution, and a judicious choice of some
-distribution of the scaling parameter. The rounding process
-is called pipage rounding, a deterministic rounding process
-that takes advantage of the concave property of some cost
-function. The analysis is highly technical.
+each facility is opened indepedently, and hence the expected
+connection cost is easier to analyze. They obtained a ratio
+of $1+2/e = 1.736$. Sviridenko~\cite{Svi02} further improved
+the ratio to $1.582$, by using a scaled version of the
+optimal fractional solution $(\bfx^\ast,\bfy^\ast)$, and a
+judicious choice of some distribution of the scaling
+parameter. The rounding process is called pipage rounding, a
+deterministic rounding process that takes advantage of the
+concave property of some cost function. The analysis is
+highly technical.
 
 \subsubsection{Primal-dual Algorithms}
-Combinatorial algorithms that do not require solving the LP
-have the advantage of lower time complexity, and may turn
-out to be better in approximation ratio.  Jain and
-Vazirani~\cite{JainV01} initiated the primal-dual approach
-to the {\UFL} problem by introducing a primal-dual algorithm
-with ratio $3$. The algorithm grows a feasible dual solution
-from zero, and updates a primal solution accordingly until
-the primal solution is feasible. The approximation ratio is
-obtained via a relaxed version of the complementary
-slackness conditions. The conditions provide a bound on the
-cost of the primal solution in terms of the cost of the dual
-solution, and the cost of a feasible dual solution is a
-lower bound on the cost of an optimal primal solution,
-assuming the primal is a minimization problem. More on the
-use of complementary slackness conditions for {\UFL} can be
-found in Appendix~\ref{sec:ILP}.
+Primal-dual algorithms do not require solving the LP and
+thus have the advantage of lower time complexity. Those
+algorithms may also turn out to be better in approximation
+ratio.  Jain and Vazirani~\cite{JainV01} initiated the
+primal-dual approach to the {\UFL} problem by introducing a
+primal-dual algorithm with ratio $3$. The algorithm grows a
+feasible dual solution from zero, and updates a primal
+solution accordingly until the primal solution becomes
+feasible. The approximation ratio is obtained via a relaxed
+version of the complementary slackness conditions. These
+conditions provide a bound on the cost of the primal
+solution in terms of the cost of the dual solution, which is
+a lower bound on the optimal primal solution's cost. More on
+the use of complementary slackness conditions for {\UFL} can
+be found in Appendix~\ref{sec:ILP}.
 
-A slightly different primal-dual based result is obtained by
+A slightly different primal-dual based approach was taken by
 Jain, Markakis, Mahdian, Saberi and
 Vazirani~\cite{JainMMSV03}. They analyzed a greedy algorithm
 that repeatedly picks the most cost-effective star until all
@@ -895,22 +894,22 @@ star, which includes facility cost and connection cost of
 all clients to that facility, divided by the number of
 clients in that star. In each iteration, the algorithm picks
 the best star, connects all member clients to the facility,
-and set the facility cost to zero. The clients just get
-connected are removed from future consideration but the
-facility could be reused for future stars. Jain {\etal}
-analyzed the greedy algorithm and its variant using the
-dual-fitting technique. They first showed that the greedy
-algorithm can be interpreted as a process of growing a dual
-solution and updating a primal solution. Moreover, the cost
-of the primal solution is equal to the cost of the dual
-solution produced by the greedy algorithm. It might appear
-that we have solved the {\UFL} problem optimally, although
-we know that this cannot be the case, as the {\UFL} problem
-is {\NP}-hard. The catch is that the dual solution computed
-by the greedy algorithm is not feasible. The next step is to
-find a common factor $\gamma$, such that the dual values,
-after shrinking by $\gamma$, is feasible to the dual
-program. That common factor $\gamma$ is then the desired
+and sets the facility cost to zero. The clients that were in
+the star and just got connected are removed from future
+consideration, but the facility could be reused for future
+stars. Jain {\etal} analyzed the greedy algorithm and its
+variant using the dual-fitting technique. They first showed
+that the greedy algorithm can be interpreted as a process of
+growing a dual solution and updating a primal
+solution. Moreover, the cost of the primal solution is equal
+to the cost of the dual solution. It might appear that we
+have solved the {\UFL} problem optimally, although we know
+that this cannot be the case, as the {\UFL} problem is
+{\NP}-hard. The catch is that the dual solution computed by
+the greedy algorithm is not feasible. The next step is to
+find a common factor $\gamma$, such that the dual solution,
+after shrinking by $\gamma$ (divided by $\gamma$), becomes
+feasible. That common factor $\gamma$ is then the desired
 approximation ratio. They showed their algorithms have
 approximation ratio $1.861$~\footnote{An improved analysis
   by Mahdian showed the actual ratio is $1.81$.} and $1.61$
@@ -920,61 +919,63 @@ respectively.
 A still different approach is local search, in which we
 start with a feasible integral solution and make local moves
 to improve the solution, and stop at some local optimum. The
-set of allowed local moves needs to be chosen carefully, as
-more powerful moves allow local optimal to be closer to
-global optimal, on the other hand restricting on a few
-simple moves results in faster algorithms and easier
-analysis. Arya {\etal}~\cite{AryaGKMMP01} showed that local
-search gives a ratio of $3$ for the {\UFL} problem.
+allowed local moves need to be chosen carefully, as more
+powerful moves allow the local optimal to be closer to the
+global optimal, while restricting on a few simple moves
+results in faster algorithms and easier analysis. Arya
+{\etal}~\cite{AryaGKMMP01} showed that their local search
+algorithm gives a ratio of $3$ for the {\UFL} problem.
 
-To date, the best known approximation results for {\UFL} are
-due to Byrka~\cite{Byrka07} with ratio $1.5$ and a follow-up
-work by Li~\cite{Li11} with ratio $1.488$. Both use a
-combination of two algorithms, one is an LP-rounding
-algorithm and the other is the $1.61$ greedy algorithm of
-Jain, Mahdian and Saberi~\cite{JainMS02}. Since the hybrid
-approach requires the introduction of the notion of
-\emph{bifactor} analysis, we postpone the discussion of
-Byrka and Li's result for now and introduce the notion of
-bifactor analysis first.
+\paragraph{Best Result} To date, the best known
+approximation results for {\UFL} are due to
+Byrka~\cite{Byrka07} with ratio $1.5$, and a follow-up work
+by Li~\cite{Li11} with ratio $1.488$. Both use a combination
+of two algorithms: One is an LP-rounding algorithm and the
+other is the $1.61$ greedy algorithm of Jain, Mahdian and
+Saberi~\cite{JainMS02}. Since the hybrid approach requires
+the introduction of the notion of \emph{bifactor} analysis,
+we postpone the discussion of Byrka and Li's work for now
+and introduce the notion of bifactor analysis first.
 
-\subsection{Bifactor Analysis} \label{subsec:bifactor}
-Given that the total cost of a solution to the {\UFL}
-problem consists of two parts, the facility cost and the
-connection cost, a notion of bifactor approximation was
-introduced by Jain {\etal} in~\cite{JainMMSV03}. An
-algorithm with facility cost $F_{\smallALG}$ (sum of $f_i$
-for all open facility $i$) and connection cost
-$C_{\smallALG}$ (sum of $d_{ij}$ for pairs of $(i,j)$
-connected), is said to be $(\gamma_f,\gamma_c)$-
-approximation if, for every feasible solution {\SOL}, with
-facility cost $F_{\smallSOL}$ and connection cost
-$C_{\smallSOL}$, we have
+\subsection{Bifactor Analysis} \label{subsec:bifactor} 
+Given that the cost of a solution to the {\UFL} problem
+consists of two parts, the facility cost and the connection
+cost, a notion of bifactor approximation was introduced by
+Jain {\etal} in~\cite{JainMMSV03}. An algorithm with
+facility cost $F_{\smallALG}$ (sum of $f_i$ for all open
+facility $i$) and connection cost $C_{\smallALG}$ (sum of
+$d_{ij}$ for pairs of $(i,j)$ connected), is said to be
+$(\gamma_f,\gamma_c)$- approximation if, for every feasible
+solution {\SOL}, with facility cost $F_{\smallSOL}$ and
+connection cost $C_{\smallSOL}$, we have
 \begin{equation*}
   F_{\smallALG} + C_{\smallALG} \leq \gamma_f F_{\smallSOL} +
   \gamma_c C_{\smallSOL}.
 \end{equation*}
-In particular, for the optimal fractional solution
-$(\bfx^\ast,\bfy^\ast)$ with facility cost $F^\ast =
+In particular, the above holds if we use an optimal
+fractional solution $(\bfx^\ast,\bfy^\ast)$ for {\SOL}. The
+solution $(\bfx^\ast,\bfy^\ast)$ has facility cost $F^\ast =
 \sum_{i\in\sitesset} f_i y_i^\ast$ and connection cost
-$C^\ast = \sum_{j\in\clientset} d_{ij} x_{ij}^\ast$, we have
+$C^\ast = \sum_{j\in\clientset} d_{ij}
+x_{ij}^\ast$. Therefore, we have
 \begin{equation*}
   F_{\smallALG} + C_{\smallALG} \leq \gamma_f F^\ast +
   \gamma_c C^\ast.
 \end{equation*}
+
 The notion of bifactor approximation is helpful when an
 algorithm has imbalanced factors $\gamma_f$ and
 $\gamma_c$. It is easy to see such an algorithm has
 approximation ratio $\max\{\gamma_f, \gamma_c\}$. However,
 more can be said, as there are techniques like cost scaling
-and greedy augmentation to balance the two factors, that is,
+and greedy augmentation to balance the two factors; that is,
 to decrease one at the expense of increasing the other, thus
 achieving a better overall approximation ratio. The
 techniques of cost scaling and greedy augmentation and their
 use to balance the two factors are introduced by Guha,
 Khuller and Charikar~\cite{GuhaK98, CharikarG05}. For
 example, the primal-dual algorithm by Jain and
-Vazirani~\cite{JainV03} is a (1,3)-approximation algorithm
+Vazirani~\cite{JainV03} is a (1,3)-approximation algorithm,
 and using cost scaling and greedy augmentation, it is
 possible to show the algorithm can achieve a ratio of
 $1.85$~\cite{CharikarG05}.
@@ -987,10 +988,10 @@ $(1.11,1.78)$ algorithm by Jain {\etal}~\cite{JainMMSV03},
 gives a ratio of $1.50$. Li showed that by choosing a
 nontrivial distribution of the scaling factor of Byrka's
 algorithm, the analysis can be refined to show an overall
-ratio of $1.488$. The $1.488$ ratio is currently best known
-approximation result.
+ratio of $1.488$. The $1.488$ ratio is currently the best
+known approximation result.
 
-\paragraph{LP-rounding on UFL}
+\subsection{LP-rounding on UFL}
 We now present a more detailed description on the
 LP-rounding approaches, as our results on {\FTFP} are built
 on the work of LP-rounding for {\UFL}.
@@ -999,23 +1000,22 @@ Every LP-rounding algorithm for {\UFL} starts with solving
 the LP (\ref{eqn:ufl_primal}) to obtain an optimal fraction
 solution $(\bfx^\ast,\bfy^\ast)$. Then we need to round the
 fractional solution to an integral solution
-$(\hat\bfx,\hat\bfy)$ without increasing the cost by
-much. As hinted in the above discussion, an integral
-solution with small cost would have each client connect to a
-nearby facility and few facilities open. Consider a client
-$j$, to get a handle on the connection cost, we would like
-$j$ to connect to some neighboring facility $i\in N(j)$,
-where $N(j) \defeq \{i\in\sitesset \suchthat x_{ij}^\ast >
-0\}$. For the sake of connection cost, it is desirable for a
-client to have a neighboring facility open, as those are
-facilities not too far away. In fact, at the end of
-Appendix~\ref{sec: ILP} we give a bound on the distance from
-a client to any of its neighbors. However, it is in general
-not possible to have every client connect to a neighboring
-facility, or we would have to open too many facilities, and
-thus incur a high facility cost. An alternative is to select
-a subset of clients, denoted as $C' \subseteq \clientset$
-and only require clients in $C'$ have a neighboring facility
+$(\hat\bfx,\hat\bfy)$ without increasing the cost by much.
+An integral solution with a small cost would have each
+client connected to a nearby facility and few facilities
+open.
+
+Consider a client $j$, to get a handle on the connection
+cost, we would like $j$ to connect to some neighboring
+facility $i\in N(j)$, where the neighborhood $N(j) \defeq
+\{i\in\sitesset \suchthat x_{ij}^\ast > 0\}$. For the sake
+of connection cost, it is desirable for every client to have
+a neighboring facility open, as those are facilities not too
+far away. However, it is in general not possible, or we
+would have to open too many facilities, and thus incur a
+high facility cost. An alternative is to select a subset of
+clients, denoted as $C' \subseteq \clientset$ and only
+require clients in $C'$ have a neighboring facility
 open. Clients outside $C'$ are then connected to a facility
 via some client in $C'$. The connection cost for clients in
 $\clientset \setminus C'$ are then bounded using the
@@ -1024,6 +1024,102 @@ $j$ outside $C'$ need to be able to find some client $j'$ in
 $C'$ such that both $d_{jj'} \defeq \min_{i\in \sitesset}
 d_{ij} + d_{ij'}$ and $d_{\phi(j') j'}$ are small. Here
 $\phi(j')$ is the facility that $j'$ connects to.
+
+The clustering structure produced by the Shmoys, Tardos and
+Aardal's algorithm is depicted in Figure~\ref{fig:STA97}. It
+is interesting in three aspects.
+\begin{itemize}
+\item First, each cluster of clients has a
+  representative~\footnote{In the literature, the
+    representative is called \emph{center}.}.
+\item Second, the neighborhoods of the representatives are
+  disjoint.
+\item Third, each client shares a neighbor with its
+  representative.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% UFL cluster figure %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    %% neighborhood
+    \node[draw,ellipse, minimum width=2cm, minimum height=4cm]
+    at (0,12) {};
+    \node[draw,ellipse, minimum width=2cm, minimum height=4cm]
+    at (0,6) {};
+    \node[draw,ellipse, minimum width=2cm, minimum height=4cm]
+    at (0,0) {};
+
+    %% facility
+    \node[draw,minimum size=.6cm] (fac11) at (0,13) {};
+    \node[draw,minimum size=.6cm] (fac12) at (0,12) {};
+    \node[draw,minimum size=.6cm] (fac13) at (0,11) {};
+                                   
+    \node[draw,minimum size=.6cm] (fac21) at (0,8.5) {};
+                                   
+    \node[draw,minimum size=.6cm] (fac31) at (0,6.4) {};
+    \node[draw,minimum size=.6cm] (fac32) at (0,5) {};
+                                   
+    \node[draw,minimum size=.6cm] (fac41) at (0,1) {};
+    \node[draw,minimum size=.6cm] (fac42) at (0,-.6) {};
+
+    %% client
+    \node[circle,draw,minimum size=.6cm] (client11) at (8,11) {};
+    \node[circle,fill,draw,minimum size=.6cm] (client12) at (8,10){};
+    \node[circle,draw,minimum size=.6cm] (client13) at (8,9) {};
+
+    \node[circle,fill,draw,minimum size=.6cm] (client21) at
+    (8,6) {};
+    \node[circle,draw,minimum size=.6cm] (client22) at (8,5) {};
+
+    \node[circle,draw,minimum size=.6cm] (client31) at (8,2) {};
+    \node[circle,draw,minimum size=.6cm] (client32) at (8,1) {};
+    \node[circle,fill,draw,minimum size=.6cm] (client33) at
+    (8,0) {};
+    \node[circle,draw,minimum size=.6cm] (client34) at
+    (8,-1) {};
+
+    %% edges
+    \foreach \fac in {fac11,fac12,fac13}
+    \draw (\fac) -- (client12);
+
+    \foreach \fac in {fac31,fac32}
+    \draw (\fac) -- (client21);
+
+    \foreach \fac in {fac41,fac42}
+    \draw (\fac) -- (client33);
+
+    \draw (fac11) -- (client11);
+    \draw (fac13) -- (client13);
+    \draw (fac21) -- (client13);
+
+    \draw(fac32) -- (client22);
+    
+    \draw(fac41) -- (client31);
+    \draw(fac41) -- (client32);
+    \draw(fac42) -- (client34);
+
+    \draw[dashed] (7,8) rectangle (9,12);
+    \draw[dashed] (7,4) rectangle (9,7);
+    \draw[dashed] (7,-2) rectangle (9,3);
+  \end{tikzpicture}
+  \caption[An illustration of the clustering structure of
+  LP-rounding algorithms for UFL.]{An illustration of the
+    clustering structure of LP-rounding algorithms for
+    UFL. Rectangles are facilities and circles are
+    clients. Dashed boxes indicate clusters. The solid
+    circle in each box denotes the representative of that
+    cluster. An edge is draw from a client to a neighboring
+    facility. An ellipse indicates all facilities inside
+    form the neighborhood of the corresponding
+    representative.}
+  \label{fig:STA97}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% end  UFL cluster figure %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Suppose we have chosen a subset $C'$ of client, we then open
 one facility for each client $j'$ in $C'$ and $j'$ would
@@ -1059,7 +1155,7 @@ For connection cost, each client $j'$ in $C'$ connects to
 the only facility open in $N(j')$ and we have mentioned
 earlier that there is a way to bound the distance from
 $\phi(j')$ to $j'$ when $\phi(j') \in N(j')$, see the end of
-Appendix~\ref{sec: ILP}. For clients $j$ not in $C'$, we
+Appendix~\ref{sec:ILP}. For clients $j$ not in $C'$, we
 need to have an open facility for it to connect to. One
 possibility is to use $\phi(j')$, if $j$ is assigned to
 $j'$. When that happens, $d_{\phi(j'), j}$ can be bounded by
@@ -1402,7 +1498,7 @@ estimate the optimal solution value. For readers unfamiliar
 with Linear Programming (LP) and Integer Programming (IP),
 and their application on approximation algorithms, we
 included a short introductory section in the
-appendix~\ref{sec: ILP}.
+appendix~\ref{sec:ILP}.
 
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
@@ -4628,7 +4724,7 @@ bound.
 \chapter{Technical Background}
 
 \section{Linear Programming and Integer Programming}
-\label{sec: ILP}
+\label{sec:ILP}
 
 In this section we give a short introduction on Linear
 Programming and Integer Programming with an emphasis on
