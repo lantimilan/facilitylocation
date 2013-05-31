@@ -144,9 +144,9 @@ Professor Neal Young}
 \vfil\null
 \end{dedication}
 
-\begin{abstract}  %% CHECKED
-  In this thesis we study the fault-tolerant facility
-  placement problem (FTFP). In the FTFP problem, we are
+\begin{abstract}
+  In this thesis we study the Fault-Tolerant Facility
+  Placement problem (FTFP). In the FTFP problem, we are
   given a set of sites where we can open facilities, and a
   set of clients with demands. To satisfy their demands,
   clients need to be connected to open facilities in
@@ -166,8 +166,8 @@ Professor Neal Young}
   natural greedy algorithm analyzed using the dual-fitting
   technique gives an approximation ratio of O(logn). On the
   negative side, under a natural assumption, we give an
-  example showing the dual-fitting analysis cannot give a
-  ratio better than O(logn/loglogn).
+  example showing that the dual-fitting analysis cannot give
+  a ratio better than O(logn/loglogn).
 \end{abstract}
 
 \tableofcontents
@@ -180,42 +180,87 @@ Professor Neal Young}
 \chapter{Introduction} \label{ch: intro}
 
 \section{The Problem and the Background}
-The facility location problems are about selecting a set of
-candidate places (or sites), to build (or open) facilities,
-and connecting clients to facilities to satisfy their
-demands. These problems model real-world scenarios like
-\begin{itemize}
-\item Setting up warehouses to deliver commodities to
-  retailers,
-\item Building power suppliers to serve the needs of
-  residents, and
-\item Placing content servers in a network to send files to
-  subscribers.
-\end{itemize}
+In a broad sense, facility location problems are about
+selecting a set of sites to open facilities, and servicing
+clients by connecting them to facilities. A classical
+application is to set up warehouses to distribute
+commodities to retailers. We want to have more warehouses so
+that every retailer can be close to some warehouse and thus
+save on shipping cost. On the other hand, setting up and
+maintaining a warehouse can be costly. So we would have to
+face the trade-off between having more warehouses and
+cheaper shipping, and having fewer warehouses for the sake
+of warehouse setup and maintainence cost, at the expense of
+shipping. Another application is to place content servers in
+a computer network. In the network we have a number of
+client machines that need to access files from one of the
+servers. Having more servers allows faster access for all
+clients. However, keeping a large number of servers around
+requires substantial hardware and software investment, as
+well as committing operation engineers to keep the servers
+up and running. A more recent example concerns today's web
+giants like google, facebook and amazon. Those web-based
+companies have geographically distributed development
+offices. All these offices require access of large amount of
+data from a handful of data centers, located in a few
+carefully chosen locations. It is out of question that
+building a data center is costly. The electricity bill alone
+would discourage the plan of having an excessive number of
+data centers around. On the other hand, demands from all
+offices need to be addressed or engineers would be idling
+while waiting for data transfer to complete. We shall keep
+using the development office and data center example to
+illustrate several aspects of facility location problems.
 
-Due to the practical significance, these problems have been
-an active topic in both Operations Research and Computer
-Science research communities. Different techniques have been
-proposed, including heuristic solutions, branch and bound,
-probabilistic methods, and approximation algorithms. See for
-example, the book by Mirchandani and
-Francis~\cite{Francis90}. The exact problem formulation
-takes into account specific requirements of the application,
-and the facility location problems come with a number of
-variants. Here are some examples of possible problem
-specific requirements.
+First, setting up a data center incurs cost, and the cost
+varies in different locations. The real estate rent in
+Kansas usually does not compare to even a fraction of that
+in San Francisco or New York. The electricity rate is also
+very different in midwest areas and in California. Other
+factors like potential natural disasters like tonardo or
+earthquake could also be factored into the cost estimate to
+build a data center in a certain location. In short,
+different locations have a different cost to set up a data
+center.
+
+Second, different offices may have different demands. A
+larger office may require access to several data centers,
+either for speedy data transfer, or for redundancy when one
+of the data centers goes down.
+
+Third, data centers may have capacities. It is thus
+reasonable to put a cap on the number of offices that a
+certain data center is able to serve. However, to keep the
+problem simple, we may or may not have this constraint in
+our problem definition.
+
+Facility location problems have long been an active topic in
+both Operations Research and Computer Science research
+communities. Problems that have been considered include
 \begin{itemize}
-\item The demands of clients could be $1$ or more, and the
-  so-called fault-tolerant requirement would force each unit
-  demand of a client connected to a different facility.
-\item Each site may be limited to one facility, or may open
-  multiple facilities.
-\item Facilities could have capacities; that is, a single
-  facility can accept only that many connections, up to its
-  capacity.
-\item We may not have to connect all clients, and instead we
-  pay a penalty for clients not connected.
+\item the Uncapacitated Facility Location problem, where
+  each site can open at most one facility and each client
+  needs to be connected to one facility,
+\item the Fault-Tolerant Facility Location problem, where
+  each site can open at most one facility, and each client
+  has a demand, which is the number of facilities that it
+  needs to connect to,
+\item the Capacitated Facility Location problem, where a
+  site can open at most one facility and each client
+  connects to one facility, but every facility has a
+  capacity, which is the maximum number of clients it can
+  accept,
+\item the Prize-Collecting Facility Location problem, where
+  a site can open at most one facility and each client can
+  either connect to one facility, or stay unconnected, in
+  which case a penalty is counted towards final cost.
 \end{itemize}
+In all the problems above, there is a cost to open a
+facility at a site, and there is a cost to connect a client
+to a facility as well. The goal is to minimize the total
+cost of opening facilities and connecting clients to
+facilities. In the Prize-Collecting Facility Location
+problem we also pay a penalty for each client not connected.
 
 \paragraph{The UFL Problem}
 The simplest variant, known as the uncapacitated facility
@@ -314,31 +359,20 @@ of this thesis.
 \label{sec:hardness}
 
 Not only is the FTFP problem \NP-hard, more can be said
-about to what extent we can approximate an optimal
+about the extent to which we can approximate an optimal
 solution. Results showing that problems cannot be
 approximated to certain numbers, using well repsected
 assumptions like $\PP\neq \NP$, are called hardness results
 and we present the hardness results on the {\FTFP} problem
 in this section.
 
-Since the fault-tolerant facility location problem (\FTFP)
+Since the fault-tolerant facility placement problem (\FTFP)
 contains the uncapacitated facility location problem (\UFL)
 as a special case (setting all $r_j=1$ in {\FTFP} we get
 {\UFL}) , any hardness result obtained on UFL remains
 applicable to FTFP. In the following, we review some
 well-known hardness results on UFL, with the implication
 that the same claims hold for FTFP as well.
-
-The UFL problem is easily seen to be NP-hard, as they
-contain the Set Cover problem as a special case. The Set
-Cover problem is that, given a universe $\,\calU = \{e_1,
-\ldots, e_n\}$ and a collection $\calS$ of sets such that
-$\calS = \{S_1, \ldots, S_m\}$ and $S_l \subseteq \calU$ for
-$l=1,\ldots,m$, find a minimum number of sets in $\calS$ to
-cover all elements in $\calU$. That is, find a set $\calS'
-\subseteq \calS$ such that $\bigcup_{S\in \calS'} = \calU$
-and $|\calS'|$ is minimized. It is well-known that the
-Set Cover problem is NP-hard.
 
 %%% NP-optimization problems:
 %%% - can verify instance validity in polynomial time
@@ -356,96 +390,95 @@ Set Cover problem is NP-hard.
     triangle inequality.} UFL problem is NP-hard.
 \end{theorem}
 \begin{proof}
-  Reduction from the Set Cover problem. In the Set Cover
-  problem, we are given a universe of elements, that is
-  $\calU = \{e_1, \ldots, e_n\}$, and a collection of sets
-  $\calS = \{S_1, \ldots, S_m\}$ such that $S_i \subseteq
-  \calU$ for $i=1,\ldots,m$. We construct a general UFL
-  instance like this: for each element $e_j, j=1,\ldots,n$,
-  we have a client $j$; and for each set $S_i,
-  i=1,\ldots,m$, we have a facility $i$. The facility cost
-  $f_i=1$ for every facility
+  The proof is by reduction from the Set Cover problem. In
+  the Set Cover problem, we are given a universe of
+  elements, that is $\calU = \{e_1, \ldots, e_n\}$, and a
+  collection of sets $\calS = \{S_1, \ldots, S_m\}$ such
+  that $S_i \subseteq \calU$ for $i=1,\ldots,m$. The problem
+  asks for a set cover with minimum size, where a set cover
+  is a collection of sets from $\calS$ whose union is
+  $\calU$. We construct a general UFL instance like this:
+  for each element $e_j, j=1,\ldots,n$, we have a client
+  $j$; and for each set $S_i, i=1,\ldots,m$, we have a
+  facility $i$. The facility cost $f_i=1$ for every facility
   $i=1,\ldots,m$~\footnote{Actually any value of $f_i > 0$
     will work, for example, we can set $f_i=100$ for every
     facility $i$.}. The distance $d_{ij} = 1$ if $e_j \in
   S_i$ and $d_{ij} = \infty$ if $e_j \notin S_i$. Clearly an
-  optimal solution for the UFL instance can only use edges
-  with $d_{ij} = 1$. It is easy to see that given any
-  optimal solution to the Set Cover instance, we can
-  construct an optimal solution for the UFL instance, simply
-  by taking the facilities whose corresponding sets are
-  chosen in the set cover. On the other hand, given an
+  optimal solution for the UFL instance can only use
+  connections with $d_{ij} = 1$. It is easy to see that
+  given any optimal solution to the Set Cover instance, we
+  can construct an optimal solution for the UFL instance,
+  simply by taking the facilities whose corresponding sets
+  are chosen in the set cover. On the other hand, given an
   optimal solution to the UFL instance, we can only have
   $d_{ij}=1$ connections. This implies that, for every
-  client $j$, the corresponding element $e_j$ is covered by
-  some set $S_i$, whose corresponding facility $i$ is chosen
-  to open in the {\UFL} solution. Let $I$ be the set of
-  facilities chosen in the {\UFL} solution, it is easily
-  seen that the corresponding sets in the Set Cover instance
-  form a set cover.
+  client $j$, suppose it was connected to facility $i$ in
+  the UFL solution, then the corresponding element $e_j$ is
+  covered by the corresponding set $S_i$. Let $I$ be the set
+  of facilities chosen to open in the {\UFL} solution; it is
+  easily seen that the corresponding sets in the Set Cover
+  instance form a set cover.
 \end{proof}
 
 \begin{theorem} \label{thm:metricNP}
   The metric UFL problem is NP-hard.
 \end{theorem}
 \begin{proof}
-  The reduction is also from the Set Cover problem. Unlike
-  the general UFL problem, we can no longer have edges with
-  length $1$ and $\infty$ now, as the distances are
-  constrained by the triangle inequality. We still have sets
-  $S_i$ in the Set Cover instance correspond to the
-  facilities $i$ in the metric UFL instance, and elements
-  $e_j$ in the Set Cover instance correspond to the clients
-  $j$ in the metric UFL instance. Our facility cost $f_i =
-  \epsilon$ for some small number $\epsilon > 0$, and every
-  facility $i$ has the same facility cost. Our distance
-  $d_{ij}$ is now $1$ if $e_j \in S_i$ and $3$ if $e_j
-  \notin S_i$.
+  The reduction is also from the Set Cover problem. Suppose
+  the Set Cover instance has universe $\calU =
+  \{e_1,\ldots,e_n\}$ and collection of sets $\calS =
+  \{S_1,\ldots,S_m\}$. Unlike the general UFL problem, we
+  can no longer have edges with length $1$ and $\infty$ now,
+  as the distances are constrained by the triangle
+  inequality.  Our facility cost $f_i = \epsilon = 1/m^2$,
+  and every facility $i$ has the same facility cost. Our
+  distance $d_{ij}$ is now $1$ if $e_j \in S_i$ and $3$ if
+  $e_j \notin S_i$.
 
   Given the construction, it is clear that any optimal
-  solution for the metric UFL instance cannot use an edge of
-  distance $3$, as there exists another solution that beats
-  such a solution with lower cost, namely a solution that
-  opens all facilities with total cost $m\epsilon + n\cdot 1
-  = m\epsilon + n$, as we can choose $\epsilon = 1/m^2$. It
-  follows that any optimal solution for the metric UFL
-  instance must have all clients connected at distance of
-  $1$. Such a solution would have a facility set corresponds
-  to a set cover for the Set Cover instance, as for every
-  client $j$, the corresponding element $e_j$ is covered by
-  some set $S_i$ corresponding to facility $i$, since
-  $d_{ij} = 1$ implies $e_j \in S_i$.
+  solution for the metric UFL instance cannot use a
+  connection of distance $3$, as there exists another
+  solution that beats such a solution with lower cost,
+  namely a solution that opens all facilities with total
+  cost $m\epsilon + n\cdot 1 = m\epsilon + n$, as we have
+  chosen $\epsilon = 1/m^2$. It follows that any optimal
+  solution for the metric UFL instance must have all clients
+  connected at distance $1$. Such a solution would then have
+  a facility set corresponds to a set cover for the Set
+  Cover instance.
 \end{proof}
 
 %%% MaxSNP, a technically difficult class of problems
 %%% includes: Max2SAT, B-Max3SAT, B-VertexCover, B-IndependentSet, MaxCut
 %%% Assume P != NP, MaxSNP hard problems cannot have PTAS.
 Now we show the {\MaxSNP}-hardness of the metric UFL
-problem. This implies that there exists some constant $c$
-such that the metric UFL problem cannot be approximated to
-better than $c$-approximation. As a consequence, the metric
-UFL problem cannot have polynomial-time approximation scheme
-(PTAS), that is, algorithms that for any constant $\epsilon
-> 0$, compute a solution with cost no more than
-$(1+\epsilon)$ from the optimal, and the running time is
-polynomial in the input size with $\epsilon$ treated as a
-constant.
+problem. This implies that, under the assumption that $\PP
+\neq \NP$, there exists some constant $c$ such that the
+metric UFL problem cannot be approximated to better than
+$c$-approximation. As a consequence, the metric UFL problem
+cannot have polynomial-time approximation scheme (PTAS).
+PTAS are algorithms that, for any constant $\epsilon > 0$,
+compute a solution with cost no more than $(1+\epsilon)$
+from the optimal. Moreover, the running time is polynomial
+in the input size, with $\epsilon$ treated as a
+constant. The following theorem is due to Guha and
+Khuller~\cite{GuhaK98}.
 
 \begin{theorem}\label{thm:maxsnp} \cite{GuhaK98}
   The metric UFL problem is {\MaxSNP}-hard.
 \end{theorem}
 \begin{proof}
-  Sketch: the full proof can be found in~\cite{GuhaK98} and
-  we only sketch the main idea here.
-
-  The proof is by a reduction from the B-Vertex Cover
-  problem, a problem known to be {\MaxSNP}-hard. In the
-  B-Vertex Cover problem, we are given a graph $G=(V,E)$,
-  and a constant $B$, such that every vertex $u\in V$ has
-  degree no more than $B$. And the problem asks for a vertex
-  cover with minimum size. That is, we are to find a minimum
-  set $V' \subseteq V$ such that every edge $e \in E$ has at
-  least one endpoint in $V'$.
+  The full proof can be found in~\cite{GuhaK98} and we only
+  sketch the main idea here. The proof is by a reduction
+  from the B-Vertex Cover problem, a problem known to be
+  {\MaxSNP}-hard. In the B-Vertex Cover problem, we are
+  given a graph $G=(V,E)$, and a constant $B$, such that
+  every vertex $u\in V$ has degree no more than $B$. And the
+  problem asks for a vertex cover with minimum size. That
+  is, we are to find a minimum set $V' \subseteq V$ such
+  that every edge $e \in E$ has at least one endpoint in
+  $V'$.
 
   The idea is to show that, for any given constant $0 <
   \epsilon < 1$, given an algorithm for the metric UFL
@@ -456,55 +489,18 @@ constant.
   $\epsilon'$ approaches $0$ as $\epsilon$ approaches
   $0$. It turns out that we can set $\epsilon' =
   (1+B)\epsilon$ for our purpose.
-
-  Given an instance of B-Vertex Cover, we construct an
-  instance of metric UFL. For every vertex $u \in V$ we have
-  a facility $i$ and for every edge $e \in E$ we have a city
-  $j$. $d_{ij} = 1$ if the corresponding edge $e$ of client
-  $j$ is incident on vertex $u$, which corresponds to the
-  facility $i$, $d_{ij} = 3$ otherwise. We set all
-  facilities to have the same facility opening cost $f$,
-  that is $f_i = f$ for all facilities $i$. The value of $f$
-  is chosen to expedite the derivation of desired
-  inequalities. We also assume that we know the size of an
-  optimal vertex cover, call it $k$, as our choice of $f$
-  depends on $k$. In general we do not know $k$, as it is
-  {\NP}-hard to compute $k$, the optimal solution value for
-  B-Vertex Cover. However, we can still proceed assuming
-  knowing $k$, because we can perform the proof for every
-  possible $k=1,2,\ldots,n$. If our proof goes through for
-  every choice of $k$, our claim must hold on the (unknown)
-  value of $k$ as well. The same trick is used in the proof
-  of Theorem~\ref{thm:1463}.
-
-  The proof completes by showing that we can use an
-  $(1+\epsilon)$-approximation algorithm $\calA_{\smallUFL}$
-  for metric UFL to construct an
-  $(1+\epsilon')$-approximation algorithm
-  $\calA_{\smallBVC}$ for B-Vertex Cover. Since B-Vertex
-  Cover is \MaxSNP-hard, and therefore no such algorithm
-  $\calA_{\smallBVC}$ exists unless $\PP=\NP$, we conclude
-  that no such $\calA_{\smallUFL}$ can exist under the same
-  assumption. Therefore the metric {\UFL} problem is
-  \MaxSNP-hard as well.
 \end{proof}
 
-After we have shown the metric UFL problem is {\MaxSNP}-hard,
-we focus on the metric version from now on. In the follow,
-we mention UFL and FTFP without explicitly specifying that
-their distances form a metric, that is, $d_{ij}$'s are
-symmetric and satisfy the triangle inequality.
-
-From Theorem~\ref{thm:maxsnp} we know there exists a
+From Theorem~\ref{thm:maxsnp}, we know there exists a
 constant $c$ such that the {\UFL} problem cannot be
-approximated better than $c$. The last piece of hardness
-result presented in this section gives the best known such
-constant $c=1.463$. This result is also due to Guha and
-Khuller.
-\begin{theorem}\label{thm:1463} \cite{GuhaK98}
+approximated to better than $c$, assuming $\PP \neq
+\NP$. The last piece of hardness result presented in this
+section gives the best known such constant $c=1.463$. This
+result is also due to Guha and Khuller~\cite{GuhaK98}, with
+an improvement from Sviridenko~\cite{Vygen05}.
+\begin{theorem}\label{thm:1463} \cite{GuhaK98,Vygen05}
   {\UFL} cannot be approximated to less than $1.463$ unless
-  \\ 
-  $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
+  $\PP = \NP$.
 \end{theorem}
 \begin{proof}
   The proof is by contradiction. More precisely, we show
@@ -522,8 +518,8 @@ Khuller.
   $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
 
   Given a Set Cover instance with a universe $\,\calU =
-  \{e_j \suchthat j=1,\ldots, n\}$ of elements and a family
-  of sets $\calS = \{S_i\suchthat i=1,\ldots,m\}$ with every
+  \{e_1,\ldots,e_n\}$ of elements and a family
+  of sets $\calS = \{S_1,\ldots,S_m\}$ with every
   set $S_i \in \calS$ being a subset of $\,\calU$. The proof
   proceeds in iterations. In each iteration we construct a
   metric UFL instance and run the supposedly
@@ -545,7 +541,8 @@ Khuller.
   lower bound on approximation ratio. Here $k$ is the number
   of sets in an optimal solution for the Set Cover instance.
   Note that we can perform the rest of the proof for every
-  possible $k=1,\ldots,n$, so we can assume we know $k$.
+  possible $k=1,\ldots,n$, so we can assume the knowledge of
+  $k$.
 
   Our construction ensures that, at any iteration, if the
   UFL solution found by the $\gamma$-approximation {\UFL}
@@ -554,14 +551,15 @@ Khuller.
   and the optimal solution's cost must be at least
   $1.463$. The solution with $k$ facilities and all clients
   connected at distance $1$ is used for estimating the
-  optimal solution's cost. The other case is that in every
-  iteration we have an UFL solution that covers a large
-  portion of clients. This would then give us a solution for
-  the given Set Cover instance with cost (number of sets) no
-  more than $(k/\rho) \ln n$, that is no more than $(1/\rho)
-  \ln n$ times of an optimal solution for constant $\rho >
-  1$. This then implies $\NP \subseteq \DTIME(n^{O(\log\log
-    n)})$ by Feige's result~\cite{Feige98}.
+  optimal {\UFL} solution's cost. The other case is that in
+  every iteration we have an UFL solution that covers a
+  large portion of clients. This would then give us a
+  solution for the given Set Cover instance with cost
+  (number of sets) no more than $(k/\rho) \ln n$, that is no
+  more than $(1/\rho) \ln n$ times of an optimal solution
+  for constant $\rho > 1$. This then implies $\NP \subseteq
+  \DTIME(n^{O(\log\log n)})$ by Feige's
+  result~\cite{Feige98}.
 %%  Let $k$ be the number of sets in an optimal solution for
 %%  the Set Cover instance. Note that we can run the following
 %%  for every $k=1,\ldots,n$, so we can assume we know $k$.  We
@@ -669,17 +667,19 @@ Khuller.
 %%$\rho > 1$. Using Feige's result we have that metric UFL
 %%cannot have approximation algorithm with ratio less than
 %%$1.463$ unless $\NP \subseteq \DTIME(n^{O(\log\log n)})$.
+
+  Using an observation by Sviridenko, the underlying
+  assumption\\ $\NP \nsubseteq \DTIME(n^{O(\log\log n)})$
+  can be strengthened to $\PP \neq \NP$. That is, metric UFL
+  cannot have a polynomial-time algorithm with ratio less
+  than $1.463$ unless $\PP = \NP$.
 \end{proof}
 
-Using an observation by Sviridenko, the underlying
-assumption\\ $\NP \nsubseteq \DTIME(n^{O(\log\log n)})$ can
-be strengthened to $\PP \neq \NP$. That is, metric UFL
-cannot have a polynomial-time algorithm with ratio less than
-$1.463$ unless $\PP = \NP$. With that, we conclude the
-discussion on the hardness results for the Uncapaciated
-Facility Location problem ({\UFL}), with the implication
-that all these hardness results carry on to our problem, the
-Fault-tolerant Facility Placement problem (\FTFP) as well.
+With that, we conclude the discussion on the hardness
+results for the Uncapaciated Facility Location problem
+({\UFL}), with the implication that all these hardness
+results carry on to our problem, the Fault-tolerant Facility
+Placement problem (\FTFP) as well.
 %% end of ch1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
