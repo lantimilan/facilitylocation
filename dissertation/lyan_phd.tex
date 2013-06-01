@@ -1278,19 +1278,20 @@ Chapter~\ref{ch: primal-dual}.
 \chapter{Linear Program} \label{ch: lp} 
 
 In this chapter we give the linear program (LP) for the
-{\FTFP} problem and describe the structure of the linear
-program and the structure of the optimal fractional
-solution. The discussion in this chapter prepares the reader
-for Chapter~\ref{ch: techniques}, where we introduce our
-main techniques: demand reduction and adaptive partitioning.
+{\FTFP} problem, and describe the structure of the linear
+program, as well as the structure of the optimal fractional
+solution that we assume. The discussion in this chapter
+prepares the reader for Chapter~\ref{ch: techniques}, where
+we introduce our main techniques: demand reduction and
+adaptive partitioning.
 
 \section{The Linear Program}
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
-opened at site $i$ and let $x_{ij}$ represent the number of
+opened at site $i$, and let $x_{ij}$ represent the number of
 connections from client $j$ to facilities at site $i$. If we
 relax the integrality constraints, we obtain the following
-LP.
+LP:
 
 %%%%%%%%%%%
 \begin{empheq}[box=\fbox]{align}
@@ -1348,7 +1349,7 @@ algorithms.
 
 %%%%%%%%%
 
-\section{Special Case: Uniform-demand}
+\section{LP Structure and Special Case: Uniform-demand}
 If we compare the LP~(\ref{eqn:fac_primal}) and its
 dual~(\ref{eqn:fac_dual}) for {\FTFP} to the
 LP~(\ref{eqn:ufl_primal}) and its dual~(\ref{eqn:ufl_dual})
@@ -1361,17 +1362,25 @@ to solve {\FTFP}. Unfortunately we are not aware of such a
 reduction for general demands. For the special case when all
 demands are equal, we observe that any fractional solution
 $(\bfx,\bfy)$ to LP~(\ref{eqn:fac_primal}), when scaled down
-by $R = r_j$ (since all $r_j$ are equal), is a feasible
+by $R = r_j$ (since all $r_j$'s are equal), is a feasible
 solution to an {\UFL} instance with the same set of sites
 and clients, and the same facility opening costs and the
-same distances. If we solve that {\UFL} instance and
-duplicate the solution $R$ times, we obtain an integral
-solution to the {\FTFP} instance. It is not hard to see the
-approximation ratio is preserved. This shows a simple
-reduction from {\FTFP} to {\UFL} for the uniform-demand
-case.
+same distances. If we solve that {\UFL} instance with an
+approximation algorithm, and duplicate the solution $R$
+times, we obtain an integral solution to the {\FTFP}
+instance. It is not hard to see the approximation ratio is
+preserved. This shows a simple reduction from {\FTFP} to
+{\UFL} for the uniform-demand case.
 
-\section{Completeness and facility splitting.}
+\section{Solution Structure: Completeness and Facility
+  Splitting}
+In this section we describe a structural property we assume
+of the optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
+that we use for designing and analyzing approximation
+algorithms for {\FTFP}. The property is called
+\emph{completeness}. In addition, we describe the procedure
+to obtain such a complete optimal fractional solution.
+
 Define $(\bfx^\ast, \bfy^\ast)$ to be \emph{complete} if
 $x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all
 $i,j$. In other words, each connection either uses a site
