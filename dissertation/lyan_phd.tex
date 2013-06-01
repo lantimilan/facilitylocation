@@ -1285,6 +1285,42 @@ prepares the reader for Chapter~\ref{ch: techniques}, where
 we introduce our main techniques: demand reduction and
 adaptive partitioning.
 
+\section{Notation and Definition}
+In the Fault-Tolerant Facility Placement problem ({\FTFP}),
+we denote the set of sites as $\sitesset$ and the set of
+clients as $\clientset$. Each client $j \in \clientset$ has
+a demand $r_j$, meaning that the client $j$ needs to be
+connected to $r_j$ different facilities. The distance
+between a site $i$ and a client $j$ is denoted as
+$d_{ij}$. To open one facility at a site $i$ incurs a cost
+of $f_i$. To make one connection from a client $j$ to a
+facility at a site $i$ incurs a cost of the distance
+$d_{ij}$. Thus an {\FTFP} instance is fully specified by
+$\sitesset, \clientset$, $r_j$ for every $j\in\clientset$,
+and $d_{ij}$ for every $i\in\sitesset,j\in\clientset$. We
+consider the metric version, that is the distances satisfy
+the triangle inequality: for any two sites $i_1,i_2$ and any
+two clients $j_1,j_2$, we have
+\begin{equation*}
+  d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
+\end{equation*} 
+
+A solution to the {\FTFP} problem is a vector of $(\bfx,
+\bfy)$ such that $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes
+the number of connections between site $i$ and client $j$,
+and $y_i \in \{0, 1, 2\ldots\}$ denotes the number of
+facilities opened at site $i$. We then seek a solution such
+that $y_i \geq x_{ij}$ for every $i \in \sitesset, j \in
+\clientset$ and $\sum_{i\in\sitesset} x_{ij} = r_j$ for all
+clients $j \in \clientset$, and we are to minimize the total
+cost of the solution, that is $\sum_{i \in \sitesset} f_i
+y_i + \sum_{i \in \sitesset, j \in \clientset} d_{ij}
+x_{ij}$. We call the first term $\sum_{i \in \sitesset} f_i
+y_i$ \emph{the facility cost} of the solution, and the
+second term $\sum_{i \in \sitesset, j \in \clientset} d_{ij}
+x_{ij}$ \emph{the connection cost} of the solution $(\bfx,
+\bfy)$.
+
 \section{The Linear Program}
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
@@ -1368,8 +1404,8 @@ and clients, and the same facility opening costs and the
 same distances. If we solve that {\UFL} instance with an
 approximation algorithm, and duplicate the solution $R$
 times, we obtain an integral solution to the {\FTFP}
-instance. It is not hard to see the approximation ratio is
-preserved. This shows a simple reduction from {\FTFP} to
+instance. It is not hard to see that the approximation ratio
+is preserved. This shows a simple reduction from {\FTFP} to
 {\UFL} for the uniform-demand case.
 
 \section{Solution Structure: Completeness and Facility
