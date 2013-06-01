@@ -37,8 +37,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{bm}
 \usepackage{amsmath}
-%\usepackage[dvips]{graphicx}
-%\usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{caption,subcaption,enumerate}
 \usepackage{flafter}
@@ -355,7 +353,7 @@ algorithms, known as approximation algorithms, and their
 performance analysis, are the subject of this thesis.
 
 \section{Hardness Results on Approximating UFL and FTFP}
-\label{sec:hardness}
+\label{sec: hardness}
 
 Not only is the FTFP problem \NP-hard, but also more can be
 said about the extent to which we can approximate an optimal
@@ -679,6 +677,24 @@ for the Uncapaciated Facility Location problem ({\UFL}),
 with the implication that all these hardness results carry
 on to our problem, the Fault-Tolerant Facility Placement
 problem (\FTFP) as well.
+
+\section{Organization of the Thesis}
+The rest of this thesis is organized as follows: In
+Chapter~\ref{ch: related_work} we present approximation
+results on FTFP, as well as two related problems, UFL and
+FTFL; in Chapter~\ref{ch: lp} we give the LP formulation for
+FTFP and describe structural properties of the optimal
+fractional solution; in Chapter~\ref{ch: techniques} we
+describe two main techniques, demand reduction and adaptive
+partitioning, that allow us to obtain a fractional solution
+with structural properties; in Chapter~\ref{ch: lp-rounding}
+we show how to round the fractional solutions to an integral
+solution with bounded cost; in Chapter~\ref{ch: primal-dual}
+we investigate the primal-dual approach to our problem and
+give an example showing the difficulty in obtaining good
+approximation ratio; in Chapter~\ref{ch: conclusion} we
+conclude this thesis with a discussion on open problems.
+
 %% end of ch1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -687,12 +703,12 @@ problem (\FTFP) as well.
 \chapter{Related Work} \label{ch: related_work}
 
 In this chapter we review the history of two problems
-closely related to our FTFP problem. They are: the
-Uncapacitated Facility Location problem (UFL), and the
-Fault-Tolerant Facility Location problem (FTFL). After
-presenting the results of these two problems, we conclude
-this chapter with an overview of known results and our work
-on the FTFP problem.
+closely related to our FTFP problem, the Uncapacitated
+Facility Location problem (UFL), and the Fault-Tolerant
+Facility Location problem (FTFL). After presenting the
+results of these two problems, we conclude this chapter with
+an overview of known results and our work on the FTFP
+problem.
 
 In all three problems, we are given a set of sites
 $\sitesset$ where we could open facilities, and a set of
@@ -714,8 +730,14 @@ differences between the problems are:
   each site can open at most $1$ facility.
 \item{FTFP}: Some demands may be more than $1$, and each site
   can open any number of facilities.
-
 \end{itemize}
+For all three problems above, we assume a metric
+version. That is, the distances satisfy the triangle
+inequality. For any two sites $i_1$ and $i_2$, and any two
+clients $j_1$ and $j_2$, we have
+\begin{equation*}
+  d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
+\end{equation*}
 
 In designing algorithms for all three problems, {\UFL},
 {\FTFL}, and {\FTFP}, we have two competing goals: on one
@@ -758,7 +780,7 @@ integral constraints to obtain a linear program
 (LP). Solving the LP gives an optimal fractional
 solution. The value of the fractional solution is then used
 to estimate the optimal solution's cost. In
-Appendix~\ref{sec:ILP} we give a primer for Integer Program,
+Appendix~\ref{sec: ILP} we give a primer for Integer Program,
 Linear Program and their application to the {\UFL} problem.
 
 For the {\UFL} problem, the LP formulated by
@@ -885,7 +907,7 @@ conditions provide a bound on the cost of the primal
 solution in terms of the cost of the dual solution, which is
 a lower bound on the optimal primal solution's cost. More on
 the use of complementary slackness conditions for {\UFL} can
-be found in Appendix~\ref{sec:ILP}.
+be found in Appendix~\ref{sec: ILP}.
 
 A slightly different primal-dual based approach was taken by
 Jain, Markakis, Mahdian, Saberi and
@@ -940,7 +962,7 @@ the introduction of the notion of \emph{bifactor} analysis,
 we postpone the discussion of Byrka and Li's work for now
 and introduce the notion of bifactor analysis first.
 
-\subsection{Bifactor Analysis} \label{subsec:bifactor} 
+\subsection{Bifactor Analysis} \label{subsec: bifactor} 
 Given that the cost of a solution to the {\UFL} problem
 consists of two parts, the facility cost and the connection
 cost, a notion of bifactor approximation was introduced by
@@ -1241,8 +1263,17 @@ approaches. The primal-dual related results are in
 Chapter~\ref{ch: primal-dual}.
 
 
-%% linear program
-\chapter{Linear Program} \label{ch:lp} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ch 3 Linear Program
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% what needs to be there?
+%% - the LP
+%% - special case: all r_j equal
+%% - completeness
+%%
+%% figure?
+%% table?
+\chapter{Linear Program} \label{ch: lp} 
 
 \section{Notation and Definition}
 In the fault-tolerant facility placement problem ({\FTFP}),
@@ -1294,7 +1325,7 @@ estimate the optimal solution value. For readers unfamiliar
 with Linear Programming (LP) and Integer Programming (IP),
 and their application on approximation algorithms, we
 included a short introductory section in the
-appendix~\ref{sec:ILP}.
+appendix~\ref{sec: ILP}.
 
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
@@ -1445,7 +1476,7 @@ The reduction is based on an optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ of LP~(\ref{eqn:fac_primal}). From
 the optimality of this solution, we can also assume that
 $\sum_{i\in\sitesset} x^\ast_{ij} = r_j$ for all
-$j\in\clientset$.  As explained in Section~\ref{ch:lp}, we
+$j\in\clientset$.  As explained in Section~\ref{ch: lp}, we
 can assume that $(\bfx^\ast,\bfy^\ast)$ is complete, that is
 $x^\ast_{ij} > 0$ implies $x^\ast_{ij} = y^\ast_i$ for all
 $i,j$.  We split this solution into two parts, namely
@@ -4156,7 +4187,7 @@ this chapter with some possible approaches to obtain
 sub-logarithmic approximation results.
 
 \section{The Greedy algorithm with $O(\log n)$ Ratio}
-\label{sec:upp}
+\label{sec: upp}
 In this section we show that the greedy algorithm which
 repeatedly picking the best star (the one with minimum
 average cost) gives an approximation ratio of $H_n = \ln(n)$
@@ -4318,7 +4349,7 @@ problems.
 
 For FTFP, the greedy algorithm that repeatedly picks the
 best star until all clients have all demands satisfied can
-be implemented in polynomial time. In Section~\ref{sec:upp}
+be implemented in polynomial time. In Section~\ref{sec: upp}
 we show that this algorithm is $H_n$-approximation where
 $n=|\mathcal C|$ is the number of clients. Since the same
 greedy algorithm is shown to have constant approximation
@@ -4534,7 +4565,7 @@ bound.
 \chapter{Technical Background}
 
 \section{Linear Programming and Integer Programming}
-\label{sec:ILP}
+\label{sec: ILP}
 
 In this section we give a short introduction on Linear
 Programming and Integer Programming with an emphasis on
