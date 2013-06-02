@@ -4066,44 +4066,41 @@ as argued earlier. Hence the total expected cost is bounded by $\max\{\gamma,
 \chapter{Primal-dual Algorithms} 
 \label{ch: primal-dual} 
 
-In this chapter we present results and discuss combinatorial
-algorithms to the FTFP problem. These approaches, although
-employ the Linear Program in guiding the algorithm and
-deriving approximation ratio, the use of LP is implicit. In
-particular, the algorithms do not require solving the LP and
-having access to a fractional optimal solution. Two notable
-such approaches are primal-dual and dual-fitting. In this
-chapter we assume the primal problem is a minimization
-problem and the dual problem is a maximization problem, to
-be consistent with our {\FTFP} problem. In primal-dual
-algorithms, we start with a feasible dual solution, usually
-with all dual variables set to zero, then we raise a subset
-of dual variables and update the corresponding primal
-variables accordingly. At any time, we keep the dual
-solution feasible and we stop when the primal solution
-becomes feasible. The approximation ratio is derived by a
-relaxed version of the complementary slackness conditions.
+In this chapter we present results on primal-dual
+algorithms. Primal-dual algorithms do not require solve the
+LP explicitly and thus avoid the overhead of calling an
+LP-solver. Those algorithms work by making simultaneous
+updates to an primal solution, which is integral, and a dual
+solution, and eventually arriving at a feasible primal
+solution and a feasible dual solution. The cost of the two
+solutions are related. It is then possible to compare the
+primal solution's cost to the optimal value, since the
+optimal value of the primal is lower bounded by the cost of
+any feasible dual solution, assuming the primal problem is a
+minimization problem.
 
-Another approach, dual-fitting, starts with an empty dual
-solution as well, and works in iterations. In each
-iteration, the algorithm raises a subset of dual variables,
-and updates corresponding primal variables. The algorithm
-stops when the primal solution is feasible. The difference
-is that in dual-fitting, the dual solution may not be
-feasible, and we require the cost of the primal solution
-bounded by the value of the possibly infeasible dual
-solution. The next step is to find a suitable number
-$\gamma$, which may depend on the input size, such that the
-dual solution, when divided by $\gamma$, becomes
-feasible. It is easy to see that $\gamma$ provides an upper
-bound on the approximation ratio, because the value of a
-feasible dual solution is a lower bound on the value of an
-optimal primal solution.
+In this chapter, we first review the primal-dual algorithm
+by Jain and Vazirani~\cite{JainV01} for {\UFL} and
+{\FTFL}. Next We review a greedy algorithm by Jain
+{\etal.}~\cite{JainMMSV03} for {\UFL} and explain how a
+similar algorithm can be used to solve {\FTFP}. We then
+derive the approximation ratio for that algorithm. Lastly we
+provide an example illustrating the difference between
+{\UFL} and {\FTFP} when the dual-fitting analysis is used
+for deriving approximation ratio.
+
+\section{Primal-dual: the Jain and Vazirani's Algorithm}
+A primal-dual algorithm starts with a feasible dual
+solution, with all dual variables set to zero, then raises a
+subset of dual variables and updates the corresponding
+primal variables accordingly. The algorithm stops when the
+primal solution becomes feasible. The approximation ratio is
+derived by a relaxed version of the complementary slackness
+conditions.
 
 Jain and Vazirani~\cite{JainV01} designed a primal-dual
 algorithm, which we call the JV algorithm, for the {\UFL}
-problem. Recall that in the {\UFL}, all demands $r_j =
-1$. In the JV algorithm, every client $j$ has a number
+problem. In the JV algorithm, every client $j$ has a number
 $\alpha_j$ associated. All $\alpha_j$ start at zero, and all
 clients are unconnected initially. The algorithm has two
 phases. The first phase runs in iterations. In each
@@ -4136,57 +4133,47 @@ not open, there must exists some facility $i'$ that is open
 and some client $j'$ such that $\alpha_{j'} > d_{i'j}$ and
 $\alpha_{j'} > d_{i j'}$. We then connect $j$ to one such
 $i'$ and this type of connection is an \emph{indirect}
-connection. 
+connection.
 
-We now analyze the cost of the solution. Due to the
-algorithm, we have $\alpha_{j'} \leq \min\{t(i), t(i')\}$
-where $t(i)$ is the time that facility $i$ is temporarily
-open. The reason is that, if $\alpha_{j'} > t(i)$, then it
-would have temporarily connected to facility $i$ earlier so
-its $\alpha_{j'}$ value would have been smaller. On the
-other hand, since facility $i$ is the witness of client $j$,
-we have $t(i) \leq \alpha_j$~\footnote{$t(i) < \alpha_j$ is
-  possible if facility $i$ is temporarily open and later $j$
-  has $\alpha_j = d_{ij}$ to temporarily connect to facility
-  $i$.} Therefore we have $\alpha_j \geq \alpha_{j'} \geq
-\max\{d_{i'j'}, d_{i j'}\}$. In addition, we also have
-$\alpha_j \geq d_{ij}$. Hence $d_{i'j} \leq d_{i'j'} +
-d_{ij'} + d_{ij} \leq \alpha_{j'} + \alpha_{j'} + \alpha_j
-\leq 3\alpha_j$. To complete the dual solution, we define
-$\beta_{ij} = \alpha_j - d_{ij}$ if facility $i$ is open and
-client $j$ contributes to facility $i$, and $\beta_{ij} = 0$
-otherwise. Now we estimate the total cost of this dual
-solution. For facility cost we have $\sum_{i,j} \beta_{ij}$,
-and for connection cost, if a client $j$ is directly
-connected, then its $d_{ij} \leq \alpha_j - \beta_{ij}$,
-otherwise it is $d_{ij} \leq 3\alpha_j$. The total cost is
-hence no more than $3\sum_{j\in\clientset} \alpha_j$. Since
-$\{\alpha_j\}$ form a feasible dual solution, we have the
-optimal solution value is no less than
-$\sum_{j\in\clientset} \alpha_j$. Therefore, we have our
-solution costs no more than $3$ times the cost of an optimal
-solution.
+The JV algorithm can be adapted to solve a more general
+problem, namely the Fault-Tolerant Facility Location problem
+({\FTFL}). However the approximation ratio is now $3\ln
+\max_j r_j$, which is logarithmic. Subsequent attempts on
+adapting the JV algorithm to {\FTFL} with a sub-logarithmic
+approximation ratio were not successful, with one exception:
+for the uniform-demand case when all $r_j$'s are equal,
+Adrian Bumb~\cite{Bumb02} showed that the JV
+algorithm~\cite{JainV01} for {\UFL} can be adapted to obtain
+the same ratio $3$ as for {\UFL}. For our problem, {\FTFP},
+it is not clear how we could adapt the JV algorithm as
+clients now have different demands and knowing another
+client connected to a few facilities does not ensure this
+client having enough facilities to connect to.
 
-The fault-tolerant facility location problem ({\FTFL}) was
-introduced by Jain and Vazirani~\cite{JainV03} primarily to
-demonstrate that their primal-dual algorithm on {\UFL} can
-be applied to a more general problem, where clients could
-have demand more than $1$, and each facility could be open
-or close. A client $j$ with demand $r_j$ needs to be
-connected to $r_j$ different facilities. The primal-dual
-algorithm by Jain and Vazirani on {\FTFL} gives a ratio of
-$3\ln \max_j r_j$. Subsequent attempts on adapting either
-the primal-dual approach or the dual-fitting approach to
-{\FTFL} with a sub-logarithmic approximation ratio were not
-successful, although for the uniform-demand case, that is,
-when all $r_j$ are equal, Adrian Bumb~\cite{Bumb02} showed
-that the JV algorithm~\cite{JainV01} for {\UFL} can be
-adapted to obtain the same ratio $3$ as for {\UFL}. On a
-separate paper, Swamy and Shmoys~\cite{SwamyS08} showed that
-a greedy algorithm analyzed using dual-fitting can be shown
-to have a ratio of $1.52$. For the non-uniform demand case,
-the best known result is an $O(\log
-n)$-approximation~\cite{JainV03}.
+\section{Dual-fitting and Greedy Algorithms}
+Another approach, dual-fitting, starts with an empty dual
+solution as well, and works in iterations. In each
+iteration, the algorithm raises a subset of dual variables,
+and updates corresponding primal variables. The algorithm
+stops when the primal solution is feasible. The difference
+is that in dual-fitting, the dual solution may not be
+feasible, and we require the cost of the primal solution
+bounded by the value of the possibly infeasible dual
+solution. The next step is to find a suitable number
+$\gamma$, which may depend on the input size, such that the
+dual solution, when divided by $\gamma$, becomes
+feasible. It is easy to see that $\gamma$ is an upper bound
+on the approximation ratio.
+
+Jain {\etal}~\cite{JainMMSV03} analyzed a greedy algorithm
+for {\UFL} that gives a ratio of $1.861$. The algorithm
+works by repeatedly picking the most cost-effective star
+until all clients are connected. A star consists of a
+facility and a set of clients. The cost-effectiveness is the
+cost of the star, divided by the number of clients in that
+star. Clients in the just selected star connect to the
+facility, and the opening cost of that facility is then set
+to zero.
 
 For our problem, {\FTFP}, we have seen in earlier chapters
 that it can be approximated with the same ratio as {\UFL}
@@ -4215,6 +4202,8 @@ sub-logarithmic approximation results.
 
 \section{The Greedy algorithm with $O(\log n)$ Ratio}
 \label{sec: upp}
+
+\subsection{The Greedy Algorithm}
 In this section we show that the greedy algorithm which
 repeatedly picking the best star (the one with minimum
 average cost) gives an approximation ratio of $H_n = \ln(n)$
@@ -4236,123 +4225,44 @@ exhausted. Thus we can accomplish multiple iterations in a
 single step and the number of steps is polynomially bounded
 by $|\sitesset|\cdot|\clientset|$.
 
-Now we analyze the cost of the solution, using the
-dual-fitting analysis similar to Jain
-{\etal}~\cite{JainMMSV03}. When we run the greedy algorithm,
-for every client $j$, we associate each demand of $j$ with a
-number $\alpha_j^l$, which is the average cost of the star
-when $l^{th}$ demand of $j$ is connected. Now we let
-$\alpha_j = \alpha_j^{r_j}$, that is, take $\alpha_j$ to be
-the finishing $\alpha_j^l$, and order clients by increasing
-$\alpha_j$. That is,
+\subsection{The Analysis}
+We now derive an approximation ratio for the greedy
+algorithm just described. It is not difficult to adapt the
+dual-fitting analysis for {\UFL} to {\FTFP}, although we
+have to settle for a much less satisfying ratio of $H_n$,
+where $H_n$ is the $n^{th}$ harmonic number. Instead, we
+present this result as a direct consequence of Wolsey's more
+general result on Set Cover related problems.
+
+The Wolsey's result shows that the greedy algorithm finds a
+solution of approximation ratio $H_d$ for the following
+general problem:
+
 \begin{equation*}
-  \alpha_1 \leq \alpha_2 \leq \ldots \leq \alpha_n
+  \min_{\calS} \{ \sum_{s\in\calS} c_s \suchthat
+  \calS\subseteq \calU, f(\calS) \geq k\}
 \end{equation*}
+Given a universe $\calU$ of elements, and a function $f :
+2^\calU \mapsto \mathbb{N}$ which is submodular. The greedy
+algorithm starts with $\calS = \emptyset$ and repeatedly
+choose an element $s \in \calU$ and add to $\calS$, where
+$s$ maximizes $(f(\calS \cup \{s\}) - f(\calS)) / c_s$. The
+greedy algorithm has an approximation ratio of $H_d$ where
+$d$ is $\max\{f(\{s\}) - f(\emptyset) \suchthat s \in
+\calU\}$ is the largest possible increase in $f$ from adding
+a single element.
 
-Due to the algorithm, for every $j=1,\ldots,n$, we have
-\begin{equation*}
-  \sum_{l=j}^n (\alpha_j - d_{il})_+ \leq f_i
-\end{equation*}
-for every site $i$.  The reason is that, when the last
-demand of $j$ is connected, all clients $j+1,\ldots,n$ are
-still active so (their $\alpha_j$ are still increasing)
-their total contribution cannot exceed $f_i$.
-
-Now we take a closer look at the numbers $\{\alpha_j\}$. We
-know that the algorithm's total cost is exactly
-$\sum_{j=1}^n \sum_{l=1}^{r_j} \alpha_j^l$, which is no more
-than $\sum_{j=1}^n r_j \alpha_j$ since we take $\alpha_j$ to
-be $\alpha_j^{r_j}$. Now if we can show that $\sum_{j=1}^n
-r_j \alpha_j$ is no more than $\gamma \cdot \OPT$, where
-$\textrm{OPT}$ is the cost of an integral optimal solution
-to the FTFP instance, then we claim our algorithm computes
-an integral solution whose cost is within a factor of
-$\gamma$ from $\OPT$.
-
-We show that $\sum_{j=1}^n r_j \alpha_j$ is within a factor
-of $\gamma$ from $\textrm{OPT}$ by showing that
-$\{\alpha_j/\gamma\}$ is a feasible dual solution to the
-following program, which is the dual program of the primal
-LP for FTFP.
-\begin{align*}
-  \max\; &\sum_j r_j\alpha_j\\
-  \textrm{subject to: }& \sum_{j=1}^n (\alpha_j - d_{ij})_+
-  \leq f_i \quad \forall i \in \sitesset\\
-\end{align*}
-
-To find the minimum $\gamma$ that would shrink
-$\{\alpha_j\}$ to a feasible dual solution, we need to find
-a worst case instance to maximize $\gamma$, also it is clear
-that the worst case instance must contain a star whose
-feasibility requirement would achieves the value of
-$\gamma$, and this star would be the worst star in that
-instance.
-
-As a first step we can drop the $\max\{0, \cdot\}$, because
-we can always find a new star by dropping those $j$ with
-$\alpha_j - d_{ij}$ term negative, and that new star would
-still be a worst case star. Suppose a worst case star has
-$k$ clients, and is with facility $i$, then we have
-\begin{equation*}
-  \sum_{j=1}^k \alpha_j - d_{ij} \leq f_i
-\end{equation*}
-Here we rename clients in the new star to be $1,\ldots,k$,
-although among them, they are still ordered by their
-$\alpha_j$.
-
-Now our goal is to find a supremum of the following program:
-\begin{align*}
-  \max\; & \frac{\sum_{j=1}^k \alpha_j}{f_i + \sum_{j=1}^k d_{ij}}\\
-  \textrm{subject to: } & \sum_{l=j}^k (\alpha_l -
-  d_{il})_+\leq f_i \textrm{ for } j=1,\ldots,k\\
-\end{align*}
-Actually this is a series of programs for $k=1,2,\ldots$.
-
-Since we are dealing with a particular star, we can abstract
-away $i$, to obtain the following program:
-\begin{align}
-  \label{eq:star}
-  \max\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
-    d_j}\\ \notag
-  \textrm{subject to: } & \sum_{l=j}^k (\alpha_j - d_{l})_+
-  \leq f \textrm{ for } j=1,\ldots,k\\ \notag
-\end{align}
-
-Now we claim we can drop the $\max\{0, \cdot\}$ operator
-because this would relax the constraint in (\ref{eq:star})
-and can only make objective value larger (since we are
-maximizing), so the real optimal is upper bounded by the
-relaxed optimal. This allows us to work on the following
-program instead.
-\begin{align}
-  \label{eq:frlp}
-  \max\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
-    d_j}\\ \notag
-  \textrm{subject to: } & \sum_{l=j}^k (\alpha_j - d_{l})
-  \leq f \textrm{ for } j=1,\ldots,k\\ \notag
-\end{align}
-
-For each $j=1,\ldots,k$, the constraint above simply can be
-rewritten as
-\begin{equation}
-  (k-j+1) \alpha_j \leq f + \sum_{l=j}^k d_l \leq f +
-  \sum_{l=1}^k d_l.
-\end{equation}
-The first inequality is a rewrite of the constraint in
-(\ref{eq:frlp}) and the second is straightforward.
-
-Therefore we have $\alpha_j \leq (1/(k-j+1)) (f +
-\sum_{j=1}^k d_j)$, and it easily follows that
-\begin{equation}
-  \sum_{j=1}^n \alpha_j \leq (1/k + 1/(k-1) + \ldots + 1) =
-  H_k \leq H_n = \ln(n)
-\end{equation}
-So we have shown that $\{\alpha_j / \gamma\}$ when $\gamma =
-H_n$ is a feasible dual solution and therefore
-$\sum_{j\in\clientset} r_j \alpha_j$ is no more than
-$H_n\cdot \OPT$. As our primal solution has cost no more
-than $\sum_{j\in\clientset} r_j \alpha_j$, the greedy
-algorithm computes a solution within $H_n$ from the optimal.
+To apply Wolsey's result, we notice that the elements
+correspond to the stars in our greedy algorithm, and the
+universe $\calU$ is then the collection of all possible
+stars. The submodular function $f$, maps a collection of
+stars $\calS$, to an integer that is the sum of $\min\{p_j,
+r_j\}$, where $p_j$ is the number of stars in $\calS$ that
+contains the client $j$. The integer $k$ in Wolsey's problem
+is then set to $\sum_{j} r_j$. Since each client $j$ can
+contribute no more than $r_j$ in the function $f$, having a
+total of $\sum_j r_j$ guarantees every client has its share
+being $r_j$.
 
 The $H_n$ approximation result is rather weak and is hardly
 the best approximation ratio possible for the greedy
