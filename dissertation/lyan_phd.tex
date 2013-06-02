@@ -4066,18 +4066,20 @@ as argued earlier. Hence the total expected cost is bounded by $\max\{\gamma,
 \chapter{Primal-dual Algorithms} 
 \label{ch: primal-dual} 
 
-In this chapter we present results on primal-dual
+In this chapter we present results of primal-dual
 algorithms. Primal-dual algorithms do not require solve the
-LP explicitly and thus avoid the overhead of calling an
-LP-solver. Those algorithms work by making simultaneous
-updates to an primal solution, which is integral, and a dual
-solution, and eventually arriving at a feasible primal
-solution and a feasible dual solution. The cost of the two
-solutions are related. It is then possible to compare the
-primal solution's cost to the optimal value, since the
-optimal value of the primal is lower bounded by the cost of
-any feasible dual solution, assuming the primal problem is a
-minimization problem.
+LP explicitly and are computationally more efficient, when
+compared to LP-rounding algorithms. Primal-dual algorithms
+work by making simultaneous updates to a primal solution,
+which is integral, and a dual solution, and eventually
+arriving at a feasible primal solution and a feasible dual
+solution. The cost of these two solutions are related by the
+weak duality theorem (Theorem~\ref{thm:weak_duality}) of LP
+theory. It is then possible to compare the primal solution's
+cost to the optimal value, since the optimal value of the
+primal is lower bounded by the cost of any feasible dual
+solution, assuming the primal problem is a minimization
+problem.
 
 In this chapter, we first review the primal-dual algorithm
 by Jain and Vazirani~\cite{JainV01} for {\UFL} and
@@ -4511,110 +4513,124 @@ bound.
 \section{Linear Programming and Integer Programming}
 \label{sec: ILP}
 
-In this section we give a short introduction on Linear
+In this section we give a short introduction to Linear
 Programming and Integer Programming with an emphasis on
-their applicability in design and analysis of approximation
-algorithms for {\NP}-optimization problems.
+their application to the design and analysis of
+approximation algorithms for optimization problems.
 
-Most {\NP}-optimization problems have a natural integer
-program in which we use variables to represent parameters in
-the solution that we seek, and write the constraints imposed
-by feasiblity of the solution. The objective function is
-obtained by the cost function of the solution, specified by
-the problem. For example, in the Vertex Cover problem, we
-are given a graph $G=(V,E)$ and we are to find a subset $W$
-of $V$, such that every edge $e\in E$ has at least one
-endpoint in $W$, and we want the set $W$ to have minimum
-size. To formulate this problem as an integer program, we
-use $x_v \in \{0,1\}$ to denote whether a node $v\in V$ is
-in $W$ or not. The constraint is that for every edge
-$e=(u,v)$, we have $x_u + x_v \geq 1$. The objective is to
-minimize $\sum_{v\in V} x_v$. The integer program for Vertex
-Cover is written as
+Most optimization problems have a natural integer program in
+which we use variables to describe the solution that we
+seek, and write the constraints imposed by the solution
+feasiblity requirements. The objective function is the cost
+function of the solution. Both the feasibility requirements
+and the cost function are specified by the problem. For
+example, in the Vertex Cover problem, we are given a graph
+$G=(V,E)$ and we are to find a subset $W$ of $V$, such that
+every edge $e\in E$ has at least one endpoint in $W$, and we
+want such a set $W$ to have minimum size. To formulate this
+problem as an integer program, we use $x_v \in \{0,1\}$ to
+denote whether a node $v\in V$ is in $W$ or not. The
+constraint is that for every edge $e=(u,v)$, we have $x_u +
+x_v \geq 1$. The objective is to minimize $\sum_{v\in V}
+x_v$. The integer program for Vertex Cover is written as
 \begin{align*}
-  &\text{minimize } \sum_{v\in V} x_v\\
-  &\text{subject to } x_u + x_v \geq 1  \qquad \forall (u,v) \in
+  \text{minimize } &\sum_{v\in V} x_v &\\
+  \text{subject to }& x_u + x_v \geq 1 &\quad &\forall (u,v) \in
   E\\
-  &x_v \in \{0, 1\} \qquad \forall v \in V\\
+  &x_v \in \{0, 1\} &\quad &\forall v \in V\\
 \end{align*}
 In general an integer program cannot be solved exactly in
-polynomial time, as integer programming is
+polynomial time, as Integer Programming is
 {\NP}-hard. However, if we relax the integral constraint and
-allow the variables to take fractional value, we then obtain
-a Linear Program (LP) and LP is polynomially solvable, for
-example, using the ellipsoid method or the interior point
-method. Thus we can first solve the LP optimally, obtaining
-a fractional optimal solution to the LP. The value of the
-fractional optimal solution is then a lower bound on the
-value of the optimal integral solution, assuming a
-minimization problem. Our next step is then to round the
-fractional solution appropriately, so that we maintain the
-feasibility while keeping the cost from increasing too
-much. The exact rounding procedure is problem specific and
-we shall not delve into the details here. The rounding
-relevant to the FTFP problem in this thesis is presented in
-detail in Chapter~\ref{ch: lp-rounding}.
+allow the variables to take fractional values, we then
+obtain a Linear Program (LP) and LP is polynomially
+solvable, for example, using the ellipsoid method or the
+interior point method. Thus we can first solve the LP
+optimally, obtaining a fractional optimal solution to the
+LP. The value of the fractional optimal solution is then a
+lower bound on the value of the integral optimal solution,
+assuming a minimization problem. Our next step is then to
+round the fractional solution appropriately, so that we
+maintain the feasibility while keep the cost from increasing
+too much. The exact rounding procedure is problem specific
+and we shall not delve into the topic here. The rounding
+relevant to the FTFP problem, the problem studied in this
+thesis, is presented in detail in Chapter~\ref{ch:
+  lp-rounding}.
 
 We now give a brief introduction of linear programming,
 see~\cite{Chvatal83} for an introductory book on this topic.
 A general Linear Program can be written as
-\begin{align}
+\begin{empheq}[box=\fbox]{align}
   \label{eqn:lp_primal}
   \text{minimize } & \sum_{j=1}^n c_j x_j & \\ \notag
   \text{subject to } & \sum_{j=1}^n a_{ij} x_j \geq b_i,
    & \text{for } i = 1, \ldots, m\\ \notag
-   & x_j \geq 0 & \text{for } j = 1, \ldots, n\\ \notag
-\end{align}
+   & x_j \geq 0 & \text{for } j = 1, \ldots, n
+\end{empheq}
 For the LP above, we can take its dual as
-\begin{align}
+\begin{empheq}[box=\fbox]{align}
   \label{eqn:lp_dual}
   \text{maximize } & \sum_{i=1}^m b_i y_i &\\ \notag
   \text{subject to } & \sum_{i=1}^m a_{ij} y_i \leq c_j
    & \text{for } j = 1, \ldots, n\\ \notag
-   & y_i \geq 0 & \text{for } i = 1,\ldots,m\\ \notag
-\end{align}
+   & y_i \geq 0 & \text{for } i = 1,\ldots,m
+\end{empheq}
 The LP (\ref{eqn:lp_primal}) is called the primal program
-and the LP (\ref{eqn:lp_dual}) is called the dual program.
-The weak duality theorem tells us that, for every feasible
-solution $\bfx$ for the primal (\ref{eqn:lp_primal}) and
-$\bfy$ for the dual (\ref{eqn:lp_dual}), we have that
-$\textbf{c}^T \bfx \geq \textbf{b}^T \bfy$. The strong
-duality theorem tells us that if both the primal
-(\ref{eqn:lp_primal}) and the dual (\ref{eqn:lp_dual}) are
-feasible, then both of them have optimal solution
-$\bfx^\ast$ and $\bfy^\ast$ and their objective function
-values equal, that is $\textbf{c}^T \bfx^\ast = \textbf{b}^T
-\bfy^\ast$. Moreover, the complementary slackness conditions
-assert that two feasible solutions $\bfx$ and $\bfy$ are
-both optimal to LP (\ref{eqn:lp_primal}) and
-(\ref{eqn:lp_dual}) respectively, if and only if, for every
-primal variable $x_j$, either $x_j = 0$ or the corresponding
-constraint in the dual is tight, that is $\sum_{i=1}^m
-a_{ij} y_i = c_j$. And for every dual variable $y_i$, either
-$y_i = 0$ or the corresponding constraint in the primal is
-tight, that is $\sum_{j=1}^n a_{ij} x_j = b_i$. The
-complementary slackness conditions provide a simple way to
-validate the optimality when one is presented with two
-solutions, proposed to be optimal for the primal and dual
-program respectively.
-
-The complementary slackness conditions play a crucial role
-in the design and analysis of approximation algorithms. For
-example, suppose we have an algorithm that computes a
-feasible integral solution $\bfx$ to the primal program
-(\ref{eqn:lp_primal}) and a feasible integral solution to
-the dual program (\ref{eqn:lp_dual}). Moreover, we know that
-the two solutions satisfy a relaxed version of the
-complementary slackness conditions: for some numbers
-$\gamma$ and $\rho$, we have
-\begin{align*}
+and the LP (\ref{eqn:lp_dual}) is called the dual
+program. Regarding the objective function value of the two
+programs, we have the Weak Duality Theorem:
+\begin{theorem}
+  \label{thm:weak_duality}
+  For every feasible solution $\bfx$ to the primal
+  (\ref{eqn:lp_primal}) and $\bfy$ to the dual
+  (\ref{eqn:lp_dual}), we have that $\textbf{c}^T \bfx \geq
+  \textbf{b}^T \bfy$.
+\end{theorem}
+The Strong Duality Theorem is that:
+\begin{theorem}
+  \label{thm:strong_duality}
+  If both the primal (\ref{eqn:lp_primal}) and the dual
+  (\ref{eqn:lp_dual}) are feasible, then both of them have
+  optimal solution $\bfx^\ast$ and $\bfy^\ast$ and their
+  objective function values are equal, that is $\textbf{c}^T
+  \bfx^\ast = \textbf{b}^T \bfy^\ast$.
+\end{theorem}
+One way to characterize optimal primal and dual solutions is
+the Complementary Slackness Conditions. The Complementary
+Slackness Condtions says that:
+\begin{theorem}
+  \label{thm:complementary_slackness}
+  Two feasible solutions $\bfx$ and $\bfy$ are both optimal
+  to LP (\ref{eqn:lp_primal}) and (\ref{eqn:lp_dual})
+  respectively, if and only if, for every primal variable
+  $x_j$, either $x_j = 0$ or the corresponding constraint in
+  the dual is tight, that is $\sum_{i=1}^m a_{ij} y_i =
+  c_j$; and for every dual variable $y_i$, either $y_i = 0$
+  or the corresponding constraint in the primal is tight,
+  that is $\sum_{j=1}^n a_{ij} x_j = b_i$.
+\end{theorem}
+The complementary slackness conditions provide a simple way
+to validate the optimality when one is presented with a
+primal solution and a dual solution that are claimed to be
+optimal. In addition, the complementary slackness conditions
+play a crucial role in the design and analysis of
+approximation algorithms. For example, suppose we have an
+algorithm that computes a feasible integral solution $\bfx$
+to the primal program (\ref{eqn:lp_primal}) and a feasible
+fractional solution to the dual program
+(\ref{eqn:lp_dual}). Moreover, we know that the two
+solutions satisfy a relaxed version of the complementary
+slackness conditions: for some numbers $\gamma$ and $\rho$,
+we have
+\begin{empheq}[box=\fbox]{align*}
   \text{either } y_i = 0  \quad \text{or } \quad b_i \leq \sum_{j}
-  a_{ij} x_j \leq \gamma\, b_i \qquad \text{for } i = 1,
-  \ldots, m.\\
+  a_{ij} x_j \leq \gamma\, b_i, \qquad \text{for } i = 1,
+  \ldots, m;\\
   \text{either } x_j = 0  \quad \text{or } \quad \rho\, c_j \leq
-  \sum_{i}a_{ij}y_i \leq c_j \qquad \text{for } j = 1,
-  \ldots, n.\\
-\end{align*}
+  \sum_{i}a_{ij}y_i \leq c_j, \qquad \text{for } j = 1,
+  \ldots, n.
+\end{empheq}
 Then the integral solution $\bfx$ has cost no more than
 $\gamma/\rho$ times the optimal value. In particular, we
 have $\sum_{j} c_j x_j \leq \gamma/\rho \sum_{i} b_i y_i$
@@ -4624,40 +4640,40 @@ primal program.
 
 As an application of the complementary slackness conditions,
 we look at their use in the design and analysis of
-algorithms for the facility location problems. Recall that
-we define the neighborhood $N(j)$ of a client $j$ as the set
-of facilities with $x_{ij}^\ast > 0$, where
-$\bfx^\ast,\bfy^\ast$ is some fractional optimal fractional
-solution and $\bfalpha^\ast, \bfbeta^\ast$ is some optimal
-fractional dual solution. The complementary slackness
-conditions provide an upper bound on the maximum distance
-from a facility $i \in N(j)$ to a client $j$, since one dual
-constraint says $\alpha_j - \beta_{ij} \leq d_{ij}$ and if
-the primal solution has $x_{ij}^\ast > 0$, then the
-inequality is actually an equality and we have
-$\alpha_j^\ast - \beta_{ij}^\ast = d_{ij}$. Together with
-$\beta_{ij}^\ast \geq 0$, we have $\alpha_j^\ast \geq
-d_{ij}$ for every $i$ such that $x_{ij}^\ast > 0$.
+algorithms for the Uncapacitated Facility Location problem
+(UFL). Recall that we define the neighborhood $N(j)$ of a
+client $j$ as the set of facilities with $x_{ij}^\ast > 0$,
+where $(\bfx^\ast,\bfy^\ast)$ is some fractional optimal
+fractional solution to LP~(\ref{eqn:ufl_primal}) and
+$(\bfalpha^\ast, \bfbeta^\ast)$ is some optimal fractional
+dual solution to LP~(\ref{eqn:ufl_dual}). The complementary
+slackness conditions give an upper bound of $\alpha_j^\ast$
+on the maximum distance from a facility $i \in N(j)$ to a
+client $j$. To see this bound, notice that the dual
+constraint says $\alpha_j - \beta_{ij} \leq d_{ij}$.  If the
+primal solution has $x_{ij}^\ast > 0$, then the inequality
+is actually an equality and we have $\alpha_j^\ast -
+\beta_{ij}^\ast = d_{ij}$. Together with $\beta_{ij}^\ast
+\geq 0$, we have $\alpha_j^\ast \geq d_{ij}$ for every
+facility $i$ such that $x_{ij}^\ast > 0$. By definition
+those are facilities in the neighborhood $N(j)$. Therefore
+we have $d_{ij} \leq \alpha_j^\ast$ for every $i\in N(j)$.
 
-The idea of using relaxed complementary slackness conditions
-in designing approximation algorithms for the uncapacitated
-facility location problem is demonstrated by Jain and
-Vazirani~\cite{JainV01}. They proposed an algorithm that
-outputs an integral solution $(\bfx, \bfy)$ to the primal
-program (\ref{eqn:fac_primal}) and a feasible (possibly
-fractional) solution $(\bfalpha,\bfbeta)$ to the dual
-program (\ref{eqn:fac_dual})~\footnote{For the uncapacitated
-  facility location problem we have all $r_j = 1$ for
-  $j\in\clientset$.}. Moreover, the two solutions satisfy the
-conditions that
-\begin{align*}
+A more important application of using relaxed complementary
+slackness conditions for the UFL problem is demonstrated by
+Jain and Vazirani~\cite{JainV01}. They proposed an algorithm
+that outputs an integral solution $(\bfx, \bfy)$ to the
+primal program (\ref{eqn:ufl_primal}) and a feasible
+(possibly fractional) solution $(\bfalpha,\bfbeta)$ to the
+dual program (\ref{eqn:ufl_dual}). Moreover, the two
+solutions satisfy the conditions that
+\begin{empheq}[box=\fbox]{align*}
   &\text{either } \sum_{j} \beta_{ij} = f_i  \quad \text{ or
-} \quad y_i = 0.\\
-  &\text{either } 1/3\, d_{ij} \leq \alpha_j - \beta_{ij}
-  \leq d_{ij} \quad \text{ or } \quad x_{ij} = 0.\\
-\end{align*}
-The solution $(\bfx,\bfy)$ then is an $3$-approximation to
-the optimal solution.
+} \quad y_i = 0;\\
+  &\text{either } (1/3)\, d_{ij} \leq \alpha_j - \beta_{ij}
+  \leq d_{ij} \quad \text{ or } \quad x_{ij} = 0.
+\end{empheq}
+The solution $(\bfx,\bfy)$ then is a $3$-approximation.
 
 \section{Proof of Inequality (\ref{eqn: echs ineq direct
     cost, step 1})}
