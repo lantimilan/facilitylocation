@@ -120,12 +120,12 @@ Professor Neal Young}
 
 \begin{acknowledgements}
   I would thank my advisor, Marek Chrobak, for bringing me
-  into the PhD program of University of California
+  into the PhD program at the University of California
   Riverside, and for his guidance and patience on my study
-  and research in the past five years. I am also grateful
-  for the committee, Tao Jiang, Stefano Lonardi, and Neal
-  Young for helpful discussions and comments on my research
-  and this dissertation.
+  and research during the past five years. I am also
+  grateful for the committee, Tao Jiang, Stefano Lonardi,
+  and Neal Young for helpful discussions and comments on my
+  research and this dissertation.
 
   The supportive environment of the algorithm lab and
   computer science department has made PhD study here a
@@ -138,7 +138,7 @@ Professor Neal Young}
 \null\vfil
 {\large
 \begin{center}
-  To my parents, who always have faith on my endeavor.
+  To my parents, who always have faith in my endeavors.
 \end{center}}
 \vfil\null
 \end{dedication}
@@ -146,27 +146,26 @@ Professor Neal Young}
 \begin{abstract}
   In this thesis we study the Fault-Tolerant Facility
   Placement problem (FTFP). In the FTFP problem, we are
-  given a set of sites where we can open facilities, and a
-  set of clients with demands. To satisfy their demands,
-  clients need to be connected to open facilities in
-  sites. The goal is to satisfy all clients' demands while
-  minimizing the total cost, that is the cost of opening
-  facilities and the cost of connecting clients to
-  facilities. The problem is shown to be NP-hard and hence
-  we study approximation algorithms and their performance
-  guarantee. Approximation algorithms are algorithms that
-  run in polynomial time with provable performance when
-  compared to optimal solutions.
+  given a set of sites at which we can open facilities, and
+  a set of clients with demands. To satisfy demands, clients
+  must be connected to open facilities. The goal is to
+  satisfy all clients' demands while minimizing the combined
+  cost of opening facilities and the cost of connecting
+  clients to facilities. We shown that the problem is
+  NP-hard and hence we study approximation algorithms and
+  their performance guarantees. Approximation algorithms are
+  algorithms that run in polynomial time with provable
+  performance bounds relative to optimal solutions.
 
   We present two techniques that lead to several LP-rounding
   algorithms with progressively improved approximation
-  ratio. The best ratio we have is 1.575. We also study the
+  ratios. The best ratio we have is 1.575. We also study
   primal-dual approaches. In particular, we show that a
   natural greedy algorithm analyzed using the dual-fitting
-  technique gives an approximation ratio of O(logn). On the
+  technique gives an approximation ratio of O(log n). On the
   negative side, under a natural assumption, we give an
   example showing that the dual-fitting analysis cannot give
-  a ratio better than O(logn/loglogn).
+  a ratio better than O(log n/loglog n).
 \end{abstract}
 
 \tableofcontents
@@ -284,6 +283,8 @@ opening cost and the client connection cost.
   \centering
   \begin{tabular}{|l l l l|}
     \hline
+    author & technique & ratio & year\\
+    \hline
     Shmoys, Tardos and Aardal & LP-rounding & 3.16 & 1997~\cite{ShmoysTA97}\\
     Chudak and Shmoys & LP-rounding & 1.736 & 1998~\cite{Chudak98}\\
     Sviridenko & LP-rounding & 1.582 & 2002~\cite{Svi02}\\
@@ -295,16 +296,15 @@ opening cost and the client connection cost.
     Byrka and Aardal & hybrid & 1.50 & 2007~\cite{Byrka07}\\
     Li & hybrid & 1.488 & 2011 (best result)~\cite{Li11}\\
     \hline
-    Guha and Khuller & lower-bound & 1.463 & 1998~\cite{GuhaK98}\\
+    Guha and Khuller & lower-bound & 1.463 &
+    1998~\cite{GuhaK98} \\
     \hline
   \end{tabular}
   \caption[A history of approximation algorithms and their
-  ratio for the UFL problem.]
+  ratios for the UFL problem.]
   {A history of approximation algorithms and their
-    ratio for the UFL problem. The columns are author,
-    technique, ratio and year. The word \emph{hybrid} means
-    using
-    two independent algorithms and returning the better
+    ratio for the UFL problem. The word \emph{hybrid} means
+    using two independent algorithms and returning the better
     solution of the two. The last row of $1.463$ is about
     inapproximability, or hardness.}
   \label{tab:ufl_history}
@@ -1241,7 +1241,7 @@ fact that two different primal-dual
 algorithms~\cite{JainV03,JainMMSV03} have achieved constant
 ratio for {\UFL}.
 
-\section{Our Problem FTFP}
+\section{Related Work on FTFP}
 Our problem, the Fault-Tolerant Facility Placement problem
 (\FTFP), was introduced by Xu and
 Shen~\cite{XuS09}~\footnote{In their paper they call the
@@ -1321,7 +1321,7 @@ second term $\sum_{i \in \sitesset, j \in \clientset} d_{ij}
 x_{ij}$ \emph{the connection cost} of the solution $(\bfx,
 \bfy)$.
 
-\section{The Linear Program}
+\section{The Linear Program of FTFP}
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
 opened at site $i$, and let $x_{ij}$ represent the number of
@@ -4225,6 +4225,11 @@ exhausted. Thus we can accomplish multiple iterations in a
 single step and the number of steps is polynomially bounded
 by $|\sitesset|\cdot|\clientset|$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% WAIT, what are the stars, and what about set f_i to
+%%% zero!
+%%% OK, stars can be generated
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Analysis}
 We now derive an approximation ratio for the greedy
 algorithm just described. It is not difficult to adapt the
