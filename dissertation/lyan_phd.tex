@@ -2466,22 +2466,22 @@ fractional solution must satisfy.
 \chapter{LP-rounding Algorithms} \label{ch: lp-rounding}
 
 In Section~\ref{sec: adaptive partitioning} of
-Chapter~\ref{ch: techniques}, we saw that the adaptive partitioning technique
-produces a fractional solution between individual facilities
-and unit demand points with a number of structural
-properties. In this chapter we show how those properties
-help in designing LP-rounding algorithms with good
-approximation ratios. We start with a simple algorithm with
-ratio $3$ that illustrates the main steps of a rounding
+Chapter~\ref{ch: techniques}, we have seen that the adaptive
+partitioning technique produces a fractional solution for
+individual facilities and unit demand points with a number
+of structural properties. In this chapter we show how those
+properties help in designing LP-rounding algorithms with
+good approximation ratios. We start with a simple algorithm
+with ratio $3$ that illustrates the main steps of a rounding
 algorithm and the use of the structural properties to derive
 an approximation ratio. A more refined rounding algorithm
 with ratio $1.736$ is presented next, using the same
 partitioned fractional solution as a starting point. Our
 best approximation algorithm with ratio $1.575$ is presented
 last, and the algorithm also requires a more sophisticated
-structure of the fractional solution, compared to the ones
-used by the $3$-approximation and the $1.736$-approximation
-algorithms.
+structure of the fractional solution, compared to the one
+used by both the $3$-approximation and the
+$1.736$-approximation algorithms.
 
 %% EGUP 3
 \section{Algorithm~{\EGUP} with Ratio $3$}
