@@ -1467,7 +1467,7 @@ After obtaining an optimal fractional solution to LP
 (\ref{eqn:fac_primal}) and (\ref{eqn:fac_dual}), we employ
 two techniques to obtain approximation results on the FTFP
 problem. Our first technique, which we call \emph{demand
-  reduction}, allows us to restrict our attention to a
+  reduction}, allows us to narrow down our attention to a
 restricted version of the {\FTFP} problem, in which all
 demands $r_j$ are not too large. This restriction then sets
 stage for the application of our next technique,
@@ -1489,24 +1489,27 @@ This section presents a \emph{demand reduction} trick that
 reduces the problem for arbitrary demands to a special case
 where demands are bounded by $|\sitesset|$, the number of
 sites.  (The formal statement is a little more technical --
-see Theorem~\ref{thm: reduction to polynomial}.)  Our
-algorithms in the sections that follow process individual
-demands of each client one by one, and thus they critically
-rely on the demands being bounded polynomially in terms of
-$|\sitesset|$ and $|\clientset|$ to keep the overall running time polynomial.
+see Theorem~\ref{thm: reduction to polynomial}.)  Our second
+technique (Section~\ref{sec: adaptive partitioning}),
+adaptive partitioning, our LP-rounding algorithms
+(Chapter~\ref{ch: lp-rounding}) process individual demands
+of each client one by one, and thus they critically rely on
+the demands being bounded polynomially in terms of
+$|\sitesset|$ and $|\clientset|$ to keep the overall running
+time polynomial.
 
 The reduction is based on an optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ of LP~(\ref{eqn:fac_primal}). From
 the optimality of this solution, we can also assume that
 $\sum_{i\in\sitesset} x^\ast_{ij} = r_j$ for all
-$j\in\clientset$.  As explained in Section~\ref{ch: lp}, we
+$j\in\clientset$.  As explained in Chapter~\ref{ch: lp}, we
 can assume that $(\bfx^\ast,\bfy^\ast)$ is complete, that is
 $x^\ast_{ij} > 0$ implies $x^\ast_{ij} = y^\ast_i$ for all
 $i,j$.  We split this solution into two parts, namely
 $(\bfx^\ast,\bfy^\ast) = (\hatbfx,\hatbfy)+
 (\dotbfx,\dotbfy)$, where
 %
-\begin{empheq}{align*}
+\begin{empheq}[box=\fbox]{align*}
 %\begin{align*}
 \haty_i &\;\assign\; \floor{y_i^\ast}, \quad
 			\hatx_{ij} \;\assign\; \floor{x_{ij}^\ast} \quad\textrm{and}
@@ -1560,13 +1563,26 @@ Then  $\doty_i = y_i^\ast - \floor{y_i^\ast} = x_{ij}^\ast - \floor{x_{ij}^\ast}
   $\dotx_{ij} < 1$.  Then the bound follows from the definition of $\dotr_j$.
 \end{proof}
 
-Notice that our construction relies on the completeness assumption; in fact, it is
-easy to give an example where $(\dotbfx, \dotbfy)$ would not be feasible if we
-used a non-complete optimal solution $(\bfx^\ast,\bfy^\ast)$.
-Note also that the solutions $(\hatbfx,\hatbfy)$ and $(\dotbfx, \dotbfy)$ are in fact
-optimal for their corresponding instances, for if a better solution to $\hatcalI$ or
-$\dotcalI$ existed, it could
-give us a solution to $\calI$ with a smaller objective value.
+Notice that our construction relies on the completeness
+assumption; in fact, it is easy to give an example where
+$(\dotbfx, \dotbfy)$ would not be feasible if we used a
+non-complete optimal solution $(\bfx^\ast,\bfy^\ast)$.  Note
+also that the solutions $(\hatbfx,\hatbfy)$ and $(\dotbfx,
+\dotbfy)$ are in fact optimal for their corresponding
+instances, for if a better solution to $\hatcalI$ or
+$\dotcalI$ existed, it could give us a solution to $\calI$
+with a smaller objective value. We would also like to
+comment that completeness, although simplifies our argument
+here and afterwards, is not essential. For our demand
+reduction, we can deal with non-complete fractional
+solutions by taking $\hat y_i = (y_i^\ast -
+1)_+$~\footnote{The notation $(\cdot)_+$ means taking
+  maximum of the term or 0.} and $\hat x_{ij} =
+\min\{\floor{x_{ij}}, \hat y_i\}$, and $\dot y_i = y_i^\ast
+- \hat y_i$, $\dot x_{ij} = x_{ij}^\ast - \hat x_{ij}$. For
+this set of fractional values, we still have (i) and (ii) of
+Lemma~\ref{lem: polynomial demands partition}, and (iii) now
+reads $\dot r_j < 2|\sitesset|$ for every client $j$.
 
 %%%%%%%%%%%%%%%
 
@@ -1612,7 +1628,7 @@ the proof.
 Two nice consequences are immediate, given demand reduction
 above.
 
-\subsection{Reduction from FTFP to FTFL}
+\section{Reduction from FTFP to FTFL}
 Given demand reduction, we may assume that we are working
 with a restricted version of FTFP where every demand $r_j$
 is no more than $|\sitesset|$. In this case we can reduce
@@ -1634,7 +1650,7 @@ matches the best LP-based ratio for {\UFL}. So from the
 standpoint of approximation, {\FTFP} is more amenable than
 {\FTFL}.
 
-\subsection{Asymptotic Approximation Ratio for Large
+\section{Asymptotic Approximation Ratio for Large
   Demands}
 When all demands are large, one would expect the fractional
 optimal solution to LP (\ref{eqn:fac_primal}) is very close
