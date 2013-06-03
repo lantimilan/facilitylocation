@@ -4443,12 +4443,12 @@ average of individual $\alpha_j^l$ for each of the $l^{th}$
 demand of client $j$, with $l=1,\ldots,r_j$. That is
 $\alpha_j = \sum_{l=1}^{r_j} \alpha_j^l / r_j$. Suppose the
 $l^{th}$ demand of $j$ is satisfied while $j$ is in a star
-with facility $i$, then $\alpha_j^l = d_{ij} + f_i^{j,l}$,
-where $f_i^{j,l}$ is the portion of $f_i$ attributed to $j$
-in the analysis. Notice that taking the average implies the
-$\alpha_j$ values thus computed make $\sum_{j\in\clientset}
-r_j \alpha_j$ equal to the cost of the integral solution by
-the greedy algorithm.
+with a facility at a site $i$, then $\alpha_j^l = d_{ij} +
+f_i^{j,l}$, where $f_i^{j,l}$ is the portion of $f_i$
+attributed to $j$ in the analysis. Notice that taking the
+average implies the $\alpha_j$ values thus computed make
+$\sum_{j\in\clientset} r_j \alpha_j$ equal to the cost of
+the integral solution by the greedy algorithm.
 
 %%%%%%%%%%%%%%%%%%% start figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -4514,12 +4514,13 @@ the greedy execution goes like this: the first non-trivial
 star (with $r_1$ replica) is $(f_1, n_1)$. Then we have a
 trivial star of zero cost facility and all $n_2$ clients in
 group $2$ for $r_1$ replica. The second non-trivial star
-(with $r_2$ replica) is $(f_1, n_2)$. Notice that $r_2 \gg
-r_1$. The $r_1$ replica of trivial star with group $2$
-satisfy $r_1$ demand of the $n_2$ group. After that the
-$n_2$ group clients each has residual demand $r_2 - r_1 =
-r_2$. The process repeats until the $k^{th}$ group finishes
-with $r_k$ new facilities.
+(with $r_2 - r_1$ replica) is $(f_1, n_2)$. Notice that the
+$r_1$ replica of trivial star with group $2$ satisfy the
+first $r_1$ demand of the $n_2$ group. After that the $n_2$
+group clients each has residual demand $r_2 - r_1 = r_2$,
+and are then satisfied by the $r_2 - r_1$ replica of the
+$(f_1, n_2)$ stars. The process repeats until the $k^{th}$
+group finishes with $r_k$ new facilities.
 
 According to our local charging assumption, we have
 $\alpha_1 = f_1$, now defined as the total dual value of
@@ -4537,11 +4538,14 @@ n_2 d_2$, and so on. Substituing in the numbers, we have
   &\alpha_k = f_1 + n_k d_k = f_1 + f_1 n_k (\frac{1}{n_{k-1}} + \ldots
   \frac{1}{n_1})\\
 \end{align*}
-Notice that $r_1 \ll r_2 \ll \ldots \ll r_k$ implies $\alpha_j$ is
-decided by the max among $\alpha_j^l$.
+Notice that $r_1 \ll r_2 \ll \ldots \ll r_k$ implies
+$\alpha_j$ is decided by the max among $\alpha_j^l$, so in
+the following calculation we ignored the terms involving
+trivial stars.
 
-Now back to the dual constraint, it requires that the shrinking factor
-$\gamma$ needs to satisfy the following inequality:
+Now back to the dual constraint, it requires that the
+shrinking factor $\gamma$ needs to satisfy the following
+inequality:
 \begin{equation}
   \frac{\alpha_1}{\gamma} - d_1 + \frac{\alpha_2}{\gamma} - d_2 +
   \ldots + \frac{\alpha_k}{\gamma} - d_k \leq f_1.
@@ -4587,16 +4591,16 @@ algorithm for UFL, constructed by Mahdian {\etal}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Conclusion} \label{ch: conclusion} 
 
-In this thesis we study the fault-tolerant facility
-placement problem ({\FTFP}), a generalization of the
-well-known uncapacitated facility location problem
-({\UFL}). We demonstrated that the known LP-rounding
-algorithms for {\UFL} can be adapted to {\FTFP} while
-preserving the approximation ratio. To accomplish this
-reduction, we developed two techniques, namely demand
-reduction and adaptive partition, which could be of more
-general interest. Our results demonstrated that {\FTFP}
-seems easier to approximate, compared to {\FTFL}.
+In this thesis we study the Fault-Tolerant Facility
+Placement problem ({\FTFP}), a generalization of the
+well-known Uncapacitated Facility Location problem
+({\UFL}). We showed that the known LP-rounding algorithms
+for {\UFL} can be adapted to {\FTFP} while preserving the
+approximation ratio. To accomplish this reduction, we
+developed two techniques, namely demand reduction and
+adaptive partition, which could be of more general
+interest. Our results show that {\FTFP} seems easier to
+approximate, compared to {\FTFL}.
 
 We also studied the primal-dual and dual-fitting approach,
 and provided a possible explanation on the difficult to
@@ -4610,13 +4614,13 @@ than one facility and we still need to keep total cost under
 control.
 
 In anticipating future research, we tend to agree with the
-authors, Byrka {\etal}, with their remark on {\UFL} and
-{\FTFL}, that both problems are likely to have approximation
-algorithms with ratio matching the $1.463$ lower bound. And
-from our demand reduction technique, it is almost surely
-that {\FTFP} shall have a $1.463$-approximation algorithm,
-provided that {\FTFL} can be approximated to meet the lower
-bound.
+authors, Byrka {\etal}~\cite{ByrkaSS10}, with their remark
+on {\UFL} and {\FTFL}, that both problems are likely to have
+approximation algorithms with ratio matching the $1.463$
+lower bound. From our demand reduction technique, it is
+almost surely that {\FTFP} shall have a
+$1.463$-approximation algorithm, provided that {\FTFL} can
+be approximated to meet the lower bound.
 
 \bibliographystyle{plain}
 \bibliography{facility}
