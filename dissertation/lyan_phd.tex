@@ -1496,18 +1496,19 @@ smoothly.
 \label{sec: polynomial demands}
 
 This section presents the demand reduction technique that
-reduces the problem for arbitrary demands to a special case
-where demands are bounded by $|\sitesset|$, the number of
-sites.  (The formal statement is a little more technical --
-see Theorem~\ref{thm: reduction to polynomial}.)  The demand
-reduction step prepares us for our second technique,
-adaptive partitioning~(Section~\ref{sec: adaptive
-  partitioning}), as well as our LP-rounding algorithms
-(Chapter~\ref{ch: lp-rounding}), since those steps process
-individual demands of each client one by one, and thus they
-critically rely on the demands being bounded polynomially in
-terms of $|\sitesset|$ and $|\clientset|$ to keep the
-overall running time polynomial.
+reduces the {\FTFP} problem for arbitrary demands to a
+special case where demands are bounded by $|\sitesset|$, the
+number of sites.  (The formal statement is a little more
+technical -- see Theorem~\ref{thm: reduction to
+  polynomial}.)  The demand reduction step prepares us for
+our second technique, adaptive
+partitioning~(Section~\ref{sec: adaptive partitioning}), as
+well as our LP-rounding algorithms (Chapter~\ref{ch:
+  lp-rounding}), since those steps process individual
+demands of each client one by one, and thus they critically
+rely on the demands being bounded polynomially in terms of
+$|\sitesset|$ and $|\clientset|$ to keep the overall running
+time polynomial.
 
 The reduction is based on an optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ to LP~(\ref{eqn:fac_primal}). From
@@ -1638,7 +1639,7 @@ describe in the next two sections. In Section~\ref{sec:
 {\FTFL}, assuming we have an optimal solution to the
 LP~(\ref{eqn:fac_primal}). In Section~\ref{sec:
   large_demands}, we give a precise statement that confirms
-an intuitively appealing result, that is, when all demands
+an intuitively appealing result. That is, when all demands
 $r_j$ are large, then the fractional optimal solution is
 very close to an integral solution. In other words, we can
 round the fractional solution to an integral solution with
@@ -1680,13 +1681,12 @@ Theorem~\ref{thm:largeR}.
 
 \begin{theorem}
   \label{thm:largeR}
-  Given an {\FTFP} instance $(\sitesset, \clientset, r_j
-  \text{ for } j \in \clientset, d_{ij} \text{ for }
-  i\in\sitesset, j\in\clientset)$, let $m = |\sitesset|$ be
-  the number of sites, and the minimum demand $Q =
-  \min_{j\in\clientset} r_j$, then there is an approximation
-  algorithm with ratio $1 + O(m/Q)$. In particular, when $Q$
-  is large compared to $m$, this ratio approaches $1$.
+  Given an {\FTFP} instance $(\sitesset, \clientset, \{r_j\}
+  , \{d_{ij}\})$, let $m = |\sitesset|$ be the number of
+sites, and the minimum demand $Q = \min_{j\in\clientset}
+r_j$, then there is an approximation algorithm with ratio $1
++ O(m/Q)$. In particular, when $Q$ is large compared to $m$,
+this ratio approaches $1$.
 \end{theorem}
 %%%%%%%%%%%%%%%%%%%
 \begin{proof}
@@ -1726,13 +1726,13 @@ Theorem~\ref{thm:largeR}.
   \end{equation*}
   where $\LP^\ast$ is the optimal fractional solution's cost
   to the original {\FTFP} instance $\calI$. Therefore, we
-  have an integral solution to instance $\dot\calI$ with
+  have an integral solution to the instance $\dot\calI$ with
   cost at most $(cm/Q) \LP^\ast$. Let $S_1$ be the integral
   solution to the instance $\dot\calI$, obtained by
-  combining solutions to $m$ {\UFL} instances, and let $S_2
-  = (\hat\bfx,\hat\bfy)$, the solution to the instance
-  $\hat\calI$. The two solutions, $S_1$ and $S_2$, when
-  combined, give a feasible integral solution to the
+  combining solutions to the $m$ copies of {\UFL} instances,
+  and let $S_2 = (\hat\bfx,\hat\bfy)$ be the solution to the
+  instance $\hat\calI$. The two solutions, $S_1$ and $S_2$,
+  when combined, give a feasible integral solution to the
   instance $\calI$, and the total cost is no more than
   \begin{equation*}
     \cost(S_1) + \cost(S_2) \leq (cm/Q) \LP^\ast + \OPT \leq (1 +
