@@ -37,6 +37,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{bm}
 \usepackage{amsmath}
+\usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{caption,subcaption,enumerate}
 \usepackage{flafter}
@@ -190,34 +191,35 @@ save on shipping cost. On the other hand, setting up and
 maintaining a warehouse can be costly. So we would have to
 face the trade-off between having more warehouses and
 cheaper shipping, and having fewer warehouses for the sake
-of warehouse setup and maintainence cost, at the expense of
-shipping. Another application is to place content servers in
-a computer network. In the network we have a number of
-client machines that need to access files from one of the
-servers. Having more servers allows faster access for all
-clients. However, keeping a large number of servers around
-requires substantial hardware and software investment, as
-well as committing operation engineers to keep the servers
-up and running. A more recent example concerns today's web
-giants like google, facebook and amazon. Those web-based
-companies have geographically distributed development
-offices. All these offices require access of large amount of
-data from a handful of data centers, located in a few
-carefully chosen locations. It is out of question that
-building a data center is costly. The electricity bill alone
-would discourage the plan of having an excessive number of
-data centers around. On the other hand, demands from all
-offices need to be addressed or engineers would be idling
-while waiting for data transfer to complete. We shall keep
-using the development office and data center example to
-illustrate several aspects of facility location problems.
+of reducing warehouse setup and maintainence cost, at the
+expense of shipping. Another application is to place content
+servers in a computer network. In the network we have a
+number of client machines that need to access files from one
+of the servers. Having more servers allows faster access for
+all clients. However, keeping a large number of servers
+around requires substantial hardware and software
+investment, as well as committing operation engineers to
+keep the servers up and running. A more recent example
+concerns today's web giants like Google, Facebook and
+Amazon. Those web-based companies have geographically
+distributed development offices. All these offices require
+access of large amount of data from a handful of data
+centers, located in a few carefully chosen
+locations. However, building a data center is costly. The
+electricity bill alone would discourage the plan of having
+an excessive number of data centers around. On the other
+hand, demands from all offices need to be addressed or
+engineers would be idling while waiting for data transfer to
+complete. We shall keep using the development office and
+data center example to illustrate several aspects of
+facility location problems.
 
 First, setting up a data center incurs cost, and the cost
 varies in different locations. The real estate rent in
 Kansas usually does not compare to even a fraction of that
 in San Francisco or New York. The electricity rate is also
 very different in midwest areas and in California. Other
-factors like potential natural disasters like tonardo or
+factors like potential natural disasters like tornado or
 earthquake could also be factored into the cost estimate to
 build a data center in a certain location. In short,
 different locations have a different cost to set up a data
@@ -238,80 +240,51 @@ Facility location problems have long been an active topic in
 both Operations Research and Computer Science research
 communities. Problems that have been considered include
 \begin{itemize}
-\item the Uncapacitated Facility Location problem, where
+\item \emph{the Uncapacitated Facility Location problem}, where
   each site can open at most one facility and each client
   needs to be connected to one facility,
-\item the Fault-Tolerant Facility Location problem, where
-  each site can open at most one facility, and each client
-  has a demand, which is the number of facilities that it
-  needs to connect to,
-\item the Capacitated Facility Location problem, where a
-  site can open at most one facility and each client
+\item \emph{the Fault-Tolerant Facility Location problem},
+  where each site can open at most one facility, and each
+  client has a demand, which is the number of facilities
+  that it needs to connect to,
+\item \emph{the Capacitated Facility Location problem},
+  where a site can open at most one facility and each client
   connects to one facility, but every facility has a
   capacity, which is the maximum number of clients it can
   accept,
-\item the Prize-Collecting Facility Location problem, where
-  a site can open at most one facility and each client can
-  either connect to one facility, or stay unconnected, in
-  which case a penalty is counted towards final cost.
+\item \emph{the Prize-Collecting Facility Location problem},
+  where a site can open at most one facility and each client
+  can either connect to one facility, or stay unconnected,
+  in which case a penalty is counted towards final cost.
 \end{itemize}
 In all the problems above, there is a cost to open a
 facility at a site, and there is a cost to connect a client
 to a facility as well. The goal is to minimize the total
 cost of opening facilities and connecting clients to
 facilities. In the Prize-Collecting Facility Location
-problem we also pay a penalty for each client not connected.
+problem we also pay a penalty for each client that is not
+connected.
 
 \paragraph{The UFL Problem.}
 The simplest variant, known as the Uncapacitated Facility
 Location problem ({\UFL}), is also the one that has been
-studied most extensively. A history of results and
-techniques for the {\UFL} problem is listed in
-Table~\ref{tab:ufl_history}. In the {\UFL} problem, we are
+studied most extensively. In the {\UFL} problem, we are
 given a set of sites and a set of clients. Each site can
 open one facility and each client needs to connect to one
-facility. Facilities are uncapacitated, meaning a facility
-can accept connections from any number of clients. We are
-also given the facility opening cost at each site, and the
-distance between a site and a client. The problem asks us to
-find a set of sites on which to open facilities, and to
-connect clients to facilities, in such a way that the total
-cost is minimized. The total cost is the sum of the facility
-opening cost and the client connection cost.
+facility. Facilities are uncapacitated, meaning that a
+facility can accept connections from any number of
+clients. We are also given the facility opening cost at each
+site, and the distance between a site and a client. The
+problem asks us to find a set of sites on which to open
+facilities, and to connect clients to facilities, in such a
+way that the total cost is minimized. The total cost is the
+sum of the facility opening cost and the client connection
+cost.
 
-\begin{table}
-  \centering
-  \begin{tabular}{|l l l l|}
-    \hline
-    author & technique & ratio & year\\
-    \hline
-    Shmoys, Tardos and Aardal & LP-rounding & 3.16 & 1997~\cite{ShmoysTA97}\\
-    Chudak and Shmoys & LP-rounding & 1.736 & 1998~\cite{Chudak98}\\
-    Sviridenko & LP-rounding & 1.582 & 2002~\cite{Svi02}\\
-    \hline
-    Jain and Vazirani & primal-dual & 3 & 2001~\cite{JainV01}\\
-    Jain {\etal} & dual-fitting & 1.61 & 2003~\cite{JainMMSV03}\\
-    Arya {\etal} & local-search & 3 & 2001~\cite{AryaGKMMP01}\\
-    \hline
-    Byrka and Aardal & hybrid & 1.50 & 2007~\cite{Byrka07}\\
-    Li & hybrid & 1.488 & 2011 (best result)~\cite{Li11}\\
-    \hline
-    Guha and Khuller & lower-bound & 1.463 &
-    1998~\cite{GuhaK98} \\
-    \hline
-  \end{tabular}
-  \caption[A history of approximation algorithms and their
-  ratios for the UFL problem.]
-  {A history of approximation algorithms and their
-    ratio for the UFL problem. The word \emph{hybrid} means
-    using two independent algorithms and returning the better
-    solution of the two. The last row of $1.463$ is about
-    inapproximability, or hardness.}
-  \label{tab:ufl_history}
-\end{table}
-The UFL problem with general distances has an algorithm with
-an approximation ratio of $O(\log n)$, where $n$ is the
-number of clients. The algorithm is due to
+The UFL problem is known to be \NP-hard. The UFL problem
+with general distances has an algorithm with an
+approximation ratio of $O(\log n)$, where $n$ is the number
+of clients. This algorithm is due to
 Hochbaum~\cite{Hochbaum82}. A matching lower bound of
 $\Omega(\log n)$ is immediate, as the UFL problem contains
 the well-known Set Cover problem as a special case. When the
@@ -323,20 +296,21 @@ $O(1)$-approximation algorithm for the {\UFL}
 problem. Currently, the best known approximation ratio is
 $1.488$ by Li~\cite{Li11}. On the other hand, Guha and
 Khuller~\cite{GuhaK98} showed a lower bound of $1.463$ on
-approximability, assuming $\NP \nsubseteq
-\DTIME(n^{O(\log\log n)})$. Sviridenko~\cite{Vygen05}
-strengthened the underlying assumption to $\PP \neq \NP$.
+the approximation ratio, under the assumption that $\NP
+\nsubseteq \DTIME(n^{O(\log\log
+  n)})$. Sviridenko~\cite{Vygen05} weakened the underlying
+assumption to $\PP \neq \NP$.
 
 \section{The FTFP Problem}
 The problem studied in this thesis is the Fault-Tolerant
 Facility Placement problem (\FTFP), which generalizes the
 {\UFL} problem. The difference between the {\UFL} problem
-and the {\FTFP} problem is that, each client now has a
-demand that could be more than one and at each site we can
-open one or more facilities. The demand of a client is the
-number of facilities the client needs to connect to. Opening
-multiple facilities at the same site incurs a cost of the
-facility opening cost multiplied by the number of facilities
+and the {\FTFP} problem is that each client now has a demand
+that could be more than one and at each site we can open one
+or more facilities. The demand of a client is the number of
+facilities the client needs to connect to. Opening multiple
+facilities at the same site incurs a cost of the facility
+opening cost multiplied by the number of facilities
 opened. The connection cost between a site and a client is
 the distance multiplied by the number of connections between
 the two, with the constraint that the number of connections
@@ -345,14 +319,15 @@ site. The FTFP problem asks for a solution with minimum
 total cost, that is the sum of facility cost and connection
 cost.
 
-Like the {\UFL} problem, the {\FTFP} problem is
-\NP-hard. Consequently, efforts seeking exact
-polynomial-time algorithms is not very
-promising. Nonetheless, there are polynomial-time algorithms
-that deliver a solution whose cost is only a small
-percentage off from the optimal solution's cost. These
-algorithms, known as approximation algorithms, and their
-performance analysis, are the subject of this thesis.
+The {\FTFP} problem contains the {\UFL} problem as a special
+case, and is therefore \NP-hard. Consequently, it would be
+unrealistic to seek polynomial-time algorithms that solve
+the problem exactly. Nonetheless, there are polynomial-time
+algorithms that deliver a solution whose cost can be proven
+to be within a certain factor away from the optimal
+solution's cost. These algorithms, known as approximation
+algorithms, and their performance analysis, are the subject
+of this thesis.
 
 \section{Hardness Results for UFL and FTFP}
 \label{sec: hardness}
@@ -368,10 +343,9 @@ in this section.
 Since the Fault-Tolerant Facility Placement problem (\FTFP)
 contains the Uncapacitated Facility Location problem (\UFL)
 as a special case (by setting all $r_j=1$ in {\FTFP} we get
-{\UFL}) , any hardness result obtained concerning UFL
-remains valid for FTFP. We review well-known hardness
-results for UFL, with the implication that the same claims
-hold for FTFP as well.
+{\UFL}) , any hardness result for UFL remains valid for
+FTFP. We review well-known hardness results for UFL, with
+the implication that the same claims hold for FTFP as well.
 
 %%% NP-optimization problems:
 %%% - can verify instance validity in polynomial time
@@ -393,33 +367,32 @@ hold for FTFP as well.
 \begin{proof}
   The proof is by a reduction from the Set Cover problem. In
   the Set Cover problem, we are given a universe of
-  elements, that is $\calU = \{e_1, \ldots, e_n\}$, and a
-  collection of sets $\calS = \{S_1, \ldots, S_m\}$ such
-  that $S_i \subseteq \calU$ for $i=1,\ldots,m$. The problem
-  asks for a set cover with minimum size, where a set cover
-  is a collection of sets from $\calS$ whose union is
-  $\calU$. We construct a general UFL instance like this:
-  For each element $e_j, j=1,\ldots,n$, we have a client
-  $j$; and for each set $S_i, i=1,\ldots,m$, we have a
-  facility $i$. The facility cost $f_i=1$ for every facility
-  $i=1,\ldots,m$~\footnote{Actually any value of $f_i > 0$
-    will work, for example, we can set $f_i=100$ for every
-    facility $i$.}. The distances are: $d_{ij} = 1$ if $e_j
-  \in S_i$, and $d_{ij} = \infty$ if $e_j \notin
-  S_i$. Clearly, an optimal solution for the UFL instance
-  can only use connections with $d_{ij} = 1$. It is easy to
-  see that given any optimal solution to the Set Cover
-  instance, we can construct an optimal solution for the UFL
-  instance, by simply opening the facilities whose
-  corresponding sets are chosen in the set cover. On the
-  other hand, given an optimal solution to the UFL instance,
-  we can only have $d_{ij}=1$ connections. This implies
-  that, for every client $j$, and let $j$ be connected to
-  facility $i$ in the UFL solution, then the corresponding
-  element $e_j$ is covered by the corresponding set
-  $S_i$. Let $I$ be the set of facilities chosen to open in
-  the {\UFL} solution; it is clear that the sets
-  corresponding to facilities in $I$ form a set cover.
+  elements, $\calU = \{e_1, \ldots, e_n\}$, and a collection
+  of sets $\calS = \{S_1, \ldots, S_m\}$ such that $S_i
+  \subseteq \calU$ for $i=1,\ldots,m$. The problem asks for
+  a set cover with minimum size, where a set cover is a
+  collection of sets from $\calS$ whose union is $\calU$. We
+  construct a general UFL instance like this: For each
+  element $e_j$, we have a client $j$; and for each set
+  $S_i$, we have a facility $i$. The facility cost is
+  $f_i=1$ for every facility $i$~\footnote{Actually any
+    value of $f_i > 0$ will work, for example, we can set
+    $f_i=100$ for every facility $i$.}. The distances are:
+  $d_{ij} = 1$ if $e_j \in S_i$, and $d_{ij} = \infty$ if
+  $e_j \notin S_i$. It is easy to see that given any optimal
+  solution to the Set Cover instance, we can construct an
+  optimal solution for the UFL instance, by simply opening
+  the facilities whose corresponding sets are chosen in the
+  set cover. On the other hand, given an optimal solution to
+  the UFL instance, we can only have connect a client $j$ to
+  a facility $i$ if $d_{ij}=1$. It follows that, in the UFL
+  solution, if a client $j$ is connected to a facility $i$,
+  then the corresponding element $e_j$ is in the
+  corresponding set $S_i$. Let $I$ be the set of facilities
+  chosen to open in the {\UFL} solution; it is clear that
+  the corresponding sets in the Set Cover instance form a
+  solution to the Set Cover problem.
+  cover.
 \end{proof}
 
 \begin{theorem} \label{thm:metricNP}
@@ -427,27 +400,18 @@ hold for FTFP as well.
 \end{theorem}
 %%%%%%%%%%%%%%%%
 \begin{proof}
-  The proof is also by a reduction from the Set Cover
-  problem. Suppose the Set Cover instance has universe
-  $\calU = \{e_1,\ldots,e_n\}$ and collection of sets $\calS
-  = \{S_1,\ldots,S_m\}$. Unlike the general UFL problem, we
-  can no longer have distances of $1$ and $\infty$ now, as
-  the distances are constrained by the triangle
-  inequality. For facility cost we have $f_i = \epsilon =
-  1/m^2$ for every facility $i$. Our distances are now:
-  $d_{ij} = 1$ if $e_j \in S_i$, and $d_{ij} = 3$ if $e_j
-  \notin S_i$.
-
-  Given the construction, it is clear that any optimal
-  solution for the UFL instance cannot use a connection of
-  distance equal $3$, as there exists another solution that
-  beats such a solution with a lower cost --- namely a
-  solution that opens all facilities with a total cost of
-  $m\epsilon + n\cdot 1 = m\epsilon + n$. It follows that
-  any optimal solution for the UFL instance must have all
-  clients connected at distance equal $1$. The facilities in
-  such a solution would then correspond to a set cover for
-  the Set Cover instance.
+  The proof is very similar to the earlier proof for the UFL
+  problem with general distances, except that we need to
+  modify the construction so that the distances now obey the
+  triangle inequality. Instead, for facility cost we have
+  $f_i = \epsilon = 1/m^2$ for every facility $i$. Our
+  distances are now: $d_{ij} = 1$ if $e_j \in S_i$, and
+  $d_{ij} = 3$ if $e_j \notin S_i$. The rest is much similar
+  the the proof for the UFL problem with general distances,
+  by observing that any optimal UFL solution can only
+  connect a client $j$ to a facility $i$ such that $d_{ij} =
+  1$. In other words, no optimal solution can connect a
+  client $j$ to a facility $i$ with $d_{ij} = 3$.
 \end{proof}
 
 %%% MaxSNP, a technically difficult class of problems
@@ -714,8 +678,8 @@ In this chapter we review the history of two problems
 closely related to our FTFP problem, the Uncapacitated
 Facility Location problem (UFL), and the Fault-Tolerant
 Facility Location problem (FTFL). After presenting the
-results of these two problems, we conclude this chapter with
-an overview of known results and our work for the FTFP
+results for these two problems, we conclude this chapter
+with an overview of known results and our work for the FTFP
 problem.
 
 In all three problems, we are given a set of sites
@@ -725,8 +689,8 @@ facilities. The cost to open one facility at a site $i$ is
 $f_i$, and the cost to make one connection between a client
 $j$ to a facility at site $i$ is $d_{ij}$. A client $j$ with
 a demand of $r_j$ needs to be connected to $r_j$ different
-facilities (Facilities at the same site are considered
-different.). Our goal is to open facilities and connect
+facilities. Facilities at the same site are considered
+different. Our goal is to open facilities and connect
 clients to those facilities in such a way that all clients'
 demands are satisfied, and the total cost is minimized. The
 differences between the problems are:
@@ -761,9 +725,9 @@ two are well-studied problems in literature, and are closely
 related to our problem, FTFP. In particular, the LP-rounding
 algorithms for UFL inspired our approach to the FTFP
 problem. For this reason, we explain the LP-rounding
-algorithms for {\UFL} in the coming section with full detail
-and aim at developing an intuition behind the technical
-details.
+algorithms for {\UFL} in the coming section with full
+detail, aiming at developing an intuition behind the
+technical details.
 
 \section{Related Work for UFL}
 The Uncapacitated Facility Location problem (UFL) is the
@@ -771,25 +735,59 @@ simpliest variant of the Facility Location problems, and has
 received the most attention in research community. It is
 somewhat surprising that a wide range of different
 techniques of approximation algorithm design have been
-successful in solving the UFL problem, as shown earlier in
+successful in solving the UFL problem, as shown in
 Table~\ref{tab:ufl_history}. To be consistent with the
 terminology in the literature, instead of saying opening
 facilities at sites, we simply say opening or closing
 facilities without mentioning sites, since in the {\UFL}
 problem we have no more than one facility at each site.
 
+%%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
+
+\begin{table}
+  \centering
+  \begin{tabular}{l l l l}
+    \toprule
+    author & technique & ratio & year\\
+    \midrule
+    Shmoys, Tardos and Aardal & LP-rounding & 3.16 & 1997~\cite{ShmoysTA97}\\
+    Chudak and Shmoys & LP-rounding & 1.736 & 1998~\cite{Chudak98}\\
+    Sviridenko & LP-rounding & 1.582 & 2002~\cite{Svi02}\\
+    \midrule
+    Jain and Vazirani & primal-dual & 3 & 2001~\cite{JainV01}\\
+    Jain {\etal} & dual-fitting & 1.61 & 2003~\cite{JainMMSV03}\\
+    Arya {\etal} & local-search & 3 & 2001~\cite{AryaGKMMP01}\\
+    \midrule
+    Byrka and Aardal & hybrid & 1.50 & 2007~\cite{Byrka07}\\
+    Li & hybrid & 1.488 & 2011 (best result)~\cite{Li11}\\
+    \bottomrule
+    Guha and Khuller & lower-bound & 1.463 &
+    1998~\cite{GuhaK98} \\
+    \bottomrule
+  \end{tabular}
+  \caption[A history of approximation algorithms for the UFL
+  problem and their ratios.]
+  {A history of approximation algorithms for the UFL problem and their ratios. The word \emph{hybrid} refers to
+    using two independent algorithms and returning the better
+    solution of the two. The last row of $1.463$ is about
+    inapproximability, or hardness.}
+  \label{tab:ufl_history}
+\end{table}
+%%%%%%%%%% end table UFL history %%%%%%%%%%%%%%%%
+
 \subsection{The LP Formulation}
 The analysis of approximation algorithms for \NP-hard
 problems requires an estimate on the optimal solution's
 cost. For \NP-hard problems, the task to compute the optimal
 solution's cost itself is also \NP-hard. One alternative is
-to formula an integer program for the problem and relax the
-integral constraints to obtain a linear program
+to formulate an integer program for the problem and relax
+the integral constraints to obtain a linear program
 (LP). Solving the LP gives an optimal fractional
 solution. The value of the fractional solution is then used
 to estimate the optimal solution's cost. In
-Appendix~\ref{sec: ILP} we give a primer for Integer Program,
-Linear Program and their application to the {\UFL} problem.
+Appendix~\ref{sec: ILP} we give a primer for Integer
+Program, Linear Program and their application to the {\UFL}
+problem.
 
 For the {\UFL} problem, the LP formulated by
 Balinski~\cite{Bal66} is now standard. We start with an
@@ -805,7 +803,6 @@ LP~(\ref{eqn:ufl_primal}) must satisfy these two constaints
 automatically. The LP is:
 %%%%%%%%%%%
 \begin{empheq}[box=\fbox]{align}
-%{{alignat}{3}}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
   &\label{eqn:ufl_primal}
@@ -815,8 +812,6 @@ automatically. The LP is:
 \sum_{i\in \sitesset} x_{ij} &\geq 1 & &\forall j\in \clientset
 \\ \notag
 x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
-\\ \notag
-%\end{alignat}
 \end{empheq}
 
 %%%%%%%%%%%%
@@ -825,7 +820,6 @@ x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset
 The dual program is:
 
 \begin{empheq}[box=\fbox]{align}
-%\begin{alignat}{3}
   \textrm{maximize}\quad \sum_{j\in \clientset} \alpha_j&\label{eqn:ufl_dual}  
   \\ \notag
   \textrm{subject to} \quad 
@@ -834,8 +828,6 @@ The dual program is:
   \alpha_{j} - \beta_{ij} &\leq  d_{ij} &  & \forall i\in \sitesset, j\in \clientset 
   \\ \notag
   \alpha_j \geq 0, \beta_{ij} &\geq 0 &  & \forall i\in \sitesset, j\in \clientset
-  \\ \notag
-%\end{alignat}
 \end{empheq}
 
 
@@ -1200,7 +1192,6 @@ first introduced by Jain and Vazirani~\cite{JainV03}.  The
 LP is
 
 \begin{empheq}[box=\fbox]{align}
-%\begin{alignat}{3}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
   &\label{eqn:ftfl_primal}
@@ -1213,8 +1204,6 @@ y_i &\leq 1 & &\forall i \in \sitesset
 \\ \notag
 x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in
 \clientset 
-\\ \notag
-%\end{alignat}
 \end{empheq}
 The constraint $\sum_{i\in\sitesset} x_{ij} \geq r_j$ is
 there because, unlike {\UFL}, a client $j$ now needs to be
@@ -1337,7 +1326,6 @@ LP:
 
 %%%%%%%%%%%
 \begin{empheq}[box=\fbox]{align}
-%\begin{alignat}{3}
   \textrm{minimize} \quad \cost(\bfx,\bfy) &= \textstyle{\sum_{i\in \sitesset}f_iy_i 
 								+ \sum_{i\in \sitesset, j\in \clientset}d_{ij}x_{ij}}\label{eqn:fac_primal}\hspace{-1.5in}&&
 									\\ \notag
@@ -1346,8 +1334,6 @@ LP:
      \textstyle{\sum_{i\in \sitesset} x_{ij}} &\geq r_j  &			&\forall j\in \clientset
  									\\ \notag
   	  x_{ij} \geq 0, y_i &\geq 0 						& 			&\forall i\in \sitesset, j\in \clientset 
-  									\\ \notag
-%\end{alignat}
 \end{empheq}
 
 %%%%%%%%%%%%
@@ -1355,7 +1341,6 @@ LP:
 \noindent
 The dual program is,
 \begin{empheq}[box=\fbox]{align}
-%\begin{alignat}{3}
   \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
      						\\ \notag
   \textrm{subject to} \quad \textstyle{
@@ -1365,7 +1350,6 @@ The dual program is,
 							\\ \notag
   \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
   							\\ \notag
-%\end{alignat}
 \end{empheq}
 
 In each of our algorithms we will fix some optimal solutions
@@ -1444,11 +1428,9 @@ connection value as possible and $i'$ receives the
 rest. Specifically, we set
 %
 \begin{empheq}[box=\fbox]{align*}
-%\begin{align*}
   &y^\ast_{i'} \;\assign\; y^\ast_i - x^\ast_{ik},\;   y^\ast_{i} \;\assign\; x^\ast_{ik}, \quad \text{ and }\\
   &x^\ast_{i'j} \;\assign\;\max( x^\ast_{ij} - x^\ast_{ik}, 0 ),\;	 x^\ast_{ij} \;\assign\; \min( x^\ast_{ij} , x^\ast_{ik}) 
 			\quad	\textrm{for all}\ j \neq k.
-%\end{align*}
 \end{empheq}
 %
 This operation eliminates the partial connection between $k$
@@ -1522,13 +1504,11 @@ $(\bfx^\ast,\bfy^\ast) = (\hatbfx,\hatbfy)+
 (\dotbfx,\dotbfy)$, where
 %
 \begin{empheq}[box=\fbox]{align*}
-%\begin{align*}
 \haty_i &\;\assign\; \floor{y_i^\ast}, \quad
 			\hatx_{ij} \;\assign\; \floor{x_{ij}^\ast} \quad\textrm{and}
 			\\
 \doty_i &\;\assign\; y_i^\ast - \floor{y_i^\ast}, \quad
  	\dotx_{ij} \;\assign\; x_{ij}^\ast -  \floor{x_{ij}^\ast}
-%\end{align*}
 \end{empheq}
 %
 for all $i,j$. Now we construct two
@@ -2385,13 +2365,11 @@ exhausted at that time.)
   the following linear program,
 %
 \begin{empheq}[box=\fbox]{align*}
-%\begin{alignat*}{1}
 	\textrm{minimize} \quad & \sum_s d_{\mu_s j}z_s
 			\\
 	\textrm{subject to} \quad & \sum_s z_s  \ge 1
 			\\
  	0 &\le z_s \le \tildex_{\mu_s j} \quad \textrm{for all}\ s
-%\end{alignat*}
 \end{empheq}
 %
   This is a fractional
@@ -2552,7 +2530,6 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
   total facility cost is
 %
 \begin{empheq}[box=\fbox]{align*}
-%\begin{align*}
     \Exp[F_{\smallEGUP}]
 	&= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\wbarN(\kappa)}} f_{\mu} \barx_{\mu\kappa}
 	\\
@@ -2562,7 +2539,6 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
 	\\
 	&\leq \textstyle{\sum_{i\in\sitesset}} f_i y_i^\ast 
 	= F^\ast,
-%\end{align*}
 \end{empheq}
 %
 where the inequality follows from Property~(PD.\ref{PD:yi}).
@@ -3905,8 +3881,6 @@ at least one facility in set $A$ is open.  Recall that $D(A,\nu) =
     \notag
     &= \frac{\sum_{s=1}^k d_{\mu\nu} \bary_{\mu}}{\sum_{\mu \in A}
       \bary_{\mu}} = D(A, \nu).
-    \\
-    \notag
 \end{align}
 %
 Inequality (\ref{eqn: dist set to nu 2}) follows from inequality
@@ -4557,7 +4531,7 @@ other groups are listed below:
   &d_2 = \frac{f_1}{n_1}\\
   &d_3 = f_1/n_2 + d_2 = f_1/n_2 + f_1/n_1 = f_1 (\frac{1}{n_2} + \frac{1}{n_1})\\
   &\ldots\\
-  &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})\\
+  &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})
 \end{align*}
 For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$,
 and $n_1 = u^{k-1}, n_2 = u^{k-2}, \ldots, n_k = u^0 = 1$
@@ -4592,7 +4566,7 @@ n_2 d_2$, and so on. Substituing in the numbers, we have
   \frac{1}{n_1}) n_3 = f_1 (1 + \frac{n_3}{n_2} + \frac{n_3}{n_1})\\
   &\ldots\\
   &\alpha_k = f_1 + n_k d_k = f_1 + f_1 n_k (\frac{1}{n_{k-1}} + \ldots
-  \frac{1}{n_1})\\
+  \frac{1}{n_1})
 \end{align*}
 Notice that $r_1 \ll r_2 \ll \ldots \ll r_k$ implies
 $\alpha_j$ is decided by the max among $\alpha_j^l$, so in
@@ -4626,7 +4600,7 @@ Substitute in the $\alpha_j$ values derived above, we have
   &\geq 1 + (k-1) / \left(1 + k/u + k/u^2 + \ldots +
     k/u^{k-1}\right)\\
   &= 1 + (k-1) / \left(1 + 1 + 1/k + \ldots + 1/k^{k-2}\right)\\
-  &\approx k/2\\
+  &\approx k/2
 \end{align*}
 So for $k$ groups we can force a shrinking factor $\gamma$
 as big as $k/2$. Recall that we have greedy being no more
@@ -4714,7 +4688,7 @@ x_v$. The integer program for Vertex Cover is written as
   \text{minimize } &\sum_{v\in V} x_v &\\
   \text{subject to }& x_u + x_v \geq 1 &\quad &\forall (u,v) \in
   E\\
-  &x_v \in \{0, 1\} &\quad &\forall v \in V\\
+  &x_v \in \{0, 1\} &\quad &\forall v \in V
 \end{align*}
 In general an integer program cannot be solved exactly in
 polynomial time, as Integer Programming is
