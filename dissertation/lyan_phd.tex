@@ -1316,16 +1316,24 @@ such approaches.
 \chapter{Linear Program} \label{ch: lp} 
 
 In this chapter we give the linear program (LP) for the
-{\FTFP} problem, and describe the structure of the linear
-program, as well as the structure of the optimal fractional
-solution that we assume. The discussion in this chapter
-prepares the reader for Chapter~\ref{ch: techniques}, where
-we introduce our main techniques: demand reduction and
-adaptive partitioning.
+{\FTFP} problem. The structure of the linear program implies
+a simple reduction for a special case of {\FTFP}. We
+describe this reduction in
+Section~\ref{sec:ftfp_uniform_demand}. For the optimal
+fractional solution we use for our approximation algorithms,
+we assume a structural property called
+\emph{completeness}. The exact definition and a procedure to
+obtain such a solution is given in
+Section~\ref{sec:ftfp_complete}. The discussion in this
+chapter prepares the reader for Chapter~\ref{ch:
+  techniques}, where we introduce our main techniques:
+demand reduction and adaptive partitioning.
 
 \section{Notation and Definition}
-In the Fault-Tolerant Facility Placement problem ({\FTFP}),
-we denote the set of sites as $\sitesset$ and the set of
+For the reader's convenience we repeat the problem
+definition and the notation before introducing the LP. In
+the Fault-Tolerant Facility Placement problem ({\FTFP}), we
+denote the set of sites as $\sitesset$ and the set of
 clients as $\clientset$. Each client $j \in \clientset$ has
 a demand $r_j$, meaning that the client $j$ needs to be
 connected to $r_j$ different facilities. The distance
@@ -1343,29 +1351,28 @@ two clients $j_1,j_2$, we have
   d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
 \end{equation*} 
 
-A solution to the {\FTFP} problem is a vector of $(\bfx,
-\bfy)$ such that $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes
-the number of connections between site $i$ and client $j$,
-and $y_i \in \{0, 1, 2\ldots\}$ denotes the number of
-facilities opened at site $i$. We then seek a solution such
-that $y_i \geq x_{ij}$ for every $i \in \sitesset, j \in
-\clientset$ and $\sum_{i\in\sitesset} x_{ij} = r_j$ for all
-clients $j \in \clientset$, and we are to minimize the total
-cost of the solution, that is $\sum_{i \in \sitesset} f_i
-y_i + \sum_{i \in \sitesset, j \in \clientset} d_{ij}
+A solution to the {\FTFP} problem is a vector $(\bfx, \bfy)$
+where $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes the number of
+connections between a site $i$ and a client $j$, and $y_i
+\in \{0, 1, 2\ldots\}$ denotes the number of facilities
+opened at site $i$. We seek a solution such that $y_i \geq
+x_{ij}$ for every $i \in \sitesset, j \in \clientset$ and
+$\sum_{i\in\sitesset} x_{ij} = r_j$ for all clients $j \in
+\clientset$. Our goal is to find such a solution with
+minimum total cost, and the cost is $\sum_{i \in \sitesset}
+f_i y_i + \sum_{i \in \sitesset, j \in \clientset} d_{ij}
 x_{ij}$. We call the first term $\sum_{i \in \sitesset} f_i
 y_i$ \emph{the facility cost} of the solution, and the
 second term $\sum_{i \in \sitesset, j \in \clientset} d_{ij}
-x_{ij}$ \emph{the connection cost} of the solution $(\bfx,
-\bfy)$.
+x_{ij}$ \emph{the connection cost} of the solution.
 
 \section{The Linear Program of FTFP}
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
-opened at site $i$, and let $x_{ij}$ represent the number of
-connections from client $j$ to facilities at site $i$. If we
-relax the integrality constraints, we obtain the following
-LP:
+opened at a site $i$, and let $x_{ij}$ represent the number
+of connections from a client $j$ to facilities at a site
+$i$. If we relax the integrality constraints, we obtain the
+following LP:
 
 %%%%%%%%%%%
 \begin{empheq}[box=\fbox]{align}
@@ -1408,7 +1415,7 @@ is the joint optimal value of (\ref{eqn:fac_primal}) and
 (\ref{eqn:fac_dual}).  We can also associate with each
 client $j$ its fractional connection cost $C^\ast_j =
 \sum_{i\in\sitesset} d_{ij}x_{ij}^\ast$.  Clearly, $C^\ast =
-\sum_{j\in\clientset} C^\ast_j$.  Throughout the paper we
+\sum_{j\in\clientset} C^\ast_j$.  Throughout this thesis we
 will use notation $\OPT$ for the optimal integral solution
 of (\ref{eqn:fac_primal}).  $\OPT$ is the value we wish to
 approximate, but, since $\OPT\ge\LP^\ast$, we can instead
@@ -1418,6 +1425,8 @@ algorithms.
 %%%%%%%%%
 
 \section{LP Structure and Special Case: Uniform-demand}
+\label{sec:ftfp_uniform_demand}
+
 If we compare the LP~(\ref{eqn:fac_primal}) and its
 dual~(\ref{eqn:fac_dual}) for {\FTFP} to the
 LP~(\ref{eqn:ufl_primal}) and its dual~(\ref{eqn:ufl_dual})
@@ -1442,12 +1451,13 @@ is preserved. This shows a simple reduction from {\FTFP} to
 
 \section{Solution Structure: Completeness and Facility
   Splitting}
+\label{sec:ftfp_complete}
 In this section we describe a structural property we assume
 of the optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
 that we use for designing and analyzing approximation
-algorithms for {\FTFP}. The property is called
-\emph{completeness}. In addition, we describe the procedure
-to obtain such a complete optimal fractional solution.
+algorithms for {\FTFP}. This property is called
+\emph{completeness}. Moreover, we give a procedure to obtain
+such a complete solution.
 
 Define $(\bfx^\ast, \bfy^\ast)$ to be \emph{complete} if
 $x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all
