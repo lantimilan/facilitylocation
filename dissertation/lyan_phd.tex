@@ -724,23 +724,16 @@ discussion on open problems.
 In this chapter we review the history of two problems
 closely related to our FTFP problem, the Uncapacitated
 Facility Location problem (UFL), and the Fault-Tolerant
-Facility Location problem (FTFL). After presenting the
-results for these two problems, we conclude this chapter
+Facility Location problem (FTFL).  We finish this chapter
 with an overview of known results and our work for the FTFP
 problem.
 
 In all three problems, we are given a set of sites
-$\sitesset$ where we could open facilities, and a set of
-clients $\clientset$ that need to be connected to
-facilities. The cost to open one facility at a site $i$ is
-$f_i$, and the cost to make one connection between a client
-$j$ to a facility at site $i$ is $d_{ij}$. A client $j$ with
-a demand of $r_j$ needs to be connected to $r_j$ different
-facilities. Facilities at the same site are considered
-different. Our goal is to open facilities and connect
-clients to those facilities in such a way that all clients'
-demands are satisfied, and the total cost is minimized. The
-differences between the problems are:
+$\sitesset$ and a set of clients $\clientset$, and $f_i$,
+the facility opening cost for a site $i$, and $d_{ij}$, the
+distance between a site $i$ and a client $j$. Each client
+has a demand $r_j$. The differences between the problems
+are:
 \begin{itemize}
 \item{UFL}: All demands are $1$; that is $r_j=1$ for
   all clients $j$. Then we need no more than $1$ facility at
@@ -750,9 +743,9 @@ differences between the problems are:
 \item{FTFP}: Some demands may be more than $1$, and each site
   can open any number of facilities.
 \end{itemize}
-For all three problems above, we assume a metric
+For all three problems above, we assume the metric
 version. That is, the distances satisfy the triangle
-inequality. For any two sites $i_1$ and $i_2$, and any two
+inequality: for any two sites $i_1$ and $i_2$, and any two
 clients $j_1$ and $j_2$, we have
 \begin{equation*}
   d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
@@ -764,13 +757,12 @@ hand we want to open as few facilities as possible so that
 our facility cost is small; on the other hand we need as
 many facilities as possible so that every client can connect
 to nearby facilities. The main challenge, therefore, is to
-find a balance between two costs, the facility cost and the
-connection cost.
-
-Next we review the known algorithms for UFL and FTFL. These
-two are well-studied problems in literature, and are closely
-related to our problem, FTFP. In particular, the LP-rounding
-algorithms for UFL inspired our approach to the FTFP
+find a solution with a balanced facility cost and connection
+cost. We shall see how this balance is achieved in several
+known algorithms for UFL and FTFL. These two are
+well-studied problems in literature, and are closely related
+to our problem, FTFP. In particular, the LP-rounding
+algorithms for UFL inspired our approach for the FTFP
 problem. For this reason, we explain the LP-rounding
 algorithms for {\UFL} in the coming section with full
 detail, aiming at developing an intuition behind the
@@ -779,15 +771,16 @@ technical details.
 \section{Related Work for UFL}
 The Uncapacitated Facility Location problem (UFL) is the
 simpliest variant of the Facility Location problems, and has
-received the most attention in research community. It is
-somewhat surprising that a wide range of different
-techniques of approximation algorithm design have been
-successful in solving the UFL problem, as shown in
-Table~\ref{tab:ufl_history}. To be consistent with the
-terminology in the literature, instead of saying opening
-facilities at sites, we simply say opening or closing
-facilities without mentioning sites, since in the {\UFL}
-problem we have no more than one facility at each site.
+received the most attention. A surprising fact is that a
+wide range of different techniques for designing
+approximation algorithms have been found successful in
+getting good ratios, as shown in
+Table~\ref{tab:ufl_history}. One divertion of terminology:
+to be consistent with the terminology in the UFL literature,
+instead of saying opening facilities at sites, we simply say
+opening or closing facilities without mentioning sites,
+since in the {\UFL} problem we have no more than one
+facility at each site.
 
 %%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
 
@@ -831,9 +824,9 @@ to formulate an integer program for the problem and relax
 the integral constraints to obtain a linear program
 (LP). Solving the LP gives an optimal fractional
 solution. The value of the fractional solution is then used
-to estimate the optimal solution's cost. In
+to estimate the optimal integral solution's cost. In
 Appendix~\ref{sec: ILP} we give a primer for Integer
-Program, Linear Program and their application to the {\UFL}
+Program, Linear Program and their application for the {\UFL}
 problem.
 
 For the {\UFL} problem, the LP formulated by
@@ -865,7 +858,6 @@ x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset
 
 \noindent
 The dual program is:
-
 \begin{empheq}[box=\fbox]{align}
   \textrm{maximize}\quad \sum_{j\in \clientset} \alpha_j&\label{eqn:ufl_dual}  
   \\ \notag
@@ -878,30 +870,29 @@ The dual program is:
 \end{empheq}
 
 
-Two general approaches using LP to design approximation
-algorithms are LP-rounding and primal-dual. LP-rounding
-algorithms start with calling an LP-solver to obtain an
-optimal fractional solution $(\bfx^\ast,\bfy^\ast)$, and
-then round the fractional solution in such a way that
-feasibility is preserved while the cost does not increase by
-much. On the other hand, primal-dual algorithms do not
-require solving the LP and the use of LP in the algorithms
-and their analysis is implicit. Those algorithms work by
-constructing an integral feasible primal solution and a
-feasible (fractional) dual solution simultaneously, such
-that the cost of the primal solution is related to the cost
-of the dual solution. We can then estimate the cost of an
-optimal solution by the cost of the dual solution. Note that
-the cost of any feasible dual solution provides a lower
-bound on the optimal fractional solution value for the
-primal, assuming the primal is a minimization program and
-the dual is a maximization program.
+Two general schemes using LP to design approximation
+algorithms are the LP-rounding scheme and the primal-dual
+scheme. LP-rounding algorithms start with calling an
+LP-solver to obtain an optimal fractional solution
+$(\bfx^\ast,\bfy^\ast)$, and then round the fractional
+solution in such a way that feasibility is preserved while
+the solution's cost does not increase by much. However,
+primal-dual algorithms do not require solving the LP and the
+use of LP in the algorithms and their analysis is
+implicit. Those algorithms work by constructing an integral
+feasible primal solution and a feasible (fractional) dual
+solution simultaneously, and the primal solution's cost is
+related to the dual solution's cost. Note that the cost of
+any feasible dual solution provides a lower bound on the
+optimal value for the primal, assuming the primal is a
+minimization program and the dual is a maximization program.
 
 \subsection{Approximation Algorithms}
 In this subsection we give an overview of known
-approximation algorithms for the {\UFL} problem, which
-include LP-rounding algorithms, primal-dual algorithms, and
-others.
+approximation algorithms for the {\UFL} problem, including
+LP-rounding algorithms, primal-dual algorithms, and
+local-search algorithms. All of them, except local-search
+algorithms, make use of the LP just decribed.
 
 \subsubsection{LP-rounding Algorithms}
 The first $O(1)$-approximation algorithm was obtained by
@@ -926,9 +917,9 @@ first to use the idea of randomized rounding for
 $i$ is opened with probabiliy $y_i^\ast$ where $y_i^\ast$ is
 given by the optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ to the LP
-(\ref{eqn:ufl_primal}). The expected connection cost is then
+(\ref{eqn:ufl_primal}). The expected connection cost is
 estimated using a provably worse random process in which
-each facility is opened indepedently, and hence the expected
+each facility is opened indepedently, whose expected
 connection cost is easier to analyze. They obtained a ratio
 of $1+2/e = 1.736$. Sviridenko~\cite{Svi02} further improved
 the ratio to $1.582$, by using a scaled version of the
@@ -941,94 +932,94 @@ highly technical.
 
 \subsubsection{Primal-dual Algorithms}
 Primal-dual algorithms do not require solving the LP and
-thus have the advantage of lower time complexity. Those
-algorithms may also turn out to be better in approximation
-ratio.  Jain and Vazirani~\cite{JainV01} initiated the
-primal-dual approach to the {\UFL} problem by introducing a
-primal-dual algorithm with ratio $3$. The algorithm grows a
-feasible dual solution from zero, and updates a primal
-solution accordingly until the primal solution becomes
-feasible. The approximation ratio is obtained via a relaxed
-version of the complementary slackness conditions. These
-conditions provide a bound on the cost of the primal
-solution in terms of the cost of the dual solution, which is
-a lower bound on the optimal primal solution's cost. More on
-the use of complementary slackness conditions for {\UFL} can
-be found in Appendix~\ref{sec: ILP}.
+thus have lower time complexity. Two primal-dual algorithms
+have achieved impressive approximation ratios: the first
+algorithm is given by Jain and Vazirani~\cite{JainV01} and
+their algorithm achieved a ratio of $3$. The approximation
+ratio is obtained via a relaxed version of the complementary
+slackness conditions. These conditions provide a bound on
+the cost of the primal solution in terms of the cost of the
+dual solution, which is a lower bound on the optimal primal
+solution's cost. More on the use of complementary slackness
+conditions for {\UFL} can be found in Appendix~\ref{subsec:
+  LP_duality_CSC}.
 
-A slightly different primal-dual based approach was taken by
-Jain, Markakis, Mahdian, Saberi and
+A slightly different primal-dual based algorithm was
+proposed by Jain, Markakis, Mahdian, Saberi and
 Vazirani~\cite{JainMMSV03}. They analyzed a greedy algorithm
 that repeatedly picks the most cost-effective star until all
 clients are connected. A star consists of one facility and a
 subset of clients. The cost-effectiveness is the cost of the
-star, which includes facility cost and connection cost of
-all clients to that facility, divided by the number of
-clients in that star. In each iteration, the algorithm picks
-the best star, connects all member clients to the facility,
-and sets the facility cost to zero. The clients that were in
-the star and just got connected are removed from future
-consideration, but the facility could be reused for future
-stars. Jain {\etal} analyzed the greedy algorithm and its
-variant using the dual-fitting technique. They first showed
-that the greedy algorithm can be interpreted as a process of
-growing a dual solution and updating a primal
-solution. Moreover, the cost of the primal solution is equal
-to the cost of the dual solution. It might appear that we
-have solved the {\UFL} problem optimally, although we know
-that this cannot be the case, as the {\UFL} problem is
-{\NP}-hard. The catch is that the dual solution computed by
-the greedy algorithm is not feasible. The next step is to
-find a common factor $\gamma$, such that the dual solution,
-after shrinking by $\gamma$ (dividing by $\gamma$), becomes
-feasible. That common factor $\gamma$ is then the desired
-approximation ratio. They showed that their two algorithms
-have approximation ratio $1.861$~\footnote{An improved
-  analysis by Mahdian showed the actual ratio is $1.81$.}
-and $1.61$ respectively.
+star divided by the number of clients in that star. The cost
+of the star is the sum of the facility opening cost and
+connection cost of the clients to that facility. In each
+iteration, the algorithm picks the best star, connects all
+member clients to the facility, and sets the facility cost
+to zero. The clients that were in the star and just got
+connected are removed from future consideration, but the
+facility could be reused for future stars. Jain {\etal}
+analyzed the greedy algorithm and its variant using the
+dual-fitting technique. They first showed that the greedy
+algorithm can be interpreted as a process of growing a dual
+solution and updating a primal solution. Moreover, the cost
+of the primal solution is equal to the cost of the dual
+solution. It might appear that we have solved the {\UFL}
+problem optimally, although we know that this cannot be the
+case, as the {\UFL} problem is {\NP}-hard. The catch is that
+the dual solution computed by the greedy algorithm is not
+feasible. The next step is to find a common factor $\gamma$,
+such that the dual solution, after shrinking by $\gamma$
+(dividing by $\gamma$), becomes feasible. That common factor
+$\gamma$ is then the desired approximation ratio. They
+showed that their two algorithms have approximation ratio
+$1.861$~\footnote{An improved analysis by Mahdian showed the
+  actual ratio is $1.81$.}  and $1.61$ respectively.
 
 \subsubsection{Other Algorithms}
-A still different approach is local search, in which we
-start with a feasible integral solution and make local moves
-to improve the solution, and stop at some local optimum. The
-allowed local moves need to be chosen carefully: Admitting
-more powerful moves allows the local optimal to be closer to
-the global optimal, while restricting to a few simple moves
-results in faster algorithms and easier analysis. Arya
-{\etal}~\cite{AryaGKMMP01} showed that their local search
-algorithm gives a ratio of $3$ for the {\UFL} problem.
+A still different approach is local-search, in which we
+start with some feasible integral solution and make local
+moves to improve that solution, and stop when a local
+optimum is achieved. The set of allowed local moves needs to
+be chosen carefully: admitting more powerful moves allows
+the local optimum to be closer to the global optimum, while
+restricting to a few simple moves results in faster
+algorithms and easier analysis. Arya
+{\etal}~\cite{AryaGKMMP01} showed that their local-search
+algorithm gave a ratio of $3$.
 
 \paragraph{Best Result.} To date, the best-known
-approximation results for {\UFL} are due to
-Byrka~\cite{Byrka07} with ratio $1.5$, and a follow-up work
-by Li~\cite{Li11} with ratio $1.488$. Both use a combination
-of two algorithms: One is an LP-rounding algorithm and the
-other is the $1.61$ greedy algorithm of Jain, Mahdian and
-Saberi~\cite{JainMS02}. Since the hybrid approach requires
-the introduction of the notion of \emph{bifactor} analysis,
-we postpone the discussion of Byrka and Li's work for now
-and introduce the notion of bifactor analysis first.
+approximation algorithms for {\UFL} are due to
+Byrka~\cite{Byrka07} with a ratio of $1.5$, and a follow-up
+work by Li~\cite{Li11} with a ratio of $1.488$. Both
+algorithms use a combination of two algorithms: one is an
+LP-rounding algorithm and the other is the $1.61$ greedy
+algorithm of Jain, Mahdian and Saberi~\cite{JainMS02}. To
+explain the hybrid approach requires the notion of
+\emph{bifactor} analysis, for this reason we postpone the
+discussion of Byrka's and Li's work for now and introduce
+bifactor analysis first.
 
 \subsection{Bifactor Analysis} \label{subsec: bifactor}
-Given that the cost of a solution of the {\UFL} problem
-consists of two parts, the facility cost and the connection
-cost, a notion of bifactor approximation was introduced by
-Jain {\etal} in~\cite{JainMMSV03}. An algorithm with
-facility cost $F_{\smallALG}$ (sum of $f_i$ for all open
-facility $i$) and connection cost $C_{\smallALG}$ (sum of
-$d_{ij}$ for pairs of $(i,j)$ connected), is said to be
-$(\gamma_f,\gamma_c)$- approximation if, for every feasible
-solution {\SOL}, with facility cost $F_{\smallSOL}$ and
-connection cost $C_{\smallSOL}$, we have
+Given that the cost of a UFL solution consists of two parts:
+the facility cost and the connection cost, a notion of
+bifactor approximation is appropriate. This notion was first
+introduced by Jain {\etal} in~\cite{JainMMSV03}. An
+algorithm with a facility cost of $F_{\smallALG}$ (sum of
+$f_i$ for all open facility $i$) and a connection cost of
+$C_{\smallALG}$ (sum of $d_{ij}$ for pairs of $(i,j)$
+connected), is said to be a $(\gamma_f,\gamma_c)$-
+approximation if, for every feasible solution {\SOL} with a
+facility cost of $F_{\smallSOL}$ and a connection cost of
+$C_{\smallSOL}$, we have
 \begin{equation*}
   F_{\smallALG} + C_{\smallALG} \leq \gamma_f F_{\smallSOL} +
   \gamma_c C_{\smallSOL}.
 \end{equation*}
-In particular, the above holds if we use an optimal
-fractional solution $(\bfx^\ast,\bfy^\ast)$ for {\SOL}. The
-solution $(\bfx^\ast,\bfy^\ast)$ has facility cost $F^\ast =
-\sum_{i\in\sitesset} f_i y_i^\ast$ and connection cost
-$C^\ast = \sum_{j\in\clientset} d_{ij}
+In particular, the above holds if we substitute in an
+optimal fractional solution $(\bfx^\ast,\bfy^\ast)$ for
+{\SOL}. The solution $(\bfx^\ast,\bfy^\ast)$ has facility
+cost $F^\ast = \sum_{i\in\sitesset} f_i y_i^\ast$ and
+connection cost $C^\ast = \sum_{j\in\clientset} d_{ij}
 x_{ij}^\ast$. Therefore, for a
 $(\gamma_f,\gamma_c)$-approximation algorithm, we have
 \begin{equation*}
@@ -1038,24 +1029,24 @@ $(\gamma_f,\gamma_c)$-approximation algorithm, we have
 
 The notion of bifactor approximation is helpful when an
 algorithm has imbalanced factors $\gamma_f$ and
-$\gamma_c$. It is easy to see that such an algorithm has
-approximation ratio $\max\{\gamma_f, \gamma_c\}$. However,
-more can be said, as there are techniques like cost scaling
-and greedy augmentation to balance the two factors. Thus
-achieving a better overall approximation ratio. The
-techniques of cost scaling and greedy augmentation and their
-use to balance the two factors were introduced by Guha,
-Khuller and Charikar~\cite{GuhaK98, CharikarG05}. For
-example, the primal-dual algorithm by Jain and
-Vazirani~\cite{JainV03} is a (1,3)-approximation algorithm;
-using cost scaling and greedy augmentation, it is possible
-to show that the algorithm can achieve a ratio of
-$1.85$~\cite{CharikarG05}.
+$\gamma_c$. It is easy to see that such an algorithm has an
+approximation ratio of $\max\{\gamma_f,
+\gamma_c\}$. However, more can be said, as there are
+techniques like cost scaling and greedy augmentation to
+balance these two factors, thus achieving a better overall
+approximation ratio. The techniques of cost scaling and
+greedy augmentation and their use for balancing the two
+factors were introduced by Guha, Khuller and
+Charikar~\cite{GuhaK98, CharikarG05}. For example, the
+primal-dual algorithm by Jain and Vazirani~\cite{JainV03} is
+a (1,3)-approximation algorithm; using cost scaling and
+greedy augmentation, it is possible to show that the
+algorithm can achieve a ratio of $1.85$~\cite{CharikarG05}.
 
 Finally we return to the hybrid algorithms by Byrka and
 Aardal~\cite{ByrkaA10}, and Li~\cite{Li11}. Byrka and Aardal
 gave an LP-rounding algorithm with bifactor $(1.68,1.37)$,
-and showed that this algorithm, when combined with a
+and showed that this algorithm, when combined with the
 $(1.11,1.78)$ algorithm by Jain {\etal}~\cite{JainMMSV03},
 gave a ratio of $1.50$. Li showed that by choosing a
 nontrivial distribution of the scaling factor of Byrka's
@@ -1065,38 +1056,38 @@ known approximation result.
 
 \subsection{LP-rounding for UFL}
 We now present a more detailed description of the
-LP-rounding approaches, as our algorithms for {\FTFP} are
-built on the work of LP-rounding for {\UFL}.
+LP-rounding algorithms, as our algorithms for {\FTFP} are
+built on the LP-rounding algorithms for {\UFL}.
 
 \subsubsection{The Motivation of Rounding}
 Every LP-rounding algorithm for {\UFL} starts with solving
-the LP (\ref{eqn:ufl_primal}) to obtain an optimal fraction
-solution $(\bfx^\ast,\bfy^\ast)$. Then we need to round the
-fractional solution to an integral solution
-$(\hat\bfx,\hat\bfy)$ without increasing the cost by much.
+the LP (\ref{eqn:ufl_primal}) and obtaining an optimal
+fraction solution $(\bfx^\ast,\bfy^\ast)$. Then we need to
+round the fractional solution to an integral solution
+$(\hat\bfx,\hat\bfy)$.
+
 An integral solution with a small cost would have each
 client connected to a nearby facility and few facilities
-open.
-
-Consider a client $j$; to get a handle on the connection
-cost, we would like $j$ to connect to some neighboring
-facility $i\in N(j)$, where the neighborhood $N(j) \defeq
-\{i\in\sitesset \suchthat x_{ij}^\ast > 0\}$. For the sake
-of connection cost, it is desirable for every client to have
-a neighboring facility open, as those are facilities not too
-far away. However, it is in general not possible, or we
-would have to open too many facilities, and thus incur a
-high facility cost. An alternative is to select a subset of
-clients, denoted by $C' \subseteq \clientset$ and only
-require clients in $C'$ have a neighboring facility
-open. Clients outside $C'$ are then connected to a facility
-via some client in $C'$. The connection cost for clients in
-$\clientset \setminus C'$ are bounded using the triangle
-inequality. For this strategy to work, the clients $j$
-outside $C'$ need to be able to find some client $j'$ in
-$C'$ such that both $d_{jj'} \defeq \min_{i\in \sitesset}
-d_{ij} + d_{ij'}$ and $d_{\phi(j') j'}$ are small. Here
-$\phi(j')$ is the facility that $j'$ connects to.
+open. Consider a client $j$; to get a handle on the
+connection cost, we would like the client $j$ to connect to
+some neighboring facility $i\in N(j)$, where the
+neighborhood $N(j) \defeq \{i\in\sitesset \suchthat
+x_{ij}^\ast > 0\}$. For the sake of the connection cost, it
+is desirable that every client has a neighboring facility
+open, as those are facilities not too far away. However, it
+is in general not possible, or we would have to open too
+many facilities, and thus incur a high facility cost. An
+alternative is to select a subset of clients, denoted by $C'
+\subseteq \clientset$ and only require clients in $C'$ have
+a neighboring facility open. Clients outside $C'$ are then
+connected to a facility via some client in $C'$. The
+connection cost for clients in $\clientset \setminus C'$ are
+bounded using the triangle inequality. For this strategy to
+work, every clients $j$ outside $C'$ needs to be able to
+find some client $j'$ in $C'$ such that both $d_{jj'} \defeq
+\min_{i\in \sitesset} d_{ij} + d_{ij'}$ and $d_{\phi(j')
+  j'}$ are small. Here $\phi(j')$ is the facility that $j'$
+connects to.
 
 \subsubsection{The Clustering Structure}
 The clustering structure produced by the Shmoys, Tardos and
@@ -1120,10 +1111,10 @@ clusters are formed by repeatedly picking a non-clustered
 client with minimum $\alpha_j^\ast$ value as a new
 representative, where $(\bfalpha^\ast,\bfbeta^\ast)$ is the
 optimal dual solution. Clients share a common neighboring
-facility with the new representative then join that
-cluster. Once all clients are clustered, the algorithm opens
-the cheapest facility in each representative's
-neighborhood. Clients in the same cluster connect to the
+facility with the new representative then become members of
+that cluster. Once all clients are clustered, the algorithm
+opens the cheapest facility in each representative's
+neighborhood. All clients in the same cluster connect to the
 only facility open in their representative's neighborhood.
 
 The facility cost of this solution is no more than $F^\ast =
@@ -1138,15 +1129,17 @@ bounded by the triangle inequality; that is $d_{i'j} \leq
 d_{i'j'} + d_{ij'} + d_{ij}$ where $j'$ is the
 representative of $j$, and $i'$ is the facility opened in
 $j'$'s neighborhood, and $i$ is a common neighbor of both
-$j$ and $j'$. Using complementary slackness conditions, the
-distance of $d_{i'j}$ is no more than $\alpha_{j'}^\ast +
-\alpha_{j'}^\ast + \alpha_j^\ast$, which is no more than
-$3\alpha_j^\ast$ because the representative $j'$ has minimum
-$\alpha_{j'}^\ast$ value among clients in its
-cluster. Summarizing, the solution has facility cost at most
-$F^\ast$ and connection cost no more than
+$j$ and $j'$. Using the complementary slackness conditions,
+the distance of $d_{i'j}$ is no more than $\alpha_{j'}^\ast
++ \alpha_{j'}^\ast + \alpha_j^\ast$, which is no more than
+$3\alpha_j^\ast$ because the representative $j'$ has the
+minimum $\alpha_{j'}^\ast$ value among all clients in its
+cluster. Summarizing, the solution has a facility cost at
+most $F^\ast$ and a connection cost no more than
 $3\sum_{j\in\clientset} \alpha_j^\ast = 3\,\LP^\ast$, where
-$\LP^\ast = F^\ast + C^\ast$, so it is a $4$-approximation.
+$\LP^\ast = F^\ast + C^\ast$. Since $\LP^\ast \leq \OPT$
+where $\OPT$ is the optimal integral solution's cost, the
+algorithm is a $4$-approximation.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1225,8 +1218,7 @@ $\LP^\ast = F^\ast + C^\ast$, so it is a $4$-approximation.
     clients. Dashed boxes indicate clusters. The solid
     circle in each box denotes the representative of that
     cluster. An edge is drawn from a client to a neighboring
-    facility. An ellipse indicates that all facilities
-    inside form the neighborhood of the corresponding
+    facility. An ellipse indicates the neighborhood of a
     representative.}
   \label{fig:STA97}
 \end{figure}
@@ -1236,10 +1228,9 @@ $\LP^\ast = F^\ast + C^\ast$, so it is a $4$-approximation.
 
 
 \section{Related Work for FTFL}
-The Fault-Tolerant Facility Location problem (\FTFL), was
+The Fault-Tolerant Facility Location problem (\FTFL) was
 first introduced by Jain and Vazirani~\cite{JainV03}.  The
 LP is
-
 \begin{empheq}[box=\fbox]{align}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
@@ -1257,31 +1248,33 @@ x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in
 The constraint $\sum_{i\in\sitesset} x_{ij} \geq r_j$ is
 there because, unlike in {\UFL}, a client $j$ now needs to
 be connected to $r_j$ different facilities. The constraint
-$y_i \leq 1$ is what differentiates {\FTFL} from {\FTFP}.
+$y_i \leq 1$ is necessary as in the {\FTFL} problem a site
+can open at most $1$ facility.
 
 Jain and Vazirani adapted their primal-dual algorithm for
 UFL to {\FTFL} and obtained a ratio of $3\ln R$ where
 $R=\max_j r_j$ is the maximum demand among all clients. The
-first constant approximation algorithm was given by Guha,
-Meyerson and Munagala~\cite{GuhaMM03}, using LP-rounding
-similar to the Shmoys, Tardos and Aardal's~\cite{ShmoysTA97}
-approach for the {\UFL} problem. A subsequent improvement
-was made by Swamy and Shmoys~\cite{SwamyS08} using pipage
-rounding with a ratio of $2.076$. The current best known
-approximation ratio is $1.7245$, due to Byrka, Srinivasan
-and Swamy~\cite{ByrkaSS10}, using dependent rounding with a
-laminar clustering structure.
+first $O(1)$-approximation algorithm was given by Guha,
+Meyerson and Munagala~\cite{GuhaMM03}, using an LP-rounding
+algorithm similar to the Shmoys, Tardos and
+Aardal's~\cite{ShmoysTA97} algorithm for the {\UFL} problem.
+Swamy and Shmoys~\cite{SwamyS08} gave an improved algorithm
+with a ratio of $2.076$. Their algorithm uses the pipage
+rounding technique. The current best known approximation
+ratio is $1.7245$, due to Byrka, Srinivasan and
+Swamy~\cite{ByrkaSS10}. Their algorithm uses dependent
+rounding and a laminar clustering structure.
 
-We note that all the known $O(1)$-approximation algorithms
-for {\FTFL} are LP-rounding algorithms and they need to
-solve the LP as the first step, which can be computationally
-expensive. Given the success of primal-dual based approaches
-for {\UFL}, it is natural to ask whether such algorithms
-could be adapted to {\FTFL} with a good ratio. To the best
-of the author's knowledge, there has been no success in
-obtaining a primal-dual algorithm for {\FTFL} with a
-sub-logarithmic ratio. This is in stark constrast to the
-fact that two different primal-dual
+We note that all of the known $O(1)$-approximation
+algorithms for {\FTFL} are LP-rounding algorithms and they
+need to solve the LP as the first step, which can be
+computationally expensive. Given the success of primal-dual
+based approaches for {\UFL}, it is natural to ask whether
+such algorithms could be adapted to {\FTFL} with a good
+ratio. To the best of the author's knowledge, there has been
+no success in obtaining a primal-dual algorithm for {\FTFL}
+with a sub-logarithmic ratio. This is in stark contrast to
+the fact that two different primal-dual
 algorithms~\cite{JainV03,JainMMSV03} have achieved constant
 ratio for {\UFL}.
 
@@ -1289,24 +1282,25 @@ ratio for {\UFL}.
 Our problem, the Fault-Tolerant Facility Placement problem
 (\FTFP), was introduced by Xu and
 Shen~\cite{XuS09}~\footnote{In their paper they call the
-  problem the fault-tolerant facility allocation problem, or
+  problem the Fault-Tolerant Facility Allocation problem, or
   FTFA.}. The study of {\FTFP} was partly motivated to
 obtain a better understanding of the implication of the
 fault-tolerant requirement on facility location
-problems. The Xu and Shen's results seem to be valid only
-for a special case of {\FTFP}. We later adapted Chudak's
-$4$-approximation algorithm for {\UFL} to {\FTFP}, thus
-obtaining the first $O(1)$-approximation algorithm for
-{\FTFP}~\cite{YanC11}. That algorithm was based on
-LP-rounding. In this thesis we present significantly
-improved results for {\FTFP}. For LP-rounding algorithms, we
-achieved a ratio of $1.575$, which matches the best known
-LP-based ratio for {\UFL}~\cite{ByrkaGS10}. The LP-rounding
-results are explained in Chapter~\ref{ch: lp-rounding}. For
-primal-dual approaches, we provide an explanation of
-possible difficulty in obtaining constant ratio using such
-approaches. Our preliminary results using primal-dual
-approaches are given in Chapter~\ref{ch: primal-dual}.
+problems. The Xu and Shen's results, and a follow-up work by
+Liao and Shen~\cite{LiaoS11}, seem to be valid only for a
+special case of {\FTFP}.
+
+Our work on the FTFP problem begins with a $4$-approximation
+LP-rounding algorithm~\cite{YanC11}. In this thesis we
+present significantly improved results for {\FTFP}. For
+LP-rounding algorithms, we achieved a ratio of $1.575$,
+which matches the best known LP-based ratio for
+{\UFL}~\cite{ByrkaGS10}. The LP-rounding results are
+explained in Chapter~\ref{ch: lp-rounding}. Our preliminary
+results using primal-dual approaches are given in
+Chapter~\ref{ch: primal-dual}, which includes an explanation
+of the difficulty in obtaining $O(1)$-approximation using
+such approaches.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
