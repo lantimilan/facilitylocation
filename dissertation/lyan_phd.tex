@@ -133,6 +133,12 @@ Professor Neal Young}
   pleasant experience and I am grateful for Claire Huang,
   Wei Li and the algorithm lab for helpful discussions and
   stimulation of ideas.
+
+  Labmates Monik and Jonathan, despite their tight schedule,
+  read a preliminary version of this dissertation with great
+  patience and attention to details. Both offered many
+  helpful comments and suggested numerous corrections. Their
+  help is greatly appreciated.
 \end{acknowledgements}
 
 \begin{dedication}
@@ -151,22 +157,23 @@ Professor Neal Young}
   a set of clients with demands. To satisfy demands, clients
   must be connected to open facilities. The goal is to
   satisfy all clients' demands while minimizing the combined
-  cost of opening facilities and the cost of connecting
-  clients to facilities. We shown that the problem is
-  NP-hard and hence we study approximation algorithms and
-  their performance guarantees. Approximation algorithms are
-  algorithms that run in polynomial time with provable
-  performance bounds relative to optimal solutions.
+  cost of opening facilities and connecting clients to
+  facilities. We shown that the problem is NP-hard and hence
+  we study approximation algorithms and their performance
+  guarantees. Approximation algorithms are algorithms that
+  run in polynomial time with provable performance bounds
+  relative to optimal solutions.
 
-  We present two techniques that lead to several LP-rounding
-  algorithms with progressively improved approximation
-  ratios. The best ratio we have is 1.575. We also study
-  primal-dual approaches. In particular, we show that a
-  natural greedy algorithm analyzed using the dual-fitting
-  technique gives an approximation ratio of O(log n). On the
-  negative side, under a natural assumption, we give an
-  example showing that the dual-fitting analysis cannot give
-  a ratio better than O(log n/loglog n).
+  We present two techniques with which we develop several
+  LP-rounding algorithms with progressively improved
+  approximation ratios. The best ratio we have is 1.575. We
+  also study primal-dual approaches. In particular, we show
+  that a natural greedy algorithm analyzed using the
+  dual-fitting technique gives an approximation ratio of
+  O(log n). On the negative side, under a natural
+  assumption, we give an example showing that the
+  dual-fitting analysis cannot give a ratio better than
+  O(log n/log log n).
 \end{abstract}
 
 \tableofcontents
@@ -185,14 +192,13 @@ In a broad sense, facility location problems are about
 selecting a set of sites to open facilities, and servicing
 clients by connecting them to facilities. A classical
 application is to set up warehouses to distribute
-commodities to retailers. We want to have more warehouses so
-that every retailer can be close to some warehouse and thus
-save on shipping cost. On the other hand, setting up and
-maintaining a warehouse can be costly. So we would have to
-face the trade-off between having more warehouses and
-cheaper shipping, and having fewer warehouses for the sake
-of reducing warehouse setup and maintainence cost, at the
-expense of shipping. Another application is to place content
+commodities to retailers.  Having more warehouses helps
+reducing shipping cost because every retailer can be close
+to some warehouse. On the other hand, setting up and
+maintaining a warehouse can be costly. In this scenario
+there is a trade-off between having more warehouses and
+cheaper shipping, and having fewer warehouses at the expense
+of shipping cost. Another application is to place content
 servers in a computer network. In the network we have a
 number of client machines that need to access files from one
 of the servers. Having more servers allows faster access for
@@ -201,29 +207,28 @@ around requires substantial hardware and software
 investment, as well as committing operation engineers to
 keep the servers up and running. A more recent example
 concerns today's web giants like Google, Facebook and
-Amazon. Those web-based companies have geographically
+Amazon. These web-based companies have geographically
 distributed development offices. All these offices require
 access of large amount of data from a handful of data
 centers, located in a few carefully chosen
 locations. However, building a data center is costly. The
 electricity bill alone would discourage the plan of having
-an excessive number of data centers around. On the other
-hand, demands from all offices need to be addressed or
-engineers would be idling while waiting for data transfer to
+an excessive number of data centers. On the other hand,
+demands from all offices need to be addressed, or engineers
+would be idling while waiting for data transfer to
 complete. We shall keep using the development office and
 data center example to illustrate several aspects of
 facility location problems.
 
-First, setting up a data center incurs cost, and the cost
-varies in different locations. The real estate rent in
-Kansas usually does not compare to even a fraction of that
-in San Francisco or New York. The electricity rate is also
-very different in midwest areas and in California. Other
-factors like potential natural disasters like tornado or
-earthquake could also be factored into the cost estimate to
-build a data center in a certain location. In short,
-different locations have a different cost to set up a data
-center.
+First, setting up a data center incurs cost and the cost
+varies with location. The real estate rent in Kansas usually
+does not compare to even a fraction of that in San Francisco
+or New York. The electricity rate is also very different in
+midwest areas and in California. Other factors like
+potential natural disasters such as tornado and earthquake
+could also be factored into the cost estimate to build a
+data center in a certain location. In short, different
+locations have a different cost to set up a data center.
 
 Second, different offices may have different demands. A
 larger office may require access to several data centers,
@@ -269,30 +274,32 @@ connected.
 The simplest variant, known as the Uncapacitated Facility
 Location problem ({\UFL}), is also the one that has been
 studied most extensively. In the {\UFL} problem, we are
-given a set of sites and a set of clients. Each site can
-open one facility and each client needs to connect to one
-facility. Facilities are uncapacitated, meaning that a
-facility can accept connections from any number of
-clients. We are also given the facility opening cost at each
-site, and the distance between a site and a client. The
-problem asks us to find a set of sites on which to open
-facilities, and to connect clients to facilities, in such a
-way that the total cost is minimized. The total cost is the
-sum of the facility opening cost and the client connection
-cost.
+given a set of sites $\sitesset$ and a set of clients
+$\clientset$. Each site $i$ can open one facility and each
+client $j$ needs to connect to one facility at a site
+$i$. Facilities are uncapacitated, meaning that a facility
+can accept connections from any number of clients. We are
+also given the facility opening cost $f_i$ at each site $i$,
+and the distance $d_{ij}$ between a site $i$ and a client
+$j$. The problem asks us to find a set of sites on which to
+open facilities, and to connect clients to facilities, in
+such a way that the total cost is minimized. The total cost
+is the sum of the facility opening cost and the client
+connection cost.
 
-The UFL problem is known to be \NP-hard. The UFL problem
-with general distances has an algorithm with an
-approximation ratio of $O(\log n)$, where $n$ is the number
-of clients. This algorithm is due to
+The UFL problem is known to be \NP-hard because the problem
+contains the classic Set Cover problem as a special
+case. The UFL problem with general distances has an
+algorithm with an approximation ratio of $O(\log n)$, where
+$n$ is the number of clients. This algorithm is due to
 Hochbaum~\cite{Hochbaum82}. A matching lower bound of
 $\Omega(\log n)$ is immediate, as the UFL problem contains
-the well-known Set Cover problem as a special case. When the
-distances form a metric, that is, they satisfy the triangle
-inequality, there are algorithms with a constant
-approximation ratio. Shmoys, Tardos and
-Aardal~\cite{ShmoysTA97} were the first ones to obtain an
-$O(1)$-approximation algorithm for the {\UFL}
+the well-known Set Cover problem as a special
+case~\cite{Hochbaum82}. When the distances form a metric,
+that is, they satisfy the triangle inequality, there are
+algorithms with a constant approximation ratio. Shmoys,
+Tardos and Aardal~\cite{ShmoysTA97} were the first ones to
+obtain an $O(1)$-approximation algorithm for the {\UFL}
 problem. Currently, the best known approximation ratio is
 $1.488$ by Li~\cite{Li11}. On the other hand, Guha and
 Khuller~\cite{GuhaK98} showed a lower bound of $1.463$ on
@@ -304,30 +311,30 @@ assumption to $\PP \neq \NP$.
 \section{The FTFP Problem}
 The problem studied in this thesis is the Fault-Tolerant
 Facility Placement problem (\FTFP), which generalizes the
-{\UFL} problem. The difference between the {\UFL} problem
-and the {\FTFP} problem is that each client now has a demand
-that could be more than one and at each site we can open one
-or more facilities. The demand of a client is the number of
-facilities the client needs to connect to. Opening multiple
-facilities at the same site incurs a cost of the facility
-opening cost multiplied by the number of facilities
-opened. The connection cost between a site and a client is
-the distance multiplied by the number of connections between
-the two, with the constraint that the number of connections
-cannot exceed the number of open facilities at that
-site. The FTFP problem asks for a solution with minimum
-total cost, that is the sum of facility cost and connection
-cost.
+{\UFL} problem. The differences between the {\UFL} problem
+and the {\FTFP} problem are: each client $j$ now has a
+demand $r_j$ that could be more than one; at each site $i$
+we can open one or more facilities. More formally, we define
+the {\FTFP} problem as:
+\begin{problem}[The FTFP Problem]
+  \label{problem:ftfp}
+  In the Fault-Tolerant Facility Placement problem
+  ({\FTFP}), we are given a set of sites $\sitesset$ and set
+  of clients as $\clientset$. Each client $j \in \clientset$
+  has a demand $r_j$. To open one facility at a site $i$
+  incurs a cost of $f_i$. To make one connection from a
+  client $j$ to a facility at a site $i$ incurs a cost of
+  the distance $d_{ij}$. The problem asks for a solution
+  that every client $j$ is connected to $r_j$ different
+  facilities and the total cost of opening facilities and
+  connecting clients to facilities is minimized.
+\end{problem}
 
 The {\FTFP} problem contains the {\UFL} problem as a special
-case, and is therefore \NP-hard. Consequently, it would be
-unrealistic to seek polynomial-time algorithms that solve
-the problem exactly. Nonetheless, there are polynomial-time
-algorithms that deliver a solution whose cost can be proven
-to be within a certain factor away from the optimal
-solution's cost. These algorithms, known as approximation
-algorithms, and their performance analysis, are the subject
-of this thesis.
+case, and is therefore \NP-hard. In the following section we
+present results on the hardness for the {\FTFP}
+problem. This sets a context for our development of
+approximation algorithms in later chapters.
 
 \section{Hardness Results for UFL and FTFP}
 \label{sec: hardness}
@@ -336,9 +343,9 @@ Not only is the FTFP problem \NP-hard, but also more can be
 said about the extent to which we can approximate an optimal
 solution. Results showing that problems cannot be
 approximated with a certain ratio, using well-respected
-assumptions like $\PP\neq \NP$, are called hardness results,
-and we present the hardness results for the {\FTFP} problem
-in this section.
+assumptions like $\PP\neq \NP$, are called hardness results.
+In this section we present the hardness results for the
+{\FTFP} problem.
 
 Since the Fault-Tolerant Facility Placement problem (\FTFP)
 contains the Uncapacitated Facility Location problem (\UFL)
@@ -746,7 +753,7 @@ problem we have no more than one facility at each site.
 
 \begin{table}
   \centering
-  \begin{tabular}{l l l l}
+  \begin{tabular}{l l l r}
     \toprule
     author & technique & ratio & year\\
     \midrule
@@ -759,9 +766,9 @@ problem we have no more than one facility at each site.
     Arya {\etal} & local-search & 3 & 2001~\cite{AryaGKMMP01}\\
     \midrule
     Byrka and Aardal & hybrid & 1.50 & 2007~\cite{Byrka07}\\
-    Li & hybrid & 1.488 & 2011 (best result)~\cite{Li11}\\
+    Li & hybrid & 1.488 (best result) & 2011~\cite{Li11}\\
     \bottomrule
-    Guha and Khuller & lower-bound & 1.463 &
+    Guha and Khuller (*) & lower-bound & 1.463 &
     1998~\cite{GuhaK98} \\
     \bottomrule
   \end{tabular}
@@ -769,8 +776,8 @@ problem we have no more than one facility at each site.
   problem and their ratios.]
   {A history of approximation algorithms for the UFL problem and their ratios. The word \emph{hybrid} refers to
     using two independent algorithms and returning the better
-    solution of the two. The last row of $1.463$ is about
-    inapproximability, or hardness.}
+    solution of the two. The last row with an asterisk gives
+    a lower bound on approximation ratio.}
   \label{tab:ufl_history}
 \end{table}
 %%%%%%%%%% end table UFL history %%%%%%%%%%%%%%%%
