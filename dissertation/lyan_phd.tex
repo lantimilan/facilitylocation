@@ -82,7 +82,9 @@
 \newtheorem{summary}[theorem]{Summary}
 \newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
 \def\dsp{\def\baselinestretch{2.0}\large\normalsize}
+\def\ssp{\def\baselinestretch{1.0}\large\normalsize}
 \dsp
+
 
 %% The user must use \textheight and \topmargin to control to button margin.
 \textheight = 8.25in
@@ -129,23 +131,23 @@ Professor Neal Young}
   research and this dissertation.
 
   The supportive environment of the algorithm lab and
-  computer science department has made PhD study here a
+  computer science department has made my PhD study here a
   pleasant experience and I am grateful for Claire Huang,
   Wei Li and the algorithm lab for helpful discussions and
   stimulation of ideas.
 
-  Labmates Monik and Jonathan, despite their tight schedule,
-  read a preliminary version of this dissertation with great
-  patience and attention to details. Both offered many
-  helpful comments and suggested numerous corrections. Their
-  help is greatly appreciated.
+  Labmates Monik and Jonathan, despite their tight
+  schedules, read a preliminary version of this dissertation
+  with great patience and attention to details. Both offered
+  many helpful comments and suggested numerous
+  corrections. Their help is greatly appreciated.
 
   During this final stage of my PhD study, our family had a
   new member, little Terry. Being with a baby as laid-back
-  as Terry helped relieve much of the stress. I would also
-  like to take this opportunity to show appreaciation to my
-  wife, Ying, for taking care of much the family
-  responsibility and being considerate on my late hours
+  as Terry has kept me from getting overly stressed. I would
+  also like to take this opportunity to show appreciation to
+  my wife, Ying, for taking care most of the family
+  responsibility and bearing with me for staying up late
   working on the thesis and defense.
 \end{acknowledgements}
 
@@ -166,7 +168,7 @@ Professor Neal Young}
   must be connected to open facilities. The goal is to
   satisfy all clients' demands while minimizing the combined
   cost of opening facilities and connecting clients to
-  facilities. We shown that the problem is NP-hard and hence
+  facilities. We show that the problem is NP-hard and hence
   we study approximation algorithms and their performance
   guarantees. Approximation algorithms are algorithms that
   run in polynomial time with provable performance bounds
@@ -197,36 +199,35 @@ Professor Neal Young}
 
 \section{The Problem and the Background}
 Facility location problems are a class of problems of both
-theoretical interest and practical significance. A
-sufficiently general description is that facility location
-problems are about selecting a set of sites to open
-facilities and servicing clients by connecting them to
-facilities. A classical application is to set up warehouses
-to distribute commodities to retailers.  Having more
-warehouses helps reducing shipping cost because every
-retailer can be close to some warehouse. On the other hand,
-setting up and maintaining a warehouse can be costly. In
-this scenario there is a trade-off between having more
-warehouses and cheaper shipping, and having fewer warehouses
-at the expense of shipping. Another application is to
-place content servers in a computer network. In the network
-we have a number of client machines that need to access
-files from one of the servers. Having more servers allows
-faster access for all clients. However, keeping a large
-number of servers around requires substantial hardware and
-software investment, as well as committing operation
-engineers to keep the servers up and running. A more recent
-example concerns today's web giants like Google, Facebook
-and Amazon. These web-based companies have geographically
-distributed development offices. All these offices require
-access of large amount of data from a handful of data
-centers, located in a few carefully chosen
-locations. However, building a data center is costly. The
-electricity bill alone would discourage the plan of having
-an excessive number of data centers. On the other hand,
-demands from all offices need to be addressed, or engineers
-would be idling while waiting for data transfer to
-complete. We shall keep using the development office and
+theoretical interest and practical significance. A general
+description is that facility location problems are about
+selecting a set of sites to open facilities and servicing
+clients by connecting them to facilities. A classical
+application is to set up warehouses to distribute
+commodities to retailers.  Having more warehouses helps
+reducing shipping cost because every retailer can be close
+to some warehouse. On the other hand, setting up and
+maintaining a warehouse can be costly. In this scenario
+there is a trade-off between having more warehouses and
+cheaper shipping and having fewer warehouses at the expense
+of shipping. Another application is to place content servers
+in a computer network. In the network we have a number of
+client machines that need to access files from one of the
+servers. Having more servers allows faster access for all
+clients. However, keeping a large number of servers around
+requires substantial hardware and software investment, as
+well as committing operation engineers to keep the servers
+up and running. A more recent example concerns today's web
+giants like Google, Facebook and Amazon. These web-based
+companies have geographically distributed development
+offices. All these offices require access of large amount of
+data from a handful of data centers, located in a few
+carefully chosen locations. However, building a data center
+is costly. The electricity bill alone would discourage the
+plan of having an excessive number of data centers. On the
+other hand, demands from all offices need to be addressed,
+or engineers would sit idling while waiting for data transfer
+to complete. We shall keep using the development office and
 data center example to illustrate several aspects of
 facility location problems.
 
@@ -280,23 +281,24 @@ facilities. In the Prize-Collecting Facility Location
 problem we also pay a penalty for each client that is not
 connected.
 
-\paragraph{The UFL Problem.}
 The simplest variant, known as the Uncapacitated Facility
 Location problem ({\UFL}), is also the one that has been
-studied most extensively. In the {\UFL} problem, we are
-given a set of sites $\sitesset$ and a set of clients
-$\clientset$. Each site $i$ can open one facility and each
-client $j$ needs to connect to one facility at a site
-$i$. Facilities are uncapacitated, meaning that a facility
-can accept connections from any number of clients. We are
-also given the facility opening cost $f_i$ for each site
-$i$, and the distance $d_{ij}$ between a site $i$ and a
-client $j$. The problem asks us to find a set of sites on
-which to open facilities, and to connect clients to
-facilities, in such a way that the total cost is
-minimized. The total cost is the sum of the facility opening
-cost and the client connection cost.
-
+studied most extensively. 
+\begin{problem}[The UFL Problem]
+  In the {\UFL} problem, we are given a set of sites
+  $\sitesset$ and a set of clients $\clientset$. Each site
+  $i$ can open one facility and each client $j$ needs to
+  connect to one facility at a site $i$. Facilities are
+  uncapacitated, meaning that a facility can accept
+  connections from any number of clients. We are also given
+  the facility opening cost $f_i$ for each site $i$, and the
+  distance $d_{ij}$ between a site $i$ and a client $j$. The
+  problem asks us to find a set of sites on which to open
+  facilities, and to connect clients to facilities, in such
+  a way that the total cost is minimized. The total cost is
+  the sum of the facility opening cost and the client
+  connection cost.
+\end{problem}
 The UFL problem is known to be \NP-hard because the problem
 contains the classic Set Cover problem as a special
 case. The UFL problem with general distances has an
@@ -307,7 +309,7 @@ $\Omega(\log n)$ is immediate, as the UFL problem contains
 the well-known Set Cover problem as a special
 case~\cite{Hochbaum82}. When the distances form a metric,
 that is, they satisfy the triangle inequality, there are
-algorithms with a constant approximation ratio. Shmoys,
+algorithms with constant approximation ratios. Shmoys,
 Tardos and Aardal~\cite{ShmoysTA97} were the first ones to
 obtain an $O(1)$-approximation algorithm for the {\UFL}
 problem. Currently, the best known approximation ratio is
@@ -328,53 +330,44 @@ site $i$ we can open one or more facilities. More formally,
 we define the {\FTFP} problem as:
 \begin{problem}[The FTFP Problem]
   \label{problem:ftfp}
-  In the Fault-Tolerant Facility Placement problem
-  ({\FTFP}), we are given a set of sites $\sitesset$ and a
-  set of clients $\clientset$. Each client $j \in
-  \clientset$ has a demand $r_j$. To open one facility at a
-  site $i$ incurs a cost of $f_i$. To make one connection
-  from a client $j$ to a facility at a site $i$ incurs a
-  cost of the distance $d_{ij}$. The problem asks for a
-  solution that every client $j$ is connected to $r_j$
-  different facilities and the total cost of opening
-  facilities and connecting clients to facilities is
-  minimized.
+  In the Fault-Tolerant Facility Placement problem,
+  we are given a set of sites $\sitesset$ and a set of
+  clients $\clientset$. Each client $j \in \clientset$ has a
+  demand $r_j$. To open one facility at a site $i$ incurs a
+  cost of $f_i$. To make one connection from a client $j$ to
+  a facility at a site $i$ incurs a cost of the distance
+  $d_{ij}$. The problem asks for a solution that every
+  client $j$ is connected to $r_j$ different facilities and
+  the total cost of opening facilities and connecting
+  clients to facilities is minimized.
 \end{problem}
 In this thesis we only consider the metric version of the
 {\FTFP} problem. 
 
 The {\FTFP} problem contains the {\UFL} problem as a special
-case. Therefore any hardness results for {\UFL} also apply
-to {\FTFP} automatically. Regarding metric {\UFL}, the
-following results are known.
-\begin{theorem}\label{thm:maxsnp} \cite{GuhaK98}
-  The metric UFL problem is {\MaxSNP}-hard.
-\end{theorem}
-The proof is by a reduction from the B-Vertex Cover
-problem. This theorem implies that there exists a constant
-$c$ such that the metric UFL problem cannot be approximated
-with a ratio less than $c$. The best known such constant
-$c=1.463$ is given by Guha and Khuller~\cite{GuhaK98}.  On
-the other hand, we do not know whether {\FTFP} is harder
-than {\UFL} or not.
-
+case. In fact, setting $r_j = 1$ for all clients $j$ we get
+the {\UFL} problem. Another problem that is closely related
+to the {\FTFP} problem is the Fault-Tolerant Facility
+Location problem (FTFL) mentioned ealier. The difference
+between {\FTFP} and {\FTFL} is that in {\FTFP} we can open
+any number of facilities at a site while in {\FTFL} we can
+open at most one facility at a site.
 
 \section{Organization of the Thesis}
 The rest of this thesis is organized as follows: In
-Chapter~\ref{ch: related_work} we present approximation
-results for FTFP, as well as those for related problems; in
-Chapter~\ref{ch: lp} we give the LP formulation for FTFP and
-describe structural properties of the optimal fractional
-solution that we use for our algorithms; in Chapter~\ref{ch:
-  techniques} we describe two main techniques, demand
-reduction and adaptive partitioning, that allow us to obtain
-a fractional solution with additional structural properties;
-in Chapter~\ref{ch: lp-rounding} we show how to round the
-obtained fractional solution to an integral solution with
-bounded cost; in Chapter~\ref{ch: primal-dual} we present
-preliminary results of the primal-dual approach; in
-Chapter~\ref{ch: conclusion} we conclude this thesis with a
-discussion on open problems.
+Chapter~\ref{ch: related_work} we present related work for
+UFL, FTFL and our problem FTFP; in Chapter~\ref{ch: lp} we
+give the LP for FTFP and describe structural properties of
+the optimal fractional solution that we use for our
+algorithms; in Chapter~\ref{ch: techniques} we describe two
+main techniques, demand reduction and adaptive partitioning,
+that allow us to obtain a fractional solution with
+additional structural properties; in Chapter~\ref{ch:
+  lp-rounding} we show how to round the obtained fractional
+solution to an integral solution with bounded cost; in
+Chapter~\ref{ch: primal-dual} we present preliminary results
+of the primal-dual approach; in Chapter~\ref{ch: conclusion}
+we conclude this thesis with a discussion on open problems.
 
 %% end of ch1
 
@@ -443,9 +436,7 @@ instead of saying opening facilities at sites, we simply say
 opening or closing facilities without mentioning sites,
 since in the {\UFL} problem we have no more than one
 facility at each site.
-
 %%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
-
 \begin{table}
   \centering
   \begin{tabular}{l l l r}
@@ -467,6 +458,7 @@ facility at each site.
     1998~\cite{GuhaK98} \\
     \bottomrule
   \end{tabular}
+  \ssp
   \caption[A history of approximation algorithms for the UFL
   problem and their ratios.]
   {A history of approximation algorithms for the UFL problem and their ratios. The word \emph{hybrid} refers to
@@ -474,10 +466,37 @@ facility at each site.
     solution of the two. The last row with an asterisk gives
     a lower bound on approximation ratio.}
   \label{tab:ufl_history}
+  \dsp
 \end{table}
 %%%%%%%%%% end table UFL history %%%%%%%%%%%%%%%%
 
-\subsection{The LP Formulation}
+\subsection{Hardness Results}
+Before we delve into the approximation results for the
+{\UFL} problem, we review the hardness results, which
+establish a limit on the best ratio with which we can
+approximate the {\UFL} problem, under the well-respected
+assumption that $\PP \neq \NP$. Since both the {\FTFL}
+problem and the {\FTFP} problem contains the {\UFL} problem
+as a special case, all the hardness results mentioned here
+carry over into {\FTFL} and {\FTFP} as well. Regarding
+{\UFL}, the following result is known:
+\begin{theorem}\cite{GuhaK98}
+  \label{thm:maxsnp}
+  The metric UFL problem is \MaxSNP-hard.
+\end{theorem}
+The proof is by a reduction from the B-Vertex-Cover problem,
+which is a well-known \MaxSNP-hard problem. The idea is to
+show that, for any constant $\epsilon$, given a
+$(1+\epsilon)$-approximation algorithm for the {\UFL}
+problem, we can construct a $(1+\epsilon')$-approximation
+algorithm for the B-Vertex-Cover problem for $\epsilon' =
+\epsilon(1+B)$. Given Theorem~\ref{thm:maxsnp}, we know that
+there exists some constant $c$ such that no approximation
+algorithm with ratio less than $c$ is possible. The best
+known such constant $c$ for the {\UFL} problem is $c=1.463$,
+due to Guha and Khuller~\cite{GuhaK98}.
+
+\subsection{Linear Program Formulation}
 The analysis of approximation algorithms for \NP-hard
 problems requires an estimate on the optimal solution's
 cost. For \NP-hard problems, the task to compute the optimal
@@ -716,7 +735,7 @@ algorithm, the analysis can be refined to show an overall
 ratio of $1.488$. The $1.488$ ratio is currently the best
 known approximation result.
 
-\subsection{LP-rounding for UFL}
+\subsection{LP-rounding Algorithms}
 We now present a more detailed description of the
 LP-rounding algorithms, as our algorithms for {\FTFP} are
 built on the LP-rounding algorithms for {\UFL}.
@@ -873,8 +892,9 @@ algorithm is a $4$-approximation.
     \draw[dashed] (7,4) rectangle (9,7);
     \draw[dashed] (7,-2) rectangle (9,3);
   \end{tikzpicture}
-  \caption[An illustration of the clustering structure of
-  LP-rounding algorithms for UFL.]{An illustration of the
+  \ssp
+  \caption[Illustration of the clustering structure of
+  LP-rounding algorithms for UFL]{An illustration of the
     clustering structure of LP-rounding algorithms for
     UFL. Rectangles are facilities and circles are
     clients. Dashed boxes indicate clusters. The solid
@@ -883,6 +903,7 @@ algorithm is a $4$-approximation.
     facility. An ellipse indicates the neighborhood of a
     representative.}
   \label{fig:STA97}
+  \dsp
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% end  UFL cluster figure %%%%%%%%%%%%%%%%%%%%%
@@ -1028,7 +1049,7 @@ y_i$ \emph{the facility cost} of the solution, and the
 second term $\sum_{i \in \sitesset, j \in \clientset} d_{ij}
 x_{ij}$ \emph{the connection cost} of the solution.
 
-\section{The Linear Program of FTFP}
+\section{Linear Program for FTFP}
 The FTFP problem has a natural Integer Programming (IP)
 formulation. Let $y_i$ represent the number of facilities
 opened at a site $i$, and let $x_{ij}$ represent the number
@@ -1086,7 +1107,7 @@ algorithms.
 
 %%%%%%%%%
 
-\section{LP Structure and Special Case: Uniform-demand}
+\section{LP Structure and Special Case with Uniform-demand}
 \label{sec:ftfp_uniform_demand}
 
 If we compare the the LP~(\ref{eqn:fac_primal}) and its
@@ -1111,8 +1132,7 @@ instance. It is not hard to see that the approximation ratio
 is preserved. This shows a simple reduction from {\FTFP} to
 {\UFL} for the uniform-demand case.
 
-\section{Solution Structure: Completeness and Facility
-  Splitting}
+\section{Solution Structure of Completeness and Facility  Splitting}
 \label{sec:ftfp_complete}
 In this section we describe a structural property we assume
 of the optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
@@ -1449,7 +1469,7 @@ Theorem~\ref{thm:largeR}.
 \end{proof}
 
 
-\section{Adaptive Partition}
+\section{Adaptive Partitioning}
 \label{sec: adaptive partitioning}
 
 In this section we develop our second technique, which we
@@ -1673,7 +1693,7 @@ facility and adjusting the connection values so that
 conditions (c1) and (c2) are preserved.
 
 %%%%%%%%%%%
-
+\ssp
 \begin{algorithm}[ht]
   \caption{Algorithm: Adaptive Partitioning}
   \label{alg:lpr2}
@@ -1766,7 +1786,7 @@ conditions (c1) and (c2) are preserved.
     \EndFunction
   \end{algorithmic}
 \end{algorithm}
-
+\dsp
 %%%%%%%%%%%%%%
 
 
@@ -1833,12 +1853,10 @@ Solving the LP(\ref{eqn:fac_primal}), we obtain the fractional solution given in
 Table~\ref{tbl:example_opt}.
 %
 {
-\small
 \begin{table}[ht]
 %
 \hfill
-\setlength{\extrarowheight}{4pt}
-\begin{subtable}{0.2\textwidth}
+\begin{subtable}[b]{0.2\textwidth}
   \centering
   \begin{tabular}{c | c c c c | c }
     $x_{ij}^\ast$ & $1$ & $2$ & $3$ & $4$ & $y_{i}^\ast$\\
@@ -1854,7 +1872,7 @@ Table~\ref{tbl:example_opt}.
 %
 \hspace{0.8in}
 %
-\begin{subtable}{0.4\textwidth}
+\begin{subtable}[b]{0.4\textwidth}
   \centering
   \begin{tabular}{c | c c c c c c c | c} % seven demands, five facilities
     $\barx_{\mu\nu}$ & $1'$ & $2'$ & $2''$ & $3'$ & $3''$ & $4'$ & $4''$ & $\bary_{\mu}$ \\
@@ -1870,11 +1888,15 @@ Table~\ref{tbl:example_opt}.
 \end{subtable}
 \hfill{\ }
 %
+
+\ssp
 \caption[An example of an execution of the partitioning algorithm.]{
   An example of an execution of the partitioning algorithm.
   (a) An optimal fractional solution $x^\ast,y^\ast$.
   (b) The partitioned solution. $j'$ and $j''$ denote the first and second demand of a client $j$, 
-	and $\dot{\imath}$ and $\ddot{\imath}$ denote the first and second facility at site $i$.}
+	and $\dot{\imath}$ and $\ddot{\imath}$ denote the
+        first and second facility at site $i$.}
+\dsp
 %
 \end{table}
 }
@@ -2257,7 +2279,7 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
   $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the expected
   total facility cost is
 %
-\begin{empheq}[box=\fbox]{align*}
+\begin{align*}
     \Exp[F_{\smallEGUP}]
 	&= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\wbarN(\kappa)}} f_{\mu} \barx_{\mu\kappa}
 	\\
@@ -2267,7 +2289,7 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
 	\\
 	&\leq \textstyle{\sum_{i\in\sitesset}} f_i y_i^\ast 
 	= F^\ast,
-\end{empheq}
+\end{align*}
 %
 where the inequality follows from Property~(PD.\ref{PD:yi}).
 \end{proof}
@@ -2412,7 +2434,7 @@ algorithm are as follows:
 \end{description}
 
 %%%%%%%%%%%%%
-
+\ssp
 \begin{algorithm}
   \caption{Algorithm~{\ECHS}:
     Constructing Integral Solution}
@@ -2437,7 +2459,7 @@ algorithm are as follows:
     \EndFor
   \end{algorithmic}
 \end{algorithm}
-
+\dsp
 %%%%%%%%%%%%%%%%
 
 \paragraph{Analysis.}
@@ -3148,6 +3170,7 @@ At this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=3.2in]{proof_of_lemma_PD'3a.pdf}
+\ssp
 \caption[Illustration of the sets in the proof of
 Lemma~\ref{lem: PD1: primary overlap}]{Illustration of the
   sets $\wbarN(\nu)$, $A$, $B$, $E^-$ and $E^+$ in the proof
@@ -3158,6 +3181,7 @@ Lemma~\ref{lem: PD1: primary overlap}]{Illustration of the
   \wbarclsnb(\kappa)$, $E^- \Subset \wtildeclsnb(j) -
   \wbarclsnb(\kappa)$, $E^+ \Subset \wtildeN(j) -
   \wtildeclsnb(j)$.}
+\dsp
 \label{fig: sets lemma PD'3a}
 \end{center}
 \end{figure}
@@ -3909,7 +3933,7 @@ illustrating the difficulty in obtaining
 $O(1)$-approximation ratio for the {\FTFP} problem when
 dual-fitting is used to obtain the approximation ratio.
 
-\section{The Greedy algorithm with $O(\log n)$ Ratio}
+\section{The Greedy algorithm with Ratio $O(\log n)$}
 \label{sec: greedy_ratio}
 
 \subsection{The Greedy Algorithm}
@@ -4099,12 +4123,14 @@ the integral solution produced by the greedy algorithm.
       n_3$}  (client3);
     \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_k$}  (clientk);
   \end{tikzpicture}
-  \caption[$\Omega(\log n / \log\log n)$ example for
-  dual-fitting on {\FTFP}]{An example showing the greedy
+  \ssp
+  \caption[The $\Omega(\log n / \log\log n)$ example for
+  dual-fitting for {\FTFP}]{An example showing the greedy
     algorithm for FTFP, analyzed using dual-fitting, could
     give a ratio of $\Omega(\log n / \log\log n)$, assuming
     that the facility cost can only be charged to clients
     within the star.}
+  \dsp
   \label{fig:greedy_lower_bound}
 \end{figure}
 %%%%%%%%%%%%%%%%% end figure %%%%%%%%%%%%%%%%%%
@@ -4251,7 +4277,7 @@ ratio to meet the lower bound.
 \appendix
 \chapter{Technical Background}
 
-\section{Linear Programming and Integer Programming}
+\section{Integer Programming and Linear Programming}
 \label{sec: ILP}
 
 In this section we give a short introduction to Linear
@@ -4526,6 +4552,8 @@ oppositely.
 %% reference
 %% http://www.maths.qmul.ac.uk/~fv/books/mw/mwbook.pdf
 %%
-%% TODO: pdflatex has font issue with \beta k, ligature?
 
 %% 05/15/2013, first draft
+%%
+%% TODO:
+%% single spacing in tables, captions and pseudocode, DONE.
