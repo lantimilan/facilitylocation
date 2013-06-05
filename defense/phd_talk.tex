@@ -1,4 +1,4 @@
-\documentclass[hyperref,dvipsnames]{beamer}
+\documentclass[hyperref,dvipsnames,svgnames]{beamer}
 
 \usepackage{amsmath, tikz, subfigure, graphicx}
 \usepackage{multirow,colortbl}
@@ -376,6 +376,205 @@
   \end{minipage}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% UFL and its results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% UFL example
+\begin{frame}
+  \frametitle{Uncapacitated Facility Location Problem (UFL)}
+  All demands are 1, each site can open only one facility
+
+  \begin{figure}
+    \centering
+    \subfigure{
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
+
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
+
+    \node[right] (demand1) at (6,-1) {$r_4=1$};
+    \node[right] (demand2) at (6,2) {$r_3=1$};
+    \node[right] (demand3) at (6,5) {$r_2=1$};
+    \node[right] (demand4) at (6,8) {$r_1=1$};
+    
+    \node (label1) at (3,-3) {Instance};
+  \end{tikzpicture}
+  }
+  \hspace{.1in}
+  \subfigure{
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!25,minimum size=.2cm] (fac1) at (0,8) {$1$};
+
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
+
+    \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
+        \draw (\from)--(\to);
+
+    \node (label2) at (3,-3) {Solution};
+  \end{tikzpicture}
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Related Work on UFL}
+
+  {\Large
+    \textcolor{blue}
+    {Approximation Results for UFL}
+  }
+
+  \vspace{.3in}
+
+  \begin{tabular}{ l l l l }
+    \rowcolor{GreenYellow}
+    Shmoys, Tardos and Aardal & 1997 & 3.16 & LP-rounding\\
+    \rowcolor{GreenYellow}
+    Chudak & 1998 & 1.736 & LP-rounding\\
+    \rowcolor{GreenYellow}
+    Sviridenko & 2002 & 1.58 & LP-rounding\\
+
+    \rowcolor{Pink}
+    Jain and Vazirani & 2001 & 3 & primal-dual\\
+    \rowcolor{ProcessBlue}
+    Jain {\etal} & 2002 & 1.61 & greedy\\
+    \rowcolor{ProcessBlue}
+    Mahdian {\etal} & 2002 & 1.52 & greedy\\
+	\rowcolor{LightGreen}
+    Arya {\etal} & 2004 & 3 & local search\\
+    \rowcolor{SkyBlue}
+    Byrka & 2007 & 1.5 & hybrid\\
+    \rowcolor{SkyBlue}
+    Li & 2011 & 1.488 & hybrid \\
+	& & &\\
+	\textcolor{blue}{Lower Bound}
+	& & & \\
+    & & & \\
+    \rowcolor{Yellow}
+    Guha and Khuller & 1998 & 1.463 &\\
+  \end{tabular}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FTFL and its results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% FTFL example
+\begin{frame}
+  \frametitle{Fault-tolerant Facility Location Problem (FTFL)}
+  Demands may be more than 1, each site can open only one facility
+
+  \begin{figure}
+    \centering
+    \subfigure{
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
+
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,9) {$1$};
+
+    \node[right] (demand1) at (6,-1) {$r_4=2$};
+    \node[right] (demand2) at (6,2) {$r_3=1$};
+    \node[right] (demand3) at (6,5) {$r_2=1$};
+    \node[right] (demand4) at (6,8) {$r_1=2$};
+
+    \node (label1) at (3,-3) {Instance};    
+  \end{tikzpicture}
+}
+\hspace{.1in}
+\subfigure{
+  \begin{tikzpicture}[scale=0.5]
+    \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
+    \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
+    \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
+
+    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
+    
+    \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
+        \draw (\from)--(\to);
+
+        \node (label2) at (3,-3) {Solution};
+  \end{tikzpicture}
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Related Work on FTFL}
+  
+  {\Large
+    \textcolor{blue}
+    {Approximation Algorithms for FTFL}
+  }
+
+    \vspace{.3in}
+    \begin{tabular}{ l l l l }
+      \rowcolor{GreenYellow}
+      Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
+      \rowcolor{SkyBlue}
+      Guha {\etal} & 2001 & 4 & LP-rounding\\
+      \rowcolor{SkyBlue}
+      Swamy, Shmoys & 2008 & 2.076 & LP-rounding\\
+      \rowcolor{SkyBlue}
+      Byrka {\etal} & 2010 & 1.7245 & LP-rounding\\
+    \end{tabular}
+    \vspace{.5in}
+
+    No primal-dual algorithms for FTFL with constant ratio.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% FTFP results %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Work on FTFP (Dissertation Topic)}
+  
+  {\Large
+    \textcolor{blue}
+    {Approximation Algorithms for FTFP}
+  }
+
+    \vspace{.3in}
+    \begin{tabular}{ l l l l }
+	  \rowcolor{GreenYellow}
+      Xu and Shen & 2009 &  & Introduced FTFP\\
+      \rowcolor{Pink}
+      Liao and Shen & 2011 & 1.861 & Dual-fitting (for special case)\\
+      \rowcolor{SkyBlue}
+      Yan and Chrobak & 2011 & 3.16 & LP-rounding\\
+	& & & \\
+	\textcolor{Brown}{{\hspace{-0.1in}}This talk:}\hfill & & & \\
+        & & & \\
+      \rowcolor{SkyBlue}
+      Yan and Chrobak & 2012 & 1.575 & LP-rounding\\
+    \end{tabular}
+    \vspace{.175in}
+
+  Hightlights
+  \begin{itemize}
+  \item Matches the best LP-based ratio for UFL
+	\item Better than 1.7245 for FTFL
+  \item Technique to extend LP-rounding algorithms for UFL to FTFP
+  \end{itemize}
+\end{frame}
+
+
 %% 2. Results: 1.575 rounding, hard example on dual-fitting
 
 %% 3. Techniques:
@@ -395,3 +594,6 @@
 %%     - dual-fitting for FTFP
 %%     - 1.463 for UFL
 \end{document}
+
+%%% TODO
+%%% - improve the UFL, FTFL and FTFP example figure
