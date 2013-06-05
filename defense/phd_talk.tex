@@ -1,6 +1,9 @@
-\documentclass{beamer}
+\documentclass[hyperref,dvipsnames]{beamer}
 
 \usepackage{amsmath, tikz, subfigure, graphicx}
+\usepackage{multirow,colortbl}
+\usepackage[customcolors,norndcorners]{hf-tikz}
+
 \usetikzlibrary{decorations.pathreplacing,decorations.pathmorphing,arrows,positioning,shapes,shapes.multipart}
 
 \title[FTFP]{Approximation Algorithms
@@ -14,7 +17,7 @@
 \usetheme{Warsaw}
 
 \input{macros.tex}
-
+\definecolor{light-gray}{gray}{0.95}
 
 \begin{document}
 %% (5-10min)  1. What is the problem: motivation, definition, related work
@@ -26,7 +29,9 @@
   \titlepage
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% outline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Outline}
   \begin{enumerate}
@@ -51,6 +56,10 @@
 %% - related work: UFL and FTFL
 %%% problem example
 %%% instance with annotation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The FTFP problem definition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Fault-tolerant Facility Placement Problem (FTFP)}
   \setbeamercovered{invisible}
@@ -307,6 +316,64 @@
 
   Cost is $4f_1 + 1f_2 + 0f_3 + 4d_{11} + d_{12} + 2d_{14} +
   d_{23} = 29$
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Compare three problems
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Relation between Problems}
+  \begin{center}
+  \begin{tabular}{l  l  l}
+    \rowcolor{light-gray}
+    FTFP & $r_j \geq 1$ & $\geq 1$ facility per site\\
+    \rowcolor{light-gray}
+    UFL  & $r_j = 1$ & $\leq 1$ facility per site\\
+    \rowcolor{light-gray}
+    FTFL & $r_j \geq 1$ & $\leq 1$ facility per site\\
+  \end{tabular}
+  \end{center}
+
+  \vspace{.3in}
+  \hfsetbordercolor{red!50}
+  \hfsetfillcolor{blue!10}
+  \large{
+  \begin{equation*}
+    \tikzmarkin{a}(0.3,-0.6)(-0.3,0.75)
+    \text{UFL} \preceq \text{FTFP} \preceq \text{FTFL}
+    \tikzmarkend{a}
+  \end{equation*}
+  }
+  \begin{minipage}{.45\linewidth}
+  \vspace{.3in}
+  \begin{center}
+    \begin{tabular}{l l}
+      \multicolumn{2}{c}{LP-rounding}\\
+      \hline
+      \rowcolor{GreenYellow}
+      UFL & \\
+      \rowcolor{GreenYellow}
+      FTFP & \multirow{-2}{*}{1.575}\\
+      \rowcolor{Cyan}
+      FTFL & 1.7245\\
+    \end{tabular}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{.45\linewidth}
+  \vspace{.3in}
+  \begin{center}
+    \begin{tabular}{l l}
+      \multicolumn{2}{c}{Primal-dual}\\
+      \hline
+      \rowcolor{GreenYellow}
+      UFL & 1.52\\
+      \rowcolor{Cyan}
+      FTFP & \\
+      \rowcolor{Cyan}
+      FTFL & \multirow{-2}{*}{$O(\log n)$}\\
+    \end{tabular}
+    \end{center}
+  \end{minipage}
 \end{frame}
 
 %% 2. Results: 1.575 rounding, hard example on dual-fitting
