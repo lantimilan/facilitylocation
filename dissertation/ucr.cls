@@ -494,7 +494,7 @@ $\:\overline{~~~~ \mbox{\rule{0in}{0.16in}\small ~\hspace{2.03in} Committee Chai
 \begin{center}
 {\fmfont
 {\expandafter\uppercase\expandafter{\abstractname}} OF THE DISSERTATION\par
-\vspace{.25in}  %% used to be .5in
+\vspace{.5in}
 \ssp\@title\par
 \vspace{.25in}
 by\par
@@ -507,7 +507,8 @@ University of California, {\@campus}, {\@degreemonth} {\@degreeyear}\par
 \vspace{.25in}
 \ssp\end{center}}
 
-\def\endabstract{\par\vfil\null\end{alwayssingle}
+%\def\endabstract{\par\vfil\null\end{alwayssingle}
+\def\endabstract{\end{alwayssingle}  %% save a parskip to avoid a blank page
 }
  
 \def\abstractsignature{
