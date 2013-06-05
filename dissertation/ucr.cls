@@ -494,7 +494,7 @@ $\:\overline{~~~~ \mbox{\rule{0in}{0.16in}\small ~\hspace{2.03in} Committee Chai
 \begin{center}
 {\fmfont
 {\expandafter\uppercase\expandafter{\abstractname}} OF THE DISSERTATION\par
-\vspace{.5in}
+\vspace{.25in}  %% used to be .5in
 \ssp\@title\par
 \vspace{.25in}
 by\par
