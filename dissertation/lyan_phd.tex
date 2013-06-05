@@ -390,17 +390,17 @@ distance between a site $i$ and a client $j$. Each client
 has a demand $r_j$. The differences between the problems
 are:
 \begin{itemize}
-\item{UFL}: All demands are $1$; that is $r_j=1$ for
+\item{UFL}: all demands are $1$; that is $r_j=1$ for
   all clients $j$. Then we need no more than $1$ facility at
   a site.
-\item{FTFL}: Some demands may be more than $1$, but
+\item{FTFL}: some demands may be more than $1$, but
   each site can open at most $1$ facility.
-\item{FTFP}: Some demands may be more than $1$, and each site
+\item{FTFP}: some demands may be more than $1$, and each site
   can open any number of facilities.
 \end{itemize}
 For all three problems above, we assume the metric
 version. That is, the distances satisfy the triangle
-inequality: for any two sites $i_1$ and $i_2$, and any two
+inequality: for any two sites $i_1$ and $i_2$ and two
 clients $j_1$ and $j_2$, we have
 \begin{equation*}
   d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
@@ -414,14 +414,14 @@ many facilities as possible so that every client can connect
 to nearby facilities. The main challenge, therefore, is to
 find a solution with a balanced facility cost and connection
 cost. We shall see how this balance is achieved in several
-known algorithms for UFL and FTFL. These two are
-well-studied problems in literature, and are closely related
-to our problem, FTFP. In particular, the LP-rounding
-algorithms for UFL inspired our approach for the FTFP
-problem. For this reason, we explain the LP-rounding
+known algorithms for UFL and FTFL. These two problems have
+been well studied in the past and a number of approximation
+algorithms for them are known. In particular, the
+LP-rounding algorithms for UFL inspired our approach for the
+FTFP problem. For this reason, we explain the LP-rounding
 algorithms for {\UFL} in the coming section with full
-detail, aiming at developing an intuition behind the
-technical details.
+detail, aiming at developing an intuition for our algorithms
+for the {\FTFP} problem.
 
 \section{Related Work for UFL}
 The Uncapacitated Facility Location problem (UFL) is the
@@ -429,13 +429,13 @@ simpliest variant of the Facility Location problems, and has
 received the most attention. A surprising fact is that a
 wide range of different techniques for designing
 approximation algorithms have been found successful in
-getting good ratios, as shown in
+achieving good ratios, as shown in
 Table~\ref{tab:ufl_history}. One divertion of terminology:
-to be consistent with the terminology in the UFL literature,
-instead of saying opening facilities at sites, we simply say
-opening or closing facilities without mentioning sites,
-since in the {\UFL} problem we have no more than one
-facility at each site.
+to be consistent with the UFL literature, instead of saying
+opening facilities at sites, we simply say opening or
+closing facilities without mentioning the sites, since in
+the {\UFL} problem we have no more than one facility at each
+site.
 %%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
 \begin{table}
   \centering
@@ -459,8 +459,7 @@ facility at each site.
     \bottomrule
   \end{tabular}
   \ssp
-  \caption[A history of approximation algorithms for the UFL
-  problem and their ratios.]
+  \caption[Approximation algorithms for UFL]
   {A history of approximation algorithms for the UFL problem and their ratios. The word \emph{hybrid} refers to
     using two independent algorithms and returning the better
     solution of the two. The last row with an asterisk gives
@@ -476,7 +475,7 @@ Before we delve into the approximation results for the
 establish a limit on the best ratio with which we can
 approximate the {\UFL} problem, under the well-respected
 assumption that $\PP \neq \NP$. Since both the {\FTFL}
-problem and the {\FTFP} problem contains the {\UFL} problem
+problem and the {\FTFP} problem contain the {\UFL} problem
 as a special case, all the hardness results mentioned here
 carry over into {\FTFL} and {\FTFP} as well. Regarding
 {\UFL}, the following result is known:
@@ -678,7 +677,7 @@ algorithm of Jain, Mahdian and Saberi~\cite{JainMS02}. To
 explain the hybrid approach requires the notion of
 \emph{bifactor} analysis, for this reason we postpone the
 discussion of Byrka's and Li's work for now and introduce
-bifactor analysis first.
+the bifactor analysis first.
 
 \subsection{Bifactor Analysis} \label{subsec: bifactor}
 Given that the cost of a UFL solution consists of two parts:
@@ -953,13 +952,13 @@ algorithms for {\FTFL} are LP-rounding algorithms and they
 need to solve the LP as the first step, which can be
 computationally expensive. Given the success of primal-dual
 based approaches for {\UFL}, it is natural to ask whether
-such algorithms could be adapted to {\FTFL} with a good
-ratio. To the best of the author's knowledge, there has been
-no success in obtaining a primal-dual algorithm for {\FTFL}
-with a sub-logarithmic ratio. This is in stark contrast to
-the fact that two different primal-dual
+such algorithms could be adapted to {\FTFL} with good
+ratios. To the best of the author's knowledge, there has
+been no success in obtaining a primal-dual algorithm for
+{\FTFL} with a sub-logarithmic ratio. This is in stark
+contrast to the fact that two different primal-dual
 algorithms~\cite{JainV03,JainMMSV03} have achieved constant
-ratio for {\UFL}.
+ratios for {\UFL}.
 
 \section{Related Work for FTFP}
 Our problem, the Fault-Tolerant Facility Placement problem
