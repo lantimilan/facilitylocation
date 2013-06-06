@@ -4461,7 +4461,8 @@ The solution $(\bfx,\bfy)$ then is a $3$-approximation.
 \label{sec: ECHSinequality}
 
 In Sections~\ref{sec: 1.736-approximation} and \ref{sec:
-  1.575-approximation} we use the following inequality
+  1.575-approximation} we make use of the following
+inequality to derive the approximation ratio.
 %
 \begin{align}
   \label{eq:min expected distance}
@@ -4475,7 +4476,7 @@ $0 < g_1,...,g_s \le 1$.
 
 \medskip
 
-We give here a new proof of this inequality, much simpler
+Here we give a new proof of this inequality, much simpler
 than the existing proof in \cite{ChudakS04}, and also
 simpler than the argument by Sviridenko~\cite{Svi02}.  We
 derive this inequality from the following generalized
@@ -4492,12 +4493,12 @@ conditions: $p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$,
 $a_1\leq a_2 \leq \ldots \leq a_l$, and $b_1 \geq b_2 \geq
 \ldots \geq b_l$.
 
-Given inequality (\ref{eq:cheby}), we can obtain our
+Given the inequality (\ref{eq:cheby}), we can obtain our
 inequality (\ref{eq:min expected distance}) by simple
 substitution
 %
 \begin{equation*}
-  p_i \leftarrow g_i, a_i \leftarrow \bard_i, b_i \leftarrow
+  p_i \assign g_i,\quad a_i \assign \bard_i,\quad b_i \assign
   \Pi_{s=1}^{i-1} (1-g_s),
 \end{equation*}
 %
