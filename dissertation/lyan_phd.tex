@@ -3857,11 +3857,11 @@ more efficient. Primal-dual algorithms work by making
 simultaneous updates to a primal solution, which is
 integral, and a dual solution, which may be fractional, and
 eventually arriving at a feasible primal solution and a
-feasible dual solution. It is then possible to compare the
+feasible dual solution. Assuming the primal problem is a
+minimization problem, it is then possible to compare the
 primal solution's cost to the optimal value, since the
 optimal value of the primal is lower bounded by the cost of
-any feasible dual solution, assuming the primal problem is a
-minimization problem.
+any feasible dual solution.
 
 We introduce a natural greedy algorithm and employ a
 technique called \emph{dual-fitting}~\cite{JainMMSV03},
@@ -3913,11 +3913,11 @@ The greedy algorithm as stated is very flexible and can be
 applied with only minor modifications to solve problems with
 fault-tolerant requirements, for example, the {\FTFL}
 problem and the {\FTFP} problem. However, it seems rather
-difficult to generalize the analysis and we have to settle
-for a much worse approximation ratio, except for some
-special cases. In the literature, there is no published
-result on the approximation ratio of the greedy algorithm
-for {\FTFL}, although an $H_n$-approximation
+difficult to generalize the analysis to the general case,
+and we have to settle for a much worse approximation ratio,
+except for some special cases. In the literature, there is
+no published result on the approximation ratio of the greedy
+algorithm for {\FTFL}, although an $H_n$-approximation
 ratio~\footnote{The term $H_n$ is the $n^{th}$ harmonic
   number, $H_n = 1 + 1/2 + 1/3 + \ldots + 1/n \approx \ln
   n$.} is not difficult to obtain. For the uniform demand
@@ -3934,10 +3934,10 @@ illustrating the difficulty in obtaining
 $O(1)$-approximation ratio for the {\FTFP} problem when
 dual-fitting is used to obtain the approximation ratio.
 
-\section{The Greedy algorithm with Ratio $O(\log n)$}
+\section{The Greedy algorithm for FTFP with Ratio $O(\log n)$}
 \label{sec: greedy_ratio}
 
-\subsection{The Greedy Algorithm}
+\subsection{The Greedy Algorithm for FTFP}
 In this section we show that the greedy algorithm which
 repeatedly picking the best star --- the one with the
 minimum average cost --- gives an approximation ratio of
@@ -3994,7 +3994,7 @@ general problem:
   total cost minimized. That is,
 \begin{equation*}
   \min_{\calS} \{ \sum_{s\in\calS} c_s \suchthat
-  \calS\subseteq \calU, f(\calS) \geq k\}.
+  \calS\subseteq \calU, f(\calS) \geq f(\calU)\}.
 \end{equation*}
 \end{problem}
 
@@ -4013,11 +4013,10 @@ stars. The submodular function $f$ maps a collection of
 stars as $\calS$ to an integer that is the sum of
 $\min\{p_j, r_j\}$ over all clients $j$, where $p_j$ is the
 number of stars in $\calS$ that contain the client $j$, and
-$r_j$ is the client $j$'s demand. The integer $k$ in
-Wolsey's problem is then set to $\sum_{j} r_j$. Since each
-client $j$ can contribute no more than $r_j$ in the function
-$f$, having a total of $\sum_j r_j$ guarantees that every
-client has its share exactly $r_j$.
+$r_j$ is the client $j$'s demand. Then $f(\calU) = \sum_{j}
+r_j$. Since each client $j$ can contribute no more than
+$r_j$ in the function $f$, having a total of $\sum_j r_j$
+guarantees that every client has its share exactly $r_j$.
 
 For the {\FTFP} problem, the greedy algorithm in the earlier
 section works precisely as Wolsey's greedy algorithm would,
