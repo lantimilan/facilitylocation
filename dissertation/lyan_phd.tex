@@ -1071,7 +1071,7 @@ following LP:
 %%%%%%%%%%%%
 
 \noindent
-The dual program is,
+The dual program is:
 \begin{empheq}[box=\fbox]{align}
   \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
      						\\ \notag
@@ -1373,22 +1373,25 @@ solution to an integral solution with almost the same cost.
 Given the demand reduction technique, we may assume that we
 are working with a restricted version of FTFP where every
 demand $r_j$ is no more than $|\sitesset|$. In this case we
-can reduce this version of FTFP to FTFL. For the reduction
-we simply creates $|\sitesset|$ facilities at each site, and
-every such facility may be opened or closed later. Thus we
-have an FTFL instance where every client have a demand $r_j$
-and every facility could be opened or closed. It follows
-that any FTFL rounding algorithm can be applied to solve
-this FTFL instance, and the solution trivially maps to a
-solution for the corresponding FTFP instance. Moreover, the
-approximation ratio for FTFL is preserved for FTFP. Given
-that FTFL has an LP-rounding $1.7245$-approximation
-algorithm by Byrka, Srinivasan and Swamy~\cite{ByrkaSS10},
-it is immediate that FTFP has an approximation algorithm
-with the same ratio. On the other hand, as we show in
-Chapter~\ref{ch: lp-rounding}, {\FTFP} can be approximated
-with a ratio of $1.575$. Thus from the standpoint of
-approximation, {\FTFP} is more amenable than {\FTFL}.
+can reduce this version of FTFP to FTFL. The restriction on
+the demands $r_j$ is essential to keep the FTFL instance
+with a polynomially bounded size.  
+
+For the reduction we simply create $|\sitesset|$ facilities
+(not opened yet) at each site. Thus we have an FTFL instance
+where every client have a demand $r_j$ and a set of
+facilities that could be opened. It follows that any FTFL
+rounding algorithm can be used to solve this FTFL instance,
+and the solution trivially maps to a solution for the
+corresponding FTFP instance. Moreover, the approximation
+ratio for FTFL is preserved for FTFP. Given that FTFL has an
+LP-rounding $1.7245$-approximation algorithm by Byrka,
+Srinivasan and Swamy~\cite{ByrkaSS10}, it is immediate that
+FTFP has an approximation algorithm with the same ratio. On
+the other hand, as we show in Chapter~\ref{ch: lp-rounding},
+{\FTFP} can be approximated with a ratio of $1.575$. Thus
+from the standpoint of approximation, {\FTFP} is more
+amenable than {\FTFL}.
 
 \section{Asymptotic Approximation Ratio for Large
   Demands}
@@ -1428,7 +1431,7 @@ Theorem~\ref{thm:largeR}.
   parameters $\sitesset, \clientset, \{f_i\},
   \{d_{ij}\}$. Clearly combining the integral solutions to
   the $m$ copies of {\UFL} instances would give us an
-  integral solution to the $\dot \calI$ instance (We might
+  integral solution to the $\dot \calI$ instance (we might
   have to remove some redundant facilities and connections,
   but this only reduces the total cost.). Using a
   $c$-approximation algorithm for {\UFL}~\footnote{We
@@ -1591,7 +1594,7 @@ Vector $(\barbfx,\barbfy)$ is a partition of $(\bfx^\ast,\bfy^\ast)$, with unit-
 	
 \end{description}
 
-As we shall demonstrate in later sections, these properties allow us
+As we shall demonstrate in Chapter~\ref{ch: lp-rounding}, these properties allow us
 to extend known UFL rounding algorithms to obtain an integral solution
 to our FTFP problem with a matching approximation ratio. Our
 partitioning is ``adaptive" in the sense that it is constructed one
