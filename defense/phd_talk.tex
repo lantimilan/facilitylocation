@@ -782,12 +782,67 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Demand Reduction: Implication}
+  \frametitle{Demand Reduction: Consequences}
+  \begin{block}{}
+    FTFP to FTFL, 1.7245-approximation    
+  \end{block}
   \begin{itemize}
-  \item FTFP to FTFL, 1.7245-approximation
-  \item $1 + O(|\sitesset| / Q)$ for $Q = \min_j r_j$, approaches $1$ when $Q$ is large
+  \item sites into facilities
+  \item clients with demand $r_j$
+  \end{itemize}
+
+  \begin{block}{}
+    Ratio $1 + O(|F| / Q)$ for $Q = \min_j r_j$,
+    approaches $1$ when $Q$ is large
+  \end{block}
+  \begin{itemize}
+  \item next slide
   \end{itemize}
 \end{frame}
+
+\begin{frame}
+  \frametitle{Ratio $1+O(|F|/Q)$ for FTFP}
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse,fill=green!10] (lpform) at (-5.5,9) {LP};
+    \node[draw,ellipse,fill=green!10] (lpsoln) at (0,9) {$x^\ast, y^\ast$};
+    \node[draw,ellipse,fill=green!10] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse,fill=green!10] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
+
+    \node[draw,ellipse,fill=green!10] (part1) at (4.55,1.5) {$F,C,f_i,d_{ij}$};
+    \node[draw,ellipse,fill=green!10] (part2) at (4.55,2.5) {$F,C,f_i,d_{ij}$};
+    \node[draw,ellipse,fill=green!10] (part3) at (4.55,4.5) {$F,C,f_i,d_{ij}$};
+
+    \node[fill=yellow!50] (UFL) at (5.5,3.5) {UFL Instance};
+    \node[draw,ellipse,fill=green!10] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
+
+    \node[draw, ellipse,fill=green!10] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
+
+    \node[fill=blue!10] (solnlabel) at (-4,1.2) {$(1+c|F|/Q)$-approx\\ solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \draw[->,>=latex] (fracpart) to (part3);
+    \node (label2) at (3,8.5) {fractional part};
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);
+
+    \draw[->,>=latex] (part1) to (fracsoln);
+    \draw[->,>=latex] (part2) to (fracsoln);
+    \draw[->,>=latex] (part3) to node (alg)[above,fill=red!50] {$c$-approx} (fracsoln);
+
+    \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7)
+    -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
+
+    \draw[dashed] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
+
+    \node[fill=yellow!50] at (0,6.5) {demand reduction};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Adaptive Partitioning, site -> client
@@ -1414,11 +1469,53 @@ Partition must satisfy several properties \\ needed for rounding to work ...
 \begin{frame}
   \frametitle{Greedy and Dual-fitting}
   \begin{itemize}
-  \item Greedy in polynomial time: multi-star
-  \item Ratio $H_n$ (Wolsey's result)
-  \item Lower bound $O(\log n / \log\log n)$
+  \item Greedy in polynomial time
+    \begin{itemize}
+    \item Best star can be found quickly
+    \item Best star remains best
+    \end{itemize}
+  \item Ratio $H_n$ (Wolsey's result):
+    Greedy is $H_n$-approx for Submodular Set Cover
+  \item Lower bound $O(\log n / \log\log n)$ for dual-fitting
+    \begin{itemize}
+    \item Example has $k$ groups, $n = k^k$
+    \item Shrinking factor is $k/2$
+    \end{itemize}
   \end{itemize}
 \end{frame}
+
+\begin{frame}{Dual-fitting Example}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[auto,scale=0.6, every node/.style={scale=0.6}]
+    \node[draw,rectangle,minimum size=.7cm] (fac) at (-4,0) {};
+    \node at (-5,0) {$f_1$};
+    
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (client1) at
+    (6,0) {$n_1 = k^{k-1}, r_1$};
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (client2) at
+    (6,-3) {$n_2 = k^{k-2}, r_2$};
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (client3) at
+    (6,-6) {$n_3 = k^{k-3}, r_3$};
+    \node[draw,ellipse,minimum width=4cm,minimum
+    height=1.8cm] (clientk) at
+    (6,-10) {$n_k = 1, r_k$};
+    
+    \node at (-3,-10) {\large{demands $r_1 \ll r_2 \ll \ldots \ll r_k$}};
+
+    \draw (fac) to node {$d_1=0$} (client1);
+    \draw[bend right] (fac) to node {$d_2 = d_1 + f_1 /
+      n_2$}  (client2);
+    \draw[bend right] (fac) to node {$d_3 = d_2 + f_1 /
+      n_3$}  (client3);
+    \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_k$}  (clientk);
+  \end{tikzpicture}
+\end{figure}
+\end{frame}
+
 
 \section[Summary]{Summary}
 %% 4. Open problems and future work
@@ -1429,37 +1526,29 @@ Partition must satisfy several properties \\ needed for rounding to work ...
   \begin{itemize}
   \item \color{red}
     Q: Is there a simple reduction from FTFP to UFL?
-  \item<2,6> \color{blue}
+  \item<2,8> \color{blue}
     A: Not sure, for the uniform demand case yes.
   \item \color{red}
     Q: Which one is easier, FTFP or FTFL?
-  \item<3,6> \color{blue}
+  \item<3,8> \color{blue}
     A: FTFP. FTFP reduces to FTFL.
   \item \color{red}
     Q: Can FTFP have a better ratio than FTFL?
-  \item<4,6> \color{blue}
+  \item<4,8> \color{blue}
     A: Yes, 1.575 matches UFL and beats 1.7245 for FTFL.
   \item \color{red}
     Q: When all $r_j$ are large, do you get a ratio $1$?
-  \item<5,6> \color{blue}
+  \item<5,8> \color{blue}
     A: Yes, because of demand reduction.
- \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Q and A about FTFP, Cont.}
-  \begin{itemize}
-
   \item \color{red}
     Q: Does greedy have $O(1)$ ratio or not?
-  \item<2,4> \color{blue}
+  \item<6,8> \color{blue}
     A: Maybe, but dual-fitting will not do.
   \item \color{red}
     Q: What is the best possible ratio for FTFP?
-  \item<3,4> \color{blue}
+  \item<7,8> \color{blue}
     A: Likely to be 1.463, but not a sure thing.
-
-  \end{itemize}
+ \end{itemize}
 \end{frame}
 
 \begin{frame}
