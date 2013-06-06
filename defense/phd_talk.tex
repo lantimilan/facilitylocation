@@ -429,13 +429,14 @@
 \begin{frame}
   \frametitle{Related Work on UFL}
 
+  \centering
   {\Large
     \textcolor{blue}
     {Approximation Results for UFL}
   }
 
-  \vspace{.3in}
-
+  \vspace{.1in}
+  \centering
   \begin{tabular}{ l l l l }
     \rowcolor{GreenYellow}
     Shmoys, Tardos and Aardal & 1997 & 3.16 & LP-rounding\\
@@ -518,12 +519,14 @@
 \begin{frame}
   \frametitle{Related Work on FTFL}
   
+  \centering
   {\Large
     \textcolor{blue}
     {Approximation Algorithms for FTFL}
   }
 
     \vspace{.3in}
+    \centering
     \begin{tabular}{ l l l l }
       \rowcolor{GreenYellow}
       Jain and Vazirani & 2000 & $3\ln \max_j r_j$ & primal-dual\\
@@ -585,14 +588,807 @@
 %%     what: facility points and unit demand points, \barx and \bary with mu and nu
 %%           properties...
 %%     how: unit chunk, best client, primary, non-primary, overlap of neighborhood
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LP-Formulation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{LP Formulation for FTFP}
+  \begin{itemize}
+  \item \textcolor{red}{$y_i$}=   number of facilities open at site $i\in \sitesset$
+  \item \textcolor{red}{$x_{ij}$}= number of connections from client $j\in
+    \clientset$ to site $i \in \sitesset$
+  \end{itemize}
+  %%%%%%%%%%% 
+  \begin{alignat}{3}
+    \textrm{minimize}\quad \sum f_iy_i &+ \sum d_{ij}x_{ij}&
+    \\ \notag
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i,j
+    \\ \notag
+    \sum x_{ij} &\geq r_j & &\forall j
+    \\ \notag
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i,j
+    \\ \notag
+  \end{alignat}
+  %%%%%%%%%%%%
+  \begin{alignat}{3}
+  \text{(Dual)}\quad  \textrm{maximize}\quad \sum r_j\, \alpha_j&
+    \\ \notag
+    \textrm{subject to} \quad 
+      \sum \beta_{ij} &\leq f_i  &\quad\quad			&\forall i
+    \\ \notag
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i,j
+    \\ \notag
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i,j
+  \end{alignat}
+  %%%%%%%%%%%
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Techniques
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+  \frametitle{Techniques}
+  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+
+  \item \alert{\Large \textcolor{blue}{Demand Reduction}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
+						rounding)}
+    \item {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
+    \end{itemize}
+    
+  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item {\large Split sites into facilities and clients into unit demands}
+    \item {\large Split associated fractional values}
+    \item {\large Properties ensure rounding similar to UFL can be applied}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Algorithm for FTFP - Demand Reduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Algorithm for FTFP}
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse,fill=green!10] (lpform) at (-5.5,9) {LP};
+    \node[draw,ellipse,fill=green!10] (lpsoln) at (0,9) {$x^\ast, y^\ast$};
+    \node[draw,ellipse,fill=green!10] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse,fill=green!10] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
+    \node[fill=red!5,minimum size=2cm] (part) at (4.55,3) {$\rho$-approximation\\ algorithm};
+    \node[draw,ellipse,fill=green!10] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
+
+    \node[draw, ellipse,fill=green!10] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
+
+    \node[fill=blue!10] (solnlabel) at (-4,1.2) {$\rho$-approximate \\ solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3,8.5) {fractional part};
+    \draw[->,>=latex] (fracpart) to node(edge1){} (part);
+    \draw[->,>=latex] (part) to node (edge2){} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);
+
+    \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7)
+    -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
+
+	\draw[dashed] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
+
+    \node[fill=yellow!50] at (0,6.5) {demand reduction};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Algorithm for FTFP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Algorithm for FTFP}
+  \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse,fill=green!10] (lpform) at (-5.5,9) {LP};
+    \node[draw,ellipse,fill=green!10] (lpsoln) at (0,9) {$x^\ast, y^\ast$};
+    \node[draw,ellipse,fill=green!10] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse,fill=green!10] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
+    \node[draw,ellipse,fill=green!10] (part) at (4.55,3) {$\barx,\bary$};
+    \node[draw,ellipse,fill=green!10] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
+
+    \node[draw, ellipse,fill=green!10] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
+
+    \node[fill=blue!10] (solnlabel) at (-4,1.2) {$\rho$-approximate \\ solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3,8.5) {fractional part};
+    \draw[->,>=latex] (fracpart) to node[fill=yellow!50] (edge1) { adaptive \\ partitioning} (part);
+    \draw[->,>=latex] (part) to node (edge2) {LP-rounding} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);
+
+    \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7)
+    -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
+
+	\draw[dashed] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
+
+    \node[fill=yellow!50] at (0,6.5) {demand reduction};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Adaptive Partitioning, site -> client
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Adaptive Partitioning}
+  \begin{center}
+	 \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
+    \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {site};
+    \node (ilabel) at (0,-1) {$i$};
+    \node[circle, fill=green!50, minimum size=1cm] (client) at (12,0) {client};
+    \node (jlabel) at (12,-1) {$j$};
+    \draw[above] (site) to node (dummy) {$x_{ij}^\ast$} (client);
+
+    %% invisible, padding to align
+    \node[minimum size=.6cm] (fac1) at (3,3) {};
+    \node[minimum size=.6cm] (fac2) at (3,1.5) {};
+    \node[minimum size=.6cm] (fac3) at (3,0) {};
+    \node[minimum size=.6cm] (fack) at (3,-3) {};
+
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Adaptive Partitioning, partition site into facilities, client into demands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Adaptive Partitioning}
+  \setbeamercovered{invisible}
+
+  \begin{center}
+  \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
+    % site to facility
+    \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {site};
+    \node[circle, fill=green!50,minimum size=1cm] (client) at (12,0) {client};
+    \node (jlabel) at (12,-1) {$j$};
+
+    \node[fill=blue!75,minimum size=.6cm] (fac1) at (3,3) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac2) at (3,1.5) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac3) at (3,0) {};
+    \node[fill=blue!75,minimum size=.6cm] (fack) at (3,-3) {};
+
+    \foreach \from in {site}
+    \foreach \to in {fac1,fac2,fac3,fack}
+    \draw[->,>=latex] (\from) -- (\to);
+
+    \node (siteilabel) at (0,-1) {$i$};
+    \node (faclabel) at (3,4) {facility};
+    \node[below] (faclabel) at (3,-.5) {$\mu$};
+
+    \node[fill=yellow!50] (sumyi) at (0,-2) {$\sum \bary_{\mu} = y_i^\ast$};
+
+    %\pause
+    % client to demand
+    \node[circle, fill=green!75, minimum size=.6cm] (demand1) at (9,4) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand2) at (9,2) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand3) at (9,0) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demand4) at (9,-2) {};
+    \node[circle, fill=green!75, minimum size=.6cm] (demandk) at (9,-4) {};
+    \foreach \from in {client}
+    \foreach \to in {demand1, demand2, demand3, demand4, demandk}
+    \draw[->,>=latex] (\from) -- (\to);
+
+    \node (demandlabel) at (11,4) {unit demand};
+    \node[below] (nulabel) at (9,1.5) {$\nu$};
+
+    %\pause
+	\draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand2);
+    \node[fill=yellow!50] (comp) at (6,-0.5) {$\barx_{\mu\nu} \in \{\bary_{\mu}, 0\}$ \\ completeness};
+    \node[fill=yellow!50] (sumxij) at (6,-2.5) {$\sum \barx_{\mu\nu} = x_{ij}^\ast$};
+    % xval
+
+  \end{tikzpicture}
+
+\pause
+Partition must satisfy several properties \\ needed for rounding to work ...
+
+  \end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Neigbhorhood
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Neighborhood of a demand}
+
+  \begin{center}
+  \begin{tikzpicture}[scale = 0.8,auto,every text node part/.style={align=left}]
+  
+  \draw[fill=yellow!20] (3,4) ellipse (0.7cm and 1.4cm);
+    \node[fill=blue!75,minimum size=.3cm] (fac1) at (3,5) {};
+    \node[fill=blue!75,minimum size=.3cm] (fac2) at (3,4) {};
+    \node[fill=blue!75,minimum size=.3cm] (fac3) at (3,3) {};
+    \node[fill=blue!75,minimum size=.3cm] (fac4) at (4,2.3) {};
+
+    \node[circle,fill=green!75,minimum size=.4cm] (demand) at (8,4){};
+
+    \draw[solid] (fac1) to node[above] {\ \ $\barx_{\mu\nu} = \bary_{\mu} > 0$} (demand);
+	\draw[solid] (fac2) to (demand);
+	\draw[solid] (fac3) to (demand);
+
+    \draw[dashed] (fac4) to node[below] (zerolabel) {\ \ $\barx = 0$} (demand);
+
+    \node (faclabel) at (0.3,3.5) {neighborhood $N(\nu)$};
+    \node (otherlabel) at (5.4,1.9) {non-neighbor};
+    \node (demandlabel) at (9,5) {demand $\nu$};
+    
+    \node[fill=yellow!50] (sumlabel) at (0.5,4.6) {$\sum_\mu \barx_{\mu\nu} = 1$};
+  \end{tikzpicture}
+	\end{center}
+
+\pause
+\noindent
+\begin{minipage}{2in}	
+\textcolor{blue}{Strategy 1:} for each $\nu$, open one $\mu\in N(\nu)$ with prob. $\bary_\mu$ 
+		\begin{itemize}
+			\item optimal connection cost
+			\item large facility cost 
+		\end{itemize}
+\end{minipage}
+\ \ 
+\begin{minipage}{2in}
+\textcolor{blue}{Strategy 2:} do this for demands with disjoint neighborhoods
+		\begin{itemize}
+			\item optimal facility cost
+			\item large connection cost 
+		\end{itemize}
+\end{minipage}
+
+\vspace{0.2in}
+\noindent
+\textcolor{brown}{How to balance these strategies?}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Two Types of Demands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Two Types of Demands}
+  \begin{tikzpicture}[auto,every text node part/.style={align=center}]
+
+\definecolor{primcolor}{rgb}{0,0.7,0.3}
+\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
+
+    %% primary demands
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
+    \node (kappa1label) at (4,8) {$\kappa_1$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
+    \node (kappa2label) at (4,2) {$\kappa_2$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu1) at (-.7,7.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,1.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,1.5) {};
+    \node (nbk1) at (1.8,8.3) {$N(\kappa_1)$};
+    \node (nbk2) at (1.8,1.3) {$N(\kappa_2)$};
+	\node[fill=yellow!50] (primary) at (5,8) {primary};
+    \node[fill=yellow!50] (prop) at (8,2) {$N(\kappa_1)\cap N(\kappa_2) = \emptyset$};
+
+	\pause
+	% non-primary demands
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+    \node (sib1label) at (4,6.5) {$\nu_1$};
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
+    \node (sib1label) at (4,3.5) {$\nu_2$};
+    \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
+
+    \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
+    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
+    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
+
+	\pause
+	% assignment
+	\draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+	\draw[->,dashed] (nu2) -- (kappa2);
+
+    \node[circle, minimum size=.5cm] (client1) at (6, 5) {};
+    \node (clientlabel) at (6.5,5) {$\ $};r
+
+   
+  \end{tikzpicture}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Neighborhood Structure for Siblings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Neighborhood Structure for Siblings}
+  \begin{tikzpicture}[auto,every text node part/.style={align=center}]
+
+\definecolor{primcolor}{rgb}{0,0.7,0.3}
+\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
+
+    %% primary demands
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
+    \node (kappa1label) at (4,8) {$\kappa_1$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
+    \node (kappa2label) at (4,2) {$\kappa_2$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu1) at (-.7,7.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,1.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,1.5) {};
+    \node (nbk1) at (1.8,8.3) {$N(\kappa_1)$};
+    \node (nbk2) at (1.8,1.3) {$N(\kappa_2)$};
+	\node[fill=yellow!50] (primary) at (5,8) {primary};
+    
+
+	%\pause
+	% non-primary demands
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+    \node (sib1label) at (4,6.5) {$\nu_1$};
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
+    \node (sib1label) at (4,3.5) {$\nu_2$};
+    \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
+
+    \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
+    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
+    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
+
+	%\pause
+	% assignment
+	\draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+	\draw[->,dashed] (nu2) -- (kappa2);
+
+    \node[circle, fill=green!50, minimum size=.5cm] (client1) at (6, 5) {};
+    \node (clientlabel) at (6.5,5) {$j$};
+
+    \draw[->,>=latex] (client1) -- (nu1);
+    \draw[->,>=latex] (client1) -- (nu2);
+
+    \draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+    \draw[->,dashed] (nu2) -- (kappa2);
+
+    \node[fill=yellow!50] (prop) at (8,2) {For siblings \\
+						$\left(N(\kappa_1) \cup N(\nu_1)\right)$ \\ 
+						$ \cap \left(N(\kappa_2) \cup N(\nu_2)\right) =\emptyset$};
+
+  \end{tikzpicture}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Partitioning Example
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Example of Partitioning}
+
+  \begin{minipage}{.45\linewidth}
+  \begin{tikzpicture}[scale=0.5]
+	
+	\definecolor{primcolor}{rgb}{0,0.7,0.3}
+	\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}	
+
+    \node[fill=blue!75,minimum size=.35cm] (fac31) at (.5,1) {};
+    \node[left] (faclabel31) at (0,1) {$2/3$};
+
+    \node[fill=blue!75,minimum size=.35cm] (fac21) at (.5,6.5) {};
+    \node[fill=blue!75,minimum size=.35cm] (fac22) at (.5,7.5) {};
+
+    % label
+    \node[left] (faclabel21) at (0,6.5) {$1/3$};
+    \node[left] (faclabel22) at (0,7.5) {$2/3$};
+
+    \node[fill=blue!75,minimum size=.35cm] (fac11) at (.5,11) {};
+    \node[fill=blue!75,minimum size=.35cm] (fac12) at (.5,12) {};
+
+    % label
+    \node[left] (faclabel11) at (0,11) {$4/3$};
+    \node[left] (faclabel12) at (0,12) {$2/3$};
+
+    \node[circle,fill=green!50] (client3) at (6,2) {$3$};
+    \node[circle,fill=green!50] (client2) at (6,7) {$2$};
+    \node[circle,fill=green!50] (client1) at (6,12) {$1$};
+
+    \node[right] (demand3) at (5,.5) {$r_3=1$};
+    \node[right] (demand2) at (5,5.5) {$r_2=2$};
+    \node[right] (demand1) at (5,10.5) {$r_1=2$};
+  
+    \foreach \from/\to in {fac31/client3,fac21/client3,fac22/client2,fac11/client2,fac11/client1,fac12/client1}
+    \draw (\from)--(\to);
+
+    \node at (2.5,-1) {Before Partitioning};
+  \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}{.45\linewidth}
+    \begin{tikzpicture}[scale=0.5,decoration=snake]
+	
+	\definecolor{primcolor}{rgb}{0,0.7,0.3}
+	\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
+	
+	% facilities
+    \node[fill=blue!75,minimum size=.15cm] (fac31) at (.5,1) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac21) at (.5,6.5) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac22) at (.5,7.5) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac11) at (.5,10) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac12) at (.5,11) {};
+    \node[fill=blue!75,minimum size=.15cm] (fac13) at (.5,12) {};
+
+ 	\node[left] (faclabel31) at (0,1) {$2/3$};
+    \node[left] (faclabel21) at (0,6.5) {$1/3$};
+    \node[left] (faclabel22) at (0,7.5) {$2/3$};
+    \node[left] (faclabel11) at (0,10) {$1/3$};
+    \node[left] (faclabel12) at (0,11) {$1$};
+    \node[left] (faclabel13) at (0,12) {$2/3$};
+
+	% demands
+    \node[circle,fill=primcolor,minimum size=.2cm] (client31) at (6,2) {};
+    \node[circle,fill=primcolor,minimum size=.2cm] (client21) at (6,6) {};
+    \node[circle,fill=primcolor,minimum size=.2cm] (client22) at (6,7) {};
+    \node[circle,fill=nonprimcolor,minimum size=.2cm] (client11) at (6,11) {};
+    \node[circle,fill=nonprimcolor,minimum size=.2cm] (client12) at (6,12) {};
+
+    \node[right] (demand31) at (7,2) {$\nu_{31}$};
+    \node[right] (demand21) at (7,6) {$\nu_{21}$};
+    \node[right] (demand22) at (7,7) {$\nu_{22}$};
+    \node[right] (demand11) at (7,11) {$\nu_{11}$};
+    \node[right] (demand12) at (7,12) {$\nu_{12}$};
+
+    \foreach \from/\to in {fac31/client31,fac21/client31,fac22/client21,fac11/client21,fac12/client22,fac11/client11,fac13/client11,fac12/client12}
+    \draw (\from)--(\to);
+
+    \node at (2.5,-1) {After Partitioning};
+
+    %% for split
+    \draw (0, 9.5) rectangle (1, 11.5);
+
+    %\pause
+
+    \path[->,dashed] (client12) edge[bend right=40] (client22);
+    \path[->,dashed] (client11) edge[bend right=40] (client21);
+  \end{tikzpicture}
+      
+\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Summary of Partition Properties
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Summary of Partitioning}
+
+\begin{minipage}{2in}
+\noindent \textcolor{blue}{Partitioning:}
+\noindent
+\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+	\item Clients $\rightarrow$ demands
+	\item Sites $\rightarrow$ facilities
+			\\ \textcolor{gray}{(not yet opened)}
+	\item $(x^\ast,y^\ast)$ $\rightarrow (\barx,\bary)$
+	\item $\sum_{\mu}\barx_{\mu\nu} = 1$
+	\item $\barx_{\mu\nu} = \bary_\mu$ or $0$
+\end{itemize}
+\vspace{0.4in}{\ }
+\end{minipage}
+\hspace{-0.5in}
+\pause
+\begin{minipage}{2.6in}
+\noindent \textcolor{blue}{Structure:}
+\noindent
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+  \item If $\kappa_1,\kappa_2$ primary then $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
+  \item Each non-primary $\nu$ assigned to $\kappa$ with 
+	\begin{itemize}
+		\item $N(\kappa)\cap N(\nu) \neq \emptyset$
+		\item priority$(\kappa)$ $\le$ priority $(\nu)$
+		\\
+		\textcolor{gray}{(rough estimate of demand's cost)}
+	\end{itemize}
+  \item if $\nu_1$, $\nu_2$ are siblings and 
+		$\nu_i$ assigned to $\kappa_i$, then
+		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
+  \end{itemize}
+\end{minipage}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Summary of Partition Properties
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{Summary of Partitioning - Intuition}
+
+\begin{minipage}{2in}
+{\ }
+\begin{tikzpicture}[scale = 0.5,every text node part/.style={align=center}]
+\node[fill=yellow!50,minimum width=2cm] (sfc) at (0,8.8) {small facility cost};
+\node[fill=yellow!50,minimum width=2cm,align=left] (scc) at (0,5.9) {small connection \\ cost of $\nu$};
+\node[fill=yellow!50,minimum width=2cm] (fto) at (0,0.4) {fault tolerance};
+\node (dummy) at (0,0) {};
+
+\draw[->] (sfc) -- (5,8.8);
+\draw[->] (scc) -- (5,5.9);
+\draw[->] (fto) -- (5,0.4);
+\end{tikzpicture}
+\end{minipage}
+\hspace{-0.5in}
+\begin{minipage}{2.6in}
+\noindent \textcolor{blue}{Structure:}
+\noindent
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+  \item If $\kappa_1,\kappa_2$ primary then $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
+  \item Each non-primary $\nu$ assigned to $\kappa$ with 
+	\begin{itemize}
+		\item $N(\kappa)\cap N(\nu) \neq \emptyset$
+		\item priority$(\kappa)$ $\le$ priority $(\nu)$
+		\\
+		\textcolor{gray}{(rough estimate of demand's cost)}
+	\end{itemize}
+  \item if $\nu_1$, $\nu_2$ are siblings and 
+		$\nu_i$ assigned to $\kappa_i$, then
+		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
+  \end{itemize}
+\end{minipage}
+\end{frame}
+
 %%
 %% 3.3 Rounding: fault-tolerant made easy, all ratios preserved
 %%     the 1.575 rounding is subtle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3-Approximation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{$3$-Approximation for FTFP}
+
+{\large
+
+\textcolor{blue}{Client priority values}	
+	
+	\begin{itemize}
+		\item $\tcc(j) + \alpha_j^\ast$
+		\\
+		{\normalsize \textcolor{gray}{(average connection cost + dual value)}}
+	\end{itemize}
+	
+\textcolor{blue}{Rounding}
+
+  	\begin{itemize}
+  	\item \textcolor{purple}{Facilities:}
+ 					Each primary $\kappa$ opens random $\mu\in N(\kappa)$
+  	\item \textcolor{purple}{Connections:}
+ 					All demands assigned to $\kappa$ connect to $\mu$
+  	\end{itemize}
+
+\textcolor{blue}{Analysis}
+
+  \begin{itemize}
+  	\item \textcolor{purple}{Fault-tolerance:}
+ 			$\nu$ uses only facilities in $N(\nu) \cup N(\kappa)$
+  	\item \textcolor{purple}{Cost:} $\le 3\cdot\LP^\ast$, because
+    	\begin{itemize}
+    		\item Facility cost $\le F^\ast$
+    		\item Connection cost $\le C^\ast + 2\cdot\LP^\ast$
+    	\end{itemize}
+ 	\end{itemize}
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1+2/e Approximation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{$1.736$-Approximation for FTFP} 
+
+{\large
+
+\textcolor{blue}{Client priority values}	
+	
+	\begin{itemize}
+		\item $\tcc(j) + \alpha_j^\ast$ 
+			\\
+				{\normalsize \textcolor{gray}{(average connection cost + dual value)}}
+	\end{itemize}
+
+\textcolor{blue}{Rounding}
+
+  	\begin{itemize}
+  	  	\item  \textcolor{purple}{Facilities:} 
+			\begin{itemize}
+				\item Each primary $\kappa$ opens random $\mu\in N(\kappa)$
+				\item Other facilities open randomly independently
+			\end{itemize}
+	  	\item \textcolor{purple}{Connections:} 
+	 		\begin{itemize}
+					\item if a neighbor open, connect to nearest neighbor
+					\item else, connect via assigned primary demand
+			\end{itemize}
+  	\end{itemize}
+
+\textcolor{blue}{Analysis}
+
+  \begin{itemize}
+  	\item \textcolor{purple}{Fault-tolerance:} $\nu$ uses only facilities in
+    			$N(\nu) \cup N(\kappa)$
+  	\item \textcolor{purple}{Cost:} $\le (1+2/e)\,\LP^\ast$, because
+    	\begin{itemize}
+    		\item Facility cost $\le F^\ast$
+    		\item Connection cost $\le C^\ast + \frac{2}{e}\cdot \LP^\ast$
+    	\end{itemize}
+  \end{itemize}
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 1.575-approx
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+  \frametitle{$1.575$-Approximation for FTFP -- Idea}
+
+
+{\textcolor{blue}{More intricate neighborhood structure}}
+    \begin{itemize}
+    	\item Two neighborhoods: close and far, $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
+		\item $N_{\cls}(\nu)=$ nearest $\gamma$-fraction of $N(\nu)$
+  		\item $N_{\cls}(\nu)\cap N_{\cls}(\kappa) \neq\emptyset$, if $\nu$ assigned to $\kappa$
+  		\item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
+    			N(\nu_1)$ and $N_{\cls}(\kappa_2) \cup N(\nu_2)$ disjoint
+				\item ...
+    \end{itemize}
+
+	\begin{center}
+	\begin{tikzpicture}[scale = 0.9,align = right]
+    \node[fill=blue!50,rectangle,minimum size=.3cm] (mu1) at (1,1.5) {};
+    \node[fill=blue!50,rectangle,minimum size=.3cm] (mu2) at (1.3,1.9) {};      
+	\node[fill=blue!50,rectangle,minimum size=.3cm] (mu3)  at (1.6,2.5) {};      
+	\node[fill=blue!50,rectangle,minimum size=.3cm] (mu4) at (1.9,3.2) {};     
+	\node[fill=blue!50,rectangle,minimum size=.3cm] (mu5) at (2.2,3.8) {};      
+    \draw[rotate=-30] (0,3) ellipse (1 and 2);
+ \draw[dashed] (0.3,2.2) -- (2.3,2.2);
+    \node[fill=green!50,circle,minimum size=.3cm] (nu) at (4,2) {};
+    \node at (4.5,2.5) {$\nu$};
+
+    \node at (.7,4.2) {$N_{\cls}(\nu)$};
+    \node at (2.7,1.3) {$N_{\far}(\nu)$};
+
+    \foreach \from in {mu1,mu2,mu3,mu4,mu5}
+    \draw (\from) -- (nu);
+  \end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 1+2/e approx
+\begin{frame}
+\frametitle{$1.575$-Approximation for FTFP}
+
+{\large
+
+\textcolor{blue}{Client priority values}	
+	
+	\begin{itemize}
+		\item $\tcccls(j) + \dmaxcls(j)$
+			\\
+			{\normalsize \textcolor{gray}{(average + worst connection cost to close neighborhood)}}
+	\end{itemize}
+
+\textcolor{blue}{Rounding (extension of Byrka's)}
+
+  	\begin{itemize}
+  	  	\item  \textcolor{purple}{Facilities:} 
+			\begin{itemize}
+				\item Each primary $\kappa$ opens random $\mu\in N_{\cls}(\kappa)$
+				\item Other facilities open randomly independently
+			\end{itemize}
+	  	\item \textcolor{purple}{Connections:} 
+	 		\begin{itemize}
+					\item if a neighbor open, connect to nearest neighbor
+					\item else, connect via assigned primary demand
+			\end{itemize}
+  	\end{itemize}
+
+\textcolor{blue}{Analysis}
+
+  \begin{itemize}
+  	\item \textcolor{purple}{Fault-tolerance:} $\nu$ uses only facilities in
+	    $N(\nu) \cup N_{\cls}(\kappa)$
+	
+  	\item \textcolor{purple}{Cost:} $\le \gamma\cdot\LP$ for $\gamma = 1.575$, because
+    \begin{itemize}
+    \item Facility cost $ \leq \gamma\cdot F^\ast$
+    \item Connection cost $ \leq \gamma\cdot C^\ast$
+    \end{itemize}
+\end{itemize}
+}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% 3.4 Greedy, Dual-fitting, and hard example for local-charging
+\begin{frame}
+  \frametitle{Greedy and Dual-fitting}
+  \begin{itemize}
+  \item Greedy in polynomial time: multi-star
+  \item Ratio $H_n$ (Wolsey's result)
+  \item Lower bound $O(\log n / \log\log n)$
+  \end{itemize}
+\end{frame}
 
 %% 4. Open problems and future work
 %%     - dual-fitting for FTFP
 %%     - 1.463 for UFL
+\begin{frame}
+  \frametitle{Summary}
+  
+{\large
+  {\textcolor{blue}{Our Result}}
+
+  \begin{itemize}
+  	\item $1.575$-approximation algorithm for FTFP
+	\item Technique for extending LP-rounding algorithms for UFL to FTFP
+  \end{itemize}
+
+\vspace{0.2in}
+\pause
+  {\textcolor{blue}{Open Problems}}
+
+  \begin{itemize}
+  \item Can FTFL be approximated with the same ratio?
+  \item LP-free algorithms for FTFP or FTFL with constant ratio?
+  \item Close the $1.463-1.488$ gap for UFL!
+  \end{itemize}
+}
+
+\end{frame}
+
+
 \end{document}
 
 %%% TODO
