@@ -584,7 +584,7 @@ Shmoys, Tardos and Aardal~\cite{ShmoysTA97}, using
 LP-rounding. The Shmoys {\etal}'s algorithm has also
 established a general framework that underpins all
 subsequent LP-rounding algorithms. In this framework the
-clients are partitioning into clusters and each cluster has
+clients are partitioned into clusters and each cluster has
 a representative client. The rounding algorithm guarantees
 that each representative has a nearby facility to connect
 to, and the rest of the clients then connect to the
@@ -594,7 +594,7 @@ the UFL problem.
 
 The Shmoys {\etal}'s algorithm achieved a ratio of
 $3.16$. Since their algorithm has made several greedy
-choices, the algorithm has left quite some room for
+choices, it has left quite some room for
 improvements. Chudak and Shmoys~\cite{ChudakS04} were the
 first to use the idea of randomized rounding for
 {\UFL}. Roughly speaking, in their algorithm, each facility
@@ -618,12 +618,12 @@ highly technical.
 Primal-dual algorithms do not require solving the LP and
 thus have lower time complexity. Two primal-dual algorithms
 have achieved impressive approximation ratios: the first
-algorithm is given by Jain and Vazirani~\cite{JainV01} and
-their algorithm achieved a ratio of $3$. The approximation
-ratio is obtained via a relaxed version of the complementary
-slackness conditions. These conditions provide a bound on
-the cost of the primal solution in terms of the cost of the
-dual solution, which is a lower bound on the optimal primal
+algorithm, given by Jain and Vazirani~\cite{JainV01},
+achieved a ratio of $3$. The approximation ratio is obtained
+via a relaxed version of the complementary slackness
+conditions. These conditions provide a bound on the cost of
+the primal solution in terms of the cost of the dual
+solution, which is a lower bound on the optimal primal
 solution's cost. More on the use of complementary slackness
 conditions for {\UFL} can be found in Appendix~\ref{subsec:
   LP_duality_CSC}.
@@ -639,18 +639,19 @@ of the star is the sum of the facility opening cost and
 connection cost of the clients to that facility. In each
 iteration, the algorithm picks the best star, connects all
 member clients to the facility, and sets the facility cost
-to zero. The clients that were in the star and just got
-connected are removed from future consideration, but the
-facility could be reused for future stars. Jain {\etal}
-analyzed the greedy algorithm and its variant using the
-dual-fitting technique. They first showed that the greedy
-algorithm can be interpreted as a process of growing a dual
-solution and updating a primal solution. Moreover, the cost
-of the primal solution is equal to the cost of the dual
-solution. It might appear that we have solved the {\UFL}
-problem optimally, although we know that this cannot be the
-case, as the {\UFL} problem is {\NP}-hard. The catch is that
-the dual solution computed by the greedy algorithm is not
+to zero. The clients that were in the star and connected are
+removed from future consideration, but the facility could be
+reused for future stars. Jain {\etal} analyzed the greedy
+algorithm and its variant using the dual-fitting
+technique. They first showed that the greedy algorithm can
+be interpreted as a process of growing a dual solution and
+updating a primal solution. Moreover, the cost of the primal
+solution is equal to the cost of the dual solution.
+
+It might appear that we have solved the {\UFL} problem
+optimally, although we know that this cannot be the case, as
+the {\UFL} problem is {\NP}-hard. The catch is that the dual
+solution computed by the greedy algorithm is not
 feasible. The next step is to find a common factor $\gamma$,
 such that the dual solution, after shrinking by $\gamma$
 (dividing by $\gamma$), becomes feasible. That common factor
@@ -679,12 +680,12 @@ algorithms use a combination of two algorithms: one is an
 LP-rounding algorithm and the other is the $1.61$ greedy
 algorithm of Jain, Mahdian and Saberi~\cite{JainMS02}. To
 explain the hybrid approach requires the notion of
-\emph{bifactor} analysis, for this reason we postpone the
+\emph{bifactor} analysis; for this reason we postpone the
 discussion of Byrka's and Li's work for now and introduce
 the bifactor analysis first.
 
 \subsection{Bifactor Analysis} \label{subsec: bifactor}
-Given that the cost of a UFL solution consists of two parts:
+Given that the cost of a UFL solution consists of two parts,
 the facility cost and the connection cost, a notion of
 bifactor approximation is appropriate. This notion was first
 introduced by Jain {\etal} in~\cite{JainMMSV03}. An
@@ -758,16 +759,16 @@ some neighboring facility $i\in N(j)$, where the
 neighborhood $N(j) \defeq \{i\in\sitesset \suchthat
 x_{ij}^\ast > 0\}$. For the sake of the connection cost, it
 is desirable that every client has a neighboring facility
-open, as those are facilities not too far away. However, it
-is in general not possible, or we would have to open too
-many facilities, and thus incur a high facility cost. An
+open, as those are facilities not too far away. However,
+this is in general not possible, or we would have to open
+too many facilities, and thus incur a high facility cost. An
 alternative is to select a subset of clients, denoted by $C'
 \subseteq \clientset$ and only require clients in $C'$ have
 a neighboring facility open. Clients outside $C'$ are then
 connected to a facility via some client in $C'$. The
 connection cost for clients in $\clientset \setminus C'$ are
 bounded using the triangle inequality. For this strategy to
-work, every clients $j$ outside $C'$ needs to be able to
+work, every client $j$ outside $C'$ needs to be able to
 find some client $j'$ in $C'$ such that both $d_{jj'} \defeq
 \min_{i\in \sitesset} d_{ij} + d_{ij'}$ and $d_{\phi(j')
   j'}$ are small. Here $\phi(j')$ is the facility that $j'$
@@ -794,7 +795,7 @@ Chudak~\cite{Chudak98} as an example. In this algorithm
 clusters are formed by repeatedly picking a non-clustered
 client with minimum $\alpha_j^\ast$ value as a new
 representative, where $(\bfalpha^\ast,\bfbeta^\ast)$ is the
-optimal dual solution. Clients share a common neighboring
+optimal dual solution. Clients sharing a common neighboring
 facility with the new representative then become members of
 that cluster. Once all clients are clustered, the algorithm
 opens the cheapest facility in each representative's
@@ -932,7 +933,7 @@ x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in
 \clientset 
 \end{empheq}
 The constraint $\sum_{i\in\sitesset} x_{ij} \geq r_j$ is
-there because, unlike in {\UFL}, a client $j$ now needs to
+present because, unlike in {\UFL}, a client $j$ now needs to
 be connected to $r_j$ different facilities. The constraint
 $y_i \leq 1$ is necessary as in the {\FTFL} problem a site
 can open at most $1$ facility.
@@ -947,22 +948,22 @@ Aardal's~\cite{ShmoysTA97} algorithm for the {\UFL} problem.
 Swamy and Shmoys~\cite{SwamyS08} gave an improved algorithm
 with a ratio of $2.076$. Their algorithm uses the pipage
 rounding technique. The current best known approximation
-ratio is $1.7245$, due to Byrka, Srinivasan and
+ratio is $1.7245$, according to Byrka, Srinivasan and
 Swamy~\cite{ByrkaSS10}. Their algorithm uses dependent
 rounding and a laminar clustering structure.
 
 We note that all of the known $O(1)$-approximation
 algorithms for {\FTFL} are LP-rounding algorithms and they
-need to solve the LP as the first step, which can be
-computationally expensive. Given the success of primal-dual
-based approaches for {\UFL}, it is natural to ask whether
-such algorithms could be adapted to {\FTFL} with good
-ratios. To the best of the author's knowledge, there has
-been no success in obtaining a primal-dual algorithm for
-{\FTFL} with a sub-logarithmic ratio. This is in stark
-contrast to the fact that two different primal-dual
-algorithms~\cite{JainV03,JainMMSV03} have achieved constant
-ratios for {\UFL}.
+require the fractional optimal solution of the LP as the
+first step, which can be computationally expensive. Given
+the success of primal-dual based approaches for {\UFL}, it
+is natural to ask whether such algorithms could be adapted
+to {\FTFL} with good ratios. To the best of the author's
+knowledge, there has been no success in obtaining a
+primal-dual algorithm for {\FTFL} with a sub-logarithmic
+ratio. This is in stark contrast to the fact that two
+different primal-dual algorithms~\cite{JainV03,JainMMSV03}
+have achieved constant ratios for {\UFL}.
 
 \section{Related Work for FTFP}
 Our problem, the Fault-Tolerant Facility Placement problem
@@ -971,10 +972,10 @@ Shen~\cite{XuS09}~\footnote{In their paper they call the
   problem the Fault-Tolerant Facility Allocation problem, or
   FTFA.}. The study of {\FTFP} was partly motivated to
 obtain a better understanding of the implication of the
-fault-tolerant requirement on facility location
-problems. The Xu and Shen's results, and a follow-up work by
-Liao and Shen~\cite{LiaoS11}, seem to be valid only for a
-special case of {\FTFP}.
+fault-tolerant requirement on facility location problems.
+Xu and Shen's results, and a follow-up work by Liao and
+Shen~\cite{LiaoS11}, seem to be valid only for a special
+case of {\FTFP}.
 
 Our work on the FTFP problem begins with a $4$-approximation
 LP-rounding algorithm~\cite{YanC11}. In this thesis we
@@ -1006,7 +1007,7 @@ In this chapter we give the linear program (LP) for the
 a simple reduction for a special case of {\FTFP}. We
 describe this reduction in
 Section~\ref{sec:ftfp_uniform_demand}. For the optimal
-fractional solution we use for our approximation algorithms,
+fractional solution used for our approximation algorithms,
 we assume a structural property called
 \emph{completeness}. The exact definition and a procedure to
 obtain such a solution is given in
@@ -1030,9 +1031,9 @@ facility at a site $i$ incurs a cost of the distance
 $d_{ij}$. Thus an {\FTFP} instance is fully specified by
 $\sitesset, \clientset$, $r_j$ for every $j\in\clientset$,
 and $d_{ij}$ for every $i\in\sitesset,j\in\clientset$. We
-consider the metric version, that is the distances satisfy
-the triangle inequality: for any two sites $i_1,i_2$ and any
-two clients $j_1,j_2$, we have
+consider the metric version, that is the version in which
+the distances satisfy the triangle inequality: for any two
+sites $i_1,i_2$ and any two clients $j_1,j_2$, we have
 \begin{equation*}
   d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
 \end{equation*} 
@@ -1113,12 +1114,12 @@ algorithms.
 \section{LP Structure and Special Case with Uniform-demand}
 \label{sec:ftfp_uniform_demand}
 
-If we compare the the LP~(\ref{eqn:fac_primal}) and its
+If we compare the LP~(\ref{eqn:fac_primal}) and its
 dual~(\ref{eqn:fac_dual}) for {\FTFP} to the
 LP~(\ref{eqn:ufl_primal}) and its dual~(\ref{eqn:ufl_dual})
 for {\UFL}, these two LPs are very similar. In fact, the
 dual constraints of the two problems are identical. This
-makes one wondering whether there is a simple reduction from
+makes one wonder whether there is a simple reduction from
 {\FTFP} to {\UFL}, so that we can take advantage of almost
 all known approximation algorithms for {\UFL} and use them
 to solve {\FTFP}. Unfortunately we are not aware of such a
@@ -1175,8 +1176,8 @@ and $i$ and does not create any new partial
 connections. Each client can split at most one site and
 hence we shall have at most $|\clientset|$ more sites.
 
-By the above paragraph, without loss of generality we can
-assume that the optimal fractional solution $(\bfx^\ast,
+Given the above discussion, without loss of generality we
+can assume that the optimal fractional solution $(\bfx^\ast,
 \bfy^\ast)$ is complete. This assumption will in fact
 greatly simplify some of the arguments in the
 paper. Additionally, we will frequently use the facility
@@ -1189,10 +1190,10 @@ obtain fractional solutions with desirable properties.
 \chapter{Techniques} \label{ch: techniques} 
 
 In this chapter we introduce two techniques: \emph{demand
-  reduction} and \emph{adaptive partitioning}. These two
+  reduction} and \emph{adaptive partitioning}. These
 techniques together produce a structured fractional solution
 to the LP~(\ref{eqn:fac_primal}). This structured solution
-possesses a number of nice properties, which we then take
+possesses a number of nice properties, of which we then take
 advantage in our LP-rounding algorithms (Chapter~\ref{ch:
   lp-rounding}) to obtain integral solutions with good
 approximation ratios.
@@ -1200,17 +1201,18 @@ approximation ratios.
 Our first technique, demand reduction, allows us to confine
 our attention to a restricted version of the {\FTFP}
 problem, in which all demands $r_j$'s are not too
-large. This restriction then sets stage for the application
-of our next technique, adaptive partitioning, with which we
-obtain an FTFP instance with facilities created at sites
-(not opened yet) and unit demand points derived from
-clients. Now our job is to decide which facilities to open
-and how to connect unit demands to open facilities. We would
-like to point out that we still need to observe the
-fault-tolerant requirement, that is, unit demands originated
-from the same client must connect to different
-facilities. We shall see that our adaptive partitioning step
-deals with the fault-tolerant requirement smoothly.
+large. This restriction then sets the stage for the
+application of our next technique, adaptive partitioning,
+with which we obtain an FTFP instance with facilities
+created at sites (not opened yet) and unit demand points
+derived from clients. Now our job is to decide which
+facilities to open and how to connect unit demands to open
+facilities. We would like to point out that we still need to
+observe the fault-tolerant requirement, that is, unit
+demands originated from the same client must connect to
+different facilities. We shall see that our adaptive
+partitioning step deals with the fault-tolerant requirement
+smoothly.
 
 \section{Demand Reduction}
 \label{sec: polynomial demands}
@@ -1309,7 +1311,7 @@ also that the solutions $(\hatbfx,\hatbfy)$ and $(\dotbfx,
 instances, for if a better solution to $\hatcalI$ or
 $\dotcalI$ existed, it could give us a solution to $\calI$
 with a smaller objective value. We would also like to
-comment that completeness, although simplifies our argument
+comment that completeness, although simplifing our argument
 here and afterwards, is not essential. For our demand
 reduction, we can deal with non-complete fractional
 solutions by taking $\hat y_i = (y_i^\ast -
@@ -1383,7 +1385,7 @@ with a polynomially bounded size.
 
 For the reduction we simply create $|\sitesset|$ facilities
 (not opened yet) at each site. Thus we have an FTFL instance
-where every client have a demand $r_j$ and a set of
+where every client has a demand $r_j$ and a set of
 facilities that could be opened. It follows that any FTFL
 rounding algorithm can be used to solve this FTFL instance,
 and the solution trivially maps to a solution for the
@@ -1440,7 +1442,7 @@ Theorem~\ref{thm:largeR}.
   but this only reduces the total cost.). Using a
   $c$-approximation algorithm for {\UFL}~\footnote{We
     actually need more than that. What we need is that the
-    integral solution for the {\UFL} instance needs to have
+    integral solution for the {\UFL} instance should have
     cost no more than $c$ times the cost of an optimal
     fractional solution. However, almost all LP-rounding
     algorithms for {\UFL} have this property.}, we can
@@ -4266,15 +4268,15 @@ provided a possible explanation of the difficulty in
 obtaining a constant approximation ratio using those
 techniques.
 
-We hope our work in this dissertation helps other
+We hope our work in this dissertation assists other
 researchers interested in the fault-tolerant variants of the
 facility location problems to develop more insight into the
 difficulty, as well as possible solutions when clients
 demand more than one facility and we still need to keep the
 total cost under control.
 
-In anticipating future research, we agree with the authors,
-Byrka {\etal}~\cite{ByrkaSS10}, who remarked that both
+In anticipating future research, we agree with the authors
+Byrka {\etal}~\cite{ByrkaSS10} who remarked that both
 {\UFL} and {\FTFL} are likely to have approximation
 algorithms with a ratio matching the $1.463$ lower
 bound. Following our demand reduction technique, it is
