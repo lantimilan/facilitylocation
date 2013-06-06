@@ -124,7 +124,7 @@ Professor Neal Young}
 \begin{acknowledgements}
   I would thank my advisor, Marek Chrobak, for bringing me
   into the PhD program at the University of California
-  Riverside, and for his guidance and patience on my study
+  Riverside, and for his guidance and patience with my study
   and research during the past five years. I am also
   grateful for the committee, Tao Jiang, Stefano Lonardi,
   and Neal Young for helpful discussions and comments on my
@@ -141,6 +141,9 @@ Professor Neal Young}
   with great patience and attention to details. Both offered
   many helpful comments and suggested numerous
   corrections. Their help is greatly appreciated.
+
+  Kristen in UCR graduate writing center, and Stephanie in
+  UCR proofread this thesis and corrected grammar mistakes.
 
   During this final stage of my PhD study, our family had a
   new member, little Terry. Being with a baby as laid-back
@@ -199,35 +202,35 @@ Professor Neal Young}
 
 \section{The Problem and the Background}
 Facility location problems are a class of problems of both
-theoretical interest and practical significance. A general
-description is that facility location problems are about
-selecting a set of sites to open facilities and servicing
-clients by connecting them to facilities. A classical
-application is to set up warehouses to distribute
-commodities to retailers.  Having more warehouses helps
-reducing shipping cost because every retailer can be close
-to some warehouse. On the other hand, setting up and
-maintaining a warehouse can be costly. In this scenario
-there is a trade-off between having more warehouses and
-cheaper shipping and having fewer warehouses at the expense
-of shipping. Another application is to place content servers
-in a computer network. In the network we have a number of
-client machines that need to access files from one of the
-servers. Having more servers allows faster access for all
-clients. However, keeping a large number of servers around
-requires substantial hardware and software investment, as
-well as committing operation engineers to keep the servers
-up and running. A more recent example concerns today's web
-giants like Google, Facebook and Amazon. These web-based
-companies have geographically distributed development
-offices. All these offices require access of large amount of
-data from a handful of data centers, located in a few
-carefully chosen locations. However, building a data center
-is costly. The electricity bill alone would discourage the
-plan of having an excessive number of data centers. On the
-other hand, demands from all offices need to be addressed,
-or engineers would sit idling while waiting for data transfer
-to complete. We shall keep using the development office and
+theoretical interest and practical significance. In general,
+facility location problems are about selecting a set of
+sites to open facilities and servicing clients by connecting
+them to facilities. A classical application is to set up
+warehouses to distribute commodities to retailers.  Having
+more warehouses helps reduce shipping cost because every
+retailer can be close to some warehouse. On the other hand,
+setting up and maintaining a warehouse can be costly. In
+this scenario there is a trade-off between having more
+warehouses and cheaper shipping and having fewer warehouses
+at the expense of shipping. Another application is to place
+content servers in a computer network. In the network we
+have a number of client machines that need to access files
+from one of the servers. Having more servers allows faster
+access for all clients. However, keeping a large number of
+servers around requires substantial hardware and software
+investment, as well as committing operation engineers to
+keep the servers up and running. A more recent example
+concerns today's web giants like Google, Facebook and
+Amazon. These web-based companies have geographically
+distributed development offices. All these offices require
+access to large amounts of data from a handful of data
+centers, located in a few carefully chosen
+locations. However, building a data center is costly. The
+electricity bill alone would discourage the plan of having
+an excessive number of data centers. On the other hand,
+demands from all offices need to be addressed, or engineers
+would sit idling while waiting for data transfer to
+complete. We shall keep using the development office and
 data center example to illustrate several aspects of
 facility location problems.
 
@@ -236,10 +239,11 @@ varies with location. The real estate rent in Kansas usually
 does not compare to even a fraction of that in San Francisco
 or New York. The electricity rate is also very different in
 midwest areas from that in California. Other factors like
-potential natural disasters such as tornado and earthquake
-could also be factored into the cost estimate to build a
-data center in a certain location. In short, different
-locations have different costs to set up a data center.
+potential natural disasters such as tornadoes and
+earthquakes could also be factored into the cost estimate to
+build a data center in a certain location. In short,
+different locations have different costs to set up a data
+center.
 
 Second, different offices may have different demands. A
 larger office may require access to several data centers,
@@ -303,11 +307,11 @@ The UFL problem is known to be \NP-hard because the problem
 contains the classic Set Cover problem as a special
 case. The UFL problem with general distances has an
 algorithm with an approximation ratio of $O(\log n)$, where
-$n$ is the number of clients. This algorithm is due to
+$n$ is the number of clients. This algorithm is credited to
 Hochbaum~\cite{Hochbaum82}. A matching lower bound of
 $\Omega(\log n)$ is immediate, as the UFL problem contains
 the well-known Set Cover problem as a special
-case~\cite{Hochbaum82}. When the distances form a metric,
+case~\cite{Hochbaum82}. When the distances form a metric ---
 that is, they satisfy the triangle inequality, there are
 algorithms with constant approximation ratios. Shmoys,
 Tardos and Aardal~\cite{ShmoysTA97} were the first ones to
@@ -325,18 +329,18 @@ The problem studied in this thesis is called the
 Fault-Tolerant Facility Placement problem (\FTFP), which
 generalizes the {\UFL} problem. The differences between the
 {\UFL} problem and the {\FTFP} problem are: each client $j$
-now has a demand $r_j$ that could be more than one; at each
-site $i$ we can open one or more facilities. More formally,
-we define the {\FTFP} problem as:
+now has a demand $r_j$ that could be more than one, and at
+each site $i$ we can open one or more facilities. More
+formally, we define the {\FTFP} problem as:
 \begin{problem}[The FTFP Problem]
   \label{problem:ftfp}
-  In the Fault-Tolerant Facility Placement problem,
-  we are given a set of sites $\sitesset$ and a set of
-  clients $\clientset$. Each client $j \in \clientset$ has a
-  demand $r_j$. To open one facility at a site $i$ incurs a
-  cost of $f_i$. To make one connection from a client $j$ to
-  a facility at a site $i$ incurs a cost of the distance
-  $d_{ij}$. The problem asks for a solution that every
+  In the Fault-Tolerant Facility Placement problem, we are
+  given a set of sites $\sitesset$ and a set of clients
+  $\clientset$. Each client $j \in \clientset$ has a demand
+  $r_j$. To open one facility at a site $i$ incurs a cost of
+  $f_i$. To make one connection from a client $j$ to a
+  facility at a site $i$ incurs a cost of the distance
+  $d_{ij}$. The problem asks for a solution in which every
   client $j$ is connected to $r_j$ different facilities and
   the total cost of opening facilities and connecting
   clients to facilities is minimized.
@@ -367,7 +371,7 @@ additional structural properties; in Chapter~\ref{ch:
 solution to an integral solution with bounded cost; in
 Chapter~\ref{ch: primal-dual} we present preliminary results
 of the primal-dual approach; in Chapter~\ref{ch: conclusion}
-we conclude this thesis with a discussion on open problems.
+we conclude this thesis with a discussion of open problems.
 
 %% end of ch1
 
@@ -407,21 +411,21 @@ clients $j_1$ and $j_2$, we have
 \end{equation*}
 
 In designing algorithms for all three problems, {\UFL},
-{\FTFL}, and {\FTFP}, we have two competing goals: on one
-hand we want to open as few facilities as possible so that
-our facility cost is small; on the other hand we need as
-many facilities as possible so that every client can connect
-to nearby facilities. The main challenge, therefore, is to
-find a solution with a balanced facility cost and connection
-cost. We shall see how this balance is achieved in several
-known algorithms for UFL and FTFL. These two problems have
-been well studied in the past and a number of approximation
-algorithms for them are known. In particular, the
-LP-rounding algorithms for UFL inspired our approach for the
-FTFP problem. For this reason, we explain the LP-rounding
-algorithms for {\UFL} in the coming section with full
-detail, aiming at developing an intuition for our algorithms
-for the {\FTFP} problem.
+{\FTFL}, and {\FTFP}, we have two competing goals: on the
+one hand we want to open as few facilities as possible so
+that our facility cost is small; on the other hand we need
+as many facilities as possible so that every client can
+connect to nearby facilities. The main challenge, therefore,
+is to find a solution with a balanced facility cost and
+connection cost. We shall see how this balance is achieved
+in several known algorithms for UFL and FTFL. These two
+problems have been well studied in the past and a number of
+approximation algorithms for them are known. In particular,
+the LP-rounding algorithms for UFL inspired our approach for
+the FTFP problem. For this reason, we explain the
+LP-rounding algorithms for {\UFL} in the coming section with
+full detail, aiming at developing an intuition for our
+algorithms for the {\FTFP} problem.
 
 \section{Related Work for UFL}
 The Uncapacitated Facility Location problem (UFL) is the
@@ -430,14 +434,14 @@ received the most attention. A surprising fact is that a
 wide range of different techniques for designing
 approximation algorithms have been found successful in
 achieving good ratios, as shown in
-Table~\ref{tab:ufl_history}. One divertion of terminology:
+Table~\ref{tab:ufl_history}. One alteration of terminology:
 to be consistent with the UFL literature, instead of saying
 opening facilities at sites, we simply say opening or
 closing facilities without mentioning the sites, since in
 the {\UFL} problem we have no more than one facility at each
 site.
 %%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
-\begin{table}
+\begin{table}[ht]
   \centering
   \begin{tabular}{l l l r}
     \toprule
@@ -493,7 +497,7 @@ algorithm for the B-Vertex-Cover problem for $\epsilon' =
 there exists some constant $c$ such that no approximation
 algorithm with ratio less than $c$ is possible. The best
 known such constant $c$ for the {\UFL} problem is $c=1.463$,
-due to Guha and Khuller~\cite{GuhaK98}.
+according to Guha and Khuller~\cite{GuhaK98}.
 
 \subsection{Linear Program Formulation}
 The analysis of approximation algorithms for \NP-hard
@@ -825,7 +829,7 @@ algorithm is a $4$-approximation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% UFL cluster figure %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.6}]
     %% neighborhood
@@ -4100,7 +4104,7 @@ n)$. In particular, the analysis cannot be used to show an
 approximation ratio of $O(1)$.
 
 %%%%%%%%%%%%%%%%%%% start figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \begin{tikzpicture}[auto,scale=0.8, every node/.style={scale=0.8}]
     \node[draw,rectangle,minimum size=.7cm] (fac) at (-4,0) {};

@@ -1475,7 +1475,11 @@ Partition must satisfy several properties \\ needed for rounding to work ...
     \item Best star remains best
     \end{itemize}
   \item Ratio $H_n$ (Wolsey's result):
-    Greedy is $H_n$-approx for Submodular Set Cover
+    Greedy is $H_n$-approx for
+    \begin{itemize}
+    \item Minimizing a linear function
+    \item Subject to Submodular constraint
+    \end{itemize}
   \item Lower bound $O(\log n / \log\log n)$ for dual-fitting
     \begin{itemize}
     \item Example has $k$ groups, $n = k^k$
