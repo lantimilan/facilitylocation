@@ -23,6 +23,8 @@
   \end{frame}
 }
 
+
+
 \input{macros.tex}
 \definecolor{light-gray}{gray}{0.95}
 
@@ -385,7 +387,9 @@
   \end{minipage}
 \end{frame}
 
-\section[UFL and FTFL]{Related Work}
+\section[Related Work]{Related Work}
+
+\subsection{UFL}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% UFL and its results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -444,10 +448,6 @@
 \begin{frame}
   \frametitle{Related Work for UFL}
 
-  \begin{block}{}
-    Approximation Results for UFL
-  \end{block}
-
   \centering
   {\Large
     \textcolor{blue}
@@ -485,6 +485,7 @@
   \end{tabular}
 \end{frame}
 
+\subsection{FTFL}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% FTFL and its results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -595,7 +596,7 @@
     \end{tabular}
     \vspace{.175in}
 
-  Hightlights
+    \color{Red}Highlights
   \begin{itemize}
   \item Matches the best LP-based ratio for UFL
 	\item Better than 1.7245 for FTFL
@@ -1428,19 +1429,19 @@ Partition must satisfy several properties \\ needed for rounding to work ...
   \begin{itemize}
   \item \color{red}
     Q: Is there a simple reduction from FTFP to UFL?
-  \item \color{blue}
+  \item<2,6> \color{blue}
     A: Not sure, for the uniform demand case yes.
   \item \color{red}
     Q: Which one is easier, FTFP or FTFL?
-  \item \color{blue}
+  \item<3,6> \color{blue}
     A: FTFP. FTFP reduces to FTFL.
   \item \color{red}
     Q: Can FTFP have a better ratio than FTFL?
-  \item \color{blue}
+  \item<4,6> \color{blue}
     A: Yes, 1.575 matches UFL and beats 1.7245 for FTFL.
   \item \color{red}
     Q: When all $r_j$ are large, do you get a ratio $1$?
-  \item \color{blue}
+  \item<5,6> \color{blue}
     A: Yes, because of demand reduction.
  \end{itemize}
 \end{frame}
@@ -1451,11 +1452,11 @@ Partition must satisfy several properties \\ needed for rounding to work ...
 
   \item \color{red}
     Q: Does greedy have $O(1)$ ratio or not?
-  \item \color{blue}
+  \item<2,4> \color{blue}
     A: Maybe, but dual-fitting will not do.
   \item \color{red}
     Q: What is the best possible ratio for FTFP?
-  \item \color{blue}
+  \item<3,4> \color{blue}
     A: Likely to be 1.463, but not a sure thing.
 
   \end{itemize}
