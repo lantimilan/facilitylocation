@@ -2208,10 +2208,9 @@ an approximation ratio. A more refined rounding algorithm
 with ratio $1.736$ is presented next, using the same
 partitioned fractional solution as a starting point. Our
 best approximation algorithm with ratio $1.575$ is presented
-last, and the algorithm also requires a more sophisticated
-structure of the fractional solution, compared to the one
-used by both the $3$-approximation and the
-$1.736$-approximation algorithms.
+last. This algorithm needs a fractional solution with more
+sophisticated structure compared to the one used by the
+first two algorithms.
 
 %% EGUP 3
 \section{Algorithm~{\EGUP} with Ratio $3$}
@@ -3866,7 +3865,7 @@ minimization problem.
 
 We introduce a natural greedy algorithm and employ a
 technique called \emph{dual-fitting}~\cite{JainMMSV03},
-first introduced by Jain {\etal.}, to analyze the
+first introduced by Jain {\etal}, to analyze the
 approximation ratio. We also give an example showing
 possible limitation of this analysis.  In Section~\ref{sec:
   greedy}, we review the related work by Jain {\etal}.  In
@@ -4021,8 +4020,8 @@ $f$, having a total of $\sum_j r_j$ guarantees that every
 client has its share exactly $r_j$.
 
 For the {\FTFP} problem, the greedy algorithm in the earlier
-section works precisely as Wolsey's greedy algorithm would ,
-by picking the star with the minimum average cost. Since a
+section works precisely as Wolsey's greedy algorithm would,
+by picking a star with the minimum average cost. Since a
 star can contain at most $n=|\clientset|$ clients and hence
 could increase $f(\calS)$ by at most $n$, we get a ratio of
 $H_n$ of the greedy algorithm for the {\FTFP} problem.
@@ -4094,7 +4093,12 @@ f_i^{j,l}$, where $f_i^{j,l}$ is the portion of $f_i$
 attributed to $j$ in the analysis. Taking the average
 implies the computed $\alpha_j$ values make
 $\sum_{j\in\clientset} r_j \alpha_j$ equal to the cost of
-the integral solution produced by the greedy algorithm.
+the integral solution produced by the greedy
+algorithm. Under these two assumptions, the example we give
+below shows that the dual-fitting analysis cannot show an
+approximation ratio better than $O(\log n / \log \log
+n)$. In particular, the analysis cannot be used to show an
+approximation ratio of $O(1)$.
 
 %%%%%%%%%%%%%%%%%%% start figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -4138,7 +4142,7 @@ the integral solution produced by the greedy algorithm.
 %%%%%%%%%%%%%%%%% end figure %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We now give our example in
+We now give our example, illustrated in
 Figure~\ref{fig:greedy_lower_bound}. Our example has one
 site and $k$ groups of clients. Opening one facility at that
 site costs $f_1$. The first group has $n_1$ clients each
@@ -4195,8 +4199,8 @@ $\alpha_j$ is decided by the max among $\alpha_j^l$, so in
 the following calculation we ignore the terms involving
 trivial stars.
 
-Now going back to the dual constraint --- it requires that
-the shrinking factor $\gamma$ needs to satisfy the following
+Now going back to the dual constraint --- it requires the
+shrinking factor $\gamma$ to satisfy the following
 inequality:
 \begin{equation}
   \frac{\alpha_1}{\gamma} - d_1 + \frac{\alpha_2}{\gamma} - d_2 +
@@ -4225,16 +4229,17 @@ Substituting in the $\alpha_j$ values derived above, we have
   &\approx k/2
 \end{align*}
 So for $k$ groups we can force a shrinking factor $\gamma$
-as big as $k/2$. Recall that we have the greedy algorithm
-being no more than $H_n$-approximation. Is that a
-contradiction? No, because we have the number of clients
-$n=k^{k-1} + k^{k-1} + \ldots + 1 = k^k$, so $k = O(\log n /
-\log\log n)$. Therefore, the example shows that dual-fitting
-with local-charging cannot hope to get a ratio better than
-$O(\log n / \log\log n)$. Notice this example is similar in
-spirit to the $\Omega(\log n/ \log\log n)$ example for
-Hochbaum's algorithm for UFL, constructed by Mahdian {\etal}
-~\cite{JainMMSV03}.
+as big as $k/2$. Recall that earlier we have shown that the
+approximation ratio of the greedy algorithm is no more than
+$H_n$. Is this a contradiction? No, because we have the
+number of clients $n=k^{k-1} + k^{k-1} + \ldots + 1 = k^k$,
+and hence $k = O(\log n / \log\log n)$. Therefore, the
+example shows that the dual-fitting analysis with the
+local-charging assumption cannot hope to get a ratio better
+than $O(\log n / \log\log n)$. Notice this example is
+similar in spirit to the $\Omega(\log n/ \log\log n)$
+example for Hochbaum's algorithm for the UFL problem,
+constructed by Mahdian {\etal} ~\cite{JainMMSV03}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ch7 CONCLUSION
@@ -4250,10 +4255,11 @@ approximation ratio. To accomplish this reduction, we
 developed two techniques, namely demand reduction and
 adaptive partition, which could be of more general
 interest. Our results show that {\FTFP} seems easier in
-terms of approximation, compared to {\FTFL}.
+terms of approximation, compared to another related problem,
+{\FTFL}.
 
-We also studied the primal-dual and dual-fitting approaches,
-and provided a possible explanation of the difficulty in
+We have also studied the primal-dual approaches, and
+provided a possible explanation of the difficulty in
 obtaining a constant approximation ratio using those
 techniques.
 
@@ -4268,8 +4274,8 @@ In anticipating future research, we agree with the authors,
 Byrka {\etal}~\cite{ByrkaSS10}, who remarked that both
 {\UFL} and {\FTFL} are likely to have approximation
 algorithms with a ratio matching the $1.463$ lower
-bound. From our demand reduction technique, it is almost
-sure that {\FTFP} shall have a $1.463$-approximation
+bound. Following our demand reduction technique, it is
+almost sure that {\FTFP} shall have a $1.463$-approximation
 algorithm, provided that {\FTFL} can be approximated with a
 ratio to meet the lower bound.
 
@@ -4282,8 +4288,8 @@ ratio to meet the lower bound.
 \section{Integer Programming and Linear Programming}
 \label{sec: ILP}
 
-In this section we give a short introduction to Linear
-Programming and Integer Programming with an emphasis on
+In this section we give a short introduction to Integer
+Programming and Linear Programming, with an emphasis on
 their application to the design and analysis of
 approximation algorithms for optimization problems.
 
@@ -4313,8 +4319,8 @@ program for Vertex Cover is written as
 \end{empheq}
 In general an integer program cannot be solved exactly in
 polynomial time, as Integer Programming is
-{\NP}-hard. However, if we relax the integral constraint and
-allow the variables to take fractional values, we then
+{\NP}-hard. However, if we relax the integrality constraint
+and allow the variables to take fractional values, we then
 obtain a Linear Program (LP) and LP is polynomially
 solvable, for example, using the ellipsoid method or the
 interior point method. Thus we can first solve the LP
@@ -4326,9 +4332,8 @@ round the fractional solution appropriately, so that we
 maintain the feasibility while keeping the cost from
 increasing too much. The exact rounding procedure is problem
 specific and we shall not delve into the topic here. The
-rounding relevant to the FTFP problem, the problem studied
-in this thesis, is presented in detail in Chapter~\ref{ch:
-  lp-rounding}.
+rounding relevant to the FTFP problem is presented in detail
+in Chapter~\ref{ch: lp-rounding}.
 
 \subsection{Linear Programming, Duality and Complementary
   Slackness Conditions}
