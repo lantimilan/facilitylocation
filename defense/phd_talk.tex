@@ -729,6 +729,38 @@
   \end{center}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% demand reduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Demand Reduction}
+
+  \large{\textcolor{blue}{Implementation}}
+
+  \begin{itemize}
+  \item Solving LP for $(\bfx^\ast, \bfy^\ast)$.
+  \item $(\hat\bfx, \hat\bfy) = (\bfx^\ast, \bfy^\ast)$ round down to integer
+  \item $(\dot\bfx, \dot\bfy) = (\bfx^\ast, \bfy^\ast) - (\hat\bfx, \hat\bfy)$, fractional part
+  \item $\hat r_j = \sum_{i}\hat x_{ij}$ for $\hat\calI$, $\dot r_j = r_j - \hat r_j$ for $\dot\calI$
+  \item $(\hat\bfx, \hat\bfy)$ (integral) feasible and optimal for $\hat\calI$
+  \item $(\dot\bfx, \dot\bfy)$ (fractional) feasible and optimal for $\dot\calI$
+  \end{itemize}
+  
+  \large{\textcolor{blue}{Properties}}
+
+  \begin{itemize}
+  \item $\dotr_j = \poly(|\sitesset|)$
+  \item $\rho$-approx for $\dot \calI$ implies $\rho$-approx for $\calI$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Demand Reduction: Implication}
+  \begin{itemize}
+  \item FTFP to FTFL, 1.7245-approximation
+  \item $1 + O(|\sitesset| / Q)$ for $Q = \min_j r_j$, approaches $1$ when $Q$ is large
+  \end{itemize}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Adaptive Partitioning, site -> client
