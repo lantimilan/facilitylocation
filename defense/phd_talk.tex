@@ -388,52 +388,61 @@
 %%% UFL example
 \begin{frame}
   \frametitle{Uncapacitated Facility Location Problem (UFL)}
-  All demands are 1, each site can open only one facility
+  \begin{block}{}
+    All demands are 1, each site can open only one facility    
+  \end{block}
 
-  \begin{figure}
-    \centering
-    \subfigure{
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
-    \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
-    \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[ht]
+      \centering
+      \begin{tikzpicture}[scale=0.4]
+        \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
+        \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
+        \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
 
-    \node[right] (demand1) at (6,-1) {$r_4=1$};
-    \node[right] (demand2) at (6,2) {$r_3=1$};
-    \node[right] (demand3) at (6,5) {$r_2=1$};
-    \node[right] (demand4) at (6,8) {$r_1=1$};
+        \node[right] (demand1) at (6,-1) {$r_4=1$};
+        \node[right] (demand2) at (6,2) {$r_3=1$};
+        \node[right] (demand3) at (6,5) {$r_2=1$};
+        \node[right] (demand4) at (6,8) {$r_1=1$};
     
-    \node (label1) at (3,-3) {Instance};
-  \end{tikzpicture}
-  }
-  \hspace{.1in}
-  \subfigure{
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
-    \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
-    \node[fill=blue!25,minimum size=.2cm] (fac1) at (0,8) {$1$};
+        \node (label1) at (3,-3) {Instance};
+      \end{tikzpicture}      
+    \end{figure}
+    % solution
+    \column<2->{0.5\textwidth}
+    \begin{figure}[ht]
+      \centering
+      \begin{tikzpicture}[scale=0.4]
+        \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
+        \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
+        \node[fill=blue!25,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
 
-    \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
+        \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
         \draw (\from)--(\to);
 
-    \node (label2) at (3,-3) {Solution};
-  \end{tikzpicture}
-}
-\end{figure}
+        \node (label2) at (3,-3) {Solution};
+      \end{tikzpicture}
+    \end{figure}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Related Work on UFL}
+  \frametitle{Related Work for UFL}
+
+  \begin{block}{}
+    Approximation Results for UFL
+  \end{block}
 
   \centering
   {\Large
@@ -478,52 +487,58 @@
 %%% FTFL example
 \begin{frame}
   \frametitle{Fault-Tolerant Facility Location Problem (FTFL)}
-  Demands may be more than 1, each site can open only one facility
+  \begin{block}{}
+    Demands may be more than 1, each site can open only one
+    facility
+  \end{block}
 
-  \begin{figure}
-    \centering
-    \subfigure{
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
-    \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
-    \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[ht]
+      \centering
+      \begin{tikzpicture}[scale=0.4]
+        \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
+        \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
+        \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,0) {$4$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,3) {$3$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,6) {$2$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,9) {$1$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,0) {$4$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,3) {$3$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,6) {$2$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,9) {$1$};
 
-    \node[right] (demand1) at (6,-1) {$r_4=2$};
-    \node[right] (demand2) at (6,2) {$r_3=1$};
-    \node[right] (demand3) at (6,5) {$r_2=1$};
-    \node[right] (demand4) at (6,8) {$r_1=2$};
+        \node[right] (demand1) at (6,-1) {$r_4=2$};
+        \node[right] (demand2) at (6,2) {$r_3=1$};
+        \node[right] (demand3) at (6,5) {$r_2=1$};
+        \node[right] (demand4) at (6,8) {$r_1=2$};
 
-    \node (label1) at (3,-3) {Instance};    
-  \end{tikzpicture}
-}
-\hspace{.1in}
-\subfigure{
-  \begin{tikzpicture}[scale=0.5]
-    \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
-    \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
-    \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
+        \node (label1) at (3,-3) {Instance};    
+      \end{tikzpicture}      
+    \end{figure}
+    \column<2->{0.5\textwidth}
+    \begin{figure}[ht]
+      \begin{center}
+      \begin{tikzpicture}[scale=0.4]
+        \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
+        \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
+        \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
 
-    \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
-    \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
+        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
     
-    \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
+        \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
         \draw (\from)--(\to);
 
         \node (label2) at (3,-3) {Solution};
-  \end{tikzpicture}
-}
-\end{figure}
+      \end{tikzpicture}
+      \end{center}
+    \end{figure}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Related Work on FTFL}
+  \frametitle{Related Work for FTFL}
   
   \centering
   {\Large
