@@ -1,4 +1,4 @@
-\documentclass[hyperref,dvipsnames,svgnames]{beamer}
+\documentclass[hyperref,dvipsnames,svgnames,compress]{beamer}
 
 \usepackage{amsmath, tikz, subfigure, graphicx}
 \usepackage{multirow,colortbl}
@@ -15,6 +15,13 @@
 }
 \date{06/10/2013}
 \usetheme{Warsaw}
+
+\AtBeginSection[]
+{
+  \begin{frame}{Table of Contents}
+    \tableofcontents[currentsection,hideallsubsections,subsubsectionstyle=hide]
+  \end{frame}
+}
 
 \input{macros.tex}
 \definecolor{light-gray}{gray}{0.95}
@@ -33,21 +40,7 @@
 %%% outline
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Outline}
-  \begin{enumerate}
-    
-  \item Problem Definition
-
-  \item Related Work
-
-  \item Main Results
-
-  \item Techniques
-
-  \item Approximation Algorithms
-
-  \item{Summary}
-  \end{enumerate}
+  \tableofcontents
 \end{frame}
 
 %% 1. What is the problem: motivation, definition, related work
@@ -60,6 +53,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% The FTFP problem definition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[FTFP]{The FTFP Problem}
 \begin{frame}
   \frametitle{Fault-tolerant Facility Placement Problem (FTFP)}
   \setbeamercovered{invisible}
@@ -376,6 +370,7 @@
   \end{minipage}
 \end{frame}
 
+\section[UFL and FTFL]{Related Work}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% UFL and its results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -545,6 +540,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% FTFP results %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section[Results]{Our Results}
 \begin{frame}
   \frametitle{Work on FTFP (Dissertation Topic)}
   
@@ -591,7 +587,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% LP-Formulation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\section[Techniques]{Techniques and Algorithms}
+\subsection[LP]{LP Formulation}
 \begin{frame}
   \frametitle{LP Formulation for FTFP}
   \begin{itemize}
@@ -627,7 +624,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Techniques
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{frame}
 
   \frametitle{Techniques}
@@ -654,7 +650,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Algorithm for FTFP - Demand Reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\subsection[Reduction]{Demand Reduction}
 \begin{frame}
   \frametitle{Algorithm for FTFP}
   \begin{center}
@@ -765,7 +761,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Adaptive Partitioning, site -> client
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\subsection[Partitioning]{Adaptive Partitioning}
 \begin{frame}
   \frametitle{Adaptive Partitioning}
   \begin{center}
@@ -1206,7 +1202,7 @@ Partition must satisfy several properties \\ needed for rounding to work ...
 %%
 %% 3.3 Rounding: fault-tolerant made easy, all ratios preserved
 %%     the 1.575 rounding is subtle
-
+\subsection[Rounding]{LP-rounding Algorithms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 3-Approximation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1382,7 +1378,7 @@ Partition must satisfy several properties \\ needed for rounding to work ...
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\subsection[Dual-fitting]{Greedy Algorithm and Analysis}
 %% 3.4 Greedy, Dual-fitting, and hard example for local-charging
 \begin{frame}
   \frametitle{Greedy and Dual-fitting}
@@ -1393,9 +1389,48 @@ Partition must satisfy several properties \\ needed for rounding to work ...
   \end{itemize}
 \end{frame}
 
+\section[Summary]{Summary and Open Problems}
 %% 4. Open problems and future work
 %%     - dual-fitting for FTFP
 %%     - 1.463 for UFL
+\begin{frame}
+  \frametitle{Q and A about FTFP}
+  \begin{itemize}
+  \item \color{red}
+    Q: Is there a simple reduction from FTFP to UFL?
+  \item \color{blue}
+    A: Not sure, for the uniform demand case yes.
+  \item \color{red}
+    Q: Which one is easier, FTFP or FTFL?
+  \item \color{blue}
+    A: FTFP. FTFP reduces to FTFL.
+  \item \color{red}
+    Q: Can FTFP have a better ratio than FTFL?
+  \item \color{blue}
+    A: Yes, 1.575 matches UFL and beats 1.7245 for FTFL.
+  \item \color{red}
+    Q: When all $r_j$ are large, do you get a ratio $1$?
+  \item \color{blue}
+    A: Yes, because of demand reduction.
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Q and A about FTFP, Cont.}
+  \begin{itemize}
+
+  \item \color{red}
+    Q: Does greedy have $O(1)$ ratio or not?
+  \item \color{blue}
+    A: Maybe, but dual-fitting will not do.
+  \item \color{red}
+    Q: What is the best possible ratio for FTFP?
+  \item \color{blue}
+    A: Likely to be 1.463, but not a sure thing.
+
+  \end{itemize}
+\end{frame}
+
 \begin{frame}
   \frametitle{Summary}
   
