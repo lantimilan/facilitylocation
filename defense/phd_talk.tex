@@ -1519,30 +1519,30 @@
   \begin{figure}
     \centering
     \begin{tikzpicture}[auto,scale=0.6, every node/.style={scale=0.6}]
-    \node[draw,rectangle,minimum size=.7cm] (fac) at (-4,0) {};
+    \node[draw,rectangle,minimum size=.7cm,fill=blue!50] (fac) at (-4,0) {};
     \node at (-5,0) {$f_1$};
     
     \node[draw,ellipse,minimum width=4cm,minimum
-    height=1.8cm] (client1) at
+    height=1.8cm,fill=green!50] (client1) at
     (6,0) {$n_1 = k^{k-1}, r_1$};
     \node[draw,ellipse,minimum width=4cm,minimum
-    height=1.8cm] (client2) at
+    height=1.8cm,fill=green!50] (client2) at
     (6,-3) {$n_2 = k^{k-2}, r_2$};
     \node[draw,ellipse,minimum width=4cm,minimum
-    height=1.8cm] (client3) at
+    height=1.8cm,fill=green!50] (client3) at
     (6,-6) {$n_3 = k^{k-3}, r_3$};
     \node[draw,ellipse,minimum width=4cm,minimum
-    height=1.8cm] (clientk) at
+    height=1.8cm,fill=green!50] (clientk) at
     (6,-10) {$n_k = 1, r_k$};
     
-    \node at (-3,-10) {\large{demands $r_1 \ll r_2 \ll \ldots \ll r_k$}};
+    \node[fill=yellow!50] at (-3,-10) {\Large{demands $r_1 \ll r_2 \ll \ldots \ll r_k$}};
 
-    \draw (fac) to node {$d_1=0$} (client1);
-    \draw[bend right] (fac) to node {$d_2 = d_1 + f_1 /
+    \draw (fac) to node[fill=yellow!50] {$d_1=0$} (client1);
+    \draw[bend right] (fac) to node[fill=yellow!50] {$d_2 = d_1 + f_1 /
       n_2$}  (client2);
-    \draw[bend right] (fac) to node {$d_3 = d_2 + f_1 /
+    \draw[bend right] (fac) to node[fill=yellow!50] {$d_3 = d_2 + f_1 /
       n_3$}  (client3);
-    \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_k$}  (clientk);
+    \draw[bend right] (fac) to node[fill=yellow!50] {$d_k = d_{k-1} + f_1 / n_k$}  (clientk);
   \end{tikzpicture}
 \end{figure}
 \end{frame}
