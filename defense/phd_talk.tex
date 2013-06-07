@@ -656,16 +656,18 @@
 %%% Techniques
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-
+  \setbeamercolor{normal text}{fg=light-gray,bg=}
+  \setbeamercolor{alerted text}{fg=black,bg=}
+  \usebeamercolor{normal text}
   \frametitle{Techniques}
   \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
 
-  \item \alert{\Large \textcolor{blue}{Demand Reduction}}
+  \item {\Large \textcolor{blue}{Demand Reduction}}
     \vspace{.1in}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \item {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
+    \item \alert {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
 						rounding)}
-    \item {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
+    \item \alert {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
     \end{itemize}
     
   \item {\Large \textcolor{blue}{Adaptive Partitioning}}
@@ -849,6 +851,31 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection[Partitioning]{Adaptive Partitioning}
 \begin{frame}
+  \setbeamercolor{normal text}{fg=light-gray,bg=}
+  \setbeamercolor{alerted text}{fg=black,bg=}
+  \usebeamercolor{normal text}
+  \frametitle{Techniques}
+  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+
+  \item {\Large \textcolor{blue}{Demand Reduction}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item  {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
+						rounding)}
+    \item  {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
+    \end{itemize}
+    
+  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item \alert{\large Split sites into facilities and clients into unit demands}
+    \item \alert{\large Split associated fractional values}
+    \item \alert{\large Properties ensure rounding similar to UFL can be applied}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Adaptive Partitioning}
   \begin{center}
 	 \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
@@ -898,7 +925,7 @@
 
     \node[fill=yellow!50] (sumyi) at (0,-2) {$\sum \bary_{\mu} = y_i^\ast$};
 
-    %\pause
+    \pause
     % client to demand
     \node[circle, fill=green!75, minimum size=.6cm] (demand1) at (9,4) {};
     \node[circle, fill=green!75, minimum size=.6cm] (demand2) at (9,2) {};
@@ -912,16 +939,16 @@
     \node (demandlabel) at (11,4) {unit demand};
     \node[below] (nulabel) at (9,1.5) {$\nu$};
 
-    %\pause
+    \pause
 	\draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand2);
     \node[fill=yellow!50] (comp) at (6,-0.5) {$\barx_{\mu\nu} \in \{\bary_{\mu}, 0\}$ \\ completeness};
     \node[fill=yellow!50] (sumxij) at (6,-2.5) {$\sum \barx_{\mu\nu} = x_{ij}^\ast$};
     % xval
 
   \end{tikzpicture}
-
-\pause
-Partition must satisfy several properties \\ needed for rounding to work ...
+  \begin{block}<4>{} Partition must satisfy several properties for
+    rounding to work...
+    \end{block}
 
   \end{center}
 \end{frame}
