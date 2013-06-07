@@ -4114,25 +4114,25 @@ approximation ratio of $O(1)$.
     
     \node[draw,ellipse,minimum width=4cm,minimum
     height=1.8cm] (client1) at
-    (6,0) {$n_1 = k^{k-1}, r_1$};
+    (6,0) {$n_1 = k^k, r_1$};
     \node[draw,ellipse,minimum width=4cm,minimum
     height=1.8cm] (client2) at
-    (6,-3) {$n_2 = k^{k-2}, r_2$};
+    (6,-3) {$n_2 = k^{k-1}, r_2$};
     \node[draw,ellipse,minimum width=4cm,minimum
     height=1.8cm] (client3) at
-    (6,-6) {$n_3 = k^{k-3}, r_3$};
+    (6,-6) {$n_3 = k^{k-2}, r_3$};
     \node[draw,ellipse,minimum width=4cm,minimum
     height=1.8cm] (clientk) at
-    (6,-12) {$n_k = 1, r_k$};
+    (6,-12) {$n_k = k, r_k$};
     
     \node at (-3,-10) {\large{demands $r_1 \ll r_2 \ll \ldots \ll r_k$}};
 
     \draw (fac) to node {$d_1=0$} (client1);
     \draw[bend right] (fac) to node {$d_2 = d_1 + f_1 /
-      n_2$}  (client2);
+      n_1$}  (client2);
     \draw[bend right] (fac) to node {$d_3 = d_2 + f_1 /
-      n_3$}  (client3);
-    \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_k$}  (clientk);
+      n_2$}  (client3);
+    \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_{k-1}$}  (clientk);
   \end{tikzpicture}
   \ssp
   \caption[The $\Omega(\log n / \log\log n)$ example for
@@ -4162,7 +4162,7 @@ below:
   &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})
 \end{align*}
 For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$,
-and $n_1 = u^{k-1}, n_2 = u^{k-2}, \ldots, n_k = u^0 = 1$
+and $n_1 = u^k, n_2 = u^{k-1}, \ldots, n_k = u^1 = u$
 for some number $u$ --- we actually take $u=k$; this may not
 be the best possible choice.
 
@@ -4237,7 +4237,7 @@ So for $k$ groups we can force a shrinking factor $\gamma$
 as big as $k/2$. Recall that earlier we have shown that the
 approximation ratio of the greedy algorithm is no more than
 $H_n$. Is this a contradiction? No, because we have the
-number of clients $n=k^{k-1} + k^{k-1} + \ldots + 1 = k^k$,
+number of clients $n=k^k + k^{k-1} + \ldots + 1 = k^k$,
 and hence $k = O(\log n / \log\log n)$. Therefore, the
 example shows that the dual-fitting analysis with the
 local-charging assumption cannot hope to get a ratio better
