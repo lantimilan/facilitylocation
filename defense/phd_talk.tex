@@ -26,7 +26,7 @@
 
 
 \input{macros.tex}
-\definecolor{light-gray}{gray}{0.95}
+\definecolor{light-gray}{gray}{0.7}
 \begin{document}
 %% (5-10min)  1. What is the problem: motivation, definition, related work
 %% (5-10min)  2. What results do you have: approximation ratio
@@ -41,6 +41,7 @@
 %%% outline
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+  \frametitle{Outline}
   \tableofcontents[hideallsubsections]
 \end{frame}
 
@@ -324,6 +325,7 @@
 %%    \end{block}
 %%\end{frame}
 
+\section[Results]{Results in Dissertation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Results Highlight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -589,7 +591,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% FTFP results %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Results]{Our Results}
 \begin{frame}
   \frametitle{Work on FTFP (Dissertation Topic)}
   
@@ -606,9 +607,6 @@
       Liao and Shen & 2011 & 1.861 & Dual-fitting (for special case)\\
       \rowcolor{SkyBlue}
       Yan and Chrobak & 2011 & 3.16 & LP-rounding\\
-	& & & \\
-	\textcolor{Brown}{{\hspace{-0.1in}}This talk:}\hfill & & & \\
-        & & & \\
       \rowcolor{SkyBlue}
       Yan and Chrobak & 2012 & 1.575 & LP-rounding\\
       \rowcolor{Purple!20}
@@ -669,18 +667,16 @@
 %%% Techniques
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \setbeamercolor{normal text}{fg=light-gray,bg=}
-  \setbeamercolor{alerted text}{fg=black,bg=}
-  \usebeamercolor{normal text}
   \frametitle{Techniques}
+
   \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
 
   \item {\Large \textcolor{blue}{Demand Reduction}}
     \vspace{.1in}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \item \alert {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
+    \item {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
 						rounding)}
-    \item \alert {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
+    \item {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
     \end{itemize}
     
   \item {\Large \textcolor{blue}{Adaptive Partitioning}}
@@ -775,6 +771,29 @@
 %%% demand reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+  \setbeamercovered{transparent}
+  \frametitle{Techniques}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+
+  \item<1> {\Large \textcolor{blue}{Demand Reduction}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item  {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
+						rounding)}
+    \item  {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
+    \end{itemize}
+    
+  \item<0> {\Large {Adaptive Partitioning}}
+    \vspace{.1in}
+    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+    \item {\large Split sites into facilities and clients into unit demands}
+    \item {\large Split associated fractional values}
+    \item {\large Properties ensure rounding similar to UFL can be applied}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{Demand Reduction}
 
   \large{\textcolor{blue}{Implementation}}
@@ -864,13 +883,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection[Partitioning]{Adaptive Partitioning}
 \begin{frame}
-  \setbeamercolor{normal text}{fg=light-gray,bg=}
-  \setbeamercolor{alerted text}{fg=black,bg=}
-  \usebeamercolor{normal text}
+  \setbeamercovered{transparent}
   \frametitle{Techniques}
-  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
 
-  \item {\Large \textcolor{blue}{Demand Reduction}}
+  \item<0> {\Large {Demand Reduction}}
     \vspace{.1in}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
     \item  {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
@@ -878,12 +895,12 @@
     \item  {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
     \end{itemize}
     
-  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+  \item<1> {\Large \textcolor{blue}{Adaptive Partitioning}}
     \vspace{.1in}
     \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \item \alert{\large Split sites into facilities and clients into unit demands}
-    \item \alert{\large Split associated fractional values}
-    \item \alert{\large Properties ensure rounding similar to UFL can be applied}
+    \item {\large Split sites into facilities and clients into unit demands}
+    \item {\large Split associated fractional values}
+    \item {\large Properties ensure rounding similar to UFL can be applied}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -1427,7 +1444,7 @@
 {\textcolor{blue}{More intricate neighborhood structure}}
     \begin{itemize}
     	\item Two neighborhoods: close and far, $N(\nu)= N_{\cls}(\nu) \cup N_{\far}(\nu)$
-		\item $N_{\cls}(\nu)=$ nearest $\gamma$-fraction of $N(\nu)$
+		\item $N_{\cls}(\nu)=$ nearest $(1/\gamma)$-fraction of $N(\nu)$
   		\item $N_{\cls}(\nu)\cap N_{\cls}(\kappa) \neq\emptyset$, if $\nu$ assigned to $\kappa$
   		\item For siblings $\nu_1, \nu_2$, $N_{\cls}(\kappa_1) \cup
     			N(\nu_1)$ and $N_{\cls}(\kappa_2) \cup N(\nu_2)$ disjoint
@@ -1576,7 +1593,7 @@
 %%     - dual-fitting for FTFP
 %%     - 1.463 for UFL
 \begin{frame}
-  \frametitle{Q and A about FTFP}
+  \frametitle{Results for FTFP}
   \begin{itemize}
   \item \color{red}
     Q: Is there a simple reduction from FTFP to UFL?
@@ -1609,7 +1626,7 @@
   \frametitle{Summary}
   
 {\large
-  {\textcolor{blue}{Our Result}}
+  {\textcolor{blue}{Results}}
 
   \begin{itemize}
   	\item $1.575$-approximation algorithm for FTFP
@@ -1632,5 +1649,3 @@
 
 \end{document}
 
-%%% TODO
-%%% - improve the UFL, FTFL and FTFP example figure
