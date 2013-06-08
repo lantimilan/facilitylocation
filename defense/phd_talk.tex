@@ -101,25 +101,23 @@
     \node[above] (ew33) at (1.5,2.5) {$2$};
     \node[above] (ew34) at (1.9,1.3) {$4$};
 
-    \node (label1) at (3,-3) {Instance};
 
     \pause
     % annotations
     \node[above,fill=yellow!50] (sites) at (-.5,9.5) {site}; 
     \draw[->,decorate] (sites) -- (fac1);
-\pause
+
     \node[above,fill=yellow!50] (clients) at (9,9.5) {client};
     \draw[->,decorate] (clients) -- (client1);
-\pause
+
     \node[right,fill=yellow!50] (demand) at (9.5,0) {demand};
     \draw[->,decorate] (demand) -- (demand4);
-\pause
+
     \node[above,fill=yellow!50,text width=2cm] (fi) at (-1,-2.5) {cost to open facility};
     \draw[->,decorate] (fi) -- (faclabel3);
-\pause
+
     \node[above,fill=yellow!50,text width=2cm] (edge) at (4,10) {connection cost};
     \draw[->,decorate] (edge) -- (ew11);
-\pause
   \end{tikzpicture}
   \end{center}
 \end{frame}
@@ -157,9 +155,6 @@
     \node[above] (ew23) at (1.5,4.4) {$3$};
     \node[above] (ew33) at (1.5,2.5) {$2$};
     \node[above] (ew34) at (1.9,1.3) {$4$};
-
-    \node (label1) at (3,-3) {Instance};
-
 
     % remove annotations, use white, ugly solution
     \node[above,fill=white,color=white] (sites) at (-.5,9.5) {site}; 
@@ -317,7 +312,7 @@
   \end{block}
 
   \begin{block}{}
-    Best ratio $\geq 1.463$ unless P $\neq$ NP
+    Best ratio $\geq 1.463$ unless P $=$ NP
   \end{block}
 \end{frame}
 
@@ -362,7 +357,7 @@
   \begin{center}
   \begin{tabular}{l  l  l}
     \rowcolor{light-gray}
-    FTFP & $r_j \geq 1$ & $< \infty$ facility per site\\
+    \textcolor{blue}{FTFP} & $r_j \geq 1$ & $< \infty$ facility per site\\
     \rowcolor{light-gray}
     UFL  & $r_j = 1$ & $\leq 1$ facility per site\\
     \rowcolor{light-gray}
@@ -377,7 +372,7 @@
   \large{
   \begin{equation*}
     \tikzmarkin{a}(0.3,-0.6)(-0.3,0.75)
-    \text{UFL} \preceq \text{FTFP} \preceq \text{FTFL}
+    \text{UFL} \preceq \text{\textcolor{blue}{FTFP}} \preceq \text{FTFL}
     \tikzmarkend{a}
   \end{equation*}
   }
@@ -393,7 +388,7 @@
       \rowcolor{GreenYellow}
       UFL & \\
       \rowcolor{GreenYellow}
-      FTFP & \multirow{-2}{*}{1.575}\\
+      \textcolor{blue}{FTFP} & \multirow{-2}{*}{1.575}\\
       \rowcolor{Cyan}
       FTFL & 1.7245\\
     \end{tabular}
@@ -410,7 +405,7 @@
       \rowcolor{GreenYellow}
       UFL & 1.52\\
       \rowcolor{Cyan}
-      FTFP & \\
+      \textcolor{blue}{FTFP} & \\
       \rowcolor{Cyan}
       FTFL & \multirow{-2}{*}{$O(\log n)$}\\
     \end{tabular}
@@ -785,7 +780,7 @@
 %%% demand reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \setbeamercovered{transparent}
+  \setbeamercovered{transparent=50}
   \frametitle{Techniques}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
 
@@ -900,7 +895,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection[Adaptive Partitioning]{Adaptive Partitioning}
 \begin{frame}
-  \setbeamercovered{transparent}
+  \setbeamercovered{transparent=50}
   \frametitle{Techniques}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
 
@@ -922,26 +917,6 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Adaptive Partitioning}
-  \begin{center}
-	 \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
-    \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {site};
-    \node (ilabel) at (0,-1) {$i$};
-    \node[circle, fill=green!50, minimum size=1cm] (client) at (12,0) {client};
-    \node (jlabel) at (12,-1) {$j$};
-    \draw[above] (site) to node (dummy) {$x_{ij}^\ast$} (client);
-
-    %% invisible, padding to align
-    \node[minimum size=.6cm] (fac1) at (3,3) {};
-    \node[minimum size=.6cm] (fac2) at (3,1.5) {};
-    \node[minimum size=.6cm] (fac3) at (3,0) {};
-    \node[minimum size=.6cm] (fack) at (3,-3) {};
-
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Adaptive Partitioning, partition site into facilities, client into demands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -954,19 +929,22 @@
   \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
     % site to facility
     \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {site};
+    \node (siteilabel) at (0,-1) {$i$};
     \node[circle, fill=green!50,minimum size=1cm] (client) at (12,0) {client};
     \node (jlabel) at (12,-1) {$j$};
 
+    \draw[above] (site) to node (dummy) {$x_{ij}^\ast$} (client);
+
+    \pause
     \node[fill=blue!75,minimum size=.6cm] (fac1) at (3,3) {};
     \node[fill=blue!75,minimum size=.6cm] (fac2) at (3,1.5) {};
-    \node[fill=blue!75,minimum size=.6cm] (fac3) at (3,0) {};
+    \node[fill=blue!75,minimum size=.6cm] (fac3) at (3,-1.5) {};
     \node[fill=blue!75,minimum size=.6cm] (fack) at (3,-3) {};
 
     \foreach \from in {site}
     \foreach \to in {fac1,fac2,fac3,fack}
     \draw[->,>=latex] (\from) -- (\to);
 
-    \node (siteilabel) at (0,-1) {$i$};
     \node (faclabel) at (3,4) {facility};
     \node[below] (faclabel) at (3,-.5) {$\mu$};
 
@@ -976,20 +954,20 @@
     % client to demand
     \node[circle, fill=green!75, minimum size=.6cm] (demand1) at (9,4) {};
     \node[circle, fill=green!75, minimum size=.6cm] (demand2) at (9,2) {};
-    \node[circle, fill=green!75, minimum size=.6cm] (demand3) at (9,0) {};
-    \node[circle, fill=green!75, minimum size=.6cm] (demand4) at (9,-2) {};
+
+    \node[circle, fill=green!75, minimum size=.6cm] (demand3) at (9,-2) {};
     \node[circle, fill=green!75, minimum size=.6cm] (demandk) at (9,-4) {};
     \foreach \from in {client}
-    \foreach \to in {demand1, demand2, demand3, demand4, demandk}
+    \foreach \to in {demand1, demand2, demand3, demandk}
     \draw[->,>=latex] (\from) -- (\to);
 
     \node (demandlabel) at (11,4) {unit demand};
-    \node[below] (nulabel) at (9,1.5) {$\nu$};
+    \node[above] (nulabel) at (9,-1.5) {$\nu$};
 
     \pause
-	\draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand2);
-    \node[fill=yellow!50] (comp) at (6,-0.5) {$\barx_{\mu\nu} \in \{\bary_{\mu}, 0\}$ \\ completeness};
-    \node[fill=yellow!50] (sumxij) at (6,-2.5) {$\sum \barx_{\mu\nu} = x_{ij}^\ast$};
+	\draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand3);
+    \node[fill=yellow!50] (comp) at (6,-3) {$\barx_{\mu\nu} \in \{\bary_{\mu}, 0\}$ \\ completeness};
+    \node[fill=yellow!50] (sumxij) at (8,-.5) {$\sum \barx_{\mu\nu} = x_{ij}^\ast$};
     % xval
 
   \end{tikzpicture}
@@ -1055,9 +1033,10 @@
 		\end{itemize}
 \end{minipage}
 
+\pause
 \vspace{0.2in}
 \noindent
-\textcolor{brown}{How to balance these strategies?}
+\textcolor{Red}{How to balance these two strategies?}
 \end{frame}
 
 
@@ -1076,46 +1055,36 @@
     \node[circle, fill=primcolor,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
     \node (kappa1label) at (4,8) {$\kappa_1$};
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
-    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa2) at (3.5, 2) {};
-    \node (kappa2label) at (4,2) {$\kappa_2$};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
     \node[fill=blue!75, minimum size=.3cm] (mu1) at (-.7,7.7) {};
     \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
     \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
     \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,1.7) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,1.5) {};
-    \node (nbk1) at (1.8,8.3) {$N(\kappa_1)$};
-    \node (nbk2) at (1.8,1.3) {$N(\kappa_2)$};
-	\node[fill=yellow!50] (primary) at (5,8) {primary};
-    \node[fill=yellow!50] (prop) at (8,2) {$N(\kappa_1)\cap N(\kappa_2) = \emptyset$};
+    \node (nbk) at (1.8,8.3) {$N(\kappa)$};
+    \node[fill=yellow!50] (primary) at (5,8) {primary};
 
-	\pause
-	% non-primary demands
-    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+     % non-primary demands
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu) at (3.5, 6) {};
     \node (sib1label) at (4,6.5) {$\nu_1$};
-    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
-    \node (sib1label) at (4,3.5) {$\nu_2$};
     \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
 
     \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
-    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
-    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
 
-	\pause
-	% assignment
-	\draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
-	\draw[->,dashed] (nu2) -- (kappa2);
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
 
-    \node[circle, minimum size=.5cm] (client1) at (6, 5) {};
-    \node (clientlabel) at (6.5,5) {$\ $};r
+    \node (nbnu1) at (1.9,5.7) {$N(\nu)$};
 
-   
+    % assignment
+    \draw[->,dashed] (nu) to node[fill=yellow!50] {assign} (kappa1); 
+
+    % primary kappa2
+    \node (kappa2label) at (4,4) {$\kappa_2$};
+    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,4.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,3.7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,3.5) {};
+    \node (nbk2) at (1.8,3.3) {$N(\kappa_2)$};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,4) {};
+    \node[circle, fill=primcolor,  minimum size=.3cm] (kappa2) at (3.5, 4) {};
+    \node[fill=yellow!50] (prop) at (6,4) {$N(\kappa_1)\cap N(\kappa_2) = \emptyset$};
   \end{tikzpicture}
 \end{frame}
 
@@ -1130,7 +1099,34 @@
 \definecolor{primcolor}{rgb}{0,0.7,0.3}
 \definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}
 
+    \node[circle, fill=nonprimcolor, minimum size=.5cm] (client1) at (6, 5) {};
+	% non-primary demands
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
+    \node (sib1label) at (4,6.5) {$\nu_1$};
+    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
+    \node (sib1label) at (4,3.5) {$\nu_2$};
+
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
+    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
+
+    \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
+
+    \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
+    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
+
+    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
+    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
+
+    \node (clientlabel) at (6.5,5) {$j$};
+
+    \draw[->,>=latex] (client1) -- (nu1);
+    \draw[->,>=latex] (client1) -- (nu2);
+
     %% primary demands
+    \pause
     \node[circle, fill=primcolor,  minimum size=.3cm] (kappa1) at (3.5, 8) {};
     \node (kappa1label) at (4,8) {$\kappa_1$};
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,7.5) {};
@@ -1139,44 +1135,13 @@
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,2) {};
     \node[fill=blue!75, minimum size=.3cm] (mu1) at (-.7,7.7) {};
     \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu8) at (0,2.6) {};
     \node[fill=blue!75, minimum size=.3cm] (mu9) at (.5,1.7) {};
     \node[fill=blue!75, minimum size=.3cm] (mu10) at (-.5,1.5) {};
     \node (nbk1) at (1.8,8.3) {$N(\kappa_1)$};
     \node (nbk2) at (1.8,1.3) {$N(\kappa_2)$};
-	\node[fill=yellow!50] (primary) at (5,8) {primary};
-    
 
-	%\pause
-	% non-primary demands
-    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu1) at (3.5, 6) {};
-    \node (sib1label) at (4,6.5) {$\nu_1$};
-    \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu2) at (3.5, 4) {};
-    \node (sib1label) at (4,3.5) {$\nu_2$};
-    \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
-    \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,3.2) {};
-
-    \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu6) at (-.7,3.6) {};
-    \node[fill=blue!75, minimum size=.3cm] (mu7) at (.5,3.5) {};
-    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
-    \node (nbnu2) at (1.7,4.2) {$N(\nu_2)$};
-
-	%\pause
-	% assignment
-	\draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
-	\draw[->,dashed] (nu2) -- (kappa2);
-
-    \node[circle, fill=green!50, minimum size=.5cm] (client1) at (6, 5) {};
-    \node (clientlabel) at (6.5,5) {$j$};
-
-    \draw[->,>=latex] (client1) -- (nu1);
-    \draw[->,>=latex] (client1) -- (nu2);
-
-    \draw[->,dashed] (nu1) to node[fill=yellow!50] {assign}    (kappa1); 
+    % assignment
+    \draw[->,dashed] (nu1) -- (kappa1); 
     \draw[->,dashed] (nu2) -- (kappa2);
 
     \node[fill=yellow!50] (prop) at (8,2) {For siblings \\
@@ -1196,8 +1161,8 @@
   \begin{minipage}{.45\linewidth}
   \begin{tikzpicture}[scale=0.5]
 	
-	\definecolor{primcolor}{rgb}{0,0.7,0.3}
-	\definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}	
+    \definecolor{primcolor}{rgb}{0,0.7,0.3}
+    \definecolor{nonprimcolor}{rgb}{0.5,0.3,0.2}	
 
     \node[fill=blue!75,minimum size=.35cm] (fac31) at (.5,1) {};
     \node[left] (faclabel31) at (0,1) {$2/3$};
@@ -1209,7 +1174,7 @@
     \node[left] (faclabel21) at (0,6.5) {$1/3$};
     \node[left] (faclabel22) at (0,7.5) {$2/3$};
 
-    \node[fill=blue!75,minimum size=.35cm] (fac11) at (.5,11) {};
+    \node[fill=Fuchsia,minimum size=.35cm] (fac11) at (.5,11) {};
     \node[fill=blue!75,minimum size=.35cm] (fac12) at (.5,12) {};
 
     % label
@@ -1218,7 +1183,7 @@
 
     \node[circle,fill=green!50] (client3) at (6,2) {$3$};
     \node[circle,fill=green!50] (client2) at (6,7) {$2$};
-    \node[circle,fill=green!50] (client1) at (6,12) {$1$};
+    \node[circle,fill=nonprimcolor] (client1) at (6,12) {$1$};
 
     \node[right] (demand3) at (5,.5) {$r_3=1$};
     \node[right] (demand2) at (5,5.5) {$r_2=2$};
@@ -1230,6 +1195,7 @@
     \node at (2.5,-1) {Before Partitioning};
   \end{tikzpicture}
   \end{minipage}
+  \pause
   \begin{minipage}{.45\linewidth}
     \begin{tikzpicture}[scale=0.5,decoration=snake]
 	
@@ -1240,8 +1206,8 @@
     \node[fill=blue!75,minimum size=.15cm] (fac31) at (.5,1) {};
     \node[fill=blue!75,minimum size=.15cm] (fac21) at (.5,6.5) {};
     \node[fill=blue!75,minimum size=.15cm] (fac22) at (.5,7.5) {};
-    \node[fill=blue!75,minimum size=.15cm] (fac11) at (.5,10) {};
-    \node[fill=blue!75,minimum size=.15cm] (fac12) at (.5,11) {};
+    \node[fill=Fuchsia,minimum size=.15cm] (fac11) at (.5,10) {};
+    \node[fill=Fuchsia,minimum size=.15cm] (fac12) at (.5,11) {};
     \node[fill=blue!75,minimum size=.15cm] (fac13) at (.5,12) {};
 
  	\node[left] (faclabel31) at (0,1) {$2/3$};
@@ -1275,7 +1241,7 @@
     %\pause
 
     \path[->,dashed] (client12) edge[bend right=40] (client22);
-    \path[->,dashed] (client11) edge[bend right=40] (client21);
+    \path[->,dashed] (client11) edge[bend left=40] (client21);
   \end{tikzpicture}
       
 \end{minipage}
@@ -1626,18 +1592,18 @@
 \textcolor{blue}{Rounding}
 
   	\begin{itemize}
-  	\item \textcolor{purple}{Facilities:}
+  	\item \textcolor{Sepia}{Facilities:}
  					Each primary $\kappa$ opens random $\mu\in N(\kappa)$
-  	\item \textcolor{purple}{Connections:}
+  	\item \textcolor{Sepia}{Connections:}
  					All demands assigned to $\kappa$ connect to $\mu$
   	\end{itemize}
 
 \textcolor{blue}{Analysis}
 
   \begin{itemize}
-  	\item \textcolor{purple}{Fault-Tolerance:}
+  	\item \textcolor{Sepia}{Fault-Tolerance:}
  			$\nu$ uses only facilities in $N(\nu) \cup N(\kappa)$
-  	\item \textcolor{purple}{Cost:} $\le 3\cdot\LP^\ast$, because
+  	\item \textcolor{Sepia}{Cost:} $\le 3\cdot\LP^\ast$, because
     	\begin{itemize}
     		\item Facility cost $\le F^\ast$
     		\item Connection cost $\le C^\ast + 2\cdot\LP^\ast$
@@ -1666,12 +1632,12 @@
 \textcolor{blue}{Rounding}
 
   	\begin{itemize}
-  	  	\item  \textcolor{purple}{Facilities:} 
+  	  	\item  \textcolor{Sepia}{Facilities:} 
 			\begin{itemize}
 				\item Each primary $\kappa$ opens random $\mu\in N(\kappa)$
 				\item Other facilities open randomly independently
 			\end{itemize}
-	  	\item \textcolor{purple}{Connections:} 
+	  	\item \textcolor{Sepia}{Connections:} 
 	 		\begin{itemize}
 					\item if a neighbor open, connect to nearest neighbor
 					\item else, connect via assigned primary demand
@@ -1681,9 +1647,9 @@
 \textcolor{blue}{Analysis}
 
   \begin{itemize}
-  	\item \textcolor{purple}{Fault-Tolerance:} $\nu$ uses only facilities in
+  	\item \textcolor{Sepia}{Fault-Tolerance:} $\nu$ uses only facilities in
     			$N(\nu) \cup N(\kappa)$
-  	\item \textcolor{purple}{Cost:} $\le (1+2/e)\,\LP^\ast$, because
+  	\item \textcolor{Sepia}{Cost:} $\le (1+2/e)\,\LP^\ast$, because
     	\begin{itemize}
     		\item Facility cost $\le F^\ast$
     		\item Connection cost $\le C^\ast + \frac{2}{e}\cdot \LP^\ast$
@@ -1751,12 +1717,12 @@
 \textcolor{blue}{Rounding (extension of Byrka's)}
 
   	\begin{itemize}
-  	  	\item  \textcolor{purple}{Facilities:} 
+  	  	\item  \textcolor{Sepia}{Facilities:} 
 			\begin{itemize}
 				\item Each primary $\kappa$ opens random $\mu\in N_{\cls}(\kappa)$
 				\item Other facilities open randomly independently
 			\end{itemize}
-	  	\item \textcolor{purple}{Connections:} 
+	  	\item \textcolor{Sepia}{Connections:} 
 	 		\begin{itemize}
 					\item if a neighbor open, connect to nearest neighbor
 					\item else, connect via assigned primary demand
@@ -1766,10 +1732,10 @@
 \textcolor{blue}{Analysis}
 
   \begin{itemize}
-  	\item \textcolor{purple}{Fault-Tolerance:} $\nu$ uses only facilities in
+  	\item \textcolor{Sepia}{Fault-Tolerance:} $\nu$ uses only facilities in
 	    $N(\nu) \cup N_{\cls}(\kappa)$
 	
-  	\item \textcolor{purple}{Cost:} $\le \gamma\cdot\LP$ for $\gamma = 1.575$, because
+  	\item \textcolor{Sepia}{Cost:} $\le \gamma\cdot\LP$ for $\gamma = 1.575$, because
     \begin{itemize}
     \item Facility cost $ \leq \gamma\cdot F^\ast$
     \item Connection cost $ \leq \gamma\cdot C^\ast$
@@ -1785,7 +1751,7 @@
 %% 3.4 Greedy, Dual-fitting, and hard example for local-charging
 \begin{frame}
   \frametitle{Greedy and Dual-fitting}
-  \begin{itemize}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
   \item Greedy in polynomial time
     \begin{itemize}
     \item Best star can be found quickly
@@ -1795,9 +1761,9 @@
     Greedy is $H_n$-approx for
     \begin{itemize}
     \item Minimizing a linear function
-    \item Subject to Submodular constraint
+    \item Subject to submodular constraint
     \end{itemize}
-  \item Lower bound $O(\log n / \log\log n)$ for dual-fitting
+  \item Lower bound $\Omega(\log n / \log\log n)$ for dual-fitting
     \begin{itemize}
     \item Example has $k$ groups, $n = k^k$
     \item Shrinking factor is $k/2$
