@@ -24,6 +24,17 @@
 }
 
 
+\defbeamertemplate*{footline}{shadow theme}
+{%
+  \leavevmode%
+  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertframenumber\,/\,\inserttotalframenumber\hfill\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle%
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
 
 \input{macros.tex}
 \definecolor{light-gray}{gray}{0.7}
@@ -1592,35 +1603,35 @@
 %% 4. Open problems and future work
 %%     - dual-fitting for FTFP
 %%     - 1.463 for UFL
-\begin{frame}
-  \frametitle{Results for FTFP}
-  \begin{itemize}
-  \item \color{red}
-    Q: Is there a simple reduction from FTFP to UFL?
-  \item<2,8> \color{blue}
-    A: Not sure, for the uniform demand case yes.
-  \item \color{red}
-    Q: Which one is easier, FTFP or FTFL?
-  \item<3,8> \color{blue}
-    A: FTFP. FTFP reduces to FTFL.
-  \item \color{red}
-    Q: Can FTFP have a better ratio than FTFL?
-  \item<4,8> \color{blue}
-    A: Yes, 1.575 matches UFL and beats 1.7245 for FTFL.
-  \item \color{red}
-    Q: When all $r_j$ are large, do you get a ratio $1$?
-  \item<5,8> \color{blue}
-    A: Yes, because of demand reduction.
-  \item \color{red}
-    Q: Does greedy have $O(1)$ ratio or not?
-  \item<6,8> \color{blue}
-    A: Maybe, but dual-fitting will not do.
-  \item \color{red}
-    Q: What is the best possible ratio for FTFP?
-  \item<7,8> \color{blue}
-    A: Likely to be 1.463, but not a sure thing.
- \end{itemize}
-\end{frame}
+%%\begin{frame}
+%%  \frametitle{Results for FTFP}
+%%  \begin{itemize}
+%%  \item \color{red}
+%%    Q: Is there a simple reduction from FTFP to UFL?
+%%  \item<2,8> \color{blue}
+%%    A: Not sure, for the uniform demand case yes.
+%%  \item \color{red}
+%%    Q: Which one is easier, FTFP or FTFL?
+%%  \item<3,8> \color{blue}
+%%    A: FTFP. FTFP reduces to FTFL.
+%%  \item \color{red}
+%%    Q: Can FTFP have a better ratio than FTFL?
+%%  \item<4,8> \color{blue}
+%%    A: Yes, 1.575 matches UFL and beats 1.7245 for FTFL.
+%%  \item \color{red}
+%%    Q: When all $r_j$ are large, do you get a ratio $1$?
+%%  \item<5,8> \color{blue}
+%%    A: Yes, because of demand reduction.
+%%  \item \color{red}
+%%    Q: Does greedy have $O(1)$ ratio or not?
+%%  \item<6,8> \color{blue}
+%%    A: Maybe, but dual-fitting will not do.
+%%  \item \color{red}
+%%    Q: What is the best possible ratio for FTFP?
+%%  \item<7,8> \color{blue}
+%%    A: Likely to be 1.463, but not a sure thing.
+%% \end{itemize}
+%%\end{frame}
 
 \begin{frame}
   \frametitle{Summary}
