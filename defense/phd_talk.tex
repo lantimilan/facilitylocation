@@ -706,7 +706,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Algorithm for FTFP - Demand Reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection[Reduction]{Demand Reduction}
+\subsection[Demand Reduction]{Demand Reduction}
 \begin{frame}
   \frametitle{Algorithm for FTFP}
   \begin{center}
@@ -898,7 +898,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Adaptive Partitioning, site -> client
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection[Partitioning]{Adaptive Partitioning}
+\subsection[Adaptive Partitioning]{Adaptive Partitioning}
 \begin{frame}
   \setbeamercovered{transparent}
   \frametitle{Techniques}
@@ -993,8 +993,7 @@
     % xval
 
   \end{tikzpicture}
-  \begin{block}<4>{} Partition must satisfy several properties for
-    rounding to work...
+  \begin{block}<4>{} Now round each $\bary_{\mu}$ and $\barx_{\mu\nu}$ to 0 or 1...
     \end{block}
 
   \end{center}
@@ -1005,7 +1004,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-  \frametitle{Neighborhood of a demand}
+  \frametitle{Neighborhood of Demand}
 
   \begin{center}
   \begin{tikzpicture}[scale = 0.8,auto,every text node part/.style={align=left}]
@@ -1032,10 +1031,16 @@
   \end{tikzpicture}
 	\end{center}
 
+        \vspace{-.3in}
+        \setbeamercolor{postit}{fg=blue,bg=yellow}
+        \begin{beamercolorbox}[sep=.5em,wd=4cm]{postit}
+          $\nu$ needs $1$ facility...
+        \end{beamercolorbox}
+
 \pause
 \noindent
 \begin{minipage}{2in}	
-\textcolor{blue}{Strategy 1:} for each $\nu$, open one $\mu\in N(\nu)$ with prob. $\bary_\mu$ 
+\textcolor{Brown}{Strategy 1:} for each $\nu$, open one $\mu\in N(\nu)$ with prob. $\bary_\mu$ 
 		\begin{itemize}
 			\item optimal connection cost
 			\item large facility cost 
@@ -1043,7 +1048,7 @@
 \end{minipage}
 \ \ 
 \begin{minipage}{2in}
-\textcolor{blue}{Strategy 2:} do this for demands with disjoint neighborhoods
+\textcolor{Brown}{Strategy 2:} do this for demands with disjoint neighborhoods
 		\begin{itemize}
 			\item optimal facility cost
 			\item large connection cost 
@@ -1061,7 +1066,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-  \frametitle{Two Types of Demands}
+  \frametitle{Two Types of Demands: Primary and Non-primary}
   \begin{tikzpicture}[auto,every text node part/.style={align=center}]
 
 \definecolor{primcolor}{rgb}{0,0.7,0.3}
@@ -1310,9 +1315,9 @@
 		\\
 		\textcolor{gray}{(rough estimate of demand's cost)}
 	\end{itemize}
-  \item if $\nu_1$, $\nu_2$ are siblings and 
-		$\nu_i$ assigned to $\kappa_i$, then
-		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
+      \item if $\nu_1$, $\nu_2$ are siblings and $\nu_i$
+        assigned to $\kappa_i$, then $N(\kappa_1) \cup
+        N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$
   \end{itemize}
 \end{minipage}
 \end{frame}
@@ -1357,6 +1362,228 @@
 		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
   \end{itemize}
 \end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Partition Implementation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+\begin{frame}
+  \frametitle{Partition Implementation}
+
+  \Large{\textcolor{blue}{Partition implementation: two phases}}
+
+  \vspace{.3in}
+  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+  \item \large{Phase 1, the partitioning phase}
+    \begin{itemize}
+    \item Define demands
+    \item Allocate facilities
+    \end{itemize}
+  \item \large{Phase 2, the augmenting phase}
+    \begin{itemize}
+    \item add facilities to make neighborhood unit
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Phase 1, Step 1} 
+  \setbeamercovered{invisible}
+
+        \setbeamercolor{postit}{fg=blue,bg=yellow}
+        \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
+          For each client, arrange neighbor facilities near
+          to far
+        \end{beamercolorbox}
+  
+  \begin{center}
+  \begin{tikzpicture}
+    \node (label2) at (4,4) {$\wtildeN(j)$};
+
+    \draw (0,0) ellipse (3cm and .8cm);
+    \draw (0,2) ellipse (3cm and .8cm);
+    \draw (0,4) ellipse (3cm and .8cm);
+
+
+    %% squares, facilities
+    \draw[fill=blue!50] (-1.5,0) rectangle (-2,.4);
+    \draw[fill=blue!50] (-.8,-.1) rectangle (-1.3,.3);
+    \draw[fill=blue!50] (-1.3,-.2) rectangle (-1.8,-.6);
+
+    \draw[fill=blue!50] (0,0) rectangle (.5,.4);
+    \draw[fill=blue!50] (1.3,-.2) rectangle (1.8,-.6);
+         
+    \draw[fill=blue!50] (-1.5,2) rectangle (-2,2.4);
+    \draw[fill=blue!50] (-.8,1.9) rectangle (-1.3,2.3);
+    \draw[fill=blue!50] (-1.3,1.8) rectangle (-1.8,1.4);
+
+    \draw[fill=blue!50] (.2,1.8) rectangle (.7,1.4);
+    \draw[fill=blue!50] (1,1.8) rectangle (1.5,1.4);
+
+    \draw[fill=blue!50] (-1.5,4) rectangle (-2,4.4);
+    \draw[fill=blue!50] (-.8,3.9) rectangle (-1.3,4.3);
+    \draw[fill=blue!50] (-1.3,3.8) rectangle (-1.8,3.4);
+
+    \draw[fill=blue!50] (0,3.4) rectangle (.5,3.8);
+    \draw[fill=blue!50] (.3,4) rectangle (.8,4.4);
+    \draw[fill=blue!50] (2,3.6) rectangle (2.5,4);
+
+    \pause
+    \draw[style=dashed] (-.5,-1) -- (-.5,5);
+    \node[fill=yellow!50] (label1) at (-3,5) {$N_1(j)$ nearest unit chunk};
+    \node[fill=yellow!50] (tcc) at (-3,3) {$\tcc(j)$ average distance from $N_1(j)$};
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Phase 1, Step 2} 
+        \setbeamercolor{postit}{fg=blue,bg=yellow}
+        \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
+          Select client $p$ with $\min \tcc(p) + \alpha_p^\ast$.
+          Two cases:
+        \end{beamercolorbox}
+
+        \begin{columns}[b]
+          \column{0.5\textwidth}
+          \begin{center}
+          \begin{tikzpicture}
+            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,0) {\footnotesize{$N(\kappa_1)$}};
+            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-1) {\footnotesize{$N(\kappa_2)$}};
+            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-2) {\footnotesize{$\ldots$}};
+            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-3) {\footnotesize{$N(\kappa_l)$}};
+
+            \node[fill=blue!30,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-5) {\footnotesize{$N_1(p)$}};
+
+            \node[fill=yellow!80,minimum width=3cm] at (0,-4) {disjoint};
+          \end{tikzpicture}
+          \textcolor{blue}{Case 1}
+          \end{center}
+          %
+          \column{0.5\textwidth}
+          \begin{tikzpicture}
+            \node[fill=blue!50,draw,ellipse,minimum width=2.5cm,minimum height=.6cm] at (0,0) {$N(\kappa)$};
+            \node[fill=blue!30,draw,ellipse,minimum width=2.5cm,minimum height=.6cm] at (2,0) {$N_1(p)$};
+            \node[fill=yellow!80] at (1,-2) {$N_1(p)$ overlaps some $N(\kappa)$};
+          \end{tikzpicture}
+          \textcolor{blue}{Case 2}
+        \end{columns}
+\end{frame}
+
+%%% make a new primary
+\begin{frame}
+  \frametitle{Phase 1, Step 2 (Cont. Case 1)}
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
+    \node[right] at (0,-3) {$\wtildeN(p)$};
+    
+    \node[draw,fill=yellow!50,ellipse,minimum width=2cm,minimum height=4cm] (chunkone) at (-1,0) {};
+    \node[above] at (-1,-1) {$N_1(p)$};
+    
+    \draw[fill=blue!50] (-1,1.2) rectangle (-.5,1.7);
+    \draw[fill=blue!50] (-1.5,0.4) rectangle (-1,.9);
+    \draw[fill=blue!50] (-1,-0.2) rectangle (-.5,.3);
+
+    \node[draw,ellipse,minimum width=2cm,minimum height=4cm] (neighbornu) at (5,0) {};
+    \node[right] at (6,0) {$N(\nu)$};
+
+    \draw[->,>=latex] (chunkone) -- (neighbornu);
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Phase 1, Step 2 (Case 1)}
+        \setbeamercolor{postit}{fg=blue,bg=yellow}
+        \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
+          All facilities in $N_1(p)$ moved to $N(\nu)$
+        \end{beamercolorbox}
+
+  \vspace{1cm}
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[fill=yellow!50] (0,0) ellipse (3.3cm and 2.3cm);
+    \node[right] at (0,-3) {$\wtildeN(p)$};
+    
+    \draw[fill=white] (-1,0) ellipse (1cm and 2cm);
+    
+    \draw[fill=yellow!50] (5,0) ellipse (1cm and 2cm);
+    \node[right] at (6,0) {$N(\nu)$};
+
+    \draw[fill=blue!50] (5,1.2) rectangle (5.5,1.7);
+    \draw[fill=blue!50] (4.5,.4) rectangle (5,.9);
+    \draw[fill=blue!50] (5,-.2) rectangle (5.5,.3);
+
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+%%% intersect with a primary
+\begin{frame}
+  \frametitle{Phase 1, Step 2 (Cont. Case 2)}
+
+  Move all overlapping facilities in $\wtildeN(p) \cap
+  N(\kappa)$ into $N(\nu)$.
+
+  \vspace{.5cm}
+  \begin{center}
+  \begin{tikzpicture}
+  \draw[fill=green!50] (1,1) ellipse (1.5cm and 2.5cm);
+  \node (client) at (-1,0) {$\wtildeN(p)$};
+
+  \draw[fill=yellow!50] (1.2,1.5) ellipse (.7cm and 1.4cm);
+  \node (prefix) at (1.3,.7) {$N_1(p)$};
+
+  \draw (1,3) ellipse (1cm and 2cm);
+  \node (primary) at (-.5,4) {$N(\kappa)$};
+
+  \draw (7,1) ellipse (2cm and 1cm);
+  \node (demand) at (7,-.5) {$N(\nu)$};
+
+  %% fac
+  \draw[fill=blue!50] (1.2,2) rectangle (1.7,2.5);
+  \draw[fill=blue!50] (.4,2.8) rectangle (.9,3.3);
+  \draw[fill=blue!50] (.6,1.5) rectangle (1.1,2);
+
+  \draw [->,>=latex] (1.7,2) -- (7,1);
+  \draw [->,>=latex] (.9,3) -- (7,1.5);
+  \draw [->,>=latex] (.9,1.5) -- (7,.5);
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Phase 2}
+
+  \setbeamercolor{postit}{fg=blue,bg=yellow}
+  \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
+    Add facilities from $\wtildeN(j)$ to $N(\nu)$ until
+    total connection value is $1$.
+  \end{beamercolorbox}
+
+  \vspace{1cm}
+  \begin{center}
+  \begin{tikzpicture}
+    \draw[fill=green!50] (0,0) ellipse (3cm and 2cm);
+    \node (label1) at (0,-2.5) {$\wtildeN(j)$};
+
+    \draw[fill=yellow!30] (5,0) ellipse (1cm and 2cm);
+    \node (label2) at (5,-2.5) {$N(\nu)$};
+
+    \draw[fill=blue!50] (-2.5,0) rectangle (-2,.5);
+    \draw[fill=blue!50] (-2,-1) rectangle (-1.5,-.5);
+    \draw[fill=blue!50] (-1,.5) rectangle (-.5,1);
+    \draw[fill=blue!50] (2,0) rectangle (2.5,.5);
+
+    \draw[fill=blue!50] (5,1) rectangle (5.5,1.5);
+    \draw[fill=blue!50] (5,-1.5) rectangle (5.5,-1);
+
+    \draw [->,>=latex] (2.5,.3) -- (5,0);
+  \end{tikzpicture}
+  \end{center}
+
 \end{frame}
 
 \section[Algorithms]{Approximation Algorithms}
