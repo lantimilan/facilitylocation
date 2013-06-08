@@ -263,80 +263,82 @@
   % cost
 \end{frame}
 
-%%\begin{frame}
-%%  \frametitle{Optimal Integral Solution}
-%%  
-%%  \begin{columns}
-%%    \column{0.5\textwidth}
-%%    \begin{tikzpicture}[scale=0.4]
-%%      \node[fill=blue!50] (fac3) at (0,2) {$3$};
-%%      \node[fill=blue!50] (fac2) at (0,5) {$2$};
-%%      \node[fill=blue!50] (fac1) at (0,8) {$1$};
-%%
-%%      \node[below] (faclabel3) at (-.5,1.5) {$f_3=4$};
-%%      \node[below] (faclabel2) at (-.5,4.5) {$f_2=6$};
-%%      \node[below] (faclabel1) at (-.5,7.5) {$f_1=3$};
-%%
-%%      \node[circle,fill=green!50] (client4) at (6,0) {$4$};
-%%      \node[circle,fill=green!50] (client3) at (6,3) {$3$};
-%%      \node[circle,fill=green!50] (client2) at (6,6) {$2$};
-%%      \node[circle,fill=green!50] (client1) at (6,9) {$1$};
-%%
-%%      \node[right] (demand4) at (6,-1) {$r_4=2$};
-%%      \node[right] (demand3) at (6,2) {$r_3=1$};
-%%      \node[right] (demand2) at (6,5) {$r_2=1$};
-%%      \node[right] (demand1) at (6,8) {$r_1=4$};
-%%    
-%%      \foreach \from/\to in
-%%      {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
-%%      \draw (\from)--(\to);
-%%
-%%    % edge weight
-%%
-%%      \node[above] (ew11) at (2,8.3) {$1$};
-%%      \node[above] (ew12) at (2.4,7) {$2$};
-%%      \node[above] (ew14) at (1.9,5.5) {$1$};
-%%      \node[above] (ew23) at (1.5,4.4) {$3$};
-%%      \node[above] (ew33) at (1.5,2.5) {$2$};
-%%      \node[above] (ew34) at (1.9,1.3) {$4$};
-%%
-%%      \node (label1) at (3,-3) {Instance};
-%%    \end{tikzpicture}
-%%    % solution
-%%    \column{0.5\textwidth}
-%%    \begin{tikzpicture}[scale=0.4]
-%%      \node[fill=blue!50,minimum size=1cm] (fac3) at (0,2)
-%%      {$3$};
-%%
-%%      \node[fill=blue!50,minimum size=1cm] (fac2) at (0,5) {$2$};
-%%      \node[fill=blue!75,minimum size=.2cm] (fac21) at (.5,4.5) {};
-%%
-%%      \node[fill=blue!50,minimum size=1cm] (fac1) at (0,8) {$1$};
-%%      \node[fill=blue!75,minimum size=.2cm] (fac14) at (-.5,7.5) {};
-%%      \node[fill=blue!75,minimum size=.2cm] (fac13) at (-.5,8.5) {};
-%%      \node[fill=blue!75,minimum size=.2cm] (fac12) at (.5,7.5) {};
-%%      \node[fill=blue!75,minimum size=.2cm] (fac11) at (.5,8.5) {};
-%%
-%%      \node[circle,fill=green!50] (client4) at (6,0) {$4$};
-%%      \node[circle,fill=green!50] (client3) at (6,3) {$3$};
-%%      \node[circle,fill=green!50] (client2) at (6,6) {$2$};
-%%      \node[circle,fill=green!50] (client1) at (6,9) {$1$};
-%%    
-%%      \foreach \from/\to in {fac11/client1,fac12/client1,fac11/client2,fac11/client4,fac12/client4,fac21/client3}
-%%        \draw (\from)--(\to);
-%%
-%%        \draw[bend left] (fac13) to node (ew13) {} (client1);
-%%        \draw[bend right] (fac14) to node (ew14) {} (client1);
-%%        \node (label1) at (3,-3) {Solution};
-%%      \end{tikzpicture}
-%%    \end{columns}
-%%    \begin{block}<2->{Cost} 
-%%      $4f_1 + 1f_2 + 0f_3 + 4d_{11} + d_{12} + 2d_{14} +
-%%      d_{23} = 29$
-%%    \end{block}
-%%\end{frame}
+\begin{frame}
+  \frametitle{Metric Distances: Triangle Inequality}
+  \begin{columns}
+    \column{0.5\textwidth}  %% picture for triangle inequality
+    \begin{center}
+      \begin{tikzpicture}[scale=.6]
+        \node[fill=blue!50] (fac1) at (0,0) {$i_1$};
+        \node[fill=blue!50] (fac2) at (0,-5) {$i_2$};
+        \node[circle,fill=green!50] (client1) at (5,0) {$j_1$};
+        \node[circle,fill=green!50] (client2) at (5,-5) {$j_2$};
 
+        \draw (fac1) -- (client1);
+        \draw (fac2) -- (client1);
+        \draw (fac2) -- (client2);
+        \draw[dashed] (fac1) -- (client2);
+      \end{tikzpicture}
+    \end{center}
+
+    \column{0.5\textwidth}
+    \begin{block}{}
+      \begin{align*}
+    &d(i_1, j_2) \leq\\
+    &\qquad d(i_1, j_1) + d(i_2, j_1) + d(i_2, j_2)\\
+  \end{align*}
+    \end{block}
+    \begin{block}{}
+      \color{blue}
+      Needed when estimating distances...
+    \end{block}
+  \end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section: Results
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Results]{Results in Dissertation}
+
+\begin{frame}
+  \frametitle{Hardness}
+
+  \begin{center}
+  \huge{\textcolor{blue}{How hard is FTFP?}}
+  \end{center}
+
+  \begin{block}{}
+    FTFP is NP-hard
+  \end{block}
+
+  \begin{block}{}
+    FTFP is MaxSNP-hard
+  \end{block}
+
+  \begin{block}{}
+    Best ratio $\geq 1.463$ unless P $\neq$ NP
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+  \begin{tikzpicture}
+    \node[fill=Sepia!70] (npo) at (0,0) {NP-hard Optimization Problem};
+    \node[fill=Sepia!60] (ip) at (0,-1.5) {Integer Program};
+    \node[fill=Sepia!50] (lp) at (0,-3) {Linear Program (LP) with Fractional Solution};
+    \node[fill=BrickRed]  (rounding) at (-3,-5) {LP-rounding};
+    \node[fill=Orange] (primal) at (3,-5) {Primal-dual};
+
+    \draw[->,>=latex] (npo) -- (ip);
+    \draw[->,>=latex] (ip) -- (lp);
+    \draw[->,>=latex] (lp) -- (rounding);
+    \draw[->,>=latex] (lp) -- (primal);
+  \end{tikzpicture}
+  \end{center}
+  
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Results Highlight
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -360,7 +362,7 @@
   \begin{center}
   \begin{tabular}{l  l  l}
     \rowcolor{light-gray}
-    FTFP & $r_j \geq 1$ & $\geq 1$ facility per site\\
+    FTFP & $r_j \geq 1$ & $< \infty$ facility per site\\
     \rowcolor{light-gray}
     UFL  & $r_j = 1$ & $\leq 1$ facility per site\\
     \rowcolor{light-gray}
@@ -385,6 +387,7 @@
   \vspace{.3in}
   \begin{center}
     \begin{tabular}{l l}
+      \rowcolor{Yellow}
       \multicolumn{2}{c}{LP-rounding}\\
       \hline
       \rowcolor{GreenYellow}
@@ -401,6 +404,7 @@
   \vspace{.3in}
   \begin{center}
     \begin{tabular}{l l}
+      \rowcolor{Yellow}
       \multicolumn{2}{c}{Primal-dual}\\
       \hline
       \rowcolor{GreenYellow}
@@ -641,38 +645,6 @@
 %%% LP-Formulation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Techniques]{Techniques}
-\subsection[LP]{LP Formulation}
-\begin{frame}
-  \frametitle{LP Formulation for FTFP}
-  \begin{itemize}
-  \item \textcolor{red}{$y_i$} = number of facilities open at site $i\in \sitesset$
-  \item \textcolor{red}{$x_{ij}$} = number of connections from client $j\in
-    \clientset$ to site $i \in \sitesset$
-  \end{itemize}
-  %%%%%%%%%%% 
-  \begin{alignat}{3}
-    \textrm{minimize}\quad \sum f_iy_i &+ \sum d_{ij}x_{ij}&
-    \\ \notag
-    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i,j
-    \\ \notag
-    \sum x_{ij} &\geq r_j & &\forall j
-    \\ \notag
-    x_{ij} \geq 0, y_i &\geq 0 & &\forall i,j
-    \\ \notag
-  \end{alignat}
-  %%%%%%%%%%%%
-  \begin{alignat}{3}
-  \text{(Dual)}\quad  \textrm{maximize}\quad \sum r_j\, \alpha_j&
-    \\ \notag
-    \textrm{subject to} \quad 
-      \sum \beta_{ij} &\leq f_i  &\quad\quad			&\forall i
-    \\ \notag
-    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i,j
-    \\ \notag
-    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i,j
-  \end{alignat}
-  %%%%%%%%%%%
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Techniques
@@ -698,6 +670,37 @@
     \item {\large Properties ensure rounding similar to UFL can be applied}
     \end{itemize}
   \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{LP Formulation for FTFP}
+  \begin{itemize}
+  \item \textcolor{red}{$y_i$} = number of facilities open at site $i\in \sitesset$
+  \item \textcolor{red}{$x_{ij}$} = number of connections from client $j\in
+    \clientset$ to site $i \in \sitesset$
+  \end{itemize}
+  %%%%%%%%%%% 
+  \begin{alignat*}{3}
+    \text{(Primal)} \quad\textrm{minimize}\quad \sum f_iy_i &+ \sum d_{ij}x_{ij}&
+    \\ \notag
+    \textrm{subject to}\quad y_i - x_{ij} &\geq 0  & &\forall i,j
+    \\ \notag
+    \sum x_{ij} &\geq r_j & &\forall j
+    \\ \notag
+    x_{ij} \geq 0, y_i &\geq 0 & &\forall i,j
+  \end{alignat*}
+  %%%%%%%%%%%%
+  \begin{alignat*}{3}
+  \text{(Dual)}\quad  \textrm{maximize}\quad \sum r_j\, \alpha_j&
+    \\ \notag
+    \textrm{subject to} \quad 
+      \sum \beta_{ij} &\leq f_i  &\quad\quad			&\forall i
+    \\ \notag
+    \alpha_{j} - \beta_{ij} 	&\leq  d_{ij}       &                 & \forall i,j
+    \\ \notag
+    \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i,j
+  \end{alignat*}
+  %%%%%%%%%%%
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -832,8 +835,9 @@
     FTFP to FTFL, 1.7245-approximation    
   \end{block}
   \begin{itemize}
-  \item sites into facilities
-  \item clients with demand $r_j$
+  \item Sites into facilities
+  \item Clients with demand $r_j$
+  \item FTFL size polynomial because demand reduction
   \end{itemize}
 
   \begin{block}{}
@@ -841,7 +845,7 @@
     approaches $1$ when $Q$ is large
   \end{block}
   \begin{itemize}
-  \item next slide
+  \item Next slide
   \end{itemize}
 \end{frame}
 
@@ -854,36 +858,38 @@
     \node[draw,ellipse,fill=green!10] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
     \node[draw,ellipse,fill=green!10] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
 
-    \node[draw,ellipse,fill=green!10] (part1) at (4.55,1.5) {$F,C,f_i,d_{ij}$};
-    \node[draw,ellipse,fill=green!10] (part2) at (4.55,2.5) {$F,C,f_i,d_{ij}$};
-    \node[draw,ellipse,fill=green!10] (part3) at (4.55,4.5) {$F,C,f_i,d_{ij}$};
 
-    \node[fill=yellow!50] (UFL) at (5.5,3.5) {UFL Instance};
     \node[draw,ellipse,fill=green!10] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
 
     \node[draw, ellipse,fill=green!10] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
-
-    \node[fill=blue!10] (solnlabel) at (-4,1.2) {$(1+c|F|/Q)$-approx\\ solution};
 
     \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
     \draw[->,>=latex] (lpsoln) to (intpart);
     \node (label1) at (-3.2,7.8) {round down \\ to integer};
     \draw[->,>=latex] (lpsoln) to (fracpart);
-    \draw[->,>=latex] (fracpart) to (part3);
+
     \node (label2) at (3,8.5) {fractional part};
     \draw[->,>=latex] (intpart) to (soln);
     \draw[->,>=latex] (fracsoln) to (soln);
-
-    \draw[->,>=latex] (part1) to (fracsoln);
-    \draw[->,>=latex] (part2) to (fracsoln);
-    \draw[->,>=latex] (part3) to node (alg)[above,fill=red!50] {$c$-approx} (fracsoln);
 
     \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7)
     -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
 
     \draw[dashed] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
 
-    \node[fill=yellow!50] at (0,6.5) {demand reduction};
+    \pause
+    \node[draw,ellipse,fill=green!10] (part1) at (4.55,1.5) {$F,C,f_i,d_{ij}$};
+    \node[draw,ellipse,fill=green!10] (part2) at (4.55,2.5) {$F,C,f_i,d_{ij}$};
+    \node[draw,ellipse,fill=green!10] (part3) at (4.55,4.5) {$F,C,f_i,d_{ij}$};
+    \node[fill=yellow!50] (UFL) at (5.5,3.5) {UFL Instance};
+
+    \draw[->,>=latex] (part1) to (fracsoln);
+    \draw[->,>=latex] (part2) to (fracsoln);
+    \draw[->,>=latex] (part3) to node (alg)[above,fill=red!50] {$c$-approx} (fracsoln);
+
+    \draw[->,>=latex] (fracpart) to (part3);
+
+    \node[fill=blue!10] (solnlabel) at (-4,1.2) {$(1+c|F|/Q)$-approx\\ solution};
   \end{tikzpicture}
   \end{center}
 \end{frame}
