@@ -1254,81 +1254,45 @@
 \begin{frame}
   \frametitle{Summary of Partitioning}
 
-\begin{minipage}{2in}
-\noindent \textcolor{blue}{Partitioning:}
-\noindent
-\begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
+  \begin{columns}[T]
+    \column{0.5\textwidth} 
+    \textcolor{blue}{Partitioning:}
+    \begin{itemize}\addtolength{\itemsep}{0.5\baselineskip}
 	\item Clients $\rightarrow$ demands
 	\item Sites $\rightarrow$ facilities
-			\\ \textcolor{gray}{(not yet opened)}
+
 	\item $(x^\ast,y^\ast)$ $\rightarrow (\barx,\bary)$
 	\item $\sum_{\mu}\barx_{\mu\nu} = 1$
 	\item $\barx_{\mu\nu} = \bary_\mu$ or $0$
-\end{itemize}
-\vspace{0.4in}{\ }
-\end{minipage}
-\hspace{-0.5in}
-\pause
-\begin{minipage}{2.6in}
-\noindent \textcolor{blue}{Structure:}
-\noindent
-  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-  \item If $\kappa_1,\kappa_2$ primary then $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
-  \item Each non-primary $\nu$ assigned to $\kappa$ with 
+        \end{itemize}
+
+    \column{0.5\textwidth}
+    \textcolor{blue}{Structure:}
+    \begin{itemize}
+
+    \item If $\kappa_1,\kappa_2$ primary then
+      $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
+    \begin{block}<2->{}
+      small facility cost
+    \end{block}
+  \item Each non-primary $\nu$ assigned to $\kappa$ with
 	\begin{itemize}
-		\item $N(\kappa)\cap N(\nu) \neq \emptyset$
-		\item priority$(\kappa)$ $\le$ priority $(\nu)$
-		\\
-		\textcolor{gray}{(rough estimate of demand's cost)}
-	\end{itemize}
-      \item if $\nu_1$, $\nu_2$ are siblings and $\nu_i$
-        assigned to $\kappa_i$, then $N(\kappa_1) \cup
-        N(\nu_1)$ disjoint from $N(\kappa_2) \cup N(\nu_2)$
+        \item $N(\kappa)\cap N(\nu) \neq \emptyset$
+	\item priority$(\kappa)$ $\le$ priority $(\nu)$
+        \end{itemize}
+        \begin{block}<3->{}
+          small connection cost of $\nu$
+        \end{block}
+  \item $N(\kappa_1) \cup N(\nu_1)\;\cap\;N(\kappa_2) \cup N(\nu_2) = \emptyset$
+    \begin{block}<4->{}
+      fault-tolerance
+    \end{block}
   \end{itemize}
-\end{minipage}
+\end{columns}
 \end{frame}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Summary of Partition Properties
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-  \frametitle{Summary of Partitioning - Intuition}
-
-\begin{minipage}{2in}
-{\ }
-\begin{tikzpicture}[scale = 0.5,every text node part/.style={align=center}]
-\node[fill=yellow!50,minimum width=2cm] (sfc) at (0,8.8) {small facility cost};
-\node[fill=yellow!50,minimum width=2cm,align=left] (scc) at (0,5.9) {small connection \\ cost of $\nu$};
-\node[fill=yellow!50,minimum width=2cm] (fto) at (0,0.4) {fault tolerance};
-\node (dummy) at (0,0) {};
-
-\draw[->] (sfc) -- (5,8.8);
-\draw[->] (scc) -- (5,5.9);
-\draw[->] (fto) -- (5,0.4);
-\end{tikzpicture}
-\end{minipage}
-\hspace{-0.5in}
-\begin{minipage}{2.6in}
-\noindent \textcolor{blue}{Structure:}
-\noindent
-  \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-  \item If $\kappa_1,\kappa_2$ primary then $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
-  \item Each non-primary $\nu$ assigned to $\kappa$ with 
-	\begin{itemize}
-		\item $N(\kappa)\cap N(\nu) \neq \emptyset$
-		\item priority$(\kappa)$ $\le$ priority $(\nu)$
-		\\
-		\textcolor{gray}{(rough estimate of demand's cost)}
-	\end{itemize}
-  \item if $\nu_1$, $\nu_2$ are siblings and 
-		$\nu_i$ assigned to $\kappa_i$, then
-		$[N(\kappa_1) \cup N(\nu_1)] \cap [N(\kappa_2) \cup N(\nu_2)] = \emptyset$
-  \end{itemize}
-\end{minipage}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Partition Implementation
@@ -1348,7 +1312,7 @@
     \end{itemize}
   \item \large{Phase 2, the augmenting phase}
     \begin{itemize}
-    \item add facilities to make neighborhood unit
+    \item Add facilities to make neighborhood unit
     \end{itemize}
   \end{itemize}
 \end{frame}
