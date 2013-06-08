@@ -1317,62 +1317,43 @@
   \end{itemize}
 \end{frame}
 
+
 \begin{frame}
-  \frametitle{Phase 1, Step 1} 
-  \setbeamercovered{invisible}
+  \frametitle{Phase 1}
+  \Large{\textcolor{blue}{In each iteration, create one demand for best client}}
 
-        \setbeamercolor{postit}{fg=blue,bg=yellow}
-        \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
-          For each client, arrange neighbor facilities near
-          to far
-        \end{beamercolorbox}
-  
   \begin{center}
-  \begin{tikzpicture}
-    \node (label2) at (4,4) {$\wtildeN(j)$};
-
-    \draw (0,0) ellipse (3cm and .8cm);
-    \draw (0,2) ellipse (3cm and .8cm);
-    \draw (0,4) ellipse (3cm and .8cm);
-
-
-    %% squares, facilities
-    \draw[fill=blue!50] (-1.5,0) rectangle (-2,.4);
-    \draw[fill=blue!50] (-.8,-.1) rectangle (-1.3,.3);
-    \draw[fill=blue!50] (-1.3,-.2) rectangle (-1.8,-.6);
-
-    \draw[fill=blue!50] (0,0) rectangle (.5,.4);
-    \draw[fill=blue!50] (1.3,-.2) rectangle (1.8,-.6);
-         
-    \draw[fill=blue!50] (-1.5,2) rectangle (-2,2.4);
-    \draw[fill=blue!50] (-.8,1.9) rectangle (-1.3,2.3);
-    \draw[fill=blue!50] (-1.3,1.8) rectangle (-1.8,1.4);
-
-    \draw[fill=blue!50] (.2,1.8) rectangle (.7,1.4);
-    \draw[fill=blue!50] (1,1.8) rectangle (1.5,1.4);
-
-    \draw[fill=blue!50] (-1.5,4) rectangle (-2,4.4);
-    \draw[fill=blue!50] (-.8,3.9) rectangle (-1.3,4.3);
-    \draw[fill=blue!50] (-1.3,3.8) rectangle (-1.8,3.4);
-
-    \draw[fill=blue!50] (0,3.4) rectangle (.5,3.8);
-    \draw[fill=blue!50] (.3,4) rectangle (.8,4.4);
-    \draw[fill=blue!50] (2,3.6) rectangle (2.5,4);
-
-    \pause
-    \draw[style=dashed] (-.5,-1) -- (-.5,5);
-    \node[fill=yellow!50] (label1) at (-3,5) {$N_1(j)$ nearest unit chunk};
-    \node[fill=yellow!50] (tcc) at (-3,3) {$\tcc(j)$ average distance from $N_1(j)$};
+  \begin{tikzpicture}[scale=.8,every node/.style={scale=.8}]
+    \node[circle,fill=PineGreen,minimum size=.5cm] (client1) at (0,0) {};
+    \node[below] at (-.5,.5) {$j$};
+    \node[draw,ellipse,minimum width=8cm,minimum height=2cm] at (5,0) {};
+    \node[draw,fill=blue!50,minimum size=.5cm] at (2,0) {};
+    \node[draw,fill=blue!50,minimum size=.5cm] at (3,0) {};
+    \node[draw,fill=blue!50,minimum size=.5cm] at (4,0) {};
+    \node[draw,fill=blue!50,minimum size=.5cm] at (6,0) {};
+    \node[draw,fill=blue!50,minimum size=.5cm] at (7,0) {};
+    \node[draw,fill=blue!50,minimum size=.5cm] at (8.5,0) {};
+    
+    \node (nblabel) at (10,0) {$N(j)$};
+    \node[fill=yellow!50] (nbone) at (1.5,1.5) {$N_1(j)$: nearest unit chunk};
+    \draw[densely dashed] (4,2)..controls(5,0)..(4,-2);
   \end{tikzpicture}
   \end{center}
+
+  \pause
+  \begin{itemize}
+  \item bid($j$) = avgdist($N_1(j)$) + $\alpha_j^\ast$
+  \item Best bid client $p$ creates a demand
+  \item Two cases, depending on $N_1(p)$
+  \end{itemize}
 \end{frame}
+
 
 \begin{frame}
   \frametitle{Phase 1, Step 2} 
         \setbeamercolor{postit}{fg=blue,bg=yellow}
         \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
-          Select client $p$ with $\min \tcc(p) + \alpha_p^\ast$.
-          Two cases:
+          Selected best client $p$, two cases:
         \end{beamercolorbox}
 
         \begin{columns}[b]
@@ -1381,8 +1362,8 @@
           \begin{tikzpicture}
             \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,0) {\footnotesize{$N(\kappa_1)$}};
             \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-1) {\footnotesize{$N(\kappa_2)$}};
-            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-2) {\footnotesize{$\ldots$}};
-            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-3) {\footnotesize{$N(\kappa_l)$}};
+            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.8cm] at (0,-2) {\footnotesize{$\ldots$}};
+            \node[fill=blue!50,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-3) {\footnotesize{$N(\kappa_t)$}};
 
             \node[fill=blue!30,draw,ellipse,minimum width=2cm,minimum height=.6cm] at (0,-5) {\footnotesize{$N_1(p)$}};
 
@@ -1393,8 +1374,9 @@
           %
           \column{0.5\textwidth}
           \begin{tikzpicture}
-            \node[fill=blue!50,draw,ellipse,minimum width=2.5cm,minimum height=.6cm] at (0,0) {$N(\kappa)$};
-            \node[fill=blue!30,draw,ellipse,minimum width=2.5cm,minimum height=.6cm] at (2,0) {$N_1(p)$};
+            \node[fill=blue!50,draw,ellipse,minimum width=2.5cm,minimum height=1cm] at (0,0) {$N(\kappa)$};
+            \node[fill=blue!30,draw,ellipse,minimum width=2.5cm,minimum height=1cm] at (2,0) {$N_1(p)$};
+            \node[draw,ellipse,minimum width=2.5cm,minimum height=1cm] at (0,0) {};  %% hacky, show first ellipse boundary
             \node[fill=yellow!80] at (1,-2) {$N_1(p)$ overlaps some $N(\kappa)$};
           \end{tikzpicture}
           \textcolor{blue}{Case 2}
