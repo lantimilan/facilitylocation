@@ -487,35 +487,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Techniques
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\begin{frame}
-%%  \frametitle{Techniques}
-%%
-%%  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
-%%
-%%  \item {\Large \textcolor{blue}{Demand Reduction}}
-%%    \vspace{.1in}
-%%    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-%%    \item {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
-%%						rounding)}
-%%    \item {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
-%%    \end{itemize}
-%%    
-%%  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
-%%    \vspace{.1in}
-%%    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-%%    \item {\large Split sites into facilities and clients into unit demands}
-%%    \item {\large Split associated fractional values}
-%%    \item {\large Properties ensure rounding similar to UFL can be applied}
-%%    \end{itemize}
-%%  \end{itemize}
-%%\end{frame}
 
 \begin{frame}
   \frametitle{Algorithm for FTFP --- LP}
   \begin{itemize}
   \item \textcolor{red}{$y_i$} = number of facilities open at site $i\in F$
   \item \textcolor{red}{$x_{ij}$} = number of connections from client $j\in
-    \clientset$ to site $i \in \sitesset$
+    \clientset$ to site $i \in F$
   \end{itemize}
   %%%%%%%%%%% 
   \begin{alignat*}{3}
@@ -661,7 +639,7 @@
   \large{\textcolor{blue}{Properties}}
 
   \begin{itemize}
-  \item $\dotr_j = \poly(|\sitesset|)$
+  \item $\dotr_j = \poly(|F|)$
   \item $\rho$-approx for $\dot \calI$ implies $\rho$-approx for $\calI$
   \end{itemize}
 \end{frame}
@@ -771,10 +749,11 @@
   \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
     % site to facility
     \node[fill=blue!50,minimum size=1cm] (site) at (0,0) {site};
-    \node (siteilabel) at (0,-1) {$i$};
+    \node (siteilabel) at (-.5,-1) {$i$};
     \node[circle, fill=green!50,minimum size=1cm] (client) at (12,0) {client};
     \node (jlabel) at (12,-1) {$j$};
 
+    \node[above] at (.5,.7) {$y_i^\ast$};
     \draw[above] (site) to node (dummy) {$x_{ij}^\ast$} (client);
 
     \pause
@@ -1552,6 +1531,8 @@
 %% 3.4 Greedy, Dual-fitting, and hard example for local-charging
 \begin{frame}
   \frametitle{Greedy and Dual-fitting}
+  \begin{columns}
+    \column{.6\textwidth}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
   \item \textcolor{blue}{Greedy in polynomial time}
     \begin{itemize}
@@ -1570,6 +1551,31 @@
     \item Shrinking factor is $k/2$
     \end{itemize}
   \end{itemize}
+  \column{.4\textwidth}
+  \begin{tikzpicture}
+    %% bounding box
+    \draw[dashed] (-1,-1.5) rectangle (3,1.5);
+    %% site and clients
+    \node[fill=blue!50,minimum size=.5cm] at (0,0) {$i$};
+    \node[circle,fill=green!80,minimum size=.3cm] at (1.8,.7) {};
+    \node[circle,fill=green!80,minimum size=.3cm] at (2,0) {};
+    \node[circle,fill=green!80,minimum size=.3cm] at (2.3,-.7){};
+    \draw (2,0) ellipse (.7cm and 1.3cm);
+
+    %% arrow
+    \draw[line width=1mm,-implies,double, double distance=1mm,opacity=0.5] (1,-1.8) -- (1,-2.8);
+
+    \draw[dashed] (-1,-6) rectangle (3,-3);
+    %% fac and clients with connections
+    \node[fill=blue!50,minimum size=.5cm] (fac) at (0,-4.5) {$i$};
+    \node[circle,fill=green,minimum size=.3cm] (client1) at (1.8,-3.8) {};
+    \node[circle,fill=green,minimum size=.3cm] (client2) at (2,-4.5) {};
+    \node[circle,fill=green,minimum size=.3cm] (client3) at (2.3,-5.2) {};
+    \draw (2,-4.5) ellipse (.7cm and 1.3cm);
+    \foreach \to in {client1,client2,client3}
+    \draw (fac)--(\to);
+  \end{tikzpicture}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{Dual-fitting Example}
