@@ -1474,30 +1474,49 @@
 \begin{frame}
   \frametitle{Phase 2}
 
-  \setbeamercolor{postit}{fg=blue,bg=yellow}
-  \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
-    Add facilities from $\wtildeN(j)$ to $N(\nu)$ until
-    total connection value is $1$.
-  \end{beamercolorbox}
+  \large{\textcolor{blue}{
+    Add facilities from $N(j)$ to $N(\nu)$ until
+    total value $1$
+  }}
 
   \vspace{1cm}
   \begin{center}
-  \begin{tikzpicture}
-    \draw[fill=green!50] (0,0) ellipse (3cm and 2cm);
-    \node (label1) at (0,-2.5) {$\wtildeN(j)$};
+  \begin{tikzpicture}[scale=.6,every node/.style={scale=.6}]
+    \draw (0,0) ellipse (2cm and 3cm);
+    \node[scale=1.5] (label1) at (-2,-2.5) {$N(j)$};
+
+    \node[circle,fill=PineGreen,minimum size=.8cm] at (-4,0) {};
+    \node[scale=1.5] at (-4,-1) {$j$};
 
     \draw[fill=yellow!30] (5,0) ellipse (1cm and 2cm);
-    \node (label2) at (5,-2.5) {$N(\nu)$};
+    \node[scale=1.5] (label2) at (5,-2.5) {$N(\nu)$};
 
-    \draw[fill=blue!50] (-2.5,0) rectangle (-2,.5);
-    \draw[fill=blue!50] (-2,-1) rectangle (-1.5,-.5);
-    \draw[fill=blue!50] (-1,.5) rectangle (-.5,1);
-    \draw[fill=blue!50] (2,0) rectangle (2.5,.5);
+    \node[circle,fill=green,minimum size=.6cm] at (7,0) {};
+    \node[scale=1.5] at (7,-1) {$\nu$};
+
+    \node[draw,fill=blue!50,minimum size=.6cm] at (-1.5,0) {1};
+    \node[fill=blue!50,minimum size=.6cm] at (0,-2) {2};
+    \node[draw,fill=blue!50,minimum size=.6cm] at (-1,1) {3};
+    \node[draw,fill=blue!50,minimum size=.6cm] at (1.5,0) {4};
+    \node[fill=blue!50,minimum size=.6cm] at (-1,-1) {5};
+    \node[draw,fill=blue!50,minimum size=.6cm] at (0,0) {6};
+    \node[fill=blue!50,minimum size=.6cm] at (1.5,1) {7};
 
     \draw[fill=blue!50] (5,1) rectangle (5.5,1.5);
     \draw[fill=blue!50] (5,-1.5) rectangle (5.5,-1);
 
-    \draw [->,>=latex] (2.5,.3) -- (5,0);
+    \pause
+    % move 2 to nu
+    \node[fill=white,minimum size=.6cm] at (0,-2) {};
+    \node[fill=blue!50,minimum size=.6cm] at (4.5,.5) {2};
+    \pause
+    % move 5 to nu
+    \node[fill=white,minimum size=.6cm] at (-1,-1) {};
+    \node[fill=blue!50,minimum size=.6cm] at (4.8,-.5) {5};
+    \pause
+    % move 7 to nu
+    \node[fill=white,minimum size=.6cm] at (1.5,1) {};
+    \node[fill=blue!50,minimum size=.6cm] at (5.5,0) {7};
   \end{tikzpicture}
   \end{center}
 
@@ -1506,9 +1525,15 @@
 \begin{frame}
   \begin{block}{}
     \large{
-    We are done with adaptive partitioning and got a structured fractional solution
+    We are done with adaptive partitioning
     }
   \end{block}
+  \begin{block}{}
+    \large{
+      Got a structured fractional solution
+    }
+  \end{block}
+  \pause
   \vspace{.5in}
   \begin{block}{}
     \Large{
@@ -1531,22 +1556,13 @@
   \frametitle{$3$-Approximation for FTFP}
 
 {\large
-
-\textcolor{blue}{Client priority values}	
-	
-	\begin{itemize}
-		\item $\tcc(j) + \alpha_j^\ast$
-		\\
-		{\normalsize \textcolor{gray}{(average connection cost + dual value)}}
-	\end{itemize}
-	
 \textcolor{blue}{Rounding}
 
   	\begin{itemize}
   	\item \textcolor{Sepia}{Facilities:}
- 					Each primary $\kappa$ opens random $\mu\in N(\kappa)$
+ 					each primary $\kappa$ opens one $\mu\in N(\kappa)$
   	\item \textcolor{Sepia}{Connections:}
- 					All demands assigned to $\kappa$ connect to $\mu$
+ 					non-primary demands $\nu$ assigned to $\kappa$ connect to $\mu$
   	\end{itemize}
 
 \textcolor{blue}{Analysis}
@@ -1571,16 +1587,7 @@
   \frametitle{$1.736$-Approximation for FTFP} 
 
 {\large
-
-\textcolor{blue}{Client priority values}	
-	
-	\begin{itemize}
-		\item $\tcc(j) + \alpha_j^\ast$ 
-			\\
-				{\normalsize \textcolor{gray}{(average connection cost + dual value)}}
-	\end{itemize}
-
-\textcolor{blue}{Rounding}
+  \textcolor{blue}{Rounding}
 
   	\begin{itemize}
   	  	\item  \textcolor{Sepia}{Facilities:} 
@@ -1590,8 +1597,8 @@
 			\end{itemize}
 	  	\item \textcolor{Sepia}{Connections:} 
 	 		\begin{itemize}
-					\item if a neighbor open, connect to nearest neighbor
-					\item else, connect via assigned primary demand
+					\item If a neighbor open, connect to nearest neighbor
+					\item Else connect via assigned primary demand
 			\end{itemize}
   	\end{itemize}
 
@@ -1603,7 +1610,7 @@
   	\item \textcolor{Sepia}{Cost:} $\le (1+2/e)\,\LP^\ast$, because
     	\begin{itemize}
     		\item Facility cost $\le F^\ast$
-    		\item Connection cost $\le C^\ast + \frac{2}{e}\cdot \LP^\ast$
+    		\item Connection cost $\le C^\ast + (2/e)\cdot \LP^\ast$
     	\end{itemize}
   \end{itemize}
 }
@@ -1614,8 +1621,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-  \frametitle{$1.575$-Approximation for FTFP -- Idea}
-
+  \frametitle{$1.575$-Approximation for FTFP --- Partitioning}
 
 {\textcolor{blue}{More intricate neighborhood structure}}
     \begin{itemize}
@@ -1651,21 +1657,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% 1+2/e approx
 \begin{frame}
-\frametitle{$1.575$-Approximation for FTFP}
+\frametitle{$1.575$-Approximation for FTFP --- Rounding}
 
-{\large
-
-\textcolor{blue}{Client priority values}	
-	
-	\begin{itemize}
-		\item $\tcccls(j) + \dmaxcls(j)$
-			\\
-			{\normalsize \textcolor{gray}{(average + worst connection cost to close neighborhood)}}
-	\end{itemize}
-
-\textcolor{blue}{Rounding (extension of Byrka's)}
+{\large \textcolor{blue}{Rounding: boost
+    $(\bfx^\ast,\bfy^\ast)$ by $\gamma$ and use for demand reduction and adaptive partitioning, then}
 
   	\begin{itemize}
   	  	\item  \textcolor{Sepia}{Facilities:} 
@@ -1675,8 +1671,8 @@
 			\end{itemize}
 	  	\item \textcolor{Sepia}{Connections:} 
 	 		\begin{itemize}
-					\item if a neighbor open, connect to nearest neighbor
-					\item else, connect via assigned primary demand
+					\item If a neighbor open, connect to nearest neighbor
+					\item Else connect via assigned primary demand
 			\end{itemize}
   	\end{itemize}
 
@@ -1703,18 +1699,18 @@
 \begin{frame}
   \frametitle{Greedy and Dual-fitting}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-  \item Greedy in polynomial time
+  \item \textcolor{blue}{Greedy in polynomial time}
     \begin{itemize}
     \item Best star can be found quickly
     \item Best star remains best
     \end{itemize}
-  \item Ratio $H_n$ (Wolsey's result):
+  \item \textcolor{blue}{Ratio $H_n$ (Wolsey's result):}
     Greedy is $H_n$-approx for
     \begin{itemize}
     \item Minimizing a linear function
-    \item Subject to submodular constraint
+    \item Subject to submodular constraints
     \end{itemize}
-  \item Lower bound $\Omega(\log n / \log\log n)$ for dual-fitting
+  \item \textcolor{blue}{Lower bound $\Omega(\log n / \log\log n)$ for dual-fitting}
     \begin{itemize}
     \item Example has $k$ groups, $n = k^k$
     \item Shrinking factor is $k/2$
