@@ -122,60 +122,6 @@
   \end{center}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Fault-Tolerant Facility Placement Problem (FTFP)}
-
-  \begin{center}
-  \begin{tikzpicture}[scale=0.5,decoration=snake]
-    \node[fill=blue!50] (fac3) at (0,2) {$3$};
-    \node[fill=blue!50] (fac2) at (0,5) {$2$};
-    \node[fill=blue!50] (fac1) at (0,8) {$1$};
-
-    \node[below,fill=cyan!25] (faclabel3) at (-.5,1.5) {$f_3=4$};
-    \node[below,fill=cyan!25] (faclabel2) at (-.5,4.5) {$f_2=6$};
-    \node[below,fill=cyan!25] (faclabel1) at (-.5,7.5) {$f_1=3$};
-
-    \node[circle,fill=green!50] (client4) at (6,0) {$4$};
-    \node[circle,fill=green!50] (client3) at (6,3) {$3$};
-    \node[circle,fill=green!50] (client2) at (6,6) {$2$};
-    \node[circle,fill=green!50] (client1) at (6,9) {$1$};
-
-    \node[right,fill=cyan!25] (demand4) at (6,-1) {$r_4=2$};
-    \node[right,fill=cyan!25] (demand3) at (6,2) {$r_3=1$};
-    \node[right,fill=cyan!25] (demand2) at (6,5) {$r_2=1$};
-    \node[right,fill=cyan!25] (demand1) at (6,8) {$r_1=4$};
-    
-    \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
-    \draw (\from)--(\to);
-
-    % edge weight
-    \node[above] (ew11) at (2,8.3) {$1$};
-    \node[above] (ew12) at (2.4,7) {$2$};
-    \node[above] (ew14) at (1.9,5.5) {$1$};
-    \node[above] (ew23) at (1.5,4.4) {$3$};
-    \node[above] (ew33) at (1.5,2.5) {$2$};
-    \node[above] (ew34) at (1.9,1.3) {$4$};
-
-    % remove annotations, use white, ugly solution
-    \node[above,fill=white,color=white] (sites) at (-.5,9.5) {site}; 
-    \draw[->,decorate,draw=none] (sites) -- (fac1);
-
-    \node[above,fill=white,color=white] (clients) at (9,9.5) {client};
-    \draw[->,decorate,draw=none] (clients) -- (client1);
-
-    \node[right,fill=white,color=white] (demand) at (9.5,0) {demand};
-    \draw[->,decorate,draw=none] (demand) -- (demand4);
-
-    \node[above,fill=white,color=white,text width=2cm] (fi) at (-1,-2.5) {cost to open facility};
-    \draw[->,decorate,draw=none] (fi) -- (faclabel3);
-
-    \node[above,fill=white,color=white,text width=2cm] (edge) at (4,10) {connection cost};
-    \draw[->,decorate,draw=none] (edge) -- (ew11);
-
-  \end{tikzpicture}
-  \end{center}
-\end{frame}
-
 %%% A feasible solution
 \begin{frame}
   \frametitle{Feasible Integral Solution}
@@ -323,7 +269,7 @@
     \node[fill=Sepia!60] (ip) at (0,-1.5) {Integer Program};
     \node[fill=Sepia!50] (lp) at (0,-3) {Linear Program (LP) with Fractional Solution};
     \node[fill=BrickRed]  (rounding) at (-3,-5) {LP-rounding};
-    \node[fill=Orange] (primal) at (3,-5) {Primal-dual};
+    \node[fill=Brown] (primal) at (3,-5) {Primal-dual};
 
     \draw[->,>=latex] (npo) -- (ip);
     \draw[->,>=latex] (ip) -- (lp);
@@ -419,57 +365,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% UFL and its results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% UFL example
-%%\begin{frame}
-%%  \frametitle{Uncapacitated Facility Location Problem (UFL)}
-%%  \begin{block}{}
-%%    All demands are 1, each site can open only one facility    
-%%  \end{block}
-%%
-%%  \begin{columns}
-%%    \column{0.5\textwidth}
-%%    \begin{figure}[ht]
-%%      \centering
-%%      \begin{tikzpicture}[scale=0.4]
-%%        \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
-%%        \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
-%%        \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
-%%
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
-%%
-%%        \node[right] (demand1) at (6,-1) {$r_4=1$};
-%%        \node[right] (demand2) at (6,2) {$r_3=1$};
-%%        \node[right] (demand3) at (6,5) {$r_2=1$};
-%%        \node[right] (demand4) at (6,8) {$r_1=1$};
-%%    
-%%        \node (label1) at (3,-3) {Instance};
-%%      \end{tikzpicture}      
-%%    \end{figure}
-%%    % solution
-%%    \column<2->{0.5\textwidth}
-%%    \begin{figure}[ht]
-%%      \centering
-%%      \begin{tikzpicture}[scale=0.4]
-%%        \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
-%%        \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
-%%        \node[fill=blue!25,minimum size=.2cm] (fac1) at (0,8) {$1$};
-%%
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
-%%
-%%        \foreach \from/\to in {fac2/client1,fac2/client4,fac3/client2,fac3/client3}
-%%        \draw (\from)--(\to);
-%%
-%%        \node (label2) at (3,-3) {Solution};
-%%      \end{tikzpicture}
-%%    \end{figure}
-%%  \end{columns}
-%%\end{frame}
 
 \begin{frame}
   \frametitle{Related Work for UFL}
@@ -515,58 +410,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% FTFL and its results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% FTFL example
-%%\begin{frame}
-%%  \frametitle{Fault-Tolerant Facility Location Problem (FTFL)}
-%%  \begin{block}{}
-%%    Demands may be more than 1, each site can open only one
-%%    facility
-%%  \end{block}
-%%
-%%  \begin{columns}
-%%    \column{0.5\textwidth}
-%%    \begin{figure}[ht]
-%%      \centering
-%%      \begin{tikzpicture}[scale=0.4]
-%%        \node[fill=blue!50,minimum size=.2cm] (fac3) at (0,2) {$3$};
-%%        \node[fill=blue!50,minimum size=.2cm] (fac2) at (0,5) {$2$};
-%%        \node[fill=blue!50,minimum size=.2cm] (fac1) at (0,8) {$1$};
-%%
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,0) {$4$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,3) {$3$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,6) {$2$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,9) {$1$};
-%%
-%%        \node[right] (demand1) at (6,-1) {$r_4=2$};
-%%        \node[right] (demand2) at (6,2) {$r_3=1$};
-%%        \node[right] (demand3) at (6,5) {$r_2=1$};
-%%        \node[right] (demand4) at (6,8) {$r_1=2$};
-%%
-%%        \node (label1) at (3,-3) {Instance};    
-%%      \end{tikzpicture}      
-%%    \end{figure}
-%%    \column<2->{0.5\textwidth}
-%%    \begin{figure}[ht]
-%%      \begin{center}
-%%      \begin{tikzpicture}[scale=0.4]
-%%        \node[fill=blue!75,minimum size=.2cm] (fac3) at (0,2) {$3$};
-%%        \node[fill=blue!75,minimum size=.2cm] (fac2) at (0,5) {$2$};
-%%        \node[fill=blue!75,minimum size=.2cm] (fac1) at (0,8) {$1$};
-%%
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client4) at (6,0) {$4$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client3) at (6,3) {$3$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client2) at (6,6) {$2$};
-%%        \node[circle,fill=green!50,minimum size=.2cm] (client1) at (6,9) {$1$};
-%%    
-%%        \foreach \from/\to in {fac1/client1,fac1/client2,fac1/client3,fac2/client1,fac2/client4,fac3/client4}
-%%        \draw (\from)--(\to);
-%%
-%%        \node (label2) at (3,-3) {Solution};
-%%      \end{tikzpicture}
-%%      \end{center}
-%%    \end{figure}
-%%  \end{columns}
-%%\end{frame}
 
 \begin{frame}
   \frametitle{Related Work for FTFL}
@@ -644,33 +487,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Techniques
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\begin{frame}
+%%  \frametitle{Techniques}
+%%
+%%  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
+%%
+%%  \item {\Large \textcolor{blue}{Demand Reduction}}
+%%    \vspace{.1in}
+%%    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+%%    \item {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
+%%						rounding)}
+%%    \item {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
+%%    \end{itemize}
+%%    
+%%  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
+%%    \vspace{.1in}
+%%    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
+%%    \item {\large Split sites into facilities and clients into unit demands}
+%%    \item {\large Split associated fractional values}
+%%    \item {\large Properties ensure rounding similar to UFL can be applied}
+%%    \end{itemize}
+%%  \end{itemize}
+%%\end{frame}
+
 \begin{frame}
-  \frametitle{Techniques}
-
-  \begin{itemize}\addtolength{\itemsep}{2\baselineskip}
-
-  \item {\Large \textcolor{blue}{Demand Reduction}}
-    \vspace{.1in}
-    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \item {\large Reduce all $r_j$ to polynomial values (to ensure polynomial time of
-						rounding)}
-    \item {\large $\rho$-approx for reduced instance $\Rightarrow$ $\rho$-approx for original instance }
-    \end{itemize}
-    
-  \item {\Large \textcolor{blue}{Adaptive Partitioning}}
-    \vspace{.1in}
-    \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
-    \item {\large Split sites into facilities and clients into unit demands}
-    \item {\large Split associated fractional values}
-    \item {\large Properties ensure rounding similar to UFL can be applied}
-    \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{LP Formulation for FTFP}
+  \frametitle{Algorithm for FTFP --- LP}
   \begin{itemize}
-  \item \textcolor{red}{$y_i$} = number of facilities open at site $i\in \sitesset$
+  \item \textcolor{red}{$y_i$} = number of facilities open at site $i\in F$
   \item \textcolor{red}{$x_{ij}$} = number of connections from client $j\in
     \clientset$ to site $i \in \sitesset$
   \end{itemize}
@@ -701,9 +544,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Algorithm for FTFP - Demand Reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection[Demand Reduction]{Demand Reduction}
 \begin{frame}
-  \frametitle{Algorithm for FTFP}
+  \frametitle{Algorithm for FTFP --- Demand Reduction}
   \begin{center}
   \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
     \node[draw,ellipse,fill=green!10] (lpform) at (-5.5,9) {LP};
@@ -740,9 +582,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Algorithm for FTFP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{frame}
-  \frametitle{Algorithm for FTFP}
+  \frametitle{Algorithm for FTFP --- Adaptive Partitioning}
   \begin{center}
   \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
     \node[draw,ellipse,fill=green!10] (lpform) at (-5.5,9) {LP};
@@ -779,6 +620,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% demand reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection[Demand Reduction]{Demand Reduction}
 \begin{frame}
   \setbeamercovered{transparent=50}
   \frametitle{Techniques}
@@ -808,7 +650,7 @@
   \large{\textcolor{blue}{Implementation}}
 
   \begin{itemize}
-  \item Solving LP for $(\bfx^\ast, \bfy^\ast)$.
+  \item Solving LP for $(\bfx^\ast, \bfy^\ast)$
   \item $(\hat\bfx, \hat\bfy) = (\bfx^\ast, \bfy^\ast)$ round down to integer
   \item $(\dot\bfx, \dot\bfy) = (\bfx^\ast, \bfy^\ast) - (\hat\bfx, \hat\bfy)$, fractional part
   \item $\hat r_j = \sum_{i}\hat x_{ij}$ for $\hat\calI$, $\dot r_j = r_j - \hat r_j$ for $\dot\calI$
@@ -832,7 +674,7 @@
   \begin{itemize}
   \item Sites into facilities
   \item Clients with demand $r_j$
-  \item FTFL size polynomial because demand reduction
+  \item FTFL size polynomial because of demand reduction
   \end{itemize}
 
   \begin{block}{}
@@ -971,9 +813,6 @@
     % xval
 
   \end{tikzpicture}
-  \begin{block}<4>{} Now round each $\bary_{\mu}$ and $\barx_{\mu\nu}$ to 0 or 1...
-    \end{block}
-
   \end{center}
 \end{frame}
 
@@ -1001,11 +840,11 @@
 
     \draw[dashed] (fac4) to node[below] (zerolabel) {\ \ $\barx = 0$} (demand);
 
-    \node (faclabel) at (0.3,3.5) {neighborhood $N(\nu)$};
+    \node (faclabel) at (0.3,5.5) {neighborhood $N(\nu)$};
     \node (otherlabel) at (5.4,1.9) {non-neighbor};
     \node (demandlabel) at (9,5) {demand $\nu$};
     
-    \node[fill=yellow!50] (sumlabel) at (0.5,4.6) {$\sum_\mu \barx_{\mu\nu} = 1$};
+    \node[fill=yellow!50] (sumlabel) at (0.5,4) {$\sum_\mu \barx_{\mu\nu} = 1$};
   \end{tikzpicture}
 	\end{center}
 
@@ -1026,7 +865,7 @@
 \end{minipage}
 \ \ 
 \begin{minipage}{2in}
-\textcolor{Brown}{Strategy 2:} do this for demands with disjoint neighborhoods
+\textcolor{Brown}{Strategy 2:} open facility only for demands with disjoint neighborhoods
 		\begin{itemize}
 			\item optimal facility cost
 			\item large connection cost 
@@ -1036,7 +875,7 @@
 \pause
 \vspace{0.2in}
 \noindent
-\textcolor{Red}{How to balance these two strategies?}
+\textcolor{Red}{How to balance these two costs?}
 \end{frame}
 
 
@@ -1059,22 +898,22 @@
     \node[fill=blue!75, minimum size=.3cm] (mu2) at (.5,8) {};
     \node[fill=blue!75, minimum size=.3cm] (mu3) at (-.5,7) {};
     \node[fill=blue!75, minimum size=.3cm] (mu4) at (.5,7) {};
-    \node (nbk) at (1.8,8.3) {$N(\kappa)$};
-    \node[fill=yellow!50] (primary) at (5,8) {primary};
+    \node (nbk) at (1.8,8.3) {$N(\kappa_1)$};
+    \node (primary) at (5,8) {primary};
 
      % non-primary demands
     \node[circle, fill=nonprimcolor,  minimum size=.3cm] (nu) at (3.5, 6) {};
     \node (sib1label) at (4,6.5) {$\nu_1$};
-    \node[fill=yellow!50] (nonprimary) at (5.4,6.2) {non-primary};
+    \node (nonprimary) at (5.4,6.2) {non-primary};
 
     \node[fill=blue!75, minimum size=.3cm] (mu5) at (0,6) {};
 
     \node[draw, ellipse, minimum width=3cm, minimum height=2cm] (k1) at (0,6.4) {};
 
-    \node (nbnu1) at (1.9,5.7) {$N(\nu)$};
+    \node (nbnu1) at (1.9,5.7) {$N(\nu_1)$};
 
     % assignment
-    \draw[->,dashed] (nu) to node[fill=yellow!50] {assign} (kappa1); 
+    \draw[->,dashed] (nu) to node {assign} (kappa1); 
 
     % primary kappa2
     \node (kappa2label) at (4,4) {$\kappa_2$};
@@ -1183,7 +1022,7 @@
 
     \node[circle,fill=green!50] (client3) at (6,2) {$3$};
     \node[circle,fill=green!50] (client2) at (6,7) {$2$};
-    \node[circle,fill=nonprimcolor] (client1) at (6,12) {$1$};
+    \node[circle,fill=green!50] (client1) at (6,12) {$1$};
 
     \node[right] (demand3) at (5,.5) {$r_3=1$};
     \node[right] (demand2) at (5,5.5) {$r_2=2$};
@@ -1273,7 +1112,7 @@
     \item If $\kappa_1,\kappa_2$ primary then
       $N(\kappa_1)\cap N(\kappa_2) = \emptyset$
     \begin{block}<2->{}
-      small facility cost
+      \textcolor{Magenta}{small facility cost}
     \end{block}
   \item Each non-primary $\nu$ assigned to $\kappa$ with
 	\begin{itemize}
@@ -1281,17 +1120,15 @@
 	\item priority$(\kappa)$ $\le$ priority $(\nu)$
         \end{itemize}
         \begin{block}<3->{}
-          small connection cost of $\nu$
+          \textcolor{Magenta}{small connection cost of $\nu$}
         \end{block}
-  \item $N(\kappa_1) \cup N(\nu_1)\;\cap\;N(\kappa_2) \cup N(\nu_2) = \emptyset$
+  \item $(N(\kappa_1) \cup N(\nu_1))\;\cap\;(N(\kappa_2) \cup N(\nu_2)) = \emptyset$
     \begin{block}<4->{}
-      fault-tolerance
+      \textcolor{Magenta}{fault-tolerance}
     \end{block}
   \end{itemize}
 \end{columns}
 \end{frame}
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1299,20 +1136,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 \begin{frame}
-  \frametitle{Partition Implementation}
+  \frametitle{Partitioning Implementation}
 
-  \Large{\textcolor{blue}{Partition implementation: two phases}}
+  \Large{\textcolor{blue}{Partitioning implementation: two phases}}
 
   \vspace{.3in}
   \begin{itemize}\addtolength{\itemsep}{1\baselineskip}
   \item \large{Phase 1, the partitioning phase}
-    \begin{itemize}
-    \item Define demands
-    \item Allocate facilities
+    \begin{itemize}\addtolength{\itemsep}{.3\baselineskip}
+    \item \large{Define demands}
+    \item \large{Allocate facilities}
     \end{itemize}
   \item \large{Phase 2, the augmenting phase}
     \begin{itemize}
-    \item Add facilities to make neighborhood unit
+    \item \large{Add facilities to make neighborhood unit}
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -1342,9 +1179,8 @@
 
   \pause
   \begin{itemize}
-  \item bid($j$) = avgdist($N_1(j)$) + $\alpha_j^\ast$
-  \item Best bid client $p$ creates a demand
-  \item Two cases, depending on $N_1(p)$
+  \item bid($j$) = avgdist($N_1(j)$) + $\alpha_j^\ast$(dual value)
+  \item Best bid client $p$ selected to create a demand
   \end{itemize}
 \end{frame}
 
@@ -1353,7 +1189,7 @@
   \frametitle{Phase 1, Step 2} 
         \setbeamercolor{postit}{fg=blue,bg=yellow}
         \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
-          Selected best client $p$, two cases:
+          Best client $p$ creates demand $\nu$, to decide $N(\nu)$, two cases:
         \end{beamercolorbox}
 
         \begin{columns}[b]
@@ -1384,8 +1220,13 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Phase 1, Step 3}
-  \large{\textcolor{blue}{Best client $p$ creates demand $\nu$, to decide $N(\nu)$, two cases:}}
+  \frametitle{Phase 1, Step 2 Contd.}
+
+  \setbeamercolor{postit}{fg=blue,bg=yellow}
+  \begin{beamercolorbox}[sep=.5em,wd=10cm]{postit}
+  {\textcolor{blue}{Best client $p$ creates demand $\nu$, to decide $N(\nu)$, two cases:}}
+  \end{beamercolorbox}
+
   \begin{itemize}
   \item<2-> Case 1: disjoint, $N(\nu)$ gets $N_1(p)$
     \begin{figure}[ht]
@@ -1401,6 +1242,7 @@
 
       \draw[dashed] (2,1.3) -- (2,-1.3);
       \node at (1,1.1) {$N_1(p)$};
+      \node at (3,-1) {$N(p)$};
       %% arrow
       \draw[line width=1mm,-implies,double, double distance=1mm,opacity=0.5] (4.2,0) -- (5.2,0);
 
@@ -1523,26 +1365,38 @@
 \end{frame}
 
 \begin{frame}
-  \begin{block}{}
-    \large{
-    We are done with adaptive partitioning
-    }
-  \end{block}
-  \begin{block}{}
-    \large{
-      Got a structured fractional solution
-    }
-  \end{block}
-  \pause
-  \vspace{.5in}
-  \begin{block}{}
-    \Large{
-      \textcolor{blue}{
-    Next: the rounding algorithms...
-    }
-    }
-  \end{block}
+    \begin{center}
+  \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \draw[dashed,fill=yellow!50] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
+
+    \node[draw,ellipse,fill=green!10] (lpform) at (-5.5,9) {LP};
+    \node[draw,ellipse,fill=green!10] (lpsoln) at (0,9) {$x^\ast, y^\ast$};
+    \node[draw,ellipse,fill=green!10] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse,fill=green!10] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
+    \node[draw,ellipse,fill=green!10] (part) at (4.55,3) {$\barx,\bary$};
+    \node[draw,ellipse,fill=green!10] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
+
+    \node[draw, ellipse,fill=green!10] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
+
+    \node[fill=blue!10] (solnlabel) at (-4,1.2) {$\rho$-approximate \\ solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3,8.5) {fractional part};
+    \draw[->,>=latex] (fracpart) to node[fill=yellow!50] (edge1) { adaptive \\ partitioning} (part);
+    \draw[->,>=latex] (part) to node (edge2) {LP-rounding} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);
+
+    \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7)
+    -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
+  \end{tikzpicture}
+  \end{center}
+  \textcolor{Red}{Done with partitioning, next to rounding}
 \end{frame}
+
 \section[Algorithms]{Approximation Algorithms}
 %%
 %% 3.3 Rounding: fault-tolerant made easy, all ratios preserved
@@ -1556,7 +1410,7 @@
   \frametitle{$3$-Approximation for FTFP}
 
 {\large
-\textcolor{blue}{Rounding}
+\textcolor{blue}{Rounding: round each $\bary_{\mu}$ and $\barx_{\mu\nu}$ to 0 or 1}
 
   	\begin{itemize}
   	\item \textcolor{Sepia}{Facilities:}
@@ -1587,7 +1441,7 @@
   \frametitle{$1.736$-Approximation for FTFP} 
 
 {\large
-  \textcolor{blue}{Rounding}
+  \textcolor{blue}{Rounding: round each $\bary_{\mu}$ and $\barx_{\mu\nu}$ to 0 or 1}
 
   	\begin{itemize}
   	  	\item  \textcolor{Sepia}{Facilities:} 
@@ -1661,7 +1515,7 @@
 \frametitle{$1.575$-Approximation for FTFP --- Rounding}
 
 {\large \textcolor{blue}{Rounding: boost
-    $(\bfx^\ast,\bfy^\ast)$ by $\gamma$ and use for demand reduction and adaptive partitioning, then}
+    $(\bfx^\ast,\bfy^\ast)$ by $\gamma$ and apply demand reduction and adaptive partitioning, then round by}
 
   	\begin{itemize}
   	  	\item  \textcolor{Sepia}{Facilities:} 
