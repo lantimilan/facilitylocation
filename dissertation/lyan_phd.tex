@@ -136,15 +136,15 @@ Professor Neal Young}
   Li and the algorithm lab for helpful discussions and
   stimulation of ideas.
 
-  My lab-mates Monik and Jonathan, despite their tight
+  My lab-mates Monik Khare and Jonathan Dautrich, despite their tight
   schedules, read a preliminary version of this dissertation
   with great patience and attention to detail. Both offered
   many helpful comments and suggested numerous
   corrections. Their help is greatly appreciated.
 
   Kristin in the UCR Graduate Writing Center, and Stephanie
-  in UCR have proofread this dissertation and corrected a
-  number of grammar mistakes.
+  Chang in UCR have proofread this dissertation and
+  corrected a number of grammatical mistakes.
 
   During this final stage of my PhD study, our family had a
   new member, little Terry. Being with a baby as laid-back
@@ -165,15 +165,15 @@ Professor Neal Young}
 \end{dedication}
 
 \begin{abstract}
-  In this thesis we have studied the Fault-Tolerant Facility
-  Placement problem (FTFP). In the FTFP problem, we are
-  given a set of sites at which we can open facilities, and
-  a set of clients with demands. To satisfy demands, clients
-  must be connected to open facilities. The goal is to
-  satisfy all clients' demands while minimizing the combined
-  cost of opening facilities and connecting clients to
-  facilities. We show that the problem is NP-hard and hence
-  we study approximation algorithms and their performance
+  In this thesis, we have studied the Fault-Tolerant
+  Facility Placement problem (FTFP). In the FTFP problem, we
+  are given a set of sites at which we can open facilities,
+  and a set of clients with demands. To satisfy demands,
+  clients must be connected to open facilities. The goal is
+  to satisfy all clients' demands while minimizing the
+  combined cost of opening facilities and connecting clients
+  to facilities. The problem is NP-hard, and hence we study
+  approximation algorithms and their performance
   guarantees. Approximation algorithms are algorithms that
   run in polynomial time with provable performance bounds
   relative to optimal solutions.
@@ -184,10 +184,10 @@ Professor Neal Young}
   also study primal-dual approaches. In particular, we show
   that a natural greedy algorithm analyzed using the
   dual-fitting technique gives an approximation ratio of
-  O(log n). On the negative side, under a natural
+  $O(\log n)$. On the negative side, under a natural
   assumption, we give an example showing that the
   dual-fitting analysis cannot give a ratio better than
-  O(log n/log log n).
+  $O(\log n/\log \log n)$.
 \end{abstract}
 
 \tableofcontents
@@ -214,7 +214,7 @@ setting up and maintaining a warehouse can be costly. In
 this scenario there is a trade-off between having more
 warehouses and cheaper shipping and having fewer warehouses
 at the expense of shipping. Another application is to place
-content servers in a computer network. In the network we
+content servers in a computer network. In the network, we
 have a number of client machines that need to access files
 from one of the servers. Having more servers allows faster
 access for all clients. However, keeping a large number of
@@ -430,15 +430,15 @@ algorithms for the {\FTFP} problem.
 
 \section{Related Work for UFL}
 The Uncapacitated Facility Location problem (UFL) is the
-simpliest variant of the Facility Location problems, and has
+simplest variant of the Facility Location problems, and has
 received the most attention. A surprising fact is that a
 wide range of different techniques for designing
 approximation algorithms have been found successful in
 achieving good ratios, as shown in
 Table~\ref{tab:ufl_history}. One alteration of terminology:
 to be consistent with the UFL literature, instead of saying
-opening facilities at sites, we simply say opening or
-closing facilities without mentioning the sites, since in
+``opening facilities at sites'', we simply say ``opening or
+closing facilities'' without mentioning the sites, since in
 the {\UFL} problem we have no more than one facility at each
 site.
 %%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
@@ -482,8 +482,8 @@ approximate the {\UFL} problem, under the well-respected
 assumption that $\PP \neq \NP$. Since both the {\FTFL}
 problem and the {\FTFP} problem contain the {\UFL} problem
 as a special case, all the hardness results mentioned here
-carry over into {\FTFL} and {\FTFP} as well. Regarding
-{\UFL}, the following result is known:
+carry over to {\FTFL} and {\FTFP} as well. Regarding {\UFL},
+the following result is known:
 \begin{theorem}\cite{GuhaK98}
   \label{thm:maxsnp}
   The metric UFL problem is \MaxSNP-hard.
@@ -510,9 +510,9 @@ the integral constraints to obtain a linear program
 (LP). Solving the LP gives an optimal fractional
 solution. The value of the fractional solution is then used
 to estimate the optimal integral solution's cost. In
-Appendix~\ref{sec: ILP} we give a primer for Integer
-Program, Linear Program and their application for the {\UFL}
-problem.
+Appendix~\ref{sec: ILP} we give a brief introduction to
+Integer Programming, Linear Programming and their
+application for the {\UFL} problem.
 
 For the {\UFL} problem, the LP formulated by
 Balinski~\cite{Bal66} is now standard. We start with an
@@ -757,23 +757,23 @@ client connected to a nearby facility and few facilities
 open. Consider a client $j$; to get a handle on the
 connection cost, we would like the client $j$ to connect to
 some neighboring facility $i\in N(j)$, where the
-neighborhood $N(j) \defeq \{i\in\sitesset \suchthat
-x_{ij}^\ast > 0\}$. For the sake of the connection cost, it
-is desirable that every client has a neighboring facility
-open, as those are facilities not too far away. However,
-this is in general not possible, or we would have to open
-too many facilities, and thus incur a high facility cost. An
-alternative is to select a subset of clients, denoted by $C'
-\subseteq \clientset$ and only require clients in $C'$ have
-a neighboring facility open. Clients outside $C'$ are then
-connected to a facility via some client in $C'$. The
-connection cost for clients in $\clientset \setminus C'$ are
-bounded using the triangle inequality. For this strategy to
-work, every client $j$ outside $C'$ needs to be able to
-find some client $j'$ in $C'$ such that both $d_{jj'} \defeq
-\min_{i\in \sitesset} d_{ij} + d_{ij'}$ and $d_{\phi(j')
-  j'}$ are small. Here $\phi(j')$ is the facility that $j'$
-connects to.
+neighborhood of $j$ is defined as $N(j) \defeq
+\{i\in\sitesset \suchthat x_{ij}^\ast > 0\}$. For the sake
+of the connection cost, it is desirable that every client
+has a neighboring facility open, as those are facilities not
+too far away. However, this is in general not possible, or
+we would have to open too many facilities, and thus incur a
+high facility cost. An alternative is to select a subset of
+clients, denoted by $C' \subseteq \clientset$ and only
+require clients in $C'$ have a neighboring facility
+open. Clients outside $C'$ are then connected to a facility
+via some client in $C'$. The connection cost for clients in
+$\clientset \setminus C'$ are bounded using the triangle
+inequality. For this strategy to work, every client $j$
+outside $C'$ needs to be able to find some client $j'$ in
+$C'$ such that both $d_{jj'} \defeq \min_{i\in \sitesset}
+d_{ij} + d_{ij'}$ and $d_{\phi(j') j'}$ are small. Here
+$\phi(j')$ is the facility that $j'$ connects to.
 
 \subsubsection{The Clustering Structure}
 The clustering structure produced by the Shmoys, Tardos and
@@ -788,44 +788,6 @@ has three interesting properties:
 \item Third, each client shares a neighbor with its
   representative.
 \end{itemize}
-
-\subsubsection{A Simple $4$-approximation}
-To see how this clustering structure helps rounding, we use
-a simple $4$-approximation algorithm by
-Chudak~\cite{Chudak98} as an example. In this algorithm
-clusters are formed by repeatedly picking a non-clustered
-client with minimum $\alpha_j^\ast$ value as a new
-representative, where $(\bfalpha^\ast,\bfbeta^\ast)$ is the
-optimal dual solution. Clients sharing a common neighboring
-facility with the new representative then become members of
-that cluster. Once all clients are clustered, the algorithm
-opens the cheapest facility in each representative's
-neighborhood. All clients in the same cluster connect to the
-only facility open in their representative's neighborhood.
-
-The facility cost of this solution is no more than $F^\ast =
-\sum_{i\in\sitesset} f_i y_i^\ast$, because every facility
-that is opened can have its cost bounded by the average
-facility cost of the neighborhood. The connection cost of a
-representative $j'$ is no more than $\alpha_{j'}^\ast$,
-because the complentary slackness conditions imply $d_{ij'}
-\leq \alpha_{j'}^\ast$ for any facility $i$ in $N(j')$. The
-connection cost for a non-representative client $j$ can be
-bounded by the triangle inequality; that is $d_{i'j} \leq
-d_{i'j'} + d_{ij'} + d_{ij}$ where $j'$ is the
-representative of $j$, and $i'$ is the facility opened in
-$j'$'s neighborhood, and $i$ is a common neighbor of both
-$j$ and $j'$. Using the complementary slackness conditions,
-the distance of $d_{i'j}$ is no more than $\alpha_{j'}^\ast
-+ \alpha_{j'}^\ast + \alpha_j^\ast$, which is no more than
-$3\alpha_j^\ast$ because the representative $j'$ has the
-minimum $\alpha_{j'}^\ast$ value among all clients in its
-cluster. Summarizing, the solution has a facility cost at
-most $F^\ast$ and a connection cost no more than
-$3\sum_{j\in\clientset} \alpha_j^\ast = 3\,\LP^\ast$, where
-$\LP^\ast = F^\ast + C^\ast$. Since $\LP^\ast \leq \OPT$
-where $\OPT$ is the optimal integral solution's cost, the
-algorithm is a $4$-approximation.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -913,6 +875,44 @@ algorithm is a $4$-approximation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% end  UFL cluster figure %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection{A Simple $4$-approximation}
+To see how this clustering structure helps rounding, we use
+a simple $4$-approximation algorithm by
+Chudak~\cite{Chudak98} as an example. In this algorithm
+clusters are formed by repeatedly picking a non-clustered
+client with minimum $\alpha_j^\ast$ value as a new
+representative, where $(\bfalpha^\ast,\bfbeta^\ast)$ is the
+optimal dual solution. Clients sharing a common neighboring
+facility with the new representative then become members of
+that cluster. Once all clients are clustered, the algorithm
+opens the cheapest facility in each representative's
+neighborhood. All clients in the same cluster connect to the
+only facility open in their representative's neighborhood.
+
+The facility cost of this solution is no more than $F^\ast =
+\sum_{i\in\sitesset} f_i y_i^\ast$, because every facility
+that is opened can have its cost bounded by the average
+facility cost of the neighborhood. The connection cost of a
+representative $j'$ is no more than $\alpha_{j'}^\ast$,
+because the complentary slackness conditions imply $d_{ij'}
+\leq \alpha_{j'}^\ast$ for any facility $i$ in $N(j')$. The
+connection cost for a non-representative client $j$ can be
+bounded by the triangle inequality; that is $d_{i'j} \leq
+d_{i'j'} + d_{ij'} + d_{ij}$ where $j'$ is the
+representative of $j$, and $i'$ is the facility opened in
+$j'$'s neighborhood, and $i$ is a common neighbor of both
+$j$ and $j'$. Using the complementary slackness conditions,
+the distance of $d_{i'j}$ is no more than $\alpha_{j'}^\ast
++ \alpha_{j'}^\ast + \alpha_j^\ast$, which is no more than
+$3\alpha_j^\ast$ because the representative $j'$ has the
+minimum $\alpha_{j'}^\ast$ value among all clients in its
+cluster. Summarizing, the solution has a facility cost at
+most $F^\ast$ and a connection cost no more than
+$3\sum_{j\in\clientset} \alpha_j^\ast = 3\,\LP^\ast$, where
+$\LP^\ast = F^\ast + C^\ast$. Since $\LP^\ast \leq \OPT$
+where $\OPT$ is the optimal integral solution's cost, the
+algorithm is a $4$-approximation.
 
 
 \section{Related Work for FTFL}
@@ -1112,7 +1112,7 @@ algorithms.
 
 %%%%%%%%%
 
-\section{LP Structure and Special Case with Uniform-demand}
+\section{Special Case with Uniform Demands}
 \label{sec:ftfp_uniform_demand}
 
 If we compare the LP~(\ref{eqn:fac_primal}) and its
@@ -1137,7 +1137,7 @@ instance. It is not hard to see that the approximation ratio
 is preserved. This shows a simple reduction from {\FTFP} to
 {\UFL} for the uniform-demand case.
 
-\section{Solution Structure of Completeness and Facility  Splitting}
+\section{Completeness and Facility Splitting}
 \label{sec:ftfp_complete}
 In this section we describe a structural property we assume
 of the optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
@@ -1159,7 +1159,7 @@ affected. Roughly, the argument is this: we notice that,
 without loss of generality, for each client $k$ there exists
 at most one site $i$ such that $0 < x_{ik}^\ast < y_i^\ast$.
 We can then perform the following \emph{facility splitting}
-operation on the site $i$: introduce a new site $i'$, let
+operation on site $i$: introduce a new site $i'$, let
 $y^\ast_{i'} = y^\ast_i - x^\ast_{ik}$, redefine $y^\ast_i$
 to be $x^\ast_{ik}$, and then for each client $j$
 redistribute $x^\ast_{ij}$ so that $i$ retains as much
