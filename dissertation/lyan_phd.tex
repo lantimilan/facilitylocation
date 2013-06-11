@@ -45,7 +45,7 @@
 \usepackage{sw20uctd}
 
 \usepackage{tikz}
-\usetikzlibrary{shapes,decorations.pathmorphing,arrows}
+\usetikzlibrary{shapes,decorations.pathmorphing,arrows,patterns}
 %% pseudocode related
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
@@ -3666,7 +3666,23 @@ At this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
 \ssp
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=3.2in]{proof_of_lemma_PD'3a.pdf}
+  \begin{tikzpicture}
+    \draw[fill=gray!50] (0,1.6) -- (.8,1) -- (2.5,.8) -- (3.8,1.5) -- (4.5,2.3) -- (5.5,4) -- (0,4);
+    \draw (0,0) rectangle (6,4);
+    \draw (0,0) rectangle (3,2);
+    \draw[fill=gray] (0,2) rectangle (3,4);
+
+    \node at (.5,.5) {$E^-$};
+    \node at (5.5,.5) {$E^+$};
+    \node at (.5,3.5) {$B$};
+    \node at (6.5,4) {$A$};
+    \node (neighbor) at (4.5,5) {$\wbarN(\nu)$};
+    \node (gamma) at (1.5,4.5) {$1/\gamma$};
+
+    \draw[->,>=latex,thick] (neighbor) -- (4,3.5);
+    \draw[->,>=latex,thick] (gamma) -- (0,4.5);
+    \draw[->,>=latex,thick] (gamma) -- (3,4.5);
+  \end{tikzpicture}
 \ssp
 \caption[Illustration of the sets in the proof of
 Lemma~\ref{lem: PD1: primary overlap}]{Illustration of the
