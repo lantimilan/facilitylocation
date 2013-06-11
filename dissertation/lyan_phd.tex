@@ -45,7 +45,7 @@
 \usepackage{sw20uctd}
 
 \usepackage{tikz}
-\usetikzlibrary{shapes}
+\usetikzlibrary{shapes,decorations.pathmorphing,arrows}
 %% pseudocode related
 \usepackage[nothing]{algorithm}
 \usepackage{algorithmicx}
@@ -358,6 +358,9 @@ as a special case. In this thesis we only consider the
 metric version of the {\FTFP} problem, where the distances
 $d_{ij}$ satisfy the triangle inequality, see
 Figure~\ref{fig:triangle} for an illustration.
+%% figure ftfp example
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{.45\textwidth}
@@ -424,6 +427,9 @@ Figure~\ref{fig:triangle} for an illustration.
     3d_{31} = 38$.}
   \label{fig:ftfp_example}
 \end{figure}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{figure}[ht]
   \centering
         \begin{tikzpicture}[scale=.6]
@@ -440,6 +446,7 @@ Figure~\ref{fig:triangle} for an illustration.
   \caption{Illustration of the triangle inequality: for any two sites $i_1$ and $i_2$, and any two clients $j_1$ and $j_2$, we have $d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.}
   \label{fig:triangle}
 \end{figure}
+\dsp
 
 The {\FTFP} problem contains the {\UFL} problem as a special
 case. In fact, setting $r_j = 1$ for all clients $j$ we get
@@ -885,6 +892,7 @@ has three interesting properties:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% UFL cluster figure %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=0.6, every node/.style={scale=0.6}]
@@ -962,8 +970,8 @@ has three interesting properties:
     facility. An ellipse indicates the neighborhood of a
     representative.}
   \label{fig:STA97}
-  \dsp
 \end{figure}
+\dsp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% end  UFL cluster figure %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1682,10 +1690,89 @@ $(\bfx^\ast,\bfy^\ast)$ into a fractional solution
 $(\barbfx,\barbfy)$ for the split instance.  We will
 typically use symbols $\nu$ and $\mu$ to index demands and
 facilities respectively, that is $\barbfx =
-(\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$.  As before,
-the \emph{neighborhood of a demand} $\nu$ is
+(\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$. An
+illustration is given in
+Figure~\ref{fig:adaptive_partition}.
+%% figure: adaptive partition
+\ssp
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=.75,every text node part/.style={align=center}]
+    % site to facility
+    \node[draw,minimum size=1cm] (site) at (0,0) {site};
+    \node (siteilabel) at (-.5,-1) {$i$};
+    \node[draw,circle,minimum size=1cm] (client) at (12,0) {client};
+    \node (jlabel) at (12,-1) {$j$};
+
+    \node[above] at (.5,.7) {$y_i^\ast$};
+    \draw[above] (site) to node (dummy) {$x_{ij}^\ast$} (client);
+
+    \node[draw,minimum size=.6cm] (fac1) at (3,3) {};
+    \node[draw,minimum size=.6cm] (fac2) at (3,1.5) {};
+    \node[draw,minimum size=.6cm] (fac3) at (3,-1.5) {};
+    \node[draw,minimum size=.6cm] (fack) at (3,-3) {};
+
+    \foreach \from in {site}
+    \foreach \to in {fac1,fac2,fac3,fack}
+    \draw[->,>=latex] (\from) -- (\to);
+
+    \node (faclabel) at (3,4) {facility};
+    \node[below] (faclabel) at (3,-.5) {$\mu$};
+
+    % client to demand
+    \node[draw,circle,minimum size=.6cm] (demand1) at (9,4) {};
+    \node[draw,circle,minimum size=.6cm] (demand2) at (9,2) {};
+          draw,
+    \node[draw,circle,minimum size=.6cm] (demand3) at (9,-2) {};
+    \node[draw,circle,minimum size=.6cm] (demandk) at (9,-4) {};
+    \foreach \from in {client}
+    \foreach \to in {demand1, demand2, demand3, demandk}
+    \draw[->,>=latex] (\from) -- (\to);
+
+    \node (demandlabel) at (11,4) {unit demand};
+    \node[above] (nulabel) at (9,-1.5) {$\nu$};
+
+    \draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand3);
+  \end{tikzpicture}
+  \caption{A diagram of adaptive partitioning. A site $i$ is split into a set of facilities $\mu$, and a client $j$ is split into a set of unit demands $\nu$. The adaptive partitioning process also defines fractional values for each facility $\mu$ and for each pair of $\mu$ and $\nu$.}
+  \label{fig:adaptive_partition}
+\end{figure}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+As before, the
+\emph{neighborhood of a demand} $\nu$ is
 $\wbarN(\nu)=\braced{\mu\in\facilityset \suchthat
-  \barx_{\mu\nu}>0}$.  We will use notation $\nu\in j$ to
+  \barx_{\mu\nu}>0}$, see Figure~\ref{fig:neighborhood}.
+%% figure neighborhood of nu
+\ssp
+\begin{figure}[ht]
+  \centering
+    \begin{tikzpicture}[scale = 0.8,auto,every text node part/.style={align=left}]
+  
+      \draw (3,4) ellipse (0.7cm and 1.4cm);
+    \node[draw,minimum size=.3cm] (fac1) at (3,5) {};
+    \node[draw,minimum size=.3cm] (fac2) at (3,4) {};
+    \node[draw,minimum size=.3cm] (fac3) at (3,3) {};
+    \node[draw,minimum size=.3cm] (fac4) at (4,2.3) {};
+
+    \node[draw,circle,minimum size=.4cm] (demand) at (8,4){};
+
+    \draw[solid] (fac1) to node[above] {\ \ $\barx_{\mu\nu} = \bary_{\mu} > 0$} (demand);
+    \draw[solid] (fac2) to (demand);
+    \draw[solid] (fac3) to (demand);
+
+    \draw[dashed] (fac4) to node[below] (zerolabel) {\ \ $\barx = 0$} (demand);
+
+    \node (faclabel) at (2,5.5) {$\wbarN(\nu)$};
+    \node (otherlabel) at (5.4,1.9) {non-neighbor};
+    \node (demandlabel) at (8,4.5) {$\nu$};
+  \end{tikzpicture}
+  \caption{Illustration of the neighborhood $\wbarN(\nu)$ of a demand $\nu$.}
+  \label{fig:neighborhood}
+\end{figure}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We will use notation $\nu\in j$ to
 mean that $\nu$ is a demand of client $j$; similarly,
 $\mu\in i$ means that facility $\mu$ is on site
 $i$. Different demands of the same client (that is,
@@ -1995,14 +2082,122 @@ $\tildex_{\mu p}$ between client $p$ and facility $\mu$ in
 $\wtildeN(p)\cap \wbarN(\kappa)$ (Lines~11--13). Note that
 although we check for overlap with $\wtildeN_1(p)$, we then
 move all facilities in the intersection with $\wtildeN(p)$,
-a bigger set, into $\wbarN(\nu)$.  The other case is when
+a bigger set, into $\wbarN(\nu)$. An example is given in
+Figure~\ref{fig:adaptive_partition_overlap}.
+%% figure adaptive partition overlap case
+\ssp
+\begin{figure}[ht]
+  \centering
+      \begin{tikzpicture}
+        % left
+        \node[draw,circle,minimum size=.5cm] at (0,0) {};
+        \node at (-.5,.5) {$p$};
+
+        \node[draw,ellipse,minimum width=1.5cm,minimum height=2.5cm] at (2.5,0) {};        
+        \node[draw,ellipse,minimum width=4cm,minimum height=2cm] at (2.7,0) {};
+        \node[draw,ellipse,minimum width=2.5cm,minimum height=1cm] (nbone) at (2,0) {};
+        \node[draw,ellipse,minimum width=1.5cm,minimum height=2.5cm] at (2.5,0) {};        
+        
+        \node[draw] at (1.4,0) {\footnotesize{1}};
+        \node[draw] at (2,.2) {\footnotesize{2}};
+        \node[draw] at (2.8,.7) {\footnotesize{3}};
+        \node[draw] at (2.6,-.1) {\footnotesize{4}};
+        \node[draw] at (3.7,.3) {\footnotesize{5}};
+        \node[draw] at (3.8,-.3) {\footnotesize{6}};
+        \node[draw] at (4.4,0) {\footnotesize{7}};
+
+        % labels
+        \node at (3.2,1.3) {$\wbarN(\kappa)$};
+        \node at (4,-1.3) {$\wtildeN(p)$};
+        \node (nbonelabel) at (0,-1.5) {$\wtildeN_1(p)$};
+        \draw [->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick]
+        (nbonelabel) -- (nbone);
+
+        % arrow
+      \draw[line width=1mm,-implies,double, double distance=1mm,opacity=0.5] (5,0) -- (6,0);
+
+      % right
+      \node[draw,circle,minimum size=.5cm] at (6.2,1) {};
+      \node at (6.2,1.5) {$p$};
+      \node[draw,ellipse, minimum width=3.2cm, minimum height=1.3cm] at (8.2,1) {};
+      \node[draw,minimum size=.2cm] at (7,1) {1};
+      \node[draw,minimum size=.2cm] at (7.6,1.2) {5};
+      \node[draw,minimum size=.2cm] at (8.5,1.2) {6};
+      \node[draw,minimum size=.2cm] at (9.2,1) {7};
+
+      \node[circle,draw,minimum size=.4cm] at (6.2,-1) {};
+      \node at (6.2,-1.5) {$\nu$};
+      \node[draw,ellipse, minimum width=3.2cm, minimum height=1.3cm] at (8.2,-1) {};
+      \node[draw,minimum size=.2cm] at (7,-1) {2};
+      \node[draw,minimum size=.2cm] at (7.8,-1.2) {3};
+      \node[draw,minimum size=.2cm] at (8.5,-1) {4};
+      \end{tikzpicture}
+      \caption{An example of the first case in Phase 1 of
+        Adaptive Partitioning. Here $p$ is the client that
+        created a demand $\nu$ in this iteration, and
+        $\wtildeN_1(p)$ overlaps with $\wbarN(\kappa)$ for
+        some primary demand $\kappa$. Facility $2$ and $4$
+        are in the intersection of $\wtildeN_1(p)$ and
+        $\wbarN(\kappa)$ for the overlap check. We move
+        these two facilities, and additionally, facility $3$
+        into $\wbarN(\nu)$, because facility $3$ is also in
+        the intersection of $\wtildeN(p)$ and
+        $\wbarN(\kappa)$.}
+  \label{fig:adaptive_partition_overlap}
+\end{figure}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The other case is when
 $\wtildeN_1(p)$ is disjoint from the neighborhoods of all
 existing primary demands. Then, in Lines~15--16, $\nu$
 becomes itself a primary demand and we assign $\nu$ to
 itself. It also inherits the connection values to all
 facilities $\mu\in\wtildeN_1(p)$ from $p$ (recall that
 $\tildex_{\mu p} = \bary_{\mu}$), with all other
-$\barx_{\mu\nu}$ values set to $0$.
+$\barx_{\mu\nu}$ values set to $0$. An example for this case
+is given in Figure~\ref{fig:adaptive_partition_disjoint}.
+%% figure adaptive partition disjoint case
+\ssp
+\begin{figure}[ht]
+  \centering
+      \begin{tikzpicture}[scale=.8,every node/.style={scale=.8}]
+      \node[draw,circle,minimum size=.5cm] at (-.2,0) {};
+      \node at (-.5,.5) {$p$};
+      \node[draw,ellipse, minimum width=3.2cm, minimum height=1.3cm] at (2,0) {};
+      \node[draw,minimum size=.2cm] at (1,.1) {1};
+      \node[draw,minimum size=.2cm] at (1.6,-.3) {2};
+      \node[draw,minimum size=.2cm] at (2.5,.2) {3};
+      \node[draw,minimum size=.2cm] at (3.2,0) {4};
+
+      \draw[dashed] (2,1.3) -- (2,-1.3);
+      \node at (1,1.1) {$N_1(p)$};
+      \node at (3,-1) {$N(p)$};
+      %% arrow
+      \draw[line width=1mm,-implies,double, double distance=1mm,opacity=0.5] (4.2,0) -- (5.2,0);
+
+      \node[draw,circle,minimum size=.5cm] at (6,1) {};
+      \node at (6,1.5) {$p$};
+      \node[draw,ellipse, minimum width=3.2cm, minimum height=1.3cm] at (8,1) {};
+      \node[draw,minimum size=.2cm] at (8.5,1.2) {3};
+      \node[draw,minimum size=.2cm] at (9.2,1) {4};
+
+      \node[draw,circle,draw,minimum size=.4cm] at (6,-1) {};
+      \node at (6,-1.5) {$\nu$};
+      \node[draw,ellipse, minimum width=3.2cm, minimum height=1.3cm] at (8,-1) {};
+      \node[draw,minimum size=.2cm] at (7,-1) {1};
+      \node[draw,minimum size=.2cm] at (7.8,-1.2) {2};
+    \end{tikzpicture}
+    \caption{An example of the second case in Phase 1 of
+      Adaptive Partitioning. Here $p$ is the client that
+      created a demand $\nu$ and $\nu$ becomes a primary
+      demand with a neighborhood of $\wtildeN_1(p)$, which
+      consists of facility $1$ and $2$ in this example. The
+      neighborhood $\wtildeN(p)$ keeps the rest facilities;
+      that is facility $3$ and $4$ in this example.}
+  \label{fig:adaptive_partition_disjoint}
+\end{figure}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 At this point all primary demands satisfy
 Property~(PS.\ref{PS:one}), but this may not be true for
@@ -2021,9 +2216,75 @@ $\tildex_{\eta j} >0$.  If $\tildex_{\eta j} \leq
 Otherwise, $\tildex_{\eta j} >
 1-\connsum(\nu)$, in which case we split $\eta$ so that
 connecting $\nu$ to one of the created copies of $\eta$ will
-make $\connsum(\nu)$ equal $1$, and we'll be done.
+make $\connsum(\nu)$ equal $1$, and we'll be done. An
+example in Figure~\ref{fig:adaptive_partition_phase2}
+illustrates this process.
+%% figure adaptive partition phase 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=.6,every node/.style={scale=.6}]
+    %% left  
+    \draw (0,0) ellipse (2cm and 3cm);
+    \node[scale=1.5] (label1) at (-2,-2.5) {$\wtildeN(j)$};
 
+    \node[draw,circle,minimum size=.8cm] at (-3,0) {};
+    \node[scale=1.5] at (-3,-1) {$j$};
 
+    \draw (4,0) ellipse (1cm and 2cm);
+    \node[scale=1.5] (label2) at (4,-2.5) {$N(\nu)$};
+
+    \node[draw,circle,minimum size=.6cm] at (6,0) {};
+    \node[scale=1.5] at (6,-1) {$\nu$};
+
+    \node[draw,minimum size=.6cm] at (-1.5,0) {1};
+    \node[draw,minimum size=.6cm] at (0,-2) {2};
+    \node[draw,minimum size=.6cm] at (-1,1) {3};
+    \node[draw,minimum size=.6cm] at (1.5,0) {4};
+    \node[draw,minimum size=.6cm] at (-1,-1) {5};
+    \node[draw,minimum size=.6cm] at (0,0) {6};
+    \node[draw,minimum size=.6cm] at (1.5,1) {7};
+
+    \draw (4,1) rectangle (4.5,1.5);
+    \draw (4,-1.5) rectangle (4.5,-1);
+    %% arrow
+    \draw[line width=1mm,-implies,double, double distance=1mm,opacity=0.5] (6.7,0) -- (7.7,0);
+
+    %% right
+    \draw (11.5,0) ellipse (2cm and 3cm);
+    \node[scale=1.5] (label1) at (9.5,-2.5) {$\wtildeN(j)$};
+%%
+    \node[draw,circle,minimum size=.8cm] at (8.5,0) {};
+    \node[scale=1.5] at (8.5,-1) {$j$};
+%%
+    \draw (15.5,0) ellipse (1cm and 2cm);
+    \node[scale=1.5] (label2) at (15.5,-2.5) {$N(\nu)$};
+%%
+    \node[draw,circle,minimum size=.6cm] at (17.5,0) {};
+    \node[scale=1.5] at (17.5,-1) {$\nu$};
+
+    \node[draw,minimum size=.6cm] at (10,0) {1};
+
+    \node[draw,minimum size=.6cm] at (10.5,1) {3};
+    \node[draw,minimum size=.6cm] at (13,0) {4};
+    \node[draw,minimum size=.6cm] at (11.5,0) {6};
+%%
+    \draw (15.5,1) rectangle (16,1.5);
+    \draw (15.5,-1.5) rectangle (16,-1);
+    \node[draw,minimum size=.6cm] at (15,.5) {2};
+    \node[draw,minimum size=.6cm] at (15,-.5) {5};
+    \node[draw,minimum size=.6cm] at (16,0) {7};
+
+  \end{tikzpicture}
+  \caption{An example of one step in Phase 2 of Adaptive
+    Partitioning. In this example, we move facility $2,5$
+    and $7$ from $\wtildeN(j)$ to $\wbarN(\nu)$ to make
+    $\wbarN(\nu)$ having a total fractional value of $1$.}
+  \label{fig:adaptive_partition_phase2}
+\end{figure}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \smallskip
 
 Notice that we start with $|\sitesset|$ facilities and in
@@ -3361,6 +3622,7 @@ At this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
   algorithm completes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=3.2in]{proof_of_lemma_PD'3a.pdf}
@@ -3379,7 +3641,7 @@ Lemma~\ref{lem: PD1: primary overlap}]{Illustration of the
 \label{fig: sets lemma PD'3a}
 \end{center}
 \end{figure}
-
+\dsp
   We define the sets $A$, $B$, $E^-$ and $E^+$ as the subsets of
   $\facilityset$ (the final set of facilities) that were obtained from
   splitting facilities in the sets $\wtildeN(j)$, $\wtildeclsnb(j)\cap
@@ -4292,7 +4554,9 @@ approximation ratio better than $O(\log n / \log \log
 n)$. In particular, the analysis cannot be used to show an
 approximation ratio of $O(1)$.
 
-%%%%%%%%%%%%%%%%%%% start figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% start
+%%%%%%%%%%%%%%%%%%% figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[auto,scale=0.8, every node/.style={scale=0.8}]
@@ -4331,6 +4595,7 @@ approximation ratio of $O(1)$.
   \dsp
   \label{fig:greedy_lower_bound}
 \end{figure}
+\dsp
 %%%%%%%%%%%%%%%%% end figure %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4486,6 +4751,7 @@ their application to the design and analysis of
 approximation algorithms for optimization
 problems. Figure~\ref{fig:npo_ilp} gives an overview of the
 discussions below.
+\ssp
 \begin{figure}[ht]
   \centering
     \begin{tikzpicture}
@@ -4503,6 +4769,7 @@ discussions below.
   \caption{An overview of application of Integer Programming and Linear Programming for NP-hard optimization problems.}
   \label{fig:npo_ilp}
 \end{figure}
+\dsp
 
 \subsection{Optimization and Integer Programming}
 \label{subsec: Optimization_IP}
