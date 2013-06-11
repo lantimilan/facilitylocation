@@ -346,8 +346,82 @@ formally, we define the {\FTFP} problem as:
   the total cost of opening facilities and connecting
   clients to facilities is minimized.
 \end{problem}
-In this thesis we only consider the metric version of the
-{\FTFP} problem. 
+One example is given in Figure~\ref{fig:ftfp_example}, along
+with an integral feasible solution to that instance. The
+{\FTFP} problem with general distances is well-understood,
+with a greedy algorithm achieving an approximation ratio of
+$H_n$ where $n$ is the number of clients and $H_n$ is the
+$n^{th}$ harmonic number (we show this result in
+Section~\ref{sec: greedy}), and a matching lower bound on
+the approximation because it contains the Set Cover problem
+as a special case. In this thesis we only consider the
+metric version of the {\FTFP} problem.
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{.45\textwidth}
+      \begin{tikzpicture}[scale=0.6]
+        \node[draw,minimum size=1cm] (fac3) at (0,2) {$3$};
+        \node[draw,minimum size=1cm] (fac2) at (0,5) {$2$};
+        \node[draw,minimum size=1cm] (fac1) at (0,8) {$1$};
+
+        \node[below] (faclabel3) at (-.5,1.3) {$f_3=4$};
+        \node[below] (faclabel2) at (-.5,4.3) {$f_2=6$};
+        \node[below] (faclabel1) at (-.5,7.3) {$f_1=3$};
+
+        \node[circle,draw] (client4) at (6,0) {$4$};
+        \node[circle,draw] (client3) at (6,3) {$3$};
+        \node[circle,draw] (client2) at (6,6) {$2$};
+        \node[circle,draw] (client1) at (6,9) {$1$};
+
+        \node[right] (demand4) at (6,-1) {$r_4=2$};
+        \node[right] (demand3) at (6,2) {$r_3=1$};
+        \node[right] (demand2) at (6,5) {$r_2=1$};
+        \node[right] (demand1) at (6,8) {$r_1=4$};
+    
+        \foreach \from/\to in {fac3/client4,fac3/client1,fac2/client3,fac1/client4,fac1/client2,fac1/client1}
+        \draw (\from)--(\to);
+
+        % edge weight
+        \node[above] (ew11) at (2,8.3) {$1$};
+        \node[above] (ew12) at (2.4,7) {$2$};
+        \node[above] (ew14) at (1.9,5.5) {$1$};
+        \node[above] (ew23) at (1.5,4.4) {$3$};
+        \node[above] (ew33) at (1.5,2.5) {$2$};
+        \node[above] (ew34) at (1.9,1.3) {$4$};
+      \end{tikzpicture}
+      \caption{The FTFP Instance.}
+      \end{subfigure}
+      %
+      \begin{subfigure}[b]{.45\textwidth}
+        \begin{tikzpicture}[scale=0.6]
+      \node[draw,minimum size=1cm] (fac3) at (0,2) {$3$};
+      \node[draw,fill=black,minimum size=.2cm] (fac33) at (.5,1.5) {};
+      \node[draw,fill=black,minimum size=.2cm] (fac32) at (.5,2.5) {};
+      \node[draw,fill=black,minimum size=.2cm] (fac31) at (-.5,2.5) {};
+
+      \node[draw,minimum size=1cm] (fac2) at (0,5) {$2$};
+      \node[draw,fill=black,minimum size=.2cm] (fac21) at (.5,4.5) {};
+
+      \node[draw,minimum size=1cm] (fac1) at (0,8) {$1$};
+      \node[draw,fill=black,minimum size=.2cm] (fac12) at (.5,7.5) {};
+      \node[draw,fill=black,minimum size=.2cm] (fac11) at (.5,8.5) {};
+
+      \node[draw,circle] (client4) at (6,0) {$4$};
+      \node[draw,circle] (client3) at (6,3) {$3$};
+      \node[draw,circle] (client2) at (6,6) {$2$};
+      \node[draw,circle] (client1) at (6,9) {$1$};
+    
+      \foreach \from/\to in {fac31/client1,fac32/client1,fac33/client1,fac11/client1,fac11/client2,fac11/client4,fac21/client3,fac12/client4}
+      \draw (\from)--(\to);
+  \end{tikzpicture}
+  \caption{An integral feasible solution.}
+  \end{subfigure}
+  \caption{An instance of the FTFP problem with an integral
+    feasible solution. The cost of the solution is $2f_1 +
+    f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} +
+    3d_{31} = 38$.}
+  \label{fig:ftfp_example}
+\end{figure}
 
 The {\FTFP} problem contains the {\UFL} problem as a special
 case. In fact, setting $r_j = 1$ for all clients $j$ we get
@@ -4297,7 +4371,26 @@ ratio to meet the lower bound.
 In this section we give a short introduction to Integer
 Programming and Linear Programming, with an emphasis on
 their application to the design and analysis of
-approximation algorithms for optimization problems.
+approximation algorithms for optimization
+problems. Figure~\ref{fig:npo_ilp} gives an overview of the
+discussions below.
+\begin{figure}[ht]
+  \centering
+    \begin{tikzpicture}
+    \node[draw] (npo) at (0,0) {NP-hard Optimization Problem};
+    \node[draw] (ip) at (0,-1.5) {Integer Program};
+    \node[draw] (lp) at (0,-3) {Linear Program (LP) with Fractional Solution};
+    \node[draw] (rounding) at (-3,-5) {LP-rounding};
+    \node[draw] (primal) at (3,-5) {Primal-dual};
+
+    \draw[->,>=latex] (npo) -- (ip);
+    \draw[->,>=latex] (ip) -- (lp);
+    \draw[->,>=latex] (lp) -- (rounding);
+    \draw[->,>=latex] (lp) -- (primal);
+  \end{tikzpicture}
+  \caption{An overview of application of Integer Programming and Linear Programming for NP-hard optimization problems.}
+  \label{fig:npo_ilp}
+\end{figure}
 
 \subsection{Optimization and Integer Programming}
 \label{subsec: Optimization_IP}
