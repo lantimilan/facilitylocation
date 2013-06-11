@@ -421,10 +421,11 @@ Figure~\ref{fig:triangle} for an illustration.
   \end{tikzpicture}
   \caption{An integral feasible solution.}
   \end{subfigure}
-  \caption{An instance of the FTFP problem with an integral
-    feasible solution. The cost of the solution is $2f_1 +
-    f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} +
-    3d_{31} = 38$.}
+  \caption[An instance of the FTFP problem with an integral
+  feasible solution.]{An instance of the FTFP problem with an
+    integral feasible solution. The cost of the solution is
+    $2f_1 + f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23}
+    + 3d_{31} = 38$.}
   \label{fig:ftfp_example}
 \end{figure}
 \dsp
@@ -443,7 +444,11 @@ Figure~\ref{fig:triangle} for an illustration.
         \draw (fac2) -- (client2);
         \draw[dashed] (fac1) -- (client2);
       \end{tikzpicture}
-  \caption{Illustration of the triangle inequality: for any two sites $i_1$ and $i_2$, and any two clients $j_1$ and $j_2$, we have $d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.}
+      \caption[Illustration of the triangle
+      inequality.]{Illustration of the triangle inequality:
+        for any two sites $i_1$ and $i_2$, and any two
+        clients $j_1$ and $j_2$, we have $d_{i_1 j_2} \leq
+        d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.}
   \label{fig:triangle}
 \end{figure}
 \dsp
@@ -961,7 +966,7 @@ has three interesting properties:
   \end{tikzpicture}
   \ssp
   \caption[Illustration of the clustering structure of
-  LP-rounding algorithms for UFL]{An illustration of the
+  LP-rounding algorithms for UFL.]{An illustration of the
     clustering structure of LP-rounding algorithms for
     UFL. Rectangles are facilities and circles are
     clients. Dashed boxes indicate clusters. The solid
@@ -1734,7 +1739,7 @@ Figure~\ref{fig:adaptive_partition}.
 
     \draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand3);
   \end{tikzpicture}
-  \caption{A diagram of adaptive partitioning. A site $i$ is split into a set of facilities $\mu$, and a client $j$ is split into a set of unit demands $\nu$. The adaptive partitioning process also defines fractional values for each facility $\mu$ and for each pair of $\mu$ and $\nu$.}
+  \caption[A diagram of Adaptive Partitioning.]{A diagram of Adaptive Partitioning. A site $i$ is split into a set of facilities $\mu$, and a client $j$ is split into a set of unit demands $\nu$. The adaptive partitioning process also defines fractional values for each facility $\mu$ and for each pair of $\mu$ and $\nu$.}
   \label{fig:adaptive_partition}
 \end{figure}
 \dsp
@@ -2132,17 +2137,18 @@ Figure~\ref{fig:adaptive_partition_overlap}.
       \node[draw,minimum size=.2cm] at (7.8,-1.2) {3};
       \node[draw,minimum size=.2cm] at (8.5,-1) {4};
       \end{tikzpicture}
-      \caption{An example of the first case in Phase 1 of
-        Adaptive Partitioning. Here $p$ is the client that
-        created a demand $\nu$ in this iteration, and
-        $\wtildeN_1(p)$ overlaps with $\wbarN(\kappa)$ for
-        some primary demand $\kappa$. Facility $2$ and $4$
-        are in the intersection of $\wtildeN_1(p)$ and
-        $\wbarN(\kappa)$ for the overlap check. We move
-        these two facilities, and additionally, facility $3$
-        into $\wbarN(\nu)$, because facility $3$ is also in
-        the intersection of $\wtildeN(p)$ and
-        $\wbarN(\kappa)$.}
+      \caption[An example of the first case in Phase 1 of
+      Adaptive Partitioning.]{An example of the first case
+        in Phase 1 of Adaptive Partitioning. Here $p$ is the
+        client that creates a demand $\nu$ in this
+        iteration, and $\wtildeN_1(p)$ overlaps with
+        $\wbarN(\kappa)$ for some primary demand
+        $\kappa$. Facility $2$ and $4$ are in the
+        intersection of $\wtildeN_1(p)$ and $\wbarN(\kappa)$
+        for the overlap check. We move these two facilities,
+        and additionally, facility $3$ into $\wbarN(\nu)$,
+        because facility $3$ is also in the intersection of
+        $\wtildeN(p)$ and $\wbarN(\kappa)$.}
   \label{fig:adaptive_partition_overlap}
 \end{figure}
 \dsp
@@ -2187,13 +2193,15 @@ is given in Figure~\ref{fig:adaptive_partition_disjoint}.
       \node[draw,minimum size=.2cm] at (7,-1) {1};
       \node[draw,minimum size=.2cm] at (7.8,-1.2) {2};
     \end{tikzpicture}
-    \caption{An example of the second case in Phase 1 of
-      Adaptive Partitioning. Here $p$ is the client that
-      created a demand $\nu$ and $\nu$ becomes a primary
-      demand with a neighborhood of $\wtildeN_1(p)$, which
-      consists of facility $1$ and $2$ in this example. The
-      neighborhood $\wtildeN(p)$ keeps the rest facilities;
-      that is facility $3$ and $4$ in this example.}
+    \caption[An example of the second case in Phase 1 of
+    Adaptive Partitioning.]{An example of the second case in
+      Phase 1 of Adaptive Partitioning. Here $p$ is the
+      client that creates a demand $\nu$ and $\nu$ becomes a
+      primary demand with a neighborhood of $\wtildeN_1(p)$,
+      which consists of facility $1$ and $2$ in this
+      example. The neighborhood $\wtildeN(p)$ keeps the rest
+      facilities; that is facility $3$ and $4$ in this
+      example.}
   \label{fig:adaptive_partition_disjoint}
 \end{figure}
 \dsp
@@ -2277,10 +2285,12 @@ illustrates this process.
     \node[draw,minimum size=.6cm] at (16,0) {7};
 
   \end{tikzpicture}
-  \caption{An example of one step in Phase 2 of Adaptive
-    Partitioning. In this example, we move facility $2,5$
-    and $7$ from $\wtildeN(j)$ to $\wbarN(\nu)$ to make
-    $\wbarN(\nu)$ having a total fractional value of $1$.}
+  \caption[An example of one step in Phase 2 of Adaptive
+  Partitioning.]{An example of one step in Phase 2 of
+    Adaptive Partitioning. In this example, we move facility
+    $2,5$ and $7$ from $\wtildeN(j)$ to $\wbarN(\nu)$ to
+    make $\wbarN(\nu)$ have a total fractional value of
+    $1$.}
   \label{fig:adaptive_partition_phase2}
 \end{figure}
 \dsp
