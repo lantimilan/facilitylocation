@@ -15,7 +15,9 @@ lyan at cs.ucr.edu
 
 % APPROX
 @string{APPROX = " International Workshop on Approximation Algorithms for Combinatorial Optimization Problems (APPROX)"}
+@string{APPROX00 = "Proc. 3th" # APPROX}
 @string{APPROX01 = "Proc. 4th" # APPROX}
+@string{APPROX07 = "Proc. 10th" # APPROX}
 
 % ESA
 @string{ESA    = " European Symp. on Algorithms (ESA)"}
@@ -102,7 +104,7 @@ lyan at cs.ucr.edu
 @string{ICALP09 = "Proc. 36rd" # ICALP}
 @string{ICALP10 = "Proc. 37rd" # ICALP}
 @string{ICALP11 = "Proc. 38rd" # ICALP}
-
+@string{ICALP12 = "Proc. 39rd" # ICALP}
 %IPCO
 @string{IPCO = " Conference on Integer Programming and Combinatorial Optimization (IPCO)"}
 @string{IPCO02 = "Proc.   9th" # IPCO}
@@ -148,7 +150,10 @@ lyan at cs.ucr.edu
 @string{SODA06 = "Proc. 17th" # SODA}
 @string{SODA07 = "Proc. 18th" # SODA}
 @string{SODA08 = "Proc. 19th" # SODA}
-
+@string{SODA09 = "Proc. 20th" # SODA}
+@string{SODA10 = "Proc. 21th" # SODA}
+@string{SODA11 = "Proc. 22th" # SODA}
+@string{SODA12 = "Proc. 23th" # SODA}
 % STOC
 @string{STOC   = " Symp. Theory of Computing (STOC)"}
 @string{STOC73 = "Proc.  5th" # STOC}
@@ -298,7 +303,7 @@ LP-rounding
 @inproceedings{Byrka07,
   author = {Byrka, Jaroslaw},
   title = {An Optimal Bifactor Approximation Algorithm for the Metric Uncapacitated Facility Location Problem},
-  booktitle = {Proceedings of the 10th International Workshop on Approximation and the 11th International Workshop on Randomization, and Combinatorial Optimization. Algorithms and Techniques, APPROX '07/RANDOM '07},
+  booktitle = APPROX07,
   year = {2007},
   pages = {29--43},
 }
@@ -397,10 +402,10 @@ Local Search
 
 Korupolu et al ‘98, Chudak & Williamson ‘99: 
 Local search gives c-approx. for uniform, hard capacities.
-@inproceedings{Korupolu98,
+@inproceedings{KorupoluPR98,
   author = {Madhukar Korupolu and C. Greg Plaxton and Rajmohan Rajaraman},
   title = {Analysis of a local search heuristic for facility location problems},
-  booktitle = {Proceedings of the 9th ACM-SIAM Symposium on Discrete Algorithms, SODA '98},
+  booktitle = SODA98,
   year = {1998},
   pages = {1--10},
 }
@@ -546,7 +551,7 @@ Local search gives c-approx. for nonuniform, hard capacities.
 @inproceedings{PalTW01,
  author = {Martin P\'{a}l and \'{E}va Tardos. and Tom Wexler},
  title = {Facility Location with Nonuniform Hard Capacities},
- booktitle = {Proceedings of the 42nd IEEE Symposium on Foundations of Computer Science, FOCS '01},
+ booktitle = FOCS01,
  year = {2001},
  pages = {329-338},
  }
@@ -569,9 +574,19 @@ best approx ratio for capacitated facility location problem
                Yinyu Ye},
   title     = {A Multi-exchange Local Search Algorithm for the Capacitated
                Facility Location Problem: (Extended Abstract)},
-	booktitle = {Proceedings of the 10th International Conference on Integer Programming and Combinatorial Optimization, IPCO'04},
+	booktitle = IPCO04,
   year      = {2004},
   pages     = {219-233},
+}
+
+@article{ZhangCY05,
+  author = {Jiawei Zhang and Bo Chen and Yinyu Ye},
+  title = {A Multiexchange Local Search Algorithm for the Capacitated Facility Location Problem},
+  journal = {Mathematics of Operations Research},
+  year = {2005},
+  volume = {30},
+  number = {2},
+  pages = {389--403},
 }
 
 approx setcover clogn is NP-hard
@@ -621,6 +636,44 @@ approx setcover clogn is NP-hard
   pages = {225--248},
 }
 
+@article{KuehnH63,
+  author = {Alfred A. Kuehn and Michael J. Hamburger},
+  title = {A Heuristic Program for Locating Warehouses},
+  journal = {Management Science},
+  volume = {9},
+  number = {4},
+  pages = {643--666},
+  year = {1963},
+}
+
+@article{Man64,
+  author = {Alan S. Manne},
+  title = {Plant Location under Economies-of-Scale-Decentralization and Computation},
+  journal = {Management Science},
+  volume = {11},
+  number = {2},
+  year = {1964}, 
+  pages = {213-235},
+}
+
+@inproceedings{Shmoys00,
+  author    = {David B. Shmoys},
+  title     = {Approximation algorithms for facility location problems},
+  booktitle = APPROX00,
+  year      = {2000},
+  pages     = {27--33},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@inproceedings{Shmoys04,
+  author = {David B. Shmoys},
+  title = {The Design and Analysis of Approximation Algorithms: Facility Location as a Case Study},
+  booktitle = {Proceedings of Symposia in Applied Mathematics},
+  volume = {61},
+  pages = {85--97},
+  year = {2004},
+}
+
 heavily influenced, not many deep results but excellent exposition
 @PHDThesis{Bumb02,
     author     =     {Adriana Bumb},
@@ -668,7 +721,7 @@ not used, just to know the bibtex format
   year={1983},
 }
 
-@book{Francis90,
+@book{MirF90,
   author={Pitu B. Mirchandani, Richard L. Francis},
   title={Discrete Location Theory},
   publisher={Wiley-Interscience},
@@ -682,4 +735,90 @@ not used, just to know the bibtex format
   publisher = {Wiley-Interscience},
   isbn = {047182819X},
   year = {1988},
+}
+
+@book{WilliamsonS11,
+  author = {David P. Williamson, David B. Shmoys},
+  title = {The Design of Approximation Algorithms},
+  publisher = {Cambridge University Press},
+  year = {2011},
+}
+
+@inproceedings{CharikarKMN01,
+ author = {Moses Charikar and Samir Khuller and David M. Mount and Giri Narasimhan},
+ title = {Algorithms for facility location problems with outliers},
+ booktitle = SODA01,
+ year = {2001},
+ pages = {642--651},
+} 
+
+@inproceedings{CharikarL12,
+  author    = {Moses Charikar and
+               Shi Li},
+  title     = {A Dependent LP-Rounding Approach for the k-Median Problem},
+  booktitle = {ICALP12},
+  year      = {2012},
+  pages     = {194-205},
+}
+
+@article{CharikarGTS02,
+  author    = {Moses Charikar and
+               Sudipto Guha and
+               {\'E}va Tardos and
+               David B. Shmoys},
+  title     = {A Constant-Factor Approximation Algorithm for
+                  the k-Median Problem},
+  journal   = {J. Comput. Syst. Sci.},
+  volume    = {65},
+  number    = {1},
+  year      = {2002},
+  pages     = {129-149},
+}
+
+@article{AardalMLQ96,
+    author = {Karen Aardal and Martine Labbé and Janny Leung and Maurice Queyranne},
+    title = {On the Two-Level Uncapacitated Facility Location Problem},
+    journal = {INFORMS J. COMPUT},
+    year = {1996},
+    volume = {8},
+    pages = {289--301}
+}
+
+@inproceedings{KrishnaswamyS12,
+  author    = {Ravishankar Krishnaswamy and
+               Maxim Sviridenko},
+  title     = {Inapproximability of the multi-level uncapacitated facility
+               location problem},
+  booktitle = {SODA12},
+  year      = {2012},
+  pages     = {718-734},
+}
+
+@inproceedings{ByrkaR12,
+  author    = {Jaroslaw Byrka and
+               Bartosz Rybicki},
+  title     = {Improved LP-Rounding Approximation Algorithm for k-level
+               Uncapacitated Facility Location},
+  booktitle = {ICALP12},
+  year      = {2012},
+  pages     = {157-169},
+}
+
+@article{Zhang06,
+  author    = {Jiawei Zhang},
+  title     = {Approximating the two-level facility location problem via
+               a quasi-greedy approach},
+  journal   = {Math. Program.},
+  volume    = {108},
+  number    = {1},
+  year      = {2006},
+  pages     = {159-176},
+}
+
+@inproceedings{Meyerson01,
+  author    = {Adam Meyerson},
+  title     = {Online Facility Location},
+  booktitle = FOCS01,
+  year      = {2001},
+  pages     = {426-431},
 }

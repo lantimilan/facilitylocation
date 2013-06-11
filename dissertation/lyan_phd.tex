@@ -58,8 +58,6 @@
 
 
 \newtheorem{theorem}{Theorem}
-\newtheorem{acknowledgement}[theorem]{Acknowledgement}
-%%\newtheorem{algorithm}[theorem]{Algorithm}
 \newtheorem{axiom}[theorem]{Axiom}
 \newtheorem{case}[theorem]{Case}
 \newtheorem{claim}[theorem]{Claim}
@@ -172,7 +170,7 @@ Professor Neal Young}
   clients must be connected to open facilities. The goal is
   to satisfy all clients' demands while minimizing the
   combined cost of opening facilities and connecting clients
-  to facilities. The problem is NP-hard, and hence we study
+  to facilities. The problem is \NP-hard, and hence we study
   approximation algorithms and their performance
   guarantees. Approximation algorithms are algorithms that
   run in polynomial time with provable performance bounds
@@ -239,7 +237,7 @@ First, setting up a data center incurs a cost and the cost
 varies with location. The real estate rent in Kansas usually
 does not compare to even a fraction of that in San Francisco
 or New York. The electricity rate is also very different in
-midwest areas from that in California. Other factors like
+modest areas from that in California. Other factors like
 potential natural disasters such as tornadoes and
 earthquakes could also be factored into the cost estimate to
 build a data center in a certain location. In short,
@@ -259,24 +257,52 @@ our problem definition.
 
 Facility location problems have long been an active topic in
 both Operations Research and Computer Science research
-communities. Problems that have been considered include
+communities. Early works on facility location problems can
+be found in \cite{KuehnH63,Man64,Bal66}. See also the book
+by Mirchandani and Francis~\cite{MirF90}. For review of more
+recent work, see Shmoys' survey
+articles~\cite{Shmoys00,Shmoys04}, Vygen's lecture
+notes~\cite{Vygen05}, and the book by Williamson and
+Shmoys~\cite{WilliamsonS11}. Problems that have been
+considered include
 \begin{itemize}
-\item \emph{the Uncapacitated Facility Location problem}, where
-  each site can open at most one facility and each client
-  needs to be connected to one facility,
-\item \emph{the Fault-Tolerant Facility Location problem},
-  where each site can open at most one facility, and each
-  client has a demand, which is the number of facilities
-  that it needs to connect to,
-\item \emph{the Capacitated Facility Location problem},
+\item \emph{the Uncapacitated Facility Location
+    problem}~\footnote{This is a well studied problem and
+    references are too numerous to be placed here, for a
+    recent survey, see Vygen's lecture
+    notes~\cite{Vygen05}.}, where each site can open at most
+  one facility and each client needs to be connected to one
+  facility,
+\item \emph{the Fault-Tolerant Facility Location
+    problem}~\cite{JainV03,GuhaMM03,ByrkaSS10}, where each
+  site can open at most one facility, and each client has a
+  demand, which is the number of facilities that it needs to
+  connect to,
+\item \emph{the Capacitated Facility Location
+    problem}~\cite{ShmoysTA97,MahdianYZ06,PalTW01,ZhangCY05},
   where a site can open at most one facility and each client
   connects to one facility, but every facility has a
   capacity, which is the maximum number of clients it can
   accept,
-\item \emph{the Prize-Collecting Facility Location problem},
-  where a site can open at most one facility and each client
-  can either connect to one facility, or stay unconnected,
-  in which case a penalty is counted towards final cost.
+\item \emph{the $k$-median
+    problem}~\cite{CharikarGTS02,JainV01,AryaGKMMP04,CharikarL12},
+  in which there is no cost to open a facility, each site
+  can open at most one facility, and the total number of
+  facilities opened cannot be more than $k$,
+\item \emph{the Multi-level Facility Location
+    problem}~\cite{AardalMLQ96,AardalCS99,Zhang06,ByrkaR12,KrishnaswamyS12},
+  in which we are given $k$ disjoint sets of facilities and
+  each client needs to be serviced by a sequence of $k$
+  facilities, one from each set,
+\item \emph{the Online Facility Location
+    problem}~\cite{Meyerson01, Fotakis07, Fotakis08}, where demand points
+  arrive one a time and must be assigned irrevocably upon
+  arrival,
+\item \emph{the Prize-Collecting Facility Location
+    problem}~\cite{CharikarKMN01}, where a site can open at
+  most one facility and each client can either connect to
+  one facility, or stay unconnected, in which case a penalty
+  is counted towards final cost.
 \end{itemize}
 In all the problems above, there is a cost to open a
 facility at a site, and there is a cost to connect a client
@@ -457,7 +483,7 @@ The {\FTFP} problem contains the {\UFL} problem as a special
 case. In fact, setting $r_j = 1$ for all clients $j$ we get
 the {\UFL} problem. Another problem that is closely related
 to the {\FTFP} problem is the Fault-Tolerant Facility
-Location problem (FTFL) mentioned ealier. The difference
+Location problem (FTFL) mentioned earlier. The difference
 between {\FTFP} and {\FTFL} is that in {\FTFP} we can open
 any number of facilities at a site while in {\FTFL} we can
 open at most one facility at a site.
@@ -619,7 +645,7 @@ Integer Programming, Linear Programming and their
 application for the {\UFL} problem.
 
 For the {\UFL} problem, the LP formulated by
-Balinski~\cite{Bal66} is now standard. We start with an
+Balinese's~\cite{Bal66} is now standard. We start with an
 integer program in which we use a variable $y_i\in \{0,1\}$
 to indicate whether a facility $i\in\sitesset$ is open or
 not, and a variable $x_{ij} \in \{0,1\}$ to indicate whether
@@ -628,7 +654,7 @@ integral constraints, we obtain the following
 LP~(\ref{eqn:ufl_primal}) for the UFL problem. Observe that
 we do not need an explicit constraint of $x_{ij} \leq 1$ or
 $y_i \leq 1$, as any optimal solution to the
-LP~(\ref{eqn:ufl_primal}) must satisfy these two constaints
+LP~(\ref{eqn:ufl_primal}) must satisfy these two constraints
 automatically. The LP is:
 %%%%%%%%%%%
 \begin{empheq}[box=\fbox]{align}
@@ -681,7 +707,7 @@ In this subsection we give an overview of known
 approximation algorithms for the {\UFL} problem, including
 LP-rounding algorithms, primal-dual algorithms, and
 local-search algorithms. All of them, except local-search
-algorithms, make use of the LP just decribed.
+algorithms, make use of the LP just described.
 
 \subsubsection{LP-rounding Algorithms}
 The first $O(1)$-approximation algorithm was obtained by
@@ -703,12 +729,12 @@ choices, it has left quite some room for
 improvements. Chudak and Shmoys~\cite{ChudakS04} were the
 first to use the idea of randomized rounding for
 {\UFL}. Roughly speaking, in their algorithm, each facility
-$i$ is opened with probabiliy $y_i^\ast$ where $y_i^\ast$ is
+$i$ is opened with probability $y_i^\ast$ where $y_i^\ast$ is
 given by the optimal fractional solution
 $(\bfx^\ast,\bfy^\ast)$ to the LP
 (\ref{eqn:ufl_primal}). The expected connection cost is
 estimated using a provably worse random process in which
-each facility is opened indepedently, whose expected
+each facility is opened independently, whose expected
 connection cost is easier to analyze. They obtained a ratio
 of $1+2/e = 1.736$. Sviridenko~\cite{Svi02} further improved
 the ratio to $1.582$, by using a scaled version of the
@@ -773,7 +799,10 @@ optimum is achieved. The set of allowed local moves needs to
 be chosen carefully: admitting more powerful moves allows
 the local optimum to be closer to the global optimum, while
 restricting to a few simple moves results in faster
-algorithms and easier analysis. Arya
+algorithms and easier analysis. Korupolu, Plaxton and
+Rajaraman~\cite{KorupoluPR98} were the first ones who
+studied the local search approach for the UFL problem. They
+analyzed a heuristic and showed a ratio of $5$.  Arya
 {\etal}~\cite{AryaGKMMP01} showed that their local-search
 algorithm gave a ratio of $3$.
 
@@ -881,8 +910,9 @@ $\phi(j')$ is the facility that $j'$ connects to.
 
 \subsubsection{The Clustering Structure}
 The clustering structure produced by the Shmoys, Tardos and
-Aardal's algorithm is depicted in Figure~\ref{fig:STA97}. It
-has three interesting properties:
+Aardal's algorithm is depicted in Figure~\ref{fig:STA97},
+who were inspired by the work of Lin and
+Vitter~\cite{LinV92}. It has three interesting properties:
 \begin{itemize}
 \item First, each cluster of clients has a
   representative~\footnote{In the literature, the
@@ -1000,7 +1030,7 @@ The facility cost of this solution is no more than $F^\ast =
 that is opened can have its cost bounded by the average
 facility cost of the neighborhood. The connection cost of a
 representative $j'$ is no more than $\alpha_{j'}^\ast$,
-because the complentary slackness conditions imply $d_{ij'}
+because the complementary slackness conditions imply $d_{ij'}
 \leq \alpha_{j'}^\ast$ for any facility $i$ in $N(j')$. The
 connection cost for a non-representative client $j$ can be
 bounded by the triangle inequality; that is $d_{i'j} \leq
@@ -1076,12 +1106,13 @@ Our problem, the Fault-Tolerant Facility Placement problem
 (\FTFP), was introduced by Xu and
 Shen~\cite{XuS09}~\footnote{In their paper they call the
   problem the Fault-Tolerant Facility Allocation problem, or
-  FTFA.}. The study of {\FTFP} was partly motivated to
-obtain a better understanding of the implication of the
-fault-tolerant requirement on facility location problems.
-Xu and Shen's results, and a follow-up work by Liao and
-Shen~\cite{LiaoS11}, seem to be valid only for a special
-case of {\FTFP}.
+  FTFA.}. See also a follow-up work by Liao and
+Shen~\cite{LiaoS11}. The study of {\FTFP} was partly
+motivated to obtain a better understanding of the
+implication of the fault-tolerant requirement on facility
+location problems.  Xu and Shen's results, and a follow-up
+work by Liao and Shen~\cite{LiaoS11}, seem to be valid only
+for a special case of {\FTFP}.
 
 Our work on the FTFP problem begins with a $4$-approximation
 LP-rounding algorithm~\cite{YanC11}. In this thesis we
@@ -1466,7 +1497,7 @@ also that the solutions $(\hatbfx,\hatbfy)$ and $(\dotbfx,
 instances, for if a better solution to $\hatcalI$ or
 $\dotcalI$ existed, it could give us a solution to $\calI$
 with a smaller objective value. We would also like to
-comment that completeness, although simplifing our argument
+comment that completeness, although simplifying our argument
 here and afterwards, is not essential. For our demand
 reduction, we can deal with non-complete fractional
 solutions by taking $\hat y_i = (y_i^\ast -
@@ -1577,7 +1608,7 @@ Theorem~\ref{thm:largeR}.
 %%%%%%%%%%%%%%%%%%%
 \begin{proof}
   We first solve the LP~(\ref{eqn:fac_primal}) for this
-  instance and obtain an optimal frational solution
+  instance and obtain an optimal fractional solution
   $(\bfx^\ast, \bfy^\ast)$. Then we apply demand reduction
   to obtain the two instances $\hat \calI$ and $\dot
   \calI$. For the $\hat \calI$ instance we already have an
@@ -1888,7 +1919,7 @@ client depend on the choice of earlier demands, of this or other
 clients, and their connection values. We would like to point out that
 the adaptive partitioning process for the $1.575$-approximation
 algorithm (Section~\ref{sec: 1.575-approximation}) is more subtle than that for 
-the $3$-apprximation (Section~\ref{sec: 3-approximation}) and the
+the $3$-approximation (Section~\ref{sec: 3-approximation}) and the
 $1.736$-approximation algorithms (Section~\ref{sec:
   1.736-approximation}), due to the introduction of close and far
 neighborhood.
@@ -1972,7 +2003,7 @@ total connection value to $j$ (the sum of $\tildex_{\mu
   j}$'s) equals $1$.  This set is computed by Procedure
 $\NearestUnitChunk()$ (see Pseudocode~\ref{alg:helper},
 Lines~1--9), which adds facilities to $\wtildeN_1(j)$ in
-order of nondecreasing distance, until the total connection
+order of non-decreasing distance, until the total connection
 value is exactly $1$. (The procedure actually uses the
 $\bary_\mu$ values, which are equal to the connection values,
 by the completeness condition (c2).)  This may require splitting the last added
@@ -2577,7 +2608,7 @@ exhausted at that time.)
   right after the call to $\NearestUnitChunk()$ in
   Pseudocode~\ref{alg:lpr2}, Line~7.  Let $\wtildeN(j) =
   \{\mu_1,...,\mu_q\}$ with all facilities $\mu_s$ ordered
-  according to nondecreasing distance from $j$.  Consider
+  according to non-decreasing distance from $j$.  Consider
   the following linear program,
 %
 \begin{empheq}[box=\fbox]{align*}
@@ -3133,7 +3164,7 @@ $\wbarN(\kappa)$ for some primary demand $\kappa$. If some $\mu$ is
 not a neighbor of any primary demand, then it constitutes a singleton
 group.  For each $s$, let $\bard_s = D(G_s,\nu)$ be the average
 distance from $\nu$ to $G_s$.  Assume that $G_1,...,G_k$ are ordered
-by nondecreasing average distance to $\nu$, that is $\bard_1 \le
+by non-decreasing average distance to $\nu$, that is $\bard_1 \le
 \bard_2 \le ... \le \bard_k$.  For each group $G_s$, we select it,
 independently, with probability $g_s = \sum_{\mu\in G_s}\bary_{\mu}$.
 For each selected group $G_s$,  we
@@ -4358,7 +4389,7 @@ the just-selected star are connected to the facility, and
 the opening cost of that facility is then set to zero. The
 greedy algorithm can be interpreted as an equivalent
 algorithm that grows a dual solution and updates the
-correponding primal solution. Each client $j$ is associated
+corresponding primal solution. Each client $j$ is associated
 with a dual variable $\alpha_j$, and $\alpha_j$ is fixed to
 the average cost of the star when the client $j$ gets
 connected. Clearly, the sum of $\alpha_j$ for all clients
@@ -4765,7 +4796,7 @@ discussions below.
 \begin{figure}[ht]
   \centering
     \begin{tikzpicture}
-    \node[draw] (npo) at (0,0) {NP-hard Optimization Problem};
+    \node[draw] (npo) at (0,0) {\NP-hard Optimization Problem};
     \node[draw] (ip) at (0,-1.5) {Integer Program};
     \node[draw] (lp) at (0,-3) {Linear Program (LP) with Fractional Solution};
     \node[draw] (rounding) at (-3,-5) {LP-rounding};
@@ -4776,7 +4807,7 @@ discussions below.
     \draw[->,>=latex] (lp) -- (rounding);
     \draw[->,>=latex] (lp) -- (primal);
   \end{tikzpicture}
-  \caption{An overview of application of Integer Programming and Linear Programming for NP-hard optimization problems.}
+  \caption{An overview of application of Integer Programming and Linear Programming for \NP-hard optimization problems.}
   \label{fig:npo_ilp}
 \end{figure}
 \dsp
@@ -4785,7 +4816,7 @@ discussions below.
 \label{subsec: Optimization_IP}
 Most optimization problems have a natural integer program in
 which we use variables to describe the solution that we
-seek, and write the constraints imposed by the feasiblity
+seek, and write the constraints imposed by the feasibility
 requirements. The objective function is the cost function of
 the solution. Both the feasibility requirements and the cost
 function are specified by the problem. For example, in the
@@ -4866,7 +4897,7 @@ The Strong Duality Theorem is that:
 \end{theorem}
 One way to characterize optimal primal and dual solutions is
 the Complementary Slackness Conditions. The complementary
-slackness condtions says that:
+slackness conditions says that:
 \begin{theorem}
   \label{thm:complementary_slackness}
   Two feasible solutions $\bfx$ and $\bfy$ are both optimal
@@ -5051,8 +5082,10 @@ oppositely.
 
 %% 05/15/2013, first draft
 %%
+%% ALWAYS RUN A SPELL CHECKER
+%%
 %% TODO:
 %% check all figure captions
-%% add more citations
+%% check all citations
 %%
 %% single spacing in tables, captions and pseudocode, DONE.
