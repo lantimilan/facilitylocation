@@ -140,9 +140,9 @@ Professor Neal Young}
   many helpful comments and suggested numerous
   corrections. Their help is greatly appreciated.
 
-  Kristin in the UCR Graduate Writing Center, and Stephanie
-  Chang in UCR have proofread this dissertation and
-  corrected a number of grammatical mistakes.
+  Kristin Noone in the UCR Graduate Writing Center, and
+  Stephanie Chang in UCR have proofread this dissertation
+  and corrected a number of grammatical mistakes.
 
   During this final stage of my PhD study, our family had a
   new member, little Terry. Being with a baby as laid-back
@@ -258,7 +258,7 @@ our problem definition.
 Facility location problems have long been an active topic in
 both Operations Research and Computer Science research
 communities. Early works on facility location problems can
-be found in \cite{KuehnH63,Man64,Bal66}. See also the book
+be found in \cite{KuehnH63,Man64,Bal66}; see also the book
 by Mirchandani and Francis~\cite{MirF90}. For review of more
 recent work, see Shmoys' survey
 articles~\cite{Shmoys00,Shmoys04}, Vygen's lecture
@@ -276,8 +276,8 @@ considered include
 \item \emph{the Fault-Tolerant Facility Location
     problem}~\cite{JainV03,GuhaMM03,ByrkaSS10}, where each
   site can open at most one facility, and each client has a
-  demand, which is the number of facilities that it needs to
-  connect to,
+  demand, which is the number of facilities to which it
+  needs to connect,
 \item \emph{the Capacitated Facility Location
     problem}~\cite{ShmoysTA97,MahdianYZ06,PalTW01,ZhangCY05},
   where a site can open at most one facility and each client
@@ -420,7 +420,7 @@ Figure~\ref{fig:triangle} for an illustration.
         \node[above] (ew33) at (1.5,2.5) {$2$};
         \node[above] (ew34) at (1.9,1.3) {$4$};
       \end{tikzpicture}
-      \caption{The FTFP Instance.}
+      \caption{The FTFP instance.}
       \end{subfigure}
       %
       \begin{subfigure}[b]{.45\textwidth}
@@ -471,8 +471,8 @@ Figure~\ref{fig:triangle} for an illustration.
         \draw[dashed] (fac1) -- (client2);
       \end{tikzpicture}
       \caption[Illustration of the triangle
-      inequality.]{Illustration of the triangle inequality:
-        for any two sites $i_1$ and $i_2$, and any two
+      inequality.]{Illustration of the triangle inequality.
+        For any two sites $i_1$ and $i_2$, and any two
         clients $j_1$ and $j_2$, we have $d_{i_1 j_2} \leq
         d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.}
   \label{fig:triangle}
@@ -594,11 +594,11 @@ site.
     \bottomrule
   \end{tabular}
   \ssp
-  \caption[Approximation algorithms for UFL]
+  \caption[A history of approximation algorithms for UFL]
   {A history of approximation algorithms for the UFL problem and their ratios. The word \emph{hybrid} refers to
     using two independent algorithms and returning the better
     solution of the two. The last row with an asterisk gives
-    a lower bound on approximation ratio.}
+    a lower bound on the approximation ratio.}
   \label{tab:ufl_history}
   \dsp
 \end{table}
@@ -1770,7 +1770,7 @@ Figure~\ref{fig:adaptive_partition}.
 
     \draw[above] (fac3) to node (xval) {$\barx_{\mu\nu}$} (demand3);
   \end{tikzpicture}
-  \caption[A diagram of Adaptive Partitioning.]{A diagram of Adaptive Partitioning. A site $i$ is split into a set of facilities $\mu$, and a client $j$ is split into a set of unit demands $\nu$. The adaptive partitioning process also defines fractional values for each facility $\mu$ and for each pair of $\mu$ and $\nu$.}
+  \caption[A diagram of adaptive partitioning.]{A diagram of adaptive partitioning. A site $i$ is split into a set of facilities $\mu$, and a client $j$ is split into a set of unit demands $\nu$. The adaptive partitioning process also defines fractional values for each facility $\mu$ and for each pair of $\mu$ and $\nu$.}
   \label{fig:adaptive_partition}
 \end{figure}
 \dsp
@@ -2169,15 +2169,15 @@ Figure~\ref{fig:adaptive_partition_overlap}.
       \node[draw,minimum size=.2cm] at (8.5,-1) {4};
       \end{tikzpicture}
       \caption[An example of the first case in Phase 1 of
-      Adaptive Partitioning.]{An example of the first case
-        in Phase 1 of Adaptive Partitioning. Here $p$ is the
+      adaptive partitioning.]{An example of the first case
+        in Phase 1 of adaptive partitioning. Here $p$ is the
         client that creates a demand $\nu$ in this
         iteration, and $\wtildeN_1(p)$ overlaps with
         $\wbarN(\kappa)$ for some primary demand
-        $\kappa$. Facility $2$ and $4$ are in the
+        $\kappa$. Facilities $2$ and $4$ are in the
         intersection of $\wtildeN_1(p)$ and $\wbarN(\kappa)$
         for the overlap check. We move these two facilities,
-        and additionally, facility $3$ into $\wbarN(\nu)$,
+        and additionally facility $3$, into $\wbarN(\nu)$,
         because facility $3$ is also in the intersection of
         $\wtildeN(p)$ and $\wbarN(\kappa)$.}
   \label{fig:adaptive_partition_overlap}
@@ -2225,14 +2225,14 @@ is given in Figure~\ref{fig:adaptive_partition_disjoint}.
       \node[draw,minimum size=.2cm] at (7.8,-1.2) {2};
     \end{tikzpicture}
     \caption[An example of the second case in Phase 1 of
-    Adaptive Partitioning.]{An example of the second case in
-      Phase 1 of Adaptive Partitioning. Here $p$ is the
+    adaptive partitioning.]{An example of the second case in
+      Phase 1 of adaptive partitioning. Here $p$ is the
       client that creates a demand $\nu$ and $\nu$ becomes a
       primary demand with a neighborhood of $\wtildeN_1(p)$,
-      which consists of facility $1$ and $2$ in this
-      example. The neighborhood $\wtildeN(p)$ keeps the rest
-      facilities; that is facility $3$ and $4$ in this
-      example.}
+      which consists of facilities $1$ and $2$ in this
+      example. The neighborhood $\wtildeN(p)$ keeps the
+      remaining facilities; that is facilities $3$ and $4$
+      in this example.}
   \label{fig:adaptive_partition_disjoint}
 \end{figure}
 \dsp
@@ -2316,12 +2316,12 @@ illustrates this process.
     \node[draw,minimum size=.6cm] at (16,0) {7};
 
   \end{tikzpicture}
-  \caption[An example of one step in Phase 2 of Adaptive
-  Partitioning.]{An example of one step in Phase 2 of
-    Adaptive Partitioning. In this example, we move facility
-    $2,5$ and $7$ from $\wtildeN(j)$ to $\wbarN(\nu)$ to
-    make $\wbarN(\nu)$ have a total fractional value of
-    $1$.}
+  \caption[An example of one step in Phase 2 of adaptive
+  partitioning.]{An example of one step in Phase 2 of
+    adaptive partitioning. In this example, we move
+    facilities $2,5$ and $7$ from $\wtildeN(j)$ to
+    $\wbarN(\nu)$, to make $\wbarN(\nu)$ have a total
+    fractional value of $1$.}
   \label{fig:adaptive_partition_phase2}
 \end{figure}
 \dsp
@@ -2704,7 +2704,7 @@ with ratio $1.736$ is presented next, using the same
 partitioned fractional solution as a starting point. Our
 best approximation algorithm with ratio $1.575$ is presented
 last. This algorithm needs a fractional solution with more
-sophisticated structure compared to the one used by the
+sophisticated structure, compared to the one used by the
 first two algorithms.
 
 %% EGUP 3
@@ -4359,18 +4359,18 @@ primal solution's cost to the optimal value, since the
 optimal value of the primal is lower bounded by the cost of
 any feasible dual solution.
 
-We introduce a natural greedy algorithm and employ a
-technique called \emph{dual-fitting}~\cite{JainMMSV03},
-first introduced by Jain {\etal}, to analyze the
-approximation ratio. We also give an example showing
-possible limitation of this analysis.  In Section~\ref{sec:
-  greedy}, we review the related work by Jain {\etal}.  In
+We present a natural greedy algorithm and employ a technique
+called \emph{dual-fitting}~\cite{JainMMSV03}, first
+introduced by Jain {\etal}, to analyze the approximation
+ratio. We also give an example showing one possible
+limitation of this analysis.  In Section~\ref{sec: greedy},
+we review the related work by Jain {\etal}.  In
 Section~\ref{sec: greedy_ratio}, we explain how a similar
 algorithm can be used to solve {\FTFP} and derive the
 approximation ratio for that algorithm, using a general
-result from Wolsey~\cite{Wolsey88}~\footnote{The Wolsey's
-  result and its applicability to the FTFP problem were
-  pointed out by Neal Young.}. Lastly in Section~\ref{sec:
+result from Wolsey~\cite{Wolsey88}~\footnote{Wolsey's result
+  and its applicability to the FTFP problem were pointed out
+  by Neal Young.}. Lastly, in Section~\ref{sec:
   greedy_example}, we provide an example to illustrate the
 difference between {\UFL} and {\FTFP} when the dual-fitting
 analysis is used to derive the approximation ratio.
@@ -4395,19 +4395,21 @@ the average cost of the star when the client $j$ gets
 connected. Clearly, the sum of $\alpha_j$ for all clients
 $j$ is equal to the cost of the primal solution, which is
 the cost to open facilities and the cost to make
-connections. The next step is to find a suitable common
-factor $\gamma$ to make the dual solution $\{\alpha_j /
-\gamma\}$ feasible. For this purpose, Jain {\etal} derived
-an upper bound on the objective function value of a series
-of linear programs, which are used to capture the hardest
-instance for the algorithm. These linear programs are called
-the \emph{factor-revealing LP}, and the supremum of their
+connections.
+
+The next step is to find a suitable common factor $\gamma$
+to make the dual solution $\{\alpha_j / \gamma\}$
+feasible. For this purpose, Jain {\etal} derived an upper
+bound on the objective function value of a series of linear
+programs, which are used to capture the hardest instance for
+the algorithm. These linear programs are called the
+\emph{factor-revealing LP}, and the supremum of their
 objective function value is equal to $\gamma$, which is also
 the approximation ratio of the algorithm.
 
 The greedy algorithm as stated is very flexible and can be
 applied with only minor modifications to solve problems with
-fault-tolerant requirements, for example, the {\FTFL}
+fault-tolerant requirements, for example the {\FTFL}
 problem and the {\FTFP} problem. However, it seems rather
 difficult to generalize the analysis to the general case,
 and we have to settle for a much worse approximation ratio,
@@ -4435,14 +4437,14 @@ dual-fitting is used to obtain the approximation ratio.
 
 \subsection{The Greedy Algorithm for FTFP}
 In this section we show that the greedy algorithm which
-repeatedly picking the best star --- the one with the
-minimum average cost --- gives an approximation ratio of
-$H_n \approx \ln(n)$, where $n=|\clientset|$ is the number
-of clients. A star is a site $i$ and a subset of clients
+repeatedly picks the best star --- the one with the minimum
+average cost --- gives an approximation ratio of $H_n
+\approx \ln(n)$, where $n=|\clientset|$ is the number of
+clients. A star is a site $i$ and a subset of clients
 $C'$. The cost of such a star $S$ is $c(S) = f_i +
 \sum_{j\in C'} d_{ij}$, and the average cost of $S$ is $c(S)
 / |C'|$. Call a client $j$ fully-connected, or
-\emph{exhausted} if $j$ has made $r_j$ connections. Let $U$
+\emph{exhausted}, if $j$ has made $r_j$ connections. Let $U$
 be the set of not fully-connected clients. While not all
 clients are fully-connected, the algorithm picks a star
 $S=(i,C')$, where $C' \subseteq U$, with the minimum average
@@ -4454,7 +4456,7 @@ implemented in polynomial time, we observe that once a star
 becomes the best star, it remains the best until one or more
 of its member clients become exhausted. To pick the best
 star, we notice that although the number of possible stars
-are exponential, the best star can be identified by looking
+is exponential, the best star can be identified by looking
 at each site, and considering the nearest $1,2,\ldots,k$
 clients for some integer $k$. Thus, we can accomplish
 multiple iterations in a single step and the number of steps
@@ -4474,7 +4476,7 @@ consequence of Wolsey's more general result on Set Cover
 related problems.
 
 \paragraph{Wolsey's Result.}
-The Wolsey's result shows that the greedy algorithm finds a
+Wolsey's result shows that the greedy algorithm finds a
 solution of approximation ratio $H_d$ for the following
 general problem:
 
@@ -4570,10 +4572,10 @@ picked at each iteration and each member client of that star
 then gets one more connection. The dual value $\alpha_j$
 associated with each client $j$ in the dual-fitting analysis
 can be seen as a way to charge the cost to individual
-clients. Although for UFL, charging each member client an
-equal share works well, the same may not be true for
-FTFP. In general, the dual-fitting analysis does have the
-freedom of distributing the cost of $f_i$ into member
+clients. Although charging each member client an equal share
+works well for UFL, the same may not be true for FTFP. In
+general, the dual-fitting analysis does have the freedom of
+distributing the cost of $f_i$ into member
 clients. Nonetheless, we assume that the cost of $f_i$ is
 distributed among members only, and not to clients outside
 this star, which we call the \emph{local charging}
@@ -4583,7 +4585,7 @@ $\alpha_j^l$ for each of the $l^{th}$ demand of client $j$,
 with $l=1,\ldots,r_j$ --- that is, $\alpha_j =
 \sum_{l=1}^{r_j} \alpha_j^l / r_j$. Suppose the $l^{th}$
 demand of $j$ is satisfied while $j$ is in a star with a
-facility at a site $i$, then $\alpha_j^l = d_{ij} +
+facility at a site $i$; then $\alpha_j^l = d_{ij} +
 f_i^{j,l}$, where $f_i^{j,l}$ is the portion of $f_i$
 attributed to $j$ in the analysis. Taking the average
 implies the computed $\alpha_j$ values make
@@ -4595,6 +4597,8 @@ approximation ratio better than $O(\log n / \log \log
 n)$. In particular, the analysis cannot be used to show an
 approximation ratio of $O(1)$.
 
+We now give our example, illustrated in
+Figure~\ref{fig:greedy_lower_bound}.
 %%%%%%%%%%%%%%%%%%% start
 %%%%%%%%%%%%%%%%%%% figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ssp
@@ -4627,26 +4631,26 @@ approximation ratio of $O(1)$.
     \draw[bend right] (fac) to node {$d_k = d_{k-1} + f_1 / n_{k-1}$}  (clientk);
   \end{tikzpicture}
   \ssp
-  \caption[The $\Omega(\log n / \log\log n)$ example for
-  dual-fitting for {\FTFP}]{An example showing the greedy
-    algorithm for FTFP, analyzed using dual-fitting, could
-    give a ratio of $\Omega(\log n / \log\log n)$, assuming
-    that the facility cost can only be charged to clients
-    within the star.}
+  \caption[An $\Omega(\log n / \log\log n)$ example for
+  dual-fitting for {\FTFP}]{An example showing that the
+    greedy algorithm for FTFP analyzed using dual-fitting,
+    could give a ratio of $\Omega(\log n / \log\log n)$,
+    assuming that the facility cost of a star can only be
+    charged to clients within the star.}
   \dsp
   \label{fig:greedy_lower_bound}
 \end{figure}
 \dsp
 %%%%%%%%%%%%%%%%% end figure %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-We now give our example, illustrated in
-Figure~\ref{fig:greedy_lower_bound}. Our example has one
-site and $k$ groups of clients. Opening one facility at that
-site costs $f_1$. The first group has $n_1$ clients each
-with a demand of $r_1$, all at distance $d_1 = 0$ from
-$f_1$. The distances from the groups to the site are listed
-below:
+Our example has one site and $k$ groups of clients. Opening
+one facility at that site costs $f_1$. The first group has
+$n_1$ clients each with a demand of $r_1$, all at distance
+$d_1 = 0$ from $f_1$. The distances from each of the groups
+to the site are listed below. Distances that are not shown
+explicitly are assumed to follow the triangle
+inequality. Notice that the distances are chosen in a way to
+force a particular choice of best stars.
 \begin{align*}
   &d_1 = 0\\
   &d_2 = \frac{f_1}{n_1}\\
@@ -4730,14 +4734,20 @@ So for $k$ groups we can force a shrinking factor $\gamma$
 as big as $k/2$. Recall that earlier we have shown that the
 approximation ratio of the greedy algorithm is no more than
 $H_n$. Is this a contradiction? No, because we have the
-number of clients $n=k^k + k^{k-1} + \ldots + 1 = k^k$,
-and hence $k = O(\log n / \log\log n)$. Therefore, the
-example shows that the dual-fitting analysis with the
-local-charging assumption cannot hope to get a ratio better
-than $O(\log n / \log\log n)$. Notice this example is
-similar in spirit to the $\Omega(\log n/ \log\log n)$
-example for Hochbaum's algorithm for the UFL problem,
-constructed by Mahdian {\etal} ~\cite{JainMMSV03}.
+number of clients $n=k^k + k^{k-1} + \ldots + 1 = k^k$, and
+hence $k = O(\log n / \log\log n)$. Therefore, the example
+shows that the dual-fitting analysis with the local-charging
+assumption cannot hope to get a ratio better than $O(\log n
+/ \log\log n)$. Notice this example is similar in spirit to
+Mahdian {\etal}'s~\cite{JainMMSV03} $\Omega(\log n/ \log\log
+n)$ example for Hochbaum's algorithm for the UFL problem. In
+both their example and ours we have the number of clients
+across groups decreases exponentially; while the distances
+are increasing at about the same rate. This choice seems to
+strike the right balance when devising bad examples for the
+greedy algorithm. The reason is that in these examples, we
+want a fast growing sequence; while on the other hand, we
+also need the sequence to be not too short.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ch7 CONCLUSION
