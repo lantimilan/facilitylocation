@@ -107,6 +107,7 @@ lyan at cs.ucr.edu
 @string{ICALP12 = "Proc. 39rd" # ICALP}
 %IPCO
 @string{IPCO = " Conference on Integer Programming and Combinatorial Optimization (IPCO)"}
+@string{IPCO98 = "Proc.   6th" # IPCO}
 @string{IPCO02 = "Proc.   9th" # IPCO}
 @string{IPCO04 = "Proc.  10th" # IPCO}
 @string{IPCO10 = "Proc.  14th" # IPCO}
@@ -216,7 +217,7 @@ lyan at cs.ucr.edu
 @article{AardalCS99,
   author = {Karen Aardal and Fabi\'{a}n Chudak and David Shmoys},
   title = {A 3-approximation algorithm for the k-level uncapacitated facility location problem},
-  journal = {Information Processing Letters},
+  journal = {Inf. Process. Lett.},
   volume = {72},
   issue = {5-6},
   year = {1999},
@@ -248,7 +249,7 @@ Lower Bound on Approximation Ratio, Hardness result
 @inproceedings{GuhaK98,
   author = {Sudipto Guha and Samir Khuller},
   title = {Greedy strikes back: improved facility location algorithms},
-  booktitle = {Proceedings of the 9th ACM-SIAM Symposium on Discrete Algorithms, SODA '98},
+  booktitle = SODA98,
   year = {1998},
   isbn = {0-89871-410-9},
   pages = {649--657},
@@ -275,9 +276,9 @@ LP-rounding
 }
 
 @inproceedings{LinV92,
-  author = {Jyh-Han Lin and Jeffrey Scott Vitter},
+  author = {Jyh-Han Lin and Jeffrey Vitter},
   title = {e-approximations with minimum packing constraint violation (extended abstract)},
-  booktitle = {Proceedings of the ACM Symposium on Theory of Computing, STOC '92},
+  booktitle = STOC92,
   year = {1992},
   pages = {771--782},
 }
@@ -285,7 +286,7 @@ LP-rounding
 @inproceedings{ShmoysTA97,
   author = {David Shmoys and \'{E}va Tardos and Karen Aardal},
   title = {Approximation algorithms for facility location problems (extended abstract)},
-  booktitle = {Proceedings of the 29th Annual ACM Symposium on Theory of Computing, STOC '97},
+  booktitle = STOC97,
   year = {1997},
   pages = {265--274},
 }
@@ -301,7 +302,7 @@ LP-rounding
 }
 
 @inproceedings{Byrka07,
-  author = {Byrka, Jaroslaw},
+  author = {Jaroslaw Byrka},
   title = {An Optimal Bifactor Approximation Algorithm for the Metric Uncapacitated Facility Location Problem},
   booktitle = APPROX07,
   year = {2007},
@@ -337,10 +338,7 @@ Dual Fitting
  title = {A Greedy Facility Location Algorithm Analyzed Using Dual Fitting},
  booktitle = APPROX01,
  year = {2001},
- isbn = {3-540-42470-9},
  pages = {127--137},
- publisher = {Springer-Verlag},
- address = {London, UK},
  }
 
 %%%%%%%%%%%%%%%%%%%%%% updated Thu Apr 12 2012, 13:04:17%%%%%%%%%%%%%%%%%%
@@ -348,7 +346,7 @@ best approx 1.61-approx, dual fitting
 @inproceedings{JainMS02,
   author = {Kamal Jain and Mohammad Mahdian and Amin Saberi},
   title = {A new greedy approach for facility location problems},
-  booktitle = {Proceedings of the 34th ACM Symposium on Theory of Computing, STOC '02},
+  booktitle = STOC02,
   year = {2002},
   pages = {731--740},
 }
@@ -377,9 +375,14 @@ Primal Dual Schema
 
 Local Search
 @inproceedings{AryaGKMMP01,
-  author = {Vijay Arya and Naveen Garg and Rohit Khandekar and Adam Meyerson and Kamesh Munagala and Vinayaka Pandit},
+  author = {Vijay Arya and
+            Naveen Garg and
+            Rohit Khandekar and
+            Adam Meyerson and
+            Kamesh Munagala and
+            Vinayaka Pandit},
   title = {Local search heuristic for k-median and facility location problems},
-  booktitle = {Proceedings of the 33rd ACM Symposium on Theory of Computing, STOC '01},
+  booktitle = STOC01,
   year = {2001},
   pages = {21--29},
 }
@@ -413,7 +416,7 @@ Local search gives c-approx. for uniform, hard capacities.
 Fault Tolerant
 @article{JainV03,
   author    = {Kamal Jain and
-               Vijay V. Vazirani},
+               Vijay Vazirani},
   title     = {An Approximation Algorithm for the Fault Tolerant Metric
                Facility Location Problem},
   journal   = {Algorithmica},
@@ -428,7 +431,7 @@ Fault Tolerant
                Adam Meyerson and
                Kamesh Munagala},
   title     = {Improved algorithms for fault tolerant facility location},
-  booktitle = {Proceedings of the 12th ACM-SIAM Symposium on Discrete Algorithms, SODA '01},
+  booktitle = SODA01,
   year      = {2001},
   pages     = {636-641},
 }
@@ -458,12 +461,13 @@ Fault Tolerant
 }
 
 @inproceedings{ByrkaSS10,
-  author    = {Jaroslaw Byrka and Aravind Srinivasan and
-                  Chaitanya Swamy},
+  author    = {Jaroslaw Byrka and
+               Aravind Srinivasan and
+               Chaitanya Swamy},
   title     = {Fault-Tolerant Facility Location, a
                   randomized dependent {LP}-rounding
                   algorithm},
-  booktitle = {Proceedings of the 14th Integer Programming and Combinatorial Optimization, IPCO '10},
+  booktitle = IPCO10,
   year      = {2010},
   pages     = {244-257},
 }
@@ -471,16 +475,16 @@ Fault Tolerant
 @inproceedings{XuS09,
  author = {Shihong Xu and Hong Shen},
  title = {The Fault-Tolerant Facility Allocation Problem},
- booktitle = {Proceedings of the 20th International Symposium
-                  on Algorithms and Computation, ISAAC '09},
+ booktitle = ISAAC09,
  year = {2009},
  pages = {689--698},
  }
 
 @inproceedings{LiaoS11,
- author = {Liao, Kewen and Shen, Hong},
+ author = {Kewen Liao and Hong Shen},
  title = {Unconstrained and constrained fault-tolerant resource allocation},
- booktitle = {Proceedings of the 17th Annual International Conference on Computing and Combinatorics, COCOON '11},
+ booktitle = {Proc. 17th Annual International Conference on
+                  Computing and Combinatorics (COCOON)},
  year = {2011},
  pages = {555--566}
 } 
@@ -523,23 +527,20 @@ Fault Tolerant
 @inproceedings{YanC13,
   author    = {Li Yan and
                Marek Chrobak},
-  title     = {LP-Rounding Algorithms for the Fault-Tolerant Facility Placement
-               Problem},
-  booktitle = {Proceedings of the 8th International
+  title     = {LP-Rounding Algorithms for the Fault-Tolerant Facility Placement Problem},
+  booktitle = {Proc 8th International
                   Conference on Algorithms and Complexity,
                   CIAC '13 },
   year      = {2013},
   pages     = {370-381},
-  ee        = {http://dx.doi.org/10.1007/978-3-642-38233-8_31},
-  bibsource = {DBLP, http://dblp.uni-trier.de}
 }
 
 General Cost
 O(logn) approx, first approx algorithm for metric facility location problem
 @article{Hochbaum82,
-    author = {Dorit S. Hochbaum},
+    author = {Dorit Hochbaum},
     title  = {Heuristics for the Fixed Cost Median Problem},
-    journal = {Mathematical Programming},
+    journal = {Math. Program.},
     volume = {22},
     pages  = {148-162},
     year   = {1982} 
@@ -559,7 +560,7 @@ Local search gives c-approx. for nonuniform, hard capacities.
 @article{Feige98,
     author = {Uriel Feige},
     title = {A Threshold of ln n for Approximating Set Cover},
-    journal = {Journal of the ACM},
+    journal = {J. ACM},
     volume = {45},
     number = {4},
     pages = {634-652},
@@ -572,9 +573,8 @@ best approx ratio for capacitated facility location problem
   author    = {Jiawei Zhang and
                Bo Chen and
                Yinyu Ye},
-  title     = {A Multi-exchange Local Search Algorithm for the Capacitated
-               Facility Location Problem: (Extended Abstract)},
-	booktitle = IPCO04,
+  title     = {A Multi-exchange Local Search Algorithm for the Capacitated Facility Location Problem: (Extended Abstract)},
+  booktitle = IPCO04,
   year      = {2004},
   pages     = {219-233},
 }
@@ -582,7 +582,7 @@ best approx ratio for capacitated facility location problem
 @article{ZhangCY05,
   author = {Jiawei Zhang and Bo Chen and Yinyu Ye},
   title = {A Multiexchange Local Search Algorithm for the Capacitated Facility Location Problem},
-  journal = {Mathematics of Operations Research},
+  journal = {Math. Oper. Res.},
   year = {2005},
   volume = {30},
   number = {2},
@@ -593,43 +593,37 @@ approx setcover clogn is NP-hard
 @inproceedings{RazS97,
    author = {Ran Raz and Shmuel Safra},
    title = {A sub-constant error-probability low-degree test, and a sub-constant error-probability PCP characterization of NP},
-   booktitle = {Proceedings of the 29th annual ACM symposium on Theory of computing, STOC '97},
+   booktitle = STOC97,
    year = {1997},
    pages = {475--484},
  }
 
 @inproceedings{Chudak98,
   author    = {Fabi{\'a}n A. Chudak},
-  title     = {Improved Approximation Algorithms for Uncapitated Facility
-               Location},
-  booktitle = {Proceedings of the 6th Integer Programming and Combinatorial Optimization, IPCO '98},
+  title     = {Improved Approximation Algorithms for Uncapitated Facility Location},
+  booktitle = IPCO98,
   year      = {1998},
   pages     = {180-194},
-  ee        = {http://dx.doi.org/10.1007/3-540-69346-7_14},
-  bibsource = {DBLP, http://dblp.uni-trier.de}
 }
 
 @inproceedings{Svi02,
  author = {Maxim Sviridenko},
  title = {An Improved Approximation Algorithm for the Metric Uncapacitated Facility Location Problem},
- booktitle = {Proceedings of the 9th International IPCO Conference on Integer Programming and Combinatorial Optimization, IPCO '02},
+ booktitle = IPCO02,
  year = 2002,
  pages = {240--257},
 } 
 
 @inproceedings{Li11,
   author    = {Shi Li},
-  title     = {A 1.488 Approximation Algorithm for the Uncapacitated Facility
-               Location Problem},
-  booktitle = {Proceedings of the 38th International Conference on Automata, 
-	Languages and Programming, ICALP '11},
+  title     = {A 1.488 Approximation Algorithm for the Uncapacitated Facility Location Problem},
+  booktitle = ICALP11,
   year      = {2011},
   pages     = {77--88},
-  volume    = {6756},
 }
 
 @inproceedings{Bal66,
-  author = {M. L. Balinski},
+  author = {M.L. Balinski},
   title = {On Finding Integer Solutions to Linear Programs},
   booktitle = {Proceedings of the IBM Scientific Computing Symposium on Combinatorial Problems},
   year = {1966},
@@ -637,7 +631,7 @@ approx setcover clogn is NP-hard
 }
 
 @article{KuehnH63,
-  author = {Alfred A. Kuehn and Michael J. Hamburger},
+  author = {Alfred Kuehn and Michael Hamburger},
   title = {A Heuristic Program for Locating Warehouses},
   journal = {Management Science},
   volume = {9},
@@ -647,7 +641,7 @@ approx setcover clogn is NP-hard
 }
 
 @article{Man64,
-  author = {Alan S. Manne},
+  author = {Alan Manne},
   title = {Plant Location under Economies-of-Scale-Decentralization and Computation},
   journal = {Management Science},
   volume = {11},
@@ -666,9 +660,9 @@ approx setcover clogn is NP-hard
 }
 
 @inproceedings{Shmoys04,
-  author = {David B. Shmoys},
+  author = {David Shmoys},
   title = {The Design and Analysis of Approximation Algorithms: Facility Location as a Case Study},
-  booktitle = {Proceedings of Symposia in Applied Mathematics},
+  booktitle = {AMS Proceedings of Symposia in Applied Mathematics},
   volume = {61},
   pages = {85--97},
   year = {2004},
@@ -700,13 +694,13 @@ not used, just to know the bibtex format
 
 @techreport{Vygen05,
     author = {Jens Vygen},
-    title = {Approximation Algorithms for Facility Location Problems (Lecture Notes},
+    title = {Approximation Algorithms for Facility Location Problems (Lecture Notes)},
     number = {No. 05950},
     institution = {Research Institute for Discrete Mathematics, University of Bonn},
     year = {2005},
 }
 @book{HardyLP88,
-  author={Godfrey Harold Hardy and John Edensor Littlewood and George P\'{o}lya},
+  author={G.H. Hardy and John Littlewood and George P\'{o}lya},
   title={Inequalities},
   publisher={Cambridge University Press},
   isbn={0521358809},
@@ -722,7 +716,7 @@ not used, just to know the bibtex format
 }
 
 @book{MirF90,
-  author={Pitu B. Mirchandani, Richard L. Francis},
+  author={Pitu Mirchandani, Richard Francis},
   title={Discrete Location Theory},
   publisher={Wiley-Interscience},
   isbn={0471892335},
@@ -730,7 +724,7 @@ not used, just to know the bibtex format
 }
 
 @book{Wolsey88,
-  author = {George L. Nemhauser and Laurence A. Wolsey},
+  author = {George Nemhauser and Laurence Wolsey},
   title = {Integer and Combinatorial Optimization},
   publisher = {Wiley-Interscience},
   isbn = {047182819X},
@@ -738,14 +732,17 @@ not used, just to know the bibtex format
 }
 
 @book{WilliamsonS11,
-  author = {David P. Williamson, David B. Shmoys},
+  author = {David Williamson, David Shmoys},
   title = {The Design of Approximation Algorithms},
   publisher = {Cambridge University Press},
   year = {2011},
 }
 
 @inproceedings{CharikarKMN01,
- author = {Moses Charikar and Samir Khuller and David M. Mount and Giri Narasimhan},
+ author = {Moses Charikar and
+           Samir Khuller and
+           David Mount and
+           Giri Narasimhan},
  title = {Algorithms for facility location problems with outliers},
  booktitle = SODA01,
  year = {2001},
@@ -756,7 +753,7 @@ not used, just to know the bibtex format
   author    = {Moses Charikar and
                Shi Li},
   title     = {A Dependent LP-Rounding Approach for the k-Median Problem},
-  booktitle = {ICALP12},
+  booktitle = ICALP12,
   year      = {2012},
   pages     = {194-205},
 }
@@ -778,7 +775,7 @@ not used, just to know the bibtex format
 @article{AardalMLQ96,
     author = {Karen Aardal and Martine Labbé and Janny Leung and Maurice Queyranne},
     title = {On the Two-Level Uncapacitated Facility Location Problem},
-    journal = {INFORMS J. COMPUT},
+    journal = {Informs J. Comput.},
     year = {1996},
     volume = {8},
     pages = {289--301}
@@ -787,9 +784,8 @@ not used, just to know the bibtex format
 @inproceedings{KrishnaswamyS12,
   author    = {Ravishankar Krishnaswamy and
                Maxim Sviridenko},
-  title     = {Inapproximability of the multi-level uncapacitated facility
-               location problem},
-  booktitle = {SODA12},
+  title     = {Inapproximability of the multi-level uncapacitated facility location problem},
+  booktitle = SODA12,
   year      = {2012},
   pages     = {718-734},
 }
@@ -797,9 +793,8 @@ not used, just to know the bibtex format
 @inproceedings{ByrkaR12,
   author    = {Jaroslaw Byrka and
                Bartosz Rybicki},
-  title     = {Improved LP-Rounding Approximation Algorithm for k-level
-               Uncapacitated Facility Location},
-  booktitle = {ICALP12},
+  title     = {Improved LP-Rounding Approximation Algorithm for k-level Uncapacitated Facility Location},
+  booktitle = ICALP12,
   year      = {2012},
   pages     = {157-169},
 }
