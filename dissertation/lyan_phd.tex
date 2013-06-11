@@ -355,7 +355,9 @@ $n^{th}$ harmonic number (we show this result in
 Section~\ref{sec: greedy}), and a matching lower bound on
 the approximation because it contains the Set Cover problem
 as a special case. In this thesis we only consider the
-metric version of the {\FTFP} problem.
+metric version of the {\FTFP} problem, where the distances
+$d_{ij}$ satisfy the triangle inequality, see
+Figure~\ref{fig:triangle} for an illustration.
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{.45\textwidth}
@@ -421,6 +423,22 @@ metric version of the {\FTFP} problem.
     f_2 + 3f_3 + d_{11} + d_{12} + 2d_{14} + d_{23} +
     3d_{31} = 38$.}
   \label{fig:ftfp_example}
+\end{figure}
+\begin{figure}[ht]
+  \centering
+        \begin{tikzpicture}[scale=.6]
+        \node[draw] (fac1) at (0,0) {$i_1$};
+        \node[draw] (fac2) at (0,-5) {$i_2$};
+        \node[circle,draw] (client1) at (5,0) {$j_1$};
+        \node[circle,draw] (client2) at (5,-5) {$j_2$};
+
+        \draw (fac1) -- (client1);
+        \draw (fac2) -- (client1);
+        \draw (fac2) -- (client2);
+        \draw[dashed] (fac1) -- (client2);
+      \end{tikzpicture}
+  \caption{Illustration of the triangle inequality: for any two sites $i_1$ and $i_2$, and any two clients $j_1$ and $j_2$, we have $d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}$.}
+  \label{fig:triangle}
 \end{figure}
 
 The {\FTFP} problem contains the {\UFL} problem as a special
@@ -1271,7 +1289,56 @@ to the LP~(\ref{eqn:fac_primal}). This structured solution
 possesses a number of nice properties, of which we then take
 advantage in our LP-rounding algorithms (Chapter~\ref{ch:
   lp-rounding}) to obtain integral solutions with good
-approximation ratios.
+approximation ratios. A diagram of our general approach to
+employ the two techniques to obtain an approximation
+algorithm is depicted in
+Figure~\ref{fig:ftfp_overall_alg}. In this process we start
+with an optimal fraction solution $(\bfx^\ast, \bfy^\ast)$
+and split into two parts; we then solve the fractional part
+with an integral solution; finally we combine this solution
+and the integral part obtained earlier to get a solution to
+the original instance.
+%%% figure for general FTFP algorithm with demand reduction
+%%% and adaptive partitioning
+\ssp
+\begin{figure}[ht]
+  \centering
+    \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+    \node[draw,ellipse] (lpform) at (-5.5,9) {LP};
+    \node[draw,ellipse] (lpsoln) at (0,9) {$x^\ast, y^\ast$};
+    \node[draw,ellipse] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+    \node[draw,ellipse] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
+    \node[draw,ellipse] (part) at (4.55,3) {$\barx,\bary$};
+    \node[draw,ellipse] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
+
+    \node[draw,ellipse] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
+
+    \node (solnlabel) at (-4,1.5) {$\rho$-approximate \\ solution};
+
+    \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+    \draw[->,>=latex] (lpsoln) to (intpart);
+    \node (label1) at (-3.2,7.8) {round down \\ to
+      integer};
+    \draw[->,>=latex] (lpsoln) to (fracpart);
+    \node (label2) at (3,8.5) {fractional part};
+    \draw[->,>=latex] (fracpart) to node[draw] (edge1) {adaptive \\ partitioning} (part);
+    \draw[->,>=latex] (part) to node (edge2) {LP-rounding} (fracsoln);
+    \draw[->,>=latex] (intpart) to (soln);
+    \draw[->,>=latex] (fracsoln) to (soln);
+
+    \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7)
+    -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
+
+	\draw[dashed] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
+
+    \node[draw] at (0,6.5) {demand reduction};
+  \end{tikzpicture}
+  \caption{A diagram of the general approach using demand
+    reduction and adaptive partitioning to design
+    LP-rounding algorithms for the FTFP problem.}
+  \label{fig:ftfp_overall_alg}
+\end{figure}
+\dsp
 
 Our first technique, demand reduction, allows us to confine
 our attention to a restricted version of the {\FTFP}
@@ -1507,27 +1574,72 @@ Theorem~\ref{thm:largeR}.
 
   Lemma~\ref{lem: polynomial demands partition} tells us
   that $\dot r_j$ is no more than $|\sitesset|$ for every
-  client $j$. So we can solve the $\dot \calI$ instance by
+  client $j$. Thus we can solve the $\dot \calI$ instance by
   creating $m$ independent {\UFL} instances with the same
-  parameters $\sitesset, \clientset, \{f_i\},
-  \{d_{ij}\}$. Clearly combining the integral solutions to
-  the $m$ copies of {\UFL} instances would give us an
-  integral solution to the $\dot \calI$ instance (we might
-  have to remove some redundant facilities and connections,
-  but this only reduces the total cost.). Using a
-  $c$-approximation algorithm for {\UFL}~\footnote{We
-    actually need more than that. What we need is that the
-    integral solution for the {\UFL} instance should have
-    cost no more than $c$ times the cost of an optimal
-    fractional solution. However, almost all LP-rounding
-    algorithms for {\UFL} have this property.}, we can
-  obtain a solution with cost no more than $c m \cdot
-  \LP_{\smallUFL}^\ast$, where $\LP_{\smallUFL}^\ast$ is the
-  cost of the optimal fractional solution for the {\UFL}
-  instance. On the other hand, it is easy to see that
-  $(\bfx^\ast/Q,\bfy^\ast/Q)$ constitutes a feasible
-  solution to the {\UFL} instance as we have $r_j \geq Q$
-  for every client $j$. As a result we have
+  parameters $\sitesset, \clientset, \{f_i\}, \{d_{ij}\}$,
+  see Figure~\ref{fig:asymptotic_ratio} for an
+  illustration.
+  \ssp
+  \begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[auto,scale=.8,every text node part/.style={align=center}]
+      \node[draw,ellipse] (lpform) at (-5.5,9) {LP};
+      \node[draw,ellipse] (lpsoln) at (0,9) {$x^\ast, y^\ast$};
+      \node[draw,ellipse] (intpart) at (-4,6) {$\hatx, \haty$ \\ $\hatr_j = \sum_i \hatx_{ij}$};
+      \node[draw,ellipse] (fracpart) at (4.55,7) {$\dotx, \doty$ \\ $\dotr_j = \sum_i \dotx_{ij}$};
+
+      \node[draw,ellipse] (fracsoln) at (0,3) {$\ddot x, \ddot y$};
+
+      \node[draw,ellipse] (soln) at (-4,3) {$\hatx + \ddot x$ \\ $\haty + \ddot y$};
+
+      \draw[->,>=latex] (lpform) to node {LP-solver} (lpsoln);
+      \draw[->,>=latex] (lpsoln) to (intpart);
+      \node (label1) at (-3.2,7.8) {round down \\ to integer};
+      \draw[->,>=latex] (lpsoln) to (fracpart);
+
+      \node (label2) at (3,8.5) {fractional part};
+      \draw[->,>=latex] (intpart) to (soln);
+      \draw[->,>=latex] (fracsoln) to (soln);
+
+      \draw[dashed] (-1,9.8) -- (1,9.8) -- (7.2,8) -- (7.2,5.7) -- (2,5.7) -- (2,1) -- (-6,1) -- (-6,8) -- (-1,9.8);
+
+      \draw[dashed] (2.2,5.5) -- (2.2,1) -- (7.2,1) -- (7.2,5.5) -- (2.2,5.5);
+
+      \node[draw,ellipse] (part1) at (4.55,1.3) {$F,C,f_i,d_{ij}$};
+      \node[draw,ellipse] (part2) at (4.55,2.5) {$F,C,f_i,d_{ij}$};
+      \node[draw,ellipse] (part3) at (4.55,4.5) {$F,C,f_i,d_{ij}$};
+      \node (UFL) at (5.5,3.5) {UFL Instance};
+
+      \draw[->,>=latex] (part1) to (fracsoln);
+      \draw[->,>=latex] (part2) to (fracsoln);
+      \draw[->,>=latex] (part3) to node (alg)[above] {$c$-approx} (fracsoln);
+
+      \draw[->,>=latex] (fracpart) to (part3);
+
+      \node (solnlabel) at (-4,1.2) {$(1+c|F|/Q)$-approx\\ solution};
+    \end{tikzpicture}
+    \caption{Illustration of the approach of reducing FTFP to UFL for the special FTFP instance with all demands $r_j$ being large.}
+    \label{fig:asymptotic_ratio}
+  \end{figure}
+  \dsp
+  Clearly combining the integral solutions to the $m$
+  copies of {\UFL} instances would give us an integral
+  solution to the $\dot \calI$ instance (we might have to
+  remove some redundant facilities and connections, but this
+  only reduces the total cost.). Using a $c$-approximation
+  algorithm for {\UFL}~\footnote{We actually need more than
+    that. What we need is that the integral solution for the
+    {\UFL} instance should have cost no more than $c$ times
+    the cost of an optimal fractional solution. However,
+    almost all LP-rounding algorithms for {\UFL} have this
+    property.}, we can obtain a solution with cost no more
+  than $c m \cdot \LP_{\smallUFL}^\ast$, where
+  $\LP_{\smallUFL}^\ast$ is the cost of the optimal
+  fractional solution for the {\UFL} instance. On the other
+  hand, it is easy to see that $(\bfx^\ast/Q,\bfy^\ast/Q)$
+  constitutes a feasible solution to the {\UFL} instance as
+  we have $r_j \geq Q$ for every client $j$. As a result we
+  have
   \begin{equation*}
     \LP_{\smallUFL}^\ast \leq \LP^\ast / Q,
   \end{equation*}
