@@ -148,7 +148,7 @@ Professor Neal Young}
   new member, little Terry. Being with a baby as laid-back
   as Terry has kept me from getting overly stressed. I would
   also like to take this opportunity to show appreciation to
-  my wife, Ying, for handling most of the family
+  my wife, Ying Liu, for handling most of the family
   responsibilities and bearing with me for staying up late
   working on the dissertation and the defense.
 \end{acknowledgements}
@@ -4370,35 +4370,36 @@ as argued earlier. Hence the total expected cost is bounded by $\max\{\gamma,
 \chapter{Primal-dual Algorithms} 
 \label{ch: primal-dual} 
 
-In this chapter we present the results of primal-dual
+In this chapter, we present the results of primal-dual
 algorithms. Unlike the LP-rounding algorithms in
 Chapter~\ref{ch: lp-rounding}, primal-dual algorithms do not
 require solving the LP explicitly and are computationally
 more efficient. Primal-dual algorithms work by making
-simultaneous updates to a primal solution which is integral,
-and a dual solution which may be fractional, and eventually
-arriving at a feasible primal solution and a feasible dual
-solution. Assuming that the primal problem is a minimization
-problem, it is then possible to compare the primal
-solution's cost to the optimal value, since the optimal
-value of the primal is lower bounded by the cost of any
-feasible dual solution.
+simultaneous updates to a primal solution, which is
+integral, and a dual solution, which may be fractional, and
+eventually arriving at a feasible primal solution and a
+feasible dual solution. Assuming that the primal problem is
+a minimization problem, it is then possible to compare the
+primal solution's cost to the optimal value, since the
+optimal value of the primal is lower bounded by the cost of
+any feasible dual solution.
 
 We present a natural greedy algorithm and employ a technique
 called \emph{dual-fitting}~\cite{JainMMSV03}, first
 introduced by Jain {\etal}, to analyze the approximation
 ratio. We also give an example showing one possible
 limitation of this analysis.  In Section~\ref{sec: greedy},
-we review the related work by Jain {\etal}.  In
+we review the related work by Jain {\etal} about the greedy
+algorithm and the dual-fitting analysis for UFL.  In
 Section~\ref{sec: greedy_ratio}, we explain how a similar
-algorithm can be used to solve {\FTFP} and derive the
+algorithm can be used to solve {\FTFP} and derive an
 approximation ratio using the dual-fitting analysis. Lastly,
 in Section~\ref{sec: greedy_example}, we provide an example
-to illustrate the difference between {\UFL} and {\FTFP} when
+illustrating the difference between {\UFL} and {\FTFP} when
 the dual-fitting analysis is used to derive the
 approximation ratio.
 
-\section{Dual-fitting and Greedy Algorithms for UFL}
+\section{The Greedy Algorithm and the Dual-fitting Analysis for UFL}
 \label{sec: greedy}
 
 Jain {\etal}~\cite{JainMMSV03} analyzed a greedy algorithm
@@ -4431,7 +4432,7 @@ the algorithm. These linear programs are called the
 objective function value is equal to $\gamma$, which is also
 the approximation ratio of the algorithm.
 
-The greedy algorithm as stated is very flexible and can be
+The greedy algorithm, as stated, is very flexible and can be
 applied with only minor modifications to solve problems with
 fault-tolerant requirements, for example the {\FTFL} problem
 and the {\FTFP} problem. However, it seems rather difficult
@@ -4439,19 +4440,20 @@ to generalize the analysis to the more general problems, and
 we have to settle for a much worse approximation ratio
 except for some special cases. In the literature, there is
 no published result of the approximation ratio for the
-greedy algorithm for {\FTFL}, although to obtain an
+greedy algorithm for {\FTFL}, although an
 $H_n$-approximation ratio~\footnote{The term $H_n$ is the
   $n^{th}$ harmonic number, defined as $H_n = 1 + 1/2 + 1/3
-  + \ldots + 1/n \approx \ln n$.} is not difficult. For the
-uniform demands' case, Swamy and Shmoys~\cite{SwamyS08}
-showed that the $1.52$ ratio for {\UFL} can be generalized
-for {\FTFL} as well. For the {\FTFP} problem studied in this
-thesis, the uniform demands' case is trivial, as it is
+  + \ldots + 1/n \approx \ln n$.} is not difficult to
+obtain. For the uniform demands case, Swamy and
+Shmoys~\cite{SwamyS08} showed that the dual-fitting analysis
+for {\UFL} can be generalized for {\FTFL} to obtain the same
+ratio of $1.52$. For the {\FTFP} problem studied in this
+thesis, the uniform demands case is trivial, as it is
 nothing but a {\UFL} problem. We have the following results
-in the next two sections: for the general demands' case, we
-prove a logarithmic ratio for the greedy algorithm using the
+in the next two sections: for the general demands case, we
+show a logarithmic ratio for the greedy algorithm using the
 dual-fitting analysis; we then present an example
-illustrating the difficulty in obtaining
+illustrating the difficulty in obtaining an
 $O(1)$-approximation ratio for the {\FTFP} problem when
 dual-fitting is used.
 
@@ -4459,13 +4461,13 @@ dual-fitting is used.
 \label{sec: greedy_ratio}
 
 \subsection{The Greedy Algorithm for FTFP}
-In this section we show that the greedy algorithm which
+In this section, we show that the greedy algorithm, which
 repeatedly picks the best star --- the one with the minimum
 average cost --- gives an approximation ratio of $H_n
 \approx \ln(n)$, where $n=|\clientset|$ is the number of
 clients. A star is a site $i$ and a subset of clients
-$C'$. The cost of the star will be given while we presenting
-the greedy algorithm.
+$C'$. The cost of a star will be given as we present the
+greedy algorithm below.
 
 Call a client $j$ fully-connected, or \emph{exhausted} if
 $j$ has made $r_j$ connections. Let $U$ be the set of not
@@ -4476,85 +4478,87 @@ site $i$, and $x_{ij}$ be the number of connections between
 site $i$ and client $j$. Then the following stars are
 available to the algorithm:
 \begin{itemize}
-\item For every site $i\in \sitesset$, and every subset of
-  clients $C' \subseteq U$, we have one star $S=(i,C')$ with
-  a cost $c(S) = f_i + \sum_{j\in C'} d_{ij}$. We call this
-  type of stars \emph{paid} stars.
-\item For every site $i\in \sitesset$, and every subset of
-  clients $C' \subseteq U$ such that $x_{ij} < y_i$ for
-  every $j \in C'$, we have one star $S=(i,C')$ with a cost
-  $c(S) = \sum_{j\in C'} d_{ij}$. In other words, the
-  facility is \emph{free} in this star, and we call this
-  type of stars \emph{free} stars.
+\item For every site $i\in \sitesset$, and every nonempty
+  subset of clients $C' \subseteq U$, we have one star
+  $S=(i,C')$ with a cost $c(S) = f_i + \sum_{j\in C'}
+  d_{ij}$. We call this type of stars \emph{paid} stars.
+\item For every site $i\in \sitesset$, and every nonempty
+  subset of clients $C' \subseteq U$ such that $x_{ij} <
+  y_i$ for every $j \in C'$, we have one star $S=(i,C')$
+  with a cost $c(S) = \sum_{j\in C'} d_{ij}$. In other
+  words, the facility is \emph{free} in this star, and we
+  call this type of stars \emph{free} stars.
 \end{itemize}
 The average cost of a star $S=(i,C')$ is always $c(S)/|C'|$;
 that is the cost of the star divided by the number of
 clients in that star. The greedy algorithm then picks some
 star $S=(i,C')$ with the minimum average cost. If this star
-is a paid star, the algorithm opens one more facility at
+is a paid star, the algorithm opens one more facility at the
 site $i$. Regardless of whether the star is paid or free,
-the algorithm also make one more connection from every
-client $j$ in $C'$ to site $i$.
+the algorithm make one more connection from every client $j$
+in $C'$ to the site $i$.
 
-To see that the algorithm can be implemented in polynomial
-time, we observe that once a star becomes the best star, it
-remains the best until we can no longer select the same
-star. The latter might happen when one of the two cases
-hold:
+To see that the algorithm can be implemented to run in
+polynomial time, our first observation is that once a star
+becomes the best star, it remains the best until we can no
+longer select the same star. The latter might happen when
+one of the two cases hold:
 \begin{itemize}
-\item \mycase{1} The star is a free star. Then without loss
-  of generality we may assume that this star contains
+\item \mycase{1} The star is a free star. Then, without loss
+  of generality, we may assume that this star contains
   exactly one client. This star will not be available to the
-  algorithm after the client has connected to all free
-  facilities at that site; that is $x_{ij} = y_i$.
+  algorithm after the client $j$ has connected to all free
+  facilities at that site $i$; that is $x_{ij} = y_i$.
 \item \mycase{2} The star is a paid star. Then the star
   cannot be selected once one or more of the member clients
-  become fully-connected and are then removed from the set
-  $U$.
+  become fully-connected and are removed from the set $U$.
 \end{itemize}
-To pick the best star, we notice that although the number of
+Our second observation is that, although the number of
 possible stars is exponential, the best paid star can be
 identified by looking at each site, and considering the
 nearest $1,2,\ldots,k$ clients for some integer $k$. For
-free stars, it is easy to see that there is always a best
-free star with just one client. Therefore, we can find a
-best free star by considering each $(i,j)$ pair for site $i$
-and client $j$ with $x_{ij} < y_i$. The overall best star is
-then the better of the best paid star and the best free
-star. It follows that we can accomplish multiple iterations
-in a single step and the number of steps is polynomially
-bounded by $|\sitesset|\cdot|\clientset|$. Therefore the
-greedy algorithm runs in polynomial time.
+free stars, it is easy to see that we can assume that the
+best free star is a star with just one client. Therefore, we
+can find the best free star by considering each $(i,j)$ pair
+for every site $i$ and every client $j$ with $x_{ij} <
+y_i$. The overall best star is then the better of the best
+paid star and the best free star. It follows that we can
+accomplish multiple iterations in a single step, and the
+number of steps is polynomially bounded by
+$|\sitesset|\cdot|\clientset|$. Therefore, the greedy
+algorithm runs in polynomial time.
 
 \subsection{The Analysis}
-We now derive the approximation ratio of the greedy
-algorithm just described. For this purpose we adapt the
-dual-fitting analysis for {\UFL} to {\FTFP}, though we have
-to settle for a much less satisfying ratio of $H_n$.
+We now derive an approximation ratio of the greedy algorithm
+just described. For this purpose we adapt the dual-fitting
+analysis for {\UFL} to {\FTFP}, though we have to settle for
+a much less satisfying ratio of $H_n$.
 
-When we run the greedy algorithm, for every client $j$, we
-associate each demand of $j$ with a number $\alpha_j^l$,
-which is the average cost of the star when the $l^{th}$
-demand of client $j$ is connected. Let $\alpha_j =
-\alpha_j^{r_j}$, and order clients by nondecreasing
-$\alpha_j$; that is
+When we run the greedy algorithm, we associate each demand
+of a client $j$ with a number $\alpha_j^l$, which is the
+average cost of the star when the $l^{th}$ demand of client
+$j$ is connected. Let $\alpha_j = \alpha_j^{r_j}$, and order
+the clients by non-decreasing $\alpha_j$; that is
 \begin{equation*}
   \alpha_1 \leq \alpha_2 \leq \ldots \leq \alpha_n.
 \end{equation*}
-Because of the algorithm, for every $j=1,\ldots,n$, we have
+Because of the algorithm, for every $j=1,\ldots,n$, where
+$n=|\clientset|$ is the number of clients, we have
 \begin{equation*}
   \sum_{l=j}^n (\alpha_j - d_{il})_+ \leq f_i \quad \forall
   i \in \sitesset.
 \end{equation*}
-The reason is that, when the last demand of client $j$ is
-connected, all clients $j+1,\ldots,n$ are still active so
-their total contribution to site $i$ cannot exceed $f_i$.
+The notation $(\cdot)_+$ means taking the maximum of the
+value or $0$. The reason is that, when the last demand of
+client $j$ is connected, all the clients $j+1,\ldots,n$ are
+still active so their total contribution to the site $i$
+cannot exceed $f_i$.
 
 Now we take a closer look at the numbers $\{\alpha_j\}$. We
 know that the algorithm's total cost is exactly
 $\sum_{j=1}^n \sum_{l=1}^{r_j} \alpha_j^l$, which is not
 more than $\sum_{j=1}^n r_j \alpha_j$, since we take
-$\alpha_j$ to be $\alpha_j^{r_j}$. Now if we can show that
+$\alpha_j$ to be $\alpha_j^{r_j}$.  If we can show that
 $\sum_{j=1}^n r_j \alpha_j$ is no more than $\gamma \cdot
 \OPT$, where $\OPT$ is the cost of an integral optimal
 solution, then we claim our algorithm returns an integral
@@ -4562,66 +4566,71 @@ solution within a factor of $\gamma$ from the optimal value
 \OPT.
 
 We show that $\sum_{j=1}^n r_j \alpha_j$ is within a factor
-of $\gamma$ from $\OPT$, by showing that
+of $\gamma$ from $\OPT$ by showing that
 $\{\alpha_j/\gamma\}$ is a feasible dual solution to the
-following program, which is a rewrite of the dual program of
-the LP~\ref{eqn:fac_primal}.
-\begin{align*}
-  \max\; &\sum_j r_j\alpha_j\\
-  \textrm{subject to: }& \sum_{j=1}^n (\alpha_j - d_{ij})_+
-  \leq f_i \quad \forall i \in \sitesset.
-\end{align*}
-Obviously we want such a value $\gamma$ to be as small as
-possible. To find the minimum $\gamma$ that would always
-shrink $\{\alpha_j\}$ to be dual feasible, we need to find a
-worst case instance that maximizes $\gamma$. Moreover, the
-worst case instance must contain a star whose feasibility
-requirement achieves the value of $\gamma$. This star must
-also be the worst star in that instance.
+following program, which is a different way to write the
+dual program of the LP~(\ref{eqn:fac_primal}).
+\begin{align}
+  \label{eqn:dual_fitting}
+  \textrm{maximize}\; &\sum_j r_j\alpha_j\\ \notag
+  \textrm{subject to}\; & \sum_{j=1}^n (\alpha_j - d_{ij})_+
+  \leq f_i \quad \forall i \in \sitesset
+\end{align}
+Obviously, we want such a value $\gamma$ to be as small as
+possible, because $\gamma$ is our approximation ratio and we
+want the best ratio. To find the minimum $\gamma$ that would
+always shrink $\{\alpha_j\}$ to be dual feasible, we need to
+find a worst case instance that maximizes
+$\gamma$. Moreover, the worst case instance must contain a
+star whose feasibility requirement realizes the value of
+$\gamma$. It is also clear that this star must also be the
+worst star in that instance.
 
 As a first step, we can drop the $\max\{0, \cdot\}$
 operation, because we can always find a new star by dropping
 those clients $j$ whose $\alpha_j - d_{ij}$ terms are
 negative. That new star would still be a worst case
-star. Suppose that a worst case star has $k$ clients, and
-contains a site $i$. We the have
+star. Suppose that the worst case star has $k$ clients, and
+contains a site $i$. We then have
 \begin{equation*}
   \sum_{j=1}^k \alpha_j - d_{ij} \leq f_i.
 \end{equation*}
-In the equation above we rename clients in the new star to
-be $1,\ldots,k$. These clients are still ordered
-non-decreasingly by their $\alpha_j$ values. Now our goal is
-to find a supremum of the following program:
+In the equation above, we rename the clients in the new star
+to be $1,\ldots,k$. These clients are still ordered
+non-decreasingly by their $\alpha_j$ values. Now, our goal
+is to find the supremum of the following program for all
+possible values of $k=1,2,\ldots$.
 \begin{align*}
-  \max\; & \frac{\sum_{j=1}^k \alpha_j}{f_i + \sum_{j=1}^k d_{ij}}\\
-  \textrm{subject to: } & \sum_{l=j}^k (\alpha_l -
-  d_{il})_+\leq f_i \textrm{ for } j=1,\ldots,k
+  \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f_i + \sum_{j=1}^k d_{ij}}\\
+  \textrm{subject to}\; & \sum_{l=j}^k (\alpha_l -
+  d_{il})_+\leq f_i \quad \textrm{ for } j=1,\ldots,k
 \end{align*}
 Since we are dealing with a particular star, we can abstract
-away $i$, to obtain the following program:
+away the site $i$ to obtain the following program:
 \begin{align}
   \label{eq:star}
-  \max\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
+  \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
     d_j}\\ \notag
-  \textrm{subject to: } & \sum_{l=j}^k (\alpha_j - d_{l})_+
-  \leq f \textrm{ for } j=1,\ldots,k.
+  \textrm{subject to}\; & \sum_{l=j}^k (\alpha_j - d_{l})_+
+  \leq f \quad \textrm{ for } j=1,\ldots,k
 \end{align}
 
-We claim we can drop the $\max\{0, \cdot\}$ operation.  This
-is because dropping the max operation would relax the
-constraint in Equation~(\ref{eq:star}) and therefore can
-only make the objective value larger, since we are
-maximizing. The real optimal is then upper bounded by the
-relaxed optimal. This allows us to work on a new program,
+We claim that we can again drop the $\max\{0, \cdot\}$
+operation.  This is because dropping the max operation would
+relax the constraints in (\ref{eq:star}) and
+therefore can only make the optimal value larger, since we
+are maximizing. The real optimal value of (\ref{eq:star}) is
+then upper bounded by the relaxed optimal value of
+(\ref{eq:frlp}). This allows us to work on a new program,
 \begin{align}
   \label{eq:frlp}
-  \max\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
+  \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
     d_j}\\ \notag
-  \textrm{subject to: } & \sum_{l=j}^k (\alpha_j - d_{l})
-  \leq f \textrm{ for } j=1,\ldots,k.
+  \textrm{subject to}\; & \sum_{l=j}^k (\alpha_j - d_{l})
+  \leq f \quad \textrm{ for } j=1,\ldots,k
 \end{align}
-For each $j=1,\ldots,k$, the constraint above can be
-rewritten as
+For each $j=1,\ldots,k$, the corresponding constraint in
+(\ref{eq:frlp}) can be rewritten as
 \begin{equation}
   (k-j+1) \alpha_j \leq f + \sum_{l=j}^k d_l \leq f +
   \sum_{l=1}^k d_l.
@@ -4632,10 +4641,12 @@ The first inequality is a rewrite of the constraint in
 We now have $\alpha_j \leq (1/(k-j+1)) (f + \sum_{j=1}^k
 d_j)$, and it is then easy to see that
 \begin{equation}
-  \sum_{j=1}^n \alpha_j \leq (1/k + 1/(k-1) + \ldots + 1) =
-  H_k \leq H_n.
+  \sum_{j=1}^n \alpha_j / (f + \sum_{j=1}^k d_j) \leq (1/k + 1/(k-1) + \ldots + 1) =  H_k \leq H_n.
 \end{equation}
-Thus, the greedy algorithm is $H_n$-approximation.
+Thus, we can take $\gamma=H_n$, and we have that
+$\{\alpha_j/\gamma\}$ is a feasible dual solution to
+(\ref{eqn:dual_fitting}). It follows that the greedy
+algorithm is $H_n$-approximation.
 
 The $H_n$-approximation is a rather weak result and is
 hardly the best possible approximation ratio for the greedy
@@ -4646,11 +4657,13 @@ attempts made by other researchers to obtain a
 sub-logarithmic ratio for {\FTFL} were not successful, as
 described in Section~\ref{sec: greedy}. Although {\FTFP}
 seems to be easier to approximate than {\FTFL} when
-LP-rounding algorithms are used, it seems the fault-tolerant
+LP-rounding algorithms are used, as we have shown in
+Chapter~\ref{ch: lp-rounding}, it seems the fault-tolerant
 requirement in both problems presents a hurdle for
 primal-dual based techniques. In the following section, we
-provide an example illustrating some difficulty when
-adapting the dual-fitting analysis to the {\FTFP} problem.
+provide an example illustrating some of the difficulties
+when adapting the dual-fitting analysis to the {\FTFP}
+problem.
 
 \section{Limitation of Dual-fitting for FTFP}
 \label{sec: greedy_example}
@@ -4854,8 +4867,8 @@ assumption cannot hope to get a ratio better than $O(\log n
 / \log\log n)$. Notice this example is similar in spirit to
 Mahdian {\etal}'s~\cite{JainMMSV03} $\Omega(\log n/ \log\log
 n)$ example for Hochbaum's algorithm for the UFL problem. In
-both their example and ours we have the number of clients
-across groups decreases exponentially; while the distances
+both their example and ours, we have the number of clients
+across groups decrease exponentially; while the distances
 are increasing at about the same rate. This choice seems to
 strike the right balance when devising bad examples for the
 greedy algorithm. The reason is that in these examples, we
