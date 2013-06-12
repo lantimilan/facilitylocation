@@ -364,8 +364,8 @@ formally, we define the {\FTFP} problem as:
   In the Fault-Tolerant Facility Placement problem, we are
   given a set of sites $\sitesset$ and a set of clients
   $\clientset$. Each client $j \in \clientset$ has a demand
-  $r_j$. To open one facility at a site $i$ incurs a cost of
-  $f_i$. To make one connection from a client $j$ to a
+  $r_j$. Opening one facility at a site $i$ incurs a cost of
+  $f_i$. Making one connection from a client $j$ to a
   facility at a site $i$ incurs a cost of the distance
   $d_{ij}$. The problem asks for a solution in which every
   client $j$ is connected to $r_j$ different facilities and
@@ -770,14 +770,14 @@ of the star is the sum of the facility opening cost and
 connection cost of the clients to that facility. In each
 iteration, the algorithm picks the best star, connects all
 member clients to the facility, and sets the facility cost
-to zero. The clients that were in the star and connected are
-removed from future consideration, but the facility could be
-reused for future stars. Jain {\etal} analyzed the greedy
-algorithm and its variant using the dual-fitting
-technique. They first showed that the greedy algorithm can
-be interpreted as a process of growing a dual solution and
-updating a primal solution. Moreover, the cost of the primal
-solution is equal to the cost of the dual solution.
+to zero. The clients that were in the star are removed from
+future consideration, but the facility could be reused for
+future stars. Jain {\etal} analyzed the greedy algorithm and
+its variant using the dual-fitting technique. They first
+showed that the greedy algorithm can be interpreted as a
+process of growing a dual solution and updating a primal
+solution. Moreover, the cost of the primal solution is equal
+to the cost of the dual solution.
 
 It might appear that we have solved the {\UFL} problem
 optimally, although we know that this cannot be the case, as
@@ -825,8 +825,8 @@ bifactor approximation is appropriate. This notion was first
 introduced by Jain {\etal} in~\cite{JainMMSV03}. An
 algorithm with a facility cost of $F_{\smallALG}$ (sum of
 $f_i$ for all open facility $i$) and a connection cost of
-$C_{\smallALG}$ (sum of $d_{ij}$ for pairs of $(i,j)$
-connected), is said to be a $(\gamma_f,\gamma_c)$-
+$C_{\smallALG}$ (sum of $d_{ij}$ for connected pairs of
+$(i,j)$), is said to be a $(\gamma_f,\gamma_c)$-
 approximation if, for every feasible solution {\SOL} with a
 facility cost of $F_{\smallSOL}$ and a connection cost of
 $C_{\smallSOL}$, we have
@@ -1563,66 +1563,68 @@ solution to an integral solution with almost the same cost.
 \section{Reduction from FTFP to FTFL}
 \label{sec: reduction_to_ftfl}
 Given the demand reduction technique, we may assume that we
-are working with a restricted version of FTFP where every
-demand $r_j$ is no more than $|\sitesset|$. In this case we
-can reduce this version of FTFP to FTFL. The restriction on
-the demands $r_j$ is essential to keep the FTFL instance
-with a polynomially bounded size.  
+are working with a restricted version of FTFP, in which
+every demand $r_j$ is no more than $|\sitesset|$. In this
+case we can reduce FTFP to FTFL. The restriction on the
+demands $r_j$ is essential to keeping the size of the FTFL
+instance polynomially bounded by $|\sitesset|\cdot
+|\clientset|$.
 
 For the reduction we simply create $|\sitesset|$ facilities
-(not opened yet) at each site. Thus we have an FTFL instance
-where every client has a demand $r_j$ and a set of
-facilities that could be opened. It follows that any FTFL
-rounding algorithm can be used to solve this FTFL instance,
-and the solution trivially maps to a solution for the
-corresponding FTFP instance. Moreover, the approximation
-ratio for FTFL is preserved for FTFP. Given that FTFL has an
-LP-rounding $1.7245$-approximation algorithm by Byrka,
-Srinivasan and Swamy~\cite{ByrkaSS10}, it is immediate that
-FTFP has an approximation algorithm with the same ratio. On
-the other hand, as we show in Chapter~\ref{ch: lp-rounding},
-{\FTFP} can be approximated with a ratio of $1.575$. Thus
-from the standpoint of approximation, {\FTFP} is more
-amenable than {\FTFL}.
+(not opened yet) at each site. Thus, we have an FTFL
+instance where every client $j$ has a demand $r_j$ and a set
+of facilities that could be opened. We are then able to use
+any known LP-rounding algorithm for FTFL to solve this FTFL
+instance. Clearly, the solution to the FTFL instance
+trivially maps to a solution to the FTFP instance. Moreover,
+the approximation ratio for FTFL is preserved for
+FTFP. Given that FTFL has an LP-rounding
+$1.7245$-approximation algorithm by Byrka, Srinivasan and
+Swamy~\cite{ByrkaSS10}, it is immediate that FTFP has an
+approximation algorithm with the same ratio. On the other
+hand, as we will show in Chapter~\ref{ch: lp-rounding},
+{\FTFP} can be approximated with a better ratio of
+$1.575$. Thus, from the standpoint of approximation, {\FTFP}
+is more amenable than {\FTFL}.
 
 \section{Asymptotic Approximation Ratio for Large
   Demands}
 \label{sec: large_demands}
-When all demands are large, one would expect that the
+When all demands are large, we would expect that the
 fractional optimal solution to LP (\ref{eqn:fac_primal}) is
-very close to an integral solution, and it is reasonable to
-expect that in this case the fractional solution can be
-rounded to an integral solution with almost the same
+very close to an integral solution. Thus, it is reasonable
+to expect that in this case, the optimal fractional solution
+can be rounded to an integral solution with almost the same
 cost. We turn this intuition into a concrete statement,
-Theorem~\ref{thm:largeR}.
+which is Theorem~\ref{thm:largeR}.
 
 \begin{theorem}
   \label{thm:largeR}
-  Given an {\FTFP} instance $(\sitesset, \clientset, \{r_j\}
-  , \{f_i\}, \{d_{ij}\})$, let $m = |\sitesset|$ be the
-  number of sites, and let $Q = \min_{j\in\clientset} r_j$
-  be the minimum demand, then there is an approximation
+  Given an {\FTFP} instance with a set of sites
+  $|\sitesset|$ and a set of clients $\clientset$, and the
+  demands $r_j$ of each client $j$, let $m = |\sitesset|$ be
+  the number of sites, and let $Q = \min_{j\in\clientset}
+  r_j$ be the minimum demand, then there is an approximation
   algorithm with ratio $1 + O(m/Q)$. In particular, when $Q$
   is large compared to $m$, this ratio approaches $1$.
 \end{theorem}
 %%%%%%%%%%%%%%%%%%%
 \begin{proof}
-  We first solve the LP~(\ref{eqn:fac_primal}) for this
-  instance and obtain an optimal fractional solution
-  $(\bfx^\ast, \bfy^\ast)$. Then we apply demand reduction
-  to obtain the two instances $\hat \calI$ and $\dot
-  \calI$. For the $\hat \calI$ instance we already have an
-  optimal integral solution, namely
+  We first solve the LP~(\ref{eqn:fac_primal}) and obtain an
+  optimal fractional solution $(\bfx^\ast, \bfy^\ast)$. Then
+  we apply demand reduction to obtain two instances: $\hat
+  \calI$ and $\dot \calI$. For the $\hat \calI$ instance we
+  already have an optimal integral solution, namely
   $(\hat\bfx,\hat\bfy)$. We now deal with the $\dot\calI$
   instance.
 
-  Lemma~\ref{lem: polynomial demands partition} tells us
-  that $\dot r_j$ is no more than $|\sitesset|$ for every
-  client $j$. Thus we can solve the $\dot \calI$ instance by
-  creating $m$ independent {\UFL} instances with the same
-  parameters $\sitesset, \clientset, \{f_i\}, \{d_{ij}\}$,
-  see Figure~\ref{fig:asymptotic_ratio} for an
-  illustration.
+  From Lemma~\ref{lem: polynomial demands partition} we know
+  that, for every client $j$, the value of $\dot r_j$ is no
+  more than $m=|\sitesset|$. Thus, we can solve the $\dot
+  \calI$ instance by creating $m$ independent {\UFL}
+  instances with the same parameters $\sitesset, \clientset,
+  \{f_i\}, \{d_{ij}\}$; see
+  Figure~\ref{fig:asymptotic_ratio} for an illustration.
   \ssp
   \begin{figure}[ht]
     \centering
@@ -1665,46 +1667,47 @@ Theorem~\ref{thm:largeR}.
     \caption{Illustration of the approach of reducing FTFP to UFL for the special FTFP instance with all demands $r_j$ being large.}
     \label{fig:asymptotic_ratio}
   \end{figure}
-  \dsp
-  Clearly combining the integral solutions to the $m$
-  copies of {\UFL} instances would give us an integral
-  solution to the $\dot \calI$ instance (we might have to
+  \dsp 
+
+  Clearly, by combining the integral solutions to the $m$
+  copies of {\UFL} instances, we would obtain an integral
+  solution to the $\dot \calI$ instance. We might have to
   remove some redundant facilities and connections, but this
-  only reduces the total cost.). Using a $c$-approximation
+  only reduces the total cost. Using a $c$-approximation
   algorithm for {\UFL}~\footnote{We actually need more than
-    that. What we need is that the integral solution for the
-    {\UFL} instance should have cost no more than $c$ times
-    the cost of an optimal fractional solution. However,
-    almost all LP-rounding algorithms for {\UFL} have this
-    property.}, we can obtain a solution with cost no more
-  than $c m \cdot \LP_{\smallUFL}^\ast$, where
+    that. What we need is that the integral solution to the
+    {\UFL} instance should have a cost no more than $c$
+    times the cost of an optimal fractional
+    solution. However, all LP-rounding algorithms for {\UFL}
+    satisfy this requirement.}, we obtain a solution with a
+  cost no more than $c m \cdot \LP_{\smallUFL}^\ast$, where
   $\LP_{\smallUFL}^\ast$ is the cost of the optimal
-  fractional solution for the {\UFL} instance. On the other
+  fractional solution to the {\UFL} instance. On the other
   hand, it is easy to see that $(\bfx^\ast/Q,\bfy^\ast/Q)$
-  constitutes a feasible solution to the {\UFL} instance as
-  we have $r_j \geq Q$ for every client $j$. As a result we
-  have
+  is a feasible solution to the {\UFL} instance, as we have
+  $r_j \geq Q$ for every client $j$. It follows that
   \begin{equation*}
     \LP_{\smallUFL}^\ast \leq \LP^\ast / Q,
   \end{equation*}
-  where $\LP^\ast$ is the optimal fractional solution's cost
-  to the original {\FTFP} instance $\calI$. Therefore, we
-  have an integral solution to the instance $\dot\calI$ with
-  cost at most $(cm/Q) \LP^\ast$. Let $S_1$ be the integral
-  solution to the instance $\dot\calI$, obtained by
-  combining solutions to the $m$ copies of {\UFL} instances,
-  and let $S_2 = (\hat\bfx,\hat\bfy)$ be the solution to the
-  instance $\hat\calI$. The two solutions, $S_1$ and $S_2$,
-  when combined, give a feasible integral solution to the
-  instance $\calI$, and the total cost is no more than
+  where $\LP^\ast$ is the cost of an optimal fractional
+  solution to the original {\FTFP} instance
+  $\calI$. Therefore, we have an integral solution to the
+  instance $\dot\calI$ with a cost at most $(cm/Q)
+  \LP^\ast$. Let $S_1$ be this integral solution to the
+  instance $\dot\calI$, and let $S_2 = (\hat\bfx,\hat\bfy)$
+  be the solution to the instance $\hat\calI$. These two
+  solutions $S_1$ and $S_2$, when combined, become a
+  feasible integral solution to the instance $\calI$.  The
+  total cost of this combined solution is no more than
   \begin{equation*}
     \cost(S_1) + \cost(S_2) \leq (cm/Q) \LP^\ast + \OPT \leq (1 +
     cm/Q) \OPT = 1 + O(m/Q) \OPT.
   \end{equation*}
-  As usual $\OPT$ is the optimal integral solution's cost
-  for the original {\FTFP} instance and $\LP^\ast \leq \OPT$
-  because an integral solution's cost is lower bounded by
-  the optimal fractional solution's cost.
+  As usual, $\OPT$ denotes the cost of the optimal integral
+  solution to the original {\FTFP} instance $\calI$. We have
+  $\LP^\ast \leq \OPT$ because any integral solution's cost
+  is lower bounded by the optimal fractional solution's
+  cost.
 \end{proof}
 
 
