@@ -4734,11 +4734,11 @@ implemented in polynomial time. In Section~\ref{sec:
 $H_n$-approximation where $n=|\mathcal C|$ is the number of
 clients. Since the same greedy algorithm is shown to have an
 $O(1)$-approximation ratio for UFL~\cite{MahdianMSV01}, a
-natural question to ask is whether the greedy algorithm can
-be shown to have an $O(1)$ approximation ratio. Here, we
-give an example that hints at a negative answer.
+natural question is whether the greedy algorithm can be
+shown to have an $O(1)$ approximation ratio. Here, we give
+an example that hints at a negative answer.
 
-We assume the greedy algorithm is analyzed using the
+We assume that the greedy algorithm is analyzed using the
 dual-fitting technique, which associates every client $j$
 with a number $\alpha_j$, interpreted as a dual solution to
 the LP~(\ref{eqn:fac_dual}). However, the dual solution
@@ -4746,42 +4746,40 @@ $\{\alpha_j\}$ in general may not be feasible. The
 dual-fitting technique aims at finding the smallest possible
 number $\gamma$ such that, after the dual solution
 $\{\alpha_j\}$ is shrunk (divided) by $\gamma$, all dual
-constraints are satisfied, that is
+constraints are satisfied, that is,
 \begin{equation*}
 \sum_{j\in \mathcal C} (\alpha_j/\gamma
 - d_{ij})_+ \leq f_i \qquad \text{ for all } i\in \mathcal F. 
 \end{equation*}
 The number $\gamma$ is taken as the approximation ratio.
 
-In the greedy algorithm, a star with minimum average cost is
-picked at each iteration and each member client of that star
-then gets one more connection. The dual value $\alpha_j$
-associated with each client $j$ in the dual-fitting analysis
-can be seen as a way to charge the cost to individual
-clients. Although charging each member client an equal share
-works well for UFL, the same may not be true for FTFP. In
-general, the dual-fitting analysis does have the freedom of
-distributing the cost of $f_i$ into member
-clients. Nonetheless, we assume that the cost of $f_i$ is
-distributed among members only, and not to clients outside
-this star, which we call the \emph{local charging}
-assumption. Our second assumption is that the proposed dual
-solution $\alpha_j$, is taken as the average of individual
-$\alpha_j^l$ for each of the $l^{th}$ demand of client $j$,
-with $l=1,\ldots,r_j$ --- that is, $\alpha_j =
-\sum_{l=1}^{r_j} \alpha_j^l / r_j$. Suppose the $l^{th}$
-demand of $j$ is satisfied while $j$ is in a star with a
-facility at a site $i$; then $\alpha_j^l = d_{ij} +
-f_i^{j,l}$, where $f_i^{j,l}$ is the portion of $f_i$
-attributed to $j$ in the analysis. Taking the average
-implies the computed $\alpha_j$ values make
-$\sum_{j\in\clientset} r_j \alpha_j$ equal to the cost of
-the integral solution produced by the greedy
-algorithm. Under these two assumptions, the example we give
-below shows that the dual-fitting analysis cannot show an
-approximation ratio better than $O(\log n / \log \log
-n)$. In particular, the analysis cannot be used to show an
-approximation ratio of $O(1)$.
+In the greedy algorithm, a star with the minimum average
+cost is picked at each iteration, and each member client of
+that star then gets one more connection. The dual value
+$\alpha_j$ associated with each client $j$ in the
+dual-fitting analysis can be seen as a way to charge the
+cost to individual clients. Although charging each member
+client an equal share works well for UFL, the same may not
+be true for FTFP. In general, the dual-fitting analysis does
+have the freedom of distributing the cost of $f_i$ into
+member clients. Nonetheless, we assume that the cost of
+$f_i$ is distributed among members only, and not to clients
+outside this star. We call this assumption the \emph{local
+  charging} assumption. Our second assumption is that the
+proposed dual solution $\alpha_j$ is taken as the average of
+individual $\alpha_j^l$ values, that is, $\alpha_j =
+\sum_{l=1}^{r_j} \alpha_j^l / r_j$. Suppose that the
+$l^{th}$ demand of $j$ is satisfied while $j$ is in a star
+with a site $i$; then $\alpha_j^l = d_{ij} + f_i^{j,l}$,
+where $f_i^{j,l}$ is the portion of $f_i$ attributed to $j$
+in the analysis. Taking the average implies the computed
+$\alpha_j$ values make $\sum_{j\in\clientset} r_j \alpha_j$
+equal to the cost of the integral solution produced by the
+greedy algorithm. Under these two assumptions, the example
+we give below shows that the dual-fitting analysis cannot
+show an approximation ratio better than $O(\log n / \log
+\log n)$. In particular, this analysis cannot be used to
+show an approximation ratio of $O(1)$.
 
 We now give our example, illustrated in
 Figure~\ref{fig:greedy_lower_bound}.
@@ -4831,44 +4829,45 @@ Figure~\ref{fig:greedy_lower_bound}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Our example has one site and $k$ groups of clients. Opening
 one facility at that site costs $f_1$. The first group has
-$n_1$ clients each with a demand of $r_1$, all at distance
-$d_1 = 0$ from $f_1$. The distances from each of the groups
-to the site are listed below. Distances that are not shown
-explicitly are assumed to follow the triangle
-inequality. Notice that the distances are chosen in a way to
-force a particular choice of best stars.
+$n_1$ clients, each with a demand of $r_1$, and all those
+clients are at distance $d_1 = 0$ from the site. The
+distances from each of the groups to the site are listed
+below. Distances that are not shown explicitly are assumed
+to follow the triangle inequality. Notice that the distances
+are chosen in a way to force a particular choice of the best
+stars.
 \begin{align*}
   &d_1 = 0\\
-  &d_2 = \frac{f_1}{n_1}\\
+  &d_2 = f_1 / n_1\\
   &d_3 = f_1/n_2 + d_2 = f_1/n_2 + f_1/n_1 = f_1 (\frac{1}{n_2} + \frac{1}{n_1})\\
   &\ldots\\
   &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})
 \end{align*}
 For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$,
-and $n_1 = u^k, n_2 = u^{k-1}, \ldots, n_k = u^1 = u$
-for some number $u$ --- we actually take $u=k$; this may not
-be the best possible choice.
+and $n_1 = u^k, n_2 = u^{k-1}, \ldots, n_k = u^1 = u$ for
+some number $u$. We actually take $u=k$ in the end, and this
+may not be the best possible choice.
 
-Call a star with facility cost zero \emph{trivial}. It is
-\emph{non-trivial} if the facility has non-zero cost. Now
-the greedy algorithm executes like this: the first
-non-trivial star with $r_1$ replicas is $(f_1, n_1)$. Then
-we have a trivial star of zero cost facility and all $n_2$
-clients in group $2$ for $r_1$ replicas. The second
-non-trivial star with $r_2 - r_1$ replicas is $(f_1,
-n_2)$. Notice that the $r_1$ replicas of trivial stars with
-group $2$ satisfies the first $r_1$ demand of the $n_2$
+Call a star with facility cost zero \emph{trivial}. A star
+is \emph{non-trivial} if the facility has non-zero cost. Now
+the greedy algorithm executes like this: first we have a
+non-trivial star of $(f_1, n_1)$ with $r_1$ replicas. Then
+we have a trivial star of a zero-cost facility and all $n_2$
+clients in group $2$ with $r_1$ replicas. The second
+non-trivial star is $(f_1, n_2)$, with $r_2 - r_1$
+replicas. Notice that the $r_1$ replicas of trivial stars
+with group $2$ satisfy the first $r_1$ demand of the $n_2$
 clients in that group. After that, the $n_2$ clients of
-group $2$ each has a residual demand of $r_2 - r_1 \approx
-r_2$ since $r_2 \gg r_1$, and are then satisfied by the $r_2
-- r_1$ replicas of the $(f_1, n_2)$ stars. The process
+group $2$ each have a residual demand of $r_2 - r_1 \approx
+r_2$ (since $r_2 \gg r_1$), and are then satisfied by the
+$r_2 - r_1$ replicas of the $(f_1, n_2)$ stars. The process
 repeats until the $k^{th}$ group finishes with $r_k$ new
 facilities.
 
 According to our local charging assumption, we have
 $\alpha_1 = f_1$, with $\alpha_1$ defined as the total dual
 value of the $n_1$ clients in group $1$, regardless of how
-the analysis would distribute the facility cost within that
+the analysis distributes the facility cost within that
 group. Similarly, $\alpha_2 = f_1 + n_2 d_2$, and so
 on. Substituting in the numbers, we have
 
@@ -4887,13 +4886,14 @@ $\alpha_j$ is decided by the max among $\alpha_j^l$, so in
 the following calculation we ignore the terms involving
 trivial stars.
 
-Now going back to the dual constraint --- it requires the
-shrinking factor $\gamma$ to satisfy the following
-inequality:
+Now going back to the dual constraint. The constraint
+requires the shrinking factor $\gamma$ to satisfy the
+following inequality:
 \begin{equation}
   \frac{\alpha_1}{\gamma} - d_1 + \frac{\alpha_2}{\gamma} - d_2 +
-  \ldots + \frac{\alpha_k}{\gamma} - d_k \leq f_1.
+  \ldots + \frac{\alpha_k}{\gamma} - d_k \leq f_1,
 \end{equation}
+which we use to derive an upper bound on $\gamma$.
 Substituting in the $\alpha_j$ values derived above, we have
 \begin{align*}
   \gamma &\geq (\sum_{j=1}^k \alpha_j) / (f_1 + \sum_{j=1}^k d_j)\\
@@ -4916,8 +4916,8 @@ Substituting in the $\alpha_j$ values derived above, we have
   &= 1 + (k-1) / \left(1 + 1 + 1/k + \ldots + 1/k^{k-2}\right)\\
   &\approx k/2
 \end{align*}
-So for $k$ groups we can force a shrinking factor $\gamma$
-as big as $k/2$. Recall that earlier we have shown that the
+Thus, for $k$ groups we can force a shrinking factor
+$\gamma$ as big as $k/2$. Earlier we have shown that the
 approximation ratio of the greedy algorithm is not more than
 $H_n$. Is this a contradiction? No, because we have the
 number of clients $n=k^k + k^{k-1} + \ldots + 1 \approx
@@ -4928,13 +4928,22 @@ than $O(\log n / \log\log n)$. Notice this example is
 similar in spirit to Mahdian {\etal}'s~\cite{JainMMSV03}
 $\Omega(\log n/ \log\log n)$ example for Hochbaum's
 algorithm for the UFL problem. In both their example and
-ours, we have the number of clients across groups decrease
+ours, we have the numbers of clients across groups decrease
 exponentially; while the distances are increasing at about
 the same rate. This choice seems to strike the right balance
 when devising bad examples for the greedy algorithm. The
-reason is that in these examples, we want a fast growing
+reason is that, in these examples, we want a fast growing
 sequence; while on the other hand, we also need the sequence
-to be not too short.
+to be not too short.  
+
+Notice that our example only shows that a particular type of
+analysis, that is dual-fitting with the local charging
+assumption, cannot be used to show an $O(1)$ approximation
+ratio for the greedy algorithm. Our example did not rule out
+the possibility to analyze the greedy algorithm using a
+different technique and give an $O(1)$ ratio. This concludes
+our discussions on primal-dual algorithm and this chapter.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ch7 CONCLUSION
@@ -4951,17 +4960,14 @@ developed two techniques, namely demand reduction and
 adaptive partitioning, which could be of more general
 interest. Our results show that {\FTFP} seems easier in
 terms of approximation, compared to another related problem,
-{\FTFL}.
+{\FTFL}. It would be interesting to see if similar ideas can
+be used to design an LP-rounding algorithm for {\FTFL} with
+a matching ratio.
 
 We have also studied the primal-dual approaches, and
 provided a possible explanation of the difficulty in
 obtaining a constant approximation ratio using those
 techniques.
-
-We hope our work in this dissertation will assist other
-researchers interested in the fault-tolerant variants of the
-facility location problems to develop more insight into
-their difficulties.
 
 In anticipating future research, we agree with Byrka
 {\etal}~\cite{ByrkaSS10} who remarked that both {\UFL} and
