@@ -143,15 +143,16 @@ Professor Neal Young}
   detail. Both offered many helpful comments and suggested
   numerous corrections. Toby Gustafson from the Computer
   Science Department, and my fellow graduate students Shiwen
-  Chen and Dave Gomboc have read later revisions and their
-  advice helped improve the presentation
+  Chen, Dave Gomboc and Rachid Ounit have read later
+  revisions and they have helped improve the presentation
   significantly. Dorian Nogneng, a visiting student to our
   lab, read part of the dissertation and pointed out several
   flaws in the theorems and their proofs.
 
-  Kristin Noone in the UCR Graduate Writing Center, and
-  Stephanie Chang in UCR have proofread this dissertation
-  and corrected a number of grammatical errors.
+  Kristin Noone in the Graduate Writing Center, and
+  Stephanie Chang in the undergraduate program have
+  proofread this dissertation and corrected a number of
+  grammatical errors.
 
   During this final stage of my PhD study, our family had a
   new member, little Terry. Being with a baby as laid-back
@@ -208,67 +209,66 @@ Professor Neal Young}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introduction} \label{ch: intro}
 
-\section{The Problem and the Background}
+\section{Background and Related Problems}
 Facility location problems are a class of problems of both
 theoretical interest and practical significance. In general,
 facility location problems are about selecting a set of
 sites to open facilities and servicing clients by connecting
 them to facilities. A classical application is to set up
-warehouses to distribute commodities to retailers.  Having
-more warehouses helps reduce shipping cost because every
-retailer can be close to some warehouse. On the other hand,
-setting up and maintaining a warehouse can be costly. In
-this scenario there is a trade-off between having more
-warehouses and cheaper shipping and having fewer warehouses
-at the expense of shipping. Another application is to place
-content servers in a computer network. In the network, we
-have a number of client machines that need to access files
-from one of the servers. Having more servers allows faster
-access for all clients. However, keeping a large number of
-servers around requires substantial hardware and software
-investment, as well as committing operation engineers to
-keep the servers up and running. A more recent example
-concerns today's web giants like Google, Facebook and
-Amazon. These web-based companies have geographically
+warehouses to distribute commodities to retailers. On the
+one hand, having more warehouses helps reduce shipping cost,
+because every retailer can be close to some warehouse. On
+the other hand, setting up and maintaining a warehouse can
+be costly. In this scenario, there is a trade-off between
+having more warehouses and cheaper shipping and having fewer
+warehouses at the expense of shipping. Another application
+is to place content servers in a computer network. In the
+network, we have a number of client machines that need to
+access files from one of the servers. Having more servers
+allows faster access for all clients. However, keeping a
+large number of servers around requires substantial hardware
+and software investment, as well as committing operation
+engineers to keep the servers up and running. A more recent
+example concerns today's web giants like Google, Facebook
+and Amazon. These web-based companies have geographically
 distributed development offices. All these offices require
 access to large amounts of data from a handful of data
-centers, located in a few carefully chosen
-locations. However, building a data center is costly. The
-electricity bill alone would discourage the plan of having
-an excessive number of data centers. On the other hand,
-demands from all offices need to be addressed, or engineers
-would sit idling while waiting for data transfer to
-complete. We shall keep using the development office and
-data center example to illustrate several aspects of
-facility location problems.
+centers, located in a few carefully chosen locations. On the
+one hand, building a data center is costly. The electricity
+bill alone would discourage the plan of having an excessive
+number of data centers. On the other hand, demands from all
+offices need to be addressed, or engineers would sit idling
+while waiting for data transfer to complete. We shall keep
+using the development office and data center example to
+illustrate several aspects of facility location problems.
 
 First, setting up a data center incurs a cost and the cost
-varies with location. The real estate rent in Kansas usually
-does not compare to even a fraction of that in San Francisco
-or New York. The electricity rate is also very different in
-modest areas from that in California. Other factors like
-potential natural disasters such as tornadoes and
-earthquakes could also be factored into the cost estimate to
-build a data center in a certain location. In short,
-different locations have different costs to set up a data
-center.
+varies with locations. The real estate rent in Kansas
+usually does not compare to even a fraction of that in San
+Francisco or New York. The electricity rate is also very
+different in mid-west areas from that in California. Other
+factors like potential natural disasters, such as tornadoes
+and earthquakes could also be factored into the cost
+estimate to build a data center in a certain location. In
+short, different locations have different costs to set up a
+data center.
 
 Second, different offices may have different demands. A
 larger office may require access to several data centers,
 either for speedy data transfer, or for redundancy when one
-of the data centers goes down.
+or more of the data centers appear to be offline.
 
 Third, data centers may have capacities. It is thus
-reasonable to put a cap on the number of offices that a
+reasonable to put a limit on the number of offices that a
 certain data center is able to serve. However, to keep the
 problem simple, we may or may not have this constraint in
 our problem definition.
 
 Facility location problems have long been an active topic in
-both Operations Research and Computer Science research
-communities. Early works on facility location problems can
-be found in \cite{KuehnH63,Man64,Bal66}; see also the book
-by Mirchandani and Francis~\cite{MirF90}. For review of more
+both Operations Research and Computer Science. Early works
+on facility location problems can be found in
+\cite{KuehnH63,Man64,Bal66}; see also the book by
+Mirchandani and Francis~\cite{MirF90}. For a review of more
 recent work, see Shmoys' survey
 articles~\cite{Shmoys00,Shmoys04}, Vygen's lecture
 notes~\cite{Vygen05}, and the book by Williamson and
@@ -302,7 +302,7 @@ considered include
     problem}~\cite{AardalMLQ96,AardalCS99,Zhang06,ByrkaR12,KrishnaswamyS12},
   in which we are given $k$ disjoint sets of facilities and
   each client needs to be serviced by a sequence of $k$
-  facilities, one from each set,
+  facilities with one from each set,
 \item \emph{the Online Facility Location
     problem}~\cite{Meyerson01, Fotakis07, Fotakis08}, where demand points
   arrive one a time and must be assigned irrevocably upon
@@ -315,11 +315,10 @@ considered include
 \end{itemize}
 In all the problems above, there is a cost to open a
 facility at a site, and there is a cost to connect a client
-to a facility as well. The goal is to minimize the total
-cost of opening facilities and connecting clients to
-facilities. In the Prize-Collecting Facility Location
-problem we also pay a penalty for each client that is not
-connected.
+to a facility. The goal is to minimize the total cost of
+opening facilities and connecting clients to facilities. In
+the Prize-Collecting Facility Location problem, we also pay
+a penalty for each client that is not connected.
 
 The simplest variant, known as the Uncapacitated Facility
 Location problem ({\UFL}), is also the one that has been
@@ -328,28 +327,25 @@ studied most extensively.
   In the {\UFL} problem, we are given a set of sites
   $\sitesset$ and a set of clients $\clientset$. Each site
   $i$ can open one facility and each client $j$ needs to
-  connect to one facility at a site $i$. Facilities are
-  uncapacitated, meaning that a facility can accept
-  connections from any number of clients. We are also given
-  the facility opening cost $f_i$ for each site $i$, and the
-  distance $d_{ij}$ between a site $i$ and a client $j$. The
-  problem asks us to find a set of sites on which to open
-  facilities, and to connect clients to facilities, in such
-  a way that the total cost is minimized. The total cost is
-  the sum of the facility opening cost and the client
-  connection cost.
+  connect to one facility. Facilities are uncapacitated,
+  meaning that a facility can accept connections from any
+  number of clients. We are also given the facility opening
+  cost $f_i$ for each site $i$, and the distance $d_{ij}$
+  between a site $i$ and a client $j$. The problem asks us
+  to find a set of sites on which to open facilities and to
+  connect clients to facilities, in such a way that the
+  total cost is minimized. The total cost is the sum of the
+  facility opening cost and the client connection cost.
 \end{problem}
-The UFL problem is known to be \NP-hard because the problem
-contains the classic Set Cover problem as a special
-case. The UFL problem with general distances has an
-algorithm with an approximation ratio of $O(\log n)$, where
-$n$ is the number of clients. This algorithm is credited to
+The UFL problem with general distances has an algorithm with
+an approximation ratio of $O(\log n)$, where $n$ is the
+number of clients. This algorithm is credited to
 Hochbaum~\cite{Hochbaum82}. A matching lower bound of
-$\Omega(\log n)$ is immediate, as the UFL problem contains
-the well-known Set Cover problem as a special
-case~\cite{Hochbaum82}. When the distances form a metric ---
-that is, they satisfy the triangle inequality, there are
-algorithms with constant approximation ratios. Shmoys,
+$\Omega(\log n)$ on the approximation ratio is immediate, as
+the UFL problem contains the well-known Set Cover problem as
+a special case~\cite{Hochbaum82}. When the distances form a
+metric, that is, they satisfy the triangle inequality, there
+are algorithms with constant approximation ratios. Shmoys,
 Tardos and Aardal~\cite{ShmoysTA97} were the first ones to
 obtain an $O(1)$-approximation algorithm for the {\UFL}
 problem. Currently, the best known approximation ratio is
@@ -360,7 +356,7 @@ the approximation ratio, under the assumption that $\NP
   n)})$. Sviridenko~\cite{Vygen05} weakened the underlying
 assumption to $\PP \neq \NP$.
 
-\section{The FTFP Problem}
+\section{Fault-Tolerant Facility Placement}
 The problem studied in this thesis is called the
 Fault-Tolerant Facility Placement problem (\FTFP), which
 generalizes the {\UFL} problem. The differences between the
@@ -388,11 +384,12 @@ with a greedy algorithm achieving an approximation ratio of
 $H_n$ where $n$ is the number of clients and $H_n$ is the
 $n^{th}$ harmonic number (we show this result in
 Section~\ref{sec: greedy_ratio}), and a matching lower bound
-on the approximation because it contains the Set Cover
-problem as a special case. In this thesis we only consider
-the metric version of the {\FTFP} problem, where the
-distances $d_{ij}$ satisfy the triangle inequality, see
-Figure~\ref{fig:triangle} for an illustration.
+of $H_n$ on the approximation ratio because FTFP contains
+the Set Cover problem as a special case. In this thesis we
+only consider the metric version of the {\FTFP} problem,
+where the distances $d_{ij}$ satisfy the triangle
+inequality; see Figure~\ref{fig:triangle} for an
+illustration.
 %% figure ftfp example
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ssp
@@ -493,11 +490,11 @@ case. In fact, by setting $r_j = 1$ for all clients $j$ in
 {\FTFP}, we get the {\UFL} problem. Another problem that is
 closely related to the {\FTFP} problem is the Fault-Tolerant
 Facility Location problem (FTFL) mentioned earlier. The
-difference between {\FTFP} and {\FTFL} is that in {\FTFP} we
-can open any number of facilities at a site while in {\FTFL}
-we can open at most one facility at a site.
+difference between {\FTFP} and {\FTFL} is that, in {\FTFP}
+we can open any number of facilities at a site, while in
+{\FTFL} we can open at most one facility at a site.
 
-\section{Organization of the Thesis}
+\section{Organization of Dissertation}
 The rest of this thesis is organized as follows: In
 Chapter~\ref{ch: related_work} we present related work for
 UFL, FTFL and our problem FTFP; in Chapter~\ref{ch: lp} we
@@ -665,7 +662,9 @@ we do not need an explicit constraint of $x_{ij} \leq 1$ or
 $y_i \leq 1$, as any optimal solution to the
 LP~(\ref{eqn:ufl_primal}) must satisfy these two constraints
 automatically. The LP is:
+
 %%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
@@ -677,11 +676,13 @@ automatically. The LP is:
 \\ \notag
 x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in \clientset 
 \end{empheq}
-
+\dsp
 %%%%%%%%%%%%
 
 \noindent
 The dual program is:
+%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \textrm{maximize}\quad \sum_{j\in \clientset} \alpha_j&\label{eqn:ufl_dual}  
   \\ \notag
@@ -692,7 +693,8 @@ The dual program is:
   \\ \notag
   \alpha_j \geq 0, \beta_{ij} &\geq 0 &  & \forall i\in \sitesset, j\in \clientset
 \end{empheq}
-
+\dsp
+%%%%%%%%%%%
 
 Two general schemes using LP to design approximation
 algorithms are, the LP-rounding scheme and the primal-dual
@@ -1090,6 +1092,9 @@ algorithm is a $4$-approximation.
 The Fault-Tolerant Facility Location problem (\FTFL) was
 introduced by Jain and Vazirani~\cite{JainV03}.  The LP for
 {\FTFL} is
+
+%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \textrm{minimize} \quad \sum_{i\in \sitesset}f_iy_i &\,+
   \sum_{i\in \sitesset, j\in \clientset} d_{ij}x_{ij}
@@ -1104,6 +1109,8 @@ y_i &\leq 1 & &\forall i \in \sitesset
 x_{ij} \geq 0, y_i &\geq 0 & &\forall i\in \sitesset, j\in
 \clientset 
 \end{empheq}
+\dsp
+%%%%%%%%%%%
 The constraint $\sum_{i\in\sitesset} x_{ij} \geq r_j$ is
 present because, unlike in {\UFL}, a client $j$ now needs to
 be connected to $r_j$ different facilities. The constraint
@@ -1233,6 +1240,7 @@ $i$. If we relax the integrality constraints, we obtain the
 following LP:
 
 %%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \textrm{minimize} \quad \cost(\bfx,\bfy) &= \textstyle{\sum_{i\in \sitesset}f_iy_i 
 								+ \sum_{i\in \sitesset, j\in \clientset}d_{ij}x_{ij}}\label{eqn:fac_primal}\hspace{-1.5in}&&
@@ -1243,11 +1251,14 @@ following LP:
  									\\ \notag
   	  x_{ij} \geq 0, y_i &\geq 0 						& 			&\forall i\in \sitesset, j\in \clientset 
 \end{empheq}
-
+\dsp
 %%%%%%%%%%%%
 
 \noindent
 The dual program is:
+
+%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \textrm{maximize}\quad \textstyle{\sum_{j\in \clientset}} r_j\alpha_j&\label{eqn:fac_dual}  
      						\\ \notag
@@ -1258,7 +1269,8 @@ The dual program is:
 							\\ \notag
   \alpha_j \geq 0, \beta_{ij} &\geq 0           &            & \forall i\in \sitesset, j\in \clientset
 \end{empheq}
-
+\dsp
+%%%%%%%%%%%
 In each of our algorithms, we will fix some optimal
 solutions of the LPs (\ref{eqn:fac_primal}) and
 (\ref{eqn:fac_dual}) that we will denote by $(\bfx^\ast,
@@ -1337,13 +1349,16 @@ to be $x^\ast_{ik}$, and then for each client $j$
 redistribute $x^\ast_{ij}$ so that $i$ retains as much
 connection value as possible and $i'$ receives the
 rest. Specifically, we set
-%
+
+%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   &y^\ast_{i'} \;\assign\; y^\ast_i - x^\ast_{ik},\;   y^\ast_{i} \;\assign\; x^\ast_{ik}, \quad \text{ and }\\
   &x^\ast_{i'j} \;\assign\;\max( x^\ast_{ij} - x^\ast_{ik}, 0 ),\;	 x^\ast_{ij} \;\assign\; \min( x^\ast_{ij} , x^\ast_{ik}) 
 			\quad	\textrm{for all}\ j \neq k.
 \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%%%%%%%
 This operation eliminates the partial connection between $k$
 and $i$ and does not create any new partial
 connections. Each client can split at most one site and
@@ -1378,6 +1393,7 @@ and split into two parts; we then solve the fractional part
 with an integral solution; finally, we combine this solution
 and the integral part obtained earlier to get a solution to
 the original instance.
+
 %%% figure for general FTFP algorithm with demand reduction
 %%% and adaptive partitioning
 \ssp
@@ -1463,7 +1479,9 @@ $(\bfx^\ast,\bfy^\ast)$ is complete, that is $x^\ast_{ij} >
 0$ implies $x^\ast_{ij} = y^\ast_i$ for all $i,j$.  We split
 this solution into two parts, namely $(\bfx^\ast,\bfy^\ast)
 = (\hatbfx,\hatbfy)+ (\dotbfx,\dotbfy)$, where
-%
+
+%%%%%%%%%%%%
+\ssp
 \begin{align*}
 \haty_i &\;\assign\; \floor{y_i^\ast}, \quad
 			\hatx_{ij} \;\assign\; \floor{x_{ij}^\ast} \quad\textrm{and}
@@ -1471,7 +1489,8 @@ this solution into two parts, namely $(\bfx^\ast,\bfy^\ast)
 \doty_i &\;\assign\; y_i^\ast - \floor{y_i^\ast}, \quad
  	\dotx_{ij} \;\assign\; x_{ij}^\ast -  \floor{x_{ij}^\ast}
 \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for all $i,j$. Now we construct two
 FTFP instances $\hatcalI$ and $\dotcalI$ with the same
 parameters as the original instance, except that the demand of each client $j$ is
@@ -1660,6 +1679,7 @@ which is Theorem~\ref{thm:largeR}.
   with the same parameters $(\sitesset, \clientset, \{f_i\},
   \{d_{ij}\})$; see Figure~\ref{fig:asymptotic_ratio} for an
   illustration.  
+
   %
   \ssp
   \begin{figure}[ht]
@@ -1776,6 +1796,7 @@ facilities respectively, that is $\barbfx =
 (\barx_{\mu\nu})$ and $\barbfy = (\bary_{\mu})$. An
 illustration is given in
 Figure~\ref{fig:adaptive_partition}.
+
 %% figure: adaptive partition
 \ssp
 \begin{figure}[ht]
@@ -1826,6 +1847,7 @@ As before, the
 \emph{neighborhood of a demand} $\nu$ is
 $\wbarN(\nu)=\braced{\mu\in\facilityset \suchthat
   \barx_{\mu\nu}>0}$, see Figure~\ref{fig:neighborhood}.
+
 %% figure neighborhood of nu
 \ssp
 \begin{figure}[ht]
@@ -2167,6 +2189,7 @@ although we check for overlap with $\wtildeN_1(p)$, we then
 move all facilities in the intersection with $\wtildeN(p)$,
 a bigger set, into $\wbarN(\nu)$. An example is given in
 Figure~\ref{fig:adaptive_partition_overlap}.
+
 %% figure adaptive partition overlap case
 \ssp
 \begin{figure}[ht]
@@ -2240,6 +2263,7 @@ facilities $\mu\in\wtildeN_1(p)$ from $p$ (recall that
 $\tildex_{\mu p} = \bary_{\mu}$), with all other
 $\barx_{\mu\nu}$ values set to $0$. An example for this case
 is given in Figure~\ref{fig:adaptive_partition_disjoint}.
+
 %% figure adaptive partition disjoint case
 \ssp
 \begin{figure}[ht]
@@ -2305,6 +2329,7 @@ connecting $\nu$ to one of the created copies of $\eta$ will
 make $\connsum(\nu)$ equal $1$, and we'll be done. An
 example in Figure~\ref{fig:adaptive_partition_phase2}
 illustrates this process.
+
 %% figure adaptive partition phase 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ssp
@@ -2658,7 +2683,9 @@ exhausted at that time.)
   \{\mu_1,...,\mu_q\}$ with all facilities $\mu_s$ ordered
   according to non-decreasing distance from $j$.  Consider
   the following linear program,
-%
+
+%%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align*}
 	\textrm{minimize} \quad & \sum_s d_{\mu_s j}z_s
 			\\
@@ -2666,7 +2693,8 @@ exhausted at that time.)
 			\\
  	0 &\le z_s \le \tildex_{\mu_s j} \quad \textrm{for all}\ s
 \end{empheq}
-%
+\dsp
+%%%%%%%%%%%%%
   This is a fractional
   minimum knapsack covering problem (with knapsack size equal $1$) and its optimal fractional
   solution is the greedy solution, whose value is exactly
@@ -2822,7 +2850,9 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
   $\mu\in\wbarN(\kappa)$ is chosen as the open facility
   $\phi(\kappa)$ is $\barx_{\mu\kappa}$. Hence the expected
   total facility cost is
-%
+
+%%%%%%%%%%
+\ssp
 \begin{align*}
     \Exp[F_{\smallEGUP}]
 	&= \textstyle{\sum_{\kappa\in P}\sum_{\mu\in\wbarN(\kappa)}} f_{\mu} \barx_{\mu\kappa}
@@ -2834,7 +2864,8 @@ The expectation of facility cost $F_{\smallEGUP}$ of our solution is
 	&\leq \textstyle{\sum_{i\in\sitesset}} f_i y_i^\ast 
 	= F^\ast,
 \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%%%
 where the inequality follows from Property~(PD.\ref{PD:yi}).
 \end{proof}
 
@@ -2866,18 +2897,23 @@ is at most  $C^\ast+2\cdot\LP^\ast$.
 \end{equation*}
 %
 Therefore the expected distance from $\nu$ to its facility $\phi(\kappa)$ is 
-%
+
+%%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   \Exp[  d_{\phi(\kappa)\nu}   ] &\le \concost_{\kappa} + \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast 
 \\
   &\leq \concost_{\nu} + \alpha_{\nu}^\ast + \alpha_{\nu}^\ast
    = \concost_{\nu} + 2\alpha_{\nu}^\ast,
   \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%%
   where the second inequality follows from Property~(PD.\ref{PD:assign:cost}).  
 From the definition of $\concost_{\nu}$ and Property~(PS.\ref{PS:xij}), for any $j\in \clientset$ 
 we have
-%
+
+%%%%%%%%%%%%%
+\ssp
 \begin{align*}
 \sum_{\nu\in j} \concost_{\nu} &= \sum_{\nu\in j}\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}
 			\\
@@ -2886,9 +2922,12 @@ we have
 			&= \sum_{i\in\sitesset} d_{ij}x^\ast_{ij} 
 			= C^\ast_j.
 \end{align*}
-% 
+\dsp
+%%%%%%%%%%%%%%
 Thus, summing over all demands, the expected total connection cost is
-%
+
+%%%%%%%%%%%%%
+\ssp
 \begin{align*}
     \Exp[C_{\smallEGUP}] &\le 
 			\textstyle{\sum_{j\in\clientset} \sum_{\nu\in j}} (\concost_{\nu} + 2\alpha_{\nu}^\ast) 
@@ -2896,7 +2935,8 @@ Thus, summing over all demands, the expected total connection cost is
     	& = \textstyle{\sum_{j\in\clientset}} (C_j^\ast + 2r_j\alpha_j^\ast)
  		= C^\ast + 2\cdot\LP^\ast,
 \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%
 completing the proof of the lemma.
 \end{proof}
 
@@ -3225,7 +3265,9 @@ However, we connect $\nu$ in a slightly different way, by choosing the smallest
 $s$ for which $G_s$ was selected and connecting $\nu$ to the open facility in $G_s$.
 This can only increase our expected connection cost, assuming that at least one
 facility in $\wbarN(\nu)$ opens, so
-%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{align}
   \Exp[C_\nu \mid \Lambda^\nu] &\leq \frac{1}{\Prob[\Lambda^\nu]}
   \left( \bard_1 g_1 + \bard_2 g_2 (1-g_1) + \ldots + \bard_k g_k
@@ -3244,7 +3286,8 @@ facility in $\wbarN(\nu)$ opens, so
 			&= \concost_{\nu}.
 				\label{eqn: echs ineq direct cost, step 3}
 \end{align}
-%
+\dsp
+%%%%%%%%%%%%%%
 The proof for inequality (\ref{eqn: echs ineq direct cost, step 1}) 
 is given in \ref{sec: ECHSinequality} (note that $\sum_{s=1}^k g_s = 1$),
 equality (\ref{eqn: echs ineq direct cost, step 2}) follows from
@@ -3285,7 +3328,9 @@ $\sum_{\mu \in \wbarN(\nu)} \bary_{\mu} = 1$.
 We are now ready to estimate the unconditional expected connection cost of $\nu$
 (in the case when $\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$)
 as follows,
-%
+
+%%%%%%%%%%%
+\ssp
 \begin{align}
   \notag
   \Exp[C_\nu] &= \Exp[C_{\nu} \mid \Lambda^\nu] \cdot \Prob[\Lambda^\nu] 
@@ -3302,7 +3347,8 @@ as follows,
 	&\le \concost_{\nu} + \frac{2}{e}\cdot\alpha_{\nu}^\ast.
 	  \label{eqn: Cnu estimate last}
 \end{align}
-%
+\dsp
+%%%%%%%%%%%%
 In the above derivation, inequality (\ref{eqn: Cnu estimate 0})
 follows from Lemmas~\ref{lem:echu indirect} and \ref{lem: echs expected C_nu}, 
 and inequality (\ref{eqn: Cnu estimate last}) follows from
@@ -3803,7 +3849,9 @@ our modified partitioning algorithm guarantees that
   $\dmaxcls^{\kappa}(j) \leq \dmaxcls^{\nu}(j) \leq \clsmax(\nu)$ since $\nu$ was
   created later.
   Therefore, we have
-%
+
+%%%%%%%%%%%%%%%
+\ssp
   \begin{align*}
     \clsdist(\kappa) + \clsmax(\kappa) &= \tcccls^{\kappa}(p) +	\dmaxcls^{\kappa}(p) 
 					\\
@@ -3811,7 +3859,8 @@ our modified partitioning algorithm guarantees that
 					\leq \tcccls^{\nu}(j) + \dmaxcls^{\nu}(j) 
 					\leq \clsdist(\nu) + \clsmax(\nu),
   \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%%%
 completing the proof.
 \end{proof}
 
@@ -4068,7 +4117,9 @@ We now have two sub-cases:
 \end{equation*}
 %
 Then, using the case condition and simple algebra, we have
-%
+
+%%%%%%%%%%%
+\ssp
   \begin{align}
     \clsmax(\nu) &\leq D(\wbarfarnb(\nu) \setminus V_{\far}, \nu) 
 			\notag
@@ -4077,7 +4128,8 @@ Then, using the case condition and simple algebra, we have
 		\leq \fardist(\nu) - \frac{\hat{y}\delta}{1-\hat{y}},
 			\label{eqn: case 3, bound on C_cls^max(nu)}
   \end{align}
-%
+\dsp
+%%%%%%%%%%%%%
 where the last step follows from $1 < \gamma < 2$. 
 
 On the other hand, since $K$, $V_{\cls}$, and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
@@ -4092,8 +4144,10 @@ Then using the definition of $\delta$ we obtain
 %
   Now we are essentially done. If there exists some $\mu \in V_{\cls}$ such
   that $d_{\mu\kappa} \leq \clsdist(\kappa) +
-  \hat{y}\delta/(1-\hat{y})$, then	we have
-%
+  \hat{y}\delta/(1-\hat{y})$, then we have
+
+%%%%%%%%%%%%
+\ssp
   \begin{align*}
     D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
     &\leq \clsmax(\kappa) + \clsdist(\kappa) +
@@ -4101,19 +4155,23 @@ Then using the definition of $\delta$ we obtain
     + \clsmax(\nu)\\
     &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu),
   \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%
 where we used (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
   Otherwise, from (\ref{eqn: formula for D(V_cls,kappa)}),
 we must have $D(K, \kappa) \leq \clsdist(\kappa) +
   \hat{y}\delta/(1-\hat{y})$. Choosing any $\mu \in V_{\cls}$, it follows that
-%
+
+%%%%%%%%%%%%%
+\ssp
   \begin{align*}
     D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
     &\leq \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}} +
     		\clsmax(\kappa)  + \clsmax(\nu)\\
     &\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu),
   \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%
 again using (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
 
 \end{description}
@@ -4175,7 +4233,9 @@ at least one facility in set $A$ is open.  Recall that $D(A,\nu) =
   expected connection cost, thus denoting $g_s = \sum_{\mu\in G_s}
   \gamma\bary_\mu$ for all $s=1,\ldots,k$, and letting $\Prob[\Lambda^\nu_A]$
   be the probability that $A$ has at least one facility open, we have
-%
+
+%%%%%%%%%%
+\ssp
 \begin{align}
     \Exp[C_\nu(A) \mid \Lambda^\nu_A] &\leq \frac{1}{\Prob[\Lambda^\nu_A]} (\bard_1 g_1 +
     \bard_2 g_2 (1 - g_1) + \ldots + \bard_k  g_k(1 -
@@ -4195,7 +4255,8 @@ at least one facility in set $A$ is open.  Recall that $D(A,\nu) =
     &= \frac{\sum_{s=1}^k d_{\mu\nu} \bary_{\mu}}{\sum_{\mu \in A}
       \bary_{\mu}} = D(A, \nu).
 \end{align}
-%
+\dsp
+%%%%%%%%%%%%%%%%%%%
 Inequality (\ref{eqn: dist set to nu 2}) follows from inequality
 (\ref{eq:min expected distance}) in~\ref{sec: ECHSinequality}. The rest of the
 derivation follows from $\Prob[\Lambda^\nu_A] = 1 - \prod_{s=1}^k (1 -
@@ -4313,7 +4374,9 @@ The expected connection of $\nu$ is
   connect $\nu$ to $\phi(\kappa)$, the sole facility open in the
   neighborhood of $\kappa$, the primary demand $\nu$ was assigned
   to. Given that, we estimate $\Exp[C_\nu]$ as follows:
-%
+
+%%%%%%%%%%%%%%%%
+\ssp
   \begin{align}
     \Exp[C_{\nu}] 
 		\;&= \;\Exp[C_{\nu}\mid \Lambda^\nu_{\cls}] \cdot \Prob[\Lambda^\nu_{\cls}]	
@@ -4350,7 +4413,8 @@ The expected connection of $\nu$ is
              &=\; \Big(1 - \frac{1}{e} + \frac{1}{e^\gamma}\Big)\cdot \clsdist(\nu)
  				\;+\; \Big(\frac{1}{e} + \frac{1}{e^\gamma}\Big)\cdot\fardist(\nu).
 \end{align}
-%
+\dsp
+%%%%%%%%%%%%%%%
 Inequality (\ref{eqn: apply three expected dist}) follows from
 Corollary~\ref{coro: EBGS close and far distance} and 
 Lemma~\ref{lem: EBGS target connection cost}. 
@@ -4358,10 +4422,13 @@ Inequality (\ref{eqn: probability estimate}) follows from
 Lemma~\ref{lem: close and far neighbor probability} and
 $\fardist(\nu) - \clsdist(\nu)\ge 0$.
 
-Now define $\rho =\clsdist(\nu)/\concost(\nu)$. It is easy to
-see that $\rho$ is between 0 and 1. Continuing the above
-derivation, applying (\ref{eqn:avg dist cls dist far dist}), we get
-%
+Now define $\rho =\clsdist(\nu)/\concost(\nu)$. It is easy
+to see that $\rho$ is between 0 and 1. Continuing the above
+derivation, applying (\ref{eqn:avg dist cls dist far dist}),
+we get
+
+%%%%%%%%%%%%
+\ssp
 \begin{align*}
 \Exp[C_{\nu}]
              \;&\le\; \concost(\nu) 
@@ -4371,13 +4438,16 @@ derivation, applying (\ref{eqn:avg dist cls dist far dist}), we get
              &\leq \concost(\nu) 
 				\cdot \max\left\{\frac{1/e+1/e^\gamma}{1-1/\gamma}, 1 + \frac{2}{e^\gamma}\right\},
 \end{align*}
-%
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%
 and the proof is now complete.
 \end{proof}
 
 With Lemma~\ref{lem: EBGS nu's connection cost} proven, we are now ready to bound our total connection cost.
 For any client $j$ we have
-%
+
+%%%%%%%%%%%%%
+\ssp
 \begin{align*}
 \sum_{\nu\in j} C^{\avg}(\nu)
 	&= \sum_{\nu\in j}\sum_{\mu\in\facilityset} d_{\mu\nu}\barx_{\mu\nu} 
@@ -4385,7 +4455,8 @@ For any client $j$ we have
 	&= \sum_{i\in\sitesset}d_{ij}\sum_{\mu\in i}\sum_{\nu\in j} \barx_{\mu\nu}
 	= \sum_{i\in\sitesset} d_{ij}x_{ij}^\ast = C_j^\ast.
 \end{align*}
-% 
+\dsp
+%%%%%%%%%%%%%%%%% 
 Summing over all clients $j$ we obtain that the total expected connection cost is
 %
 \begin{equation*}
@@ -4619,15 +4690,22 @@ of $\gamma$ from $\OPT$ by showing that
 $\{\alpha_j/\gamma\}$ is a feasible dual solution to the
 following program, which is a different way to write the
 dual program of the LP~(\ref{eqn:fac_primal}).
+
+%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{align}
   \label{eqn:dual_fitting}
   \textrm{maximize}\; &\sum_j r_j\alpha_j\\ \notag
   \textrm{subject to}\; & \sum_{j=1}^n (\alpha_j - d_{ij})_+
   \leq f_i \quad \forall i \in \sitesset
 \end{align}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 We repeat the LP~(\ref{eqn:fac_primal}) below for the reader's
 convenience.
+
 %%%%%%%%%%%
+\ssp
 \begin{align*}
   \textrm{minimize} \quad \sum_{i\in
       \sitesset} f_iy_i &+ \sum_{i\in \sitesset, j\in
@@ -4639,6 +4717,7 @@ convenience.
   \\ \notag
   x_{ij} \geq 0, y_i  &\geq 0 &\, &\forall i\in \sitesset, j\in \clientset
 \end{align*}
+\dsp
 %%%%%%%%%%%%
 Obviously, we want such a value $\gamma$ to be as small as
 possible, because in the dual-fitting analysis, we take
@@ -4664,13 +4743,21 @@ star to be $1,\ldots,k$. These clients are still ordered
 non-decreasingly by their $\alpha_j$ values. Now, our goal
 is to find the supremum of the following program for all
 possible values of $k=1,2,\ldots$.
+
+%%%%%%%%%%
+\ssp
 \begin{align*}
   \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f_i + \sum_{j=1}^k d_{ij}}\\
   \textrm{subject to}\; & \sum_{l=j}^k (\alpha_l -
   d_{il})_+\leq f_i \quad \textrm{ for } j=1,\ldots,k
 \end{align*}
+\dsp
+%%%%%%%%%%
 Because we are dealing with a particular star, we can
 abstract away the site $i$ to obtain the following program:
+
+%%%%%%%%%%%%%%%
+\ssp
 \begin{align}
   \label{eq:star}
   \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
@@ -4678,18 +4765,25 @@ abstract away the site $i$ to obtain the following program:
   \textrm{subject to}\; & \sum_{l=j}^k (\alpha_j - d_{l})_+
   \leq f \quad \textrm{ for } j=1,\ldots,k
 \end{align}
+\dsp
+%%%%%%%%%%%%%%%%
 Because (\ref{eq:star}) is a maximization program, we claim
 that we can again drop the $\max\{0, \cdot\}$ operation:
 doing so would relax the constraints, and therefore can only
 make the optimal value larger. The real optimal value of
 (\ref{eq:star}) is then upper bounded by the optimal value
 of the relaxed program (\ref{eq:frlp}).
+
+%%%%%%%%%%%%%
+\ssp
 \begin{align}
   \label{eq:frlp}
   \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k d_j}\\ \notag
   \textrm{subject to}\; & \sum_{l=j}^k (\alpha_j - d_{l})
   \leq f \quad \textrm{ for } j=1,\ldots,k
 \end{align}
+\dsp
+%%%%%%%%%%%%%%%
 For each $j=1,\ldots,k$, the corresponding constraint in
 (\ref{eq:frlp}) can be rewritten as:
 \begin{equation}
@@ -4836,6 +4930,9 @@ below. Distances that are not shown explicitly are assumed
 to follow the triangle inequality. Notice that the distances
 are chosen in a way to force a particular choice of the best
 stars.
+
+%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   &d_1 = 0\\
   &d_2 = f_1 / n_1\\
@@ -4843,6 +4940,8 @@ stars.
   &\ldots\\
   &d_k = f_1/n_{k-1} + d_{k-1} = f_1 (\frac{1}{n_{k-1}} + \ldots + \frac{1}{n_1})
 \end{align*}
+\dsp
+%%%%%%%%%%%%%%%
 For the numbers, we need $r_1 \ll r_2 \ll \ldots \ll r_k$,
 and $n_1 = u^k, n_2 = u^{k-1}, \ldots, n_k = u^1 = u$ for
 some number $u$. We actually take $u=k$ in the end, and this
@@ -4871,6 +4970,8 @@ the analysis distributes the facility cost within that
 group. Similarly, $\alpha_2 = f_1 + n_2 d_2$, and so
 on. Substituting in the numbers, we have
 
+%%%%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   &\alpha_1 = f_1\\
   &\alpha_2 = f_1 + n_2 d_2 = f_1 + f_1/n_1\cdot n_2 = f_1 (1 + n_2 /
@@ -4881,6 +4982,8 @@ on. Substituting in the numbers, we have
   &\alpha_k = f_1 + n_k d_k = f_1 + f_1 n_k (\frac{1}{n_{k-1}} + \ldots
   \frac{1}{n_1})
 \end{align*}
+\dsp
+%%%%%%%%%%%%%%%%%%
 Notice that $r_1 \ll r_2 \ll \ldots \ll r_k$ implies that
 $\alpha_j$ is decided by the max among $\alpha_j^l$, so in
 the following calculation we ignore the terms involving
@@ -4895,6 +4998,9 @@ following inequality:
 \end{equation}
 which we use to derive an upper bound on $\gamma$.
 Substituting in the $\alpha_j$ values derived above, we have
+
+%%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   \gamma &\geq (\sum_{j=1}^k \alpha_j) / (f_1 + \sum_{j=1}^k d_j)\\
   &\geq \frac{f_1 + n_1 d_1 + f_1 + n_2 d_2 + f_1 + n_3 d_3 + \ldots +
@@ -4916,6 +5022,8 @@ Substituting in the $\alpha_j$ values derived above, we have
   &= 1 + (k-1) / \left(1 + 1 + 1/k + \ldots + 1/k^{k-2}\right)\\
   &\approx k/2
 \end{align*}
+\dsp
+%%%%%%%%%%%%%%%%%%%%
 Thus, for $k$ groups we can force a shrinking factor
 $\gamma$ as big as $k/2$. Earlier we have shown that the
 approximation ratio of the greedy algorithm is not more than
@@ -5028,6 +5136,9 @@ a node $v\in V$ is in $W$ or not. The constraint is that,
 for every edge $e=(u,v)$, we have $x_u + x_v \geq 1$. The
 objective is to minimize $\sum_{v\in V} x_v$. The integer
 program for Vertex Cover is written as
+
+%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align*}
   \text{minimize } &\sum_{v\in V} x_v &\\
   \text{subject to }& x_u + x_v \geq 1 &\quad &\forall (u,v)
@@ -5035,6 +5146,8 @@ program for Vertex Cover is written as
   E\\
   &x_v \in \{0, 1\} &\quad &\forall v \in V
 \end{empheq}
+\dsp
+%%%%%%%%%%%%%%%%%%%
 In general, an integer program cannot be solved exactly in
 polynomial time, as Integer Programming is
 {\NP}-hard. However, if we relax the integrality constraint
@@ -5059,6 +5172,9 @@ Chapter~\ref{ch: lp-rounding}.
 We now give a brief overview of linear programming;
 see~\cite{Chvatal83} for an introductory book on this topic.
 A general Linear Program can be written as
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \label{eqn:lp_primal}
   \text{minimize } & \sum_{j=1}^n c_j x_j & \\ \notag
@@ -5066,7 +5182,12 @@ A general Linear Program can be written as
    & \text{for } i = 1, \ldots, m\\ \notag
    & x_j \geq 0 & \text{for } j = 1, \ldots, n
 \end{empheq}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%
 For the LP above, we can take its dual as
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{empheq}[box=\fbox]{align}
   \label{eqn:lp_dual}
   \text{maximize } & \sum_{i=1}^m b_i y_i &\\ \notag
@@ -5074,6 +5195,8 @@ For the LP above, we can take its dual as
    & \text{for } j = 1, \ldots, n\\ \notag
    & y_i \geq 0 & \text{for } i = 1,\ldots,m
 \end{empheq}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%
 The LP (\ref{eqn:lp_primal}) is called the primal program
 and the LP (\ref{eqn:lp_dual}) is called the dual
 program. Regarding the objective function value of the two
@@ -5121,6 +5244,9 @@ fractional solution to the dual program
 solutions satisfy a relaxed version of the complementary
 slackness conditions, that for some numbers $\gamma$ and
 $\rho$, we have
+
+%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   \text{either } y_i = 0  \quad \text{or } \quad b_i \leq \sum_{j}
   a_{ij} x_j \leq \gamma\, b_i, \qquad \text{for } i = 1,
@@ -5129,6 +5255,8 @@ $\rho$, we have
   \sum_{i}a_{ij}y_i \leq c_j, \qquad \text{for } j = 1,
   \ldots, n.
 \end{align*}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%
 Then the integral solution $\bfx$ has a cost of not more
 than $\gamma/\rho$ times the optimal value. In particular,
 we have $\sum_{j} c_j x_j \leq \gamma/\rho \sum_{i} b_i y_i$
@@ -5166,13 +5294,18 @@ and a feasible (possibly fractional) solution
 $(\bfalpha,\bfbeta)$ to the dual program
 (\ref{eqn:ufl_dual}). Moreover, the two solutions satisfy
 the conditions that
+
+%%%%%%%%%%%%%%%%%%%%%
+\ssp
 \begin{align*}
   &\text{either } \sum_{j} \beta_{ij} = f_i  \quad \text{ or
 } \quad y_i = 0;\\
   &\text{either } (1/3)\, d_{ij} \leq \alpha_j - \beta_{ij}
   \leq d_{ij} \quad \text{ or } \quad x_{ij} = 0.
 \end{align*}
-The solution $(\bfx,\bfy)$ then is a $3$-approximation.
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%
+The solution $(\bfx,\bfy)$ is then a $3$-approximation.
 
 \section{Proof of Inequality (\ref{eqn: echs ineq direct
     cost, step 1})}
@@ -5182,13 +5315,17 @@ In Sections~\ref{sec: 1.736-approximation} and \ref{sec:
   1.575-approximation} we make use of the following
 inequality to derive the approximation ratio.
 %
+
+%%%%%%%%%%%%%%%%%
+\ssp
 \begin{align}
   \label{eq:min expected distance}
   \bard_1 g_1 + \bard_2 g_2 (1-g_1) +
   \ldots &+ \bard_k g_k (1-g_1) (1-g_2) \ldots (1-g_k)\\ \notag
   &\leq \frac{1}{\sum_{s=1}^k g_s} \left(\textstyle\sum_{s=1}^k \bard_s g_s\right)\left(\textstyle\sum_{t=1}^k g_t \textstyle\prod_{z=1}^{t-1} (1-g_z)\right).
 \end{align}
-%
+\dsp
+%%%%%%%%%%%%%%%%%
 for $0 < \bard_1\leq \bard_2 \leq \ldots \leq \bard_k$, and
 $0 < g_1,...,g_s \le 1$.
 
@@ -5224,7 +5361,9 @@ For the sake of completeness, we include the proof of
 inequality (\ref{eq:cheby}), due to Hardy, Littlewood and
 Polya~\cite{HardyLP88}. The idea is to evaluate the
 following sum:
-%
+
+%%%%%%%%%%%
+\ssp
 \begin{align*}
   S &= \textstyle{\sum_i} p_i \textstyle{\sum_j} p_j a_j b_j - \textstyle{\sum_i} p_i a_i \textstyle{\sum_j} p_j b_j
 	\\
@@ -5237,6 +5376,8 @@ following sum:
 \\
   &= \half \cdot \textstyle{\sum_i \sum_j} p_i p_j (a_i - a_j)(b_i - b_j) \leq 0.
 \end{align*}
+\dsp
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq
 0$, since the sequences $(a_i)$ and $(b_i)$ are ordered
 oppositely.
