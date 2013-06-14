@@ -4418,25 +4418,24 @@ simultaneous updates to a primal solution, which is
 integral, and a dual solution, which may be fractional, and
 eventually arriving at a feasible primal solution and a
 feasible dual solution. It is then possible to compare the
-primal solution's cost to the optimal value. This is
-because, assuming that the primal problem is a minimization
-problem, the optimal value of the primal program is lower
-bounded by the cost of any feasible dual solution.
+primal solution's cost to the optimal value. Assuming that
+the primal problem is a minimization problem, the optimal
+value of the primal program is lower bounded by the cost of
+any feasible dual solution.
 
 We present a natural greedy algorithm and employ a technique
-called \emph{dual-fitting}~\cite{JainMMSV03}, first
-introduced by Jain {\etal}, to analyze the approximation
+called \emph{dual-fitting} to analyze the approximation
 ratio. We also give an example showing one possible
 limitation of this analysis.  In Section~\ref{sec: greedy},
-we review the related work by Jain {\etal} about the greedy
-algorithm and the dual-fitting analysis for UFL.  In
-Section~\ref{sec: greedy_ratio}, we explain how a similar
-algorithm can be used to solve {\FTFP} and derive an
-approximation ratio using the dual-fitting analysis. Lastly,
-in Section~\ref{sec: greedy_example}, we provide an example
-illustrating the difference between {\UFL} and {\FTFP} when
-the dual-fitting analysis is used to derive the
-approximation ratio.
+we review the related work by Jain {\etal}~\cite{JainMMSV03}
+about the greedy algorithm and the dual-fitting analysis for
+UFL.  In Section~\ref{sec: greedy_ratio}, we explain how a
+similar algorithm can be used to solve {\FTFP}, and derive
+an approximation ratio using the dual-fitting
+analysis. Lastly, in Section~\ref{sec: greedy_example}, we
+provide an example illustrating the difference between
+{\UFL} and {\FTFP} when the dual-fitting analysis is used to
+derive the approximation ratio.
 
 \section{Greedy Algorithm and Dual-fitting Analysis for UFL}
 \label{sec: greedy}
@@ -4455,7 +4454,7 @@ greedy algorithm can be interpreted as an equivalent
 algorithm that grows a dual solution and updates the
 corresponding primal solution. Each client $j$ is associated
 with a dual variable $\alpha_j$, and $\alpha_j$ is fixed to
-the average cost of the star when the client $j$ gets
+the average cost of the star when $j$ gets
 connected. Clearly, the sum of $\alpha_j$ for all clients
 $j$ is equal to the cost of the primal solution, which is
 the cost to open facilities and the cost to make
@@ -4464,12 +4463,12 @@ connections.
 The next step is to find a suitable common factor $\gamma$
 to make the dual solution $\{\alpha_j / \gamma\}$
 feasible. For this purpose, Jain {\etal} derived an upper
-bound on the objective function value of a series of linear
-programs, which are used to capture the hardest instance for
-the algorithm. These linear programs are called the
+bound on the optimal values of a series of linear programs,
+which are used to capture the hardest instance for the
+algorithm. These linear programs are called the
 \emph{factor-revealing LPs}, and the supremum of their
-objective function value is equal to $\gamma$, which is also
-the approximation ratio of the algorithm.
+optimal values is shown to be equal to $\gamma$, which is an
+upper bound on the approximation ratio of the algorithm.
 
 The greedy algorithm, as stated, is very flexible and can be
 applied with only minor modifications to solve problems with
@@ -4478,19 +4477,19 @@ and the {\FTFP} problem. However, it seems rather difficult
 to generalize the analysis to the more general problems, and
 we have to settle for a much worse approximation ratio
 except for some special cases. In the literature, there is
-no published result of the approximation ratio for the
-greedy algorithm for {\FTFL}, although an
-$H_n$-approximation ratio~\footnote{The term $H_n$ is the
-  $n^{th}$ harmonic number, defined as $H_n = 1 + 1/2 + 1/3
-  + \ldots + 1/n \approx \ln n$.} is not difficult to
-obtain. For the uniform demands case, Swamy and
-Shmoys~\cite{SwamyS08} showed that the dual-fitting analysis
-for {\UFL} can be generalized for {\FTFL} to obtain the same
-ratio of $1.52$. For the {\FTFP} problem studied in this
-thesis, the uniform demands case is trivial, as it is
-nothing but a {\UFL} problem. We have the following results
-in the next two sections: for the general demands case, we
-show a logarithmic ratio for the greedy algorithm using the
+no published result on the approximation ratio of the greedy
+algorithm for {\FTFL}, although an $H_n$-approximation
+ratio~\footnote{The term $H_n$ is the $n^{th}$ harmonic
+  number, defined as $H_n = 1 + 1/2 + 1/3 + \ldots + 1/n
+  \approx \ln n$.} is not difficult to obtain. For the
+uniform demands case, Swamy and Shmoys~\cite{SwamyS08}
+showed that the dual-fitting analysis for {\UFL} can be
+generalized for {\FTFL} to obtain the same ratio of
+$1.52$. For the {\FTFP} problem studied in this thesis, the
+uniform demands case is trivial, as it is nothing but a
+{\UFL} problem. We have the following results in the next
+two sections: for the general demands case, we show a
+logarithmic ratio for the greedy algorithm using the
 dual-fitting analysis; we then present an example
 illustrating the difficulty in obtaining an
 $O(1)$-approximation ratio for the {\FTFP} problem when
@@ -4509,14 +4508,14 @@ clients to the site of that star. A star is a site $i$
 together with a subset of clients $C'$. The cost of a star
 will be given as we present the greedy algorithm below.
 
-Call a client $j$ fully-connected, or \emph{exhausted} if
-$j$ has made $r_j$ connections. Let $U$ be the set of not
-fully-connected clients. The greedy algorithm for FTFP
-iterates until all clients are fully-connected. In one
-iteration, let $y_i$ be the number of facilities opened at
-site $i$, and $x_{ij}$ be the number of connections between
-site $i$ and client $j$. Then, the following stars are
-available to the algorithm:
+Call a client $j$ \emph{fully-connected} if $j$ has made
+$r_j$ connections. Let $U$ be the set of not fully-connected
+clients. The greedy algorithm for FTFP iterates until all
+clients are fully-connected. In one iteration, let $y_i$ be
+the number of facilities opened at site $i$, and $x_{ij}$ be
+the number of connections between site $i$ and client
+$j$. Then, the following stars are available to the
+algorithm:
 \begin{itemize}
 \item For every site $i\in \sitesset$, and every nonempty
   subset of clients $C' \subseteq U$, we have one star
@@ -4529,8 +4528,8 @@ available to the algorithm:
   words, the facility is \emph{free} in this star, and we
   call this type of star a \emph{free} star.
 \end{itemize}
-The average cost of a star $S=(i,C')$ is always $c(S)/|C'|$:
-that is the cost of the star divided by the number of
+The average cost of a star $S=(i,C')$ is always $c(S)/|C'|$,
+that is, the cost of the star divided by the number of
 clients in that star. The greedy algorithm then picks some
 star $S=(i,C')$ with the minimum average cost. If this star
 is a paid star, the algorithm opens one more facility at the
@@ -4552,7 +4551,7 @@ one of the two cases hold:
   of generality, we may assume that this star contains
   exactly one client. This star will not be available to the
   algorithm after the client $j$ has connected to all free
-  facilities at that site $i$; that is $x_{ij} = y_i$.
+  facilities at that site $i$, that is, $x_{ij} = y_i$.
 \item \mycase{2} The star is a paid star. Then the star
   cannot be selected once one or more of the member clients
   become fully-connected and are removed from the set $U$.
@@ -4561,14 +4560,15 @@ one of the two cases hold:
 Our second observation is that, although the number of
 possible stars is exponential, the best paid star can be
 identified by considering each site with the nearest
-$1,2,\ldots,k$ clients for some integer $k$. For free stars,
-since the greedy algorithm has not specified how to break
-ties when multiple stars have the same average cost, we may
-assume that the best free star is a star with just one
-client. Therefore, we can find the best free star by
-considering each $(i,j)$ pair for every site $i$ and every
-client $j$ with $x_{ij} < y_i$. The overall best star is
-then the better of the best paid star and the best free
+$1,2,\ldots,k$ clients for some integer $k$, where adding
+the $(k+1)^{th}$ client would increase the average cost. For
+free stars, since the greedy algorithm has not specified how
+to break ties when multiple stars have the same average
+cost, we may assume that the best free star is a star with
+just one client. Therefore, we can find the best free star
+by considering each $(i,j)$ pair for every site $i$ and
+every client $j$ with $x_{ij} < y_i$. The overall best star
+is then the better of the best paid star and the best free
 star. It follows that we can accomplish multiple iterations
 in a single step, and the number of steps is polynomially
 bounded by $|\sitesset|\cdot|\clientset|$. Therefore, the
@@ -4584,8 +4584,8 @@ When we run the greedy algorithm, we associate each demand
 of a client $j$ with a number $\alpha_j^l$, which is the
 average cost of the star when the $l^{th}$ demand of client
 $j$ is connected. Let $\alpha_j = \alpha_j^{r_j}$, and order
-the clients non-decreasingly by their $\alpha_j$ values;
-that is
+the clients non-decreasingly by their $\alpha_j$ values,
+that is,
 \begin{equation*}
   \alpha_1 \leq \alpha_2 \leq \ldots \leq \alpha_n.
 \end{equation*}
@@ -4680,15 +4680,13 @@ abstract away the site $i$ to obtain the following program:
 \end{align}
 Because (\ref{eq:star}) is a maximization program, we claim
 that we can again drop the $\max\{0, \cdot\}$ operation:
-dropping the operation would relax the constraints, and
-therefore can only make the optimal value larger. The real
-optimal value of (\ref{eq:star}) is then upper bounded by
-the relaxed optimal value of (\ref{eq:frlp}). This allows us
-to work on a relaxed program:
+doing so would relax the constraints, and therefore can only
+make the optimal value larger. The real optimal value of
+(\ref{eq:star}) is then upper bounded by the optimal value
+of the relaxed program (\ref{eq:frlp}).
 \begin{align}
   \label{eq:frlp}
-  \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k
-    d_j}\\ \notag
+  \textrm{maximize}\; & \frac{\sum_{j=1}^k \alpha_j}{f + \sum_{j=1}^k d_j}\\ \notag
   \textrm{subject to}\; & \sum_{l=j}^k (\alpha_j - d_{l})
   \leq f \quad \textrm{ for } j=1,\ldots,k
 \end{align}
@@ -4721,8 +4719,8 @@ successful, as described in Section~\ref{sec:
   greedy}. Although {\FTFP} seems to be easier to
 approximate than {\FTFL} when LP-rounding algorithms are
 used, as we have shown in Chapter~\ref{ch: lp-rounding}, it
-seems the fault-tolerant requirement in both problems
-presents a hurdle for primal-dual based techniques. In the
+seems that the fault-tolerant requirement in both problems
+presents a hurdle for primal-dual based algorithms. In the
 following section, we provide an example illustrating some
 of the difficulties when adapting the dual-fitting analysis
 to the {\FTFP} problem.
