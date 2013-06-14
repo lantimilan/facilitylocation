@@ -1186,45 +1186,43 @@ obtain such a solution is given in
 Section~\ref{sec:ftfp_complete}. The discussion in this
 chapter prepares the reader for Chapter~\ref{ch:
   techniques}, where we introduce our main techniques:
-demand reduction and adaptive partitioning.
+\emph{demand reduction} and \emph{adaptive partitioning}.
 
 \section{Notation and Definition}
 For the reader's convenience, we repeat the problem
 definition and the notation before introducing the LP. In
 the Fault-Tolerant Facility Placement problem ({\FTFP}), we
-denote the set of sites as $\sitesset$ and the set of
+denote the set of sites as $\sitesset$, and the set of
 clients as $\clientset$. Each client $j \in \clientset$ has
-a demand $r_j$, meaning that the client $j$ needs to be
-connected to $r_j$ different facilities. The distance
-between a site $i$ and a client $j$ is denoted as
-$d_{ij}$. Opening one facility at a site $i$ incurs a cost
-of $f_i$. Making one connection from a client $j$ to a
-facility at a site $i$ incurs a cost of the distance
-$d_{ij}$. Thus, an {\FTFP} instance is fully specified by
-$\sitesset, \clientset$, $r_j$ for every $j\in\clientset$,
-$f_i$ for every $i\in\sitesset$, and $d_{ij}$ for every
-$i\in\sitesset,j\in\clientset$. We consider the metric
-version, that is the version in which the distances satisfy
-the triangle inequality: for any two sites $i_1,i_2$ and any
-two clients $j_1,j_2$, we have
+a demand $r_j$, meaning that $j$ needs to be connected to
+$r_j$ different facilities. The distance between a site $i$
+and a client $j$ is denoted as $d_{ij}$. Opening one
+facility at a site $i$ incurs a cost of $f_i$. Making one
+connection from a client $j$ to a facility at a site $i$
+incurs a cost of $d_{ij}$. Thus, an {\FTFP} instance is
+fully specified by $(\sitesset, \clientset, \{r_j\},
+\{f_i\}, \{d_{ij}\})$. We consider the metric version, in
+which the distances satisfy the triangle inequality: for any
+two sites $i_1,i_2$ and any two clients $j_1,j_2$, we have
 \begin{equation*}
   d_{i_1 j_2} \leq d_{i_1 j_1} + d_{i_2 j_1} + d_{i_2 j_2}.
 \end{equation*} 
 
-A solution to the {\FTFP} problem is a vector $(\bfx, \bfy)$
-where $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes the number of
-connections between a site $i$ and a client $j$, and $y_i
-\in \{0, 1, 2\ldots\}$ denotes the number of facilities
-opened at site $i$. We seek a solution such that $y_i \geq
-x_{ij}$ for every $i \in \sitesset, j \in \clientset$ and
-$\sum_{i\in\sitesset} x_{ij} = r_j$ for all clients $j \in
-\clientset$. Our goal is to find such a solution with
-minimum total cost, and the cost is $\sum_{i \in \sitesset}
-f_i y_i + \sum_{i \in \sitesset, j \in \clientset} d_{ij}
-x_{ij}$. We call the first term $\sum_{i \in \sitesset} f_i
-y_i$ the \emph{facility cost} of the solution, and the
-second term $\sum_{i \in \sitesset, j \in \clientset} d_{ij}
-x_{ij}$ the \emph{connection cost} of the solution.
+A solution to the {\FTFP} problem is a vector $(\bfx,
+\bfy)$, where $x_{ij} \in \{0, 1, 2, \ldots\}$ denotes the
+number of connections between a site $i$ and a client $j$,
+and $y_i \in \{0, 1, 2\ldots\}$ denotes the number of
+facilities opened at site $i$. The solution is
+\emph{feasible} if $y_i \geq x_{ij}$ for every $i \in
+\sitesset, j \in \clientset$ and $\sum_{i\in\sitesset}
+x_{ij} = r_j$ for all clients $j \in \clientset$. The total
+cost of the solution is $\sum_{i \in \sitesset} f_i y_i +
+\sum_{i \in \sitesset, j \in \clientset} d_{ij} x_{ij}$. We
+call the first term $\sum_{i \in \sitesset} f_i y_i$ the
+\emph{facility cost} of the solution, and the second term
+$\sum_{i \in \sitesset, j \in \clientset} d_{ij} x_{ij}$ the
+\emph{connection cost} of the solution. Our goal is to find
+a feasible solution with the minimum total cost.
 
 \section{Linear Program for FTFP}
 The FTFP problem has a natural Integer Programming (IP)
@@ -1297,27 +1295,28 @@ makes one wonder whether there is a simple reduction from
 {\FTFP} to {\UFL}, so that we can take advantage of almost
 all known approximation algorithms for {\UFL} and use them
 to solve {\FTFP}. Unfortunately, we are not aware of such a
-reduction for general demands. For the special case when all
-demands are equal, we observe that any fractional solution
-$(\bfx,\bfy)$ to the LP~(\ref{eqn:fac_primal}), when scaled
-down by $R = r_j$ (since all $r_j$'s are equal), is a
-feasible solution to an {\UFL} instance with the same set of
-sites and clients, and the same facility opening costs and
-the same distances. If we solve that {\UFL} instance with an
+reduction for {\FTFP} with general demands. For the special
+case when all demands are equal, we observe that any
+fractional solution $(\bfx,\bfy)$ to the
+LP~(\ref{eqn:fac_primal}), when scaled down by $R = r_j$
+(since all $r_j$'s are equal), is a feasible solution to an
+{\UFL} instance with the same set of sites, the same set of
+clients, and the same facility opening costs and the same
+distances. If we solve that {\UFL} instance with an
 approximation algorithm, and duplicate the solution $R$
 times, we obtain an integral solution to the {\FTFP}
 instance. It is not hard to see that the approximation ratio
 is preserved. This shows a simple reduction from {\FTFP} to
-{\UFL} for the uniform-demand case.
+{\UFL} for the uniform demands case.
 
 \section{Completeness and Facility Splitting}
 \label{sec:ftfp_complete}
-In this section we describe a structural property we assume
-of the optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
-that we use for designing and analyzing approximation
-algorithms for {\FTFP}. This property is called
-\emph{completeness}. Moreover, we give a procedure to obtain
-such a complete solution.
+In this section, we describe a structural property. In our
+LP-rounding algorithms for {\FTFP}, we use a fixed
+fractional optimal solution $(\bfx^\ast, \bfy^\ast)$, and we
+assume that solution possess this structural property. This
+property is called \emph{completeness}. Moreover, we give a
+procedure to obtain such a complete solution.
 
 Define $(\bfx^\ast, \bfy^\ast)$ to be \emph{complete} if
 $x_{ij}^\ast>0$ implies that $x_{ij}^\ast=y_i^\ast$ for all
@@ -1370,13 +1369,13 @@ to the LP~(\ref{eqn:fac_primal}). This structured solution
 possesses a number of nice properties, of which we then take
 advantage in our LP-rounding algorithms (Chapter~\ref{ch:
   lp-rounding}) to obtain integral solutions with good
-approximation ratios. A diagram of our general approach to
-employ the two techniques to obtain an approximation
+approximation ratios. A diagram of our general approach
+employing the two techniques to obtain an approximation
 algorithm is depicted in
-Figure~\ref{fig:ftfp_overall_alg}. In this process we start
+Figure~\ref{fig:ftfp_overall_alg}. In this process, we start
 with an optimal fraction solution $(\bfx^\ast, \bfy^\ast)$
 and split into two parts; we then solve the fractional part
-with an integral solution; finally we combine this solution
+with an integral solution; finally, we combine this solution
 and the integral part obtained earlier to get a solution to
 the original instance.
 %%% figure for general FTFP algorithm with demand reduction
@@ -1422,20 +1421,19 @@ the original instance.
 \dsp
 
 Our first technique, demand reduction, allows us to confine
-our attention to a restricted version of the {\FTFP}
-problem, in which all demands $r_j$'s are not too
-large. This restriction then sets the stage for the
-application of our next technique, adaptive partitioning,
-with which we obtain an FTFP instance with facilities
-created at sites (not opened yet) and unit demand points
-derived from clients. Now our job is to decide which
-facilities to open and how to connect unit demands to open
-facilities. We would like to point out that we still need to
-observe the fault-tolerant requirement, that is, unit
-demands originated from the same client must connect to
-different facilities. We shall see that our adaptive
-partitioning step deals with the fault-tolerant requirement
-smoothly.
+our attention to a restricted version of the {\FTFP} problem
+in which all demands $r_j$'s are not too large. This
+restriction then sets the stage for the application of our
+second technique, adaptive partitioning, with which we
+obtain an FTFP instance with facilities created at sites
+(not opened yet) and unit demand points derived from
+clients. Then, our job is to decide which facilities to open
+and how to connect unit demands to open facilities. We would
+like to point out that we still need to observe the
+fault-tolerant requirement, that is unit demands originated
+from the same client must connect to different
+facilities. We shall see that our adaptive partitioning step
+deals with the fault-tolerant requirement smoothly.
 
 \section{Demand Reduction}
 \label{sec: polynomial demands}
