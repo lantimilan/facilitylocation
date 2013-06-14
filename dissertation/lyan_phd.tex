@@ -533,9 +533,9 @@ opening cost $f_i$ for a site $i$, the distance $d_{ij}$
 between a site $i$ and a client $j$, and the demand $r_j$
 for a client $j$. The differences between the problems are:
 \begin{itemize}
-\item{UFL}: all demands are $1$; that is $r_j=1$ for
-  all clients $j$. Then we need no more than $1$ facility at
-  a site.
+\item{UFL}: all demands are $1$; that is $r_j=1$ for all
+  clients $j$. Then we need not more than $1$ facility at a
+  site.
 \item{FTFL}: some demands may be more than $1$, but
   each site can open at most $1$ facility.
 \item{FTFP}: some demands may be more than $1$, and each site
@@ -577,8 +577,8 @@ Table~\ref{tab:ufl_history}. One alteration of terminology:
 to be consistent with the UFL literature, instead of saying
 ``opening facilities at sites'', we simply say ``opening or
 closing facilities'' without mentioning the sites, since in
-the {\UFL} problem we have no more than one facility at each
-site.
+the {\UFL} problem we have not more than one facility at
+each site.
 %%%%%%%%%%%%%% begin table UFL history %%%%%%%%%%%%%%%%
 \begin{table}[ht]
   \centering
@@ -1061,11 +1061,11 @@ representative's neighborhood. All clients in the same
 cluster connect to the only facility open in their
 representative's neighborhood.
 
-The facility cost of this solution is no more than $F^\ast =
-\sum_{i\in\sitesset} f_i y_i^\ast$, because every facility
+The facility cost of this solution is not more than $F^\ast
+= \sum_{i\in\sitesset} f_i y_i^\ast$, because every facility
 that is opened can have its cost bounded by the average
 facility cost of the neighborhood. The connection cost of a
-representative $j'$ is no more than $\alpha_{j'}^\ast$,
+representative $j'$ is not more than $\alpha_{j'}^\ast$,
 because the complementary slackness conditions imply that
 $d_{ij'} \leq \alpha_{j'}^\ast$ for every facility $i$ in
 $N(j')$. The connection cost for a non-representative client
@@ -1074,12 +1074,12 @@ $d_{i'j} \leq d_{i'j'} + d_{ij'} + d_{ij}$, where $j'$ is
 the representative of $j$, and $i'$ is the facility opened
 in $j'$'s neighborhood, and $i$ is a common neighbor of both
 $j$ and $j'$. Using the complementary slackness conditions,
-the distance of $d_{i'j}$ is no more than $\alpha_{j'}^\ast
-+ \alpha_{j'}^\ast + \alpha_j^\ast$, which is no more than
+the distance of $d_{i'j}$ is not more than $\alpha_{j'}^\ast
++ \alpha_{j'}^\ast + \alpha_j^\ast$, which is not more than
 $3\alpha_j^\ast$ because the representative $j'$ has the
 minimum $\alpha_{j'}^\ast$ value among all clients in its
 cluster. Summarizing, the solution has a facility cost at
-most $F^\ast$ and a connection cost no more than
+most $F^\ast$ and a connection cost not more than
 $3\sum_{j\in\clientset} \alpha_j^\ast = 3\,\LP^\ast$, where
 $\LP^\ast = F^\ast + C^\ast$. Since $\LP^\ast \leq \OPT$,
 where $\OPT$ is the optimal integral solution's cost, the
@@ -1599,7 +1599,7 @@ integral solution with almost the same cost.
 \label{sec: reduction_to_ftfl}
 Given the demand reduction technique, we may assume that we
 are working with a restricted version of FTFP, in which
-every demand $r_j$ is no more than the number of sites
+every demand $r_j$ is not more than the number of sites
 $|\sitesset|$. In this case, we can reduce FTFP to FTFL. The
 restriction on the demands $r_j$ is essential to keep the
 size of the FTFL instance polynomially bounded by
@@ -1611,25 +1611,26 @@ For the reduction, we simply create $|\sitesset|$ facilities
 instance where every client $j$ has a demand $r_j$, and a
 set of facilities that could be opened. We are then able to
 use any known LP-rounding algorithm for FTFL to solve this
-FTFL instance. The solution to this FTFL instance trivially
-maps to a solution to that FTFP instance. Moreover, the
-approximation ratio for FTFL is preserved for FTFP. Given
-that FTFL has an LP-rounding $1.7245$-approximation
-algorithm by Byrka, Srinivasan and Swamy~\cite{ByrkaSS10},
-it is immediate that FTFP has an approximation algorithm
-with the same ratio. On the other hand, as we will show in
-Chapter~\ref{ch: lp-rounding}, {\FTFP} can be approximated
-with a better ratio of $1.575$. Thus, from the standpoint of
-approximation, {\FTFP} is more amenable than {\FTFL}.
+FTFL instance. The solution to this FTFL instance can be
+converted trivially to a solution to that FTFP
+instance. Moreover, the approximation ratio for FTFL is
+preserved for FTFP. Given that FTFL has an LP-rounding
+$1.7245$-approximation algorithm by Byrka, Srinivasan and
+Swamy~\cite{ByrkaSS10}, it is immediate that FTFP has an
+approximation algorithm with the same ratio. However, as we
+will show in Chapter~\ref{ch: lp-rounding}, {\FTFP} can be
+approximated with a better ratio of $1.575$. Thus, from the
+standpoint of approximation, {\FTFP} is more amenable than
+{\FTFL}.
 
 \section{Asymptotic Approximation Ratio for Large
   Demands}
 \label{sec: large_demands}
-When all demands are large, we would expect that the
-fractional optimal solution to LP (\ref{eqn:fac_primal}) is
-very close to an integral solution. Thus, it is reasonable
-to expect that in this case, the optimal fractional solution
-can be rounded to an integral solution with almost the same
+When all demands are large, we expect that the fractional
+optimal solution to LP (\ref{eqn:fac_primal}) is very close
+to an integral solution. Thus, it is reasonable to expect
+that, in this case, the optimal fractional solution can be
+rounded to an integral solution with almost the same
 cost. We turn this intuition into a concrete statement,
 which is Theorem~\ref{thm:largeR}.
 
@@ -1722,10 +1723,10 @@ which is Theorem~\ref{thm:largeR}.
     more than $c$ times the cost of an optimal fractional
     solution. However, all LP-rounding algorithms for {\UFL}
     satisfy this requirement.}, we obtain a solution to the
-  $\dot \calI$ instance with a cost no more than $c m \cdot
+  $\dot \calI$ instance with a cost not more than $c m \cdot
   \LP_{\smallUFL}^\ast$, where $\LP_{\smallUFL}^\ast$ is the
   cost of an optimal fractional solution to the {\UFL}
-  instance. On the other hand, it is easy to see that
+  instance. Moreover, it is easy to see that
   $(\bfx^\ast/Q,\bfy^\ast/Q)$ is a feasible fractional
   solution to the {\UFL} instance, because we have $r_j \geq
   Q$ for every client $j$. It follows that
@@ -1762,7 +1763,7 @@ call \emph{adaptive partitioning}. Given an FTFP instance
 and an optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
 to the LP~(\ref{eqn:fac_primal}), we split each client $j$
 into $r_j$ individual \emph{unit demand points} (or just
-\emph{demands}), and we split each site $i$ into no more
+\emph{demands}), and we split each site $i$ into not more
 than $|\sitesset|+2R|\clientset|^2$ \emph{facility points}
 (or \emph{facilities}), where
 $R=\max_{j\in\clientset}r_j$. We denote the demand set by
@@ -2375,16 +2376,17 @@ illustrates this process.
 \smallskip
 
 Notice that we start with $|\sitesset|$ facilities and in
-each iteration of the while loop in Line~5 (Pseudocode~\ref{alg:lpr2}) each client causes at most one split.
- We have a total of no more than $R|\clientset|$ iterations as in
-each iteration we create one demand. (Recall that $R =
-\max_jr_j$.) In Phase 2 we do an augment step for each
-demand $\nu$ and this creates no more than $R|\clientset|$
-new facilities.  So the total number of facilities we
-created will be at most $|\sitesset|+ R|\clientset|^2 +
-R|\clientset| \leq |\sitesset| + 2R|\clientset|^2$, which is
-polynomial in $|\sitesset|+|\clientset|$ due to our earlier
-bound on $R$.
+each iteration of the while loop in Line~5
+(Pseudocode~\ref{alg:lpr2}) each client causes at most one
+split.  We have a total of not more than $R|\clientset|$
+iterations as in each iteration we create one
+demand. (Recall that $R = \max_jr_j$.) In Phase 2 we do an
+augment step for each demand $\nu$ and this creates not more
+than $R|\clientset|$ new facilities.  So the total number of
+facilities we created will be at most $|\sitesset|+
+R|\clientset|^2 + R|\clientset| \leq |\sitesset| +
+2R|\clientset|^2$, which is polynomial in
+$|\sitesset|+|\clientset|$ due to our earlier bound on $R$.
 
 %%% example for adaptive partition
 \paragraph{Example.}
@@ -4918,7 +4920,7 @@ Substituting in the $\alpha_j$ values derived above, we have
 \end{align*}
 So for $k$ groups we can force a shrinking factor $\gamma$
 as big as $k/2$. Recall that earlier we have shown that the
-approximation ratio of the greedy algorithm is no more than
+approximation ratio of the greedy algorithm is not more than
 $H_n$. Is this a contradiction? No, because we have the
 number of clients $n=k^k + k^{k-1} + \ldots + 1 \approx
 k^k$, and hence $k = O(\log n / \log\log n)$. Therefore, the
@@ -5124,9 +5126,9 @@ we have
   \sum_{i}a_{ij}y_i \leq c_j, \qquad \text{for } j = 1,
   \ldots, n.
 \end{align*}
-Then the integral solution $\bfx$ has a cost of no more than
-$\gamma/\rho$ times the optimal value. In particular, we
-have $\sum_{j} c_j x_j \leq \gamma/\rho \sum_{i} b_i y_i$
+Then the integral solution $\bfx$ has a cost of not more
+than $\gamma/\rho$ times the optimal value. In particular,
+we have $\sum_{j} c_j x_j \leq \gamma/\rho \sum_{i} b_i y_i$
 and the value for a feasible dual solution, namely $\sum_{i}
 b_i y_i$, is a lower bound on the optimal value of the
 primal program.
