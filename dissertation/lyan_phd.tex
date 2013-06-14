@@ -4986,13 +4986,12 @@ solution, then the same ratio holds for FTFP as well.
 \section{Integer Programming and Linear Programming}
 \label{sec: ILP}
 
-In this section we give a short introduction to Integer
+In this section, we give a short introduction to Integer
 Programming and Linear Programming, with an emphasis on
 their application to the design and analysis of
 approximation algorithms for optimization
 problems. Figure~\ref{fig:npo_ilp} gives an overview of the
-discussions below.
-\ssp
+discussions below.  \ssp
 \begin{figure}[ht]
   \centering
     \begin{tikzpicture}
@@ -5023,10 +5022,10 @@ function are specified by the problem. For example, in the
 Vertex Cover problem, we are given a graph $G=(V,E)$ and we
 are to find a subset $W$ of $V$, such that every edge $e\in
 E$ has at least one endpoint in $W$; we want such a set $W$
-to have minimum size. To formulate this problem as an
+to have the minimum size. To formulate this problem as an
 integer program, we use $x_v \in \{0,1\}$ to denote whether
-a node $v\in V$ is in $W$ or not. The constraint is that for
-every edge $e=(u,v)$, we have $x_u + x_v \geq 1$. The
+a node $v\in V$ is in $W$ or not. The constraint is that,
+for every edge $e=(u,v)$, we have $x_u + x_v \geq 1$. The
 objective is to minimize $\sum_{v\in V} x_v$. The integer
 program for Vertex Cover is written as
 \begin{empheq}[box=\fbox]{align*}
@@ -5036,23 +5035,23 @@ program for Vertex Cover is written as
   E\\
   &x_v \in \{0, 1\} &\quad &\forall v \in V
 \end{empheq}
-In general an integer program cannot be solved exactly in
+In general, an integer program cannot be solved exactly in
 polynomial time, as Integer Programming is
 {\NP}-hard. However, if we relax the integrality constraint
 and allow the variables to take fractional values, we then
-obtain a Linear Program (LP) and LP is polynomially
-solvable, for example, using the ellipsoid method or the
-interior point method. Thus we can first solve the LP
-optimally, obtaining a fractional optimal solution to the
-LP. The value of the fractional optimal solution is then a
-lower bound on the value of the integral optimal solution,
-assuming a minimization problem. Our next step is then to
-round the fractional solution appropriately, so that we
-maintain the feasibility while keeping the cost from
-increasing too much. The exact rounding procedure is problem
-specific and we shall not delve into the topic here. The
-rounding relevant to the FTFP problem is presented in detail
-in Chapter~\ref{ch: lp-rounding}.
+obtain a Linear Program (LP). LP is polynomially solvable,
+for example, using the ellipsoid method or the interior
+point method. Thus, we can first solve the LP optimally,
+obtaining a fractional optimal solution. The value of the
+fractional optimal solution is then a lower bound on the
+value of the integral optimal solution, assuming a
+minimization problem. Our next step is then to round the
+fractional solution appropriately, so that we maintain
+feasibility, while keeping the cost from increasing too
+much. The exact rounding procedure is problem specific and
+we shall not delve into this topic here. The rounding
+relevant to the FTFP problem is presented in detail in
+Chapter~\ref{ch: lp-rounding}.
 
 \subsection{Linear Programming, Duality and Complementary
   Slackness Conditions}
@@ -5120,8 +5119,8 @@ to the primal program (\ref{eqn:lp_primal}) and a feasible
 fractional solution to the dual program
 (\ref{eqn:lp_dual}). Moreover, we know that the two
 solutions satisfy a relaxed version of the complementary
-slackness conditions: for some numbers $\gamma$ and $\rho$,
-we have
+slackness conditions, that for some numbers $\gamma$ and
+$\rho$, we have
 \begin{align*}
   \text{either } y_i = 0  \quad \text{or } \quad b_i \leq \sum_{j}
   a_{ij} x_j \leq \gamma\, b_i, \qquad \text{for } i = 1,
@@ -5133,7 +5132,7 @@ we have
 Then the integral solution $\bfx$ has a cost of not more
 than $\gamma/\rho$ times the optimal value. In particular,
 we have $\sum_{j} c_j x_j \leq \gamma/\rho \sum_{i} b_i y_i$
-and the value for a feasible dual solution, namely $\sum_{i}
+and the value of a feasible dual solution, namely $\sum_{i}
 b_i y_i$, is a lower bound on the optimal value of the
 primal program.
 
@@ -5145,28 +5144,28 @@ of a client $j$ as the set of facilities with $x_{ij}^\ast >
 0$, where $(\bfx^\ast,\bfy^\ast)$ is some fractional optimal
 solution to the LP~(\ref{eqn:ufl_primal}) and
 $(\bfalpha^\ast, \bfbeta^\ast)$ is some optimal fractional
-dual solution to the LP~(\ref{eqn:ufl_dual}). The
-complementary slackness conditions give an upper bound of
-$\alpha_j^\ast$ on the maximum distance from a facility $i
-\in N(j)$ to a client $j$. To see this bound, notice that
-the dual constraint says $\alpha_j - \beta_{ij} \leq
-d_{ij}$.  If the primal solution has $x_{ij}^\ast > 0$, then
-the inequality is actually an equality and we have
-$\alpha_j^\ast - \beta_{ij}^\ast = d_{ij}$. Together with
-$\beta_{ij}^\ast \geq 0$, we have $\alpha_j^\ast \geq
-d_{ij}$ for every facility $i$ such that $x_{ij}^\ast >
-0$. By definition, those are facilities in the neighborhood
-$N(j)$. Therefore we have $d_{ij} \leq \alpha_j^\ast$ for
-every $i\in N(j)$.
+dual solution to the LP~(\ref{eqn:ufl_dual}). Given a client
+$j$, the complementary slackness conditions give an upper
+bound of $\alpha_j^\ast$ on $d_{ij}$ for every facility
+$i\in N(j)$. To see this bound, notice that the dual
+constraint says $\alpha_j - \beta_{ij} \leq d_{ij}$.  If the
+primal solution has $x_{ij}^\ast > 0$, then the inequality
+is actually an equality and we have $\alpha_j^\ast -
+\beta_{ij}^\ast = d_{ij}$. Together with $\beta_{ij}^\ast
+\geq 0$, we have $\alpha_j^\ast \geq d_{ij}$ for every
+facility $i$ such that $x_{ij}^\ast > 0$. By definition,
+those are facilities in the neighborhood $N(j)$. Therefore
+we have $d_{ij} \leq \alpha_j^\ast$ for every $i\in N(j)$.
 
-A more important application of using relaxed complementary
-slackness conditions for the UFL problem is demonstrated by
-Jain and Vazirani~\cite{JainV01}. They proposed an algorithm
-that outputs an integral solution $(\bfx, \bfy)$ to the
-primal program (\ref{eqn:ufl_primal}) and a feasible
-(possibly fractional) solution $(\bfalpha,\bfbeta)$ to the
-dual program (\ref{eqn:ufl_dual}). Moreover, the two
-solutions satisfy the conditions that
+An important application of using the relaxed complementary
+slackness conditions is demonstrated by Jain and
+Vazirani~\cite{JainV01} with their algorithm for the UFL
+problem. Their algorithm that outputs an integral solution
+$(\bfx, \bfy)$ to the primal program (\ref{eqn:ufl_primal})
+and a feasible (possibly fractional) solution
+$(\bfalpha,\bfbeta)$ to the dual program
+(\ref{eqn:ufl_dual}). Moreover, the two solutions satisfy
+the conditions that
 \begin{align*}
   &\text{either } \sum_{j} \beta_{ij} = f_i  \quad \text{ or
 } \quad y_i = 0;\\
@@ -5210,11 +5209,9 @@ where each summation runs from $1$ to $l$ and the sequences
 $(a_i)$, $(b_i)$ and $(p_i)$ satisfy the following
 conditions: $p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$,
 $a_1\leq a_2 \leq \ldots \leq a_l$, and $b_1 \geq b_2 \geq
-\ldots \geq b_l$.
-
-Given the inequality (\ref{eq:cheby}), we can obtain our
-inequality (\ref{eq:min expected distance}) by simple
-substitution
+\ldots \geq b_l$. Given the inequality (\ref{eq:cheby}), we
+can obtain our inequality (\ref{eq:min expected distance})
+by simple substitution
 %
 \begin{equation*}
   p_i \assign g_i,\quad a_i \assign \bard_i,\quad b_i \assign
