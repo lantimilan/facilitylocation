@@ -4,18 +4,42 @@ In the \emph{Fault-Tolerant Facility Placement} problem
 (FTFP), we are given a set $\sitesset$ of \emph{sites} at
 which facilities can be built, and a set $\clientset$ of
 \emph{clients} with some demands that need to be satisfied
-by different facilities. A client $j\in\clientset$ has demand
-$r_j$. Building one facility at a site $i\in\sitesset$ incurs a cost
-$f_i$, and connecting one unit of demand from client $j$ to
-a facility at site $i$ costs $d_{ij}$. Throughout the
-paper we assume that the connection costs (distances)
-$d_{ij}$ form a metric, that is, they are
-symmetric and satisfy the triangle inequality. In a feasible solution, some
-number of facilities, possibly zero, are opened at each site
-$i$, and demands from each client are connected to those
-open facilities, with the constraint that demands from the
-same client have to be connected to different
-facilities. Note that any two facilities at the same site are considered different.
+by different facilities. A client $j\in\clientset$ has
+demand $r_j$. Building one facility at a site
+$i\in\sitesset$ incurs a cost $f_i$, and connecting one unit
+of demand from client $j$ to a facility at site $i$ costs
+$d_{ij}$. Throughout the paper we assume that the connection
+costs (distances) $d_{ij}$ form a metric, that is, they are
+symmetric and satisfy the triangle inequality. In a feasible
+solution, some number of facilities, possibly zero, are
+opened at each site $i$, and demands from each client are
+connected to those open facilities, with the constraint that
+demands from the same client have to be connected to
+different facilities. Note that any two facilities at the
+same site are considered different.
+
+The FTFP problem is intended to model the fact that a client
+in the real world may have more than one demand and each of
+the demands needs to be satisfied by a distinct
+facility. For a client, being able to access multiple
+facilities means if one facility failed, the client could
+obtain service from another one. It is also possible for a
+client to distribute its requests among the accessible
+facilities to get more throughput. For example, we might
+want to build two or more warehouses in the same location
+where we have easy access to major freeway or where an
+airport is nearby, so that transportation of commodities is
+convenient. Another example is that a company may consider
+build multiple data centers in the same city. This make a
+hot swap from a master center to a stand-by center easier to
+config. The particular city may have cheaper electricity or
+have favorable tax policy on that business. Theoretically,
+the study of FTFP is motivated by the discrepancy of
+approximation results for UFL and FTFL. As FTFP can be seen
+as more generalized than UFL but has more relaxed
+constraints than FTFP, the results we obtained on FTFP may
+shed light on how the fault-tolerant constraint makes FTFL
+appear harder than UFL.
 
 It is easy to see that if all $r_j=1$ then FTFP reduces to
 the classic Uncapacitated Facility Location problem (UFL).
