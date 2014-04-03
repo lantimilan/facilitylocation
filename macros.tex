@@ -1,0 +1,288 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% non-math stuff
+
+\renewcommand{\paragraph}[1]{{\medskip\noindent{\bf #1}}}
+\newcommand{\myparagraph}[1]{{\medskip\noindent{\bf #1}}}
+\newcommand{\emparagraph}[1]{{\medskip\noindent{\it #1}}}
+\newcommand{\etal}{{\it et al.}}
+\newcommand{\myif}{{\mbox{\rm\ if \ }}}
+\newcommand{\mycase}[1]{\mbox{{\underline{Case #1}}:\/}}
+
+\newcommand{\margincomment}[1]%
+    {{%
+      \marginpar{{\tiny\begin{minipage}{0.5in}
+                       \begin{flushleft}
+                          {#1}
+                       \end{flushleft}
+                       \end{minipage}
+                }}
+    }}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% various letters
+
+\newcommand{\hatc}{{\hat c}}
+\newcommand{\hatC}{{\hat C}}
+\newcommand{\hatr}{{\hat r}}
+\newcommand{\hatx}{{\hat x}}
+\newcommand{\haty}{{\hat y}}
+\newcommand{\dotx}{{\dot x}}
+\newcommand{\doty}{{\dot y}}
+\newcommand{\dotr}{{\dot r}}
+\newcommand{\boldx}{{\mathbf x}}
+
+\newcommand{\doubledone}{{\bar 1}}
+\newcommand{\doubledtwo}{{\bar 2}}
+\newcommand{\barc}{{\bar c}}
+\newcommand{\bart}{{\bar t}}
+
+\newcommand{\barx}{{\bar x}}
+\newcommand{\bary}{{\bar y}}
+\newcommand{\barz}{{\bar z}}
+\newcommand{\barr}{{\bar r}}
+\newcommand{\barX}{{\bar X}}
+\newcommand{\barY}{{\bar Y}}
+\newcommand{\barZ}{{\bar Z}}
+\newcommand{\bara}{{\bar a}}
+\newcommand{\bard}{{\bar d}}
+\newcommand{\barm}{{\bar m}}
+\newcommand{\barA}{{\bar A}}
+\newcommand{\barB}{{\bar B}}
+\newcommand{\barC}{{\bar C}}
+\newcommand{\barG}{{\bar G}}
+\newcommand{\barE}{{\bar E}}
+\newcommand{\barV}{{\bar V}}
+
+\newcommand{\wbarC}{{\overline{C}}}
+\newcommand{\wbarD}{{\overline{D}}}
+\newcommand{\wbarN}{{\overline{N}}}
+\newcommand{\wbarX}{{\overline{X}}}
+
+
+\newcommand{\barbeta}{{\bar\beta}}
+\newcommand{\bargamma}{{\bar\gamma}}
+\newcommand{\apomega}{{\bar\omega}}
+
+\newcommand{\bfr}{\boldsymbol{r}}
+\newcommand{\bfv}{{\bf v}}
+\newcommand{\bfx}{\boldsymbol{x}}
+\newcommand{\bfy}{\boldsymbol{y}}
+\newcommand{\bfz}{{\bf z}}
+\newcommand{\bfQ}{{\bf Q}}
+\newcommand{\bfR}{{\bf R}}
+\newcommand{\bfS}{{\bf S}}
+\newcommand{\bfT}{{\bf T}}
+\newcommand{\bfV}{{\bf V}}
+\newcommand{\bfone}{{\bf 1}}
+\newcommand{\bfalpha}{\boldsymbol{\alpha}}
+\newcommand{\bfbeta}{\boldsymbol{\beta}}
+
+\newcommand{\calA}{{\cal A}}
+\newcommand{\calB}{{\cal B}}
+\newcommand{\calC}{{\cal C}}
+\newcommand{\calD}{{\cal D}}
+\newcommand{\calE}{{\cal E}}
+\newcommand{\calG}{{\cal G}}
+\newcommand{\calH}{{\cal H}}
+\newcommand{\calJ}{{\cal J}}
+\newcommand{\calK}{{\cal K}}
+\newcommand{\calL}{{\cal L}}
+\newcommand{\calM}{{\cal M}}
+\newcommand{\calN}{{\cal N}}
+\newcommand{\calS}{{\cal S}}
+\newcommand{\calU}{{\cal U}}
+\newcommand{\calX}{{\cal X}}
+\newcommand{\calT}{{\cal T}}
+
+\newcommand{\hatcalI}{{\hat{\cal I}}}
+\newcommand{\barcalI}{{\bar{\cal I}}}
+\newcommand{\dotcalI}{{\dot{\cal I}}}
+
+\newcommand{\vecS}{{\bar S}}
+\newcommand{\vecT}{{\bar T}}
+\newcommand{\vecone}{{\bf 1}}
+\newcommand{\tildec}{{\tilde c}}
+\newcommand{\tilded}{{\tilde d}}
+\newcommand{\tildeD}{{\tilde D}}
+\newcommand{\tildeC}{{\widetilde C}}
+\newcommand{\tildeZ}{{\tilde Z}}
+\newcommand{\tilder}{{\widetilde r}}
+\newcommand{\tildex}{{\widetilde x}}
+\newcommand{\wtildeN}{{\widetilde N}}
+\newcommand{\tildebfr}{\widetilde{\boldsymbol{r}}}
+\newcommand{\tildebfx}{\widetilde{\boldsymbol{x}}}
+\newcommand{\tildebfy}{\widetilde{\boldsymbol{y}}}
+
+\newcommand{\barbfx}{\bar{\boldsymbol{x}}}
+\newcommand{\barbfy}{\bar{\boldsymbol{y}}}
+\newcommand{\hatbfx}{\hat{\boldsymbol{x}}}
+\newcommand{\hatbfy}{\hat{\boldsymbol{y}}}
+\newcommand{\dotbfx}{\dot{\boldsymbol{x}}}
+\newcommand{\dotbfy}{\dot{\boldsymbol{y}}}
+
+\newcommand{\wbarcalC}{{\overline{\calC}}}
+\newcommand{\wbarcalD}{{\overline{\calD}}}
+\newcommand{\eps}{{\epsilon}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\half}{{\mbox{$\frac{1}{2}$}}}
+\newcommand{\threehalfs}{{\mbox{$\frac{3}{2}$}}}
+\newcommand{\threefourths}{{\mbox{$\frac{3}{4}$}}}
+\newcommand{\fivehalfs}{{\mbox{$\frac{5}{2}$}}}
+\newcommand{\onethird}{{\mbox{$\frac{1}{3}$}}}
+\newcommand{\twothirds}{{\mbox{$\frac{2}{3}$}}}
+\newcommand{\fourthirds}{{\mbox{$\frac{4}{3}$}}}
+\newcommand{\fivethirds}{{\mbox{$\frac{5}{3}$}}}
+\newcommand{\fivefourths}{{\mbox{$\frac{5}{4}$}}}
+\newcommand{\onefourth}{{\mbox{$\frac{1}{4}$}}}
+\newcommand{\onefifth}{{\mbox{$\frac{1}{5}$}}}
+\newcommand{\twofifths}{{\mbox{$\frac{2}{5}$}}}
+\newcommand{\threefifths}{{\mbox{$\frac{3}{5}$}}}
+\newcommand{\fourfifths}{{\mbox{$\frac{4}{5}$}}}
+\newcommand{\ninefifths}{{\mbox{$\frac{9}{5}$}}}
+\newcommand{\sevensixths}{{\mbox{$\frac{7}{6}$}}}
+\newcommand{\oneeighth}{{\mbox{$\frac{1}{8}$}}}
+\newcommand{\threeeighths}{{\mbox{$\frac{3}{8}$}}}
+\newcommand{\fiveeighths}{{\mbox{$\frac{5}{8}$}}}
+\newcommand{\seveneighths}{{\mbox{$\frac{7}{8}$}}}
+\newcommand{\onetenth}{{\mbox{$\frac{1}{10}$}}}
+\newcommand{\seventenths}{{\mbox{$\frac{7}{10}$}}}
+\newcommand{\ninetenths}{{\mbox{$\frac{9}{10}$}}}
+\newcommand{\twonineths}{{\mbox{$\frac{2}{9}$}}}
+\newcommand{\fivenineths}{{\mbox{$\frac{5}{9}$}}}
+\newcommand{\elevennineths}{{\mbox{$\frac{11}{9}$}}}
+\newcommand{\threetwentieths}{{\mbox{$\frac{3}{20}$}}}
+\newcommand{\twentyfivenineteenths}{{\mbox{$\frac{25}{19}$}}}
+
+\newcommand{\sqrttwo}{\sqrt{2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% various delimiters
+
+\newcommand{\braced}[1]{{ \left\{ #1 \right\} }}
+\newcommand{\angled}[1]{{ \left\langle #1 \right\rangle }}
+\newcommand{\brackd}[1]{{ \left[ #1 \right] }}
+\newcommand{\parend}[1]{{ \left( #1 \right) }}
+\newcommand{\barred}[1]{{ \left| #1 \right| }}
+\newcommand{\dbarred}[1]{{ \left\| #1 \right\| }}
+\newcommand{\floor}[1]{{ \lfloor #1 \rfloor }}
+\newcommand{\ceiling}[1]{{ \lceil #1 \rceil }}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% some math symbols
+
+\newcommand{\set}{\,{\leftarrow}\,}
+\newcommand{\suchthat}{{\,:\,}}
+\newcommand{\cost}{{\it cost}}
+\newcommand{\yield}{{\it yield}}
+\newcommand{\opt}{{\it opt}}
+
+\newcommand{\algA}{{\bf A}}
+\newcommand{\LHS}{{\rm LHS}}
+\newcommand{\RHS}{{\rm RHS}}
+\newcommand{\reals}{{\bf R}}
+\newcommand{\posreals}{{\bf R}^+}
+
+\newcommand{\assign}{{\,\leftarrow\,}}
+
+\newcommand{\absvalue}[1]{{\barred{#1}}}
+\newcommand{\posvalue}[1]{{\brackd{#1}^+}}
+
+\newcommand{\NP}{{\mbox{\sf NP}}}
+\newcommand{\PP}{{\mbox{\sf P}}}
+\newcommand{\DTIME}{{\mbox{\sf DTIME}}}
+
+\newcommand{\letbox}[1]{{\makebox[11pt]{{\small {$#1$}}}}}
+\newcommand{\optstring}[1]{{ \frame{\;\raisebox{0pt}[12pt][5pt]{#1}\;} }}
+
+\newcommand{\leftend}{{\diamond}}
+\newcommand{\rightend}{{\diamond}}
+
+%\newcommand{\argmin}{{\mbox{\rm argmin}}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand\litem[1]{\item{\bfseries #1\enspace}}
+\newcommand{\ceil}[1] {\lceil #1 \rceil}
+\newcommand{\naive}{na\"{\i}ve}
+\newcommand{\LP}{\mbox{\rm LP}}
+\newcommand{\OPT}{\mbox{\rm OPT}}
+\newcommand{\ALG}{\mbox{\rm ALG}}
+\newcommand{\LPR}[1]{{\mbox{\rm LPR#1}}}
+\newcommand{\smallLPR}[1]{{\mbox{\tiny\rm LPR#1}}}
+% algorithm names
+\newcommand{\ESTA}{\mbox{\rm ESTA}} % 4approx
+\newcommand{\EGUP}{\mbox{\rm EGUP}} % 3approx
+\newcommand{\ECHS}{\mbox{\rm ECHS}} % 1.736
+\newcommand{\EBGS}{\mbox{\rm EBGS}} % 1.575
+\newcommand{\GUP}{\mbox{\rm GUP}}
+\newcommand{\smallESTA}{\mbox{\tiny\rm ESTA}}
+\newcommand{\smallEGUP}{\mbox{\tiny\rm EGUP}}
+\newcommand{\smallECHS}{\mbox{\tiny\rm ECHS}}
+\newcommand{\smallEBGS}{\mbox{\tiny\rm EBGS}}
+
+\newcommand{\SOL}[1]{{{\mbox{\rm SOL}}_{#1}}}
+\newcommand{\FTFP}{\mbox{\rm FTFP}}
+\newcommand{\FTFL}{\mbox{\rm FTFL}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\avg}{{\mbox{\scriptsize\rm avg}}}
+\newcommand{\cls}{{\mbox{\scriptsize\rm cls}}}
+\newcommand{\far}{{\mbox{\scriptsize\rm far}}}
+\newcommand{\smallcls}{{\mbox{\tiny\rm cls}}}
+\newcommand{\smallfar}{{\mbox{\tiny\rm far}}}
+
+\newcommand{\dmax}{\text{dmax}}
+\newcommand{\davg}{\text{davg}}
+\newcommand{\favg}{f_{\text{avg}}}
+\newcommand{\conn}{\text{conn}}
+
+\newcommand{\sitesset}{\mathbb{F}}
+\newcommand{\clientset}{\mathbb{C}}
+\newcommand{\facilityset}{\overline{\sitesset}}
+\newcommand{\demandset}{\overline{\clientset}}
+
+%\newcommand{\dist}{{\mbox{dist}}}
+\newcommand{\concost}{C^{\avg}}
+\newcommand{\faccost}{F^{\avg}}
+\newcommand{\tcc}{\mbox{\rm{tcc}}}
+\newcommand{\clsdist}{C_{\cls}^{\avg}}
+\newcommand{\fardist}{C_{\far}^{\avg}}
+\newcommand{\clsmax}{C_{\cls}^{\max}}
+\newcommand{\clsnb}{N_{\cls}}
+\newcommand{\farnb}{N_{\far}}
+\newcommand{\wbarclsnb}{\wbarN_{\cls}}
+\newcommand{\wbarfarnb}{\wbarN_{\far}}
+\newcommand{\wtildeclsnb}{\wtildeN_{\cls}}
+\newcommand{\tcccls}{\mbox{\rm{tcc}}_{\cls}}
+\newcommand{\dmaxcls}{\mbox{\rm{dmax}}_{\cls}}
+
+\newcommand{\Exp}{\mbox{\rm Exp}}
+\newcommand{\Prob}{\mbox{\rm Prob}}
+
+\newcommand{\FacilityDistSort}{{\textsc{FacilityDistSort}}}
+\newcommand{\NearestUnitChunk}{{\textsc{NearestUnitChunk}}}
+\newcommand{\AugmentToUnit}{{\textsc{AugmentToUnit}}}
+\newcommand{\connsum}{{\textrm{conn}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% theorem and such
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{observation}[theorem]{Observation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ignore}[1]{}

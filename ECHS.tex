@@ -1,0 +1,425 @@
+% marek Thu Nov 29 10:18:23 PST 2012, done with the journal version
+% marek Mon Mar  4 10:25:20 PST 2013, I think this time I'm really done with this section
+
+
+\section{Algorithm~{\ECHS} with Ratio $1.736$}\label{sec: 1.736-approximation}
+
+In this section we improve the approximation ratio to $1+2/e \approx
+1.736$. The improvement comes from a slightly modified rounding
+process and refined analysis.  Note that the facility opening cost of
+Algorithm~{\EGUP} does not exceed that of the fractional optimum
+solution, while the connection cost could be far from the optimum,
+since we connect a non-primary demand to a facility in the neighborhood of
+its assigned primary demand and then estimate the distance using the
+triangle inequality. The basic idea to improve the estimate of the connection cost,
+following the approach of Chudak and Shmoys~\cite{ChudakS04}, 
+is to connect each non-primary demand to its
+nearest neighbor when one is available, and to only use the facility opened by
+its assigned primary demand when none of its neighbors is open.
+
+%%%%%%%%%%
+
+\paragraph{Algorithm~{\ECHS}.}
+As before,
+the algorithm starts by solving the linear program and applying the
+adaptive partitioning algorithm  described in 
+Section~\ref{sec: adaptive partitioning} to obtain a partitioned
+solution $(\barbfx, \barbfy)$. Then we apply the rounding
+process to compute an integral solution (see Pseudocode~\ref{alg:lpr3}).  
+
+We start, as before, by opening exactly one facility $\phi(\kappa)$ in the 
+neighborhood of each primary demand $\kappa$ (Line 2).  For any
+non-primary demand $\nu$ assigned to $\kappa$, we refer to
+$\phi(\kappa)$ as the \emph{target} facility of $\nu$.  In
+Algorithm~{\EGUP}, $\nu$ was connected to $\phi(\kappa)$,
+but in Algorithm~{\ECHS} we may be able to find an open
+facility in $\nu$'s neighborhood and connect $\nu$ to this
+facility.  Specifically, the two changes in the
+algorithm are as follows:
+%
+\begin{description}
+\item{(1)} Each facility $\mu$ that is not in the neighborhood of any
+  primary demand is opened, independently, with probability
+  $\bary_{\mu}$ (Lines 4--5). Notice that if $\bary_\mu>0$ then, due
+  to completeness of the partitioned fractional solution, we have
+  $\bary_{\mu}= \barx_{\mu\nu}$ for some demand $\nu$. This implies
+  that $\bary_{\mu}\leq 1$, because $\barx_{\mu\nu}\le 1$, by
+  (PS.\ref{PS:one}).
+%
+\item{(2)} When connecting demands to facilities, a primary demand
+  $\kappa$ is connected to the only facility $\phi(\kappa)$ opened in
+  its neighborhood, as before (Line 3).  For a non-primary demand
+  $\nu$, if its neighborhood $\wbarN(\nu)$ has an open facility, we
+  connect $\nu$ to the closest open facility in $\wbarN(\nu)$ (Line
+  8). Otherwise, we connect $\nu$ to its target facility (Line 10).
+%
+\end{description}
+
+%%%%%%%%%%%%%
+
+\begin{algorithm}
+  \caption{Algorithm~{\ECHS}:
+    Constructing Integral Solution}
+  \label{alg:lpr3}
+  \begin{algorithmic}[1]
+    \For{each $\kappa\in P$} 
+    \State choose one $\phi(\kappa)\in \wbarN(\kappa)$,
+    with each $\mu\in\wbarN(\kappa)$ chosen as $\phi(\kappa)$
+    with probability $\bary_\mu$ 
+    \State open $\phi(\kappa)$ and connect $\kappa$ to $\phi(\kappa)$
+    \EndFor
+    \For{each $\mu\in\facilityset - \bigcup_{\kappa\in P}\wbarN(\kappa)$} 
+    \State open $\mu$ with probability $\bary_\mu$ (independently)
+    \EndFor
+    \For{each non-primary demand $\nu\in\demandset$}
+    \If{any facility in $\wbarN(\nu)$ is open}
+    \State{connect $\nu$ to the nearest open facility in $\wbarN(\nu)$}
+    \Else
+    \State connect $\nu$ to $\phi(\kappa)$ where $\kappa$ is $\nu$'s
+     assigned primary demand
+    \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%
+
+\paragraph{Analysis.}
+We shall first argue that the integral solution thus
+constructed is feasible, and then we bound the total cost of
+the solution. Regarding feasibility, the only constraint
+that is not explicitly enforced by the algorithm is the
+fault-tolerance requirement; namely that each client $j$ is
+connected to $r_j$ different facilities. Let $\nu$ and
+$\nu'$ be two different sibling demands of client $j$ and let
+their assigned primary demands be $\kappa$ and $\kappa'$
+respectively. Due to (SI.\ref{SI:primary
+  disjoint}) we know $\kappa \neq \kappa'$. From
+(SI.\ref{SI:siblings disjoint}) we have $\wbarN(\nu) \cap
+\wbarN(\nu') = \emptyset$. From (SI.\ref{SI:primary
+  disjoint}), we have $\wbarN(\nu) \cap \wbarN(\kappa') =
+\emptyset$ and $\wbarN(\nu') \cap \wbarN(\kappa) =
+\emptyset$. From (PD.\ref{PD:disjoint}) we have
+$\wbarN(\kappa)\cap \wbarN(\kappa') = \emptyset$. It follows
+that $(\wbarN(\nu) \cup \wbarN(\kappa)) \cap (\wbarN(\nu')
+\cup \wbarN(\kappa')) = \emptyset$. Since the algorithm
+connects $\nu$ to some facility in $\wbarN(\nu) \cup
+\wbarN(\kappa)$ and $\nu'$ to some facility in $\wbarN(\nu')
+\cup \wbarN(\kappa')$, $\nu$ and $\nu'$ will be connected to
+different facilities.
+
+
+%%%%%%%%%
+
+\smallskip
+We now show that the expected cost of the computed solution is bounded by
+$(1+2/e) \cdot \LP^\ast$. By
+(PD.\ref{PD:disjoint}), every facility may appear in at
+most one primary demand's neighborhood, and the facilities
+open in Line~4--5 of Pseudocode~\ref{alg:lpr3} do not appear
+in any primary demand's neighborhood. Therefore, by
+linearity of expectation, the expected facility cost of
+Algorithm~{\ECHS} is 
+%
+\begin{equation*}
+\Exp[F_{\smallECHS}] 
+	= \sum_{\mu\in\facilityset} f_\mu \bary_{\mu} 
+	= \sum_{i\in\sitesset} f_i\sum_{\mu\in i} \bary_{\mu} 
+	= \sum_{i\in\sitesset} f_i y_i^\ast = F^\ast,
+\end{equation*}
+%
+where the third equality follows from (PS.\ref{PS:yi}).
+
+\smallskip
+
+To bound the connection cost, we adapt an argument of Chudak
+and Shmoys~\cite{ChudakS04}. Consider a demand $\nu$ and denote by $C_\nu$ the
+random variable representing the connection cost for $\nu$.
+Our goal now is to estimate $\Exp[C_\nu]$, the expected value of $C_\nu$.
+Demand $\nu$ can either get connected directly to some facility in
+$\wbarN(\nu)$ or indirectly to its target facility $\phi(\kappa)\in
+\wbarN(\kappa)$, where $\kappa$ is the primary demand to
+which $\nu$ is assigned. We will analyze these two cases separately.
+
+In our analysis, in this section and the next one, we will use notation
+%
+\begin{equation*}
+D(A,\sigma) {=} \sum_{\mu\in A}
+d_{\mu\sigma}\bary_{\mu}/\sum_{\mu\in A} \bary_{\mu}
+\end{equation*}
+%
+for the average distance between a demand $\sigma$ and a set $A$ of facilities.
+Note that, in particular, we have $\concost_\nu = D(\wbarN(\nu),\nu)$.
+
+We first estimate the expected cost $d_{\phi(\kappa)\nu}$ of the indirect
+connection. Let $\Lambda^\nu$ denote the event that some 
+facility in $\wbarN(\nu)$ is opened. Then
+%
+\begin{equation}
+	\Exp[C_\nu \mid\neg\Lambda^\nu] 
+	=   \Exp[ d_{\phi(\kappa)\nu} \mid \neg\Lambda^\nu] 
+	= 	D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu).
+			\label{eqn: expected indirect connection}
+\end{equation}
+%
+Note that $\neg\Lambda^\nu$ implies that $\wbarN(\kappa) \setminus
+\wbarN(\nu)\neq\emptyset$, since $\wbarN(\kappa)$ contains
+exactly one open facility, namely $\phi(\kappa)$.
+
+%%%%%%%%%%
+
+\begin{lemma}
+  \label{lem:echu indirect}
+  Let $\nu$ be a demand assigned to a primary demand $\kappa$, and
+assume that $\wbarN(\kappa) \setminus \wbarN(\nu)\neq\emptyset$.
+Then 
+%
+\begin{equation*}
+	\Exp[ C_\nu \mid\neg\Lambda^\nu]  \leq
+  		\concost_\nu+2\alpha_{\nu}^\ast.
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+By (\ref{eqn: expected indirect connection}), we need to show that $D(\wbarN(\kappa)
+  \setminus \wbarN(\nu), \nu) \leq \concost_\nu +
+  2\alpha_{\nu}^\ast$. There are two cases to consider.
+
+\begin{description}
+%	
+\item{\mycase{1}}
+	 There exists some $\mu'\in \wbarN(\kappa) \cap
+  \wbarN(\nu)$ such that $d_{\mu' \kappa} \leq \concost_\kappa$.
+In this case, for every $\mu\in \wbarN(\kappa)\setminus \wbarN(\nu)$, we have
+%
+\begin{equation*}
+d_{\mu \nu} \leq d_{\mu \kappa} + d_{\mu' \kappa} + d_{\mu' \nu}  
+ 	\le  \alpha^\ast_\kappa + \concost_\kappa + \alpha^\ast_{\nu}
+  \leq \concost_\nu + 2\alpha_{\nu}^\ast,
+\end{equation*}
+%
+using the triangle inequality, complementary slackness, and (PD.\ref{PD:assign:cost}).
+By summing over all $\mu\in \wbarN(\kappa) \setminus \wbarN(\nu)$, it
+follows that $D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) \leq
+\concost_\nu + 2\alpha_{\nu}^\ast$.
+
+\item{\mycase{2}}
+ Every $\mu'\in \wbarN(\kappa)\cap \wbarN(\nu)$
+has $d_{\mu'\kappa} > \concost_\kappa$. Since $\concost_{\kappa} = D(\wbarN(\kappa),\kappa)$,
+this implies that
+$D(\wbarN(\kappa) \setminus \wbarN(\nu),\kappa)\leq \concost_{\kappa}$. Therefore,
+choosing an arbitrary $\mu'\in \wbarN(\kappa)\cap \wbarN(\nu)$,
+we obtain
+%
+\begin{equation*}
+  D(\wbarN(\kappa) \setminus \wbarN(\nu), \nu) 
+	\leq  D(\wbarN(\kappa) \setminus \wbarN(\nu), \kappa) 
+			+ d_{\mu' \kappa} + d_{\mu' \nu} 
+	\leq  \concost_{\kappa} +
+  \alpha_{\kappa}^\ast + \alpha_{\nu}^\ast
+	\leq \concost_\nu + 2\alpha_{\nu}^\ast,
+\end{equation*}
+%
+where we again use the triangle inequality,
+complementary slackness, and  (PD.\ref{PD:assign:cost}).
+%
+\end{description}
+%
+Since the lemma holds in both cases, the proof is now complete.
+\end{proof}
+
+We now continue our estimation of the connection cost.  The next step
+of our analysis is to show that 
+%
+\begin{equation}
+	\Exp[C_\nu]\le \concost_{\nu} + \frac{2}{e}\alpha^\ast_\nu.
+	\label{eqn: echs bound for connection cost}
+\end{equation}
+%
+The argument is divided into three cases. The first, easy case is when
+$\nu$ is a primary demand $\kappa$. According to the algorithm
+(see Pseudocode~\ref{alg:lpr3}, Line~2), we have $C_\kappa = d_{\mu\kappa}$ with probability $\bary_{\mu}$, 
+for $\mu\in \wbarN(\kappa)$. Therefore $\Exp[C_\kappa] = \concost_{\kappa}$, so
+(\ref{eqn: echs bound for connection cost}) holds.
+
+Next, we consider a non-primary demand $\nu$. Let $\kappa$
+be the primary demand that $\nu$ is assigned to. We first
+deal with the sub-case when $\wbarN(\kappa)\setminus
+\wbarN(\nu) = \emptyset$, which is the same as
+$\wbarN(\kappa) \subseteq \wbarN(\nu)$. Property (CO)
+implies that $\barx_{\mu\nu} = \bary_{\mu} =
+\barx_{\mu\kappa}$ for every $\mu \in \wbarN(\kappa)$, so we
+have $\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\nu} =
+\sum_{\mu\in\wbarN(\kappa)} \barx_{\mu\kappa} = 1$, due to
+(PS.\ref{PS:one}). On the other hand, we have
+$\sum_{\mu\in\wbarN(\nu)} \barx_{\mu\nu} = 1$, and
+$\barx_{\mu\nu} > 0$ for all $\mu\in \wbarN(\nu)$. Therefore
+$\wbarN(\kappa) = \wbarN(\nu)$ and $C_\nu$ has exactly the
+same distribution as $C_\kappa$.  So this case reduces to
+the first case, namely we have $\Exp[C_{\nu}] =
+\concost_{\nu}$, and (\ref{eqn: echs bound for connection
+  cost}) holds.
+
+The last, and only non-trivial case is when $\wbarN(\kappa)\setminus
+\wbarN(\nu)\neq\emptyset$. We handle this case in the following lemma.
+
+%%%%%%
+
+\begin{lemma}\label{lem: echs expected C_nu}
+Assume that $\wbarN(\kappa) \setminus \wbarN(\nu) \neq \emptyset$.
+Then the expected connection cost of $\nu$, conditioned on the event that at least one of 
+its neighbor opens, satisfies
+%
+\begin{equation*}
+  \Exp[C_\nu \mid \Lambda^\nu] \leq \concost_{\nu}.
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+The proof is similar to an analogous result in~\cite{ChudakS04,ByrkaA10}. 
+For the sake of completeness we sketch here a simplified argument, adapted to our
+terminology and notation.
+The idea is to consider a different random process that is
+easier to analyze and whose expected connection cost is not better than that in
+the algorithm.
+
+We partition $\wbarN(\nu)$ into groups $G_1,...,G_k$, where two
+different facilities $\mu$ and $\mu'$ are put in the same $G_s$, where
+$s\in \{1,\ldots,k\}$, if they both belong to the same set
+$\wbarN(\kappa)$ for some primary demand $\kappa$. If some $\mu$ is
+not a neighbor of any primary demand, then it constitutes a singleton
+group.  For each $s$, let $\bard_s = D(G_s,\nu)$ be the average
+distance from $\nu$ to $G_s$.  Assume that $G_1,...,G_k$ are ordered
+by nondecreasing average distance to $\nu$, that is $\bard_1 \le
+\bard_2 \le ... \le \bard_k$.  For each group $G_s$, we select it,
+independently, with probability $g_s = \sum_{\mu\in G_s}\bary_{\mu}$.
+For each selected group $G_s$,  we
+open exactly one facility in $G_s$, where each $\mu\in G_s$
+is opened with probability $\bary_{\mu}/\sum_{\eta\in G_s}
+\bary_{\eta}$.
+
+So far, this process is the same as that in the algorithm (if restricted to $\wbarN(\nu)$).
+However, we connect $\nu$ in a slightly different way, by choosing the smallest
+$s$ for which $G_s$ was selected and connecting $\nu$ to the open facility in $G_s$.
+This can only increase our expected connection cost, assuming that at least one
+facility in $\wbarN(\nu)$ opens, so
+%
+\begin{align}
+  \Exp[C_\nu \mid \Lambda^\nu] &\leq \frac{1}{\Prob[\Lambda^\nu]}
+  \left( \bard_1 g_1 + \bard_2 g_2 (1-g_1) + \ldots + \bard_k g_k
+    (1-g_1) (1-g_2) \ldots (1-g_k) \right)
+			\notag
+  \\
+  &\leq \frac{1}{\Prob[\Lambda^\nu]}
+	\cdot \sum_{s=1}^k \bard_s g_s
+	\cdot
+		\left(\sum_{t=1}^k g_t \prod_{z=1}^{t-1} (1-g_z)\right)
+			\label{eqn: echs ineq direct cost, step 1}
+  \\
+  &= \sum_{s=1}^k \bard_s g_s
+			\label{eqn: echs ineq direct cost, step 2}
+	\\
+			&= \concost_{\nu}.
+				\label{eqn: echs ineq direct cost, step 3}
+\end{align}
+%
+The proof for inequality (\ref{eqn: echs ineq direct cost, step 1}) 
+is given in \ref{sec: ECHSinequality} (note that $\sum_{s=1}^k g_s = 1$),
+equality (\ref{eqn: echs ineq direct cost, step 2}) follows from
+$\Prob[\Lambda^\nu] = 1 - \prod_{t=1}^k (1-g_t)
+					= \sum_{t=1}^k g_t
+                                        \prod_{z=1}^{t-1} (1 - g_z)$,
+and (\ref{eqn: echs ineq direct cost, step 3}) follows from the definition
+of the distances $\bard_s$, probabilities $g_s$, and simple algebra.
+\end{proof}
+
+Next, we show an estimate on the probability that none of $\nu$'s
+neighbors is opened by the algorithm.
+
+\begin{lemma}\label{lem: probability of not Lambda^nu}
+The probability that none of $\nu$'s neighbors is opened satisfies
+$\Prob[\neg\Lambda^\nu] \le 1/e$.
+\end{lemma}
+
+\begin{proof}
+We use the same partition of $\wbarN(\nu)$ into groups $G_1,...,G_k$ as
+in the proof of Lemma~\ref{lem: echs expected C_nu}. Denoting by
+$g_s$ the probability that a group $G_s$ is selected (and thus that it
+has an open facility), we have
+%
+\begin{equation*}
+\Prob[\neg\Lambda^\nu] = \prod_{s=1}^k (1 - g_s)
+			\le e^{- \sum_{s=1}^k g_s}
+			= e^{-\sum_{\mu \in \wbarN(\nu)} \bary_{\mu}}
+			= \frac{1}{e}.
+\end{equation*}
+%
+In this derivation, we first use that $1-x\le e^{-x}$ holds for all $x$,
+the second equality follows from $\sum_{s=1}^k g_s = \sum_{\mu \in \wbarN(\nu)} \bary_{\mu}$
+and the last equality follows from 
+$\sum_{\mu \in \wbarN(\nu)} \bary_{\mu} = 1$.
+\end{proof}
+
+We are now ready to estimate the unconditional expected connection cost of $\nu$
+(in the case when $\wbarN(\kappa)\setminus \wbarN(\nu)\neq\emptyset$)
+as follows:
+%
+\begin{align}
+  \notag
+  \Exp[C_\nu] &= \Exp[C_{\nu} \mid \Lambda^\nu] \cdot \Prob[\Lambda^\nu] 
+	+ \Exp[C_{\nu} \mid \neg \Lambda^\nu] \cdot	\Prob[\neg \Lambda^\nu]
+  \\
+  &\leq \concost_{\nu} \cdot \Prob[\Lambda^\nu] 
+		+ (\concost_{\nu} + 2\alpha_{\nu}^\ast)  \cdot \Prob[\neg \Lambda^\nu]
+  \label{eqn: Cnu estimate 0}
+  \\
+  &= \concost_{\nu} 
+	+  2\alpha_{\nu}^\ast \cdot \Prob[\neg \Lambda^\nu]
+		\notag
+	\\
+	&\le \concost_{\nu} + \frac{2}{e}\cdot\alpha_{\nu}^\ast.
+	  \label{eqn: Cnu estimate last}
+\end{align}
+%
+In the above derivation, inequality (\ref{eqn: Cnu estimate 0})
+follows from Lemmas~\ref{lem:echu indirect} and \ref{lem: echs expected C_nu}, 
+and inequality (\ref{eqn: Cnu estimate last}) follows from
+Lemma~\ref{lem: probability of not Lambda^nu}.
+
+\medskip
+
+We have thus shown that the bound (\ref{eqn: echs bound for connection cost})
+holds in all three cases.
+Summing over all demands $\nu$ of a client $j$, we can now bound
+the expected connection cost of client $j$:
+%
+\begin{equation*}
+  \Exp[C_j] = \textstyle\sum_{\nu\in j} \Exp[C_\nu] 
+\leq {\textstyle\sum_{\nu\in j} (\concost_{\nu} + \frac{2}{e}\cdot\alpha_{\nu}^\ast) }
+  = { C_j^\ast + \frac{2}{e}\cdot r_j\alpha_j^\ast}.
+\end{equation*}
+%
+Finally, summing over all clients $j$, we obtain our bound on
+the expected connection cost,
+%
+\begin{equation*}
+ \Exp[ C_{\smallECHS}] \le C^\ast + \frac{2}{e}\cdot\LP^\ast.
+\end{equation*}
+% 
+Therefore we have established that
+our algorithm constructs a feasible integral solution with
+an overall expected cost 
+%
+\begin{equation*}
+  \label{eq:chudakall}
+	 \Exp[ F_{\smallECHS} + C_{\smallECHS}]
+	\le
+  	F^\ast + C^\ast + \frac{2}{e}\cdot \LP^\ast = (1+2/e)\cdot \LP^\ast
+  \leq (1+2/e)\cdot \OPT.
+\end{equation*}
+%
+Summarizing, we obtain the main result of this section.
+
+\begin{theorem}\label{thm:1736}
+  Algorithm~{\ECHS} is a $(1+2/e)$-approximation algorithm for \FTFP.
+\end{theorem}

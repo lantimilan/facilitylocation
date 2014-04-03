@@ -1,0 +1,260 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Proof of Lemma~\ref{lem: EBGS target connection cost}}\label{sec: proof of lemma 15}
+
+Lemma~\ref{lem: EBGS target connection cost} provides a bound on the
+expected connection cost of a demand $\nu$ when Algorithm~{\EBGS} does not open
+any facilities in $\wbarN(\nu)$, namely
+%
+\begin{equation}
+\Exp[d_{\phi(\kappa)\nu}\mid \neg \Lambda^{\nu}] \leq
+  \clsdist(\nu) + \clsmax(\nu) + \fardist(\nu).
+			\label{eqn: lemma ebgs target connection cost}
+\end{equation}
+%
+The proof is similar to that in \cite{ByrkaA10}. For the sake of completeness,
+we provide it here, formulated in our terminology and notation.
+
+Assume that the event $\neg \Lambda^{\nu}$ is true, that is Algorithm~{\EBGS}
+does not open any facility in $\wbarN(\nu)$.
+Let $\kappa$ be the primary demand that $\nu$ was assigned to. Also let
+%K
+\begin{equation*}
+K = \wbarclsnb(\kappa) \setminus \wbarN(\nu), \quad
+V_{\cls} = \wbarclsnb(\kappa) \cap \wbarclsnb(\nu) \quad \textrm{and}\quad 
+V_{\far} = \wbarclsnb(\kappa) \cap \wbarfarnb(\nu).
+\end{equation*}
+% 
+Then $K, V_{\cls}, V_{\far}$ form a partition of
+$\wbarclsnb(\kappa)$, that is, they are disjoint and their union is $\wbarclsnb(\kappa)$.
+Moreover, we have that $K$ is not empty, because Algorithm~{\EBGS}
+opens some facility in $\wbarclsnb(\kappa)$ and this facility cannot be in $V_{\cls}\cup V_{\far}$,
+by our assumption. 
+We also have that $V_{\cls}$ is not empty due to (PD'.\ref{PD1:assign:overlap}). 
+
+Recall that $D(A,\eta) = \sum_{\mu\in A}d_{\mu\eta}\bary_{\mu}/(\sum_{\mu\in A}\bary_{\mu})$
+is the average distance between a demand $\eta$ and the facilities in a set $A$. We shall show that
+%
+\begin{equation}
+	 D(K, \nu) \leq \clsdist(\kappa)+\clsmax(\kappa) + \fardist(\nu).
+				\label{eqn: bound on D(K,nu)}
+\end{equation}
+%
+This is sufficient, because, by the algorithm, $D(K,\nu)$ is exactly 
+the expected connection cost for demand $\nu$ conditioned on
+the event that none of $\nu$'s neighbors 
+opens, that is the left-hand side of (\ref{eqn: lemma ebgs target connection cost}).
+Further, (PD'.\ref{PD1:assign:cost}) states that 
+$\clsdist(\kappa)+\clsmax(\kappa) \le \clsdist(\nu) + \clsmax(\nu)$, and thus
+(\ref{eqn: bound on D(K,nu)})  implies (\ref{eqn: lemma ebgs target connection cost}).
+
+\medskip
+
+The proof of (\ref{eqn: bound on D(K,nu)}) is by analysis of several cases.
+%
+
+\medskip
+\noindent
+{\mycase{1}} $D(K, \kappa) \leq \clsdist(\kappa)$. For any
+facility $\mu \in V_{\cls}$ (recall that $V_{\cls}\neq\emptyset$), 
+we have $d_{\mu\kappa} \leq \clsmax(\kappa)$ 
+and $d_{\mu\nu} \leq \clsmax(\nu) \leq \fardist(\nu)$. Therefore, using the
+case assumption, we get
+	$D(K,\nu) \leq D(K,\kappa) + d_{\mu\kappa} + d_{\mu\nu} 
+				\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu)$.
+
+\medskip
+\noindent
+{\mycase{2}} There exists a facility $\mu\in V_{\cls}$ such that
+  $d_{\mu\kappa} \leq \clsdist(\kappa)$. Since $\mu\in V_{\cls}$, we infer
+  that $d_{\mu\nu} \leq \clsmax(\nu) \leq \fardist(\nu)$.  Using
+  $\clsmax(\kappa)$ to bound $D(K, \kappa)$, we have $D(K, \nu)
+  \leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq
+  \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu)$.
+
+\medskip
+\noindent
+{\mycase{3}} In this case we assume that neither of Cases~1 and 2 applies, that is
+ $D(K, \kappa) > \clsdist(\kappa)$ and every $\mu \in V_{\cls}$ satisfies
+ $d_{\mu\kappa} >  \clsdist(\kappa)$. This implies that
+$D(K\cup V_{\cls}, \kappa) > \clsdist(\kappa) = D(\wbarclsnb(\kappa), \kappa)$.
+Since sets $K$, $V_{\cls}$ and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
+we obtain that in this case $V_{\far}$ is not
+empty and $D(V_{\far}, \kappa) < \clsdist(\kappa)$. 
+Let $\delta = \clsdist(\kappa) - D(V_{\far}, \kappa) > 0$. 
+We now have two sub-cases:
+%
+\begin{description}
+	
+\item{\mycase{3.1}} {$D(V_{\far}, \nu) \leq \fardist(\nu) + \delta$}.
+  Substituting $\delta$, this implies that $D(V_{\far}, \nu) +
+  D(V_{\far},\kappa) \le \clsdist(\kappa) + \fardist(\nu)$.  From the
+  definition of the average distance $D(V_{\far},\kappa)$ and
+  $D(V_{\far}, \nu)$, we obtain that there exists some $\mu \in
+  V_{\far}$ such that $d_{\mu\kappa} + d_{\mu\nu} \leq
+  \clsdist(\kappa) + \fardist(\nu)$.  Thus $D(K, \nu) \leq D(K,
+  \kappa) + d_{\mu\kappa} + d_{\mu\nu} \leq \clsmax(\kappa) +
+  \clsdist(\kappa) + \fardist(\nu)$.
+
+\item{\mycase{3.2}} {$D(V_{\far}, \nu) > \fardist(\nu) + \delta$}.
+  The case assumption implies that $V_{\far}$ is a proper subset of
+  $\wbarfarnb(\nu)$, that is $\wbarfarnb(\nu) \setminus V_{\far}
+  \neq\emptyset$.  Let $\hat{y} = \gamma \sum_{\mu\in V_{\smallfar}}
+  \bary_{\mu}$.  We can express $\fardist(\nu)$ using $\hat{y}$ as
+  follows
+%
+\begin{equation*}
+\fardist(\nu) = D(V_{\far},\nu) \frac{\hat{y}}{\gamma-1} +
+    D(\wbarfarnb(\nu)\setminus V_{\far}, \nu) \frac{\gamma-1-\hat{y}}{\gamma-1}.
+\end{equation*}
+%
+Then, using the case condition and simple algebra, we have
+%
+  \begin{align}
+    \clsmax(\nu) &\leq D(\wbarfarnb(\nu) \setminus V_{\far}, \nu) 
+			\notag
+		\\
+		&\leq \fardist(\nu) - \frac{\hat{y}\delta}{\gamma-1-\hat{y}} 
+		\leq \fardist(\nu) - \frac{\hat{y}\delta}{1-\hat{y}},
+			\label{eqn: case 3, bound on C_cls^max(nu)}
+  \end{align}
+%
+where the last step follows from $1 < \gamma < 2$. 
+
+On the other hand, since $K$, $V_{\cls}$, and $V_{\far}$ form a partition of $\wbarclsnb(\kappa)$,
+we have
+$\clsdist(\kappa) = (1-\hat{y}) D(K\cup V_{\cls}, \kappa) + \hat{y} D(V_{\far}, \kappa)$.
+Then using the definition of $\delta$ we obtain
+%
+\begin{equation}
+    D(K \cup V_{\cls}, \kappa) = \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}}.
+				\label{eqn: formula for D(V_cls,kappa)}
+\end{equation}
+%
+  Now we are essentially done. If there exists some $\mu \in V_{\cls}$ such
+  that $d_{\mu\kappa} \leq \clsdist(\kappa) +
+  \hat{y}\delta/(1-\hat{y})$, then	we have
+%
+  \begin{align*}
+    D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) +
+    			\frac{\hat{y}\delta}{1-\hat{y}}
+    + \clsmax(\nu)\\
+    &\leq \clsmax(\kappa) + \clsdist(\kappa) + \fardist(\nu),
+  \end{align*}
+%
+where we used (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
+  Otherwise, from (\ref{eqn: formula for D(V_cls,kappa)}),
+we must have $D(K, \kappa) \leq \clsdist(\kappa) +
+  \hat{y}\delta/(1-\hat{y})$. Choosing any $\mu \in V_{\cls}$, it follows that
+%
+  \begin{align*}
+    D(K, \nu) &\leq D(K, \kappa) + d_{\mu\kappa} + d_{\mu\nu} \\
+    &\leq \clsdist(\kappa) + \frac{\hat{y}\delta}{1-\hat{y}} +
+    		\clsmax(\kappa)  + \clsmax(\nu)\\
+    &\leq \clsdist(\kappa) + \clsmax(\kappa) + \fardist(\nu),
+  \end{align*}
+%
+again using (\ref{eqn: case 3, bound on C_cls^max(nu)}) in the last step.
+
+\end{description}
+
+This concludes the proof of (\ref{eqn: lemma ebgs target connection cost}).
+As explained earlier, Lemma~\ref{lem: EBGS target connection cost} follows.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vfill
+
+\section{Proof of an Inequality  (\ref{eqn: echs ineq direct cost, step 1})}
+\label{sec: ECHSinequality}
+
+In the analysis of Algorithm~{\ECHS} in Section~\ref{sec: 1.736-approximation}, 
+we need to show the following inequality
+%
+\begin{align}
+  \label{eq:dist}
+  \bard_1 g_1 + \bard_2 g_2 (1-g_1) +
+  \ldots &+ \bard_k g_k (1-g_1) (1-g_2) \ldots (1-g_k)
+				\notag
+\\
+  &\leq \left(\textstyle\sum_{s=1}^k \bard_s g_s\right)\left(\textstyle\sum_{t=1}^k g_t \textstyle\prod_{z=1}^{t-1} (1-g_z)\right),
+\end{align}
+%
+for $\bard_1\leq \bard_2 \leq \ldots \leq \bard_k$,
+$\sum_{s=1}^k g_s = 1$, and all $y_s \geq 0$.
+
+In this section we give a new proof of this inequality, much simpler
+than the existing proof in \cite{ChudakS04}, and also simpler than the
+argument by Sviridenko~\cite{Svi02}.  We derive this inequality from
+the following generalized version of the Chebyshev Sum Inequality:
+%
+\begin{equation}
+  \label{eq:cheby}
+  \textstyle{\sum_{i}} p_i \textstyle{\sum_j} p_j a_j b_j \leq \textstyle{\sum_i} p_i a_i \textstyle{\sum_j} p_j b_j,
+\end{equation}
+%
+where each summation below runs from $1$ to $l$ and the sequences 
+$(a_i)$, $(b_i)$ and $(p_i)$ satisfy the following conditions:
+$p_i\geq 0, a_i \geq 0, b_i \geq 0$ for all $i$, $a_1\leq a_2 \leq
+\ldots \leq a_l$, and $b_1 \geq b_2 \geq \ldots \geq b_l$.
+
+Given inequality (\ref{eq:cheby}), we can obtain our inequality
+(\ref{eq:dist}) by simple substitution
+%
+\begin{equation*}
+  p_i \leftarrow g_i, a_i \leftarrow \bard_i, b_i \leftarrow
+  \Pi_{s=1}^{i-1} (1-g_s).
+\end{equation*}
+
+For the sake of completeness, we include the proof of inequality (\ref{eq:cheby}), 
+due to Hardy, Littlewood and Polya~\cite{HardyLP88}. The idea is to evaluate the 
+following sum:
+%
+\begin{align*}
+  S &= \textstyle{\sum_i} p_i \textstyle{\sum_j} p_j a_j b_j - \textstyle{\sum_i} p_i a_i \textstyle{\sum_j} p_j b_j
+	\\
+  & = \textstyle{\sum_i \sum_j} p_i p_j a_j b_j - \textstyle{\sum_i \sum_j} p_i a_i p_j b_j
+	\\
+  & = \textstyle{\sum_j \sum_i} p_j p_i a_i b_i - \textstyle{\sum_j \sum _i} p_j a_j p_i b_i
+	\\
+	&= \half \cdot \textstyle{\sum_i \sum_j} (p_i p_j a_j b_j - p_i a_i p_j b_j + p_j p_i a_i
+  							b_i - p_j a_j p_i b_i)
+\\
+  &= \half \cdot \textstyle{\sum_i \sum_j} p_i p_j (a_i - a_j)(b_i - b_j) \leq 0.
+\end{align*}
+The last inequality holds because $(a_i-a_j)(b_i-b_j) \leq 0$, since the sequences
+$(a_i)$ and $(b_i)$ are ordered oppositely.
+
+\end{document}
+
+% marek Tue Jul  3 10:21:05 PDT 2012
+% marek Sun Jul  1 14:57:39 PDT 2012
+% lyan Sat Jun 30 2012, 22:01:27
+% marek Sat Jun 30 10:08:59 PDT 2012
+% lyan Fri Jun 29 19:54:18 PDT 2012
+% marek Thu Jun 28 09:21:14 PDT 2012
+% lyan Thu Jun 28 00:11:28 PDT 2012
+% marek Wed Jun 27 11:24:07 PDT 2012
+% lyan Wed Jun 27 2012, 10:08:21
+% marek Tue Jun 26 14:48:45 PDT 2012
+% lyan Mon Jun 25 2012, 22:23:13
+% marek Sun Jun 24 16:46:23 PDT 2012
+% marek Wed Jun 20 04:42:40 PDT 2012
+% lyan, Sun Jun 17 2012, 09:49:22
+% marek Sat Apr  7 16:42:21 PDT 2012
+% marek Thu Apr  5 11:39:58 PDT 2012
+% marek Wed Apr  4 11:28:20 PDT 2012
+% lyan, 04/01/12 10:20 PM
+% lyan, Mon Mar 26 2012, 09:10:54
+% lyan, Tue Mar 20 2012, 23:28:17
+% lyan, 03/18/12 12:28 PM
+% marek Sat Mar 17 13:42:32 PDT 2012
+% marek, Wed Mar  7 21:28:24 PST 2012
+% marek Mon Mar 12 12:08:25 PDT 2012
