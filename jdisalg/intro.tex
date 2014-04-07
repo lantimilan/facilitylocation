@@ -21,35 +21,44 @@ same site are considered different.
 The FTFP problem is intended to model the fact that a client
 in the real world may have more than one demand and each of
 the demands needs to be satisfied by a distinct
-facility. For a client, being able to access multiple
-facilities means if one facility failed, the client could
-obtain service from another one. It is also possible for a
-client to distribute its requests among the accessible
-facilities to get more throughput. For example, we might
-want to build two or more warehouses in the same location
-where we have easy access to major freeway or where an
-airport is nearby, so that transportation of commodities is
-convenient. Another example is that a company may consider
-build multiple data centers in the same city. This make a
-hot swap from a master center to a stand-by center easier to
-config. The particular city may have cheaper electricity or
-have favorable tax policy on that business. Theoretically,
-the study of FTFP is motivated by the discrepancy of
-approximation results for UFL and FTFL. As FTFP can be seen
-as more generalized than UFL but has more relaxed
-constraints than FTFP, the results we obtained on FTFP may
-shed light on how the fault-tolerant constraint makes FTFL
-appear harder than UFL.
+facility. This requirement may be a result of performance
+needs or fault-tolerance needs. For example, a web server
+running some service may need to access multiple databases
+so that it can fetch data in parallel, and be resilient to
+the unfortunate days when one database needs to be upgraded
+or goes offline while the web service has to be always
+available. Those databases can either be set up in the same
+location to simplify configuration and management, or
+located at different places to guard against power outage or
+natural disasters. In the supply chain domain, for a
+distribution center, it is desirable that the center has
+connection to multiple warehouses because those warehouses
+carry different categories of commodities. In this
+application, it is also possible for different warehouses to
+be set up in the same neighborhood because of convenience of
+transportation, while multiple warehouses are necessary,
+because of the merchandise they carry are incomptabile, for
+instance, toxic materials need to be separated from food.
 
-It is easy to see that if all $r_j=1$ then FTFP reduces to
-the classic Uncapacitated Facility Location problem (UFL).
-If we add a constraint that each site can have at most one
-facility built on it, then the problem becomes equivalent to the
-Fault-Tolerant Facility Location problem (FTFL). One
-implication of the one-facility-per-site restriction in FTFL
-is that $\max_{j\in\clientset}r_j \leq |\sitesset|$, while
-in FTFP the values of $r_j$'s can be much bigger than
-$|\sitesset|$.
+From a theory perspective, the study of FTFP is motivated by
+the discrepancy of approximation results for the classic
+Uncapacitated Facility Location problem
+(UFL)~\cite{ShmoysTA97} and the Fault-Tolerant Facility
+Location problem (FTFL)~\cite{JainV03}.  It is easy to see
+that if all $r_j=1$ then FTFP reduces to UFL.  If we add a
+constraint that each site can have at most one facility
+built on it, then the problem becomes equivalent to
+FTFL. One implication of the one-facility-per-site
+restriction in FTFL is that $\max_{j\in\clientset}r_j \leq
+|\sitesset|$, while in FTFP the values of $r_j$'s can be
+much bigger than $|\sitesset|$. The current best known
+approximation result for FTFL does not match that for UFL
+and the technique needed to address the fault-tolerant
+requirement is sophisticated. As FTFP can be seen as more
+generalized than UFL but has more relaxed constraints than
+FTFP, the results we obtained on FTFP may shed light on how
+the fault-tolerant constraint makes FTFL appear harder than
+UFL.
 
 The UFL problem has a long history; in particular, great
 progress has been achieved in the past two decades in
