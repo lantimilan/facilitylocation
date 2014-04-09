@@ -6,8 +6,8 @@ call \emph{adaptive partitioning}. Given an FTFP instance
 and an optimal fractional solution $(\bfx^\ast, \bfy^\ast)$
 to LP~(\ref{eqn:fac_primal}), we split each client $j$ into
 $r_j$ individual \emph{unit demand points} (or just
-\emph{demands}), and we split each site $i$ into no more
-than $|\sitesset|+2R|\clientset|^2$ \emph{facility points} (or
+\emph{demands}), and we split the sites into no more than
+$|\sitesset|+2R|\clientset|^2$ \emph{facility points} (or
 \emph{facilities}), where $R=\max_{j\in\clientset}r_j$. We
 denote the demand set by $\demandset$ and the facility set
 by $\facilityset$, respectively.  We will also partition
@@ -28,20 +28,19 @@ $\alpha_\nu^\ast = \alpha_j^\ast$ for $\nu\in j$ and
 $d_{\mu\nu} = d_{\mu j} = d_{ij}$ for $\mu\in i$ and $\nu\in
 j$.  We define $\concost_{\nu}
 =\sum_{\mu\in\wbarN(\nu)}d_{\mu\nu}\barx_{\mu\nu} =
-\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$. 
-One can think of $\concost_{\nu}$ as the
-average connection cost of demand $\nu$, if we chose a
-connection to facility $\mu$ with probability
-$\barx_{\mu\nu}$. In our partitioned fractional solution we
-guarantee for every $\nu$ that $\sum_{\mu\in\facilityset}
-\barx_{\mu\nu}=1$.
+\sum_{\mu\in\facilityset}d_{\mu\nu}\barx_{\mu\nu}$.  One can
+think of $\concost_{\nu}$ as the average connection cost of
+demand $\nu$, if we chose a connection to facility $\mu$
+with probability $\barx_{\mu\nu}$. In our partitioned
+fractional solution we guarantee for every $\nu$ that
+$\sum_{\mu\in\facilityset} \barx_{\mu\nu}=1$.
 
 Some demands in $\demandset$ will be designated as
 \emph{primary demands} and the set of primary demands will
-be denoted by $P$. By definition we have $P\subseteq \demandset$.
- In addition, we will use the overlap
-structure between demand neighborhoods to define a mapping
-that assigns each demand $\nu\in\demandset$ to some primary
+be denoted by $P$. By definition we have $P\subseteq
+\demandset$.  In addition, we will use the overlap structure
+between demand neighborhoods to define a mapping that
+assigns each demand $\nu\in\demandset$ to some primary
 demand $\kappa\in P$. As shown in the rounding algorithms in
 later sections, for each primary demand we guarantee exactly
 one open facility in its neighborhood, while for a
@@ -51,10 +50,14 @@ connection cost by the distance to the facility opened in
 its assigned primary demand's neighborhood. For this reason
 the connection cost of a primary demand must be ``small''
 compared to the non-primary demands assigned to it. We also
-need sibling demands assigned to different primary demands to satisfy
-the fault-tolerance requirement. Specifically, this
-partitioning will be constructed to satisfy a number of
-properties that are detailed below.
+need sibling demands assigned to different primary demands
+to satisfy the fault-tolerance requirement. Specifically,
+this partitioning will be constructed to satisfy a number of
+properties that are detailed below. The set of properties
+were chosen to facilitate the presentation of the following
+rounding step and the analysis of approximation ratio. The
+reader looking for a minimum set of properties may notice
+that some properties imply others.
 %
 \begin{description}
 	
@@ -144,7 +147,27 @@ and the fractional solution so that the properties (PS),
 $\facilityset$ and $\demandset$, respectively, denote the
 sets of facilities and demands that will be created in this
 stage, and $(\barbfx,\barbfy)$ is the partitioned solution
-to be computed. 
+to be computed. At a high level, to get neighborhoods for a
+primary demands $\kappa$ is relatively straightforward,
+whenever we construct a new primary demand, we simply get
+the closest few facilities still available as its
+neigborhood. As long as we greedily choose the client with
+best average distance for the first unit chunk of
+facilities~\footnote{That is, the connection values
+  $\tildex_{\mu j}$ to those facilities sum up to exactly
+  $1$.}, we know that we can bound the distance from a
+non-primary demand to any facility in the primary demand's
+neighborhood. The overlapping neighborhood requirement for
+non-primary demands then decides any non-primary demand
+$\nu$ assigned to that primary demand $\kappa$ obtain all
+such facilities available to $\nu$ itself. However we may
+still need to add facilities to $\nu$'s neighborhood to make
+total connection value $\barx_{\mu\nu}$ equal to $1$, which
+is the augment step. The disjoint neighborhood properties
+for sibling demands essentially forces us to postpone the
+decision of what facilities to use for the augment step,
+until all sibling demands have been constructed and their
+paritial neighborhood is known.
 
 The adaptive partitioning algorithm consists of two phases:
 Phase 1 is called the partitioning phase and Phase 2 is called
@@ -158,32 +181,37 @@ primary demands. Phase 1 completes when all clients are
 exhausted. In Phase 2 we ensure that every demand has a
 total connection values $\barx_{\mu\nu}$ equal to $1$, that is condition (PS.\ref{PS:one}).
 
-For each site $i$ we will initially create one ``big" facility $\mu$
-with initial value $\bary_\mu = y^\ast_i$.  While we partition the
-instance, creating new demands and connections, this facility may end
-up being split into more facilities to preserve completeness of the
-fractional solution. Also, we will gradually decrease the fractional
-connection vector for each client $j$, to account for the demands
-already created for $j$ and their connection values.  These decreased
-connection values will be stored in an auxiliary vector
-$\tildebfx$. The intuition is that $\tildebfx$ represents the part of
-$\bfx^\ast$ that still has not been allocated to existing demands and
-future demands can use $\tildebfx$ for their connections. For
-technical reasons, $\tildebfx$ will be indexed by facilities (rather
-than sites) and clients, that is $\tildebfx = (\tildex_{\mu j})$.  At
-the beginning, we set $\tildex_{\mu j}\assign x_{ij}^\ast$ for each
-$j\in\clientset$, where $\mu\in i$ is the single facility created
-initially at site $i$.  At each step, whenever we create a new demand
-$\nu$ for a client $j$, we will define its values $\barx_{\mu\nu}$ and
-appropriately reduce the values $\tildex_{\mu j}$, for all facilities
-$\mu$. We will deal with two types of neighborhoods, with respect to
-$\tildebfx$ and $\barbfx$, that is $\wtildeN(j)=\{\mu\in\facilityset
+For each site $i$ we will initially create one ``big"
+facility $\mu$ with initial value $\bary_\mu = y^\ast_i$.
+While we partition the instance, creating new demands and
+connections, this facility may end up being split into more
+facilities to preserve completeness of the fractional
+solution. Also, we will gradually decrease the fractional
+connection vector for each client $j$, to account for the
+demands already created for $j$ and their connection values.
+These connection values $\barx_{\mu j}$ will be stored in an
+auxiliary vector $\tildebfx$. The intuition is that
+$\tildebfx$ represents the part of $\bfx^\ast$ that still
+has not been allocated to existing demands and future
+demands can use $\tildebfx$ for their connections. For
+technical reasons, $\tildebfx$ will be indexed by facilities
+(rather than sites) and clients, that is $\tildebfx =
+(\tildex_{\mu j})$.  At the beginning, we set $\tildex_{\mu
+  j}\assign x_{ij}^\ast$ for each $j\in\clientset$, where
+$\mu\in i$ is the single facility created initially at site
+$i$.  At each step, whenever we create a new demand $\nu$
+for a client $j$, we will define its values $\barx_{\mu\nu}$
+and appropriately reduce the values $\tildex_{\mu j}$, for
+all facilities $\mu$. We will deal with two types of
+neighborhoods, with respect to $\tildebfx$ and $\barbfx$,
+that is $\wtildeN(j)=\{\mu\in\facilityset
 \suchthat\tildex_{\mu j} > 0\}$ for $j\in\clientset$ and
-$\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu} >0\}$ for
-$\nu\in\demandset$.  During this process we preserve the completeness
-(CO) of the fractional solutions $\tildebfx$ and $\barbfx$. More
-precisely, the following properties will hold for every facility $\mu$
-after every iteration:
+$\wbarN(\nu)=\{\mu\in\facilityset \suchthat \barx_{\mu\nu}
+>0\}$ for $\nu\in\demandset$.  During this process we
+preserve the completeness (CO) of the fractional solutions
+$\tildebfx$ and $\barbfx$. More precisely, the following
+properties will hold for every facility $\mu$ after every
+iteration:
 %
 \begin{description}
 	
