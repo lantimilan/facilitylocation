@@ -49,15 +49,16 @@ of its neighbors open. In this case we estimate its
 connection cost by the distance to the facility opened in
 its assigned primary demand's neighborhood. For this reason
 the connection cost of a primary demand must be ``small''
-compared to the non-primary demands assigned to it. We also
-need sibling demands assigned to different primary demands
-to satisfy the fault-tolerance requirement. Specifically,
-this partitioning will be constructed to satisfy a number of
-properties that are detailed below. The set of properties
-were chosen to facilitate the presentation of the following
-rounding step and the analysis of approximation ratio. The
-reader looking for a minimum set of properties may notice
-that some properties imply others.
+compared to that of the non-primary demands assigned to
+it. We also need sibling demands assigned to different
+primary demands to satisfy the fault-tolerance
+requirement. Specifically, this partitioning will be
+constructed to satisfy a number of properties that are
+detailed below. The set of properties were chosen to
+facilitate the presentation of the following rounding step
+and the analysis of approximation ratio. The reader looking
+for a minimum set of properties may notice that some
+properties imply others.
 %
 \begin{description}
 	
@@ -147,8 +148,8 @@ and the fractional solution so that the properties (PS),
 $\facilityset$ and $\demandset$, respectively, denote the
 sets of facilities and demands that will be created in this
 stage, and $(\barbfx,\barbfy)$ is the partitioned solution
-to be computed. At a high level, to get neighborhoods for a
-primary demands $\kappa$ is relatively straightforward,
+to be computed. At a high level, to get the neighborhood for
+a primary demands $\kappa$ is relatively straightforward,
 whenever we construct a new primary demand, we simply get
 the closest few facilities still available as its
 neigborhood. As long as we greedily choose the client with
@@ -158,16 +159,18 @@ facilities~\footnote{That is, the connection values
   $1$.}, we know that we can bound the distance from a
 non-primary demand to any facility in the primary demand's
 neighborhood. The overlapping neighborhood requirement for
-non-primary demands then decides any non-primary demand
-$\nu$ assigned to that primary demand $\kappa$ obtain all
-such facilities available to $\nu$ itself. However we may
-still need to add facilities to $\nu$'s neighborhood to make
-total connection value $\barx_{\mu\nu}$ equal to $1$, which
-is the augment step. The disjoint neighborhood properties
-for sibling demands essentially forces us to postpone the
+non-primary demands makes it natural for a non-primary
+demand $\nu$ assigned to the primary demand $\kappa$ to add
+all the overlapping facilities to its neighborhood. However
+we may still need to add facilities to $\nu$'s neighborhood
+to make total connection value $\barx_{\mu\nu}$ equal to
+$1$, which is the augmenting phase in the partitioning
+algorithm below. The disjoint neighborhood properties for
+sibling demands essentially forces us to postpone the
 decision of what facilities to use for the augment step,
 until all sibling demands have been constructed and their
-paritial neighborhood is known.
+paritial neighborhoods (with only overlapping facilities
+added) are known.
 
 The adaptive partitioning algorithm consists of two phases:
 Phase 1 is called the partitioning phase and Phase 2 is called
@@ -370,20 +373,21 @@ At this point all primary demands satisfy
 Property~(PS.\ref{PS:one}), but this may not be true for
 non-primary demands. For those demands we still may need to
 adjust the $\barx_{\mu\nu}$ values so that the total
-connection value for $\nu$, that is $\connsum(\nu) \stackrel{\mathrm{def}}{=}
-\sum_{\mu\in\facilityset}\barx_{\mu \nu}$, is equal $1$. This
-is accomplished by Procedure $\AugmentToUnit()$ (definition
-in Pseudocode~\ref{alg:helper}, Lines~10--21) that allocates
-to $\nu\in j$ some of the remaining connection values
-$\tildex_{\mu j}$ of client $j$ (Lines 19--21).
-$\AugmentToUnit()$ will repeatedly pick any facility $\eta$ with
-$\tildex_{\eta j} >0$.  If $\tildex_{\eta j} \leq
-1-\connsum(\nu)$, then the connection value $\tildex_{\eta
-  j}$ is reassigned to $\nu$. 
-Otherwise, $\tildex_{\eta j} >
-1-\connsum(\nu)$, in which case we split $\eta$ so that
-connecting $\nu$ to one of the created copies of $\eta$ will
-make $\connsum(\nu)$ equal $1$, and we'll be done.
+connection value for $\nu$, that is $\connsum(\nu)
+\stackrel{\mathrm{def}}{=}
+\sum_{\mu\in\facilityset}\barx_{\mu \nu}$, is equal to
+$1$. This is accomplished by Procedure $\AugmentToUnit()$
+(definition in Pseudocode~\ref{alg:helper}, Lines~10--21)
+that allocates to $\nu\in j$ some of the remaining
+connection values $\tildex_{\mu j}$ of client $j$ (Lines
+19--21).  $\AugmentToUnit()$ will repeatedly pick any
+facility $\eta$ with $\tildex_{\eta j} >0$.  If
+$\tildex_{\eta j} \leq 1-\connsum(\nu)$, then the connection
+value $\tildex_{\eta j}$ is reassigned to $\nu$.  Otherwise,
+$\tildex_{\eta j} > 1-\connsum(\nu)$, in which case we split
+$\eta$ so that connecting $\nu$ to one of the created copies
+of $\eta$ will make $\connsum(\nu)$ equal $1$, and we'll be
+done.
 
 
 \smallskip
@@ -634,7 +638,7 @@ Since any two primary demands have disjoint
         s=1,\ldots,r_j$ have already been fixed and they do not change
         in Phase~2.  None of the facilities in $\wtildeN(j)$ appear in
         any of $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$, by the way we
-        allocate facilities in Lines~13 and 16.  Therefore during the
+        allocate facilities in Lines~13 and 16 of Pseudocode~\ref{alg:lpr2}.  Therefore during the
         augmentation process in Phase~2, when we add facilities from
         $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
         (Line~19--21 of Pseudocode~\ref{alg:lpr2}), all the required

@@ -1,0 +1,158 @@
+Reviewer #1: This paper presents an improved approximation algorithm for the
+Fault-Tolerant Facility Placement Problem (FTFP) based on LP rounding. The problem
+is similar to the Fault-Tolerant Facility Location Problem, but it allows multiple
+facilities to be opened at the same site. Previously a 3.16-approximation algorithm
+due to Yan and Chrobak was known, and this paper gives a 1.575-approximation
+algorithm.
+Two key ingredients of the present algorithm is "Reduction to Polynomial Demands"
+and "Adaptive Partitioning"; they allow the well-known LP-rounding algorithms for
+the Uncapacitated Facility Location Problem (UFL) such as Chudak-Shmoys or
+Byrka-Ghodsi-Srinivasan to extend to FTFP. The present algorithm works in three
+steps: first, by showing that the integral and fractional portions of the LP
+solution can be separately considered, they reduce the given problem to a special
+case of the same problem where the maximum demand is polynomially bounded in the
+problem size ("Reduction to Polynomial Demands"). Then they use one of the
+well-known LP-rounding algorithms for UFL, but with an alternative clustering step
+to ensure fault-tolerance; the second step of the algorithm is this new clustering
+procedure ("Adaptive Partitioning"). This step ensures that the unit-demands from
+the same client do not share the same copy of a facility in their sets of potential
+facilities, in addition
+to the usual requirements of clustering. The last step then is identical to the
+randomized rounding of the UFL algorithm. As the present algorithm shares this last
+step with the algorithms for UFL, the final performance guarantee matches those of
+the UFL algorithms.
+This paper gives a nice and clear presentation of the above result that is easy to
+follow. In some places of the article, however, it sometimes seems to give more
+details about previous results than what would be required. It would be nice if the
+presentation can maintain the current clarity and reduce some of these repetitions.
+The paper does not seem to provide much explanation on theoretical and/or practical
+reasons why FTFP is of interest, which would have been especially useful given that
+the problem does not appear to have been the target of very wide attention. On the
+other hand, as the paper points out, the paper answers an interesting theoretical
+question - comparing the approximability/hardness of UFL and its fault-tolerant
+variants - and it does so in an interesting way: many successful LP-rounding
+algorithms for UFL uses randomized rounding with clustering, and the present
+algorithm generalizes this clustering step in order to additionally impose the
+fault-tolerance, suggesting that future improvements in UFL that use the same
+techniques might immediately yield the same improvement in FTFP.
+The paper is within the scope of the journal.
+
+Response:
+1. added motivation of FTFP
+
+Minor comments
+- Page 3, line 54, "..as Li showed in [13] for UFL": [13] appears to show an
+improvement only after combining with the dual-fitting?
+
+** Response: Clarified.
+
+- Page 6: it's not clear what this "Adaptive" Partitioning algorithm is adapting to,
+as one would imagine some type of adversary.
+
+** Response: To be done.
+
+- Page 7: some of these properties are generally - without having to presume a
+particular partitioning algorithm - implied by other properties. For example, (PD-2)
+is implied by (PD-1) and (PS-3) (with (CO) or its weaker inequality version), and
+(SI-1) is implied by (SI-2), although the latter one is not as apparent. Is this
+non-minimal choice of properties intentional?
+
+** Response: Yes, the properties are to derive approximation ratio. Added a few sentense
+in paper.
+
+- Page 8, line 35, "These decreased connection values": I couldn't understand the
+meaning of this phrase.
+
+** Response: Corrected.
+
+- Page 8: while the article presents a good explanation on how the algorithm
+operates, it is giving little intuition why this is the "right thing to do".
+Although it would not be impossible for a careful reader to answer this question
+after reading the entire analysis, some intuition behind the design of this
+procedure here could help.
+
+** Response: Added intuition.
+
+- Page 11, line 4: while this has nothing to do with the validity of any statements
+in the paper, can the total number of facilities created really quadratically
+increase in |C|? It seems that, in each iteration of the while loop except for the
+first one, at most one call of NearestUnitChunk can cause splitting.
+
+** Response: In each iteration, every non-exhausted client will call NearestChunk and
+could cause one split, so it is |C| splits per iteration, and we have R|C| iterations.
+
+- Page 13, line 33, "by the way we allocate facilities in Lines 13 and 16": it seems
+that this is where the key idea of the algorithm lies. A (very short) additional
+explanation would be nice.
+
+** Response:
+
+- Page 13, Lemma 4, "no later than": is it that this "no later than" was used
+instead of "earlier than" only because of the possibility that eta may be nu itself?
+
+** Response: In each iteration, we create one primary demand as well as several
+non-primary demands, and they are considered created at the same time, so eta
+and nu could be different, but if they created in the same iteration, we shall
+have equality.
+
+- Page 14: What do EGUP, ECHS, and EBGS stand for?
+
+** Response: The way we name algorithms are, EGUP, extension of algorithm in
+Gupta's notes, ECHS, extensio of the Chudak and Shmoys' alogrithm, EBGS,
+extesion of Byrka, Ghodsi and Srinivasan's algorithm.
+
+- Page 19, line 55: the last product should range from 1 thru k-1, not k.
+
+** Response: Corrected.
+
+- Page 21, line 20, "As a consequence": what follows does not seem to be the
+consequence of the _immediately_ preceding sentence.
+
+** Response: Rephrased.
+
+- Page 24, line 39, "when \bar N(\nu) at that iteration": at the point where the
+algorithm decides whether nu will become a primary demand or not, \bar N(\nu) is
+\emptyset. Could \tilde N_{cls}(p) be used instead maybe?
+
+** Response: Use \tilde N_{cls}(p) is correct when deciding \nu is primary or
+not. In our case, we already know that \nu is overlapping with \kappa and we
+have added the overlapping facilities to \bar N(\nu).
+
+- Page 24, line 44, "\bar N(\kappa) \cap \tilde N(j) (not \tilde N_{cls}(j))": "j"
+was not previously defined. It was defined as "p" in the English description of the
+algorithm (Case 1), although this conflicts the convention elsewhere in the paper
+that p usually denotes the client of a primary demand.
+
+** Response: Corrected. We actually use p as the client chosen with minimum
+distance in all our partition algorithms, although in the analysis we reserve p
+for the client of a primary demand. This overloaded use of the symbol p could
+cause some confusion. It is probably best to separate these two uses of the
+symbol p.
+
+- Page 25, Lemma 13: it seems that if the rule (that what were in tilde N_cls, if
+they are admitted to \bar N, they will be in \bar_cls) is explained earlier, it
+would be relatively straightforward to make this observation.
+
+** Response: Correct, added the observation in the algorithm presentation.
+
+- Page 28, line 54, the last line, the numerator: the summation should range over
+{mu in A}.
+
+** Response: Corrected.
+
+- Page 29, line 21: there is an extra comma.
+
+** Response: Removed.
+
+
+- Page 29, line 31: it is not clear what these two occurrences of "(7)" are
+referring to.
+
+** Response: Wrong labeling of equations, corrected.
+
+- Page 36, Appendix B: it seems that this proof in fact is the same as what is given
+in Byrka and Aardal [2].
+
+Response: Removed. The reason to add it in the original version is to show how to derive
+the inequality from scratch without invoking the FKG inequality.
+
