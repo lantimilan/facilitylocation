@@ -16,27 +16,32 @@ rounded to three decimal digits. This matches the ratio of the best
 known LP-rounding algorithm for UFL by
 Byrka~{\etal}~\cite{ByrkaGS10}. 
 
-Recall that in Section~\ref{sec: 1.736-approximation} we showed how to
-compute an integral solution with facility cost bounded by $F^\ast$
-and connection cost bounded by $C^\ast + 2/e\cdot\LP^\ast$. Thus,
-while our facility cost does not exceed the optimal fractional
-facility cost, our connection cost is significantly larger than the
-connection cost in the optimal fractional solution.  A natural idea is
-to balance these two ratios by reducing the connection cost at the
-expense of the facility cost. One way to do this would be to increase
-the probability of opening facilities, from $\bary_{\mu}$ (used in
-Algorithm~{\ECHS}) to, say, $\gamma\bary_{\mu}$, for some $\gamma >
-1$. This increases the expected facility cost by a factor of $\gamma$
-but, as it turns out, it also reduces the probability that an indirect
-connection occurs for a non-primary demand to $1/e^\gamma$ (from the
-previous value $1/e$ in {\ECHS}). As a consequence, for each primary
-demand $\kappa$, the new algorithm will select a facility to open from
-the nearest facilities $\mu$ in $\wbarN(\kappa)$ such that the
-connection values $\barx_{\mu\nu}$ sum up to $1/\gamma$, instead of
-$1$ as in Algorithm {\ECHS}. It is easily seen that this will improve
-the estimate on connection cost for primary demands.  These two
-changes, along with a more refined analysis, are the essence of the
-approach in~\cite{ByrkaGS10}, expressed in our terminology.
+Recall that in Section~\ref{sec: 1.736-approximation} we
+showed how to compute an integral solution with facility
+cost bounded by $F^\ast$ and connection cost bounded by
+$C^\ast + 2/e\cdot\LP^\ast$. Thus, while our facility cost
+does not exceed the optimal fractional facility cost, our
+connection cost is significantly larger than the connection
+cost in the optimal fractional solution.  A natural idea is
+to balance these two ratios by reducing the connection cost
+at the expense of the facility cost. One way to do this
+would be to increase the probability of opening facilities,
+from $\bary_{\mu}$ (used in Algorithm~{\ECHS}) to, say,
+$\gamma\bary_{\mu}$, for some $\gamma > 1$. This increases
+the expected facility cost by a factor of $\gamma$ but, as
+it turns out, it also reduces the probability that an
+indirect connection occurs for a non-primary demand to
+$1/e^\gamma$ (from the previous value $1/e$ in
+{\ECHS}). With the probability of opening a facility
+boosted, for each primary demand $\kappa$, the new algorithm
+will select a facility to open from the nearest facilities
+$\mu$ in $\wbarN(\kappa)$ such that the connection values
+$\barx_{\mu\nu}$ sum up to $1/\gamma$, instead of $1$ as in
+Algorithm {\ECHS}. It is easily seen that this will improve
+the estimate on connection cost for primary demands.  These
+two changes, along with a more refined analysis, are the
+essence of the approach in~\cite{ByrkaGS10}, expressed in
+our terminology.
 
 Our approach can be thought of as a combination of the above ideas
 with the techniques of demand reduction and
@@ -165,17 +170,21 @@ properties (PD') and (SI'), listed below.
 %%%%%%%%%%%%%%%%%
 
 \paragraph{Modified adaptive partitioning.}
-To obtain a fractional solution with the above properties, we employ a
-modified adaptive partitioning algorithm. As in Section~\ref{sec:
-  adaptive partitioning}, we have two phases.  In Phase~1 we split
-clients into demands and create facilities on sites, while in Phase~2
-we augment each demand's connection values $\barx_{\mu\nu}$ so that the total connection
-value of each demand $\nu$ is $1$. As the partitioning algorithm proceeds, for any demand $\nu$,
-$\wbarN(\nu)$ denotes the set of facilities with $\barx_{\mu\nu} > 0$;
-hence the notation $\wbarN(\nu)$ actually represents a dynamic set which gets fixed 
-once the partitioning algorithm concludes both Phase 2. On the
-other hand, $\wbarclsnb(\nu)$ and $\wbarfarnb(\nu)$ refer to the close
-and far neighborhoods at the time when $\wbarN(\nu)$ is fixed.
+To obtain a fractional solution with the above properties,
+we employ a modified adaptive partitioning algorithm. As in
+Section~\ref{sec: adaptive partitioning}, we have two
+phases.  In Phase~1 we split clients into demands and create
+facilities on sites, while in Phase~2 we augment each
+demand's connection values $\barx_{\mu\nu}$ so that the
+total connection value of each demand $\nu$ is $1$. As the
+partitioning algorithm proceeds, for any demand $\nu$,
+$\wbarN(\nu)$ denotes the set of facilities with
+$\barx_{\mu\nu} > 0$; hence the notation $\wbarN(\nu)$
+actually represents a dynamic set which gets fixed once the
+partitioning algorithm concludes both Phase~1 and
+Phase~2. On the other hand, $\wbarclsnb(\nu)$ and
+$\wbarfarnb(\nu)$ refer to the close and far neighborhoods
+at the time when $\wbarN(\nu)$ is fixed.
 
 Similar to the algorithm in Section~\ref{sec: adaptive partitioning},
 Phase~1 runs in iterations. Fix some iteration and consider any client
@@ -302,23 +311,26 @@ at most one $\wbarclsnb(\kappa)$, for some $\kappa\in P$. Condition
 As a result, the summation on
 the left-hand side is not larger than $\sum_{\mu\in i}\bary_{\mu} = y_i^\ast$.
 
-Regarding (PD'.\ref{PD1:assign:overlap}), at first glance this
-property seems to follow directly from the algorithm, as we only
-assign a demand $\nu$ to a primary demand $\kappa$ when $\wbarN(\nu)$
-at that iteration overlaps with $\wbarN(\kappa)$ (which is equal to
-the final value of $\wbarclsnb(\kappa)$).  However, it is a little
-more subtle, as the final $\wbarclsnb(\nu)$ may contain facilities
-added to $\wbarN(\nu)$ in Phase 2. Those facilities may turn out to be
-closer to $\nu$ than some facilities in $\wbarN(\kappa) \cap
-\wtildeN(j) $ (not $\wtildeN_{\cls}(j)$) that we added to
-$\wbarN(\nu)$ in Phase 1. If the final $\wbarclsnb(\nu)$ consists only of
-facilities added in Phase 2, we no longer have the desired overlap of
-$\wbarclsnb(\kappa)$ and $\wbarclsnb(\nu)$. Luckily this bad scenario
-never occurs. We postpone the proof of this property to
+Regarding (PD'.\ref{PD1:assign:overlap}), at first glance
+this property seems to follow directly from the algorithm,
+as we only assign a demand $\nu \in j$ of a client $j$ to a
+primary demand $\kappa$ when $\wbarN(\nu)$ at that iteration
+overlaps with $\wbarN(\kappa)$ (which is equal to the final
+value of $\wbarclsnb(\kappa)$).  However, it is a little
+more subtle, as the final $\wbarclsnb(\nu)$ may contain
+facilities added to $\wbarN(\nu)$ in Phase 2. Those
+facilities may turn out to be closer to $\nu$ than some
+facilities in $\wbarN(\kappa) \cap \wtildeN(j) $ (not
+$\wtildeN_{\cls}(j)$) that we added to $\wbarN(\nu)$ in
+Phase 1. If the final $\wbarclsnb(\nu)$ consists only of
+facilities added in Phase 2, we no longer have the desired
+overlap of $\wbarclsnb(\kappa)$ and
+$\wbarclsnb(\nu)$. Luckily this bad scenario never
+occurs. We postpone the proof of this property to
 Lemma~\ref{lem: PD1: primary overlap}.  The proof of
-(PD'.\ref{PD1:assign:cost}) is similar to that of Lemma~\ref{lem:
-  PD:assign:cost holds}, and we defer it to Lemma~\ref{lem: PD1:
-  primary optimal}.
+(PD'.\ref{PD1:assign:cost}) is similar to that of
+Lemma~\ref{lem: PD:assign:cost holds}, and we defer it to
+Lemma~\ref{lem: PD1: primary optimal}.
 
 (SI'.\ref{SI1:siblings disjoint}) follows directly from the algorithm
 because for each demand $\nu\in j$, all facilities added to
@@ -670,8 +682,8 @@ at least one facility in set $A$ is open.  Recall that $D(A,\nu) =
         \in A} \gamma \bary_{\mu}}
     \\
     \notag
-    &= \frac{\sum_{s=1}^k d_{\mu\nu} \bary_{\mu}}{\sum_{\mu \in A}
-      \bary_{\mu}} = D(A, \nu).
+    &= \frac{\sum_{\mu \in A} d_{\mu\nu}  \bary_{\mu}}{\sum_{\mu
+        \in A}  \bary_{\mu}} = D(A, \nu).
     \\
     \notag
 \end{align}
@@ -692,9 +704,11 @@ $\wbarfarnb(\nu)$ is opened.
 
 \begin{corollary} \label{coro: EBGS close and far distance} 
 %
-{\rm (a)} $\Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq \clsdist(\nu)$,
+{\rm (a)} 
+$\Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq \clsdist(\nu)$,
 and
-{\rm (b)} $\Exp[C_{\nu} \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu]
+{\rm (b)} 
+$\Exp[C_{\nu} \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu]
     			\leq \fardist(\nu)$.
 \end{corollary}
 
@@ -708,20 +722,20 @@ When there is an open facility in $\wbarclsnb(\nu)$, the algorithm
     EBGS}. By setting the set $A$ in Lemma~\ref{lem: expected distance
     in EBGS} to $\wbarclsnb(\nu)$, we have
 %
-  \begin{equation*}
-    \Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq D(\wbarclsnb(\nu), \nu),
-    = \clsdist(\nu),
+  \begin{equation}
     \label{eqn: expected connection cost close facility}
-  \end{equation*}
+    \Exp[C_{\nu} \mid \Lambda_{\cls}^\nu] \leq D(\wbarclsnb(\nu), \nu)
+    = \clsdist(\nu),
+  \end{equation}
 % 
 proving part (a), and by setting the set $A$ to $\wbarfarnb(\nu)$, we have
 %
-  \begin{equation*}
+  \begin{equation}
+    \label{eqn: expected connection cost far facility}
     \Exp[C_{\nu}
     \mid \Lambda^\nu \wedge \neg \Lambda_{\cls}^\nu] \leq
     D(\wbarfarnb(\nu), \nu) = \fardist(\nu),
-    \label{eqn: expected connection cost far facility}
-  \end{equation*}
+  \end{equation}
 which proves part (b).
 \end{proof}
 
