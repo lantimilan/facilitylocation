@@ -99,7 +99,7 @@ have equality.
 
 ** Response: The way we name algorithms are, EGUP, extension of algorithm in
 Gupta's notes, ECHS, extensio of the Chudak and Shmoys' alogrithm, EBGS,
-extesion of Byrka, Ghodsi and Srinivasan's algorithm.
+extesion of Byrka, Ghodsi and Srinivasan's algorithm. Updated in revision.
 
 - Page 19, line 55: the last product should range from 1 thru k-1, not k.
 
@@ -133,7 +133,7 @@ symbol p.
 they are admitted to \bar N, they will be in \bar_cls) is explained earlier, it
 would be relatively straightforward to make this observation.
 
-** Response: Correct, added the observation in the algorithm presentation.
+** Response: Correct, added the observation to simplify proof of Lemma 13.
 
 - Page 28, line 54, the last line, the numerator: the summation should range over
 {mu in A}.

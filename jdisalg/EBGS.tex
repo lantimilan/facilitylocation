@@ -319,7 +319,7 @@ overlaps with $\wbarN(\kappa)$ (which is equal to the final
 value of $\wbarclsnb(\kappa)$).  However, it is a little
 more subtle, as the final $\wbarclsnb(\nu)$ may contain
 facilities added to $\wbarN(\nu)$ in Phase 2. Those
-facilities may turn out to be closer to $\nu$ than some
+facilities may turn out to be closer to $\nu$ than all
 facilities in $\wbarN(\kappa) \cap \wtildeN(j) $ (not
 $\wtildeN_{\cls}(j)$) that we added to $\wbarN(\nu)$ in
 Phase 1. If the final $\wbarclsnb(\nu)$ consists only of
@@ -396,32 +396,24 @@ At this time, $\wbarN(\nu)$ is initialized to $\wtildeN(j)\cap
 \end{center}
 \end{figure}
 
-  We define the sets $A$, $B$, $E^-$ and $E^+$ as the subsets of
-  $\facilityset$ (the final set of facilities) that were obtained from
-  splitting facilities in the sets $\wtildeN(j)$, $\wtildeclsnb(j)\cap
-  \wbarclsnb(\kappa)$, $\wtildeclsnb(j) - \wbarclsnb(\kappa)$ and
-  $\wtildeN(j) - \wtildeclsnb(j)$, respectively.  (See
-  Figure~\ref{fig: sets lemma PD'3a}.)  We claim that at the end
-  $B\subseteq \wbarclsnb(\nu)$, with the caveat that the ties in the
-  definition of $\wbarclsnb(\nu)$ are broken in favor of the
-  facilities in $B$.  (This is the tie-breaking rule that we mentioned
-  in the definition of $\wbarclsnb(\nu)$.)  This will be sufficient to
-  prove the lemma because $B\neq\emptyset$, by the algorithm.
-
-  We now prove this claim. In this paragraph $\wbarN(\nu)$ denotes the
-  final set $\wbarN(\nu)$ after both phases are completed. Thus the total
-connection value of $\wbarN(\nu)$ to $\nu$ is $1$.
-	Note first that
-  $B\subseteq \wbarN(\nu) \subseteq A$, because we never remove
-  facilities from $\wbarN(\nu)$ and we only add facilities from
-  $\wtildeN(j)$.  Also, $B\cup E^-$ represents the facilities obtained
-  from $\wtildeclsnb(j)$, so $\sum_{\mu\in B\cup E^-} \bary_{\mu} =
-  1/\gamma$.  This and $B\subseteq \wbarN(\nu)$ implies that the total
-  connection value of $B\cup (\wbarN(\nu)\cap E^-)$ to $\nu$ is at
-  most $1/\gamma$. But all facilities in $B\cup (\wbarN(\nu)\cap E^-)$
-  are closer to $\nu$ (taking into account our tie breaking in property (NB))
- 	than those in $E^+\cap \wbarN(\nu)$. It follows
-  that $B\subseteq \wbarclsnb(\nu)$, completing the proof.
+  We define the sets $A$, $B$, $E^-$ and $E^+$ as the
+  subsets of $\facilityset$ (the final set of facilities)
+  that were obtained from splitting facilities in the sets
+  $\wtildeN(j)$, $\wtildeclsnb(j)\cap \wbarclsnb(\kappa)$,
+  $\wtildeclsnb(j) - \wbarclsnb(\kappa)$ and $\wtildeN(j) -
+  \wtildeclsnb(j)$, respectively.  (See Figure~\ref{fig:
+    sets lemma PD'3a}.)  We claim that at the end
+  $B\subseteq \wbarclsnb(\nu)$, with the caveat that the
+  ties in the definition of $\wbarclsnb(\nu)$ are broken in
+  favor of the facilities in $B$.  (This is the tie-breaking
+  rule that we mentioned in the definition of
+  $\wbarclsnb(\nu)$.)  This will be sufficient to prove the
+  lemma because $B\neq\emptyset$, by the algorithm. It then
+  suffices to observe that facilities in $B$ is closer to
+  $\nu$ than facilities in $E^+$, and the total connection
+  value of the set $B$ is no more than $1/\gamma$.
+%% this simplified argument above is from the reviewer.
+%% namely B is always included in the final \wbarNcls.
 \end{proof}
 
 %%%%%%%%%%%%%%
