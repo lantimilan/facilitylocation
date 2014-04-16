@@ -635,13 +635,26 @@ Since any two primary demands have disjoint
 	Property~(SI.\ref{SI:primary disjoint}) holds right after Phase~1.
 
         After Phase~1 all neighborhoods $\wbarN(\kappa_s),
-        s=1,\ldots,r_j$ have already been fixed and they do not change
-        in Phase~2.  None of the facilities in $\wtildeN(j)$ appear in
-        any of $\wbarN(\kappa_s)$ for $s=1,\ldots,r_j$, by the way we
-        allocate facilities in Lines~13 and 16 of Pseudocode~\ref{alg:lpr2}.  Therefore during the
-        augmentation process in Phase~2, when we add facilities from
-        $\wtildeN(j)$ to $\wbarN(\nu)$, for some $\nu\in j$
-        (Line~19--21 of Pseudocode~\ref{alg:lpr2}), all the required
+        s=1,\ldots,r_j$ have already been fixed and they do
+        not change in Phase~2.  None of the facilities in
+        $\wtildeN(j)$ appear in any of $\wbarN(\kappa_s)$
+        for $s=1,\ldots,r_j$, by the way we allocate
+        facilities in Lines~13 and 16 of
+        Pseudocode~\ref{alg:lpr2}. Consider some demand
+        $\nu_s$, if it were a primary demand, clearly in
+        Line~16 we move all facilities in $\wtildeN_1(j)$
+        into its neighborhood so that they are no longer in
+        $\wtildeN(j)$. Otherwise it is a non-primary demand
+        and assigned to the primary demand $\kappa_s$, then
+        facilities in both $\wbarN(\kappa_s)$ and
+        $\wtildeN(j)$ are moved into $\wbarN(\nu_s)$. An
+        induction on $s=1,\ldot,r_j$ shows that $\wtildeN(j)$
+        after Phase 1 contains no facility in any of
+        $\wbarN(\kappa_s)$ for $s=1,\ldots,j$.  Therefore
+        during the augmentation process in Phase~2, when we
+        add facilities from $\wtildeN(j)$ to $\wbarN(\nu)$,
+        for some $\nu\in j$ (Line~19--21 of
+        Pseudocode~\ref{alg:lpr2}), all the required
         disjointness conditions will be preserved.
 \end{proof}
 

@@ -85,7 +85,7 @@ could cause one split, so it is |C| splits per iteration, and we have R|C| itera
 that this is where the key idea of the algorithm lies. A (very short) additional
 explanation would be nice.
 
-** Response:
+** Response: Added explanation.
 
 - Page 13, Lemma 4, "no later than": is it that this "no later than" was used
 instead of "earlier than" only because of the possibility that eta may be nu itself?
@@ -153,6 +153,6 @@ referring to.
 - Page 36, Appendix B: it seems that this proof in fact is the same as what is given
 in Byrka and Aardal [2].
 
-Response: Removed. The reason to add it in the original version is to show how to derive
+Response: To remove (NOT DONE). The reason to add it in the original version is to show how to derive
 the inequality from scratch without invoking the FKG inequality.
 
